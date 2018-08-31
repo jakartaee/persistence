@@ -51,7 +51,7 @@ import javax.persistence.criteria.CriteriaDelete;
  * 
  * @since Java Persistence 1.0
  */
-public interface EntityManager {
+public interface EntityManager extends AutoCloseable {
 
     /**
      * Make an instance managed and persistent.
@@ -808,6 +808,7 @@ public interface EntityManager {
      * @throws IllegalStateException if the entity manager
      *         is container-managed
      */
+    @Override
     public void close();
 
     /**

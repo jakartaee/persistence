@@ -32,7 +32,7 @@ import javax.persistence.criteria.CriteriaBuilder;
  *
  * @since Java Persistence 1.0
  */
-public interface EntityManagerFactory {
+public interface EntityManagerFactory extends AutoCloseable {
 
     /**
      * Create a new application-managed <code>EntityManager</code>.
@@ -130,6 +130,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
+    @Override
     public void close();
 
     /**
