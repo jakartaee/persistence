@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.4</version>
     </parent>
 
     <groupId>jakarta.persistence</groupId>
@@ -28,6 +28,13 @@
 
     <description>Java(TM) Persistence API</description>
     <url>https://github.com/eclipse-ee4j/jpa-api</url>
+
+    <scm>
+        <connection>scm:git:git://github.com/eclipse-ee4j/jpa-api.git</connection>
+        <developerConnection>scm:git:git@github.com:eclipse-ee4j/jpa-api.git</developerConnection>
+        <url>https://github.com/eclipse-ee4j/jpa-api.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <licenses>
         <license>
@@ -43,6 +50,17 @@
             <comments>Standard Eclipse Distribution License</comments>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <id>lukasj</id>
+            <name>Lukas Jungmann</name>
+            <organization>Oracle, Inc.</organization>
+            <roles>
+                <role>lead</role>
+            </roles>
+        </developer>
+    </developers>
 
     <issueManagement>
         <system>IssueTracker</system>
@@ -62,13 +80,6 @@
         </mailingList>
     </mailingLists>
 
-    <scm>
-        <connection>scm:git:git://github.com/eclipse-ee4j/jpa-api.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse-ee4j/jpa-api.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/jpa-api.git</url>
-        <tag>HEAD</tag>
-    </scm>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -80,15 +91,21 @@
         <spec.impl.version>2.2</spec.impl.version>
         <spec.api.package>javax.persistence</spec.api.package>
         <spec.new.spec.version>2.3</spec.new.spec.version>
+        <legal.doc.source>${project.basedir}</legal.doc.source>
+        <vendor.name>Eclipse Project for JPA</vendor.name>
     </properties>
 
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.0.0-M2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.glassfish.build</groupId>
@@ -98,17 +115,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.6.2</version>
+                    <version>3.8.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.5.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -118,7 +135,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -128,7 +145,7 @@
                         <dependency>
                             <groupId>org.apache.maven.scm</groupId>
                             <artifactId>maven-scm-provider-gitexe</artifactId>
-                            <version>1.9.5</version>
+                            <version>1.11.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -141,6 +158,30 @@
         </pluginManagement>
 
         <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${legal.doc.source}</directory>
+                                    <includes>
+                                        <include>LICENSE.md</include>
+                                        <include>NOTICE.md</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -205,11 +246,8 @@
                         <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
                         <Bundle-Version>${spec.bundle.version}</Bundle-Version>
                         <Extension-Name>${spec.extension.name}</Extension-Name>
-                        <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-                        <Implementation-Vendor-Id>com.oracle</Implementation-Vendor-Id>
                         <Implementation-Version>${spec.implementation.version}</Implementation-Version>
-                        <Specification-Vendor>${project.groupId}.${project.artifactId}</Specification-Vendor>
-                        <Specification-Vendor>Oracle Corporation</Specification-Vendor>
+                        <Specification-Vendor>${vendor.name}</Specification-Vendor>
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                     </instructions>
                 </configuration>
