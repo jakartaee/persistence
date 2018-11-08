@@ -24,7 +24,7 @@
 
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
-    <version>2.2.1-SNAPSHOT</version>
+    <version>2.2.2-SNAPSHOT</version>
 
     <description>Java(TM) Persistence API</description>
     <url>https://github.com/eclipse-ee4j/jpa-api</url>
@@ -85,14 +85,14 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <spec.non.final>true</spec.non.final>
+        <spec.non.final>false</spec.non.final>
         <spec.version>2.2</spec.version>
         <spec.build>01</spec.build>
-        <spec.impl.version>2.2</spec.impl.version>
-        <spec.api.package>javax.persistence</spec.api.package>
+        <spec.impl.version>2.2.2</spec.impl.version>
+        <spec.api.package>jakarta.persistence</spec.api.package>
         <spec.new.spec.version>2.3</spec.new.spec.version>
         <legal.doc.source>${project.basedir}</legal.doc.source>
-        <vendor.name>Eclipse Project for JPA</vendor.name>
+        <vendor.name>Oracle</vendor.name>
     </properties>
 
     <build>
@@ -221,7 +221,11 @@
                     <execution>
                         <goals>
                             <goal>set-spec-properties</goal>
-                            <goal>check-module</goal>
+                            <!-- TODO:
+                            glassfish-spec-version-maven-plugin needs to be updated
+                            in order to check 'jakarta.' prefixed values in manifest entries
+                            -->
+                            <!--<goal>check-module</goal>-->
                         </goals>
                     </execution>
                 </executions>
@@ -249,6 +253,7 @@
                         <Implementation-Version>${spec.implementation.version}</Implementation-Version>
                         <Specification-Vendor>${vendor.name}</Specification-Vendor>
                         <Specification-Version>${spec.specification.version}</Specification-Version>
+                        <_noee>true</_noee>
                     </instructions>
                 </configuration>
                 <executions>
@@ -287,6 +292,10 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <additionalparam>-Xdoclint:all</additionalparam>
+                    <bottom><![CDATA[<br>
+Copyright &#169; {inceptionYear}&#x2013;{currentYear} Oracle and/or its affiliates.
+All rights reserved.<br>Comments to: <a href="mailto:jpa-dev@eclipse.org">jpa-dev@eclipse.org</a>.]]>
+                    </bottom>
                 </configuration>
                 <executions>
                     <execution>
