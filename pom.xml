@@ -24,7 +24,7 @@
 
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.2</version>
 
     <description>Java(TM) Persistence API</description>
     <url>https://github.com/eclipse-ee4j/jpa-api</url>
