@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -13,7 +13,7 @@
 // Contributors:
 //     Petros Splinakis - Java Persistence 2.2
 //     Linda DeMichiel - Java Persistence 2.0 - Version 2.0 (October 1 - 2013)
-//     Specification available from http://jcp.org/en/jsr/detail?id=317
+//     Specification available from https://projects.eclipse.org/projects/ee4j.jpa
 
 package javax.persistence;
 

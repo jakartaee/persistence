@@ -23,6 +23,6 @@ endif::[]
 :sectnums!:
 include::license-efsl.adoc[]
 
-// == Persistence
+// == Jakarta Persistence
 :sectnums:
-include::persistence.adoc[]
+include::jakarta.persistence.adoc[]
