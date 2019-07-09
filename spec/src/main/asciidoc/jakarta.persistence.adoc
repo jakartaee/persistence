@@ -1,0 +1,4 @@
+== Introduction
+
+The Jakarta Persistence API is the Java(R) API for the management of persistence
+and object/relational mapping in Jakarta EE and Java SE environments. 
