@@ -1,11 +1,11 @@
-# Contributing to Eclipse Jakarta Persistence
+# Contributing to Jakarta Persistence
 
 Thanks for your interest in this project.
 
 ## Project description
 
 The Java Persistence API is the Java API for the management of persistence and
-object/relational mapping in Jakarta EE and Java SE environments. 
+object/relational mapping in Jakarta EE and Java SE environments.
 
 * https://projects.eclipse.org/projects/ee4j.jpa
 

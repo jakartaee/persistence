@@ -1,6 +1,6 @@
-# Notices for Eclipse Jakarta Persistence
+# Notices for Jakarta Persistence
 
-This content is produced and maintained by the Eclipse Jakarta Persistence
+This content is produced and maintained by the Jakarta Persistence
 project.
 
 * Project home: https://projects.eclipse.org/projects/ee4j.jpa
