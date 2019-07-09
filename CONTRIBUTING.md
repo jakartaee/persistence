@@ -1,4 +1,4 @@
-# Contributing to Eclipse Project for JPA
+# Contributing to Jakarta Persistence
 
 Thanks for your interest in this project.
 
@@ -40,4 +40,4 @@ https://www.eclipse.org/projects/handbook/#resources-commit
 
 Contact the project developers via the project's "dev" list.
 
-* https://dev.eclipse.org/mailman/listinfo/jpa-dev
+* https://accounts.eclipse.org/mailing-list/jpa-dev

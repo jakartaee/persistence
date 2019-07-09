@@ -1,12 +1,13 @@
-# Notices for Eclipse Project for JPA
+# Notices for Jakarta Persistence
 
-This content is produced and maintained by the Eclipse Project for JPA project.
+This content is produced and maintained by the Jakarta Persistence
+project.
 
 * Project home: https://projects.eclipse.org/projects/ee4j.jpa
 
 ## Trademarks
 
-Eclipse Project for JPA is a trademark of the Eclipse Foundation.
+ Jakarta Persistence is a trademark of the Eclipse Foundation.
 
 ## Copyright
 
