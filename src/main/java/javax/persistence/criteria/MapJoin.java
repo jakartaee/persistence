@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence.criteria;
 
@@ -28,7 +28,7 @@ import javax.persistence.metamodel.MapAttribute;
  * @param <K> the type of the target Map key
  * @param <V> the type of the target Map value
  *
- * @since Java Persistence 2.0
+ * @since 2.0
  */
 public interface MapJoin<Z, K, V> 
 		extends PluralJoin<Z, Map<K, V>, V> {
@@ -39,7 +39,7 @@ public interface MapJoin<Z, K, V>
      *  Replaces the previous ON condition, if any.
      *  @param restriction  a simple or compound boolean expression
      *  @return the modified join object
-     *  @since Java Persistence 2.1
+     *  @since 2.1
      */
     MapJoin<Z, K, V> on(Expression<Boolean> restriction);
 
@@ -49,7 +49,7 @@ public interface MapJoin<Z, K, V>
      *  Replaces the previous ON condition, if any.
      *  @param restrictions  zero or more restriction predicates
      *  @return the modified join object
-     *  @since Java Persistence 2.1
+     *  @since 2.1
      */
     MapJoin<Z, K, V> on(Predicate... restrictions);
 

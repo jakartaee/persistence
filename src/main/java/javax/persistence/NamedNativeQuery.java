@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,9 +11,9 @@
  */
 
 // Contributors:
-//     Petros Splinakis - Java Persistence 2.2
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Petros Splinakis - 2.2
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -29,7 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The <code>NamedNativeQuery</code> annotation can be applied to an 
  * entity or mapped superclass.
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 @Repeatable(NamedNativeQueries.class)
 @Target({TYPE}) 

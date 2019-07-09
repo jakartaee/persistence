@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -30,15 +30,15 @@ import javax.persistence.spi.LoadState;
  * in Java SE environments.  It may also be used to cause schema
  * generation to occur.
  * 
- * <p> The <code>Persistence</code> class is available in a Java EE
+ * <p> The <code>Persistence</code> class is available in a Jakarta EE
  * container environment as well; however, support for the Java SE
  * bootstrapping APIs is not required in container environments.
  * 
  * <p> The <code>Persistence</code> class is used to obtain a {@link
  * javax.persistence.PersistenceUtil PersistenceUtil} instance in both
- * Java EE and Java SE environments.
+ * Jakarta EE and Java SE environments.
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 public class Persistence {
     
@@ -105,7 +105,7 @@ public class Persistence {
      *         configuration information is provided or if schema
      *         generation otherwise fails.
      *
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public static void generateSchema(String persistenceUnitName, Map map) {
         PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
@@ -124,7 +124,7 @@ public class Persistence {
     /**
      * Return the PersistenceUtil instance
      * @return PersistenceUtil instance
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public static PersistenceUtil getPersistenceUtil() {
        return new PersistenceUtilImpl();
@@ -133,7 +133,7 @@ public class Persistence {
     
     /**
      * Implementation of PersistenceUtil interface
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     private static class PersistenceUtilImpl implements PersistenceUtil {
         public boolean isLoaded(Object entity, String attributeName) {
@@ -184,7 +184,7 @@ public class Persistence {
 
     /**
      * This final String is deprecated and should be removed and is only here for TCK backward compatibility
-     * @since Java Persistence 1.0
+     * @since 1.0
      * @deprecated
      */
     @Deprecated
@@ -192,7 +192,7 @@ public class Persistence {
     
     /**
      * This instance variable is deprecated and should be removed and is only here for TCK backward compatibility
-     * @since Java Persistence 1.0
+     * @since 1.0
      * @deprecated
      */
     @Deprecated

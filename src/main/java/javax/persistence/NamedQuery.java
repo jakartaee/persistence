@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,9 +11,9 @@
  */
 
 // Contributors:
-//     Petros Splinakis - Java Persistence 2.2
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Petros Splinakis - 2.2
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -25,12 +25,12 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Specifies a static, named query in the Java Persistence query language.
+ * Specifies a static, named query in the Jakarta Persistence query language.
  * Query names are scoped to the persistence unit.
  * The <code>NamedQuery</code> annotation can be applied to an entity or mapped superclass.
  *
  * <p> The following is an example of the definition of a named query 
- * in the Java Persistence query language:
+ * in the Jakarta Persistence query language:
  *
  * <pre>
  *    &#064;NamedQuery(
@@ -50,7 +50,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *            .getResultList();
  * </pre>
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 @Repeatable(NamedQueries.class)
 @Target({TYPE}) 
@@ -64,7 +64,7 @@ public @interface NamedQuery {
     String name();
 
     /** (Required) 
-     * The query string in the Java Persistence query language. 
+     * The query string in the Jakarta Persistence query language.
      */
     String query();
 
@@ -72,7 +72,7 @@ public @interface NamedQuery {
      * (Optional) The lock mode type to use in query execution.  If a <code>lockMode</code>
      * other than <code>LockModeType.NONE</code> is specified, the query must be executed in
      * a transaction and the persistence context joined to the transaction.
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     LockModeType lockMode() default NONE;
     

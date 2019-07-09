@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,14 +11,14 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
+//     Linda DeMichiel - 2.1
 
 package javax.persistence;
 
 /**
  * Used to control the application of a constraint.
  * 
- * @since Java Persistence 2.1
+ * @since 2.1
  */
 public enum ConstraintMode {
 

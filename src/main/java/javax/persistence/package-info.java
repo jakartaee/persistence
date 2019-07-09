@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,15 +11,10 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
-
-
-
-/////
-// Java Persistence is the API for the management for persistence and object/relational mapping.
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 /**
- * Java Persistence is the API for the management for persistence and object/relational mapping.
+ * Jakarta Persistence is the API for the management for persistence and object/relational mapping.
  */
 package javax.persistence;

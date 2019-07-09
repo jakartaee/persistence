@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,9 +11,9 @@
  */
 
 // Contributors:
-//     Lukas Jungmann  - Java Persistence 2.2
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Lukas Jungmann  - 2.2
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence.spi;
 
@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  * 
  * Implementations must be thread-safe.
  * 
- * @since Java Persistence 2.0
+ * @since 2.0
  */
 public class PersistenceProviderResolverHolder {
 
@@ -70,7 +70,7 @@ public class PersistenceProviderResolverHolder {
     /**
      * Default provider resolver class to use when none is explicitly set.
      * 
-     * Uses service loading mechanism as described in the Java Persistence
+     * Uses service loading mechanism as described in the Jakarta Persistence
      * specification. A ServiceLoader.load() call is made with the current context
      * classloader to find the service provider files on the classpath.
      */

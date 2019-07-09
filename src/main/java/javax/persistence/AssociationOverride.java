@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Petros Splinakis - Java Persistence 2.2
-//     Linda DeMichiel - Java Persistence 2.0 - Version 2.0 (October 1 - 2013)
+//     Petros Splinakis - 2.2
+//     Linda DeMichiel - 2.0 - Version 2.0 (October 1 - 2013)
 //     Specification available from https://projects.eclipse.org/projects/ee4j.jpa
 
 package javax.persistence;
@@ -123,7 +123,7 @@ import static javax.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * @see MappedSuperclass
  * @see AttributeOverride
  *
- * @since Java Persistence 1.0 
+ * @since 1.0 
  */
 @Repeatable(AssociationOverrides.class)
 @Target({TYPE, METHOD, FIELD}) 
@@ -159,7 +159,7 @@ public @interface AssociationOverride {
      *   persistence provider's default foreign key strategy will
      *   apply.
      *
-     *  @since Java Persistence 2.1
+     *  @since 2.1
      */
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
@@ -171,7 +171,7 @@ public @interface AssociationOverride {
      * if a foreign key mapping is used in the overriding of
      * the relationship.
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     JoinTable joinTable() default @JoinTable;
 }

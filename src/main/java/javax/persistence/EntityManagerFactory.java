@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -30,7 +30,7 @@ import javax.persistence.criteria.CriteriaBuilder;
  * <code>EntityManagerFactory</code> has been closed, all its entity managers
  * are considered to be in the closed state.
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 public interface EntityManagerFactory {
 
@@ -70,7 +70,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory
      * has been configured for resource-local entity managers or is closed
      *
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public EntityManager createEntityManager(SynchronizationType synchronizationType);
 
@@ -87,7 +87,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory
      * has been configured for resource-local entity managers or is closed
      *
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public EntityManager createEntityManager(SynchronizationType synchronizationType, Map map);
 
@@ -98,7 +98,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory 
      * has been closed
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public CriteriaBuilder getCriteriaBuilder();
     
@@ -109,7 +109,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public Metamodel getMetamodel();
 
@@ -140,7 +140,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory 
      * has been closed
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public Map<String, Object> getProperties();
 
@@ -152,7 +152,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public Cache getCache();
 
@@ -163,7 +163,7 @@ public interface EntityManagerFactory {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public PersistenceUnitUtil getPersistenceUnitUtil();
 
@@ -192,7 +192,7 @@ public interface EntityManagerFactory {
      * @param name name for the query
      * @param query Query, TypedQuery, or StoredProcedureQuery object
      *
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public void addNamedQuery(String name, Query query);
 
@@ -207,7 +207,7 @@ public interface EntityManagerFactory {
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not
      * support the call
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public <T> T unwrap(Class<T> cls);
 
@@ -217,7 +217,7 @@ public interface EntityManagerFactory {
      * already exists, it is replaced.
      * @param graphName  name for the entity graph
      * @param entityGraph  entity graph
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
 

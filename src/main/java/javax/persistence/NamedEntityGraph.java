@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Petros Splinakis - Java Persistence 2.2
-//     Linda DeMichiel - Java Persistence 2.1
+//     Petros Splinakis - 2.2
+//     Linda DeMichiel - 2.1
 
 package javax.persistence;
 
@@ -25,7 +25,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Used to specify the path and boundaries for a find operation or query.
  *
- * @since Java Persistence 2.1
+ * @since 2.1
  */
 @Repeatable(NamedEntityGraphs.class)
 @Target({TYPE})

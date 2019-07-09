@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence.spi;
 
@@ -23,12 +23,12 @@ import java.util.Map;
 /**
  * Interface implemented by the persistence provider.
  *
- * <p> It is invoked by the container in Java EE environments and
+ * <p> It is invoked by the container in Jakarta EE environments and
  * by the {@link javax.persistence.Persistence} class in Java SE environments to
  * create an {@link javax.persistence.EntityManagerFactory} and/or to cause
  * schema generation to occur.
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 public interface PersistenceProvider {
 
@@ -84,7 +84,7 @@ public interface PersistenceProvider {
      *         configuration information is provided of if schema
      *         generation otherwise fails
      *
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public void generateSchema(PersistenceUnitInfo info, Map map);
 
@@ -106,7 +106,7 @@ public interface PersistenceProvider {
      *         configuration information is provided or if schema
      *         generation otherwise fails
      *
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public boolean generateSchema(String persistenceUnitName, Map map); 
 
@@ -115,7 +115,7 @@ public interface PersistenceProvider {
      * provider.
      * @return ProviderUtil interface
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public ProviderUtil getProviderUtil();
 }

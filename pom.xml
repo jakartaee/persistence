@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2018, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0 which is available at
@@ -26,7 +26,7 @@
     <artifactId>jakarta.persistence-api</artifactId>
     <version>2.2.2-SNAPSHOT</version>
 
-    <description>Jakarta Persistence</description>
+    <name>Jakarta Persistence API</name>
     <url>https://github.com/eclipse-ee4j/jpa-api</url>
 
     <scm>
@@ -230,7 +230,7 @@
                 <configuration>
                     <instructions>
                         <Automatic-Module-Name>java.persistence</Automatic-Module-Name>
-                        <Bundle-Description>Java(TM) Persistence ${spec.specification.version} API jar</Bundle-Description>
+                        <Bundle-Description>Jakarta Persistence ${spec.specification.version} API jar</Bundle-Description>
                         <Bundle-Name>Jakarta Persistence API jar</Bundle-Name>
                         <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
                         <Bundle-Version>${spec.bundle.version}</Bundle-Version>
@@ -266,8 +266,9 @@
                 <configuration>
                     <doclint>all</doclint>
                     <bottom><![CDATA[<br>
-Copyright &#169; {inceptionYear}&#x2013;{currentYear} Oracle and/or its affiliates.
-All rights reserved.<br>Comments to: <a href="mailto:jpa-dev@eclipse.org">jpa-dev@eclipse.org</a>.]]>
+Comments to: <a href="mailto:jpa-dev@eclipse.org">jpa-dev@eclipse.org</a>.<br>
+Copyright &#169; {inceptionYear}&#x2013;{currentYear} Oracle and/or its affiliates. All rights reserved.<br>
+Use is subject to <a href="{@docRoot}/doc-files/EFSL.html" target="_top">license terms</a>.]]>
                     </bottom>
                 </configuration>
             </plugin>

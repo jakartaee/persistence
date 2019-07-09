@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -123,7 +123,7 @@ package javax.persistence;
  * throw the {@link LockTimeoutException} (and must not mark the transaction
  * for rollback).
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  *
  */
 public enum LockModeType
@@ -147,14 +147,14 @@ public enum LockModeType
     /**
      * Optimistic lock.
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     OPTIMISTIC,
 
     /**
      * Optimistic lock, with version update.
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     OPTIMISTIC_FORCE_INCREMENT,
 
@@ -162,28 +162,28 @@ public enum LockModeType
      *
      * Pessimistic read lock.
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     PESSIMISTIC_READ,
 
     /**
      * Pessimistic write lock.
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     PESSIMISTIC_WRITE,
 
     /**
      * Pessimistic write lock, with version update.
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     PESSIMISTIC_FORCE_INCREMENT,
 
     /**
      * No lock.
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     NONE
 }

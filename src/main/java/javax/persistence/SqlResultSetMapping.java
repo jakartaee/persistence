@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,9 +11,9 @@
  */
 
 // Contributors:
-//     Petros Splinakis - Java Persistence 2.2
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Petros Splinakis - 2.2
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -55,7 +55,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see NamedNativeQuery
  * @see NamedStoredProcedureQuery
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 @Repeatable(SqlResultSetMappings.class)
 @Target({TYPE}) 
@@ -74,7 +74,7 @@ public @interface SqlResultSetMapping {
 
     /** 
      * Specifies the result set mapping to constructors. 
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     ConstructorResult[] classes() default {};
 

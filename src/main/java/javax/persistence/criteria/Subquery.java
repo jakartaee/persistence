@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 
 package javax.persistence.criteria;
@@ -28,7 +28,7 @@ import java.util.Set;
  *
  * @param <T> the type of the selection item.
  *
- * @since Java Persistence 2.0
+ * @since 2.0
  */
 public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
 	
@@ -191,7 +191,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * This may be a CriteriaQuery, CriteriaUpdate, CriteriaDelete,
      * or a Subquery.
      * @return the enclosing query or subquery
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     CommonAbstractCriteria getContainingQuery();
 	
