@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0 which is available at
+    http://www.eclipse.org/legal/epl-2.0,
+    or the Eclipse Distribution License v. 1.0 which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.eclipse.ee4j</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.5</version>
+    </parent>
+
+    <groupId>org.eclipse.ee4j.jpa-api</groupId>
+    <artifactId>jpa-api-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>2.2.3-SNAPSHOT</version>
+    <name>jpa-api</name>
+    <description>Java(TM) Persistence API</description>
+    <url>https://github.com/eclipse-ee4j/jpa-api</url>
+
+    <scm>
+        <connection>scm:git:git://github.com/eclipse-ee4j/jpa-api.git</connection>
+        <developerConnection>scm:git:git@github.com:eclipse-ee4j/jpa-api.git</developerConnection>
+        <url>https://github.com/eclipse-ee4j/jpa-api.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <spec.non.final>false</spec.non.final>
+        <spec.version>2.2</spec.version>
+        <spec.build>01</spec.build>
+        <spec.impl.version>2.2.2</spec.impl.version>
+        <spec.api.package>jakarta.persistence</spec.api.package>
+        <spec.new.spec.version>2.3</spec.new.spec.version>
+        <legal.doc.source>${project.basedir}</legal.doc.source>
+        <vendor.name>Oracle</vendor.name>
+    </properties>
+
+    <modules>
+        <module>api</module>
+    </modules>
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License v. 2.0</name>
+            <url>http://www.eclipse.org/legal/epl-2.0</url>
+            <distribution>repo</distribution>
+            <comments>Standard Eclipse Licence</comments>
+        </license>
+        <license>
+            <name>Eclipse Distribution License v. 1.0</name>
+            <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
+            <distribution>repo</distribution>
+            <comments>Standard Eclipse Distribution License</comments>
+        </license>
+    </licenses>
+
+</project>
