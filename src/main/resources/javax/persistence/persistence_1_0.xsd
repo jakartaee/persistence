@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-    Copyright (c) 2006, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2006, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0 which is available at
@@ -12,21 +12,6 @@
 
 -->
 
-<!--
-        Contributors: dclarke - Java Persistence 2.0 - Proposed Final Draft (March 13,
-        2009) Specification available from http://jcp.org/en/jsr/detail?id=317
--->
-<!--
-        Java(TM) Persistence API, Version 2.0 - EARLY ACCESS This is an implementation
-        of an early-draft specification developed under the Java Community Process
-        (JCP). The code is untested and presumed not to be a compatible implementation
-        of JSR 317: Java(TM) Persistence API, Version 2.0. We encourage you to migrate
-        to an implementation of the Java(TM) Persistence API, Version 2.0
-        Specification that has been tested and verified to be compatible as soon as
-        such an implementation is available, and we encourage you to retain this
-        notice in any implementation of Java(TM) Persistence API, Version 2.0
-        Specification that you distribute.
--->
 <!-- persistence.xml schema -->
 <xsd:schema targetNamespace="http://java.sun.com/xml/ns/persistence" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"

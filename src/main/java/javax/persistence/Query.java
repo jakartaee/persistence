@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,9 +11,9 @@
  */
 
 // Contributors:
-//     Lukas Jungmann  - Java Persistence 2.2
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Lukas Jungmann  - 2.2
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  * @see StoredProcedureQuery
  * @see Parameter
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 public interface Query {
 
@@ -142,7 +142,7 @@ public interface Query {
      * retrieve. Returns <code>Integer.MAX_VALUE</code> if <code>setMaxResults</code> was not
      * applied to the query object.
      * @return maximum number of results
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     int getMaxResults();
 
@@ -160,7 +160,7 @@ public interface Query {
      * retrieve. Returns 0 if <code>setFirstResult</code> was not applied to the
      * query object.
      * @return position of the first result
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     int getFirstResult();
 
@@ -185,7 +185,7 @@ public interface Query {
      * Get the properties and hints and associated values that are 
      * in effect for the query instance.
      * @return query properties and hints
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Map<String, Object> getHints();
 
@@ -197,7 +197,7 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter
      *         does not correspond to a parameter of the
      *         query
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     <T> Query setParameter(Parameter<T> param, T value);
 
@@ -209,7 +209,7 @@ public interface Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Query setParameter(Parameter<Calendar> param, Calendar value, 
                        TemporalType temporalType);
@@ -222,7 +222,7 @@ public interface Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Query setParameter(Parameter<Date> param, Date value, 
                        TemporalType temporalType);
@@ -312,7 +312,7 @@ public interface Query {
      * @throws IllegalStateException if invoked on a native
      *         query when the implementation does not support 
      *         this use
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Set<Parameter<?>> getParameters();
 
@@ -328,7 +328,7 @@ public interface Query {
      * @throws IllegalStateException if invoked on a native
      *         query when the implementation does not support 
      *         this use
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Parameter<?> getParameter(String name);
 
@@ -344,9 +344,9 @@ public interface Query {
      *         specified name does not exist or is not assignable
      *         to the type
      * @throws IllegalStateException if invoked on a native
-     *         query or Java Persistence query language query when
+     *         query or Jakarta Persistence query language query when
      *         the implementation does not support this use
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     <T> Parameter<T> getParameter(String name, Class<T> type);
 
@@ -362,7 +362,7 @@ public interface Query {
      * @throws IllegalStateException if invoked on a native
      *         query when the implementation does not support 
      *         this use
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Parameter<?> getParameter(int position);
 
@@ -377,9 +377,9 @@ public interface Query {
      *         specified position does not exist or is not assignable
      *         to the type
      * @throws IllegalStateException if invoked on a native
-     *         query or Java Persistence query language query when
+     *         query or Jakarta Persistence query language query when
      *         the implementation does not support this use
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     <T> Parameter<T> getParameter(int position, Class<T> type);
 
@@ -388,7 +388,7 @@ public interface Query {
      * to the parameter.
      * @param param parameter object
      * @return boolean indicating whether parameter has been bound
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     boolean isBound(Parameter<?> param);
 
@@ -401,7 +401,7 @@ public interface Query {
      *         a parameter of the query
      * @throws IllegalStateException if the parameter has not been
      *         been bound
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     <T> T getParameterValue(Parameter<T> param);
 
@@ -414,7 +414,7 @@ public interface Query {
      *         been bound
      * @throws IllegalArgumentException if the parameter of the
      *         specified name does not exist
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Object getParameterValue(String name);
 
@@ -427,7 +427,7 @@ public interface Query {
      *         been bound
      * @throws IllegalArgumentException if the parameter with the
      *         specified position does not exist
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Object getParameterValue(int position);
 
@@ -445,7 +445,7 @@ public interface Query {
      * If a flush mode has not been set for the query object, 
      * returns the flush mode in effect for the entity manager.
      * @return flush mode
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     FlushModeType getFlushMode();
 
@@ -454,9 +454,9 @@ public interface Query {
      * @param lockMode  lock mode
      * @return the same query instance
      * @throws IllegalStateException if the query is found not to be 
-     *         a Java Persistence query language SELECT query
+     *         a Jakarta Persistence query language SELECT query
      *         or a CriteriaQuery query
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     Query setLockMode(LockModeType lockMode);
 
@@ -465,9 +465,9 @@ public interface Query {
      * mode has not been set on the query object.
      * @return lock mode
      * @throws IllegalStateException if the query is found not to be
-     *         a Java Persistence query language SELECT query or
+     *         a Jakarta Persistence query language SELECT query or
      *         a Criteria API query
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     LockModeType getLockMode();
 
@@ -483,7 +483,7 @@ public interface Query {
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not support
      *         the call
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     <T> T unwrap(Class<T> cls);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence.spi;
 
@@ -27,7 +27,7 @@ import javax.persistence.ValidationMode;
  * Interface implemented by the container and used by the
  * persistence provider when creating an {@link javax.persistence.EntityManagerFactory}.
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 public interface PersistenceUnitInfo {
 	
@@ -149,7 +149,7 @@ public interface PersistenceUnitInfo {
      * @return the second-level cache mode that must be used by the
      * provider for the persistence unit
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public SharedCacheMode getSharedCacheMode();
 
@@ -161,7 +161,7 @@ public interface PersistenceUnitInfo {
      * @return the validation mode to be used by the 
      * persistence provider for the persistence unit
      * 
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public ValidationMode getValidationMode();
 
@@ -177,7 +177,7 @@ public interface PersistenceUnitInfo {
      * Returns the schema version of the <code>persistence.xml</code> file.
      * @return persistence.xml schema version
      *
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public String getPersistenceXMLSchemaVersion();
 

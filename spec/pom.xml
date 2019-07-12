@@ -70,7 +70,7 @@
                             <rules>
                                 <requireJavaVersion>
                                     <version>[1.8,)</version>
-                                    <message>You need JDK8 or later</message>
+                                    <message>You need JDK8 or newer</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>

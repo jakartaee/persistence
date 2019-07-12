@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 
 package javax.persistence;
@@ -49,7 +49,7 @@ import javax.persistence.criteria.CriteriaDelete;
  * @see PersistenceContext
  * @see StoredProcedureQuery
  * 
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 public interface EntityManager {
 
@@ -127,7 +127,7 @@ public interface EntityManager {
      *         not denote an entity type or the second argument is
      *         is not a valid type for that entity's primary key or 
      *         is null 
-     * @since Java Persistence 2.0
+     * @since 2.0
      */ 
     public <T> T find(Class<T> entityClass, Object primaryKey, 
                       Map<String, Object> properties); 
@@ -174,7 +174,7 @@ public interface EntityManager {
      *         only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call 
      *         is made
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public <T> T find(Class<T> entityClass, Object primaryKey,
                       LockModeType lockMode);
@@ -229,7 +229,7 @@ public interface EntityManager {
      *         only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call 
      *         is made
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public <T> T find(Class<T> entityClass, Object primaryKey,
                       LockModeType lockMode, 
@@ -362,7 +362,7 @@ public interface EntityManager {
      *         only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call 
      *         is made
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public void lock(Object entity, LockModeType lockMode,
                      Map<String, Object> properties);
@@ -397,7 +397,7 @@ public interface EntityManager {
      *         entity manager of type <code>PersistenceContextType.TRANSACTION</code>
      * @throws EntityNotFoundException if the entity no longer 
      *         exists in the database 
-     * @since Java Persistence 2.0
+     * @since 2.0
      */     
     public void refresh(Object entity,
                             Map<String, Object> properties); 
@@ -435,7 +435,7 @@ public interface EntityManager {
      *         only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call
      *         is made
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public void refresh(Object entity, LockModeType lockMode);
 
@@ -480,7 +480,7 @@ public interface EntityManager {
      *         only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call
      *         is made
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public void refresh(Object entity, LockModeType lockMode,
                         Map<String, Object> properties);
@@ -503,7 +503,7 @@ public interface EntityManager {
      * @param entity  entity instance
      * @throws IllegalArgumentException if the instance is not an 
      *         entity 
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public void detach(Object entity); 
 
@@ -525,7 +525,7 @@ public interface EntityManager {
      *         joined to the current transaction
      * @throws IllegalArgumentException if the instance is not a
      *         managed entity and a transaction is active
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public LockModeType getLockMode(Object entity);
 
@@ -537,7 +537,7 @@ public interface EntityManager {
      * @param value  value for property or hint
      * @throws IllegalArgumentException if the second argument is 
      *         not valid for the implementation 
-     * @since Java Persistence 2.0
+     * @since 2.0
      */ 
     public void setProperty(String propertyName, Object value);
 
@@ -546,14 +546,14 @@ public interface EntityManager {
      * for the entity manager. Changing the contents of the map does 
      * not change the configuration in effect.
      * @return map of properties and hints in effect for entity manager
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public Map<String, Object> getProperties();
 
     /**
      * Create an instance of <code>Query</code> for executing a
-     * Java Persistence query language statement.
-     * @param qlString a Java Persistence query string
+     * Jakarta Persistence query language statement.
+     * @param qlString a Jakarta Persistence query string
      * @return the new query instance
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
@@ -567,7 +567,7 @@ public interface EntityManager {
      * @return the new query instance
      * @throws IllegalArgumentException if the criteria query is
      *         found to be invalid
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery); 
 
@@ -578,7 +578,7 @@ public interface EntityManager {
      * @return the new query instance
      * @throws IllegalArgumentException if the update query is
      *         found to be invalid
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public Query createQuery(CriteriaUpdate updateQuery);
 
@@ -589,29 +589,29 @@ public interface EntityManager {
      * @return the new query instance
      * @throws IllegalArgumentException if the delete query is
      *         found to be invalid
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public Query createQuery(CriteriaDelete deleteQuery);
 
     /**
      * Create an instance of <code>TypedQuery</code> for executing a
-     * Java Persistence query language statement.
+     * Jakarta Persistence query language statement.
      * The select list of the query must contain only a single
      * item, which must be assignable to the type specified by
      * the <code>resultClass</code> argument.
-     * @param qlString a Java Persistence query string
+     * @param qlString a Jakarta Persistence query string
      * @param resultClass the type of the query result
      * @return the new query instance
      * @throws IllegalArgumentException if the query string is found
      *         to be invalid or if the query result is found to
      *         not be assignable to the specified type
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
 
     /**
      * Create an instance of <code>Query</code> for executing a named query
-     * (in the Java Persistence query language or in native SQL).
+     * (in the Jakarta Persistence query language or in native SQL).
      * @param name the name of a query defined in metadata
      * @return the new query instance
      * @throws IllegalArgumentException if a query has not been
@@ -622,7 +622,7 @@ public interface EntityManager {
 
     /**
      * Create an instance of <code>TypedQuery</code> for executing a
-     * Java Persistence query language named query.
+     * Jakarta Persistence query language named query.
      * The select list of the query must contain only a single
      * item, which must be assignable to the type specified by
      * the <code>resultClass</code> argument.
@@ -633,7 +633,7 @@ public interface EntityManager {
      *         defined with the given name or if the query string is
      *         found to be invalid or if the query result is found to
      *         not be assignable to the specified type
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
@@ -682,7 +682,7 @@ public interface EntityManager {
      * @return the new stored procedure query instance
      * @throws IllegalArgumentException if a query has not been
      * defined with the given name
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public StoredProcedureQuery createNamedStoredProcedureQuery(String name);
 
@@ -699,7 +699,7 @@ public interface EntityManager {
      * @throws IllegalArgumentException if a stored procedure of the
      * given name does not exist (or the query execution will
      * fail)
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public StoredProcedureQuery createStoredProcedureQuery(String procedureName);
 
@@ -720,7 +720,7 @@ public interface EntityManager {
      * @throws IllegalArgumentException if a stored procedure of the
      * given name does not exist (or the query execution will
      * fail)
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public StoredProcedureQuery createStoredProcedureQuery(
 	       String procedureName, Class... resultClasses);
@@ -765,7 +765,7 @@ public interface EntityManager {
      * is not joined to the current transaction or if no
      * transaction is active
      * @return boolean
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public boolean isJoinedToTransaction();
 
@@ -780,7 +780,7 @@ public interface EntityManager {
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not 
      *         support the call 
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public <T> T unwrap(Class<T> cls); 
 
@@ -831,7 +831,7 @@ public interface EntityManager {
      * @return EntityManagerFactory instance
      * @throws IllegalStateException if the entity manager has 
      *         been closed
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public EntityManagerFactory getEntityManagerFactory();
 
@@ -841,7 +841,7 @@ public interface EntityManager {
      * @return CriteriaBuilder instance
      * @throws IllegalStateException if the entity manager has
      *         been closed
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public CriteriaBuilder getCriteriaBuilder();
 
@@ -851,7 +851,7 @@ public interface EntityManager {
      * @return Metamodel instance
      * @throws IllegalStateException if the entity manager has
      *         been closed
-     * @since Java Persistence 2.0
+     * @since 2.0
      */
     public Metamodel getMetamodel();
 
@@ -860,7 +860,7 @@ public interface EntityManager {
      * EntityGraph.
      * @param rootType class of entity graph
      * @return entity graph
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
 
@@ -869,7 +869,7 @@ public interface EntityManager {
      * is no entity graph with the specified name, null is returned.
      * @param graphName name of an entity graph
      * @return entity graph
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public EntityGraph<?> createEntityGraph(String graphName);
 
@@ -880,7 +880,7 @@ public interface EntityManager {
      * @return named entity graph
      * @throws IllegalArgumentException if there is no EntityGraph of
      *         the given name
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public  EntityGraph<?> getEntityGraph(String graphName);
 
@@ -890,7 +890,7 @@ public interface EntityManager {
      * @param entityClass  entity class
      * @return list of all entity graphs defined for the entity
      * @throws IllegalArgumentException if the class is not an entity
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 
 package javax.persistence;
@@ -26,7 +26,7 @@ package javax.persistence;
  * the current transaction, if one is active and the persistence context has
  * been joined to it, to be marked for rollback.
  *
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 public class PersistenceException extends RuntimeException {
 

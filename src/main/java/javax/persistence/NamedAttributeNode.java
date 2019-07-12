@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
+//     Linda DeMichiel - 2.1
 
 
 package javax.persistence;
@@ -27,7 +27,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see NamedEntityGraph
  * @see NamedSubgraph
  *
- * @since Java Persistence 2.1
+ * @since 2.1
  */
 @Target({})
 @Retention(RUNTIME)

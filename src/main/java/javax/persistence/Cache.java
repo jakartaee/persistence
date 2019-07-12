@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence;
 
@@ -21,7 +21,7 @@ package javax.persistence;
  * If a cache is not in use, the methods of this interface have
  * no effect, except for <code>contains</code>, which returns false.
  *
- * @since Java Persistence 2.0
+ * @since 2.0
  */
 public interface Cache {
 
@@ -63,7 +63,7 @@ public interface Cache {
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not
      * support the call
-     * @since Java Persistence 2.1
+     * @since 2.1
      */
     public <T> T unwrap(Class<T> cls);
 }

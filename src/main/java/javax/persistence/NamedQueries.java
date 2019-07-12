@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - Java Persistence 2.1
-//     Linda DeMichiel - Java Persistence 2.0
+//     Linda DeMichiel - 2.1
+//     Linda DeMichiel - 2.0
 
 package javax.persistence; 
 
@@ -22,13 +22,13 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies multiple named Java Persistence query language queries.
+ * Specifies multiple named Jakarta Persistence query language queries.
  * Query names are scoped to the persistence unit.
  * The <code>NamedQueries</code> annotation can be applied to an entity or mapped superclass.
  *
  * @see NamedQuery
  * 
- * @since Java Persistence 1.0
+ * @since 1.0
  */
 @Target({TYPE})  
 @Retention(RUNTIME) 
