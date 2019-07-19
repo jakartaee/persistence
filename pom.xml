@@ -24,7 +24,7 @@
 
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.3-SNAPSHOT</version>
 
     <name>Jakarta Persistence API</name>
     <url>https://github.com/eclipse-ee4j/jpa-api</url>
@@ -88,7 +88,7 @@
         <spec.non.final>false</spec.non.final>
         <spec.version>2.2</spec.version>
         <spec.build>01</spec.build>
-        <spec.impl.version>2.2.2</spec.impl.version>
+        <spec.impl.version>2.2.3</spec.impl.version>
         <spec.api.package>jakarta.persistence</spec.api.package>
         <spec.new.spec.version>2.3</spec.new.spec.version>
         <legal.doc.source>${project.basedir}</legal.doc.source>
@@ -265,11 +265,24 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <doclint>all</doclint>
+                    <detectJavaApiLink>false</detectJavaApiLink>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <description>Jakarta Persistence API documentation</description>
+                    <doctitle>Jakarta Persistence API documentation</doctitle>
+                    <windowtitle>Jakarta Persistence API documentation</windowtitle>
+                    <header><![CDATA[<br>Jakarta Persistence API v${project.version}]]>
+                    </header>
                     <bottom><![CDATA[<br>
 Comments to: <a href="mailto:jpa-dev@eclipse.org">jpa-dev@eclipse.org</a>.<br>
 Copyright &#169; {inceptionYear}&#x2013;{currentYear} Oracle and/or its affiliates. All rights reserved.<br>
-Use is subject to <a href="{@docRoot}/doc-files/EFSL.html" target="_top">license terms</a>.]]>
+Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
+                    <groups>
+                        <group>
+                            <title>Jakarta Persistence API Packages</title>
+                            <packages>javax.persistence*</packages>
+                        </group>
+                    </groups>
                 </configuration>
             </plugin>
         </plugins>
