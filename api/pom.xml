@@ -92,7 +92,7 @@
         <spec.api.package>jakarta.persistence</spec.api.package>
         <spec.new.spec.version>2.3</spec.new.spec.version>
         <legal.doc.source>${project.basedir}</legal.doc.source>
-        <vendor.name>Oracle</vendor.name>
+        <vendor.name>Eclipse Foundation</vendor.name>
     </properties>
 
     <build>
@@ -274,7 +274,7 @@
                     </header>
                     <bottom><![CDATA[<br>
 Comments to: <a href="mailto:jpa-dev@eclipse.org">jpa-dev@eclipse.org</a>.<br>
-Copyright &#169; {inceptionYear}&#x2013;{currentYear} Oracle and/or its affiliates. All rights reserved.<br>
+Copyright &#169; 2019 Eclipse Foundation. All rights reserved.<br>
 Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
                     <groups>
