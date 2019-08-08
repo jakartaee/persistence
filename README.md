@@ -8,8 +8,8 @@
 
 # Jakarta Persistence project
 
-The Jakarta Persistence API is the Java(R) API for the management of persistence
-and object/relational mapping in Jakarta EE and Java SE environments.
+Jakarta Persistence defines a standard for management of persistence
+and object/relational mapping in Java(R) environments.
 
 
 ## License
