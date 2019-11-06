@@ -53,7 +53,6 @@ public interface PersistenceProvider {
      * Called by the container when an <code>EntityManagerFactory</code>
      * is to be created. 
      *
-     * TODO: verify that change to jakarta.persistence.validation.factory + jakarta.persistence.bean.manager are documented.
      * @param info  metadata for use by the persistence provider
      * @param map  a Map of integration-level properties for use 
      * by the persistence provider (may be null if no properties

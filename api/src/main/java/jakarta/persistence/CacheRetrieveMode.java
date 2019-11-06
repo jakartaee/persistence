@@ -17,7 +17,6 @@
 package jakarta.persistence;
 
 /**
- * TODO: verify that change to jakarta.persistence.cache.retrieveMode is documented.
  * Used as the value of the
  * <code>jakarta.persistence.cache.retrieveMode</code> property to
  * specify the behavior when data is retrieved by the

@@ -18,7 +18,6 @@ package jakarta.persistence;
 
 /**
  *
- * TODO: Verify that any needed documentation changes are made for jakarta.persistence.lock.scope
  * Defines the values of the <code>jakarta.persistence.lock.scope</code>
  * property for pessimistic locking.  This property may be passed as
  * an argument to the methods of the {@link EntityManager},
@@ -50,7 +49,6 @@ public enum PessimisticLockScope {
     NORMAL,
 
     /**
-     * TODO: Verify that any needed documentation changes are made for jakarta.persistence.lock.scope
      * In addition to the behavior for
      * <code>PessimisticLockScope.NORMAL</code>, element collections
      * and relationships owned by the entity that are contained in

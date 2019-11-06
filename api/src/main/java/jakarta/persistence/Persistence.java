@@ -187,10 +187,12 @@ public class Persistence {
      * @since 1.0
      * @deprecated
      *
-     * TODO: Verify that any needed documentation changes are made.
+     * TODO: Either change TCK reference to PERSISTENCE_PROVIDER field to expect 
+     * "jakarta.persistence.spi.PersistenceProvider" or remove PERSISTENCE_PROVIDER field and also update TCK signature 
+     * tests. 
      */
     @Deprecated
-    public static final String PERSISTENCE_PROVIDER = "jakarta.persistence.spi.PeristenceProvider";
+    public static final String PERSISTENCE_PROVIDER = "jakarta.persistence.spi.PersistenceProvider";
     
     /**
      * This instance variable is deprecated and should be removed and is only here for TCK backward compatibility

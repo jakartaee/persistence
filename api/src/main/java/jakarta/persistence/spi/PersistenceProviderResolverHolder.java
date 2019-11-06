@@ -36,6 +36,7 @@ import java.util.logging.Logger;
  * Holds the global {@link PersistenceProviderResolver}
  * instance. If no <code>PersistenceProviderResolver</code> is set by the
  * environment, the default <code>PersistenceProviderResolver</code> is used.
+ * Enable "jakarta.persistence.spi" logger to show diagnostic information. 
  * 
  * Implementations must be thread-safe.
  * 
@@ -158,7 +159,6 @@ public class PersistenceProviderResolverHolder {
             }
         }
 
-        // TODO:  Verify that change to jakarta.persistence.spi logger is documented.
         private static final String LOGGER_SUBSYSTEM = "jakarta.persistence.spi";
 
         private Logger logger;

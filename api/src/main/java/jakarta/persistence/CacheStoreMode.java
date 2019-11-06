@@ -17,7 +17,6 @@
 package jakarta.persistence;
 
 /**
- * TODO:  Verify that change to property jakarta.persistence.cache.storeMode is documented as needed.
  * Used as the value of the
  * <code>jakarta.persistence.cache.storeMode</code> property to specify
  * the behavior when data is read from the database and when data is
