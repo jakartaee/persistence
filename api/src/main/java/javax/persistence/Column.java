@@ -72,8 +72,9 @@ public @interface Column {
     boolean unique() default false;
 
     /**
-     * (Optional) This option is used when generating the DDL for the column by the persistence provider.
-     * It adds a not null constraint for the column.
+     * (Optional) This option is used when generating the DDL
+     * for the column by the persistence provider.
+     * <p>It adds a not null constraint for the column.
      */
     boolean nullable() default true;
 
