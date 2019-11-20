@@ -62,7 +62,7 @@ public @interface Column {
     String name() default "";
 
     /**
-     * (Optional) Whether the column is a unique key.  This is a 
+     * (Optional) Whether the column is a unique key. This is a
      * shortcut for the <code>UniqueConstraint</code> annotation at the table 
      * level and is useful for when the unique key constraint 
      * corresponds to only a single column. This constraint applies 
@@ -72,7 +72,8 @@ public @interface Column {
     boolean unique() default false;
 
     /**
-     * (Optional) Whether the database column is nullable.
+     * (Optional) This option is used when generating the DDL for the column by the persistence provider.
+     * It adds a not null constraint for the column.
      */
     boolean nullable() default true;
 
