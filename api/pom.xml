@@ -280,7 +280,7 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                     <groups>
                         <group>
                             <title>Jakarta Persistence API Packages</title>
-                            <packages>javax.persistence*</packages>
+                            <packages>jakarta.persistence*</packages>
                         </group>
                     </groups>
                 </configuration>
