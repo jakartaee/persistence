@@ -229,7 +229,7 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
-                        <Automatic-Module-Name>java.persistence</Automatic-Module-Name>
+                        <Automatic-Module-Name>jakarta.persistence</Automatic-Module-Name>
                         <Bundle-Description>Jakarta Persistence ${spec.specification.version} API jar</Bundle-Description>
                         <Bundle-Name>Jakarta Persistence API jar</Bundle-Name>
                         <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
