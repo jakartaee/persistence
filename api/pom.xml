@@ -82,9 +82,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
         <spec.non.final>false</spec.non.final>
         <spec.version>3.0</spec.version>
         <spec.build>01</spec.build>
@@ -173,7 +170,7 @@
                 <configuration>
                     <rules>
                         <requireJavaVersion>
-                            <version>[1.8,)</version>
+                            <version>[11,)</version>
                         </requireJavaVersion>
                     </rules>
                 </configuration>
@@ -219,17 +216,31 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <release>9</release>
                     <compilerArgs>
-                        <compilerArg>-Xlint:all</compilerArg>
+                        <arg>-Xlint:all</arg>
                     </compilerArgs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>base-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <release>8</release>
+                            <excludes>
+                                <exclude>module-info.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
-                        <Automatic-Module-Name>jakarta.persistence</Automatic-Module-Name>
                         <Bundle-Description>Jakarta Persistence ${spec.specification.version} API jar</Bundle-Description>
                         <Bundle-Name>Jakarta Persistence API jar</Bundle-Name>
                         <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
@@ -263,8 +274,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <doclint>all</doclint>
-                    <detectJavaApiLink>false</detectJavaApiLink>
+                    <source>1.8</source>
+                    <release>8</release>
+                    <additionalOptions>
+                        <additionalOption>--frames</additionalOption>
+                    </additionalOptions>
+                    <sourceFileExcludes>
+                        <sourceFileExclude>module-info.java</sourceFileExclude>
+                    </sourceFileExcludes>
+                    <notimestamp>true</notimestamp>
                     <docfilessubdirs>true</docfilessubdirs>
                     <description>Jakarta Persistence API documentation</description>
                     <doctitle>Jakarta Persistence API documentation</doctitle>
