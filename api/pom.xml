@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2018, 2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,12 +19,12 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
     </parent>
 
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
-    <version>2.2.3-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <name>Jakarta Persistence API</name>
     <url>https://github.com/eclipse-ee4j/jpa-api</url>
@@ -86,12 +86,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <spec.non.final>false</spec.non.final>
-        <spec.version>2.2</spec.version>
+        <spec.version>3.0</spec.version>
         <spec.build>01</spec.build>
-        <spec.impl.version>2.2.3</spec.impl.version>
+        <spec.impl.version>3.0.0</spec.impl.version>
         <spec.api.package>jakarta.persistence</spec.api.package>
-        <spec.new.spec.version>2.3</spec.new.spec.version>
-        <legal.doc.source>${project.basedir}</legal.doc.source>
+        <spec.new.spec.version>3.0</spec.new.spec.version>
+        <legal.doc.source>${project.basedir}/..</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
     </properties>
 
@@ -116,12 +116,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.8.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.5.1</version>
+                    <version>4.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -131,12 +131,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -238,7 +238,6 @@
                         <Implementation-Version>${spec.implementation.version}</Implementation-Version>
                         <Specification-Vendor>${vendor.name}</Specification-Vendor>
                         <Specification-Version>${spec.specification.version}</Specification-Version>
-                        <_noee>true</_noee>
                     </instructions>
                 </configuration>
                 <executions>
@@ -274,7 +273,7 @@
                     </header>
                     <bottom><![CDATA[<br>
 Comments to: <a href="mailto:jpa-dev@eclipse.org">jpa-dev@eclipse.org</a>.<br>
-Copyright &#169; 2019 Eclipse Foundation. All rights reserved.<br>
+Copyright &#169; 2019, 2020 Eclipse Foundation. All rights reserved.<br>
 Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
                     <groups>
