@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -813,7 +813,7 @@ public interface CriteriaBuilder {
      * @param collection expression
      * @return size expression
      */ 
-    <C extends java.util.Collection<?>> Expression<Integer> size(Expression<C> collection);
+    <C extends Collection<?>> Expression<Integer> size(Expression<C> collection);
 	
     /**
      * Create an expression that tests the size of a collection.
