@@ -19,7 +19,7 @@ package jakarta.persistence.spi;
 /**
  * Utility interface implemented by the persistence provider.  This
  * interface is invoked by the {@link
- * PersistenceUtil} implementation to determine
+ * jakarta.persistence.PersistenceUtil} implementation to determine
  * the load status of an entity or entity attribute.
  *
  * @since 2.0

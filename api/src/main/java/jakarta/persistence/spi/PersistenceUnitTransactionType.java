@@ -18,7 +18,7 @@ package jakarta.persistence.spi;
 
 /**
  * Specifies whether entity managers created by the {@link
- * EntityManagerFactory} will be JTA or
+ * jakarta.persistence.EntityManagerFactory} will be JTA or
  * resource-local entity managers.
  *
  * @since 1.0
