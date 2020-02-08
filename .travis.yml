@@ -1,0 +1,15 @@
+dist: trusty
+language: java
+sudo: false
+
+jdk:
+  - oraclejdk11
+  - openjdk11
+
+cache:
+  directories:
+    - $HOME/.m2
+
+script:
+  - cd api
+  - mvn verify -B -V -Poss-release -Dgpg.skip=true
