@@ -1,3 +1,4 @@
+[discrete]
 == Scope
 
 Jakarta Persistence defines a standard for management of persistence

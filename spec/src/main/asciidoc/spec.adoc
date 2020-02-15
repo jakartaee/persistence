@@ -6,7 +6,7 @@ Copyright (c) 2017, 2019 Oracle and/or its affiliates. All rights reserved.
 Oracle and Java are registered trademarks of Oracle and/or its
 affiliates. Other names may be trademarks of their respective owners.
 
-=== Introduction
+== Introduction
 
 This document is the specification of the
 Java API for the management of persistence and object/relational mapping
@@ -73,7 +73,7 @@ semantic requirements are written in terms of annotations, it should be
 understood that the same semantics apply when the XML descriptor is used
 as an alternative._
 
-=== Entities
+== Entities
 
 An entity is a lightweight persistent domain
 object.
@@ -239,7 +239,7 @@ specified to customize the object/relational mapping and the loading and
 storing of the entity state and relationships. See Chapter
 link:Per.html#a13915[See Metadata for Object/Relational Mapping].
 
-=== Example
+==== Example
 
 @Entity
 
@@ -384,7 +384,7 @@ to this customer
 
 image:Per-4.png[image]
 
-=== Default Access Type
+==== Default Access Type
 
 By default, a single access type (field or
 property access) applies to an entity hierarchy. The default access type
@@ -432,7 +432,7 @@ that mix the placement of annotations on fields and properties within an
 entity hierarchy without explicitly specifying the _Access_ annotation
 is undefined.
 
-=== [[a122]]Explicit Access Type
+==== [[a122]]Explicit Access Type
 
 An access type for an individual entity
 class, mapped superclass, or embeddable class can be specified for that
@@ -477,7 +477,7 @@ Note that when access types are combined
 within a class, the _Transient_ annotation should be used to avoid
 duplicate persistent mappings.
 
-=== Access Type of an Embeddable Class
+==== Access Type of an Embeddable Class
 
 The access type of an embeddable class is
 determined by the access type of the entity class, mapped superclass, or
@@ -487,7 +487,7 @@ containing class has been explicitly specified or defaulted. A different
 access type for an embeddable class can be specified for that embeddable
 class by means of the _Access_ annotation as described above.
 
-=== Defaulted Access Types of Embeddable Classes and Mapped Superclasses
+==== Defaulted Access Types of Embeddable Classes and Mapped Superclasses
 
 Care must be exercised when defining an
 embeddable class or mapped superclass which is used both in a context of
@@ -594,7 +594,7 @@ link:Per.html#a1060[See Entity Operations]. The application must
 not change the value of the primary keylink:#a19546[10]. The
 behavior is undefined if this occurs.link:#a19547[11]
 
-=== [[a149]]Primary Keys Corresponding to Derived Identities
+==== [[a149]]Primary Keys Corresponding to Derived Identities
 
 The identity of an entity may be derived from
 the identity of another entity (the “parent” entity) when the former
@@ -625,7 +625,7 @@ when the parent has a composite key.
 A dependent entity may have more than one
 parent entity.
 
-=== [[a155]]Specification of Derived Identities
+===== [[a155]]Specification of Derived Identities
 
 If the dependent entity uses an id class to
 represent its primary key, one of the two following rules must be
@@ -679,7 +679,7 @@ separate _Id_ attribute is specified and the relationship attribute is
 annotated _MapsId_ (and the _value_ element of the _MapsId_ annotation
 is not specified).
 
-=== Mapping of Derived Identities
+===== Mapping of Derived Identities
 
 A primary key attribute that is derived from
 the identity of a parent entity is mapped by the corresponding
@@ -701,7 +701,7 @@ If the dependent uses an id class, the
 _Column_ annotation may be used to override the default mapping of _Id_
 attributes that are not relationship attributes.
 
-=== Examples of Derived Identities
+===== Examples of Derived Identities
 
  __
 
@@ -1495,7 +1495,7 @@ Bidirectional relationships represented as
 _java.util.Map_ collections support the use of the _Map_ datatype on one
 side of the relationship only.
 
-=== Map Keys
+==== Map Keys
 
 If the map key type is a basic type, the
 _MapKeyColumn_ annotation can be used to specify the column mapping for
@@ -1534,7 +1534,7 @@ the special case where the map key is itself the primary key or a
 persistent field or property of the entity that is the value of the map.
 The _MapKeyClass_ annotation is not used when _MapKey_ is specified.
 
-=== Map Values
+==== Map Values
 
 When the value type of the map is a basic
 type or an embeddable class, a collection table is used to map the map.
@@ -1733,7 +1733,7 @@ and _ManyToMany_ relationship modeling annotations. The same mapping
 defaults apply when the XML descriptor is used to denote the
 relationship cardinalities.
 
-=== Bidirectional OneToOne Relationships
+==== Bidirectional OneToOne Relationships
 
 Assuming that:
 
@@ -1843,6 +1843,7 @@ column of table _CUBICLE_ . The foreign key column has the same type as
 the primary key of _CUBICLE_ , and there is a unique key constraint on
 it.
 
+[discrete]
 === Bidirectional ManyToOne _/_ OneToMany Relationships
 
 Assuming that:
@@ -1961,7 +1962,7 @@ of DEPARTMENT>, where <PK of DEPARTMENT> denotes the name of the primary
 key column of table _DEPARTMENT_ . The foreign key column has the same
 type as the primary key of _DEPARTMENT_ .
 
-=== Unidirectional Single-Valued Relationships
+==== Unidirectional Single-Valued Relationships
 
 Assuming that:
 
@@ -1977,7 +1978,7 @@ The unidirectional single-valued relationship
 modeling case can be specified as either a unidirectional _OneToOne_ or
 as a unidirectional _ManyToOne_ relationship.
 
-=== [[a640]]Unidirectional OneToOne Relationships
+===== [[a640]]Unidirectional OneToOne Relationships
 
 The following mapping defaults apply:
 
@@ -2061,7 +2062,7 @@ primary key column of table _TRAVELPROFILE_ . The foreign key column has
 the same type as the primary key of _TRAVELPROFILE_ , and there is a
 unique key constraint on it.
 
-=== Unidirectional ManyToOne Relationships
+===== Unidirectional ManyToOne Relationships
 
 The following mapping defaults apply:
 
@@ -2142,7 +2143,7 @@ ADDRESS>, where <PK of ADDRESS> denotes the name of the primary key
 column of table _ADDRESS_ . The foreign key column has the same type as
 the primary key of _ADDRESS_ .
 
-=== [[a708]]Bidirectional ManyToMany Relationships
+==== [[a708]]Bidirectional ManyToMany Relationships
 
 Assuming that:
 
@@ -2269,7 +2270,7 @@ of the primary key column of table _EMPLOYEE_ .
 
 
 
-=== [[a758]]Unidirectional Multi-Valued Relationships
+==== [[a758]]Unidirectional Multi-Valued Relationships
 
 Assuming that:
 
@@ -2284,7 +2285,7 @@ The unidirectional multi-valued relationship
 modeling case can be specified as either a unidirectional _OneToMany_ or
 as a unidirectional _ManyToMany_ relationship.
 
-=== [[a764]]Unidirectional OneToMany Relationships
+===== [[a764]]Unidirectional OneToMany Relationships
 
 The following mapping defaults apply:
 
@@ -2385,7 +2386,7 @@ denotes the name of the primary key column of table _ANNUALREVIEW_ .
 There is a unique key constraint on the foreign key that refers to table
 _ANNUALREVIEW_ .
 
-=== [[a800]]Unidirectional ManyToMany Relationships
+===== [[a800]]Unidirectional ManyToMany Relationships
 
 The following mapping defaults apply:
 
@@ -2500,7 +2501,7 @@ non-entity classes can extend entity classes.
 These concepts are described further in the
 following sections.
 
-=== Abstract Entity Classes
+==== Abstract Entity Classes
 
 An abstract class can be specified as an
 entity. An abstract entity differs from a concrete entity only in that
@@ -2594,7 +2595,7 @@ Employee \{
 
 
 
-=== Mapped Superclasses
+==== Mapped Superclasses
 
 An entity may inherit from a superclass that
 provides persistent entity state and mapping information, but which is
@@ -2740,7 +2741,7 @@ PT_EMP.ADDR_ID fk
 
 }
 
-=== Non-Entity Classes in the Entity Inheritance Hierarchy
+==== Non-Entity Classes in the Entity Inheritance Hierarchy
 
 {empty}An entity can have a non-entity
 superclass, which may be either a concrete or abstract
@@ -2837,7 +2838,7 @@ Support for the combination of inheritance
 strategies within a single entity inheritance hierarchy is not required
 by this specification.
 
-=== Single Table per Class Hierarchy Strategy
+==== Single Table per Class Hierarchy Strategy
 
 In this strategy, all the classes in a
 hierarchy are mapped to a single table. The table has a column that
@@ -2853,7 +2854,7 @@ It has the drawback, however, that it
 requires that the columns that correspond to state specific to the
 subclasses be nullable.
 
-=== Joined Subclass Strategy
+==== Joined Subclass Strategy
 
 In the joined subclass strategy, the root of
 the class hierarchy is represented by a single table. Each subclass is
@@ -2872,7 +2873,7 @@ subclass. In deep class hierarchies, this may lead to unacceptable
 performance. Queries that range over the class hierarchy likewise
 require joins.
 
-=== Table per Concrete Class Strategy
+==== Table per Concrete Class Strategy
 
 In this mapping strategy, each class is
 mapped to a separate table. All properties of the class, including
@@ -3104,7 +3105,7 @@ _schema_ , _pk-column-name_ , _value-column-name_ attributes)
  _unique-constraint_ ( _name_ attribute,
 _column-name_ element)
 
-=== [[a1060]]Entity Operations
+== [[a1060]]Entity Operations
 
 This chapter describes the use of the
 _EntityManager_ API to manage the entity instance lifecycle and the use
@@ -3162,7 +3163,7 @@ link:Per.html#a6925[See Criteria API]. The definition of
 persistence units is described in Chapter
 link:Per.html#a12229[See Entity Packaging].
 
-=== [[a1066]]EntityManager Interface
+==== [[a1066]]EntityManager Interface
 
 package javax.persistence;
 
@@ -5294,7 +5295,7 @@ observed by the provider if possible, a hint may or may not always be
 observed. A portable application must not depend on the observance of a
 hint.
 
-=== Example of Use of EntityManager API
+==== Example of Use of EntityManager API
 
 
 
@@ -5353,14 +5354,14 @@ element may be used to propagate the effect of an operation to
 associated entities. The cascade functionality is most typically used in
 parent-child relationships.
 
-=== Entity Instance Creation
+==== Entity Instance Creation
 
 Entity instances are created by means of the
 _new_ operation. An entity instance, when first created by _new_ is not
 yet persistent. An instance becomes persistent by means of the
 _EntityManager_ API.
 
-=== Persisting an Entity Instance
+==== Persisting an Entity Instance
 
 A new entity instance becomes both managed
 and persistent by invoking the _persist_ method on it or by cascading
@@ -5392,7 +5393,7 @@ relationship from X, if the relationship to Y has been annotated with
 the _cascade_ element value _cascade=PERSIST_ or _cascade=ALL_ , the
 persist operation is applied to Y.
 
-=== [[a1946]]Removal
+==== [[a1946]]Removal
 
 A managed entity instance becomes removed by
 invoking the _remove_ method on it or by cascading the remove operation.
@@ -5427,7 +5428,7 @@ After an entity has been removed, its state
 (except for generated state) will be that of the entity at the point at
 which the remove operation was called.
 
-=== [[a1955]]Synchronization to the Database
+==== [[a1955]]Synchronization to the Database
 
 In general, a persistence context will be
 synchronized to the database as described below. However, a persistence
@@ -5509,7 +5510,7 @@ otherwise, if Y owns the relationships, the behavior is undefined.
 If X is a removed entity, it is removed from
 the database. No cascade options are relevant.
 
-=== Refreshing an Entity Instance
+==== Refreshing an Entity Instance
 
 The state of a managed entity instance is
 refreshed from the database by invoking the _refresh_ method on it or by
@@ -5527,7 +5528,7 @@ _cascade=REFRESH_ or _cascade=ALL_ annotation element value.
 If X is a new, detached, or removed entity,
 the _IllegalArgumentException_ is thrown.
 
-=== Evicting an Entity Instance from the Persistence Context
+==== Evicting an Entity Instance from the Persistence Context
 
 An entity instance is removed from the
 persistence context by invoking the _detach_ method on it or cascading
@@ -5565,7 +5566,7 @@ continue to reference X. Portable applications should not pass removed
 entities that have been detached from the persistence context to further
 EntityManager operations.
 
-=== [[a1982]]Detached Entities
+==== [[a1982]]Detached Entities
 
 A detached entity results from transaction
 commit if a transaction-scoped persistence context is used (see section
@@ -5611,7 +5612,7 @@ Any entity instance that can be reached from
 another available instance by navigating associations marked
 _fetch=EAGER_ .
 
-=== Merging Detached Entity State
+===== Merging Detached Entity State
 
 The merge operation allows for the
 propagation of state from detached entities onto persistent entities
@@ -5659,7 +5660,7 @@ operation and/or at flush or commit time. In the absence of _Version_
 columns there is no additional version checking done by the persistence
 provider runtime during the merge operation.
 
-=== Detached Entities and Lazy Loading
+===== Detached Entities and Lazy Loading
 
 Serializing entities and merging those
 entities back into a persistence context may not be interoperable across
@@ -5676,7 +5677,7 @@ implementation classes.
 When interoperability across vendors is
 required, the application must not use lazy loading.
 
-=== Managed Instances
+==== Managed Instances
 
 It is the responsibility of the application
 to insure that an instance is managed in only a single persistence
@@ -5714,7 +5715,7 @@ _contains_ method, whereas the actual insertion, modification, or
 deletion of the database representation for the entity may be deferred
 until the end of the transaction.
 
-=== [[a2019]]Load State
+==== [[a2019]]Load State
 
 An entity is considered to be loaded if all
 attributes with _FetchType.EAGER_ —whether explictly specified or by
@@ -5827,7 +5828,7 @@ the application are described further in section
 link:Per.html#a11894[See Application-managed Persistence
 Contexts].
 
-=== Synchronization with the Current Transaction
+==== Synchronization with the Current Transaction
 
 By default, a container-managed persistence
 context is of _SynchronizationType.SYNCHRONIZED_ and is automatically
@@ -5855,13 +5856,13 @@ Persistence context synchronization type is
 described further in section link:Per.html#a11797[See Persistence
 Context Synchronization Type].
 
-=== Transaction Commit
+==== Transaction Commit
 
 The managed entities of a transaction-scoped
 persistence context become detached when the transaction commits; the
 managed entities of an extended persistence context remain managed.
 
-=== [[a2049]]Transaction Rollback
+==== [[a2049]]Transaction Rollback
 
 {empty}For both transaction-scoped
 persistence contexts and for extended persistence contexts that are
@@ -5921,7 +5922,7 @@ and the configuration of the setting of pessimistic lock modes is
 described in section link:Per.html#a2113[See PESSIMISTIC_READ,
 PESSIMISTIC_WRITE, PESSIMISTIC_FORCE_INCREMENT].
 
-=== [[a2056]]Optimistic Locking
+==== [[a2056]]Optimistic Locking
 
 Optimistic locking is a technique that is
 used to insure that updates to the database data corresponding to the
@@ -5945,7 +5946,7 @@ irregularities. If optimistic locking is not defined as part of the
 entity state, the application must bear the burden of maintaining data
 consistency.
 
-=== [[a2059]]Version Attributes
+==== [[a2059]]Version Attributes
 
 The _Version_ field or property is used by
 the persistence provider to perform optimistic locking. It is accessed
@@ -5990,7 +5991,7 @@ consistency of the object graph is not guaranteed, but the absence of
 version attributes on some of the entities will not stop operations from
 completing.
 
-=== [[a2066]]Pessimistic Locking
+==== [[a2066]]Pessimistic Locking
 
 {empty}While optimistic locking is typically
 appropriate in dealing with moderate contention among concurrent
@@ -6076,7 +6077,7 @@ entities that do not contain version attributes. However, in this case
 correct interaction with applications using optimistic locking cannot be
 ensured.
 
-=== [[a2084]]Lock Modes
+==== [[a2084]]Lock Modes
 
 Lock modes are intended to provide a facility
 that enables the effect of “repeatable read” semantics for the items
@@ -6121,7 +6122,7 @@ public enum LockModeType \{
 
 }
 
-=== [[a2100]]OPTIMISTIC, OPTIMISTIC_FORCE_INCREMENT
+===== [[a2100]]OPTIMISTIC, OPTIMISTIC_FORCE_INCREMENT
 
 The lock modes _OPTIMISTIC_ and
 _OPTIMISTIC_FORCE_INCREMENT_ are used for optimistic locking. The lock
@@ -6204,7 +6205,7 @@ up-front pessimistic locks on some database rows, then it is free to
 ignore _lock(entity, LockModeType.OPTIMISTIC)_ calls on the entity
 objects representing those rows.
 
-=== [[a2113]]PESSIMISTIC_READ, PESSIMISTIC_WRITE, PESSIMISTIC_FORCE_INCREMENT
+===== [[a2113]]PESSIMISTIC_READ, PESSIMISTIC_WRITE, PESSIMISTIC_FORCE_INCREMENT
 
 {empty}The lock modes _PESSIMISTIC_READ_ ,
 _PESSIMISTIC_WRITE_ , and _PESSIMISTIC_FORCE_INCREMENT_ are used to
@@ -6317,7 +6318,7 @@ _LockModeType.PESSIMISTIC_READ_ or _LockModeType.PESSIMISTIC_WRITE_ is
 updated, then the implementation must ensure that the requirements of
 _LockModeType.PESSIMISTIC_FORCE_INCREMENT_ are met.
 
-=== [[a2132]]Lock Mode Properties and Uses
+===== [[a2132]]Lock Mode Properties and Uses
 
 The following property is defined by this
 specification for use in pessimistic locking, as described in section
@@ -6381,7 +6382,7 @@ method
 
 specification in _persistence.xml_
 
-=== OptimisticLockException
+==== OptimisticLockException
 
 Provider implementations may defer writing to
 the database until the end of the transaction, when consistent with the
@@ -6453,7 +6454,7 @@ link:Per.html#a2251[See Multiple Lifecycle Callback Methods for
 an Entity Lifecycle Event] describes the rules that apply to method
 invocation order in this case.
 
-=== Entity Listeners
+==== Entity Listeners
 
 The entity listener class must have a public
 no-arg constructor.
@@ -6537,7 +6538,7 @@ methods are invoked in the transaction and security contexts of the
 calling component at the time at which the callback method is invoked.
 link:#a19581[45]
 
-=== Lifecycle Callback Methods
+==== Lifecycle Callback Methods
 
 Entity lifecycle callback methods can be
 defined on an entity listener class and/or directly on an entity class
@@ -6609,7 +6610,7 @@ contextlink:#a19583[46].link:#pgfId-1645929[47] A lifecycle
 callback method may modify the non-relationship state of the entity on
 which it is invoked.
 
-=== [[a2202]]Semantics of the Life Cycle Callback Methods for Entities
+==== [[a2202]]Semantics of the Life Cycle Callback Methods for Entities
 
 The _PrePersist_ and _PreRemove_ callback
 methods are invoked for a given entity before the respective
@@ -6657,7 +6658,7 @@ callback methods are invoked before or after the cascading of the
 lifecycle events to related entities. Applications should not depend on
 this ordering.
 
-=== Example
+==== Example
 
 @Entity
 
@@ -6746,7 +6747,7 @@ Alerts.sendMarketingInfo(acct.getAccountId(), acct.getBalance());
 
 }
 
-=== [[a2251]]Multiple Lifecycle Callback Methods for an Entity Lifecycle Event
+==== [[a2251]]Multiple Lifecycle Callback Methods for an Entity Lifecycle Event
 
 If multiple callback methods are defined for
 an entity lifecycle event, the ordering of the invocation of these
@@ -6794,7 +6795,7 @@ then invokes the next callback method, if any.
 The XML descriptor may be used to override
 the lifecycle callback method invocation order specified in annotations.
 
-=== Example
+==== Example
 
 There are several entity classes and
 listeners for animals:
@@ -6990,7 +6991,7 @@ defined in the _SiameseCat_ class:
 
  postPersistAnimal
 
-=== Exceptions
+==== Exceptions
 
 Lifecycle callback methods may throw runtime
 exceptions. A runtime exception thrown by a callback method that
@@ -6999,14 +7000,14 @@ rollback if the persistence context is joined to the transaction. No
 further lifecycle callback methods will be invoked after a runtime
 exception is thrown.
 
-=== Specification of Callback Listener Classes and Lifecycle Methods in the XML Descriptor
+==== Specification of Callback Listener Classes and Lifecycle Methods in the XML Descriptor
 
 The XML descriptor can be used as an
 alternative to metadata annotations to specify entity listener classes
 and their binding to entities or to override the invocation order of
 lifecycle callback methods as specified in annotations.
 
-=== Specification of Callback Listeners
+===== Specification of Callback Listeners
 
 The _entity-listener_ XML descriptor element
 is used to specify the lifecycle listener methods of an entity listener
@@ -7022,7 +7023,7 @@ method, and/or post-load method, regardless of whether the XML
 descriptor is used to define entity listeners or whether some
 combination of annotations and XML descriptor elements is used.
 
-=== Specification of the Binding of Entity Listener Classes to Entities
+===== Specification of the Binding of Entity Listener Classes to Entities
 
 The _entity-listeners_ subelement of the
 _persistence-unit-defaults_ element is used to specify the default
@@ -7081,7 +7082,7 @@ an instance of a managed class, as described in the Bean Validation
 specification link:Per.html#a19498[See JSR-380: Bean Validation,
 v. 2.0. http://jcp.org/en/jsr/detail?id=380.].
 
-=== Automatic Validation Upon Lifecycle Events
+==== Automatic Validation Upon Lifecycle Events
 
 This specification supports the use of bean
 validation for the automatic validation of entities upon the
@@ -7099,7 +7100,7 @@ modified and subsequently removed in a single transaction, it is
 implementation dependent as to whether the pre-update validation event
 occurs. Portable applications should not rely on this behavior.
 
-=== [[a2374]]Enabling Automatic Validation
+===== [[a2374]]Enabling Automatic Validation
 
 The _validation-mode_ element of the
 _persistence.xml_ file determines whether the automatic lifecycle event
@@ -7139,7 +7140,7 @@ the _validation-mode_ element or the _javax.persistence.validation.mode_
 property, the persistence provider must not perform lifecycle event
 validation.
 
-=== [[a2380]]Requirements for Automatic Validation upon Lifecycle Events
+===== [[a2380]]Requirements for Automatic Validation upon Lifecycle Events
 
 For each event type, a list of groups is
 targeted for validation. By default, the default Bean Validation group
@@ -7203,7 +7204,7 @@ provider by calling
 _ValidatorFactory.usingContext().traversableResolver(tr).getValidator()_
 , where _tr_ is the resolver having the behavior described above.
 
-=== [[a2394]]Providing the ValidatorFactory
+==== [[a2394]]Providing the ValidatorFactory
 
 In Java EE environments, a _ValidatorFactory_
 instance is made available by the Java EE container. The container is
@@ -7250,7 +7251,7 @@ find and query operations are described in section
 link:Per.html#a2814[See Use of Entity Graphs in find and query
 operations].
 
-=== EntityGraph Interface
+==== EntityGraph Interface
 
 package javax.persistence;
 
@@ -7731,7 +7732,7 @@ getAttributeNodes();
 
 }
 
-=== AttributeNode Interface
+==== AttributeNode Interface
 
 
 
@@ -7811,7 +7812,7 @@ getKeySubgraphs();
 
 }
 
-=== Subgraph Interface
+==== Subgraph Interface
 
 
 
@@ -8236,7 +8237,7 @@ subgraph
 
 }
 
-=== [[a2814]]Use of Entity Graphs in find and query operations
+==== [[a2814]]Use of Entity Graphs in find and query operations
 
 An entity graph can be used with the _find_
 method or as a query hint to override or augment _FetchType_ semantics.
@@ -8255,7 +8256,7 @@ fetch additional entity state beyond that specified by a fetch graph or
 load graph. It is required, however, that the persistence provider fetch
 all state specified by the fetch or load graph.
 
-=== Fetch Graph Semantics
+===== Fetch Graph Semantics
 
 When the _javax.persistence.fetchgraph_
 property is used to specify an entity graph, attributes that are
@@ -8492,7 +8493,7 @@ Since the type of the _approver_ attribute is _Employee_ , the
 approver's default fetch graph ( _id_ , _name_ , and _employeeNumber_
 attributes) would also be fetched.
 
-=== Load Graph Semantics
+===== Load Graph Semantics
 
 When the _javax.persistence.loadgraph_
 property is used to specify an entity graph, attributes that are
@@ -8964,7 +8965,7 @@ developer to control caching behavior. Persistence providers may support
 additional provider-specific options, but must observe all
 specification-defined options.
 
-=== [[a3065]]The shared-cache-mode Element
+==== [[a3065]]The shared-cache-mode Element
 
 Whether the entities and entity-related state
 of a persistence unit will be cached is determined by the value of the
@@ -9022,7 +9023,7 @@ Further control over the second-level cache
 is described in section link:Per.html#a12124[See Cache
 Interface].
 
-=== Cache Retrieve Mode and Cache Store Mode Properties
+==== Cache Retrieve Mode and Cache Store Mode Properties
 
 Cache retrieve mode and cache store mode
 properties may be specified at the level of the persistence context by
@@ -9165,7 +9166,7 @@ also support parameter binding and pagination control. The
 _StoredProcedureQuery_ API is used for the execution of queries that
 invoke stored procedures defined in the database.
 
-=== [[a3127]]Query Interface
+==== [[a3127]]Query Interface
 
 package javax.persistence;
 
@@ -10279,7 +10280,7 @@ transaction
 
 }
 
-=== TypedQuery Interface
+==== TypedQuery Interface
 
 package javax.persistence;
 
@@ -10910,7 +10911,7 @@ transaction
 
 }
 
-=== [[a3868]]Tuple Interface
+==== [[a3868]]Tuple Interface
 
 
 
@@ -11087,7 +11088,7 @@ elements as an array.
 
 }
 
-=== [[a3949]]TupleElement Interface
+==== [[a3949]]TupleElement Interface
 
 
 
@@ -11139,7 +11140,7 @@ element or null,
 
 }
 
-=== Parameter Interface
+==== Parameter Interface
 
 
 
@@ -11227,7 +11228,7 @@ implementation does
 
 }
 
-=== StoredProcedureQuery Interface
+==== StoredProcedureQuery Interface
 
 package javax.persistence;
 
@@ -12029,7 +12030,7 @@ transaction
 
 }
 
-=== Query Execution
+==== Query Execution
 
 Java Persistence query language, Criteria
 API, and native SQL select queries are executed using the
@@ -12125,7 +12126,7 @@ Runtime exceptions thrown by the methods of
 the _Tuple_ , _TupleElement_ , and _Parameter_ interfaces do not cause
 the current transaction to be marked for rollback.
 
-=== Example
+===== Example
 
 
 
@@ -12144,7 +12145,7 @@ public List findWithName(String name) \{
 
 }
 
-=== [[a4374]]Queries and Flush Mode
+==== [[a4374]]Queries and Flush Mode
 
 The flush mode setting affects the result of
 a query as follows.
@@ -12181,7 +12182,7 @@ public enum FlushModeType \{
 If there is no transaction active, the
 persistence provider must not flush to the database.
 
-=== [[a4385]]Queries and Lock Mode
+==== [[a4385]]Queries and Lock Mode
 
 {empty}The _setLockMode_ method of the
 _Query_ or _TypedQuery_ interface or the _lockMode_ element of the
@@ -12216,7 +12217,7 @@ or _getLockMode_ method is invoked on a query that is not a Java
 Persistence query language select query or a criteria query, the
 _IllegalStateException_ may be thrown or the query execution will fail.
 
-=== [[a4391]]Query Hints
+==== [[a4391]]Query Hints
 
 The following hint is defined by this
 specification for use in query configuration.
@@ -12247,7 +12248,7 @@ additional, vendor-specific hints. Vendor-specific hints must not use
 the _javax.persistence_ namespace. Vendor-specific hints must be ignored
 if they are not understood.
 
-=== [[a4397]]Parameter Objects
+==== [[a4397]]Parameter Objects
 
  _Parameter_ objects can be used for criteria
 queries and for Java Persistence query language queries.
@@ -12263,7 +12264,7 @@ Portable applications should not attempt to
 reuse a _Parameter_ object obtained from a _Query_ or _TypedQuery_
 instance in the context of a different _Query_ or _TypedQuery_ instance.
 
-=== [[a4401]]Named Parameters
+==== [[a4401]]Named Parameters
 
 Named parameters can be used for Java
 Persistence query language queries, for criteria queries (although use
@@ -12280,7 +12281,7 @@ language query is an identifier that is prefixed by the " _:_ " symbol.
 The parameter names passed to the _setParameter_ methods of the _Query_
 and _TypedQuery_ interfaces do not include this " _:_ " prefix.
 
-=== [[a4405]]Positional Parameters
+==== [[a4405]]Positional Parameters
 
 Only positional parameter binding and
 positional access to result items may be portably used for native
@@ -12293,7 +12294,7 @@ _?1_ ”).
 The use of positional parameters is not
 supported for criteria queries.
 
-=== Named Queries
+==== Named Queries
 
 Named queries are static queries expressed in
 metadata or queries registered by means of the EntityManagerFactory
@@ -12329,7 +12330,7 @@ em.createNamedQuery("findAllCustomersWithName")
 
  .getResultList();
 
-=== Polymorphic Queries
+==== Polymorphic Queries
 
 By default, all queries are polymorphic. That
 is, the FROM clause of a query designates not only instances of the
@@ -12349,7 +12350,7 @@ link:Per.html#a5381[See Entity Type Expressions], as well as the
 use of downcasting, described in section link:Per.html#a4965[See
 Downcasting], can be used to restrict query polymorphism.
 
-=== [[a4427]]SQL Queries
+==== [[a4427]]SQL Queries
 
 Queries may be expressed in native SQL. The
 result of a native SQL query may consist of entities, unmanaged
@@ -12362,7 +12363,7 @@ the target database in use (and/or where the Java Persistence query
 language cannot be used). Native SQL queries are not expected to be
 portable across databases.
 
-=== Returning Managed Entities from Native Queries
+===== Returning Managed Entities from Native Queries
 
 The persistence provider is responsible for
 performing the mapping between the values returned by the SQL query and
@@ -12720,14 +12721,14 @@ The dot-notation form is not required to be
 supported for any usage other than for embeddables, composite foreign
 keys, or composite primary keys.
 
-=== Returning Unmanaged Instances
+===== Returning Unmanaged Instances
 
 Instances of other classes (including
 non-managed entity instances) as well as scalar results can be returned
 by a native query. These can be used singly, or in combination,
 including with entity results.
 
-=== Scalar Results
+====== Scalar Results
 
 Scalar results can be included in the query
 result by specifying the _ColumnResult_ annotation element of the
@@ -12782,7 +12783,7 @@ column="order_item")})},
 
 
 
-=== Constructor Results
+====== Constructor Results
 
 The mapping to constructors is specified
 using the _ConstructorResult_ annotation element of the
@@ -12835,7 +12836,7 @@ type=Double.class)})
 
 
 
-=== Combinations of Result Types
+===== Combinations of Result Types
 
 When a _SqlResultSetMapping_ specifies more
 than one mapping type (i.e., more than one of _EntityResult_ ,
@@ -12849,7 +12850,7 @@ results (in the order defined in the _columns_ element). If there are
 any columns whose result mappings have not been specified, they are
 ignored.
 
-=== Restrictions
+===== Restrictions
 
 When an entity is being returned, the SQL
 statement should select all of the columns that are mapped to the entity
@@ -12862,7 +12863,7 @@ The use of named parameters is not defined
 for native SQL queries. Only positional parameter binding for SQL
 queries may be used by portable applications.
 
-=== Stored Procedures
+==== Stored Procedures
 
 The _StoredProcedureQuery_ interface supports
 the use of database stored procedures.
@@ -12873,7 +12874,7 @@ Annotations for the specification of stored procedures are described in
 section link:Per.html#a13759[See NamedStoredProcedureQuery
 Annotation].
 
-=== Named Stored Procedure Queries
+===== Named Stored Procedure Queries
 
 Unlike in the case of a named native query,
 the _NamedStoredProcedureQuery_ annotation names a stored procedure that
@@ -12909,7 +12910,7 @@ INOUT or OUT parameter). If parameter names are not specified, it is
 assumed that positional parameters are used. The mixing of named and
 positional parameters is undefined.
 
-=== Dynamically-specified Stored Procedure Queries
+===== Dynamically-specified Stored Procedure Queries
 
 If the stored procedure is not defined using
 metadata, parameter and result set information must be provided
@@ -12923,7 +12924,7 @@ interface.
 Result set mapping information can be
 provided by means of the _createStoredProcedureQuery_ method.
 
-=== [[a4625]]Stored Procedure Query Execution
+===== [[a4625]]Stored Procedure Query Execution
 
 Stored procedure query execution can be
 controlled as described below.
@@ -13097,7 +13098,7 @@ transaction, if one is active, to be marked for rollback.
 
 
 
-=== [[a4665]]Query Language
+== [[a4665]]Query Language
 
 The Java Persistence query language is a
 string-based query language used to define queries over entities and
@@ -13176,7 +13177,7 @@ metadata annotation or XML descriptor element.
 
 All statement types may have parameters.
 
-=== Select Statements
+==== Select Statements
 
 A select statement is a string which consists
 of the following clauses:
@@ -13212,7 +13213,7 @@ A select statement must always have a SELECT
 and a FROM clause. The square brackets [] indicate that the other
 clauses are optional.
 
-=== Update and Delete Statements
+==== Update and Delete Statements
 
 Update and delete statements provide bulk
 operations over sets of entities.
@@ -13279,7 +13280,7 @@ entity’s or embeddable’s abstract schema type determine navigability.
 Using the association fields and their values, a query can select
 related entities and use their abstract schema types in the query.
 
-=== Naming
+==== Naming
 
 Entities are designated in query strings by
 their entity names. The entity name is defined by the _name_ element of
@@ -13288,7 +13289,7 @@ and defaults to the unqualified name of the entity class. Entity names
 are scoped within the persistence unit and must be unique within the
 persistence unit.
 
-=== [[a4713]]Example
+==== [[a4713]]Example
 
 This example assumes that the application
 developer provides several entity classes, representing orders,
@@ -13444,7 +13445,7 @@ collection_member_declaration ::=
 The following subsections discuss the
 constructs used in the FROM clause.
 
-=== [[a4760]]Identifiers
+==== [[a4760]]Identifiers
 
 An identifier is a character sequence of
 unlimited length. The character sequence must begin with a Java
@@ -13478,7 +13479,7 @@ than those listed above not be used as identification variables in
 queries because they may be used as reserved identifiers in future
 releases of this specification.
 
-=== [[a4765]]Identification Variables
+==== [[a4765]]Identification Variables
 
 An identification
 variable is a valid identifier declared in the FROM clause of a query.
@@ -13547,7 +13548,7 @@ query (or subquery) in which it is defined and is also visible to any
 subqueries within that query scope that do not define an identification
 variable of the same name.
 
-=== Range Variable Declarations
+==== Range Variable Declarations
 
 {empty}The syntax for declaring an
 identification variable as a range variable is similar to that of SQL;
@@ -13583,7 +13584,7 @@ WHERE o1.quantity > o2.quantity AND
 
  o2.customer.firstname= ‘John’
 
-=== [[a4792]]Path Expressions
+==== [[a4792]]Path Expressions
 
 An identification variable followed by the
 navigation operator ( _._ ) and a state field or association field is a
@@ -13679,7 +13680,7 @@ c.phones p
 
 WHERE e.contactInfo.address.zipcode = '95054'
 
-=== Path Expression Syntax
+===== Path Expression Syntax
 
 The syntax for single-valued path expressions
 and collection-valued path expressions is as follows.
@@ -13798,7 +13799,7 @@ See Sections link:Per.html#a5139[See Empty Collection Comparison
 Expressions], link:Per.html#a5150[See Collection Member
 Expressions], and link:Per.html#a5284[See Arithmetic Functions].
 
-=== Joins
+==== Joins
 
 An inner join may be implicitly specified by
 the use of a cartesian product in the FROM clause and a join condition
@@ -13863,7 +13864,7 @@ described in sections link:Per.html#a4884[See Inner Joins
 (Relationship Joins)], link:Per.html#a4898[See Left Outer
 Joins], and link:Per.html#a4931[See Fetch Joins] are supported.
 
-=== [[a4884]]Inner Joins (Relationship Joins)
+===== [[a4884]]Inner Joins (Relationship Joins)
 
 The syntax for the inner join operation is
 
@@ -13907,7 +13908,7 @@ A join condition may be specified for an
 inner join. This is equivalent to specification of the same condition in
 the WHERE clause.
 
-=== [[a4898]]Left Outer Joins
+===== [[a4898]]Left Outer Joins
 
 LEFT JOIN and LEFT OUTER JOIN are synonymous.
 They enable the retrieval of a set of entities where matching values in
@@ -13989,7 +13990,7 @@ enabling the prefetching of related data items as a side effect of a
 query. This is accomplished by specifying the LEFT JOIN as a FETCH JOIN
 as described below.
 
-=== [[a4931]]Fetch Joins
+===== [[a4931]]Fetch Joins
 
 A FETCH JOIN enables the fetching of an
 association or element collection as a side effect of the execution of a
@@ -14032,7 +14033,7 @@ five references to the department 1 entity.
 The FETCH JOIN construct must not be used in
 the FROM clause of a subquery.
 
-=== Collection Member Declarations
+==== Collection Member Declarations
 
 An identification variable declared by a
 collection_member_declaration ranges over values of a collection
@@ -14079,7 +14080,7 @@ designates a member of this collection, a single LineItem abstract
 schema type instance. In this example, _o_ is an identification variable
 of the abstract schema type Order.
 
-=== [[a4957]]FROM Clause and SQL
+==== [[a4957]]FROM Clause and SQL
 
 The Java Persistence query language treats
 the FROM clause similarly to SQL in that the declared identification
@@ -14098,7 +14099,7 @@ SELECT o
 FROM Order AS o JOIN o.lineItems l JOIN
 l.product p
 
-=== Polymorphism
+==== Polymorphism
 
 Java Persistence queries are automatically
 polymorphic. The FROM clause of a query designates not only instances of
@@ -14112,7 +14113,7 @@ polymorphism is restricted can be specified using entity type
 expressions in the WHERE clause to restrict the domain of the query. See
 section link:Per.html#a5381[See Entity Type Expressions].
 
-=== [[a4965]]Downcasting
+==== [[a4965]]Downcasting
 
 The use of the TREAT operator is supported
 for downcasting within path expressions in the FROM and WHERE clauses.
@@ -14208,7 +14209,7 @@ State fields that are mapped in serialized
 form or as lobs cannot be portably used in conditional
 expressionslink:#a19598[62].
 
-=== Literals
+==== Literals
 
 A string literal is enclosed in single
 quotes—for example: ‘literal’. A string literal that includes a single
@@ -14257,7 +14258,7 @@ names—for example: _Customer_ .
 Although reserved literals appear in upper
 case, they are case insensitive.
 
-=== Identification Variables
+==== Identification Variables
 
 All identification variables used in the
 WHERE or HAVING clause of a SELECT or DELETE statement must be declared
@@ -14272,7 +14273,7 @@ This means that an identification variable represents a member of a
 collection or an instance of an entity’s abstract schema type. An
 identification variable never designates a collection in its entirety.
 
-=== Path Expressions
+==== Path Expressions
 
 It is illegal to use a
 _collection_valued_path_expression_ within a WHERE or HAVING clause as
@@ -14280,7 +14281,7 @@ part of a conditional expression except in an
 _empty_collection_comparison_expression,_ in a
 _collection_member_expression_ , or as an argument to the SIZE operator.
 
-=== Input Parameters
+==== Input Parameters
 
 Either positional or named parameters may be
 used. Positional and named parameters must not be mixed in a single
@@ -14305,7 +14306,7 @@ The API for the binding of query parameters
 is described in Chapter link:Per.html#a1060[See Entity
 Operations].
 
-=== Positional Parameters
+===== Positional Parameters
 
 The following rules apply to positional
 parameters.
@@ -14323,7 +14324,7 @@ The ordering of the use of parameters within
 the query string need not conform to the order of the positional
 parameters.
 
-=== Named Parameters
+===== Named Parameters
 
 A named parameter is denoted by an identifier
 that is prefixed by the ":" symbol. It follows the rules for identifiers
@@ -14341,7 +14342,7 @@ WHERE c.status = :stat
 The same named parameter can be used more
 than once in the query string.
 
-=== Conditional Expression Composition
+==== Conditional Expression Composition
 
 Conditional expressions are composed of other
 conditional expressions, comparison operations, logical operations, path
@@ -14387,7 +14388,7 @@ simple_cond_expression ::=
 
  exists_expression
 
-=== Operators and Operator Precedence
+==== Operators and Operator Precedence
 
 The operators are listed below in order of
 decreasing precedence.
@@ -14418,7 +14419,7 @@ Logical operators:
 The following sections describe operators
 used in specific expressions.
 
-=== [[a5066]]Comparison Expressions
+==== [[a5066]]Comparison Expressions
 
 The syntax for the use of comparison
 expressions in a conditional expression is as
@@ -14469,6 +14470,7 @@ person.firstName)) = ‘Jones, Sam’
 
 TYPE(e) = ExemptEmployee
 
+[discrete]
 === Between __ Expressions
 
 The syntax for the use of the
@@ -14521,7 +14523,7 @@ FROM CreditCard c JOIN c.transactionHistory t
 WHERE c.holder.name = ‘John Doe’ AND INDEX(t)
 BETWEEN 0 AND 9
 
-=== [[a5107]]In Expressions
+==== [[a5107]]In Expressions
 
 The syntax for the use of the comparison
 operator [NOT] IN in a conditional expression is as follows:
@@ -14572,6 +14574,7 @@ is _NULL_ or unknown, the value of the expression is unknown.
 Note that use of a collection-valued input
 parameter will mean that a static query cannot be precompiled.
 
+[discrete]
 === Like __ Expressions
 
 The syntax for the use of the comparison
@@ -14612,7 +14615,7 @@ _pattern_value_ is _NULL_ or unknown, the value of the LIKE expression
 is unknown. If the _escape_character_ is specified and is _NULL_ , the
 value of the LIKE expression is unknown.
 
-=== Null Comparison Expressions
+==== Null Comparison Expressions
 
 The syntax for the use of the comparison
 operator IS NULL in a conditional expression is as follows:
@@ -14630,7 +14633,7 @@ Null comparisons over instances of embeddable
 class types are not supported. Support for comparisons over embeddables
 may be added in a future release of this specification.
 
-=== [[a5139]]Empty Collection Comparison Expressions
+==== [[a5139]]Empty Collection Comparison Expressions
 
 The syntax for the use of the comparison
 operator IS EMPTY in an _empty_collection_comparison_expression_ is as
@@ -14659,7 +14662,7 @@ If the value of the collection-valued path
 expression in an empty collection comparison expression is unknown, the
 value of the empty comparison expression is unknown.
 
-=== [[a5150]]Collection Member Expressions
+==== [[a5150]]Collection Member Expressions
 
 The syntax for the use of the comparison
 operator MEMBER OFlink:#a19601[65] in an
@@ -14711,7 +14714,7 @@ FROM Person p
 
 WHERE 'Joe' MEMBER OF p.nicknames
 
-=== Exists Expressions
+==== Exists Expressions
 
 An EXISTS expression is a predicate that is
 true only if the result of the subquery consists of one or more values
@@ -14739,7 +14742,7 @@ WHERE EXISTS (
 The result of this query consists of all
 employees whose spouses are also employees.
 
-=== All or Any Expressions
+==== All or Any Expressions
 
 An ALL conditional expression is a predicate
 over a subquery that is true if the comparison operation is true for all
@@ -14786,7 +14789,7 @@ The result of this query consists of all
 employees whose salaries exceed the salaries of all managers in their
 department.
 
-=== [[a5196]]Subqueries
+==== [[a5196]]Subqueries
 
 {empty}Subqueries may be used in the WHERE or
 HAVING clause.link:#a19602[66]
@@ -14898,7 +14901,7 @@ c)_
 
 
 
-=== [[a5243]]Scalar Expressions
+==== [[a5243]]Scalar Expressions
 
 Numeric, string, datetime, case, and entity
 type expressions result in scalar values.
@@ -14923,7 +14926,7 @@ scalar_expression::=
 
  entity_type_expression
 
-=== Arithmetic Expressions
+===== Arithmetic Expressions
 
 The arithmetic operators are:
 
@@ -14938,7 +14941,7 @@ Arithmetic operations use numeric promotion.
 Arithmetic functions are described in section
 link:Per.html#a5284[See Arithmetic Functions].
 
-=== Built-in String, Arithmetic, and Datetime Functional Expressions
+===== Built-in String, Arithmetic, and Datetime Functional Expressions
 
 The Java Persistence query language includes
 the built-in functions described in subsections
@@ -14954,7 +14957,7 @@ If the value of any argument to a functional
 expression is null or unknown, the value of the functional expression is
 unknown.
 
-=== [[a5264]]String Functions
+====== [[a5264]]String Functions
 
 
 
@@ -15022,7 +15025,7 @@ is not found, 0 is returned.link:#a19605[69]
 The LENGTH function returns the length of the
 string in characters as an integer.
 
-=== [[a5284]]Arithmetic Functions
+====== [[a5284]]Arithmetic Functions
 
 
 
@@ -15076,7 +15079,7 @@ AND INDEX(w) = 0
 
 
 
-=== [[a5304]]Datetime Functions
+====== [[a5304]]Datetime Functions
 
 
 
@@ -15091,7 +15094,7 @@ functions_returning_datetime:=
 The datetime functions return the value of
 current date, time, and timestamp on the database server.
 
-=== [[a5311]]Invocation of Predefined and User-defined Database Functions
+===== [[a5311]]Invocation of Predefined and User-defined Database Functions
 
 The invocation of functions other than the
 built-in functions of the Java Persistence query language is supported
@@ -15135,7 +15138,7 @@ FROM Customer c
 WHERE FUNCTION(‘hasGoodCredit’, c.balance,
 c.creditLimit)
 
-=== Case Expressions
+===== Case Expressions
 
 {empty}The following forms of case
 expressions are supported: general case expressions, simple case
@@ -15254,7 +15257,7 @@ SELECT e.name,
 
 FROM Employee e JOIN e.frequentFlierPlan f
 
-=== [[a5381]]Entity Type Expressions
+===== [[a5381]]Entity Type Expressions
 
 An entity type expression can be used to
 restrict query polymorphism. The TYPE operator returns the exact type of
@@ -15528,7 +15531,7 @@ ORDER BY itemCount
 
 
 
-=== Result Type of the SELECT Clause
+==== Result Type of the SELECT Clause
 
 The type of the query result specified by the
 SELECT clause of a query is an entity
@@ -15598,7 +15601,7 @@ The result type of a constructor_expression
 is the type of the class for which the constructor is defined. The types
 of the arguments to the constructor are defined by the above rules.
 
-=== [[a5500]]Constructor Expressions in the SELECT Clause
+==== [[a5500]]Constructor Expressions in the SELECT Clause
 
 A constructor may be used in the SELECT list
 to return an instance of a Java class. The specified class is not
@@ -15625,7 +15628,7 @@ FROM Customer c JOIN c.orders o
 
 WHERE o.count > 100
 
-=== Null Values in the Query Result
+==== Null Values in the Query Result
 
 If the result of a query corresponds to an
 association field or state field whose value is null, that null value is
@@ -15638,7 +15641,7 @@ in terms of Java numeric primitive types cannot produce NULL values in
 the query result. A query that returns such a state field type as a
 result type must not return a null value.
 
-=== [[a5511]]Embeddables in the Query Result
+==== [[a5511]]Embeddables in the Query Result
 
 If the result of a query corresponds to an
 identification variable or state field whose value is an embeddable, the
@@ -15700,7 +15703,7 @@ SELECT e.address AS addr
 
 FROM Employee e
 
-=== [[a5538]]Aggregate Functions in the SELECT Clause
+==== [[a5538]]Aggregate Functions in the SELECT Clause
 
 The result of a query may be the result of an
 aggregate function applied to a path expression.
@@ -15760,7 +15763,7 @@ functions, including user defined functions, is supported by means of
 the FUNCTION operator. See section link:Per.html#a5311[See
 Invocation of Predefined and User-defined Database Functions].
 
-=== Examples
+===== Examples
 
 The following query returns the average order
 quantity:
@@ -15810,7 +15813,7 @@ WHERE c.lastname = ‘Smith’ AND c.firstname =
 
 
 
-=== [[a5574]]Numeric Expressions in the SELECT Clause
+==== [[a5574]]Numeric Expressions in the SELECT Clause
 
 The type of a numeric expression in the query
 result is determined as follows:
@@ -16293,7 +16296,7 @@ and semantics of the Java Persistence query language. These examples are
 based on the example presented in link:Per.html#a4713[See
 Example].
 
-=== Simple Queries
+==== Simple Queries
 
 Find all orders:
 
@@ -16320,7 +16323,7 @@ SELECT DISTINCT o.shippingAddress.state
 
 FROM Order o
 
-=== Queries with Relationships
+==== Queries with Relationships
 
 Find all orders that have line items:
 
@@ -16391,7 +16394,7 @@ The query checks whether the same entity
 abstract schema type instance (identified by its primary key) is related
 to an order through two distinct relationships.
 
-=== Queries Using Input Parameters
+==== Queries Using Input Parameters
 
 The following query finds the orders for a
 product whose name is designated by an input parameter:
@@ -17069,7 +17072,7 @@ scalar_expression \{ _,_ scalar_expression}+ _)_
 nullif_expression::= _NULLIF(_
 scalar_expression _,_ scalar_expression _)_
 
-=== [[a6072]]Metamodel API
+== [[a6072]]Metamodel API
 
 This specification provides a set of
 interfaces for dynamically accessing the metamodel corresponding to the
@@ -17092,7 +17095,7 @@ specification._
 
 
 
-=== Metamodel Interface
+==== Metamodel Interface
 
 
 
@@ -17222,7 +17225,7 @@ Returns empty set
 
 
 
-=== Type Interface
+==== Type Interface
 
 
 
@@ -17280,7 +17283,7 @@ public interface Type<X> \{
 
 }
 
-=== ManagedType Interface
+==== ManagedType Interface
 
 package javax.persistence.metamodel;
 
@@ -18135,7 +18138,7 @@ name);
 
 }
 
-=== IdentifiableType Interface
+==== IdentifiableType Interface
 
 
 
@@ -18371,7 +18374,7 @@ of the id.
 
 }
 
-=== EntityType Interface
+==== EntityType Interface
 
 
 
@@ -18408,7 +18411,7 @@ public interface EntityType<X>
 
 }
 
-=== EmbeddableType Interface
+==== EmbeddableType Interface
 
 
 
@@ -18430,7 +18433,7 @@ represent embeddable types.
 public interface EmbeddableType<X> extends
 ManagedType<X> \{}
 
-=== MappedSuperclassType Interface
+==== MappedSuperclassType Interface
 
 
 
@@ -18455,7 +18458,7 @@ public interface MappedSuperclassType<X>
 
  extends IdentifiableType<X> \{}
 
-=== BasicType Interface
+==== BasicType Interface
 
 
 
@@ -18480,7 +18483,7 @@ basic type
 public interface BasicType<X> extends Type<X>
 \{}
 
-=== Bindable Interface
+==== Bindable Interface
 
 
 
@@ -18553,7 +18556,7 @@ returned.
 
 }
 
-=== Attribute Interface
+==== Attribute Interface
 
 
 
@@ -18700,7 +18703,7 @@ attribute is
 
 }
 
-=== SingularAttribute Interface
+==== SingularAttribute Interface
 
 
 
@@ -18794,7 +18797,7 @@ of the attribute.
 
 
 
-=== PluralAttribute Interface
+==== PluralAttribute Interface
 
 
 
@@ -18863,7 +18866,7 @@ type of the
 
 }
 
-=== CollectionAttribute Interface
+==== CollectionAttribute Interface
 
 
 
@@ -18893,7 +18896,7 @@ public interface CollectionAttribute<X, E>
  extends PluralAttribute<X,
 java.util.Collection<E>, E> \{}
 
-=== SetAttribute Interface
+==== SetAttribute Interface
 
 
 
@@ -18923,7 +18926,7 @@ public interface SetAttribute<X, E>
  extends PluralAttribute<X, java.util.Set<E>,
 E> \{}
 
-=== ListAttribute Interface
+==== ListAttribute Interface
 
 
 
@@ -18953,7 +18956,7 @@ public interface ListAttribute<X, E>
  extends PluralAttribute<X,
 java.util.List<E>, E> \{}
 
-=== MapAttribute Interface
+==== MapAttribute Interface
 
 
 
@@ -19013,7 +19016,7 @@ of the map.
 
 }
 
-=== StaticMetamodel Annotation
+==== StaticMetamodel Annotation
 
 
 
@@ -19069,7 +19072,7 @@ class.
 
 
 
-=== [[a6925]]Criteria API
+== [[a6925]]Criteria API
 
 The Java Persistence Criteria API is used to
 define queries through the construction of object-based query definition
@@ -19131,7 +19134,7 @@ _javax.persistence.metamodel.Metamodel_ interface. The _getMetamodel_
 method of the _EntityManagerFactory_ or _EntityManager_ interface can be
 used to obtain a _Metamodel_ instance.
 
-=== Static Metamodel Classes
+==== Static Metamodel Classes
 
 In the typical case, an annotation processor
 is expected to be used to produce static metamodel classes corresponding
@@ -19141,7 +19144,7 @@ and relationships of the corresponding managed class. For portability,
 an annotation processor should generate a canonical metamodel as defined
 below.
 
-=== Canonical Metamodel
+===== Canonical Metamodel
 
 This specification defines as follows a
 canonical metamodel and the structure of canonical metamodel classes.
@@ -19223,7 +19226,7 @@ not required to support the use of non-canonical metamodel classes.
 Applications that use non-canonical metamodel classes will not be
 portable._
 
-=== [[a6961]]Example
+===== [[a6961]]Example
 
 Assume the _Order_ entity below.
 
@@ -19298,7 +19301,7 @@ SingularAttribute<Order, BigDecimal> totalCost;
 
 }
 
-=== Bootstrapping
+==== Bootstrapping
 
 When the entity manager factory for a
 persistence unit is created, it is the responsibility of the persistence
@@ -19314,7 +19317,7 @@ required to, support the use of non-canonical metamodel classes.
 
 image:Per-4.png[image]
 
-=== CriteriaBuilder Interface
+==== CriteriaBuilder Interface
 
 
 
@@ -22983,7 +22986,7 @@ Class<T> type);
 
 }
 
-=== CommonAbstractCriteria Interface
+==== CommonAbstractCriteria Interface
 
 
 
@@ -23060,7 +23063,7 @@ have been
 
 
 
-=== AbstractQuery Interface
+==== AbstractQuery Interface
 
 
 
@@ -23469,7 +23472,7 @@ createTupleQuery
 
 }
 
-=== [[a8857]]CriteriaQuery Interface
+==== [[a8857]]CriteriaQuery Interface
 
 package javax.persistence.criteria;
 
@@ -24203,7 +24206,7 @@ query.
 
 
 
-=== CriteriaUpdate Interface
+==== CriteriaUpdate Interface
 
 
 
@@ -24501,7 +24504,7 @@ restrictions);
 
 }
 
-=== CriteriaDelete Interface
+==== CriteriaDelete Interface
 
 
 
@@ -24673,7 +24676,7 @@ restrictions);
 
 
 
-=== Subquery Interface
+==== Subquery Interface
 
 
 
@@ -25180,7 +25183,7 @@ subquery
 
 }
 
-=== Selection Interface
+==== Selection Interface
 
 
 
@@ -25269,7 +25272,7 @@ getCompoundSelectionItems();
 
 }
 
-=== CompoundSelection Interface
+==== CompoundSelection Interface
 
 package javax.persistence.criteria;
 
@@ -25291,7 +25294,7 @@ compound selection item
 public interface CompoundSelection<X> extends
 Selection<X> \{}
 
-=== Expression Interface
+==== Expression Interface
 
 
 
@@ -25447,7 +25450,7 @@ expression
 
 }
 
-=== Predicate Interface
+==== Predicate Interface
 
 
 
@@ -25556,7 +25559,7 @@ forming the predicate
 
 }
 
-=== Path Interface
+==== Path Interface
 
 
 
@@ -25786,7 +25789,7 @@ attribute of the given
 
 }
 
-=== FetchParent Interface
+==== FetchParent Interface
 
 package javax.persistence.criteria;
 
@@ -25978,7 +25981,7 @@ attributeName, JoinType jt);
 
 }
 
-=== Fetch Interface
+==== Fetch Interface
 
 
 
@@ -26048,7 +26051,7 @@ join.
 
 }
 
-=== From Interface
+==== From Interface
 
 
 
@@ -26650,7 +26653,7 @@ attributeName,
 
 }
 
-=== Root Interface
+==== Root Interface
 
 
 
@@ -26695,7 +26698,7 @@ the root
 
 }
 
-=== Join Interface
+==== Join Interface
 
 package javax.persistence.criteria;
 
@@ -26826,7 +26829,7 @@ to the join
 
 }
 
-=== JoinType
+==== JoinType
 
 
 
@@ -26884,7 +26887,7 @@ public enum JoinType \{
 
 }
 
-=== PluralJoin Interface
+==== PluralJoin Interface
 
 
 
@@ -26942,7 +26945,7 @@ attribute corresponding
 
 }
 
-=== CollectionJoin Interface
+==== CollectionJoin Interface
 
 
 
@@ -27074,7 +27077,7 @@ getModel();
 
 
 
-=== SetJoin Interface
+==== SetJoin Interface
 
 
 
@@ -27177,7 +27180,7 @@ Set that is
 
 }
 
-=== ListJoin Interface
+==== ListJoin Interface
 
 
 
@@ -27307,7 +27310,7 @@ collection for
 
 }
 
-=== MapJoin Interface
+==== MapJoin Interface
 
 
 
@@ -27458,7 +27461,7 @@ map entry
 
 }
 
-=== Order Interface
+==== Order Interface
 
 
 
@@ -27516,7 +27519,7 @@ ordering.
 
 }
 
-=== ParameterExpression Interface
+==== ParameterExpression Interface
 
 
 
@@ -27602,7 +27605,7 @@ For example:
 CriteriaBuilder cb =
 emf.getCriteriaBuilder();
 
-=== [[a10621]]CriteriaQuery Creation
+==== [[a10621]]CriteriaQuery Creation
 
 A _CriteriaQuery_ object is created by means
 of one of the _createQuery_ methods or the _createTupleQuery_ method of
@@ -27655,7 +27658,7 @@ See section link:Per.html#a10945[See
 Specifying the Select List] for further discussion of the specification
 of selection items.
 
-=== Query Roots
+==== Query Roots
 
 A _CriteriaQuery_ object defines a query over
 one or more entity, embeddable, or basic abstract schema types. The root
@@ -27691,7 +27694,7 @@ q.from(Customer.class);
 
 q.select(customer);
 
-=== [[a10643]]Joins
+==== [[a10643]]Joins
 
 The _join_ methods of the _From_ interface
 extend the query domain by creating a join with a related class that can
@@ -27851,7 +27854,7 @@ FROM Suppliers s LEFT JOIN s.products p
 
 GROUP BY s.name
 
-=== Fetch Joins
+==== Fetch Joins
 
 Fetch joins are specified by means of the
 _fetch_ method. The _fetch_ method specifies that the referenced
@@ -27897,7 +27900,7 @@ FROM Department d LEFT JOIN FETCH d.employees
 
 WHERE d.deptno = 1
 
-=== [[a16277]]Path Navigation
+==== [[a16277]]Path Navigation
 
 A _Path_ instance can be a _Root_ instance, a
 _Join_ instance, a _Path_ instance that has been derived from another
@@ -27988,7 +27991,7 @@ FROM Item i JOIN i.photos p
 
 WHERE KEY(p) LIKE ‘%egret%’
 
-=== Restricting the Query Result
+==== Restricting the Query Result
 
 The result of a query can be restricted by
 specifying one or more predicate conditions. Restriction predicates are
@@ -28077,7 +28080,7 @@ FROM Order o
 
 WHERE o.lineItems IS EMPTY
 
-=== Downcasting
+==== Downcasting
 
 Downcasting by means of the _treat_ method is
 supported in joins and in the construction of _where_ conditions.
@@ -28162,7 +28165,7 @@ WHERE TREAT(e AS Exempt).vacationDays > 10
 
  OR TREAT(e AS Contractor).hours > 100
 
-=== Expressions
+==== Expressions
 
 An _Expression_ or one of its subtypes can be
 used in the construction of the query’s select list or in the
@@ -28382,7 +28385,7 @@ FROM EMPLOYEE e
 
 WHERE e.department.name = ‘Engineering’
 
-=== Result Types of Expressions
+===== Result Types of Expressions
 
 The _getJavaType_ method, as defined in the
 _TupleElement_ interface, returns the runtime type of the object on
@@ -28436,7 +28439,7 @@ operation will be an integral type in some databases, and an
 non-integral type in others. Portable applications should not assume a
 particular result type.
 
-=== Literals
+==== Literals
 
 An _Expression_ literal instance is obtained
 by passing a value to the _literal_ method of the _CriteriaBuilder_
@@ -28486,7 +28489,7 @@ SELECT CASE WHEN fp.annualMiles > 50000 THEN
 
  END
 
-=== Parameter Expressions
+==== Parameter Expressions
 
 A _ParameterExpression_ instance is an
 expression that corresponds to a parameter whose value will be supplied
@@ -28531,7 +28534,7 @@ FROM Customer c
 
 WHERE c.status = :stat
 
-=== [[a10945]]Specifying the Select List
+==== [[a10945]]Specifying the Select List
 
 The select list of a query is specified by
 use of the _select_ or _multiselect_ methods of the _CriteriaQuery_
@@ -28747,7 +28750,7 @@ com.acme.example.CustomerDetails(c.id, c.status, o.quantity)_
 
 
 
-=== Assigning Aliases to Selection Items
+===== Assigning Aliases to Selection Items
 
 The _alias_ method of the _Selection_
 interface can be used to assign an alias to a selection item. The alias
@@ -28790,7 +28793,7 @@ result.get("taxedCost");
 
 
 
-=== Subqueries
+==== Subqueries
 
 Both correlated and non-correlated subqueries
 can be used in restriction predicates. A subquery is constructed through
@@ -29084,7 +29087,7 @@ WHERE 10000 < ALL (
 
  FROM c.accounts a)
 
-=== GroupBy and Having
+==== GroupBy and Having
 
 The _groupBy_ method of the _CriteriaQuery_
 interface is used to define a partitioning of the query results into
@@ -29140,7 +29143,7 @@ COUNT(c)_
 
 
 
-=== Ordering the Query Results
+==== Ordering the Query Results
 
 The ordering of the results of a query is
 defined by use of the _orderBy_ method of the _CriteriaQuery_ instance.
@@ -29315,7 +29318,7 @@ Clara'
 
 ORDER BY o.quantity, taxedCost, a.zipcode
 
-=== [[a11239]]Bulk Update and Delete Operations
+==== [[a11239]]Bulk Update and Delete Operations
 
 A bulk update query is constructed through
 the creation and modification of a
@@ -29483,6 +29486,7 @@ The persistence context is not synchronized
 with the result of the bulk update or delete. See section
 link:Per.html#a5636[See Bulk Update and Delete Operations].
 
+[discrete]
 === [[a11305]]Constructing Strongly-typed Queries using the javax.persistence.metamodel Interfaces
 
 image:Per-4.png[image]
@@ -29822,7 +29826,7 @@ runtime instances have access to any required vendor implementation
 classes. _CriteriaQuery_ , _CriteriaUpdate_ , and _CriteriaDelete_
 objects are not required to be interoperable across vendors.
 
-=== [[a11431]]Entity Managers and Persistence Contexts
+== [[a11431]]Entity Managers and Persistence Contexts
 
 === [[a11432]]Persistence Contexts
 
@@ -29896,7 +29900,7 @@ multiple concurrently executing threads, as the entity manager and
 persistence context are not required to be threadsafe. Entity managers
 must only be accessed in a single-threaded manner.
 
-=== Obtaining an Entity Manager in the Java EE Environment
+==== Obtaining an Entity Manager in the Java EE Environment
 
 A container-managed entity manager is
 obtained by the application through dependency injection or through
@@ -29962,7 +29966,7 @@ MyInterface \{
 
 }
 
-=== [[a11465]]Obtaining an Application-managed Entity Manager
+==== [[a11465]]Obtaining an Application-managed Entity Manager
 
 An application-managed entity manager is
 obtained by the application from an entity manager factory.
@@ -29991,7 +29995,7 @@ JVM.link:#a19619[83]
 Methods of the _EntityManagerFactory_
 interface are threadsafe.
 
-=== Obtaining an Entity Manager Factory in a Java EE Container
+==== Obtaining an Entity Manager Factory in a Java EE Container
 
 Within a Java EE environment, an entity
 manager factory can be injected using the _PersistenceUnit_ annotation
@@ -30006,7 +30010,7 @@ For example,
 
  EntityManagerFactory emf;
 
-=== Obtaining an Entity Manager Factory in a Java SE Environment
+==== Obtaining an Entity Manager Factory in a Java SE Environment
 
 Outside a Java EE container environment, the
 _javax.persistence.Persistence_ class is the bootstrap class that
@@ -30575,7 +30579,7 @@ and EJB containers. Within an EJB environment, a JTA entity manager is
 typically used. In general, in Java SE environments only resource-local
 entity managers are supported.
 
-=== JTA EntityManagers
+==== JTA EntityManagers
 
 An entity manager whose transactions are
 controlled through JTA is a JTA entity manager. In general, a JTA entity
@@ -30583,7 +30587,7 @@ manager participates in the current JTA transaction, which is begun and
 committed external to the entity manager and propagated to the
 underlying resource manager.
 
-=== Resource-local EntityManagers
+==== Resource-local EntityManagers
 
 An entity manager whose transactions are
 controlled by the application through the _EntityTransaction_ API is a
@@ -30593,7 +30597,7 @@ persistence provider. Resource-local entity managers may use server or
 local resources to connect to the database and are unaware of the
 presence of JTA transactions that may or may not be active.
 
-=== The EntityTransaction Interface
+==== The EntityTransaction Interface
 
 The _EntityTransaction_ interface is used to
 control resource transactions on resource-local entity managers. The
@@ -30737,7 +30741,7 @@ unexpected error
 
 }
 
-=== Example
+==== Example
 
 The following example illustrates the
 creation of an entity manager factory in a Java SE environment, and its
@@ -30833,7 +30837,7 @@ with an entity manager factory. In the following sections, “the
 persistence context” should be understood to mean “the persistence
 context associated with a particular entity manager factory”.
 
-=== [[a11797]]Persistence Context Synchronization Type
+==== [[a11797]]Persistence Context Synchronization Type
 
 By default, a container-managed persistence
 context is of type _SynchronizationType.SYNCHRONIZED_ . Such a
@@ -30898,7 +30902,7 @@ link:Per.html#a11820[See Requirements for Persistence Context
 Propagation] regardless of whether the persistence context has been
 joined to that transaction.
 
-=== [[a11805]]Container-managed Transaction-scoped Persistence Context
+==== [[a11805]]Container-managed Transaction-scoped Persistence Context
 
 The application can obtain a
 container-managed entity manager with transaction-scoped persistence
@@ -30925,7 +30929,7 @@ If the entity manager is invoked outside the
 scope of a transaction, any entities loaded from the database will
 immediately become detached at the end of the method call.
 
-=== [[a11810]]Container-managed Extended Persistence Context
+==== [[a11810]]Container-managed Extended Persistence Context
 
 A container-managed extended persistence
 context can only be initiated within the scope of a stateful session
@@ -30944,7 +30948,7 @@ container when the _@Remove_ method of the stateful session bean
 completes (or the stateful session bean instance is otherwise
 destroyed).
 
-=== Inheritance of Extended Persistence Context
+===== Inheritance of Extended Persistence Context
 
 If a stateful session bean instantiates a
 stateful session bean (executing in the same EJB container instance)
@@ -30962,7 +30966,7 @@ by any stateful session beans, the container does not close the
 persistence context until all such stateful session beans have been
 removed or otherwise destroyed.
 
-=== [[a11816]]Persistence Context Propagation
+==== [[a11816]]Persistence Context Propagation
 
 As described in section
 link:Per.html#a11432[See Persistence Contexts], a single
@@ -30980,7 +30984,7 @@ Propagation of persistence contexts only
 applies within a local environment. Persistence contexts are not
 propagated to remote tiers.
 
-=== [[a11820]]Requirements for Persistence Context Propagation
+===== [[a11820]]Requirements for Persistence Context Propagation
 
 Persistence contexts are propagated by the
 container across component invocations as follows.
@@ -31030,9 +31034,9 @@ component propagating either a persistence context of type
 _SynchronizationType.UNSYNCHRONIZED_ or a persistence context of type
 _SynchronizationType.SYNCHRONIZED_ into it.
 
-=== Examples
+==== Examples
 
-=== Container-managed Transaction-scoped Persistence Context
+===== Container-managed Transaction-scoped Persistence Context
 
 
 
@@ -31090,7 +31094,7 @@ quantity);
 
 }
 
-=== Container-managed Extended Persistence Context
+===== Container-managed Extended Persistence Context
 
 
 
@@ -31226,9 +31230,9 @@ The _EntityManager.isOpen_ method indicates
 whether the entity manager is open. The _isOpen_ method returns true
 until the entity manager has been closed.
 
-=== Examples
+==== Examples
 
-=== Application-managed Persistence Context used in Stateless Session Bean
+===== Application-managed Persistence Context used in Stateless Session Bean
 
 
 
@@ -31316,7 +31320,7 @@ transaction ends
 
 }
 
-=== Application-managed Persistence Context used in Stateless Session Bean
+===== Application-managed Persistence Context used in Stateless Session Bean
 
 
 
@@ -31440,7 +31444,7 @@ detached
 
 }
 
-=== Application-managed Persistence Context used in Stateful Session Bean
+===== Application-managed Persistence Context used in Stateful Session Bean
 
 
 
@@ -31538,7 +31542,7 @@ quantity);
 
 }
 
-=== Application-managed Persistence Context with Resource Transaction
+===== Application-managed Persistence Context with Resource Transaction
 
 
 
@@ -31638,7 +31642,7 @@ quantity);
 
 image:Per-4.png[image]
 
-=== Application-managed Persistence Contexts
+==== Application-managed Persistence Contexts
 
 When application-managed persistence contexts
 are used, the container must instantiate the entity manager factory and
@@ -31652,7 +31656,7 @@ create the entity manager factory and the _EntityManagerFactory.close_
 method to destroy the entity manager factory prior to shutdown (if it
 has not been previously closed by the application).
 
-=== Container Managed Persistence Contexts
+==== Container Managed Persistence Contexts
 
 The container is responsible for managing the
 lifecycle of container-managed persistence contexts, for injecting
@@ -31686,7 +31690,7 @@ between the container and the persistence provider for the pluggability
 of third-party persistence providers. Containers are required to support
 these pluggability contracts.link:#a19623[87]
 
-=== Container Responsibilities
+==== Container Responsibilities
 
 For the management of a transaction-scoped
 persistence context, if there is no EntityManager already associated
@@ -31761,7 +31765,7 @@ _EntityManager.unwrap(Class<T> cls)_ , and the container cannot satisfy
 the request, the container must delegate the _unwrap_ invocation to the
 provider’s entity manager instance.
 
-=== Provider Responsibilities
+==== Provider Responsibilities
 
 The Provider has no knowledge of the
 distinction between transaction-scoped and extended persistence
@@ -32068,7 +32072,7 @@ object is found not
 
 }
 
-=== [[a12229]]Entity Packaging
+== [[a12229]]Entity Packaging
 
 This chapter describes the packaging of
 persistence units.
@@ -32161,6 +32165,7 @@ included in the persistence unit using the _class_ element of the
 _persistence.xml_ file. See Section link:Per.html#a12305[See
 mapping-file, jar-file, class, exclude-unlisted-classes].
 
+[discrete]
 === persistence.xml file
 
 A _persistence.xml_ file defines a
@@ -32281,7 +32286,7 @@ provider.
 
 
 
-=== name
+===== name
 
 The _name_ attribute defines the name for the
 persistence unit. This name may be used to identify a persistence unit
@@ -32289,7 +32294,7 @@ referred to by the _PersistenceContext_ and _PersistenceUnit_
 annotations and in the programmatic API for creating an entity manager
 factory.
 
-=== [[a12296]]transaction-type
+===== [[a12296]]transaction-type
 
 The _transaction-type_ attribute is used to
 specify whether the entity managers provided by the entity manager
@@ -32304,12 +32309,12 @@ element is not specified, the default is _JTA_ . In a Java SE
 environment, if this element is not specified, the default is
 _RESOURCE_LOCAL_ .
 
-=== description
+===== description
 
 The _description_ element provides optional
 descriptive information about the persistence unit.
 
-=== [[a12300]]provider
+===== [[a12300]]provider
 
 The _provider_ element specifies the name of
 the persistence provider's _javax.persistence.spi.PersistenceProvider_
@@ -32317,7 +32322,7 @@ class. The _provider_ element is optional, but should be specified if
 the application is dependent upon a particular persistence provider
 being used.
 
-=== [[a12302]]jta-data-source, non-jta-data-source
+===== [[a12302]]jta-data-source, non-jta-data-source
 
 In Java EE environments, the
 _jta-data-source_ and _non-jta-data-source_ elements are used to specify
@@ -32331,7 +32336,7 @@ In Java SE environments, these elements may
 be used or the data source information may be specified by other
 means—depending upon the requirements of the provider.
 
-=== [[a12305]]mapping-file, jar-file, class, exclude-unlisted-classes
+===== [[a12305]]mapping-file, jar-file, class, exclude-unlisted-classes
 
 The following classes must be implicitly or
 explicitly denoted as managed persistence classes to be included within
@@ -32370,7 +32375,7 @@ All classes must be on the classpath to
 ensure that entity managers from different persistence units that map
 the same class will be accessing the same identical class.
 
-=== Annotated Classes in the Root of the Persistence Unit
+====== Annotated Classes in the Root of the Persistence Unit
 
 All classes contained in the root of the
 persistence unit are searched for annotated managed persistence
@@ -32383,7 +32388,7 @@ included in the persistence unit, the _exclude-unlisted-classes_ element
 must be specified as _true_ . The _exclude-unlisted-classes_ element is
 not intended for use in Java SE environments.
 
-=== Object/relational Mapping Files
+====== Object/relational Mapping Files
 
 An object/relational mapping XML file
 contains mapping information for the classes listed in it.
@@ -32411,7 +32416,7 @@ any mapping file referenced within the persistence unit must be disjoint
 at the class-level from object/relational mapping information contained
 in any other such mapping file.
 
-=== Jar Files
+====== Jar Files
 
 {empty}One or more JAR files may be specified
 using the _jar-file_ elements instead of, or in addition to the mapping
@@ -32542,7 +32547,7 @@ META-INF/persistence.xml )
 
 
 
-=== List of Managed Classes
+====== List of Managed Classes
 
 A list of named managed persistence
 classes—entity classes, embeddable classes, mapped superclasses, and
@@ -32561,19 +32566,19 @@ entity classes and classes that are to be managed must be fully
 enumerated in each of the _persistence.xml_ files in Java SE
 environments.
 
-=== [[a12380]]shared-cache-mode
+===== [[a12380]]shared-cache-mode
 
 The _shared-cache-mode_ element determines
 whether second-level caching is in effect for the persistence unit. See
 section link:Per.html#a3065[See The shared-cache-mode Element].
 
-=== [[a12382]]validation-mode
+===== [[a12382]]validation-mode
 
 The _validation-mode_ element determines
 whether automatic lifecycle event time validation is in effect. See
 section link:Per.html#a2374[See Enabling Automatic Validation].
 
-=== [[a12384]]properties
+===== [[a12384]]properties
 
 The _properties_ element is used to specify
 both standard and vendor-specific properties and hints that apply to the
@@ -32742,7 +32747,7 @@ use of the namespace _javax.persistence_ and its subnamespaces must not
 be used for vendor-specific information. The namespace
 _javax.persistence_ is reserved for use by this specification.
 
-=== Examples
+===== Examples
 
 The following are sample contents of a
 _persistence.xml_ file.
@@ -32884,7 +32889,7 @@ contained in _order.jar_ is not used to augment the persistence unit
 _OrderManagement5_ with the classes of the persistence unit whose root
 is _order.jar_ .
 
-=== [[a12459]]Persistence Unit Scope
+==== [[a12459]]Persistence Unit Scope
 
 An EJB-JAR, WAR, application client jar, or
 EAR can define a persistence unit.
@@ -32917,6 +32922,7 @@ _../lib/persistenceUnitRoot.jar_ . The # syntax may be used with both
 the _unitName_ annotation element or _persistence-unit-name_ deployment
 descriptor element to reference a persistence unit defined at EAR level.
 
+[discrete]
 === persistence.xml Schema
 
 image:Per-4.png[image]
@@ -33662,7 +33668,7 @@ CALLBACK, NONE};
 
 </xsd:schema>
 
-=== Container and Provider Contracts for Deployment and Bootstrapping
+== Container and Provider Contracts for Deployment and Bootstrapping
 
 This chapter defines requirements on the Java
 EE container and on the persistence provider for deployment and
@@ -33814,7 +33820,7 @@ If a provider does not qualify as the
 provider for the named persistence unit, it must return _null_ when
 _createEntityManagerFactory_ is invoked on it.
 
-=== Schema Generation
+==== Schema Generation
 
 In Java SE environments, the
 _Persistence.generateSchema_ method may be used by the application to
@@ -33918,7 +33924,7 @@ Note that only a single
 _PersistenceProviderResolver_ instance can be defined in a given
 classloader hierarchy at a given time.
 
-=== PersistenceProviderResolver interface
+==== PersistenceProviderResolver interface
 
 package javax.persistence.spi;
 
@@ -33989,7 +33995,7 @@ getPersistenceProviders();
 
 }
 
-=== PersistenceProviderResolverHolder class
+==== PersistenceProviderResolverHolder class
 
 
 
@@ -34280,7 +34286,7 @@ credentials sufficient for the persistence provider to carry out the
 requested actions. If this property is not specified, the persistence
 provider should use the DataSource that has otherwise been provided.
 
-=== Data Loading
+==== Data Loading
 
 Data loading, by means of the use of SQL
 scripts, may occur as part of the schema generation process after the
@@ -34353,6 +34359,7 @@ link:Per.html#a19498[See JSR-380: Bean Validation, v. 2.0.
 http://jcp.org/en/jsr/detail?id=380.], namely
 _Validation.buildDefaultValidatorFactory()_ .
 
+[discrete]
 === javax.persistence.spi.PersistenceProvider
 
 The interface
@@ -34617,6 +34624,7 @@ _createEntityManagerFactory_ method in Java SE environments are
 described further in section link:Per.html#a13443[See
 javax.persistence.Persistence Class] below.
 
+[discrete]
 === javax.persistence.spi.ProviderUtil
 
 The _ProviderUtil_ interface is invoked by
@@ -34859,6 +34867,7 @@ determined
 
 
 
+[discrete]
 === [[a13160]]javax.persistence.spi.PersistenceUnitInfo Interface
 
 image:Per-4.png[image]
@@ -35436,6 +35445,7 @@ public enum ValidationMode \{
 
 }
 
+[discrete]
 === javax.persistence.spi.ClassTransformer Interface
 
 The _javax.persistence.spi.ClassTransformer_
@@ -35550,6 +35560,7 @@ input does
 
 }
 
+[discrete]
 === [[a13443]]javax.persistence.Persistence Class
 
 image:Per-4.png[image]
@@ -36018,7 +36029,7 @@ loaded, else true
 
 }
 
-=== [[a13592]]Contracts for Determining the Load State of an Entity or Entity Attribute
+==== [[a13592]]Contracts for Determining the Load State of an Entity or Entity Attribute
 
 The implementation of the
 _PersistenceUtil.isLoaded(Object)_ method must determine the list of
@@ -36099,7 +36110,7 @@ and is considered loaded._
 
 
 
-=== Metadata Annotations
+== Metadata Annotations
 
 This chapter and chapter
 link:Per.html#a13915[See Metadata for Object/Relational Mapping]
@@ -36223,7 +36234,7 @@ public @interface PostLoad \{}
 
 image:Per-4.png[image]
 
-=== NamedEntityGraph and NamedEntityGraphs Annotations
+==== NamedEntityGraph and NamedEntityGraphs Annotations
 
 The _NamedEntityGraph_ annotation is used to
 define a named entity graph. The entity graph may be retrieved by name
@@ -36295,7 +36306,7 @@ public @interface NamedEntityGraphs\{
 
 
 
-=== NamedAttributeNode Annotation
+==== NamedAttributeNode Annotation
 
 The _NamedAttributeNode_ annotation is used
 to specify an attribute node of within an entity graph or subgraph.
@@ -36333,7 +36344,7 @@ public @interface NamedAttributeNode \{
 
 }
 
-=== NamedSubgraph Annotation
+==== NamedSubgraph Annotation
 
 The _NamedSubgraph_ annotation is used to
 further define an attribute node. It is referenced by its name from the
@@ -36369,7 +36380,7 @@ public @interface NamedSubgraph \{
 
 image:Per-4.png[image]
 
-=== [[a13711]]NamedQuery Annotation
+==== [[a13711]]NamedQuery Annotation
 
 The _NamedQuery_ annotation is used to
 specify a named query in the Java Persistence query language.
@@ -36434,7 +36445,7 @@ public @interface NamedQueries \{
 
 
 
-=== NamedNativeQuery Annotation
+==== NamedNativeQuery Annotation
 
 The _NamedNativeQuery_ annotation is used to
 specify a native SQL named query.
@@ -36486,7 +36497,7 @@ public @interface NamedNativeQueries \{
 
 }
 
-=== [[a13759]]NamedStoredProcedureQuery Annotation
+==== [[a13759]]NamedStoredProcedureQuery Annotation
 
 The _NamedStoredProcedureQuery_ annotation is
 used to specify a stored procedure, its parameters, and its result type.
@@ -36597,7 +36608,7 @@ public enum ParameterMode \{
 
 }
 
-=== [[a13797]]Annotations for SQL Result Set Mappings
+==== [[a13797]]Annotations for SQL Result Set Mappings
 
 The _SqlResultSetMapping_ annotation is used
 to specify the mapping of the result of a native SQL query or stored
@@ -36724,7 +36735,7 @@ image:Per-4.png[image]
 These annotations are used to express
 dependencies on entity managers and entity manager factories.
 
-=== PersistenceContext Annotation
+==== PersistenceContext Annotation
 
 The _PersistenceContext_ annotation is used
 to express a dependency on a container-managed entity manager and its
@@ -36827,7 +36838,7 @@ public @interface PersistenceContexts \{
 
 }
 
-=== [[a13887]]PersistenceUnit Annotation
+==== [[a13887]]PersistenceUnit Annotation
 
 The _PersistenceUnit_ annotation is used to
 express a dependency on an entity manager factory and its associated
@@ -36917,7 +36928,7 @@ If there is more than one converter defined
 for the same target type, the _Convert_ annotation should be used to
 explicitly specify which converter to use.
 
-=== [[a13915]]Metadata for Object/Relational Mapping
+== [[a13915]]Metadata for Object/Relational Mapping
 
 The object/relational mapping metadata is
 part of the application domain model contract. It expresses requirements
@@ -36948,7 +36959,7 @@ these annotations, or to override or augment annotations, as described
 in Chapter link:Per.html#a16944[See XML Object/Relational Mapping
 Descriptor].
 
-=== Access Annotation
+==== Access Annotation
 
 The _Access_ annotation is used to specify an
 access type to be applied to an entity class, mapped superclass, or
@@ -36995,7 +37006,7 @@ image:Per-5.png[image]
 the class or attribute. |
 |===
 
-=== [[a13942]]AssociationOverride Annotation
+==== [[a13942]]AssociationOverride Annotation
 
 The _AssociationOverride_ annotation is used
 to override a mapping for an entity relationship.
@@ -37225,7 +37236,7 @@ public class PhoneNumber \{
 
 }
 
-=== AssociationOverrides Annotation
+==== AssociationOverrides Annotation
 
 The mappings of multiple relationship
 properties or fields may be overridden. The _AssociationOverrides_
@@ -37339,7 +37350,7 @@ public PartTimeEmployee \{ ... }
 
 
 
-=== [[a14084]]AttributeOverride Annotation
+==== [[a14084]]AttributeOverride Annotation
 
 The _AttributeOverride_ annotation is used to
 override the mapping of a _Basic_ (whether explicit or default) property
@@ -37554,7 +37565,7 @@ public class PropertyRecord \{
 
 }
 
-=== [[a14178]]AttributeOverrides Annotation
+==== [[a14178]]AttributeOverrides Annotation
 
 The mappings of multiple properties or fields
 may be overridden. The _AttributeOverrides_ annotation can be used for
@@ -37615,7 +37626,7 @@ public EmploymentPeriod getEmploymentPeriod()
 
 
 
-=== [[a14205]]Basic Annotation
+==== [[a14205]]Basic Annotation
 
 The _Basic_ annotation is the simplest type
 of mapping to a database column. The _Basic_ annotation can be applied
@@ -37703,7 +37714,7 @@ Example 2 _:_
 
 protected String getName() \{ return name; }
 
-=== Cacheable Annotation
+==== Cacheable Annotation
 
 The _Cacheable_ annotation
 specifies whether an entity should be cached if caching is enabled when
@@ -37747,7 +37758,7 @@ Cacheable Annotation Elements
 be cached. |true
 |===
 
-=== [[a14250]]CollectionTable Annotation
+==== [[a14250]]CollectionTable Annotation
 
 The _CollectionTable_ annotation is used in
 the mapping of collections of basic or embeddable types. The
@@ -37947,7 +37958,7 @@ HashSet();_
 
  _}_
 
-=== [[a14330]]Column Annotation
+==== [[a14330]]Column Annotation
 
 The _Column_ annotation is used to specify a
 mapped column for a persistent property or field.
@@ -38084,7 +38095,7 @@ precision=12, scale=2)
 
 public BigDecimal getCost() \{ return cost; }
 
-=== [[a14398]]Convert Annotation
+==== [[a14398]]Convert Annotation
 
 The _Convert_ annotation is applied directly
 to an attribute of an entity, mapped superclass, or embeddable class to
@@ -38360,7 +38371,7 @@ attributeName="endDate")
 public class FullTimeEmployee extends
 GenericEmployee \{ ... }
 
-=== Converts Annotation
+==== Converts Annotation
 
 The _Converts_ annotation can be used to
 group _Convert_ annotations. Multiple converters must not be applied to
@@ -38414,7 +38425,7 @@ embedded attribute
 
 Address address;
 
-=== [[a14530]]DiscriminatorColumn Annotation
+==== [[a14530]]DiscriminatorColumn Annotation
 
 For the SINGLE_TABLE mapping strategy, and
 typically also for the JOINED strategy, the persistence provider will
@@ -38521,7 +38532,7 @@ public class ValuedCustomer extends Customer
 
 
 
-=== DiscriminatorValue Annotation
+==== DiscriminatorValue Annotation
 
 The _DiscriminatorValue_ annotation is used
 to specify the value of the discriminator column for entities of the
@@ -38602,7 +38613,7 @@ public class ValuedCustomer extends Customer
 
 
 
-=== ElementCollection Annotation
+==== ElementCollection Annotation
 
 {empty}The _ElementCollection_ annotation
 defines a collection of instances of a basic type or embeddable class.
@@ -38673,7 +38684,7 @@ HashSet();
 
 }
 
-=== [[a14634]]Embeddable Annotation
+==== [[a14634]]Embeddable Annotation
 
 The _Embeddable_ annotation is used to
 specify a class whose instances are stored as an intrinsic part of an
@@ -38752,7 +38763,7 @@ public class EmploymentPeriod \{
 
 }
 
-=== [[a14672]]Embedded Annotation
+==== [[a14672]]Embedded Annotation
 
 {empty}The _Embedded_ annotation is used to
 specify a persistent field or property of an entity or embeddable class
@@ -38794,7 +38805,7 @@ public @interface Embedded \{}
 public EmploymentPeriod getEmploymentPeriod()
 \{ ... }
 
-=== [[a14687]]EmbeddedId Annotation
+==== [[a14687]]EmbeddedId Annotation
 
 The _EmbeddedId_ annotation is applied to a
 persistent field or property of an entity class or mapped superclass to
@@ -38877,7 +38888,7 @@ is overridden
 
 }
 
-=== [[a14719]]Enumerated Annotation
+==== [[a14719]]Enumerated Annotation
 
 An _Enumerated_ annotation specifies that a
 persistent property or field should be persisted as a enumerated type.
@@ -38963,7 +38974,7 @@ of integer type, and the payscale property to a column of varchar type,
 an instance that has a status of _PART_TIME_ and a pay rate of _JUNIOR_
 will be stored with _STATUS_ set to 1 and _PAYSCALE_ set to _"JUNIOR"_ .
 
-=== [[a14754]]ForeignKey Annotation
+==== [[a14754]]ForeignKey Annotation
 
 The _ForeignKey_ annotation is used to
 specify the handling of foreign key constraints when schema generation
@@ -39056,7 +39067,7 @@ of the ConstraintMode element is NO_CONSTRAINT, the provider must not
 generate a foreign key constraint.
 |===
 
-=== [[a14790]]GeneratedValue Annotation
+==== [[a14790]]GeneratedValue Annotation
 
 The _GeneratedValue_ annotation provides for
 the specification of generation strategies for the values of primary
@@ -39159,7 +39170,7 @@ generator="CUST_GEN")
 
 Long id;
 
-=== [[a14827]]Id Annotation
+==== [[a14827]]Id Annotation
 
 The _Id_ annotation specifies the primary key
 property or field of an entity. The _Id_ annotation may be applied in an
@@ -39187,7 +39198,7 @@ public @interface Id \{}
 
 public Long getId() \{ return id; }
 
-=== [[a14836]]IdClass Annotation
+==== [[a14836]]IdClass Annotation
 
 The _IdClass_ annotation is applied to an
 entity class or a mapped superclass to specify a composite primary key
@@ -39249,7 +39260,7 @@ public class Employee \{
 
 }
 
-=== [[a14862]]Index Annotation
+==== [[a14862]]Index Annotation
 
 The _Index_ annotation is used in schema
 generation. Note that it is not necessary to specify an index for a
@@ -39312,7 +39323,7 @@ included in the index. |
 |false
 |===
 
-=== [[a14891]]Inheritance Annotation
+==== [[a14891]]Inheritance Annotation
 
 The _Inheritance_ annotation defines the
 inheritance strategy to be used for an entity class hierarchy. It is
@@ -39392,7 +39403,7 @@ public class Customer \{ ... }
 public class ValuedCustomer extends Customer
 \{ ... }
 
-=== [[a14922]]JoinColumn Annotation
+==== [[a14922]]JoinColumn Annotation
 
 The _JoinColumn_ annotation is used to
 specify a column for joining an entity association or element
@@ -39575,7 +39586,7 @@ column is in table for Order
 public Set<Order> getOrders() \{return
 orders;}
 
-=== JoinColumns Annotation
+==== JoinColumns Annotation
 
 Composite foreign keys are supported by means
 of the _JoinColumns_ annotation. The _JoinColumns_ annotation groups
@@ -39652,7 +39663,7 @@ address; }
 
  __
 
-=== [[a15022]]JoinTable Annotation
+==== [[a15022]]JoinTable Annotation
 
 The _JoinTable_ annotation is used in the
 mapping of entity associations. A _JoinTable_ annotation is specified on
@@ -39800,7 +39811,7 @@ referencedColumnName="ID")
 
 )
 
-=== [[a15087]]Lob Annotation
+==== [[a15087]]Lob Annotation
 
 A _Lob_ annotation specifies that a
 persistent property or field should be persisted as a large object to a
@@ -39836,7 +39847,7 @@ columnDefinition="BLOB NOT NULL")
 
 protected byte[] pic;
 
-=== [[a15100]]ManyToMany Annotation
+==== [[a15100]]ManyToMany Annotation
 
 A _ManyToMany_ annotation defines a
 many-valued association with many-to-many multiplicity. If the
@@ -40056,7 +40067,7 @@ public class PhoneNumber \{
 
 
 
-=== ManyToOne Annotation
+==== ManyToOne Annotation
 
 The _ManyToOne_ annotation defines a
 single-valued association to another entity class that has many-to-one
@@ -40191,7 +40202,7 @@ public class ProgramManager \{
 
 }
 
-=== MapKey Annotation
+==== MapKey Annotation
 
 The _MapKey_ annotation is used to specify
 the map key for associations of type _java.util.Map_ when the map key is
@@ -40329,7 +40340,7 @@ public class Employee \{
 
 }
 
-=== MapKeyClass Annotation
+==== MapKeyClass Annotation
 
 The _MapKeyClass_ annotation is used to
 specify the type of the map key for associations of type _java.util.Map_
@@ -40467,7 +40478,7 @@ public class Company \{
 
 
 
-=== [[a15367]]MapKeyColumn Annotation
+==== [[a15367]]MapKeyColumn Annotation
 
 The _MapKeyColumn_ annotation is used to
 specify the mapping for the key column of a map whose map key is a basic
@@ -40610,7 +40621,7 @@ image name to filename
 
 }
 
-=== [[a15433]]MapKeyEnumerated Annotation
+==== [[a15433]]MapKeyEnumerated Annotation
 
 The _MapKeyEnumerated_ annotation is used to
 specify the enum type for a map key whose basic type is an enumerated
@@ -40657,7 +40668,7 @@ image:Per-5.png[image]
 type. |ORDINAL
 |===
 
-=== [[a15450]]MapKeyJoinColumn Annotation
+==== [[a15450]]MapKeyJoinColumn Annotation
 
 The _MapKeyJoinColumn_ annotation is used to
 specify a mapping to an entity that is a map key. The map key join
@@ -40919,7 +40930,7 @@ inverseJoinColumns=@JoinColumn(name="SEMESTER"))
 
 }
 
-=== MapKeyJoinColumns Annotation
+==== MapKeyJoinColumns Annotation
 
 Composite map keys referencing entities are
 supported by means of the _MapKeyJoinColumns_ annotation. The
@@ -40978,7 +40989,7 @@ specification for the join columns. This is used only if table
 generation is in effect. |Provider’s default
 |===
 
-=== [[a15583]]MapKeyTemporal Annotation
+==== [[a15583]]MapKeyTemporal Annotation
 
 The _MapKeyTemporal_ annotation is used to
 specify the temporal type for a map key whose basic type is a temporal
@@ -41024,7 +41035,7 @@ The type used in mapping java.util.Date or java.util.Calendar.
 |
 |===
 
-=== MappedSuperclass Annotation
+==== MappedSuperclass Annotation
 
 The _MappedSuperclass_ annotation designates
 a class whose mapping information is applied to the entities that
@@ -41044,7 +41055,7 @@ _AssociationOverride_ , and _AssociationOverrides_ annotations.
 
 public @interface MappedSuperclass \{}
 
-=== MapsId Annotation
+==== MapsId Annotation
 
 The _MapsId_ annotation is used to designate
 a _ManyToOne_ or _OneToOne_ relationship attribute that provides the
@@ -41142,7 +41153,7 @@ of embedded id
 
 }
 
-=== OneToMany Annotation
+==== OneToMany Annotation
 
 A _OneToMany_ annotation defines a
 many-valued association with one-to-many multiplicity.
@@ -41320,7 +41331,7 @@ column is in table for Order
 public Set<Order> getOrders() \{return
 orders;}
 
-=== OneToOne Annotation
+==== OneToOne Annotation
 
 The _OneToOne_ annotation defines a
 single-valued association to another entity that has one-to-one
@@ -41546,7 +41557,7 @@ Employee assignedTo;
 
 
 
-=== OrderBy Annotation
+==== OrderBy Annotation
 
 The _OrderBy_ annotation specifies the
 ordering the elements of a collection-valued association or element
@@ -41700,7 +41711,7 @@ key.
 
 }
 
-=== [[a15873]]OrderColumn Annotation
+==== [[a15873]]OrderColumn Annotation
 
 {empty}The _OrderColumn_ annotation specifies
 a column that is used to maintain the persistent order of a list. The
@@ -41863,7 +41874,7 @@ FROM course c JOIN c.waitlist w
 
 WHERE c.name = "geometry" AND INDEX(w) = 0
 
-=== [[a15947]]PrimaryKeyJoinColumn Annotation
+==== [[a15947]]PrimaryKeyJoinColumn Annotation
 
 The _PrimaryKeyJoinColumn_ annotation
 specifies a primary key column that is used as a foreign key to join to
@@ -41982,7 +41993,7 @@ public class Customer \{ ... }
 public class ValuedCustomer extends Customer
 \{ ... }
 
-=== PrimaryKeyJoinColumns Annotation
+==== PrimaryKeyJoinColumns Annotation
 
 Composite foreign keys are supported by means
 of the _PrimaryKeyJoinColumns_ annotation. The _PrimaryKeyJoinColumns_
@@ -42133,7 +42144,7 @@ public class EmployeeInfo \{
 
 
 
-=== [[a16062]]SecondaryTable Annotation
+==== [[a16062]]SecondaryTable Annotation
 
 The _SecondaryTable_ annotation is used to
 specify a secondary table for the annotated entity class.
@@ -42280,7 +42291,7 @@ multiple primary key columns.
 
 public class Customer \{ ... }
 
-=== SecondaryTables Annotation
+==== SecondaryTables Annotation
 
 The _SecondaryTables_ annotation can be used
 to specify multiple secondary tables for an entity.
@@ -42360,7 +42371,7 @@ pkJoinColumns=@PrimaryKeyJoinColumn(name="EMPLOYEE_ID"))
 
 public class Employee \{ ... }
 
-=== [[a16164]]SequenceGenerator Annotation
+==== [[a16164]]SequenceGenerator Annotation
 
 The _SequenceGenerator_ annotation defines a
 primary key generator that may be referenced by name when a generator
@@ -42443,7 +42454,7 @@ allocating sequence numbers from the sequence.
 @SequenceGenerator(name="EMP_SEQ",
 allocationSize=25)
 
-=== [[a16205]]SequenceGenerators Annotation
+==== [[a16205]]SequenceGenerators Annotation
 
 The SequenceGenerators annotation can be used
 to specify multiple sequence generators.
@@ -42473,7 +42484,7 @@ SequenceGenerators Annotation Elements
 The sequence generator mappings |
 |===
 
-=== Table Annotation
+==== Table Annotation
 
 {empty}The _Table_ annotation specifies the
 primary table for the annotated entity. Additional tables may be
@@ -42553,7 +42564,7 @@ only used if table generation is in effect.
 
 public class Customer \{ ... }
 
-=== [[a16256]]TableGenerator Annotation
+==== [[a16256]]TableGenerator Annotation
 
 The _TableGenerator_ annotation defines a
 primary key generator that may be referenced by name when a generator
@@ -42738,7 +42749,7 @@ generator="addressGen")
 
 }
 
-=== TableGenerators Annotation
+==== TableGenerators Annotation
 
 The TableGenerators annotation can be used to
 specify multiple table generators.
@@ -42768,7 +42779,7 @@ TableGenerators Annotation Elements
 The table generator mappings |
 |===
 
-=== [[a16361]]Temporal Annotation
+==== [[a16361]]Temporal Annotation
 
 The _Temporal_ annotation must be specified
 for persistent fields or properties of type _java.util.Date_ and
@@ -42840,7 +42851,7 @@ public class EmploymentPeriod \{
 
 }
 
-=== Transient Annotation
+==== Transient Annotation
 
 The _Transient_ annotation is used to
 annotate a property or field of an entity class, mapped superclass, or
@@ -42865,7 +42876,7 @@ public class Employee \{
 
 }
 
-=== [[a16403]]UniqueConstraint Annotation
+==== [[a16403]]UniqueConstraint Annotation
 
 The _UniqueConstraint_ annotation is used to
 specify that a unique constraint is to be included in the generated DDL
@@ -42925,7 +42936,7 @@ make up the constraint. |
 
 public class Employee \{ ... }
 
-=== [[a16432]]Version Annotation
+==== [[a16432]]Version Annotation
 
 The _Version_ annotation specifies the
 version field or property of an entity class that serves as its
@@ -43039,14 +43050,14 @@ of Database Objects].
 The metadata annotations and corresponding
 XML elements that result in generated objects are as follows.
 
-=== Table-level elements
+==== Table-level elements
 
 The following annotations (and corresponding
 XML elements) specify the creation of tables. The rules for their
 naming, columns, and other properties are defined in the referenced
 sections of this specification:
 
-=== Table
+===== Table
 
 By default, a table is created for every
 top-level entity and, by default, includes columns corresponding to the
@@ -43070,7 +43081,7 @@ SequenceGenerators Annotation] for additional rules that apply to the
 generation of tables. For the treatment of column-level mappings, see
 further below.
 
-=== Inheritance
+===== Inheritance
 
 The _Inheritance_ annotation defines the
 inheritance strategy for an entity hierarchy. The inheritance strategy
@@ -43082,14 +43093,14 @@ link:Per.html#a966[See Inheritance Mapping Strategies] and
 link:Per.html#a14891[See Inheritance Annotation] for rules
 pertaining to the treatment of entity inheritance.
 
-=== SecondaryTable
+===== SecondaryTable
 
 A secondary table is created to partition the
 mapping of entity state across multiple tables. See section
 link:Per.html#a16062[See SecondaryTable Annotation] for the rules
 that apply to the generation of secondary tables.
 
-=== CollectionTable
+===== CollectionTable
 
 A collection table is created for the mapping
 of an element collection. See section link:Per.html#a14250[See
@@ -43102,7 +43113,7 @@ link:Per.html#a14084[See AttributeOverride Annotation], and
 link:Per.html#a13942[See AssociationOverride Annotation]
 respectively.
 
-=== JoinTable
+===== JoinTable
 
 By default, join tables are created for the
 mapping of many-to-many relationships and unidirectional one-to-many
@@ -43118,14 +43129,14 @@ link:Per.html#a15022[See JoinTable Annotation] for the rules that
 apply to the generation of join tables. The _AssociationOverride_
 annotation may be used to override join table mappings.
 
-=== TableGenerator
+===== TableGenerator
 
 Table generator tables are used to store
 generated primary key values. See section
 link:Per.html#a16256[See TableGenerator Annotation] for the rules
 pertaining to table generators.
 
-=== Column-level elements
+==== Column-level elements
 
 The following annotations and corresponding
 XML elements control the mapping of columns in generated tables.
@@ -43143,7 +43154,7 @@ to the exact database mappings that are generated should use the
 _columnDefinition_ element of the _Column_ annotation or include DDL
 files that specify how the database schema is to be generated.
 
-=== Column
+===== Column
 
 The following elements of the _Column_
 annotation are used in schema generation:
@@ -43171,7 +43182,7 @@ Column Annotation] for the rules that apply to these elements and column
 creation. The _AttributeOverride_ annotation may be used to override
 column mappings.
 
-=== MapKeyColumn
+===== MapKeyColumn
 
 The _MapKeyColumn_ annotation specifies the
 mapping for a key column of a map when the key is of basic type. The
@@ -43201,7 +43212,7 @@ MapKeyColumn Annotation] for the rules that apply to these elements and
 map key column creation. The _AttributeOverride_ annotation may be used
 to override map key column mappings.
 
-=== Enumerated, MapKeyEnumerated
+===== Enumerated, MapKeyEnumerated
 
 The _Enumerated_ and _MapKeyEnumerated_
 annotations control whether string- or integer-valued columns are
@@ -43212,7 +43223,7 @@ link:Per.html#a15433[See MapKeyEnumerated Annotation]. The
 _Column_ and _MapKeyColumn_ annotations may be used to further control
 the column mappings for attributes of enumerated types.
 
-=== Temporal, MapKeyTemporal
+===== Temporal, MapKeyTemporal
 
 The _Temporal_ and _MapKeyTemporal_
 annotations control whether date-, time-, or timestamp-value columns are
@@ -43223,7 +43234,7 @@ link:Per.html#a15583[See MapKeyTemporal Annotation]. The _Column_
 and _MapKeyColumn_ annotations may be used to further control the column
 mappings for attributes of temporal types.
 
-=== Lob
+===== Lob
 
 The _Lob_ annotation specifies that a
 persistent attribute is to be persisted to a database large object type.
@@ -43233,7 +43244,7 @@ Applications that are sensitive to the exact mapping that is used should
 use the _columnDefinition_ element of the _Column_ annotation or include
 DDL files that specify how the database schema is to be generated.
 
-=== OrderColumn
+===== OrderColumn
 
 The _OrderColumn_ annotation specifies the
 generation of a column that is used to maintain the persistent ordering
@@ -43253,7 +43264,7 @@ See section link:Per.html#a15873[See
 OrderColumn Annotation] for the rules that pertain to the generation of
 order columns.
 
-=== DiscriminatorColumn
+===== DiscriminatorColumn
 
 A discriminator column is generated for the
 SINGLE_TABLE mapping strategy and may optionally be generated by the
@@ -43263,7 +43274,7 @@ the discriminator column. See section link:Per.html#a14530[See
 DiscriminatorColumn Annotation] for the rules that pertain to
 discriminator columns.
 
-=== Version
+===== Version
 
 The _Version_ annotation specifies the
 generation of a column to serve as an entity's optimistic lock. See
@@ -43271,14 +43282,14 @@ section link:Per.html#a16432[See Version Annotation] for rules
 that pertain to the version column. The _Column_ annotation may be used
 to further control the column mapping for a version attribute.
 
-=== Primary Key mappings
+==== Primary Key mappings
 
 Primary keys may be represented by basic or
 embedded attributes and/or may correspond to foreign key attributes. The
 _Id_ and _EmbeddedId_ annotations define attributes whose corresponding
 columns are the constituents of database primary keys.
 
-=== Id
+===== Id
 
 The _Id_ annotation (which may be used used
 in conjunction with the _IdClass_ annotation) is used to specify
@@ -43300,7 +43311,7 @@ applied to a relationship that corresponds to a foreign key. If the _Id_
 attribute was defined in a mapped superclass, the _AssociationOverride_
 annotation may be used to control the column mapping.
 
-=== EmbeddedId
+===== EmbeddedId
 
 The _EmbeddedId_ annotation specifies an
 embedded attribute whose corresponding columns correspond to a database
@@ -43321,7 +43332,7 @@ column mapping is determined by the join column for the relationship.
 See section link:Per.html#a149[See Primary Keys Corresponding
 to Derived Identities].
 
-=== GeneratedValue
+===== GeneratedValue
 
 The _GeneratedValue_ annotation indicates a
 primary key whose value is to be generated by the provider. If a
@@ -43333,9 +43344,9 @@ are described in link:Per.html#a14790[See GeneratedValue
 Annotation]. The _GeneratedValue_ annotation may only be portably used
 for simple (i.e., non-composite) primary keys.
 
-=== Foreign Key Column Mappings
+==== Foreign Key Column Mappings
 
-=== JoinColumn
+===== JoinColumn
 
 The _JoinColumn_ annotation is typically used
 in specifying a foreign key mapping. In general, the foreign key
@@ -43373,7 +43384,7 @@ secondary tables and may be used in the mapping of one-to-one
 relationships. See section link:Per.html#a16567[See
 PrimaryKeyJoinColumn] below.
 
-=== MapKeyJoinColumn
+===== MapKeyJoinColumn
 
 The _MapKeyJoinColumn_ annotation is to
 specify foreign key mappings to entities that are map keys in map-valued
@@ -43406,7 +43417,7 @@ MapKeyJoinColumn Annotation] for rules that apply to these elements and
 map key join column creation. The _AssociationOverride_ annotation may
 be used to override such mappings.
 
-=== [[a16567]]PrimaryKeyJoinColumn
+===== [[a16567]]PrimaryKeyJoinColumn
 
 The _PrimaryKeyJoinColumn_ annotation
 specifies that a primary key column is to be used as a foreign key. This
@@ -43421,7 +43432,7 @@ generated. See sections link:Per.html#a15947[See
 PrimaryKeyJoinColumn Annotation] for rules pertaining to the
 _PrimaryKeyJoinColumn_ annotation.
 
-=== ForeignKey
+===== ForeignKey
 
 The _ForeignKey_ annotation may be used
 within the _JoinColumn_ , _JoinColumns_ , _MapKeyJoinColumn_ ,
@@ -43431,16 +43442,16 @@ _AssociationOverride_ annotations to specify or override a foreign key
 constraint. See section link:Per.html#a14754[See ForeignKey
 Annotation].
 
-=== Other Elements
+==== Other Elements
 
-=== SequenceGenerator
+===== SequenceGenerator
 
 The _SequenceGenerator_ annotation creates a
 database sequence to be used for Id generation. The use of generators is
 limited to those databases that support them. See section
 link:Per.html#a16164[See SequenceGenerator Annotation].
 
-=== Index
+===== Index
 
 The _Index_ annotation generates an index
 consisting of the specified columns. The ordering of the names in the
@@ -43448,7 +43459,7 @@ _columnList_ element specified in the _Index_ annotation must be
 observed by the provider when creating the index. See section
 link:Per.html#a14862[See Index Annotation].
 
-=== UniqueConstraint
+===== UniqueConstraint
 
 The _UniqueConstraint_ annotation generates a
 unique constraint for the given table. Databases typically implement
@@ -43465,7 +43476,7 @@ the constraint.
 
 image:Per-4.png[image]
 
-=== Examples of Simple Mappings
+==== Examples of Simple Mappings
 
 
 
@@ -43728,7 +43739,7 @@ customers; }
 
 }
 
-=== A More Complex Example
+==== A More Complex Example
 
 
 
@@ -44249,7 +44260,7 @@ Serializable \{
 
 }
 
-=== [[a16944]]XML Object/Relational Mapping Descriptor
+== [[a16944]]XML Object/Relational Mapping Descriptor
 
 The XML object/relational mapping descriptor
 serves as both an alternative to and an overriding mechanism for Java
@@ -44313,9 +44324,9 @@ pertaining to the interaction of XML elements specified as subelements
 of the _persistence-unit-defaults_ , _entity-mappings_ , _entity_ ,
 _mapped-superclass_ , and _embeddable_ elements.
 
-=== persistence-unit-defaults Subelements
+==== persistence-unit-defaults Subelements
 
-=== schema
+===== schema
 
 The _schema_ subelement applies to all
 entities, tables, secondary tables, join tables, collection tables,
@@ -44334,7 +44345,7 @@ annotation or _join-table_ subelement; and any _schema_ element
 explicitly specified in a _CollectionTable_ annotation or
 _collection-table_ subelement.
 
-=== catalog
+===== catalog
 
 The _catalog_ subelement applies to all
 entities, tables, secondary tables, join tables, collection tables,
@@ -44353,7 +44364,7 @@ annotation or _join-table_ subelement; and any _catalog_ element
 explicitly specified in a _CollectionTable_ annotation or
 _collection-table_ subelement.
 
-=== delimited-identifiers
+===== delimited-identifiers
 
 The _delimited-identifiers_ subelement
 applies to the naming of database objects, as described in section
@@ -44365,7 +44376,7 @@ identifiers.
 The _delimited-identifiers_ subelement cannot
 be overridden in this release.
 
-=== access
+===== access
 
 The _access_ subelement applies to all
 managed classes in the persistence unit.
@@ -44382,7 +44393,7 @@ attribute defined within an _id_ , _embedded-id_ , _version_ , _basic_ ,
 _embedded_ , _many-to-one_ , _one-to-one_ , _one-to-many_ ,
 _many-to-many_ , or _element-collection_ element.
 
-=== cascade-persist
+===== cascade-persist
 
 The _cascade-persist_ subelement applies to
 all relationships in the persistence unit.
@@ -44398,7 +44409,7 @@ The ability to override the _cascade-persist_
 of the _persistence-unit-defaults_ element will be added in a future
 release of this specification.
 
-=== entity-listeners
+===== entity-listeners
 
 The _entity-listeners_ subelement defines
 default entity listeners for the persistence unit. These entity
@@ -44409,9 +44420,9 @@ _ExcludeDefaultListeners_ annotation is present on the entity or mapped
 superclass or the _exclude-default-listeners_ subelement is specified
 within the corresponding _entity_ or _mapped-superclass_ XML element.
 
-=== Other Subelements of the entity-mappings element
+==== Other Subelements of the entity-mappings element
 
-=== package
+===== package
 
 The _package_ subelement specifies the
 package of the classes listed within the subelements and attributes of
@@ -44419,7 +44430,7 @@ the same mapping file only. The _package_ subelement is overridden if
 the fully qualified class name is specified for a class and the two
 disagree.
 
-=== schema
+===== schema
 
 The _schema_ subelement applies only to the
 entities, tables, secondary tables, join tables, collection tables,
@@ -44437,7 +44448,7 @@ _attributes_ subelement of the _entity_ element for such an entity, or
 by the _schema_ attribute of any _table-generator_ or
 _sequence-generator_ element within the mapping file.
 
-=== catalog
+===== catalog
 
 The _catalog_ subelement applies only to the
 entities, tables, secondary tables, join tables, collection tables,
@@ -44455,7 +44466,7 @@ _attributes_ subelement of the _entity_ element for such an entity, or
 by the _catalog_ attribute of any _table-generator_ or
 _sequence-generator_ element within the mapping file.
 
-=== access
+===== access
 
 The _access_ subelement applies to the
 managed classes listed within the same mapping file.
@@ -44471,7 +44482,7 @@ _access_ attribute defined within an _id_ , _embedded-id_ , _version_ ,
 _basic_ , _embedded_ , _many-to-one_ , _one-to-one_ , _one-to-many_ ,
 _many-to-many_ , or _element-collection_ element.
 
-=== sequence-generator
+===== sequence-generator
 
 The generator defined by the
 _sequence-generator_ subelement applies to the persistence unit. It is
@@ -44483,7 +44494,7 @@ generators defined in annotations. If a generator of the same name is
 defined in annotations, the generator defined by this subelement
 overrides that definition.
 
-=== table-generator
+===== table-generator
 
 The generator defined by the
 _table-generator_ subelement applies to the persistence unit. It is
@@ -44495,7 +44506,7 @@ generators defined in annotations. If a generator of the same name is
 defined in annotations, the generator defined by this subelement
 overrides that definition.
 
-=== named-query
+===== named-query
 
 The named query defined by the _named-query_
 subelement applies to the persistence unit. It is undefined if multiple
@@ -44507,7 +44518,7 @@ queries defined in annotations. If a named query of the same name is
 defined in annotations, the named query defined by this subelement
 overrides that definition.
 
-=== named-native-query
+===== named-native-query
 
 The named native query defined by the
 _named-native-query_ subelement applies to the persistence unit. It is
@@ -44519,7 +44530,7 @@ the named native queries defined in annotations. If a named query of the
 same name is defined in annotations, the named query defined by this
 subelement overrides that definition.
 
-=== named-stored-procedure-query
+===== named-stored-procedure-query
 
 The named stored procedure query defined by
 the _named-stored-procedure-query_ subelement applies to the persistence
@@ -44532,7 +44543,7 @@ named stored procedure query of the same name is defined in annotations,
 the named stored procedure query defined by this subelement overrides
 that definition.
 
-=== sql-result-set-mapping
+===== sql-result-set-mapping
 
 The SQL result set mapping defined by the
 _sql-result-set-mapping_ subelement applies to the persistence unit. It
@@ -44544,7 +44555,7 @@ to the SQL result set mappings defined in annotations. If a SQL result
 set mapping of the same name is defined in annotations, the SQL result
 set mapping defined by this subelement overrides that definition.
 
-=== entity
+===== entity
 
 The _entity_ subelement defines an entity of
 the persistence unit. It is undefined if multiple mapping files for the
@@ -44555,7 +44566,7 @@ annotated as _Entity_ . The subelements and attributes of the _entity_
 element override as specified in section link:Per.html#a17017[See
 entity Subelements and Attributes].
 
-=== mapped-superclass
+===== mapped-superclass
 
 The _mapped-superclass_ subelement defines a
 mapped superclass of the persistence unit. It is undefined if multiple
@@ -44568,7 +44579,7 @@ the _mapped-superclass_ element override as specified in section
 link:Per.html#a17106[See mapped-superclass Subelements and
 Attributes].
 
-=== embeddable
+===== embeddable
 
 The _embeddable_ subelement defines an
 embeddable class of the persistence unit. It is undefined if multiple
@@ -44580,7 +44591,7 @@ been annotated as _Embeddable_ . The subelements and attributes of the
 _embeddable_ element override as specified in section
 link:Per.html#a17150[See embeddable Subelements and Attributes].
 
-=== converter
+===== converter
 
 The converter defined by the _converter_
 subelement applies to the persistence unit. It is undefined if multiple
@@ -44592,12 +44603,12 @@ converters defined in annotations. If a converter for the same target
 type is defined in annotations, the converter defined by this subelement
 overrides that definition.
 
-=== [[a17017]]entity Subelements and Attributes
+==== [[a17017]]entity Subelements and Attributes
 
 These apply only to the entity for which they
 are subelements or attributes, unless otherwise specified below.
 
-=== metadata-complete
+===== metadata-complete
 
 If the _metadata-complete_ attribute of the
 _entity_ element is specified as _true_ , any annotations on the entity
@@ -44606,7 +44617,7 @@ _metadata-complete_ is specified as _true_ and XML attributes or
 sub-elements of the _entity_ element are omitted, the default values for
 those attributes and elements are applied.
 
-=== access
+===== access
 
 The _access_ attribute defines the access
 type for the entity. The _access_ attribute overrides any access type
@@ -44621,7 +44632,7 @@ Caution must be exercised in overriding an
 access type that was specified or defaulted using annotations, as doing
 so may cause applications to break.
 
-=== cacheable
+===== cacheable
 
 The _cacheable_ attribute defines whether the
 entity should be cached or must not be cached when the
@@ -44632,7 +44643,7 @@ attribute. The value of the _cacheable_ attribute is inherited by
 subclasses (unless otherwise overridden for a subclass by the
 _Cacheable_ annotation or _cacheable_ XML attribute).
 
-=== name
+===== name
 
 The name attribute defines the entity name.
 The _name_ attribute overrides the value of the entity name defined by
@@ -44640,7 +44651,7 @@ the _name_ element of the _Entity_ annotation (whether explicitly
 specified or defaulted). Caution must be exercised in overriding the
 entity name, as doing so may cause applications to break.
 
-=== table
+===== table
 
 The _table_ subelement overrides any _Table_
 annotation (including defaulted _Table_ values) on the entity. If a
@@ -44648,7 +44659,7 @@ _table_ subelement is present, and attributes or subelements of that
 _table_ subelement are not explicitly specified, their default values
 are applied.
 
-=== secondary-table
+===== secondary-table
 
 The _secondary-table_ subelement overrides
 all _SecondaryTable_ and _SecondaryTables_ annotations (including
@@ -44657,7 +44668,7 @@ subelement is present, and attributes or subelements of that _secondary_
 - _table_ subelement are not explicitly specified, their default values
 are applied.
 
-=== primary-key-join-column
+===== primary-key-join-column
 
 The _primary-key-join-column_ subelement of
 the entity element specifies a primary key column that is used to join
@@ -44669,12 +44680,12 @@ entity. If a _primary-key-join-column_ subelement is present, and
 attributes or subelements of that _primary-key-join-column_ subelement
 are not explicitly specified, their default values are applied.
 
-=== id-class
+===== id-class
 
 The _id-class_ subelement overrides any
 _IdClass_ annotation specified on the entity.
 
-=== inheritance
+===== inheritance
 
 The _inheritance_ subelement overrides any
 _Inheritance_ annotation (including defaulted _Inheritance_ values) on
@@ -44691,13 +44702,13 @@ strategies is not required by this specification. Portable applications
 should use only a single inheritance strategy within an entity
 hierarchy.
 
-=== discriminator-value
+===== discriminator-value
 
 The _discriminator-value_ subelement
 overrides any _DiscriminatorValue_ annotations (including defaulted
 _DiscriminatorValue_ values) on the entity.
 
-=== discriminator-column
+===== discriminator-column
 
 The _discriminator-column_ subelement
 overrides any _DiscriminatorColumn_ annotation (including defaulted
@@ -44710,7 +44721,7 @@ This element applies to the entity and its
 subclasses (unless otherwise overridden for a subclass by an annotation
 or XML element).
 
-=== sequence-generator
+===== sequence-generator
 
 The generator defined by the
 _sequence-generator_ subelement is added to any generators defined in
@@ -44726,7 +44737,7 @@ _sequence-generator_ subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 generators of the same name.
 
-=== table-generator
+===== table-generator
 
 The generator defined by the
 _table-generator_ subelement is added to any generators defined in
@@ -44742,7 +44753,7 @@ _table-generator_ subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 generators of the same name.
 
-=== attribute-override
+===== attribute-override
 
 The _attribute-override_ subelement is
 additive to any _AttributeOverride_ or _AttributeOverrides_ annotations
@@ -44751,7 +44762,7 @@ same attribute name. If an _attribute-override_ subelement is present,
 and attributes or subelements of that _attribute-override_ subelement
 are not explicitly specified, their default values are applied.
 
-=== association-override
+===== association-override
 
 The _association-override_ subelement is
 additive to any _AssociationOverride_ or _AssociationOverrides a_
@@ -44761,7 +44772,7 @@ subelement is present, and attributes or subelements of that
 _association-override_ subelement are not explicitly specified, their
 default values are applied.
 
-=== convert
+===== convert
 
 The _convert_ subelement is additive to any
 _Convert_ or _Converts_ annotations on the entity. It overrides any
@@ -44770,13 +44781,13 @@ subelement is present, and attributes or subelements of that _convert_
 subelement are not explicitly specified, their default values are
 applied.
 
-=== named-entity-graph
+===== named-entity-graph
 
 The _named-entity-graph_ subelement is
 additive to any _NamedEntityGraph_ annotations on the entity. It
 overrides any _NamedEntityGraph_ annotation with the same name.
 
-=== named-query
+===== named-query
 
 The named query defined by the _named-query_
 subelement is added to any named queries defined in annotations, and any
@@ -44791,7 +44802,7 @@ subelement applies to the persistence unit. It is undefined if multiple
 mapping files for the persistence unit contain named queries of the same
 name.
 
-=== named-native-query
+===== named-native-query
 
 The named query defined by the
 _named-native-query_ subelement is added to any named queries defined in
@@ -44807,7 +44818,7 @@ _named-native-query_ subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 named queries of the same name.
 
-=== named-stored-procedure-query
+===== named-stored-procedure-query
 
 The named stored procedure query defined by
 the _named-stored-procedure-query_ subelement is added to any named
@@ -44824,7 +44835,7 @@ the _named-stored-procedure-query_ subelement applies to the persistence
 unit. It is undefined if multiple mapping files for the persistence unit
 contain named stored procedure queries of the same name.
 
-=== sql-result-set-mapping
+===== sql-result-set-mapping
 
 The SQL result set mapping defined by the
 _sql-result-set-mapping_ is added to the SQL result set mappings defined
@@ -44840,7 +44851,7 @@ _sql-result-set-mapping_ subelement applies to the persistence unit. It
 is undefined if multiple mapping files for the persistence unit contain
 SQL result set mappings of the same name.
 
-=== exclude-default-listeners
+===== exclude-default-listeners
 
 The _exclude-default-listeners_ subelement
 applies whether or not the _ExcludeDefaultListeners_ annotation was
@@ -44849,7 +44860,7 @@ specified on the entity.
 This element causes the default entity
 listeners to be excluded for the entity and its subclasses.
 
-=== exclude-superclass-listeners
+===== exclude-superclass-listeners
 
 The _exclude-superclass-listeners_ subelement
 applies whether or not the _ExcludeSuperclassListeners_ annotation was
@@ -44858,7 +44869,7 @@ specified on the entity.
 This element causes any superclass listeners
 to be excluded for the entity and its subclasses.
 
-=== entity-listeners
+===== entity-listeners
 
 The _entity-listeners_ subelement overrides
 any _EntityListeners_ annotation on the entity.
@@ -44866,12 +44877,12 @@ any _EntityListeners_ annotation on the entity.
 These listeners apply to the entity and its
 subclasses unless otherwise excluded.
 
-=== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
+===== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
 
 These subelements override any lifecycle
 callback methods defined by the corresponding annotations on the entity.
 
-=== [[a17082]]attributes
+===== [[a17082]]attributes
 
 The _attributes_ element groups the mapping
 subelements for the fields and properties of the entity. It may be
@@ -44882,14 +44893,14 @@ rules. If _metadata-complete_ is not specified, or is _false_ , the
 mappings for only those properties and fields that are explicitly
 specified will be overridden.
 
-=== id
+====== id
 
 The _id_ subelement overrides the mapping for
 the specified field or property. If an _id_ subelement is present, and
 attributes or subelements of that _id_ subelement are not explicitly
 specified, their default values are applied.
 
-=== embedded-id
+====== embedded-id
 
 The _embedded-id_ subelement overrides the
 mapping for the specified field or property. If an _embedded-id_
@@ -44897,21 +44908,21 @@ subelement is present, and attributes or subelements of that
 _embedded-id_ subelement are not explicitly specified, their default
 values are applied.
 
-=== basic
+====== basic
 
 The _basic_ subelement overrides the mapping
 for the specified field or property. If a _basic_ subelement is present,
 and attributes or subelements of that _basic_ subelement are not
 explicitly specified, their default values are applied.
 
-=== version
+====== version
 
 The _version_ subelement overrides the
 mapping for the specified field or property. If a _version_ subelement
 is present, and attributes or subelements of that _version_ subelement
 are not explicitly specified, their default values are applied.
 
-=== many-to-one
+====== many-to-one
 
 The _many-to-one_ subelement overrides the
 mapping for the specified field or property. If a _many-to-one_
@@ -44919,7 +44930,7 @@ subelement is present, and attributes or subelements of that
 _many-to-one_ subelement are not explicitly specified, their default
 values are applied.
 
-=== one-to-many
+====== one-to-many
 
 The _one-to-many_ subelement overrides the
 mapping for the specified field or property. If a _one-to-many_
@@ -44927,7 +44938,7 @@ subelement is present, and attributes or subelements of that
 _one-to-many_ subelement are not explicitly specified, their default
 values are applied.
 
-=== one-to-one
+====== one-to-one
 
 The _one-to-one_ subelement overrides the
 mapping for the specified field or property. If a _one-to-one_
@@ -44935,7 +44946,7 @@ subelement is present, and attributes or subelements of that
 _one-to-one_ subelement are not explicitly specified, their default
 values are applied.
 
-=== many-to-many
+====== many-to-many
 
 The _many-to-many_ subelement overrides the
 mapping for the specified field or property. If a _many-to-many_
@@ -44943,7 +44954,7 @@ subelement is present, and attributes or subelements of that
 _many-to-many_ subelement are not explicitly specified, their default
 values are applied.
 
-=== element-collection
+====== element-collection
 
 The _element-collection_ subelement overrides
 the mapping for the specified field or property. If an
@@ -44951,25 +44962,25 @@ _element-collection_ subelement is present, and attributes or
 subelements of that _element-collection_ subelement are not explicitly
 specified, their default values are applied.
 
-=== embedded
+====== embedded
 
 The _embedded_ subelement overrides the
 mapping for the specified field or property. If an _embedded_ subelement
 is present, and attributes or subelements of that _embedded_ subelement
 are not explicitly specified, their default values are applied.
 
-=== transient
+====== transient
 
 The _transient_ subelement overrides the
 mapping for the specified field or property.
 
-=== [[a17106]]mapped-superclass Subelements and Attributes
+==== [[a17106]]mapped-superclass Subelements and Attributes
 
 These apply only to the mapped-superclass for
 which they are subelements or attributes, unless otherwise specified
 below.
 
-=== metadata-complete
+===== metadata-complete
 
 If the _metadata-complete_ attribute of the
 _mapped-superclass_ element is specified as _true_ , any annotations on
@@ -44978,7 +44989,7 @@ _metadata-complete_ is specified as _true_ and attributes or
 sub-elements of the _mapped-superclass_ element are omitted, the default
 values for those attributes and elements are applied.
 
-=== access
+===== access
 
 The _access_ attribute defines the access
 type for the mapped superclass. The _access_ attribute overrides any
@@ -44993,12 +45004,12 @@ Caution must be exercised in overriding an
 access type that was specified or defaulted using annotations, as doing
 so may cause applications to break.
 
-=== id-class
+===== id-class
 
 The _id-class_ subelement overrides any
 _IdClass_ annotation specified on the mapped superclass.
 
-=== exclude-default-listeners
+===== exclude-default-listeners
 
 The _exclude-default-listeners_ subelement
 applies whether or not the _ExcludeDefaultListeners_ annotation was
@@ -45007,7 +45018,7 @@ specified on the mapped superclass.
 This element causes the default entity
 listeners to be excluded for the mapped superclass and its subclasses.
 
-=== exclude-superclass-listeners
+===== exclude-superclass-listeners
 
 The _exclude-superclass-listeners_ subelement
 applies whether or not the _ExcludeSuperclassListeners_ annotation was
@@ -45016,7 +45027,7 @@ specified on the mapped superclass.
 This element causes any superclass listeners
 to be excluded for the mapped superclass and its subclasses.
 
-=== entity-listeners
+===== entity-listeners
 
 The _entity-listeners_ subelement overrides
 any _EntityListeners_ annotation on the mapped superclass.
@@ -45024,13 +45035,13 @@ any _EntityListeners_ annotation on the mapped superclass.
 These listeners apply to the mapped
 superclass and its subclasses unless otherwise excluded.
 
-=== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
+===== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
 
 These subelements override any lifecycle
 callback methods defined by the corresponding annotations on the mapped
 superclass.
 
-=== [[a17126]]attributes
+===== [[a17126]]attributes
 
 The _attributes_ element groups the mapping
 subelements for the fields and properties defined by the mapped
@@ -45041,14 +45052,14 @@ default rules. If _metadata-complete_ is not specified, or is _false_ ,
 the mappings for only those properties and fields that are explicitly
 specified will be overridden.
 
-=== id
+====== id
 
 The _id_ subelement overrides the mapping for
 the specified field or property. If an _id_ subelement is present, and
 attributes or subelements of that _id_ subelement are not explicitly
 specified, their default values are applied.
 
-=== embedded-id
+====== embedded-id
 
 The _embedded-id_ subelement overrides the
 mapping for the specified field or property. If an _embedded-id_
@@ -45056,21 +45067,21 @@ subelement is present, and attributes or subelements of that
 _embedded-id_ subelement are not explicitly specified, their default
 values are applied.
 
-=== basic
+====== basic
 
 The _basic_ subelement overrides the mapping
 for the specified field or property. If a _basic_ subelement is present,
 and attributes or subelements of that _basic_ subelement are not
 explicitly specified, their default values are applied.
 
-=== version
+====== version
 
 The _version_ subelement overrides the
 mapping for the specified field or property. If a _version_ subelement
 is present, and attributes or subelements of that _version_ subelement
 are not explicitly specified, their default values are applied.
 
-=== many-to-one
+====== many-to-one
 
 The _many-to-one_ subelement overrides the
 mapping for the specified field or property. If a _many-to-one_
@@ -45078,7 +45089,7 @@ subelement is present, and attributes or subelements of that
 _many-to-one_ subelement are not explicitly specified, their default
 values are applied.
 
-=== one-to-many
+====== one-to-many
 
 The _one-to-many_ subelement overrides the
 mapping for the specified field or property. If a _one-to-many_
@@ -45086,7 +45097,7 @@ subelement is present, and attributes or subelements of that
 _one-to-many_ subelement are not explicitly specified, their default
 values are applied.
 
-=== one-to-one
+====== one-to-one
 
 The _one-to-one_ subelement overrides the
 mapping for the specified field or property. If a _one-to-one_
@@ -45094,7 +45105,7 @@ subelement is present, and attributes or subelements of that
 _one-to-one_ subelement are not explicitly specified, their default
 values are applied.
 
-=== many-to-many
+====== many-to-many
 
 The _many-to-many_ subelement overrides the
 mapping for the specified field or property. If a _many-to-many_
@@ -45102,7 +45113,7 @@ subelement is present, and attributes or subelements of that
 _many-to-many_ subelement are not explicitly specified, their default
 values are applied.
 
-=== element-collection
+====== element-collection
 
 The _element-collection_ subelement overrides
 the mapping for the specified field or property. If an
@@ -45110,24 +45121,24 @@ _element-collection_ subelement is present, and attributes or
 subelements of that _element-collection_ subelement are not explicitly
 specified, their default values are applied.
 
-=== embedded
+====== embedded
 
 The _embedded_ subelement overrides the
 mapping for the specified field or property. If an _embedded_ subelement
 is present, and attributes or subelements of that _embedded_ subelement
 are not explicitly specified, their default values are applied.
 
-=== transient
+====== transient
 
 The _transient_ subelement overrides the
 mapping for the specified field or property.
 
-=== [[a17150]]embeddable Subelements and Attributes
+==== [[a17150]]embeddable Subelements and Attributes
 
 These apply only to the embeddable for which
 they are subelements or attributes.
 
-=== metadata-complete
+===== metadata-complete
 
 If the _metadata-complete_ attribute of the
 _embeddable_ element is specified as _true_ , any annotations on the
@@ -45136,7 +45147,7 @@ _metadata-complete_ is specified as _true_ and attributes and
 sub-elements of the _embeddable_ element are omitted, the default values
 for those attributes and elements are applied.
 
-=== access
+===== access
 
 The _access_ attribute defines the access
 type for the embeddable class. The _access_ attribute overrides any
@@ -45151,7 +45162,7 @@ Caution must be exercised in overriding an
 access type that was specified or defaulted using annotations, as doing
 so may cause applications to break.
 
-=== [[a17157]]attributes
+===== [[a17157]]attributes
 
 The _attributes_ element groups the mapping
 subelements for the fields and properties defined by the embeddable
@@ -45162,14 +45173,14 @@ default rules. If _metadata-complete_ is not specified, or is _false_ ,
 the mappings for only those properties and fields that are explicitly
 specified will be overridden.
 
-=== basic
+====== basic
 
 The _basic_ subelement overrides the mapping
 for the specified field or property. If a _basic_ subelement is present,
 and attributes or subelements of that _basic_ subelement are not
 explicitly specified, their default values are applied.
 
-=== many-to-one
+====== many-to-one
 
 The _many-to-one_ subelement overrides the
 mapping for the specified field or property. If a _many-to-one_
@@ -45177,7 +45188,7 @@ subelement is present, and attributes or subelements of that
 _many-to-one_ subelement are not explicitly specified, their default
 values are applied.
 
-=== one-to-many
+====== one-to-many
 
 The _one-to-many_ subelement overrides the
 mapping for the specified field or property. If a _one-to-many_
@@ -45185,7 +45196,7 @@ subelement is present, and attributes or subelements of that
 _one-to-many_ subelement are not explicitly specified, their default
 values are applied.
 
-=== one-to-one
+====== one-to-one
 
 The _one-to-one_ subelement overrides the
 mapping for the specified field or property. If a _one-to-one_
@@ -45193,7 +45204,7 @@ subelement is present, and attributes or subelements of that
 _one-to-one_ subelement are not explicitly specified, their default
 values are applied.
 
-=== many-to-many
+====== many-to-many
 
 The _many-to-many_ subelement overrides the
 mapping for the specified field or property. If a _many-to-many_
@@ -45201,7 +45212,7 @@ subelement is present, and attributes or subelements of that
 _many-to-many_ subelement are not explicitly specified, their default
 values are applied.
 
-=== element-collection
+====== element-collection
 
 The _element-collection_ subelement overrides
 the mapping for the specified field or property. If an
@@ -45209,14 +45220,14 @@ _element-collection_ subelement is present, and attributes or
 subelements of that _element-collection_ subelement are not explicitly
 specified, their default values are applied.
 
-=== embedded
+====== embedded
 
 The _embedded_ subelement overrides the
 mapping for the specified field or property. If an _embedded_ subelement
 is present, and attributes or subelements of that _embedded_ subelement
 are not explicitly specified, their default values are applied.
 
-=== transient
+====== transient
 
 The _transient_ subelement overrides the
 mapping for the specified field or property.
@@ -50463,7 +50474,7 @@ type="orm:access-type"/>
 
 
 
-=== Related Documents
+== Related Documents
 
 [[a19493]]JSR-220:
 Enterprise JavaBeans, v. 3.0. Java Persistence API.
@@ -50492,12 +50503,14 @@ _http://jcp.org/en/jsr/detail?id=365[http://jcp.org/en/jsr/detail?id=365.]_
 [[a19501]]JSR-317: Java Persistence
 2.0. _http://jcp.org/en/jsr/detail?id=317_ .
 
+[discrete]
 === Revision History
 
 This appendix lists the significant changes
 that have been made during the development of the Java Persistence 2.2
 specification.
 
+[discrete]
 === Maintenance Release Draft
 
 image:Per-4.png[image]
