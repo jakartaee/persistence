@@ -30,7 +30,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * 
  * <p> The <code>Temporal</code> annotation may be used in 
  * conjunction with the {@link Basic} annotation, the {@link Id}
- * annotation, or the {@link ElementCollection} annotation (when
+ * annotation, or the {@link ElementCollection} annotation when
  * the element collection value is of such a temporal type.
  *
  * <pre>
