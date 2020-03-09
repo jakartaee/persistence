@@ -369,7 +369,7 @@ the _Access_ annotation applied to the class. This explicit access type
 specification does not affect the access type of other entity classes or
 mapped superclasses in the entity hierarchy. The following rules apply:
 
-When _Access(FIELD)_ is applied to an entity
+* When _Access(FIELD)_ is applied to an entity
 class, mapped superclass, or embeddable class, mapping annotations may
 be placed on the instance variables of that class, and the persistence
 provider runtime accesses persistent state via the instance variables
@@ -389,8 +389,7 @@ mapping annotations are placed on any properties defined by the class
 for which _Access(PROPERTY)_ is not specified. Persistent state
 inherited from superclasses is accessed in accordance with the access
 types of those superclasses.
-
-When _Access(PROPERTY)_ is applied to an
+* When _Access(PROPERTY)_ is applied to an
 entity class, mapped superclass, or embeddable class, mapping
 annotations may be placed on the properties of that class, and the
 persistence provider runtime accesses persistent state via the
@@ -445,15 +444,13 @@ that is a (direct or indirect) superclass of all entity classes in the
 entity hierarchy. The primary key must be defined exactly once in an
 entity hierarchy.
 
-A primary key corresponds to one or more
+* A primary key corresponds to one or more
 fields or properties (“attributes”) of the entity class.
-
-A simple (i.e., non-composite) primary key
+* A simple (i.e., non-composite) primary key
 must correspond to a single persistent field or property of the entity
 class. The _Id_ annotation or _id_ XML element must be used to denote a
 simple primary key. See <<a14827>>.
-
-A composite primary key must correspond to
+* A composite primary key must correspond to
 either a single persistent field or property or to a set of such fields
 or properties as described below. A primary key class must be defined to
 represent a composite primary key. Composite primary keys typically
