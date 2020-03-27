@@ -13,8 +13,8 @@
 -->
 
 <!-- Jakarta Persistence API object/relational mapping file schema -->
-<xsd:schema targetNamespace="http://jakarta.ee/xml/ns/persistence/orm" 
-  xmlns:orm="http://jakarta.ee/xml/ns/persistence/orm" 
+<xsd:schema targetNamespace="https://jakarta.ee/xml/ns/persistence/orm" 
+  xmlns:orm="https://jakarta.ee/xml/ns/persistence/orm" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
   elementFormDefault="qualified" 
   attributeFormDefault="unqualified" 
@@ -54,15 +54,15 @@
        Object/relational mapping files must indicate the object/relational
        mapping file schema by using the persistence namespace:
 
-       http://jakarta.ee/xml/ns/persistence/orm
+       https://jakarta.ee/xml/ns/persistence/orm
 
        and indicate the version of the schema by
        using the version element as shown below:
 
-      <entity-mappings xmlns="http://jakarta.ee/xml/ns/persistence/orm"
+      <entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://jakarta.ee/xml/ns/persistence/orm
-          http://jakarta.ee/xml/ns/persistence/orm_3_0.xsd"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+          https://jakarta.ee/xml/ns/persistence/orm_3_0.xsd"
         version="3.0">
           ...
       </entity-mappings>
