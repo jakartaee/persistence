@@ -647,7 +647,7 @@ public class Employee {
 }
 ----
 
-Case (a): The dependent entity uses _IdClass_ to represent a composite key:
+*Case (a):* The dependent entity uses _IdClass_ to represent a composite key:
 
 [source,java]
 ----
@@ -678,7 +678,7 @@ FROM Dependent d
 WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
 ----
 
-Case(b): The dependent entity uses _EmbeddedId_ to represent a composite key:
+*Case(b):* The dependent entity uses _EmbeddedId_ to represent a composite key:
 
 [source,java]
 ----
@@ -733,7 +733,7 @@ public class Employee {
 }
 ----
 
-Case (a): The dependent entity uses _IdClass_:
+*Case (a):* The dependent entity uses _IdClass_:
 
 [source,java]
 ----
@@ -768,7 +768,7 @@ FROM Dependent d
 WHERE d.name = 'Joe' AND d.emp.firstName = 'Sam'
 ----
 
-Case (b): The dependent entity uses
+*Case (b):* The dependent entity uses
 _EmbeddedId_. The type of the _empPK_ attribute is the same as that of
 the primary key of _Employee_. The _EmployeeId_ class needs to be
 annotated _Embeddable_ or denoted as an embeddable class in the XML
@@ -842,7 +842,7 @@ public class Employee {
 }
 ----
 
-Case (a): The dependent entity uses _IdClass_:
+*Case (a):* The dependent entity uses _IdClass_:
 
 [source,java]
 ----
@@ -878,7 +878,7 @@ FROM Dependent d
 WHERE d.name = 'Joe' and d.emp.empId.firstName = 'Sam'
 ----
 
-Case (b): The dependent entity uses _EmbeddedId_:
+*Case (b):* The dependent entity uses _EmbeddedId_:
 
 [source,java]
 ----
@@ -939,7 +939,7 @@ public class Person {
 }
 ----
 
-Case (a): The dependent entity has a
+*Case (a):* The dependent entity has a
 single primary key attribute which is mapped by the relationship
 attribute. The primary key of _MedicalHistory_ is of type _String_.
 
@@ -966,7 +966,7 @@ FROM MedicalHistory m
 WHERE m.patient.ssn = '123-45-6789'
 ----
 
-Case (b): The dependent entity has
+*Case (b):* The dependent entity has
 a single primary key attribute corresponding to the relationship
 attribute. The primary key attribute is of the same basic type as the
 primary key of the parent entity. The _MapsId_ annotation applied to the
@@ -1029,7 +1029,7 @@ public class Person {
 }
 ----
 
-Case (a): The dependent entity uses _IdClass_:
+*Case (a):* The dependent entity uses _IdClass_:
 
 [source,java]
 ----
@@ -1058,7 +1058,7 @@ FROM MedicalHistory m
 WHERE m.patient.firstName = 'Charles'
 ----
 
-Case (b): The dependent entity uses the
+*Case (b):* The dependent entity uses the
 _EmbeddedId_ and _MapsId_ annotations. The _PersonId_ class needs to be
 annotated _Embeddable_ or denoted as an embeddable class in the XML
 descriptor.
@@ -1127,7 +1127,7 @@ public class Person {
 }
 ----
 
-Case (a): The dependent class uses _IdClass_:
+*Case (a):* The dependent class uses _IdClass_:
 
 [source,java]
 ----
@@ -1147,7 +1147,7 @@ public class MedicalHistory {
 }
 ----
 
-Case (b): The dependent class uses _EmbeddedId_:
+*Case (b):* The dependent class uses _EmbeddedId_:
 
 [source,java]
 ----
@@ -1316,12 +1316,11 @@ annotations defined in <<a13915>> (or equivalent mapping information is not
 specified in the XML descriptor), the following default mapping rules
 are applied in order:
 
-If the type is a class that is annotated with
+* If the type is a class that is annotated with
 the _Embeddable_ annotation, it is mapped in the same way as if the
 field or property were annotated with the _Embedded_ annotation. See
 <<a14634>> and <<a14672>>.
-
-If the type of the field or property is one
+* If the type of the field or property is one
 of the following, it is mapped in the same way as it would if it were
 annotated as _Basic_: Java primitive types, wrappers of the primitive
 types, _java.lang.String_, _java.math.BigInteger_,
@@ -1375,15 +1374,13 @@ element of the _OneToOne_, _OneToMany_, or _ManyToMany_ annotation.
 The _mappedBy_ element designates the property or field in the entity
 that is the owner of the relationship.
 
-The many side of one-to-many / many-to-one
+* The many side of one-to-many / many-to-one
 bidirectional relationships must be the owning side, hence the
 _mappedBy_ element cannot be specified on the _ManyToOne_ annotation.
-
-For one-to-one bidirectional relationships,
+* For one-to-one bidirectional relationships,
 the owning side corresponds to the side that contains the corresponding
 foreign key.
-
-For many-to-many bidirectional relationships
+* For many-to-many bidirectional relationships
 either side may be the owning side.
 
 The relationship modeling annotation
@@ -1396,7 +1393,7 @@ Associations that are specified as _OneToOne_
 or _OneToMany_ support use of the _orphanRemoval_ option. The following
 behaviors apply when _orphanRemoval_ is in effect:
 
-If an entity that is the target of the
+* If an entity that is the target of the
 relationship is removed from the relationship (by setting the
 relationship to null or removing the entity from the relationship
 collection), the remove operation will be applied to the entity being
@@ -1408,8 +1405,7 @@ reassign an entity that has been orphaned to another relationship or
 otherwise attempt to persist it. If the entity being orphaned is a
 detached, new, or removed entity, the semantics of _orphanRemoval_ do
 not apply.
-
-If the remove operation is applied to a
+* If the remove operation is applied to a
 managed source entity, the remove operation will be cascaded to the
 relationship target in accordance with the rules of <<a1946>>, 
 (and hence it is not necessary to specify _cascade=REMOVE_ for the
@@ -1426,12 +1422,11 @@ refine the default mappings and mapping strategies described in <<a538>>.
 In addition, this specification also requires
 support for the following alternative mapping strategies:
 
-The mapping of unidirectional one-to-many
+* The mapping of unidirectional one-to-many
 relationships by means of foreign key mappings. The _JoinColumn_
 annotation or corresponding XML element must be used to specify such
 non-default mappings. See <<a14922>>.
-
-The mapping of unidirectional and
+* The mapping of unidirectional and
 bidirectional one-to-one relationships, bidirectional
 many-to-one/one-to-many relationships, and unidirectional many-to-one
 relationships by means of join table mappings. The _JoinTable_
@@ -1451,11 +1446,14 @@ and storing to the database as specified in the metadata of the entity
 class, and the referential integrity of the relationships as specified
 in the database (e.g., by foreign key constraints).
 
+[NOTE]
+====
 Note that it is the application that bears
 responsibility for maintaining the consistency of runtime
 relationships—for example, for insuring that the “one” and the “many”
 sides of a bidirectional relationship are consistent with one another
 when the application updates the relationship at runtime.
+====
 
 If there are no associated entities for a
 multi-valued relationship of an entity fetched from the database, the
@@ -1694,11 +1692,7 @@ The following mapping defaults apply:
 
 * Entity A is mapped to a table named _A_.
 * Entity B is mapped to a table named _B_.
-* Table _A_ contains a foreign key to table _B_
-. The foreign key column name is formed as the concatenation of the
-following: the name of the relationship property or field of entity A; "
-___ "; the name of the primary key column in table _B_. The foreign key
-column has the same type as the primary key of table _B_.
+* Table _A_ contains a foreign key to table _B_. The foreign key column name is formed as the concatenation of the following: the name of the relationship property or field of entity A; "_"; the name of the primary key column in table _B_. The foreign key column has the same type as the primary key of table _B_.
 
 *Example:*
 
@@ -2226,6 +2220,8 @@ An implementation is required to support the
 single table per class hierarchy inheritance mapping strategy and the
 joined subclass strategy.
 
+[NOTE]
+====
 Support for the table per concrete class
 inheritance mapping strategy is optional in this release. Applications
 that use this mapping strategy will not be portable.
@@ -2233,6 +2229,7 @@ that use this mapping strategy will not be portable.
 Support for the combination of inheritance
 strategies within a single entity inheritance hierarchy is not required
 by this specification.
+====
 
 ==== Single Table per Class Hierarchy Strategy
 
@@ -2277,9 +2274,8 @@ inherited properties, are mapped to columns of the table for the class.
 
 This strategy has the following drawbacks:
 
-It provides poor support for polymorphic relationships.
-
-It typically requires that SQL UNION queries
+* It provides poor support for polymorphic relationships.
+* It typically requires that SQL UNION queries
 (or a separate SQL query per subclass) be issued for queries that are
 intended to range over the class hierarchy.
 
@@ -2341,10 +2337,9 @@ that a name for a database object is to be interpreted as a delimited
 identifier as follows:
 ** Using annotations, a name is specified as a
 delimited identifier by enclosing the name within double quotes, whereby
-the inner quotes are escaped, e.g., _@Table(name="\"customer\"")_ _._
+the inner quotes are escaped, e.g., `@Table(name="\"customer\"")`.
 ** When using XML, a name is specified as
-a delimited identifier by use of double quotes, e.g., _<table
-name="&quot;customer&quot;"/>_footnote:[If
+a delimited identifier by use of double quotes, e.g., `<table name="\&quot;customer\&quot;"/>` footnote:[If
 <delimited-identifiers> is specified and individual annotations or XML
 elements or attributes use escaped double quotes, the double-quotes
 appear in the name of the database identifier.]
@@ -3358,12 +3353,12 @@ The _persist_, _merge_, _remove_, and
 _refresh_ methods must be invoked within a transaction context when an
 entity manager with a transaction-scoped persistence context is used. If
 there is no transaction context, the
-_javax.persistence.TransactionRequiredException_ is thrown.
+_jakarta.persistence.TransactionRequiredException_ is thrown.
 
 Methods that specify a lock mode other than
 _LockModeType.NONE_ must be invoked within a transaction. If there is no
 transaction or if the entity manager has not been joined to the
-transaction, the _javax.persistence.TransactionRequiredException_ is
+transaction, the _jakarta.persistence.TransactionRequiredException_ is
 thrown.
 
 The _find_ method (provided it is invoked
@@ -3657,7 +3652,7 @@ ignored by the detach operation.
 * If X is a removed entity, the detach
 operation causes it to become detached. The detach operation is cascaded
 to entities referenced by X if the relationships from X to these other
-entities is annotated with the _cascade=DETACH_ or c _ascade=ALL_
+entities is annotated with the _cascade=DETACH_ or _cascade=ALL_
 annotation element value. Entities which previously referenced X will
 continue to reference X. Portable applications should not pass removed
 entities that have been detached from the persistence context to further
@@ -3853,7 +3848,7 @@ with injection or JNDI lookup). See <<a11791>>.
 
 [source,java]
 ----
-package javax.persistence;
+package jakarta.persistence;
 
 public enum PersistenceContextType {
     TRANSACTION,
@@ -4112,7 +4107,7 @@ foreign key) will not be locked by default.
 
 Element collections and relationships owned
 by the entity that are contained in join tables will be locked if the
-_javax.persistence.lock.scope_ property is specified with a value of
+_jakarta.persistence.lock.scope_ property is specified with a value of
 _PessimisticLockScope.EXTENDED_. The state of entities referenced by
 such relationships will not be locked (unless those entities are
 explicitly locked). This property may be passed as an argument to the
@@ -4126,12 +4121,12 @@ table for that relationship or collection. This means that phantoms will
 be possible.
 
 The values of the
-_javax.persistence.lock.scope_ property are defined by the
+_jakarta.persistence.lock.scope_ property are defined by the
 _PessimisticLockScope_ enum.
 
 [source,java]
 ----
-package javax.persistence;
+package jakarta.persistence;
 
 public enum PessimisticLockScope {
   NORMAL,
@@ -4183,7 +4178,7 @@ latter are to be preferred for new applications.
 
 [source,java]
 ----
-package javax.persistence;
+package jakarta.persistence;
 
 public enum LockModeType {
   READ,
@@ -4405,7 +4400,7 @@ specification for use in pessimistic locking, as described in <<a2066>>:
 
 [source,java]
 ----
-javax.persistence.lock.scope
+jakarta.persistence.lock.scope
 ----
 
 This property may be used with the methods of
@@ -4419,7 +4414,7 @@ specification for use in pessimistic locking.
 
 [source,java]
 ----
-javax.persistence.lock.timeout // time in milliseconds
+jakarta.persistence.lock.timeout // time in milliseconds
 ----
 
 This hint may be used with the methods of the
@@ -4444,7 +4439,7 @@ by the persistence provider, the hint may or may not be observed.
 
 Vendors are permitted to support the use of
 additional, vendor-specific locking hints. Vendor-specific hints must
-not use the _javax.persistence_ namespace. Vendor-specific hints must be
+not use the _jakarta.persistence_ namespace. Vendor-specific hints must be
 ignored if they are not understood.
 
 If the same property or hint is specified
@@ -4650,8 +4645,7 @@ marked for rollback if the persistence context is joined to the
 transaction.
 * Lifecycle callbacks can invoke JNDI, JDBC,
 JMS, and enterprise beans.
-
-In general, the lifecycle method of a
+* In general, the lifecycle method of a
 portable application should not invoke _EntityManager_ or query
 operations, access other entity instances, or modify relationships
 within the same persistence
@@ -5049,14 +5043,14 @@ _AUTO_, _CALLBACK_, _NONE_. The default validation mode is _AUTO_.
 If the application creates the entity manager
 factory using the _Persistence.createEntityManagerFactory_ method, the
 validation mode can be specified using the
-_javax.persistence.validation.mode_ map key, which will override the
+_jakarta.persistence.validation.mode_ map key, which will override the
 value specified (or defaulted) in the _persistence.xml_ file. The map
 values for this key are _"auto"_, _"callback"_, _"none"_.
 
 If the auto validation mode is specified by
-the _validation-mode_ element or the _javax.persistence.validation.mode_
+the _validation-mode_ element or the _jakarta.persistence.validation.mode_
 property, or if neither the _validation-mode_ element nor the
-_javax.persistence.validation.mode_ property is specified, and a Bean
+_jakarta.persistence.validation.mode_ property is specified, and a Bean
 Validation provider is present in the environment, the persistence
 provider must perform the automatic validation of entities as described
 in <<a2380>>. If no Bean Validation provider is
@@ -5064,16 +5058,16 @@ present in the environment, no lifecycle event validation takes place.
 
 If the callback validation mode is specified
 by the _validation-mode_ element or the
-_javax.persistence.validation.mode_ property, the persistence provider
+_jakarta.persistence.validation.mode_ property, the persistence provider
 must perform the lifecycle event validation as described in <<a2380>>.
 It is an error if there is no Bean Validation
 provider present in the environment, and the provider must throw the
-_PersistenceException_ if the _javax.persistence.validation.mode_
+_PersistenceException_ if the _jakarta.persistence.validation.mode_
 property value _"callback"_ has been passed to the
 _Persistence.createEntityManagerFactory_ method.
 
 If the none validation mode is specified by
-the _validation-mode_ element or the _javax.persistence.validation.mode_
+the _validation-mode_ element or the _jakarta.persistence.validation.mode_
 property, the persistence provider must not perform lifecycle event
 validation.
 
@@ -5092,9 +5086,9 @@ properties in the configuration of the entity manager factory through
 the _createEntityManagerFactory_ method:
 
 
-* _javax.persistence.validation.group.pre-persist_
-* _javax.persistence.validation.group.pre-update_
-* _javax.persistence.validation.group.pre-remove_
+* _jakarta.persistence.validation.group.pre-persist_
+* _jakarta.persistence.validation.group.pre-update_
+* _jakarta.persistence.validation.group.pre-remove_
 
 The value of a validation property must be a
 list of the targeted groups. A targeted group must be specified by its
@@ -5107,7 +5101,7 @@ invoking its _validate_ method with the targeted groups. If the list of
 targeted groups is empty, no validation is performed. If the set of
 _ConstraintViolation_ objects returned by the _validate_ method is not
 empty, the persistence provider must throw the
-_javax.validation.ConstraintViolationException_ containing a reference
+_jakarta.validation.ConstraintViolationException_ containing a reference
 to the returned set of _ConstraintViolation_ objects, and must mark the
 transaction for rollback if the persistence context is joined to the
 transaction.
@@ -5130,7 +5124,7 @@ if the _Valid_ annotation has been specified on them.
 
 It is the responsibility of the persistence
 provider to pass an instance implementing the
-_javax.validation.TraversableResolver_ interface to the Bean Validation
+_jakarta.validation.TraversableResolver_ interface to the Bean Validation
 provider by calling
 _ValidatorFactory.usingContext().traversableResolver(tr).getValidator()_ where _tr_ is the resolver having the behavior described above.
 
@@ -5142,13 +5136,13 @@ responsible for passing this validator factory to the persistence
 provider via the map that is passed as an argument to the
 _createContainerEntityManagerFactory_ call. The map key used by the
 container must be the standard property name
-_javax.persistence.validation.factory_.
+_jakarta.persistence.validation.factory_.
 
 In Java SE environments, the application can
 pass the _ValidatorFactory_ instance via the map that is passed as an
 argument to the _Persistence.createEntityManagerFactory_ call. The map
 key used must be the standard property name
-_javax.persistence.validation.factory_. If no _ValidatorFactory_
+_jakarta.persistence.validation.factory_. If no _ValidatorFactory_
 instance is provided by the application, and if a Bean Validation
 provider is present in the classpath, the persistence provider must
 instantiate the _ValidatorFactory_ using the default bootstrapping
@@ -5636,7 +5630,7 @@ An entity graph can be used with the _find_
 method or as a query hint to override or augment _FetchType_ semantics.
 
 The standard properties
-_javax.persistence.fetchgraph_ and _javax.persistence.loadgraph_ are
+_jakarta.persistence.fetchgraph_ and _jakarta.persistence.loadgraph_ are
 used to specify such graphs to queries and _find_ operations.
 
 The default fetch graph for an entity or
@@ -5651,7 +5645,7 @@ all state specified by the fetch or load graph.
 
 ===== Fetch Graph Semantics
 
-When the _javax.persistence.fetchgraph_
+When the _jakarta.persistence.fetchgraph_
 property is used to specify an entity graph, attributes that are
 specified by attribute nodes of the entity graph are treated as
 _FetchType.EAGER_ and attributes that are not specified are treated as
@@ -5811,7 +5805,7 @@ attributes) would also be fetched.
 
 ===== Load Graph Semantics
 
-When the _javax.persistence.loadgraph_
+When the _jakarta.persistence.loadgraph_
 property is used to specify an entity graph, attributes that are
 specified by attribute nodes of the entity graph are treated as
 _FetchType.EAGER_ and attributes that are not specified are treated
@@ -5962,7 +5956,7 @@ facility for more complex attribute conversions in a future release of
 this specification.]
 
 An attribute converter must implement the
-_javax.persistence.AttributeConverter_ interface. A converter
+_jakarta.persistence.AttributeConverter_ interface. A converter
 implementation class must be annotated with the _Converter_ annotation
 or defined in the XML descriptor as a converter. If the value of the
 _autoApply_ element of the _Converter_ annotation is _true_, the
@@ -6175,10 +6169,10 @@ is specified must not be cached.
 If either the _shared-cache-mode_ element is
 not specified in the _persistence.xml_ file or the value of the
 _shared-cache-mode_ element is _UNSPECIFIED_, and the
-_javax.persistence.sharedCache.mode_ property is not specified, the
+_jakarta.persistence.sharedCache.mode_ property is not specified, the
 behavior is not defined, and provider-specific defaults may apply. If
 the _shared-cache-mode_ element and the
-_javax.persistence.sharedCache.mode_ property are not specified, the
+_jakarta.persistence.sharedCache.mode_ property are not specified, the
 semantics of the _Cacheable_ annotation (and XML equivalent) are
 undefined.
 
@@ -6220,8 +6214,8 @@ properties but which do not specify the _shared-cache-mode_ element will
 not be portable.
 
 The cache retrieve mode and cache store mode
-properties are _javax.persistence.cache.retrieveMode_ and
-_javax.persistence.cache.storeMode_ respectively. These properties have
+properties are _jakarta.persistence.cache.retrieveMode_ and
+_jakarta.persistence.cache.storeMode_ respectively. These properties have
 the semantics defined below.
 
 The _retrieveMode_ property specifies the
@@ -7798,7 +7792,7 @@ _IllegalStateException_ may be thrown or the query execution will fail.
 
 The following hint is defined by this specification for use in query configuration.
 
- javax.persistence.query.timeout // time in milliseconds
+ jakarta.persistence.query.timeout // time in milliseconds
 
 This hint may be used with the _Query_,
 _TypedQuery_, or _StoredProcedureQuery_ _setHint_ method or the
@@ -7817,7 +7811,7 @@ hint may or may not be observed.
 
 Vendors are permitted to support the use of
 additional, vendor-specific hints. Vendor-specific hints must not use
-the _javax.persistence_ namespace. Vendor-specific hints must be ignored
+the _jakarta.persistence_ namespace. Vendor-specific hints must be ignored
 if they are not understood.
 
 ==== Parameter Objects [[a4397]]
@@ -7924,11 +7918,14 @@ result of a native SQL query may consist of entities, unmanaged
 instances created via constructors, scalar values, or some combination
 of these.
 
+[NOTE]
+====
 The SQL query facility is intended to provide
 support for those cases where it is necessary to use the native SQL of
 the target database in use (and/or where the Java Persistence query
 language cannot be used). Native SQL queries are not expected to be
 portable across databases.
+====
 
 ===== Returning Managed Entities from Native Queries
 
@@ -8802,7 +8799,7 @@ collection_member_declaration ::= IN (collection_valued_path_expression) [AS] id
 
 The following subsections discuss the constructs used in the FROM clause.
 
-==== Identifiers[[a4760]]
+==== Identifiers [[a4760]]
 
 An identifier is a character sequence of
 unlimited length. The character sequence must begin with a Java
@@ -9585,9 +9582,12 @@ WHERE clause or HAVING clause of a query or
 as the new value for an update item in the SET clause of an update
 statement.
 
+[NOTE]
+====
 Note that if an input parameter value is
 null, comparison operations or arithmetic operations involving the input
 parameter will return an unknown value. See <<a5676>>.
+====
 
 All input parameters must be single-valued,
 except in IN expressions (see <<a5107>>), which support the use of collection-valued input
@@ -12452,7 +12452,7 @@ package jakarta.persistence.metamodel;
 
 /**
  * Instances of the type <code>ListAttribute</code> represent persistent
- * <code>javax.util.List</code>-valued attributes.
+ * <code>java.util.List</code>-valued attributes.
  *
  * @param <X> The type the represented List belongs to
  * @param <E> The element type of the represented List
@@ -12563,7 +12563,7 @@ sections that follow. The metamodel on which criteria queries are based
 is presented in <<a6072>>.
 The static metamodel classes that can be used in constructing
 strongly-typed criteria queries are described in <<a6933>>. The
-_javax.persistence.criteria_ interfaces are presented in <<a6997>>. Sections
+_jakarta.persistence.criteria_ interfaces are presented in <<a6997>>. Sections
 <<a10608>> through <<a11413>> describe the
 construction and modification of criteria query objects. Additional
 requirements on the persistence provider are described in <<a11427>>.
@@ -12576,7 +12576,7 @@ metamodel classes corresponding to the managed classes of the
 persistence unit can be generated by means of an annotation processor or
 can be created by the application developer, or the metamodel can be
 accessed dynamically by use of the
-_javax.persistence.metamodel.Metamodel_ interface. The _getMetamodel_
+_jakarta.persistence.metamodel.Metamodel_ interface. The _getMetamodel_
 method of the _EntityManagerFactory_ or _EntityManager_ interface can be
 used to obtain a _Metamodel_ instance.
 
@@ -12607,9 +12607,9 @@ this specification.]
 from the name of the managed class by appending " ___ " to the name of
 the managed class.
 * The metamodel class _X__ must be annotated
-with the _javax.persistence.StaticMetamodel_
+with the _jakarta.persistence.StaticMetamodel_
 annotationfootnote:[If the class was
-generated, the _javax.annotation.Generated_ annotation should be used to
+generated, the _jakarta.annotation.Generated_ annotation should be used to
 annotate the class. The use of any annotations other than
 _StaticMetamodel_ and _Generated_ on static metamodel classes is
 undefined.].
@@ -12660,12 +12660,12 @@ public static volatile MapAttribute<X, K, Z> z;
 where _K_ is the type of the key of the map in class _X_
 
 Import statements must be included for the
-needed _javax.persistence.metamodel_ types as appropriate (e.g.,
-_javax.persistence.metamodel.SingularAttribute_,
-_javax.persistence.metamodel.CollectionAttribute_,
-_javax.persistence.metamodel.SetAttribute_,
-_javax.persistence.metamodel.ListAttribute_,
-_javax.persistence.metamodel.MapAttribute_) and all classes _X_, _Y_,
+needed _jakarta.persistence.metamodel_ types as appropriate (e.g.,
+_jakarta.persistence.metamodel.SingularAttribute_,
+_jakarta.persistence.metamodel.CollectionAttribute_,
+_jakarta.persistence.metamodel.SetAttribute_,
+_jakarta.persistence.metamodel.ListAttribute_,
+_jakarta.persistence.metamodel.MapAttribute_) and all classes _X_, _Y_,
 _Z_, and _K_.
 
 [NOTE]
@@ -16304,7 +16304,7 @@ public interface ParameterExpression<T> extends Parameter<T>, Expression<T> {}
 
 === Criteria Query API Usage [[a10608]]
 
-The _javax.persistence.criteria_ API
+The _jakarta.persistence.criteria_ API
 interfaces are designed both to allow criteria queries to be constructed
 in a strongly-typed manner, using metamodel objects to provide type
 safety, and to allow for string-based use as an alternative:
@@ -16329,7 +16329,7 @@ the range of queries that can be expressed and operational semantics.
 criteria API interfaces. This section is illustrated on the basis of the
 construction of strongly-typed queries using static metamodel classes.
 <<a11305>> describes how
-the _javax.persistence.metamodel_ API can be used to construct
+the _jakarta.persistence.metamodel_ API can be used to construct
 strongly-typed queries in the absence of such classes. String-based use
 of the criteria API is described in <<a11349>>.
 
@@ -16337,7 +16337,7 @@ of the criteria API is described in <<a11349>>.
 
 A criteria query is constructed through the
 creation and modification of a
-_javax.persistence.criteria.CriteriaQuery_ object.
+_jakarta.persistence.criteria.CriteriaQuery_ object.
 
 The _CriteriaBuilder_ interface is used to
 construct _CriteriaQuery_, _CriteriaUpdate_, and _CriteriaDelete_
@@ -16477,7 +16477,7 @@ q.select(order);
 
 The argument to the _join_ method,
 _Order_.lineItems_, is of type
-_javax.persistence.metamodel.SetAttribute<Order, Item>_.
+_jakarta.persistence.metamodel.SetAttribute<Order, Item>_.
 
 The _join_ methods have the same semantics as
 the corresponding Java Persistence query language operations, as
@@ -17719,7 +17719,7 @@ ORDER BY o.quantity, taxedCost, a.zipcode
 
 A bulk update query is constructed through
 the creation and modification of a
-_javax.persistence.criteria.CriteriaUpdate_ object.
+_jakarta.persistence.criteria.CriteriaUpdate_ object.
 
 A _CriteriaUpdate_ object is created by means
 of one of the _createCriteriaUpdate_ methods of the _CriteriaBuilder_
@@ -17729,7 +17729,7 @@ single root, the entity that is being updated.
 
 A bulk delete query is constructed through
 the creation and modification of a
-_javax.persistence.criteria.CriteriaDelete_ object.
+_jakarta.persistence.criteria.CriteriaDelete_ object.
 
 A _CriteriaDelete_ object is created by means
 of one of the _createCriteriaDelete_ methods of the _CriteriaBuilder_
@@ -17848,11 +17848,11 @@ desired, and/or manually validate the value of the version column.
 The persistence context is not synchronized
 with the result of the bulk update or delete. See <<a5636>>.
 
-=== Constructing Strongly-typed Queries using the javax.persistence.metamodel Interfaces [[a11305]]
+=== Constructing Strongly-typed Queries using the jakarta.persistence.metamodel Interfaces [[a11305]]
 
 Strongly-typed queries can also be
 constructed, either statically or dynamically, in the absence of
-generated metamodel classes. The _javax.persistence.metamodel_
+generated metamodel classes. The _jakarta.persistence.metamodel_
 interfaces are used to access the metamodel objects that correspond to
 the managed classes.
 
@@ -18264,10 +18264,10 @@ EntityManagerFactory emf;
 ==== Obtaining an Entity Manager Factory in a Java SE Environment
 
 Outside a Java EE container environment, the
-_javax.persistence.Persistence_ class is the bootstrap class that
+_jakarta.persistence.Persistence_ class is the bootstrap class that
 provides access to an entity manager factory. The application creates an
 entity manager factory by calling the _createEntityManagerFactory_
-method of the _javax.persistence.Persistence_ class, described in
+method of the _jakarta.persistence.Persistence_ class, described in
 <<a13443>>.
 
 For example,
@@ -18275,7 +18275,7 @@ For example,
 [source,java]
 ----
 EntityManagerFactory emf =
-    javax.persistence.Persistence.createEntityManagerFactory("Order");
+    jakarta.persistence.Persistence.createEntityManagerFactory("Order");
 EntityManager em = emf.createEntityManager();
 ----
 
@@ -18518,9 +18518,9 @@ JDBC user, password, URL).
 
 Vendors should use vendor namespaces for
 properties (e.g., _com.acme.persistence.logging_). Entries that make
-use of the namespace _javax.persistence_ and its subnamespaces must not
+use of the namespace _jakarta.persistence_ and its subnamespaces must not
 be used for vendor-specific information. The namespace
-_javax.persistence_ is reserved for use by this specification.
+_jakarta.persistence_ is reserved for use by this specification.
 
 === Controlling Transactions
 
@@ -18660,7 +18660,7 @@ use in creating and using a resource-local entity manager.
 
 [source,java]
 ----
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 public class PasswordChanger {
     public static void main (String[] args) {
@@ -19717,7 +19717,7 @@ descriptive information about the persistence unit.
 ===== provider [[a12300]]
 
 The _provider_ element specifies the name of
-the persistence provider's _javax.persistence.spi.PersistenceProvider_
+the persistence provider's _jakarta.persistence.spi.PersistenceProvider_
 class. The _provider_ element is optional, but should be specified if
 the application is dependent upon a particular persistence provider
 being used.
@@ -19986,47 +19986,47 @@ The following properties and hints defined by
 this specification are intended for use in both Java EE and Java SE
 environments:
 
-* _javax.persistence.lock.timeout_ — value in
+* _jakarta.persistence.lock.timeout_ — value in
 milliseconds for pessimistic lock timeout. This is a hint only.
-* _javax.persistence.query.timeout_ — value in
+* _jakarta.persistence.query.timeout_ — value in
 milliseconds for query timeout. This is a hint only.
-* _javax.persistence.validation.group.pre-persist_ — groups that are
+* _jakarta.persistence.validation.group.pre-persist_ — groups that are
 targeted for validation upon the pre-persist event (overrides the
 default behavior).
-* _javax.persistence.validation.group.pre-update_ — groups that are
+* _jakarta.persistence.validation.group.pre-update_ — groups that are
 targeted for validation upon the pre-update event (overrides the default
 behavior).
-* _javax.persistence.validation.group.pre-remove_ — groups that are
+* _jakarta.persistence.validation.group.pre-remove_ — groups that are
 targeted for validation upon the pre-remove event (overrides the default
 behavior).
 
 The following properties defined by this
 specification are intended for use in Java SE environments.
 
-* _javax.persistence.jdbc.driver_ — fully
+* _jakarta.persistence.jdbc.driver_ — fully
 qualified name of the driver class
-* _javax.persistence.jdbc.url_ — driver-specific URL
-* _javax.persistence.jdbc.user_ — username
+* _jakarta.persistence.jdbc.url_ — driver-specific URL
+* _jakarta.persistence.jdbc.user_ — username
 used by database connection
-* _javax.persistence.jdbc.password_ — password
+* _jakarta.persistence.jdbc.password_ — password
 for database connection validation
 
 Scripts for use in schema generation may be
 specified using the
-_javax.persistence.schema-generation.create-script-source_ and
-_javax.persistence.schema-generation.drop-script-source_ properties. A
+_jakarta.persistence.schema-generation.create-script-source_ and
+_jakarta.persistence.schema-generation.drop-script-source_ properties. A
 script to specify SQL for the bulk loading of data may be specified by
-the _javax.persistence.sql-load-script-source_ property. These
+the _jakarta.persistence.sql-load-script-source_ property. These
 properties are intended for use in both Java EE and Java SE
 environments:
 
-* _javax.persistence.schema-generation.create-script-source_ — _name of a
+* _jakarta.persistence.schema-generation.create-script-source_ — _name of a
 script packaged as part of the persistence application or a string
 corresponding to a file URL string that designates a script._
-* _javax.persistence.schema-generation.drop-script-source_ — _name of a
+* _jakarta.persistence.schema-generation.drop-script-source_ — _name of a
 script packaged as part of the persistence application or a string
 corresponding to a file URL string that designates a script._
-* _javax.persistence.sql-load-script-source_ —
+* _jakarta.persistence.sql-load-script-source_ —
 _name of a script packaged as part of the persistence unit or a string
 corresponding to a file URL string that designates a script._
 
@@ -20046,30 +20046,30 @@ generation will be initiated by means of the APIs described in
 generation actions may also be specified by means of the following
 properties used in the _persistence.xml_ file.
 
-* _javax.persistence.schema-generation.database.action_ +
-The _javax.persistence.schema-generation.database.action_ property specifies
+* _jakarta.persistence.schema-generation.database.action_ +
+The _jakarta.persistence.schema-generation.database.action_ property specifies
 the action to be taken by the persistence provider with regard to the
 database artifacts. The values for this property are _none_, _create_,
 _drop-and-create_, _drop_. If this property is not specified, it is
 assumed that schema generation is not needed or will be initiated by
 other means, and, by default, no schema generation actions will be taken
 on the database. (See <<a12917>>.)
-* _javax.persistence.schema-generation.scripts.action_ +
-The _javax.persistence.schema-generation.scripts.action_ property specifies
+* _jakarta.persistence.schema-generation.scripts.action_ +
+The _jakarta.persistence.schema-generation.scripts.action_ property specifies
 which scripts are to be generated by the persistence provider. The
 values for this property are _none_, _create_, _drop-and-create_,
 _drop_. A script will only be generated if the script target is
 specified. If this property is not specified, it is assumed that script
 generation is not needed or will be initiated by other means, and, by
 default, no scripts will be generated. (See <<a12917>>.)
-* _javax.persistence.schema-generation.create-source_ +
-The _javax.persistence.schema-generation.create-source_ property specifies
+* _jakarta.persistence.schema-generation.create-source_ +
+The _jakarta.persistence.schema-generation.create-source_ property specifies
 whether the creation of database artifacts is to occur on the basis of
 the object/relational mapping metadata, DDL script, or a combination of
 the two. The values for this property are _metadata_, _script_,
 _metadata-then-script_, _script-then-metadata_. If this property is
 not specified, and a script is specified by the
-_javax.persistence.schema-generation.create-script-source_ property, the
+_jakarta.persistence.schema-generation.create-script-source_ property, the
 script (only) will be used for schema generation; otherwise if this
 property is not specified, schema generation will occur on the basis of
 the object/relational mapping metadata (only). The
@@ -20078,14 +20078,14 @@ combination of metadata and script is to be used and the order in which
 this use is to occur. If either of these values is specified and the
 resulting database actions are not disjoint, the results are undefined
 and schema generation may fail.
-* _javax.persistence.schema-generation.drop-source_ +
-The _javax.persistence.schema-generation.drop-source_ property specifies
+* _jakarta.persistence.schema-generation.drop-source_ +
+The _jakarta.persistence.schema-generation.drop-source_ property specifies
 whether the dropping of database artifacts is to occur on the basis of
 the object/relational mapping metadata, DDL script, or a combination of
 the two. The values for this property are _metadata_, _script_,
 _metadata-then-script_, _script-then-metadata_. If this property is
 not specified, and a script is specified by the
-_javax.persistence.schema-generation.drop-script-source_ property, the
+_jakarta.persistence.schema-generation.drop-script-source_ property, the
 script (only) will be used for the dropping of database artifacts;
 otherwise if this property is not specified, the dropping of database
 artifacts will occur on the basis of the object/relational mapping
@@ -20094,8 +20094,8 @@ values specify that a combination of metadata and script is to be used
 and the order in which this use is to occur. If either of these values
 is specified and the resulting database actions are not disjoint, the
 results are undefined and the dropping of database artifacts may fail.
-* _javax.persistence.schema-generation.scripts.create-target_, +
-_javax.persistence.schema-generation.scripts.drop-target_ +
+* _jakarta.persistence.schema-generation.scripts.create-target_, +
+_jakarta.persistence.schema-generation.scripts.drop-target_ +
 If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. These
 targets are specified as strings corresponding to file URLs.
@@ -20106,9 +20106,9 @@ provider must ignore it.
 
 Vendors should use vendor namespaces for
 properties (e.g., _com.acme.persistence.logging_). Entries that make
-use of the namespace _javax.persistence_ and its subnamespaces must not
+use of the namespace _jakarta.persistence_ and its subnamespaces must not
 be used for vendor-specific information. The namespace
-_javax.persistence_ is reserved for use by this specification.
+_jakarta.persistence_ is reserved for use by this specification.
 
 ===== Examples
 
@@ -20660,7 +20660,7 @@ passed to the provider when creating the entity manager factory for the
 persistence unit.
 
 Once the container has read the persistence
-metadata, it determines the _javax.persistence.spi.PersistenceProvider_
+metadata, it determines the _jakarta.persistence.spi.PersistenceProvider_
 implementation class for each deployed named persistence unit. The
 container then creates an instance of the _PersistenceProvider_
 implementation class for each deployed named persistence unit and
@@ -20677,12 +20677,12 @@ a _ValidatorFactory_ instance must be made available by the container.
 The container is responsible for passing this _ValidatorFactory_
 instance via the map that is passed as an argument to the
 _createContainerEntityManagerFactory_ call. The map key used must be the
-standard property name _javax.persistence.validation.factory_.
+standard property name _jakarta.persistence.validation.factory_.
 * If CDI is enabled, a _BeanManager_ instance
 must be made available by the container. The container is responsible
 for passing this _BeanManager_ instance via the map that is passed as an
 argument to the _createContainerEntityManagerFactory_ call. The map key
-used must be the standard property name _javax.persistence.bean.manager_.
+used must be the standard property name _jakarta.persistence.bean.manager_.
 
 The _EntityManagerFactory_ instance obtained
 as a result will be used by the container to create container-managed
@@ -20719,10 +20719,10 @@ export the provider implementation class to the _Persistence_ bootstrap
 class, positioning the provider as a candidate for backing named
 persistence units. The provider supplies the provider configuration file
 by creating a text file named
-_javax.persistence.spi.PersistenceProvider_ and placing it in the
+_jakarta.persistence.spi.PersistenceProvider_ and placing it in the
 _META-INF/services_ directory of one of its JAR files. The contents of
 the file should be the name of the provider implementation class of the
-_javax.persistence.spi.PersistenceProvider_ interface.
+_jakarta.persistence.spi.PersistenceProvider_ interface.
 
 *Example:*
 
@@ -20733,13 +20733,13 @@ file.
 
 ----
 acme.jar
-    META-INF/services/javax.persistence.spi.PersistenceProvider
+    META-INF/services/jakarta.persistence.spi.PersistenceProvider
     com.acme.PersistenceProvider
     ...
 ----
 
 The contents of the
-_META-INF/services/javax.persistence.spi.PersistenceProvider_ file is
+_META-INF/services/jakarta.persistence.spi.PersistenceProvider_ file is
 nothing more than the name of the implementation class:
 _com.acme.PersistenceProvider_.
 
@@ -20758,9 +20758,9 @@ following are true:
 * Its implementation class has been specified
 in the _provider_ element for that persistence unit in the
 _persistence.xml_ file and has not been overridden by a different
-_javax.persistence.provider_ property value included in the Map passed
+_jakarta.persistence.provider_ property value included in the Map passed
 to the _createEntityManagerFactory_ method.
-* The _javax.persistence.provider_ property was
+* The _jakarta.persistence.provider_ property was
 included in the Map passed to _createEntityManagerFactory_ and the value
 of the property is the provider's implementation class.
 * No provider was specified for the persistence
@@ -20788,9 +20788,9 @@ true:
 * Its implementation class has been specified
 in the _provider_ element for that persistence unit in the
 _persistence.xml_ file and has not been overridden by a different
-_javax.persistence.provider_ property value included in the Map passed
+_jakarta.persistence.provider_ property value included in the Map passed
 to the _generateSchema_ method.
-* The _javax.persistence.provider_ property was
+* The _jakarta.persistence.provider_ property was
 included in the Map passed to _generateSchema_ and the value of the
 property is the provider's implementation class.
 * No provider was specified for the persistence
@@ -21016,28 +21016,28 @@ absolute paths (not relative). In Java EE environments, all source and
 target file locations must be accessible to the application server
 deploying the persistence unit
 
-* _javax.persistence.schema-generation.database.action_ +
-The _javax.persistence.schema-generation.database.action_ property specifies
+* _jakarta.persistence.schema-generation.database.action_ +
+The _jakarta.persistence.schema-generation.database.action_ property specifies
 the action to be taken by the persistence provider with regard to the
 database artifacts. The values for this property are _"none"_,
 _"create"_, _"drop-and-create"_, _"drop"_. If the
-_javax.persistence.schema-generation.database.action_ property is not
+_jakarta.persistence.schema-generation.database.action_ property is not
 specified, no schema generation actions must be taken on the database.
-* _javax.persistence.schema-generation.scripts.action_ +
-The _javax.persistence.schema-generation.scripts.action_ property specifies
+* _jakarta.persistence.schema-generation.scripts.action_ +
+The _jakarta.persistence.schema-generation.scripts.action_ property specifies
 which scripts are to be generated by the persistence provider. The
 values for this property are _"none"_, _"create"_, _"drop-and-create"_
 , _"drop"_. A script will only be generated if the script target is
 specified. If this property is not specified, no scripts will be
 generated.
-* _javax.persistence.schema-generation.create-source_ +
-The _javax.persistence.schema-generation.create-source_ property specifies
+* _jakarta.persistence.schema-generation.create-source_ +
+The _jakarta.persistence.schema-generation.create-source_ property specifies
 whether the creation of database artifacts is to occur on the basis of
 the object/relational mapping metadata, DDL script, or a combination of
 the two. The values for this property are _"metadata"_, _"script"_,
 _"metadata-then-script"_, _"script-then-metadata"_. If this property
 is not specified, and a script is specified by the
-_javax.persistence.schema-generation.create-script-source_ property, the
+_jakarta.persistence.schema-generation.create-script-source_ property, the
 script (only) will be used for schema generation; otherwise if this
 property is not specified, schema generation will occur on the basis of
 the object/relational mapping metadata (only). The
@@ -21046,14 +21046,14 @@ that a combination of metadata and script is to be used and the order in
 which this use is to occur. If either of these values is specified and
 the resulting database actions are not disjoint, the results are
 undefined and schema generation may fail.
-* _javax.persistence.schema-generation.drop-source_ +
-The _javax.persistence.schema-generation.drop-source_ property specifies
+* _jakarta.persistence.schema-generation.drop-source_ +
+The _jakarta.persistence.schema-generation.drop-source_ property specifies
 whether the dropping of database artifacts is to occur on the basis of
 the object/relational mapping metadata, DDL script, or a combination of
 the two. The values for this property are _"metadata"_, _"script"_,
 _"metadata-then-script"_, _"script-then-metadata"_. If this property
 is not specified, and a script is specified by the
-_javax.persistence.schema-generation.drop-script-source_ property, the
+_jakarta.persistence.schema-generation.drop-script-source_ property, the
 script (only) will be used for the dropping of database artifacts;
 otherwise if this property is not specified, the dropping of database
 artifacts will occur on the basis of the object/relational mapping
@@ -21063,12 +21063,12 @@ and script is to be used and the order in which this use is to occur. If
 either of these values is specified and the resulting database actions
 are not disjoint, the results are undefined and the dropping of database
 artifacts may fail.
-* _javax.persistence.schema-generation.create-database-schemas_ +
+* _jakarta.persistence.schema-generation.create-database-schemas_ +
 In Java EE environments, it is anticipated
 that the Java EE platform provider may wish to control the creation of
 database schemas rather than delegate this task to the persistence
 provider. The
-_javax.persistence.schema-generation.create-database-schemas_ property
+_jakarta.persistence.schema-generation.create-database-schemas_ property
 specifies whether the persistence provider is to create the database
 schema(s) in addition to creating database objects such as tables,
 sequences, constraints, etc. The value of this boolean property should
@@ -21077,39 +21077,39 @@ database or to generate DDL that contains “CREATE SCHEMA” commands. If
 this property is not supplied, the provider should not attempt to create
 database schemas. This property may also be specified in Java SE
 environments.
-* _javax.persistence.schema-generation.scripts.create-target_, +
-_javax.persistence.schema-generation.scripts.drop-target_ +
+* _jakarta.persistence.schema-generation.scripts.create-target_, +
+_jakarta.persistence.schema-generation.scripts.drop-target_ +
 If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. +
-The _javax.persistence.schema-generation.scripts.create-target_ property
+The _jakarta.persistence.schema-generation.scripts.create-target_ property
 specifies a _java.IO.Writer_ configured for use by the persistence
 provider for output of the DDL script or a string specifying the file
 URL for the DDL script. This property should only be specified if
 scripts are to be generated. +
-The _javax.persistence.schema-generation.scripts.drop-target_ property
+The _jakarta.persistence.schema-generation.scripts.drop-target_ property
 specifies a _java.IO.Writer_ configured for use by the persistence
 provider for output of the DDL script or a string specifying the file
 URL for the DDL script. This property should only be specified if
 scripts are to be generated.
-* _javax.persistence.database-product-name_, +
-_javax.persistence.database-major-version_, +
-_javax.persistence.database-minor-version_ +
+* _jakarta.persistence.database-product-name_, +
+_jakarta.persistence.database-major-version_, +
+_jakarta.persistence.database-minor-version_ +
 If scripts are to be generated by the
 persistence provider and a connection to the target database is not
-supplied, the _javax.persistence.database-product-name_ property must be
+supplied, the _jakarta.persistence.database-product-name_ property must be
 specified. The value of this property should be the value returned for
 the target database by the JDBC _DatabaseMetaData_ method
 _getDatabaseProductName_. If sufficient database version information is
 not included in the result of this method, the
-_javax.persistence.database-major-version_ and
-_javax.persistence.database-minor-version_ properties should be
+_jakarta.persistence.database-major-version_ and
+_jakarta.persistence.database-minor-version_ properties should be
 specified as needed. These should contain the values returned by the
 JDBC _getDatabaseMajorVersion_ and _getDatabaseMinorVersion_ methods
 respectively.
-* _javax.persistence.schema-generation.create-script-source_, +
-_javax.persistence.schema-generation.drop-script-source_ +
-The _javax.persistence.schema-generation.create-script-source_ and
-_javax.persistence.schema-generation.drop-script-source_ properties are
+* _jakarta.persistence.schema-generation.create-script-source_, +
+_jakarta.persistence.schema-generation.drop-script-source_ +
+The _jakarta.persistence.schema-generation.create-script-source_ and
+_jakarta.persistence.schema-generation.drop-script-source_ properties are
 used for script execution. In Java EE container environments, it is
 generally expected that the container will be responsible for executing
 DDL scripts, although the container is permitted to delegate this task
@@ -21117,15 +21117,15 @@ to the persistence provider. If DDL scripts are to be used in Java SE
 environments or if the Java EE container delegates the execution of
 scripts to the persistence provider, these properties must be specified. +
 The
-_javax.persistence.schema-generation.create-script-source_ property
+_jakarta.persistence.schema-generation.create-script-source_ property
 specifies a _java.IO.Reader_ configured for reading of the DDL script or
 a string designating a file URL for the DDL script. +
 The
-_javax.persistence.schema-generation.drop-script-source_ property
+_jakarta.persistence.schema-generation.drop-script-source_ property
 specifies a _java.IO.Reader_ configured for reading of the DDL script or
 a string designating a file URL for the DDL script.
-* _javax.persistence.schema-generation.connection_ +
-The _javax.persistence.schema-generation.connection_ property specifies the
+* _jakarta.persistence.schema-generation.connection_ +
+The _jakarta.persistence.schema-generation.connection_ property specifies the
 JDBC connection to be used for schema generation. This is intended for
 use in Java EE environments, where the platform provider may want to
 control the database privileges that are available to the persistence
@@ -21142,10 +21142,10 @@ Data loading, by means of the use of SQL
 scripts, may occur as part of the schema generation process after the
 creation of the database artifacts or independently of schema
 generation. The specification of the
-_javax.persistence.sql-load-script-source_ controls whether data loading
+_jakarta.persistence.sql-load-script-source_ controls whether data loading
 will occur.
 
-* _javax.persistence.sql-load-script-source_ +
+* _jakarta.persistence.sql-load-script-source_ +
 In Java EE container environments, it is
 generally expected that the container will be responsible for executing
 data load scripts, although the container is permitted to delegate this
@@ -21153,7 +21153,7 @@ task to the persistence provider. If a load script is to be used in Java
 SE environments or if the Java EE container delegates the execution of
 the load script to the persistence provider, this property must be
 specified. + The
-_javax.persistence.sql-load-script-source_ property specifies a
+_jakarta.persistence.sql-load-script-source_ property specifies a
 _java.IO.Reader_ configured for reading of the SQL load script for
 database initialization or a string designating a file URL for the
 script.
@@ -21195,7 +21195,7 @@ In Java SE environments, the application can
 pass the _ValidatorFactory_ instance via the map that is passed as an
 argument to the _Persistence.createEntityManagerFactory_ call. The map
 key used must be the standard property name
-_javax.persistence.validation.factory_. If no _ValidatorFactory_
+_jakarta.persistence.validation.factory_. If no _ValidatorFactory_
 instance is provided by the application, and if a Bean Validation
 provider is present in the classpath, the persistence provider must
 instantiate the _ValidatorFactory_ using the default bootstrapping
@@ -21203,15 +21203,15 @@ approach as defined by the Bean Validation specification
 <<a19498>>, namely
 _Validation.buildDefaultValidatorFactory()_.
 
-==== javax.persistence.spi.PersistenceProvider
+==== jakarta.persistence.spi.PersistenceProvider
 
 The interface
-_javax.persistence.spi.PersistenceProvider_ must be implemented by the
+_jakarta.persistence.spi.PersistenceProvider_ must be implemented by the
 persistence provider.
 
 It is invoked by the container in Java EE
-environments and by the _javax.persistence.Persistence_ class in Java SE
-environments. The _javax.persistence.spi.PersistenceProvider_
+environments and by the _jakarta.persistence.Persistence_ class in Java SE
+environments. The _jakarta.persistence.spi.PersistenceProvider_
 implementation is not intended to be used by the application.
 
 The _PersistenceProvider_ implementation
@@ -21331,7 +21331,7 @@ The properties used in the
 _createEntityManagerFactory_ method in Java SE environments are
 described further in <<a13443>> below.
 
-==== javax.persistence.spi.ProviderUtil
+==== jakarta.persistence.spi.ProviderUtil
 
 The _ProviderUtil_ interface is invoked by
 the _PersistenceUtil_ implementation to determine the load status of an
@@ -21440,7 +21440,7 @@ public enum LoadState {
 }
 ----
 
-=== javax.persistence.spi.PersistenceUnitInfo Interface [[a13160]]
+=== jakarta.persistence.spi.PersistenceUnitInfo Interface [[a13160]]
 
 [source,java]
 ----
@@ -21653,7 +21653,7 @@ public interface PersistenceUnitInfo {
 ----
 
 The enum
-_javax.persistence.spi.PersistenceUnitTransactionType_ defines whether
+_jakarta.persistence.spi.PersistenceUnitTransactionType_ defines whether
 the entity managers created by the factory will be JTA or resource-local
 entity managers.
 
@@ -21680,7 +21680,7 @@ public enum PersistenceUnitTransactionType {
 }
 ----
 
-The enum _javax.persistence.SharedCacheMode_
+The enum _jakarta.persistence.SharedCacheMode_
 defines the use of caching. The _persistence.xml_ _shared-cache-mode_
 element has no default value. The _getSharedCacheMode_ method must
 return _UNSPECIFIED_ if the _shared-cache-mode_ element has not been
@@ -21733,7 +21733,7 @@ public enum SharedCacheMode {
 }
 ----
 
-The enum _javax.persistence.ValidationMode_
+The enum _jakarta.persistence.ValidationMode_
 defines the validation mode.
 
 [source,java]
@@ -21771,9 +21771,9 @@ public enum ValidationMode {
 }
 ----
 
-==== javax.persistence.spi.ClassTransformer Interface
+==== jakarta.persistence.spi.ClassTransformer Interface
 
-The _javax.persistence.spi.ClassTransformer_
+The _jakarta.persistence.spi.ClassTransformer_
 interface is implemented by a persistence provider that wants to
 transform entities and managed classes at class load time or at class
 redefinition time.
@@ -21828,7 +21828,7 @@ public interface ClassTransformer {
 }
 ----
 
-=== javax.persistence.Persistence Class [[a13443]]
+=== jakarta.persistence.Persistence Class [[a13443]]
 
 The _Persistence_ class is used to obtain an
 _EntityManagerFactory_ instance in Java SE environments. It may also be
@@ -21977,93 +21977,93 @@ the corresponding elements and properties in the _persistence.xml_ file
 for the named persistence unit. They also override any defaults that the
 persistence provider might have applied.
 
-* _javax.persistence.lock.timeout_ — integer
+* _jakarta.persistence.lock.timeout_ — integer
 value in milliseconds for pessimistic lock timeout or string
 corresponding to integer value. This corresponds to the property of the
 same name in the _persistence.xml_, and is a hint only. See <<a2132>>.
-* _javax.persistence.query.timeout_ — integer
+* _jakarta.persistence.query.timeout_ — integer
 value in milliseconds for query timeout or string corresponding to
 integer value. This corresponds to the property of the same name in the
 _persistence.xml_, and is a hint only. See <<a4391>>.
-* _javax.persistence.provider_ — string
+* _jakarta.persistence.provider_ — string
 corresponding to the _provider_ element in the pe _rsistence.xml_. See
 <<a12300>>.
-* _javax.persistence.transactionType_ — string
+* _jakarta.persistence.transactionType_ — string
 corresponding to the _transaction-type_ attribute in the
 _persistence.xml_. See <<a12296>>.
-* _javax.persistence.jtaDataSource_ — string
+* _jakarta.persistence.jtaDataSource_ — string
 corresponding to the _jta-data-source_ element in the _persistence.xml_.
  See <<a12302>>.
-* _javax.persistence.nonJtaDataSource_ —
+* _jakarta.persistence.nonJtaDataSource_ —
 string corresponding to the _non-jta-data-source_ element in the
 _persistence.xml_. See <<a12302>>.
-* _javax.persistence.sharedCache.mode_
+* _jakarta.persistence.sharedCache.mode_
 — string corresponding to the _shared-cache-mode_ element in the
 _persistence.xml_. See <<a12380>>.
-* _javax.persistence.validation.mode_ — string
+* _jakarta.persistence.validation.mode_ — string
 corresponding to the _validation-mode_ element in the _persistence.xml_
 . The value is " _auto_ ", " _callback_ ", or " _none_ ". See
 <<a12382>> and <<a2374>>.
-* _javax.persistence.validation.group.pre-persist_ — string corresponding
-to the _javax.persistence.validation.group.pre-persist_ property in the
+* _jakarta.persistence.validation.group.pre-persist_ — string corresponding
+to the _jakarta.persistence.validation.group.pre-persist_ property in the
 _persistence.xml_. See <<a12384>> and <<a2380>>.
-* _javax.persistence.validation.group.pre-update_ — string corresponding
-to the _javax.persistence.validation.group.pre-update_ property in the
+* _jakarta.persistence.validation.group.pre-update_ — string corresponding
+to the _jakarta.persistence.validation.group.pre-update_ property in the
 _persistence.xml_. See <<a12384>> and <<a2380>>.
-* _javax.persistence.validation.group.pre-remove_ — string corresponding
-to the _javax.persistence.validation.group.pre-remove_ property in the
+* _jakarta.persistence.validation.group.pre-remove_ — string corresponding
+to the _jakarta.persistence.validation.group.pre-remove_ property in the
 _persistence.xml_. See <<a12384>> and <<a2380>>.
-* _javax.persistence.schema-generation.create-script-source_ — string
+* _jakarta.persistence.schema-generation.create-script-source_ — string
 corresponding to the
-_javax.persistence.schema-generation.create-script-source_ property in
+_jakarta.persistence.schema-generation.create-script-source_ property in
 the _persistence.xml_. See <<a12384>>.
-* _javax.persistence.schema-generation.drop-script-source_ — string
+* _jakarta.persistence.schema-generation.drop-script-source_ — string
 corresponding to the
-_javax.persistence.schema-generation.drop-script-source_ property in
+_jakarta.persistence.schema-generation.drop-script-source_ property in
 the _persistence.xml_. See <<a12384>>.
-* _javax.persistence.sql-load-script-source_ —
-string corresponding to the _javax.persistence.sql-load-script-source_
+* _jakarta.persistence.sql-load-script-source_ —
+string corresponding to the _jakarta.persistence.sql-load-script-source_
 property in the _persistence.xml_. See <<a12384>>.
-* _javax.persistence.schema-generation.database.action_ — string
+* _jakarta.persistence.schema-generation.database.action_ — string
 corresponding to the
-_javax.persistence.schema-generation.database.action_ property in the
+_jakarta.persistence.schema-generation.database.action_ property in the
 _persistence.xml_. See <<a12384>>.
-* _javax.persistence.schema-generation.scripts.action_ — string
+* _jakarta.persistence.schema-generation.scripts.action_ — string
 corresponding to the
-_javax.persistence.schema-generation.scripts.action_ property in the
+_jakarta.persistence.schema-generation.scripts.action_ property in the
 _persistence.xml_. See <<a12384>>.
-* _javax.persistence.schema-generation.create-source_ — string
-corresponding to the _javax.persistence.schema-generation.create-source_
+* _jakarta.persistence.schema-generation.create-source_ — string
+corresponding to the _jakarta.persistence.schema-generation.create-source_
 property in the _persistence.xml_. See <<a12384>>.
-* _javax.persistence.schema-generation.drop-source_ — string corresponding
-to the _javax.persistence.schema-generation.drop-source_ property in
+* _jakarta.persistence.schema-generation.drop-source_ — string corresponding
+to the _jakarta.persistence.schema-generation.drop-source_ property in
 the _persistence.xml_. See <<a12384>>.
-* _javax.persistence.schema-generation.scripts.create-target_ —string
+* _jakarta.persistence.schema-generation.scripts.create-target_ —string
 corresponding to the
-_javax.persistence.schema-generation.scripts.create-target_ property in
+_jakarta.persistence.schema-generation.scripts.create-target_ property in
 the _persistence.xml_. See <<a12384>>.
-* _javax.persistence.schema-generation.scripts.drop-target_ — string
+* _jakarta.persistence.schema-generation.scripts.drop-target_ — string
 corresponding to the
-_javax.persistence.schema-generation.scripts.drop-target_ property in
+_jakarta.persistence.schema-generation.scripts.drop-target_ property in
 the _persistence.xml_. See <<a12384>>.
 
 The following additional standard properties
 are defined by this specification for the configuration of the entity
 manager factory:
 
-* _javax.persistence.jdbc.driver_ — value is
+* _jakarta.persistence.jdbc.driver_ — value is
 the fully qualified name of the driver class.
-* _javax.persistence.jdbc.url_ — string
+* _jakarta.persistence.jdbc.url_ — string
 corresponding to the driver-specific URL.
-* _javax.persistence.jdbc.user_ — value is the
+* _jakarta.persistence.jdbc.user_ — value is the
 username used by database connection.
-* _javax.persistence.jdbc.password_ — value is
+* _jakarta.persistence.jdbc.password_ — value is
 the password for database connection validation.
-* _javax.persistence.dataSource_ — value is
+* _jakarta.persistence.dataSource_ — value is
 instance of _javax.sql.DataSource_ to be used for the specified
 persistence unit.
-* _javax.persistence.validation.factory_ —
-value is instance of _javax.validation.ValidatorFactory_.
+* _jakarta.persistence.validation.factory_ —
+value is instance of _jakarta.validation.ValidatorFactory_.
 
 Any number of vendor-specific properties may
 also be included in the map. If a persistence provider does not
@@ -22072,9 +22072,9 @@ specification), the provider must ignore it.
 
 Vendors should use vendor namespaces for
 properties (e.g., _com.acme.persistence.logging_). Entries that make
-use of the namespace _javax.persistence_ and its subnamespaces must not
+use of the namespace _jakarta.persistence_ and its subnamespaces must not
 be used for vendor-specific information. The namespace
-_javax.persistence_ is reserved for use by this specification.
+_jakarta.persistence_ is reserved for use by this specification.
 
 === PersistenceUtil Interface
 
@@ -22199,7 +22199,7 @@ define the metadata annotations introduced by this specification.
 The XML schema defined in chapter
 <<a16944>> provides an alternative to the use of metadata annotations.
 
-These annotations and types are in the package _javax.persistence_.
+These annotations and types are in the package _jakarta.persistence_.
 
 === Entity
 
@@ -22908,7 +22908,7 @@ to control schema generation is specified in <<a16444>>.
 === Annotations for Object/Relational Mapping
 
 These annotations and types are in the
-package _javax.persistence_.
+package _jakarta.persistence_.
 
 XML metadata may be used as an alternative to
 these annotations, or to override or augment annotations, as described
@@ -23526,7 +23526,7 @@ its state must not be cached by the provider.
 
 If the _shared-cache-mode_ element is not
 specified in the _persistence.xml_ file and the
-_javax.persistence.sharedCache.mode_ property is not specified when the
+_jakarta.persistence.sharedCache.mode_ property is not specified when the
 entity manager factory for the persistence unit is created, the
 semantics of the _Cacheable_ annotation are undefined.
 
