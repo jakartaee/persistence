@@ -28,6 +28,58 @@ include::license-efsl.adoc[]
 :sectnums!:
 include::scope.adoc[]
 
-// == The spec
+// == The Introduction
 :sectnums:
-include::spec.adoc[]
+include::introduction.adoc[]
+
+// == Entities
+:sectnums:
+include::entities.adoc[]
+
+// == Entity Operations
+:sectnums:
+include::entity-operations.adoc[]
+
+// == Query Language
+:sectnums:
+include::query-language.adoc[]
+
+// == Metamodel API
+:sectnums:
+include::metamodel-api.adoc[]
+
+// == Criteria API
+:sectnums:
+include::criteria-api.adoc[]
+
+// == Entity Managers and Persistence Contexts
+:sectnums:
+include::entitymanagers-and-persistence-contexts.adoc[]
+
+// == Entity Packaging
+:sectnums:
+include::entity-packaging.adoc[]
+
+// == Container and Provider Contracts for Deployment and Bootstrapping
+:sectnums:
+include::container-provider-contracts.adoc[]
+
+// == Metadata Annotations
+:sectnums:
+include::metadata-annotations.adoc[]
+
+// == Metadata for Object/Relational Mapping
+:sectnums:
+include::metadata-for-or-mapping.adoc[]
+
+// == XML Object/Relational Mapping Descriptor
+:sectnums:
+include::xml-or-mapping-descriptor.adoc[]
+
+// == Related Documents
+:sectnums:
+include::related-documents.adoc[]
+
+// == Appendixes
+:sectnums:
+include::appendixes.adoc[]

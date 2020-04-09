@@ -1,0 +1,64 @@
+== Introduction
+
+This document is the specification of the
+Jakarta API for the management of persistence and object/relational mapping
+with Java EE and Java SE. The technical objective of this work is to
+provide an object/relational mapping facility for the Java application
+developer using a Java domain model to manage a relational database.
+
+The Jakarta Persistence 3.0 specification is the first release after
+moving the project to Eclipse Foundation. All APIs are moved from _javax.*
+package_ to _jakarta.*_ package. All properties containing _javax_ as
+part of the name are renamed the way that _javax_ is replaced with _jakarta_.
+
+The Java Persistence 2.2 specification
+enhances the Jakarta Persistence API with support for repeating
+annotations; injection into attribute converters; support for mapping of
+the _java.time.LocalDate_, _java.time.LocalTime_, _java.time.LocalDateTime_,
+_java.time.OffsetTime_, and _java.time.OffsetDateTime_ types; and methods to
+retrieve the results of _Query_ and _TypedQuery_ as streams.
+
+The Java Persistence 2.1 specification added
+support for schema generation, type conversion methods, use of entity
+graphs in queries and find operations, unsynchronized persistence
+contexts, stored procedure invocation, and injection into entity
+listener classes. It also includes enhancements to the Java Persistence
+query language, the Criteria API, and to the mapping of native queries.
+
+=== Expert Group
+
+This revision to the JPA specification is
+based on JPA 2.1, whose work was conducted as part of JSR 338 under the
+Java Community Process Program. This specification is the result of the
+collaborative work of the members of the JSR 338 Expert Group: akquinet
+tech@Spree: Michael Bouschen; Ericsson: Nicolas Seyvet; IBM: Kevin
+Sutter, Pinaki Poddar; OW2: Florent Benoit; Oracle: Linda DeMichiel,
+Gordon Yorke, Michael Keith; Pramati Technologies: Deepak Anupalli; Red
+Hat, Inc.: Emmanuel Bernard, Steve Ebersole, Scott Marlow; SAP AG:
+Rainer Schweigkoffer; Sybase: Evan Ireland; Tmax Soft Inc.: Miju Byon;
+Versant: Christian von Kutzleben; VMware: Oliver Gierke; individual
+members: Matthew Adams; Adam Bien; Bernd Mueller; Werner Keil.
+
+The work of the JSR 338 Expert Group was
+conducted using the jpa-spec.java.net project.
+
+=== Document Conventions
+
+The regular Times font is used for
+information that is prescriptive by this specification.
+
+_The italic Times font is used for paragraphs
+that contain descriptive information, such as notes describing typical
+use, or notes clarifying the text with prescriptive specification._
+
+A monospaced font is used for code examples and to specify the BNF of the
+Java Persistence query language.
+
+This document is written in terms of the
+use of Java language metadata annotations. An XML descriptor (as
+specified in <<a16944>>) may be used as an alternative to
+annotations or to augment or override annotations. The elements of this
+descriptor mirror the annotations and have the same semantics. When
+semantic requirements are written in terms of annotations, it should be
+understood that the same semantics apply when the XML descriptor is used
+as an alternative.

@@ -1,0 +1,65 @@
+[appendix]
+== Revision History
+
+This appendix lists the significant changes
+that have been made during the development of the Java Persistence 2.2
+specification.
+
+=== Maintenance Release Draft
+
+Created document from Java Persistence 2.1
+Final Release specification.
+
+The following annotations have been marked _@Repeatable_:
+
+* AssociationOverride
+* AttributeOverride
+* Convert
+* JoinColumn
+* MapKeyJoinColumn
+* NamedEntityGraph
+* NamedNativeQuery
+* NamedQuery
+* NamedStoredProcedureQuery
+* PersistenceContext
+* PersistenceUnit
+* PrimaryKeyJoinColumn
+* SecondaryTable
+* SqlResultSetMapping
+* SequenceGenerator
+* TableGenerator
+
+Added SequenceGenerators and TableGenerators annotations.
+
+Added support for CDI injection into
+AttributeConverter classes.
+
+Added support for the mapping of the following java.time types:
+
+* java.time.LocalDate
+* java.time.LocalTime
+* java.time.LocalDateTime
+* java.time.OffsetTime
+* java.time.OffsetDateTime
+
+Added default Stream getResultStream() method
+to Query interface.
+
+Added default Stream<X> getResultStream()
+method to TypedQuery interface.
+
+Replaced reference to JAR file specification
+in persistence provider bootstrapping section with more general
+reference to Java SE service provider requirements.
+
+Updated persistence.xml and orm.xml schemas to 2.2 versions.
+
+Updated Related Documents.
+
+=== Jakarta Persistence 3.0
+
+Created document from Java Persistence 2.2 Final Release specification.
+
+The document was converted to _Asciidoc_ format.
+
+Packages of all API classes were changed to _jakarta.persistence_. These changes are reflected in the specification document.
