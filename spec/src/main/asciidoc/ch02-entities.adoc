@@ -1,0 +1,2339 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
+== Entities
+
+An entity is a lightweight persistent domain object.
+
+The primary programming artifact is the
+entity class. An entity class may make use of auxiliary classes that
+serve as helper classes or that are used to represent the state of the
+entity.
+
+This chapter describes requirements on entity
+classes and instances.
+
+=== The Entity Class [[a18]]
+
+The entity class must be annotated with the
+_Entity_ annotation or denoted in the XML descriptor as an entity.
+
+The entity class must have a no-arg
+constructor. The entity class may have other constructors as well. The
+no-arg constructor must be public or protected.
+
+The entity class must be a top-level class.
+An enum or interface must not be designated as an entity.
+
+The entity class must not be final. No
+methods or persistent instance variables of the entity class may be
+final.
+
+If an entity instance is to be passed by
+value as a detached object (e.g., through a remote interface), the
+entity class must implement the _Serializable_ interface.
+
+Entities support inheritance, polymorphic
+associations, and polymorphic queries.
+
+Both abstract and concrete classes can be
+entities. Entities may extend non-entity classes as well as entity
+classes, and non-entity classes may extend entity classes.
+
+The persistent state of an entity is
+represented by instance variables, which may correspond to JavaBeans
+properties. An instance variable must be directly accessed only from
+within the methods of the entity by the entity instance itself. Instance
+variables must not be accessed by clients of the entity. The state of
+the entity is available to clients only through the entity's
+methods—i.e., accessor methods (getter/setter methods) or other business
+methods.
+
+=== Persistent Fields and Properties
+
+The persistent state of an entity is accessed
+by the persistence provider runtimefootnote:[The term "persistence
+provider runtime" refers to the runtime environment of the persistence
+implementation. In Java EE environments, this may be the Java EE
+container or a third-party persistence provider implementation
+integrated with it.] either via
+JavaBeans style property accessors (“property access”) or via instance
+variables (“field access”). Whether persistent properties or persistent
+fields or a combination of the two is used for the provider's access to
+a given class or entity hierarchy is determined as described in <<a113>>.
+
+Terminology Note: The persistent fields and
+properties of an entity class are generically referred to in this
+document as the “attributes” of the class.
+
+The instance variables of a class must be
+private, protected, or package visibility independent of whether field
+access or property access is used. When property access is used, the
+property accessor methods must be public or protected.
+
+It is required that the entity class follow
+the method signature conventions for JavaBeans read/write properties (as
+defined by the JavaBeans Introspector class) for persistent properties
+when property access is used.
+
+In this case, for every persistent
+property _property_ of type _T_ of the entity, there is a getter method,
+_getProperty_, and setter method _setProperty_. For boolean
+properties, _isProperty_ may be used as an alternative name for the
+getter method.footnote:[Specifically, if get
+_X_ is the name of the getter method and set _X_ is the name of the
+setter method, where _X_ is a string, the name of the persistent
+property is defined by the result of
+java.beans.Introspector.decapitalize(_X_).]
+
+For single-valued persistent properties,
+these method signatures are:
+
+[source,java]
+----
+T getProperty()
+
+void setProperty(T t)
+----
+
+Collection-valued persistent fields and
+properties must be defined in terms of one of the following
+collection-valued interfaces regardless of whether the entity class
+otherwise adheres to the JavaBeans method conventions noted above and
+whether field or property access is used: _java.util.Collection_,
+_java.util.Set_, _java.util.List_ footnote:[Portable applications
+should not expect the order of a list to be maintained across
+persistence contexts unless the _OrderColumn_ construct is used or
+unless the _OrderBy_ construct is used and the modifications to the list
+observe the specified ordering.],
+_java.util.Map_. The collection implementation type may be used by the
+application to initialize fields or properties before the entity is made
+persistent. Once the entity becomes managed (or detached), subsequent
+access must be through the interface type.
+
+Terminology Note: The terms “collection” and
+“collection-valued” are used in this specification to denote any of the
+above types unless further qualified. In cases where a
+_java.util.Collection_ type (or one of its subtypes) is to be
+distinguished, the type is identified as such. The terms “map” and “map
+collection” are used to apply to a collection of type _java.util.Map_
+when a collection of type _java.util.Map_ needs to be distinguished as
+such.
+
+For collection-valued persistent properties,
+type _T_ must be one of these collection interface types in the method
+signatures above. Use of the generic variants of these collection types
+is encouraged (for example, _Set<Order>_).
+
+In addition to returning and setting the
+persistent state of the instance, property accessor methods may contain
+other business logic as well, for example, to perform validation. The
+persistence provider runtime executes this logic when property-based
+access is used.
+
+Caution should be exercised in adding
+business logic to the accessor methods when property access is used. The
+order in which the persistence provider runtime calls these methods when
+loading or storing persistent state is not defined. Logic contained in
+such methods therefore should not rely upon a specific invocation order.
+
+If property access is used and lazy
+fetching is specified, portable applications should not directly access
+the entity state underlying the property methods of managed instances
+until after it has been fetched by the persistence
+provider.footnote:[Lazy fetching is a
+hint to the persistence provider and can be specified by means of the
+_Basic_, _OneToOne_, _OneToMany_, _ManyToOne_, _ManyToMany_, and
+_ElementCollection_ annotations and their XML equivalents. See <<a13915>>.]
+
+If a persistence context is joined to a
+transaction, runtime exceptions thrown by property accessor methods
+cause the current transaction to be marked for rollback; exceptions
+thrown by such methods when used by the persistence runtime to load or
+store persistent state cause the persistence runtime to mark the current
+transaction for rollback and to throw a _PersistenceException_ that
+wraps the application exception.
+
+Entity subclasses may override the property
+accessor methods. However, portable applications must not override the
+object/relational mapping metadata that applies to the persistent fields
+or properties of entity superclasses.
+
+The persistent fields or properties of an
+entity may be of the following types: Java primitive types,
+_java.lang.String_, other Java serializable types (including wrappers
+of the primitive types, _java.math.BigInteger_, _java.math.BigDecimal_
+, _java.util.Date_, _java.util.Calendarfootnote:[Note that an instance
+of Calendar must be fully initialized for the type that it is mapped to.]_,
+_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_, _byte[]_,
+_Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
+_java.time.LocalTime_, _java.time.LocalDateTime_,
+_java.time.OffsetTime_, _java.time.OffsetDateTime_, and user-defined
+types that implement the _Serializable_ interface _)_; enums; entity
+types; collections of entity types; embeddable classes (see <<a487>>); collections of
+basic and embeddable types (see <<a494>>).
+
+Object/relational mapping metadata may be
+specified to customize the object/relational mapping and the loading and
+storing of the entity state and relationships. See <<a13915>>.
+
+==== Example
+
+[source,java]
+----
+@Entity
+public class Customer implements Serializable {
+    private Long id;
+    private String name;
+    private Address address;
+    private Collection<Order> orders = new HashSet();
+    private Set<PhoneNumber> phones = new HashSet();
+
+    // No-arg constructor
+    public Customer() {}
+
+    @Id // property access is used
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @OneToMany
+    public Collection<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<Order> orders) {
+        this.orders = orders;
+    }
+
+    @ManyToMany
+    public Set<PhoneNumber> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(Set<PhoneNumber> phones) {
+        this.phones = phones;
+    }
+
+    // Business method to add a phone number to the customer
+    public void addPhone(PhoneNumber phone) {
+        this.getPhones().add(phone);
+
+        // Update the phone entity instance to refer to this customer
+        phone.addCustomer(this);
+    }
+}
+----
+
+=== Access Type [[a113]]
+
+==== Default Access Type
+
+By default, a single access type (field or
+property access) applies to an entity hierarchy. The default access type
+of an entity hierarchy is determined by the placement of mapping
+annotations on the attributes of the entity classes and mapped
+superclasses of the entity hierarchy that do not explicitly specify an
+access type. An access type is explicitly specified by means of the
+_Access_ annotationfootnote:[The use of XML as an
+alternative and the interaction between Java language annotations and
+XML elements in defining default and explicit access types is described
+in <<a16944>>.], as described in <<a122>>.
+
+When annotations are used to define a default
+access type, the placement of the mapping annotations on either the
+persistent fields or persistent properties of the entity class specifies
+the access type as being either field- or property-based access
+respectively.
+
+When field-based access is used, the
+object/relational mapping annotations for the entity class annotate the
+instance variables, and the persistence provider runtime accesses
+instance variables directly. All non- _transient_ instance variables
+that are not annotated with the _Transient_ annotation are persistent.
+
+When property-based access is used, the
+object/relational mapping annotations for the entity class annotate the
+getter property accessorsfootnote:[These annotations must
+not be applied to the setter methods.], and the persistence
+provider runtime accesses persistent state via the property accessor
+methods. All properties not annotated with the _Transient_ annotation
+are persistent.
+
+Mapping annotations must not be applied to
+fields or properties that are _transient_ or _Transient_.
+
+All such classes in the entity hierarchy
+whose access type is defaulted in this way must be consistent in their
+placement of annotations on either fields or properties, such that a
+single, consistent default access type applies within the hierarchy. Any
+embeddable classes used by such classes will have the same access type
+as the default access type of the hierarchy unless the _Access_
+annotation is specified as defined below.
+
+It is an error if a default access type
+cannot be determined and an access type is not explicitly specified by
+means of annotations or the XML descriptor. The behavior of applications
+that mix the placement of annotations on fields and properties within an
+entity hierarchy without explicitly specifying the _Access_ annotation
+is undefined.
+
+==== Explicit Access Type [[a122]]
+
+An access type for an individual entity
+class, mapped superclass, or embeddable class can be specified for that
+class independent of the default for the entity hierarchy by means of
+the _Access_ annotation applied to the class. This explicit access type
+specification does not affect the access type of other entity classes or
+mapped superclasses in the entity hierarchy. The following rules apply:
+
+* When _Access(FIELD)_ is applied to an entity
+class, mapped superclass, or embeddable class, mapping annotations may
+be placed on the instance variables of that class, and the persistence
+provider runtime accesses persistent state via the instance variables
+defined by the class. All non-transient instance variables that are not
+annotated with the _Transient_ annotation are persistent. When
+_Access(FIELD)_ is applied to such a class, it is possible to
+selectively designate individual attributes within the class for
+property access. To specify a persistent property for access by the
+persistence provider runtime, that property must be designated
+_Access(PROPERTY)_.footnote:[It is permitted (but
+redundant) to place Access(FIELD) on a persistent field whose class has
+field access type or Access(PROPERTY) on a persistent property whose
+class has property access type. It is not permitted to specify a field
+as Access(PROPERTY) or a property as Access(FIELD). Note that
+Access(PROPERTY) must not be placed on the setter methods.] The behavior is undefined if
+mapping annotations are placed on any properties defined by the class
+for which _Access(PROPERTY)_ is not specified. Persistent state
+inherited from superclasses is accessed in accordance with the access
+types of those superclasses.
+* When _Access(PROPERTY)_ is applied to an
+entity class, mapped superclass, or embeddable class, mapping
+annotations may be placed on the properties of that class, and the
+persistence provider runtime accesses persistent state via the
+properties defined by that class. All properties that are not annotated
+with the _Transient_ annotation are persistent. When _Access(PROPERTY)_
+is applied to such a class, it is possible to selectively designate
+individual attributes within the class for instance variable access. To
+specify a persistent instance variable for access by the persistence
+provider runtime, that instance variable must be designated
+_Access(FIELD)_. The behavior is undefined if mapping annotations are
+placed on any instance variables defined by the class for which
+_Access(FIELD)_ is not specified. Persistent state inherited from
+superclasses is accessed in accordance with the access types of those
+superclasses.
+
+Note that when access types are combined
+within a class, the _Transient_ annotation should be used to avoid
+duplicate persistent mappings.
+
+==== Access Type of an Embeddable Class
+
+The access type of an embeddable class is
+determined by the access type of the entity class, mapped superclass, or
+embeddable class in which it is embedded (including as a member of an
+element collection) independent of whether the access type of the
+containing class has been explicitly specified or defaulted. A different
+access type for an embeddable class can be specified for that embeddable
+class by means of the _Access_ annotation as described above.
+
+==== Defaulted Access Types of Embeddable Classes and Mapped Superclasses
+
+Care must be exercised when defining an
+embeddable class or mapped superclass which is used both in a context of
+field access and in a context of property access and whose access type
+is not explicitly specified by means of the _Access_ annotation or XML
+mapping file.
+
+Such classes should be defined so that the
+number, names, and types of the resulting persistent attributes are
+identical, independent of the access type in use. The behavior of such
+classes whose attributes are not independent of access type is otherwise
+undefined with regard to use with the metamodel API if they occur in
+contexts of differing access types within the same persistence unit.
+
+=== Primary Keys and Entity Identity [[a132]]
+
+Every entity must have a primary key.
+
+The primary key must be defined on the entity
+class that is the root of the entity hierarchy or on a mapped superclass
+that is a (direct or indirect) superclass of all entity classes in the
+entity hierarchy. The primary key must be defined exactly once in an
+entity hierarchy.
+
+* A primary key corresponds to one or more
+fields or properties (“attributes”) of the entity class.
+* A simple (i.e., non-composite) primary key
+must correspond to a single persistent field or property of the entity
+class. The _Id_ annotation or _id_ XML element must be used to denote a
+simple primary key. See <<a14827>>.
+* A composite primary key must correspond to
+either a single persistent field or property or to a set of such fields
+or properties as described below. A primary key class must be defined to
+represent a composite primary key. Composite primary keys typically
+arise when mapping from legacy databases when the database key is
+comprised of several columns. The _EmbeddedId_ or _IdClass_ annotation
+is used to denote a composite primary key. See <<a14687>> and <<a14836>>.
+
+A simple primary key or a field or property
+of a composite primary key should be one of the following types: any
+Java primitive type; any primitive wrapper type; _java.lang.String_;
+_java.util.Date_; _java.sql.Date_; _java.math.BigDecimal_;
+_java.math.BigInteger_.footnote:[In general, however,
+approximate numeric types (e.g., floating point types) should never be
+used in primary keys.] If the primary key is a
+composite primary key derived from the primary key of another entity,
+the primary key may contain an attribute whose type is that of the
+primary key of the referenced entity as described in <<a149>>.
+Entities whose primary keys use types other than these will
+not be portable. If generated primary keys are used, only integral types
+will be portable. If _java.util.Date_ is used as a primary key field or
+property, the temporal type should be specified as _DATE_.
+
+The following rules apply for composite
+primary keys:
+
+- The primary key class must be public and must
+have a public no-arg constructor.
+
+- The access type (field- or property-based
+access) of a primary key class is determined by the access type of the
+entity for which it is the primary key unless the primary key is a
+embedded id and a different access type is specified. See Section <<a113>>.
+
+- If property-based access is used, the
+properties of the primary key class must be public or protected.
+
+- The primary key class must be serializable.
+
+- The primary key class must define _equals_
+and _hashCode_ methods. The semantics of value equality for these
+methods must be consistent with the database equality for the database
+types to which the key is mapped.
+
+- A composite primary key must either be
+represented and mapped as an embeddable class (see <<a14687>>) or must be
+represented as an id class and mapped to multiple fields or properties
+of the entity class (see <<a14836>>).
+
+- If the composite primary key class is
+represented as an id class, the names of primary key fields or
+properties in the primary key class and those of the entity class to
+which the id class is mapped must correspond and their types must be the
+same.
+
+- A primary key that corresponds to a derived
+identity must conform to the rules of <<a149>>.
+
+The value of its primary key uniquely
+identifies an entity instance within a persistence context and to
+_EntityManager_ operations as described in
+<<a1060>>. The application must
+not change the value of the primary keyfootnote:[This includes not
+changing the value of a mutable type that is primary key or an attribute
+of a composite primary key.]. The
+behavior is undefined if this occurs.footnote:[The implementation
+may, but is not required to, throw an exception. Portable applications
+must not rely on any such specific behavior.]
+
+==== Primary Keys Corresponding to Derived Identities [[a149]]
+
+The identity of an entity may be derived from
+the identity of another entity (the “parent” entity) when the former
+entity (the “dependent” entity) is the owner of a many-to-one or
+one-to-one relationship to the parent entity and a foreign key maps the
+relationship from dependent to parent.
+
+If a many-to-one or one-to-one entity
+relationship corresponds to a primary key attribute, the entity
+containing this relationship cannot be persisted without the
+relationship having been assigned an entity since the identity of the
+entity containing the relationship is derived from the referenced
+entity.footnote:[If the application
+does not set the primary key attribute corresponding to the
+relationship, the value of that attribute may not be available until
+after the entity has been flushed to the database.]
+
+Derived identities may be captured by means
+of simple primary keys or by means of composite primary keys as
+described in <<a155>> below.
+
+If the dependent entity class has primary key
+attributes in addition to those corresponding to the parent's primary
+key or if the parent has a composite primary key, an embedded id or id
+class must be used to specify the primary key of the dependent entity.
+It is not necessary that parent entity and dependent entity both use
+embedded ids or both use id classes to represent composite primary keys
+when the parent has a composite key.
+
+A dependent entity may have more than one
+parent entity.
+
+===== Specification of Derived Identities [[a155]]
+
+If the dependent entity uses an id class to
+represent its primary key, one of the two following rules must be
+observed:
+
+* The names of the attributes of the id class
+and the _Id_ attributes of the dependent entity class must correspond as
+follows:
+
+** The _Id_ attribute in the entity class and
+the corresponding attribute in the id class must have the same name.
+
+** If an _Id_ attribute in the entity class is
+of basic type, the corresponding attribute in the id class must have the
+same type.
+
+** If an _Id_ attribute in the entity is a
+many-to-one or one-to-one relationship to a parent entity, the
+corresponding attribute in the id class must be of the same Java type as
+the id class or embedded id of the parent entity (if the parent entity
+has a composite primary key) or the type of the _Id_ attribute of the
+parent entity (if the parent entity has a simple primary key).
+
+* If the dependent entity has a single
+primary key attribute (i.e., the relationship attribute), the id class
+specified by the dependent entity must be the same as the primary key
+class of the parent entity. The _Id_ annotation is applied to the
+relationship to the parent entity.footnote:[Note that it is
+correct to observe the first rule as an alternative in this case.]
+
+If the dependent entity uses an
+embedded id to represent its primary key, the attribute in the embedded
+id corresponding to the relationship attribute must be of the same type
+as the primary key of the parent entity and must be designated by the
+_MapsId_ annotation applied to the relationship attribute. The _value_
+element of the _MapsId_ annotation must be used to specify the name of
+the attribute within the embedded id to which the relationship attribute
+corresponds. If the embedded id of the dependent entity is of the same
+Java type as the primary key of the parent entity, the relationship
+attribute maps both the relationship to the parent and the primary key
+of the dependent entity, and in this case the _MapsId_ annotation is
+specified without the _value_ element.footnote:[Note that the
+parent's primary key might be represented as either an embedded id or as
+an id class.]
+
+If the dependent entity has a single primary
+key attribute (i.e, the relationship attribute or an attribute that
+corresponds to the relationship attribute) and the primary key of the
+parent entity is a simple primary key, the primary key of the dependent
+entity is a simple primary key of the same type as that of the parent
+entity (and neither _EmbeddedId_ nor _IdClass_ is specified). In this
+case, either (1) the relationship attribute is annotated _Id_, or (2) a
+separate _Id_ attribute is specified and the relationship attribute is
+annotated _MapsId_ (and the _value_ element of the _MapsId_ annotation
+is not specified).
+
+===== Mapping of Derived Identities
+
+A primary key attribute that is derived from
+the identity of a parent entity is mapped by the corresponding
+relationship attribute. The default mapping for this relationship is as
+specified in <<a538>>. In the case where a default mapping does not apply or
+where a default mapping is to be overridden, the _JoinColumn_ or
+_JoinColumns_ annotation is used on the relationship attribute.
+
+If the dependent entity uses an embedded id
+to represent its primary key, the _AttributeOverride_ annotation may be
+used to override the default mapping of embedded id attributes that do
+not correspond to the relationship attributes mapping the derived
+identity. The embedded id attributes that correspond to the relationship
+are treated by the provider as “read only”—that is, any updates to them
+on the part of the application are not propagated to the database.
+
+If the dependent uses an id class, the
+_Column_ annotation may be used to override the default mapping of _Id_
+attributes that are not relationship attributes.
+
+===== Examples of Derived Identities
+
+*Example 1:*
+
+The parent entity has a simple primary key:
+
+[source,java]
+----
+@Entity
+public class Employee {
+    @Id long empId;
+    String empName;
+
+    // ...
+}
+----
+
+*Case (a):* The dependent entity uses _IdClass_ to represent a composite key:
+
+[source,java]
+----
+public class DependentId {
+    String name; // matches name of @Id attribute
+    long emp; // matches name of @Id attribute and type of Employee PK
+}
+
+@Entity
+@IdClass(DependentId.class)
+public class Dependent {
+    @Id String name;
+
+    // id attribute mapped by join column default
+    @Id @ManyToOne
+    Employee emp;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
+----
+
+*Case(b):* The dependent entity uses _EmbeddedId_ to represent a composite key:
+
+[source,java]
+----
+@Embeddable
+public class DependentId {
+    String name;
+    long empPK; // corresponds to PK type of Employee
+}
+
+@Entity
+public class Dependent {
+    @EmbeddedId DependentId id;
+
+    // id attribute mapped by join column default
+    @MapsId("empPK") // maps empPK attribute of embedded id
+    @ManyToOne
+    Employee emp;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.id.name = 'Joe' AND d.emp.empName = 'Sam'
+----
+
+*Example 2:*
+
+The parent entity uses _IdClass_:
+
+[source,java]
+----
+public class EmployeeId {
+    String firstName;
+    String lastName;
+
+    // ...
+}
+
+@Entity
+@IdClass(EmployeeId.class)
+public class Employee {
+    @Id String firstName
+    @Id String lastName
+
+   // ...
+}
+----
+
+*Case (a):* The dependent entity uses _IdClass_:
+
+[source,java]
+----
+public class DependentId {
+    String name; // matches name of attribute
+    EmployeeId emp; //matches name of attribute and type of Employee PK
+}
+
+@Entity
+@IdClass(DependentId.class)
+public class Dependent {
+    @Id
+    String name;
+
+    @Id
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+
+    @ManyToOne
+    Employee emp;
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.name = 'Joe' AND d.emp.firstName = 'Sam'
+----
+
+*Case (b):* The dependent entity uses
+_EmbeddedId_. The type of the _empPK_ attribute is the same as that of
+the primary key of _Employee_. The _EmployeeId_ class needs to be
+annotated _Embeddable_ or denoted as an embeddable class in the XML
+descriptor.
+
+[source,java]
+----
+@Embeddable
+public class DependentId {
+    String name;
+    EmployeeId empPK;
+}
+
+@Entity
+public class Dependent {
+    @EmbeddedId
+    DependentId id;
+
+    @MapsId("empPK")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+
+    @ManyToOne
+    Employee emp;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.id.name = 'Joe' AND d.emp.firstName = 'Sam'
+----
+
+Note that the following alternative query
+will yield the same result:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.id.name = 'Joe' AND d.id.empPK.firstName = 'Sam'
+----
+
+*Example 3:*
+
+The parent entity uses _EmbeddedId_:
+
+[source,java]
+----
+@Embeddable
+public class EmployeeId {
+    String firstName;
+    String lastName;
+
+    // ...
+}
+
+@Entity
+public class Employee {
+    @EmbeddedId
+    EmployeeId empId;
+
+    // ...
+}
+----
+
+*Case (a):* The dependent entity uses _IdClass_:
+
+[source,java]
+----
+public class DependentId {
+    String name; // matches name of @Id attribute
+    EmployeeId emp; // matches name of @Id attribute and type of embedded id of Employee
+}
+
+@Entity
+@IdClass(DependentId.class)
+public class Dependent {
+    @Id
+    @Column(name="dep_name") // default column name is overridden
+    String name;
+
+    @Id
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+
+    @ManyToOne Employee
+    emp;
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.name = 'Joe' and d.emp.empId.firstName = 'Sam'
+----
+
+*Case (b):* The dependent entity uses _EmbeddedId_:
+
+[source,java]
+----
+@Embeddable
+public class DependentId {
+    String name;
+    EmployeeId empPK; // corresponds to PK type of Employee
+}
+
+@Entity
+public class Dependent {
+    // default column name for "name" attribute is overridden
+    @AttributeOverride(name="name", column=@Column(name="dep_name"))
+    @EmbeddedId DependentId id;
+
+    @MapsId("empPK")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @ManyToOne
+    Employee emp;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.id.name = 'Joe' and d.emp.empId.firstName = 'Sam'
+----
+
+Note that the following alternative query will yield the same result:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.id.name = 'Joe' AND d.id.empPK.firstName = 'Sam'
+----
+
+*Example 4:*
+
+The parent entity has a simple primary key:
+
+[source,java]
+----
+@Entity
+public class Person {
+    @Id
+    String ssn;
+
+    // ...
+}
+----
+
+*Case (a):* The dependent entity has a
+single primary key attribute which is mapped by the relationship
+attribute. The primary key of _MedicalHistory_ is of type _String_.
+
+[source,java]
+----
+@Entity
+public class MedicalHistory {
+    // default join column name is overridden
+    @Id
+    @OneToOne
+    @JoinColumn(name="FK")
+    Person patient;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT m
+FROM MedicalHistory m
+WHERE m.patient.ssn = '123-45-6789'
+----
+
+*Case (b):* The dependent entity has
+a single primary key attribute corresponding to the relationship
+attribute. The primary key attribute is of the same basic type as the
+primary key of the parent entity. The _MapsId_ annotation applied to the
+relationship attribute indicates that the primary key is mapped by the
+relationship attribute.footnote:[Note that the use of
+PrimaryKeyJoinColumn instead of MapsId would result in the same mapping
+in this example. Use of MapsId is preferred for the mapping of derived
+identities.]
+
+[source,java]
+----
+@Entity
+public class MedicalHistory {
+    @Id
+    String id; // overriding not allowed
+
+    // ...
+
+    // default join column name is overridden
+    @MapsId
+    @JoinColumn(name="FK")
+    @OneToOne
+    Person patient;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT m
+FROM MedicalHistory m WHERE m.patient.ssn = '123-45-6789'
+----
+
+*Example 5:*
+
+The parent entity uses _IdClass_. The
+dependent's primary key class is of same type as that of the parent
+entity.
+
+[source,java]
+----
+public class PersonId {
+    String firstName;
+    String lastName;
+}
+
+@Entity
+@IdClass(PersonId.class)
+public class Person {
+    @Id
+    String firstName;
+
+    @Id
+    String lastName;
+
+    // ...
+}
+----
+
+*Case (a):* The dependent entity uses _IdClass_:
+
+[source,java]
+----
+@Entity
+@IdClass(PersonId.class)
+public class MedicalHistory {
+    @Id
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+
+    @OneToOne
+    Person patient;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT m
+FROM MedicalHistory m
+WHERE m.patient.firstName = 'Charles'
+----
+
+*Case (b):* The dependent entity uses the
+_EmbeddedId_ and _MapsId_ annotations. The _PersonId_ class needs to be
+annotated _Embeddable_ or denoted as an embeddable class in the XML
+descriptor.
+
+[source,java]
+----
+@Entity
+public class MedicalHistory {
+    // all attributes map to relationship:
+    AttributeOverride not allowed
+
+    @EmbeddedId
+    PersonId id;
+
+    // ...
+
+    @MapsId
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+
+    @OneToOne Person patient;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT m
+FROM MedicalHistory m
+WHERE m.patient.firstName = 'Charles'
+----
+
+Note that the following alternative query
+will yield the same result:
+
+[source,sql]
+----
+SELECT m
+FROM MedicalHistory m
+WHERE m.id.firstName = 'Charles'
+----
+
+*Example 6:*
+
+The parent entity uses _EmbeddedId_. The
+dependent's primary key is of the same type as that of the parent.
+
+[source,java]
+----
+@Embeddable
+public class PersonId {
+    String firstName;
+    String lastName;
+}
+
+@Entity
+public class Person {
+    @EmbeddedId PersonId id;
+
+    // ...
+}
+----
+
+*Case (a):* The dependent class uses _IdClass_:
+
+[source,java]
+----
+@Entity
+@IdClass(PersonId.class)
+public class MedicalHistory {
+    @Id
+    @OneToOne
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+
+    Person patient;
+
+    // ...
+}
+----
+
+*Case (b):* The dependent class uses _EmbeddedId_:
+
+[source,java]
+----
+@Entity
+public class MedicalHistory {
+    // All attributes are mapped by the relationship
+    // AttributeOverride is not allowed
+    @EmbeddedId PersonId id;
+
+    // ...
+
+    @MapsId
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @OneToOne
+    Person patient;
+
+    // ...
+}
+----
+
+=== Embeddable Classes [[a487]]
+
+An entity may use other fine-grained classes
+to represent entity state. Instances of these classes, unlike entity
+instances, do not have persistent identity of their own. Instead, they
+exist only as part of the state of the entity to which they belong. An
+entity may have collections of embeddables as well as single-valued
+embeddable attributes. Embeddables may also be used as map keys and map
+values. Embedded objects belong strictly to their owning entity, and are
+not sharable across persistent entities. Attempting to share an embedded
+object across entities has undefined semantics.
+
+Embeddable classes must adhere to the
+requirements specified in <<a18>> for entities with the exception that embeddable classes
+are not annotated as _Entity_. Embeddable classes must be annotated as
+_Embeddable_ or denoted in the XML descriptor as such. The access type
+for an embedded object is determined as described in <<a113>>.
+
+An embeddable class may be used to represent
+the state of another embeddable class.
+
+An embeddable class (including an
+embeddable class within another embeddable class) may contain a
+collection of a basic type or other embeddable
+class.footnote:[Direct or indirect
+circular containment dependencies among embeddable classes are not
+permitted.]
+
+An embeddable class may contain a
+relationship to an entity or collection of entities. Since instances of
+embeddable classes themselves have no persistent identity, the
+relationship _from_ the referenced entity is to the _entity_ that
+contains the embeddable instance(s) and not to the embeddable
+itself.footnote:[An entity cannot have
+a unidirectional relationship to the embeddable class of another entity
+(or itself).] An embeddable class that is used as an
+embedded id or as a map key must not contain such a relationship.
+
+Additional requirements and restrictions on
+embeddable classes are described in <<a494>>.
+
+=== Collections of Embeddable Classes and Basic Types [[a494]]
+
+A persistent field or property of an entity
+or embeddable class may correspond to a collection of a basic type or
+embeddable class (“element collection”). Such a collection, when
+specified as such by the _ElementCollection_ annotation, is mapped by
+means of a collection table, as defined in <<a14250>>. If the
+_ElementCollection_ annotation (or XML equivalent) is not specified for
+the collection-valued field or property, the rules of <<a511>> apply.
+
+An embeddable class (including an embeddable
+class within another embeddable class) that is contained within an
+element collection must not contain an element collection, nor may it
+contain a relationship to an entity other than a many-to-one or
+one-to-one relationship. The embeddable class must be on the owning side
+of such a relationship and the relationship must be mapped by a foreign
+key mapping. (See <<a516>>)
+
+=== Map Collections
+
+Collections of elements and entity
+relationships can be represented as _java.util.Map_ collections.
+
+The map key and the map value independently
+can each be a basic type, an embeddable class, or an entity.
+
+The _ElementCollection_, _OneToMany_, and
+_ManyToMany_ annotations are used to specify the map as an element
+collection or entity relationship as follows: when the map value is a
+basic type or embeddable class, the _ElementCollection_ annotation is
+used; when the map value is an entity, the _OneToMany_ or _ManyToMany_
+annotation is used.
+
+Bidirectional relationships represented as
+_java.util.Map_ collections support the use of the _Map_ datatype on one
+side of the relationship only.
+
+==== Map Keys
+
+If the map key type is a basic type, the
+_MapKeyColumn_ annotation can be used to specify the column mapping for
+the map key. If the _MapKeyColumn_ annotation is not specified, the
+default values of the _MapKeyColumn_ annotation apply as described in <<a15367>>.
+
+If the map key type is an embeddable class,
+the mappings for the map key columns are defaulted according to the
+default column mappings for the embeddable class. (See <<a14330>>). The
+_AttributeOverride_ and _AttributeOverrides_ annotations can be used to
+override these mappings, as described in <<a14084>> and <<a14178>>. If an
+embeddable class is used as a map key, the embeddable class must
+implement the _hashCode_ and _equals_ methods consistently with the
+database columns to which the embeddable is
+mappedfootnote:[Note that when an
+embeddable instance is used as a map key, these attributes represent its
+identity. Changes to embeddable instances used as map keys have
+undefined behaviour and should be avoided.].
+
+If the map key type is an entity, the
+_MapKeyJoinColumn_ and _MapKeyJoinColumns_ annotations are used to
+specify the column mappings for the map key. If the primary key of the
+referenced entity is a simple primary key and the _MapKeyJoinColumn_
+annotation is not specified, the default values of the
+_MapKeyJoinColumn_ annotation apply as described in <<a15450>>.
+
+If Java generic types are not used in the
+declaration of a relationship attribute of type _java.util.Map_, the
+_MapKeyClass_ annotation must be used to specify the type of the key of
+the map.
+
+The _MapKey_ annotation is used to specify
+the special case where the map key is itself the primary key or a
+persistent field or property of the entity that is the value of the map.
+The _MapKeyClass_ annotation is not used when _MapKey_ is specified.
+
+==== Map Values
+
+When the value type of the map is a basic
+type or an embeddable class, a collection table is used to map the map.
+If Java generic types are not used, the _targetClass_ element of the
+_ElementCollection_ annotation must be used to specify the value type
+for the map. The default column mappings for the map value are derived
+according to the default mapping rules for the _CollectionTable_
+annotation defined in <<a14250>>. The _Column_ annotation is used to override
+these defaults for a map value of basic type. The _AttributeOverride(s)_ and _AssociationOverride(s)_ annotations are used to override
+the mappings for a map value that is an embeddable class.
+
+When the value type of the map is an entity,
+a join table is used to map the map for a many-to-many relationship or,
+by default, for a one-to-many unidirectional relationship. If the
+relationship is a bidirectional one-to-many/many-to-one relationship, by
+default the map is mapped in the table of the entity that is the value
+of the map. If Java generic types are not used, the _targetEntity_
+element of the _OneToMany_ or _ManyToMany_ annotation must be used to
+specify the value type for the map. Default mappings are described in
+<<a538>>.
+
+=== Mapping Defaults for Non-Relationship Fields or Properties [[a511]]
+
+If a persistent field or property other than
+a relationship property is _not_ annotated with one of the mapping
+annotations defined in <<a13915>> (or equivalent mapping information is not
+specified in the XML descriptor), the following default mapping rules
+are applied in order:
+
+* If the type is a class that is annotated with
+the _Embeddable_ annotation, it is mapped in the same way as if the
+field or property were annotated with the _Embedded_ annotation. See
+<<a14634>> and <<a14672>>.
+* If the type of the field or property is one
+of the following, it is mapped in the same way as it would if it were
+annotated as _Basic_: Java primitive types, wrappers of the primitive
+types, _java.lang.String_, _java.math.BigInteger_,
+_java.math.BigDecimal_, _java.util.Date_, _java.util.Calendar_,
+_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
+_java.time.LocalDate_, _java.time.LocalTime_,
+_java.time.LocalDateTime_, _java.time.OffsetTime_,
+_java.time.OffsetDateTime_, _byte[]_, _Byte[]_, _char[]_,
+_Character[]_, enums, any other type that implements _Serializable_.
+See <<a14205>>, <<a14719>>, <<a15087>>, and <<a16361>>.
+
+It is an error if no annotation is present
+and none of the above rules apply.
+
+=== Entity Relationships [[a516]]
+
+Relationships among entities may be
+one-to-one, one-to-many, many-to-one, or many-to-many. Relationships are
+polymorphic.
+
+If there is an association between two
+entities, one of the following relationship modeling annotations must be
+applied to the corresponding persistent property or field of the
+referencing entity: _OneToOne_, _OneToMany_, _ManyToOne_,
+_ManyToMany_. For associations that do not specify the target type
+(e.g., where Java generic types are not used for collections), it is
+necessary to specify the entity that is the target of the
+relationship.footnote:[For associations of
+type _java.util.Map_, _target type_ refers to the type that is the Map
+_value_.] Equivalent XML elements may be used
+as an alternative to these mapping annotations.
+
+_These annotations mirror common practice in
+relational database schema modeling. The use of the relationship
+modeling annotations allows the object/relationship mapping of
+associations to the relational database schema to be fully defaulted, to
+provide an ease-of-development facility. This is described in <<a538>>._
+
+Relationships may be bidirectional or
+unidirectional. A bidirectional relationship has both an owning side and
+an inverse (non-owning) side. A unidirectional relationship has only an
+owning side. The owning side of a relationship determines the updates to
+the relationship in the database, as described in <<a1955>>.
+
+The following rules apply to bidirectional
+relationships:
+
+The inverse side of a bidirectional
+relationship must refer to its owning side by use of the _mappedBy_
+element of the _OneToOne_, _OneToMany_, or _ManyToMany_ annotation.
+The _mappedBy_ element designates the property or field in the entity
+that is the owner of the relationship.
+
+* The many side of one-to-many / many-to-one
+bidirectional relationships must be the owning side, hence the
+_mappedBy_ element cannot be specified on the _ManyToOne_ annotation.
+* For one-to-one bidirectional relationships,
+the owning side corresponds to the side that contains the corresponding
+foreign key.
+* For many-to-many bidirectional relationships
+either side may be the owning side.
+
+The relationship modeling annotation
+constrains the use of the _cascade=REMOVE_ specification. The
+_cascade=REMOVE_ specification should only be applied to associations
+that are specified as _OneToOne_ or _OneToMany_. Applications that
+apply _cascade=REMOVE_ to other associations are not portable.
+
+Associations that are specified as _OneToOne_
+or _OneToMany_ support use of the _orphanRemoval_ option. The following
+behaviors apply when _orphanRemoval_ is in effect:
+
+* If an entity that is the target of the
+relationship is removed from the relationship (by setting the
+relationship to null or removing the entity from the relationship
+collection), the remove operation will be applied to the entity being
+orphaned. The remove operation is applied at the time of the flush
+operation. The _orphanRemoval_ functionality is intended for entities
+that are privately “owned” by their parent entity. Portable applications
+must otherwise not depend upon a specific order of removal, and must not
+reassign an entity that has been orphaned to another relationship or
+otherwise attempt to persist it. If the entity being orphaned is a
+detached, new, or removed entity, the semantics of _orphanRemoval_ do
+not apply.
+* If the remove operation is applied to a
+managed source entity, the remove operation will be cascaded to the
+relationship target in accordance with the rules of <<a1946>>,
+(and hence it is not necessary to specify _cascade=REMOVE_ for the
+relationship)footnote:[If the parent is
+detached or new or was previously removed before the orphan was
+associated with it, the remove operation is not applied to the entity
+being orphaned.].
+
+<<a538>>, defines relationship mapping defaults
+for entity relationships. Additional mapping annotations (e.g., column
+and table mapping annotations) may be specified to override or further
+refine the default mappings and mapping strategies described in <<a538>>.
+
+In addition, this specification also requires
+support for the following alternative mapping strategies:
+
+* The mapping of unidirectional one-to-many
+relationships by means of foreign key mappings. The _JoinColumn_
+annotation or corresponding XML element must be used to specify such
+non-default mappings. See <<a14922>>.
+* The mapping of unidirectional and
+bidirectional one-to-one relationships, bidirectional
+many-to-one/one-to-many relationships, and unidirectional many-to-one
+relationships by means of join table mappings. The _JoinTable_
+annotation or corresponding XML element must be used to specify such
+non-default mappings. See <<a15022>>.
+
+Such mapping annotations must be specified on
+the owning side of the relationship. Any overriding of mapping defaults
+must be consistent with the relationship modeling annotation that is
+specified. For example, if a many-to-one relationship mapping is
+specified, it is not permitted to specify a unique key constraint on the
+foreign key for the relationship.
+
+The persistence provider handles the
+object/relational mapping of the relationships, including their loading
+and storing to the database as specified in the metadata of the entity
+class, and the referential integrity of the relationships as specified
+in the database (e.g., by foreign key constraints).
+
+[NOTE]
+====
+Note that it is the application that bears
+responsibility for maintaining the consistency of runtime
+relationships—for example, for insuring that the “one” and the “many”
+sides of a bidirectional relationship are consistent with one another
+when the application updates the relationship at runtime.
+====
+
+If there are no associated entities for a
+multi-valued relationship of an entity fetched from the database, the
+persistence provider is responsible for returning an empty collection as
+the value of the relationship.
+
+=== Relationship Mapping Defaults [[a538]]
+
+This section defines the mapping defaults
+that apply to the use of the _OneToOne_, _OneToMany_, _ManyToOne_,
+and _ManyToMany_ relationship modeling annotations. The same mapping
+defaults apply when the XML descriptor is used to denote the
+relationship cardinalities.
+
+==== Bidirectional OneToOne Relationships
+
+Assuming that:
+
+* Entity A references a single instance of Entity B.
+* Entity B references a single instance of Entity A.
+* Entity A is specified as the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity A is mapped to a table named _A_.
+* Entity B is mapped to a table named _B_.
+* Table _A_ contains a foreign key to table _B_.
+The foreign key column name is formed as the concatenation of the
+following: the name of the relationship property or field of entity A; "
+___ "; the name of the primary key column in table _B_. The foreign key
+column has the same type as the primary key of table _B_ and there is a
+unique key constraint on it.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    private Cubicle assignedCubicle;
+
+    @OneToOne
+    public Cubicle getAssignedCubicle() {
+        return assignedCubicle;
+    }
+
+    public void setAssignedCubicle(Cubicle cubicle) {
+        this.assignedCubicle = cubicle;
+    }
+
+    // ...
+}
+
+@Entity
+public class Cubicle {
+    private Employee residentEmployee;
+
+    @OneToOne(mappedBy="assignedCubicle")
+    public Employee getResidentEmployee() {
+        return residentEmployee;
+    }
+
+    public void setResidentEmployee(Employee employee) {
+        this.residentEmployee = employee;
+    }
+
+    // ...
+}
+----
+
+In this example:
+
+* Entity _Employee_ references a single instance of Entity _Cubicle_.
+* Entity _Cubicle_ references a single instance of Entity _Employee_.
+* Entity _Employee_ is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity _Employee_ is mapped to a table named _EMPLOYEE_.
+* Entity _Cubicle_ is mapped to a table named _CUBICLE_.
+* Table _EMPLOYEE_ contains a foreign key to
+table _CUBICLE_. The foreign key column is named _ASSIGNEDCUBICLE__ <PK
+of CUBICLE>, where <PK of CUBICLE> denotes the name of the primary key
+column of table _CUBICLE_. The foreign key column has the same type as
+the primary key of _CUBICLE_, and there is a unique key constraint on
+it.
+
+==== Bidirectional ManyToOne / OneToMany Relationships
+
+Assuming that:
+
+* Entity A references a single instance of Entity B.
+* Entity B references a collection of Entity Afootnote:[When the relationship
+is modeled as a _java.util.Map_, “Entity B references a collection of
+Entity A” means that Entity B references a map collection in which the
+type of the Map _value_ is Entity A. The map key may be a basic type,
+embeddable class, or an entity.
+].
+* Entity A must be the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity A is mapped to a table named _A_.
+* Entity B is mapped to a table named _B_.
+* Table _A_ contains a foreign key to table _B_.
+The foreign key column name is formed as the concatenation of the
+following: the name of the relationship property or field of entity A; "
+___ "; the name of the primary key column in table _B_. The foreign key
+column has the same type as the primary key of table _B_.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    private Department department;
+
+    @ManyToOne
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    // ...
+}
+
+@Entity
+public class Department {
+    private Collection<Employee> employees = new HashSet();
+
+    @OneToMany(mappedBy="department")
+    public Collection<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Collection<Employee> employees) {
+        this.employees = employees;
+    }
+
+    // ...
+}
+----
+
+In this example:
+
+* Entity _Employee_ references a single instance of Entity _Department_.
+* Entity _Department_ references a collection of Entity _Employee_.
+* Entity _Employee_ is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity _Employee_ is mapped to a table named _EMPLOYEE_.
+* Entity _Department_ is mapped to a table named _DEPARTMENT_.
+* Table _EMPLOYEE_ contains a foreign key to
+table _DEPARTMENT_. The foreign key column is named _DEPARTMENT__ <PK
+of DEPARTMENT>, where <PK of DEPARTMENT> denotes the name of the primary
+key column of table _DEPARTMENT_. The foreign key column has the same
+type as the primary key of _DEPARTMENT_.
+
+==== Unidirectional Single-Valued Relationships
+
+Assuming that:
+
+* Entity A references a single instance of Entity B.
+* Entity B does not reference Entity A.
+
+A unidirectional relationship has only an owning side, which in this case must be Entity A.
+
+The unidirectional single-valued relationship
+modeling case can be specified as either a unidirectional _OneToOne_ or
+as a unidirectional _ManyToOne_ relationship.
+
+===== Unidirectional OneToOne Relationships [[a640]]
+
+The following mapping defaults apply:
+
+* Entity A is mapped to a table named _A_.
+* Entity B is mapped to a table named _B_.
+* Table _A_ contains a foreign key to table _B_.
+The foreign key column name is formed as the concatenation of the
+following: the name of the relationship property or field of entity A; "
+___ "; the name of the primary key column in table _B_. The foreign key
+column has the same type as the primary key of table _B_ and there is a
+unique key constraint on it.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    private TravelProfile profile;
+
+    @OneToOne
+    public TravelProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(TravelProfile profile) {
+        this.profile = profile;
+    }
+
+    // ...
+}
+
+@Entity
+public class TravelProfile {
+    // ...
+}
+----
+
+In this example:
+
+* Entity _Employee_ references a single instance of Entity _TravelProfile_.
+* Entity _TravelProfile_ does not reference Entity _Employee_.
+* Entity _Employee_ is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity _Employee_ is mapped to a table named _EMPLOYEE_.
+* Entity _TravelProfile_ is mapped to a table named _TRAVELPROFILE_.
+* Table _EMPLOYEE_ contains a foreign key to
+table _TRAVELPROFILE_. The foreign key column is named _PROFILE__ <PK
+of TRAVELPROFILE>, where <PK of TRAVELPROFILE> denotes the name of the
+primary key column of table _TRAVELPROFILE_. The foreign key column has
+the same type as the primary key of _TRAVELPROFILE_, and there is a
+unique key constraint on it.
+
+===== Unidirectional ManyToOne Relationships
+
+The following mapping defaults apply:
+
+* Entity A is mapped to a table named _A_.
+* Entity B is mapped to a table named _B_.
+* Table _A_ contains a foreign key to table _B_. The foreign key column name is formed as the concatenation of the following: the name of the relationship property or field of entity A; "_"; the name of the primary key column in table _B_. The foreign key column has the same type as the primary key of table _B_.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    private Address address;
+
+    @ManyToOne
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    // ...
+}
+
+@Entity
+public class Address {
+    // ...
+}
+----
+
+In this example:
+
+* Entity _Employee_ references a single instance of Entity _Address_.
+* Entity _Address_ does not reference Entity _Employee_.
+* Entity _Employee_ is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity _Employee_ is mapped to a table named _EMPLOYEE_.
+* Entity _Address_ is mapped to a table named _ADDRESS_.
+* Table _EMPLOYEE_ contains a foreign key to
+table _ADDRESS_. The foreign key column is named _ADDRESS__ <PK of
+ADDRESS>, where <PK of ADDRESS> denotes the name of the primary key
+column of table _ADDRESS_. The foreign key column has the same type as
+the primary key of _ADDRESS_.
+
+==== Bidirectional ManyToMany Relationships [[a708]]
+
+Assuming that:
+
+* Entity A references a collection of Entity B.
+* Entity B references a collection of Entity A.
+* Entity A is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity A is mapped to a table named _A_.
+* Entity B is mapped to a table named _B_.
+* There is a join table that is named _A_B_
+(owner name first). This join table has two foreign key columns. One
+foreign key column refers to table _A_ and has the same type as the
+primary key of table _A_. The name of this foreign key column is formed
+as the concatenation of the following: the name of the relationship
+property or field of entity B; " ___ "; the name of the primary key
+column in table _A_. The other foreign key column refers to table _B_
+and has the same type as the primary key of table _B_. The name of this
+foreign key column is formed as the concatenation of the following: the
+name of the relationship property or field of entity A; " ___ "; the
+name of the primary key column in table _B_.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Project {
+    private Collection<Employee> employees;
+
+    @ManyToMany
+    public Collection<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Collection<Employee> employees) {
+        this.employees = employees;
+    }
+
+    // ...
+}
+
+@Entity
+public class Employee {
+    private Collection<Project> projects;
+
+    @ManyToMany(mappedBy="employees")
+    public Collection<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Collection<Project> projects) {
+        this.projects = projects;
+    }
+
+    // ...
+}
+----
+
+In this example:
+
+* Entity _Project_ references a collection of Entity _Employee_.
+* Entity _Employee_ references a collection of Entity _Project_.
+* Entity _Project_ is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity _Project_ is mapped to a table named _PROJECT_.
+* Entity _Employee_ is mapped to a table named _EMPLOYEE_.
+* There is a join table that is named
+_PROJECT_EMPLOYEE_ (owner name first). This join table has two foreign
+key columns. One foreign key column refers to table _PROJECT_ and has
+the same type as the primary key of _PROJECT_. The name of this foreign
+key column is _PROJECTS__ <PK of PROJECT>, where <PK of PROJECT> denotes
+the name of the primary key column of table _PROJECT_. The other
+foreign key column refers to table _EMPLOYEE_ and has the same type as
+the primary key of _EMPLOYEE_. The name of this foreign key column is
+_EMPLOYEES__ <PK of EMPLOYEE>, where <PK of EMPLOYEE> denotes the name
+of the primary key column of table _EMPLOYEE_.
+
+==== Unidirectional Multi-Valued Relationships [[a758]]
+
+Assuming that:
+
+* Entity A references a collection of Entity B.
+* Entity B does not reference Entity A.
+
+A unidirectional relationship has only an owning side, which in this case must be Entity A.
+
+The unidirectional multi-valued relationship
+modeling case can be specified as either a unidirectional _OneToMany_ or
+as a unidirectional _ManyToMany_ relationship.
+
+===== Unidirectional OneToMany Relationships [[a764]]
+
+The following mapping defaults apply:
+
+* Entity A is mapped to a table named _A_.
+* Entity B is mapped to a table named _B_.
+* There is a join table that is named _A_B_
+(owner name first). This join table has two foreign key columns. One
+foreign key column refers to table _A_ and has the same type as the
+primary key of table _A_. The name of this foreign key column is formed
+as the concatenation of the following: the name of entity A; " ___ ";
+the name of the primary key column in table _A_. The other foreign key
+column refers to table _B_ and has the same type as the primary key of
+table _B_ and there is a unique key constraint on it. The name of this
+foreign key column is formed as the concatenation of the following: the
+name of the relationship property or field of entity A; " ___ "; the
+name of the primary key column in table _B_.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    private Collection<AnnualReview> annualReviews;
+
+    @OneToMany
+    public Collection<AnnualReview> getAnnualReviews() {
+        return annualReviews;
+    }
+
+    public void setAnnualReviews(Collection<AnnualReview> annualReviews) {
+        this.annualReviews = annualReviews;
+    }
+
+    // ...
+}
+
+@Entity
+public class AnnualReview {
+    // ...
+}
+----
+
+In this example:
+
+* Entity _Employee_ references a collection of Entity _AnnualReview_.
+* Entity _AnnualReview_ does not reference Entity _Employee_.
+* Entity _Employee_ is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity _Employee_ is mapped to a table named _EMPLOYEE_.
+* Entity _AnnualReview_ is mapped to a table named _ANNUALREVIEW_.
+* There is a join table that is named
+_EMPLOYEE_ANNUALREVIEW_ (owner name first). This join table has two
+foreign key columns. One foreign key column refers to table _EMPLOYEE_
+and has the same type as the primary key of _EMPLOYEE_. This foreign
+key column is named _EMPLOYEE__ <PK of EMPLOYEE>, where <PK of EMPLOYEE>
+denotes the name of the primary key column of table _EMPLOYEE_. The
+other foreign key column refers to table _ANNUALREVIEW_ and has the same
+type as the primary key of _ANNUALREVIEW_. This foreign key column is
+named _ANNUALREVIEWS__ <PK of ANNUALREVIEW>, where <PK of ANNUALREVIEW>
+denotes the name of the primary key column of table _ANNUALREVIEW_.
+There is a unique key constraint on the foreign key that refers to table
+_ANNUALREVIEW_.
+
+===== Unidirectional ManyToMany Relationships [[a800]]
+
+The following mapping defaults apply:
+
+* Entity _A_ is mapped to a table named _A_.
+* Entity _B_ is mapped to a table named _B_.
+* There is a join table that is named _A_B_
+(owner name first). This join table has two foreign key columns. One
+foreign key column refers to table _A_ and has the same type as the
+primary key of table A. The name of this foreign key column is formed as
+the concatenation of the following: the name of entity _A_; " ___ ";
+the name of the primary key column in table _A_. The other foreign key
+column refers to table _B_ and has the same type as the primary key of
+table _B_. The name of this foreign key column is formed as the
+concatenation of the following: the name of the relationship property or
+field of entity _A_; " ___ "; the name of the primary key column in
+table _B_.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    private Collection<Patent> patents;
+
+    @ManyToMany
+    public Collection<Patent> getPatents() {
+        return patents;
+    }
+
+    public void setPatents(Collection<Patent> patents) {
+        this.patents = patents;
+    }
+
+    // ...
+}
+
+@Entity
+public class Patent {
+    //...
+}
+----
+
+In this example:
+
+* Entity _Employee_ references a collection of Entity _Patent_.
+* Entity _Patent_ does not reference Entity _Employee_.
+* Entity _Employee_ is the owner of the relationship.
+
+The following mapping defaults apply:
+
+* Entity _Employee_ is mapped to a table named _EMPLOYEE_.
+* Entity _Patent_ is mapped to a table named _PATENT_.
+* There is a join table that is named
+_EMPLOYEE_PATENT_ (owner name first). This join table has two foreign
+key columns. One foreign key column refers to table _EMPLOYEE_ and has
+the same type as the primary key of _EMPLOYEE_. This foreign key column
+is named _EMPLOYEE__ <PK of EMPLOYEE>, where <PK of EMPLOYEE> denotes
+the name of the primary key column of table _EMPLOYEE_. The other
+foreign key column refers to table _PATENT_ and has the same type as the
+primary key of _PATENT_. This foreign key column is named _PATENTS__
+<PK of PATENT>, where <PK of PATENT> denotes the name of the primary key
+column of table _PATENT_.
+
+=== Inheritance
+
+An entity may inherit from another entity
+class. Entities support inheritance, polymorphic associations, and
+polymorphic queries.
+
+Both abstract and concrete classes can be
+entities. Both abstract and concrete classes can be annotated with the
+_Entity_ annotation, mapped as entities, and queried for as entities.
+
+Entities can extend non-entity classes and
+non-entity classes can extend entity classes.
+
+These concepts are described further in the
+following sections.
+
+==== Abstract Entity Classes
+
+An abstract class can be specified as an
+entity. An abstract entity differs from a concrete entity only in that
+it cannot be directly instantiated. An abstract entity is mapped as an
+entity and can be the target of queries (which will operate over and/or
+retrieve instances of its concrete subclasses).
+
+An abstract entity class is annotated with
+the _Entity_ annotation or denoted in the XML descriptor as an entity.
+
+The following example shows the use of an
+abstract entity class in the entity inheritance hierarchy.
+
+*Example: Abstract class as an Entity*
+
+[source,java]
+----
+@Entity
+@Table(name="EMP")
+@Inheritance(strategy=JOINED)
+public abstract class Employee {
+    @Id
+    protected Integer empId;
+
+    @Version
+    protected Integer version;
+
+    @ManyToOne
+    protected Address address;
+
+    // ...
+}
+
+@Entity
+@Table(name="FT_EMP")
+@DiscriminatorValue("FT")
+@PrimaryKeyJoinColumn(name="FT_EMPID")
+public class FullTimeEmployee extends Employee {
+    // Inherit empId, but mapped in this class to FT_EMP.FT_EMPID
+    // Inherit version mapped to EMP.VERSION
+    // Inherit address mapped to EMP.ADDRESS fk
+
+    // Defaults to FT_EMP.SALARY
+    protected Integer salary;
+
+    // ...
+}
+
+@Entity
+@Table(name="PT_EMP")
+@DiscriminatorValue("PT")
+// PK column is PT_EMP.EMPID due to _PrimaryKeyJoinColumn_ default
+public class PartTimeEmployee extends Employee {
+    protected Float hourlyWage;
+
+    // ...
+}
+----
+
+==== Mapped Superclasses
+
+An entity may inherit from a superclass that
+provides persistent entity state and mapping information, but which is
+not itself an entity. Typically, the purpose of such a mapped superclass
+is to define state and mapping information that is common to multiple
+entity classes.
+
+A mapped superclass, unlike an entity, is not
+queryable and must not be passed as an argument to _EntityManager_ or
+_Query_ operations. Persistent relationships defined by a mapped
+superclass must be unidirectional.
+
+Both abstract and concrete classes may be
+specified as mapped superclasses. The _MappedSuperclass_ annotation (or
+_mapped-superclass_ XML descriptor element) is used to designate a
+mapped superclass.
+
+A class designated as a mapped superclass has
+no separate table defined for it. Its mapping information is applied to
+the entities that inherit from it.
+
+A class designated as a mapped superclass can
+be mapped in the same way as an entity except that the mappings will
+apply only to its subclasses since no table exists for the mapped
+superclass itself. When applied to the subclasses, the inherited
+mappings will apply in the context of the subclass tables. Mapping
+information can be overridden in such subclasses by using the
+_AttributeOverride_ and _AssociationOverride_ annotations or
+corresponding XML elements.
+
+All other entity mapping defaults apply
+equally to a class designated as a mapped superclass.
+
+The following example illustrates the
+definition of a concrete class as a mapped superclass.
+
+*Example: Concrete class as a mapped superclass*
+
+[source,java]
+----
+@MappedSuperclass
+public class Employee {
+    @Id
+    protected Integer empId;
+
+    @Version
+    protected Integer version;
+
+    @ManyToOne
+    @JoinColumn(name="ADDR")
+    protected Address address;
+
+    public Integer getEmpId() { ... }
+
+    public void setEmpId(Integer id) { ... }
+
+    public Address getAddress() { ... }
+
+    public void setAddress(Address addr) { ... }
+}
+
+// Default table is FTEMPLOYEE table
+@Entity
+public class FTEmployee extends Employee {
+    // Inherited empId field mapped to FTEMPLOYEE.EMPID
+    // Inherited version field mapped to FTEMPLOYEE.VERSION
+    // Inherited address field mapped to FTEMPLOYEE.ADDR fk
+
+    // Defaults to FTEMPLOYEE.SALARY
+    protected Integer salary;
+
+    public FTEmployee() {}
+
+    public Integer getSalary() { ... }
+
+    public void setSalary(Integer salary) { ... }
+}
+
+@Entity
+@Table(name="PT_EMP")
+@AssociationOverride(name="address", joincolumns=@JoinColumn(name="ADDR_ID"))
+public class PartTimeEmployee extends Employee {
+    // Inherited empId field mapped to PT_EMP.EMPID
+    // Inherited version field mapped to PT_EMP.VERSION
+    // address field mapping overridden to PT_EMP.ADDR_ID fk
+    @Column(name="WAGE")
+    protected Float hourlyWage;
+
+    public PartTimeEmployee() {}
+
+    public Float getHourlyWage() { ... }
+
+    public void setHourlyWage(Float wage) { ... }
+}
+----
+
+==== Non-Entity Classes in the Entity Inheritance Hierarchy
+
+An entity can have a non-entity
+superclass, which may be either a concrete or abstract
+class.footnote:[The superclass must
+not be an embeddable class or id class.]
+
+The non-entity superclass serves for
+inheritance of behavior only. The state of a non-entity superclass is
+not persistent. Any state inherited from non-entity superclasses is
+non-persistent in an inheriting entity class. This non-persistent state
+is not managed by the entity managerfootnote:[If a
+transaction-scoped persistence context is used, it is not required to be
+retained across transactions.]. Any
+annotations on such superclasses are ignored.
+
+Non-entity classes cannot be passed as
+arguments to methods of the _EntityManager_ or _Query_
+interfacesfootnote:[This includes
+instances of a non-entity class that extends an entity class.] and cannot bear mapping information.
+
+The following example illustrates the use of
+a non-entity class as a superclass of an entity.
+
+*Example: Non-entity superclass*
+
+[source,java]
+----
+public class Cart {
+    protected Integer operationCount; // transient state
+
+    public Cart() {
+        operationCount = 0;
+    }
+
+    public Integer getOperationCount() {
+        return operationCount;
+    }
+
+    public void incrementOperationCount() {
+        operationCount++;
+    }
+}
+
+@Entity
+public class ShoppingCart extends Cart {
+    Collection<Item> items = new Vector<Item>();
+
+    public ShoppingCart() {
+        super();
+    }
+
+    // ...
+
+    @OneToMany
+    public Collection<Item> getItems() {
+        return items;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+        incrementOperationCount();
+    }
+}
+----
+
+=== Inheritance Mapping Strategies [[a966]]
+
+The mapping of class hierarchies is specified through metadata.
+
+There are three basic strategies that are
+used when mapping a class or class hierarchy to a relational database:
+
+* a single table per class hierarchy
+* a joined subclass strategy, in which fields
+that are specific to a subclass are mapped to a separate table than the
+fields that are common to the parent class, and a join is performed to
+instantiate the subclass.
+* a table per concrete entity class
+
+An implementation is required to support the
+single table per class hierarchy inheritance mapping strategy and the
+joined subclass strategy.
+
+[NOTE]
+====
+Support for the table per concrete class
+inheritance mapping strategy is optional in this release. Applications
+that use this mapping strategy will not be portable.
+
+Support for the combination of inheritance
+strategies within a single entity inheritance hierarchy is not required
+by this specification.
+====
+
+==== Single Table per Class Hierarchy Strategy
+
+In this strategy, all the classes in a
+hierarchy are mapped to a single table. The table has a column that
+serves as a “discriminator column”, that is, a column whose value
+identifies the specific subclass to which the instance that is
+represented by the row belongs.
+
+This mapping strategy provides good support
+for polymorphic relationships between entities and for queries that
+range over the class hierarchy.
+
+It has the drawback, however, that it
+requires that the columns that correspond to state specific to the
+subclasses be nullable.
+
+==== Joined Subclass Strategy
+
+In the joined subclass strategy, the root of
+the class hierarchy is represented by a single table. Each subclass is
+represented by a separate table that contains those fields that are
+specific to the subclass (not inherited from its superclass), as well as
+the column(s) that represent its primary key. The primary key column(s)
+of the subclass table serves as a foreign key to the primary key of the
+superclass table.
+
+This strategy provides support for
+polymorphic relationships between entities.
+
+It has the drawback that it requires that one
+or more join operations be performed to instantiate instances of a
+subclass. In deep class hierarchies, this may lead to unacceptable
+performance. Queries that range over the class hierarchy likewise
+require joins.
+
+==== Table per Concrete Class Strategy
+
+In this mapping strategy, each class is
+mapped to a separate table. All properties of the class, including
+inherited properties, are mapped to columns of the table for the class.
+
+This strategy has the following drawbacks:
+
+* It provides poor support for polymorphic relationships.
+* It typically requires that SQL UNION queries
+(or a separate SQL query per subclass) be issued for queries that are
+intended to range over the class hierarchy.
+
+=== Naming of Database Objects [[a988]]
+
+Many annotations and annotation elements
+contain names of database objects or assume default names for database
+objects.
+
+This specification requires the following
+with regard to the interpretation of the names referencing database
+objects. These names include the names of tables, columns, and other
+database elements. Such names also include names that result from
+defaulting (e.g., a table name that is defaulted from an entity name or
+a column name that is defaulted from a field or property name).
+
+By default, the names of database objects
+must be treated as undelimited identifiers and passed to the database as
+such.
+
+For example, assuming the use of an English
+locale, the following must be passed to the database as undelimited
+identifers so that they will be treated as equivalent for all databases
+that comply with the SQL Standard's requirements for the treatment of
+“regular identifiers” (undelimited identifiers) and “delimited
+identifiers” <<a19494>>:
+
+[source,java]
+----
+@Table(name="Customer")
+@Table(name="customer")
+@Table(name="cUsTomer")
+----
+
+Similarly, the following must be treated as equivalent:
+
+[source,java]
+----
+@JoinColumn(name="CUSTOMER")
+@ManyToOne Customer customer;
+
+@JoinColumn(name="customer")
+@ManyToOne Customer customer;
+
+@ManyToOne Customer customer;
+----
+
+To specify delimited identifiers, one of the
+following approaches must be used:
+
+* It is possible to specify that all database
+identifiers in use for a persistence unit be treated as delimited
+identifiers by specifying the _<delimited-identifiers/>_ element within
+the _persistence-unit-defaults_ element of the object/relational xml
+mapping file. If the _<delimited-identifiers/>_ element is specified, it
+cannot be overridden.
+* It is possible to specify on a per-name basis
+that a name for a database object is to be interpreted as a delimited
+identifier as follows:
+** Using annotations, a name is specified as a
+delimited identifier by enclosing the name within double quotes, whereby
+the inner quotes are escaped, e.g., `@Table(name="\"customer\"")`.
+** When using XML, a name is specified as
+a delimited identifier by use of double quotes, e.g., `<table name="\&quot;customer\&quot;"/>` footnote:[If
+<delimited-identifiers> is specified and individual annotations or XML
+elements or attributes use escaped double quotes, the double-quotes
+appear in the name of the database identifier.]
+
+The following annotations contain elements
+whose values correspond to names of database identifiers and for which
+the above rules apply, including when their use is nested within that of
+other annotations:
+
+* EntityResult(discriminatorColumn *element*)
+* FieldResult(column *element*)
+* ColumnResult(name *element*)
+* CollectionTable(name, catalog, schema *elements*)
+* Column(name, columnDefinition, table *elements*)
+* DiscriminatorColumn(name, columnDefinition *elements*)
+* ForeignKey(name, foreignKeyDefinition *elements*)
+* Index(name, columnList *elements*)
+* JoinColumn(name, referencedColumnName, columnDefinition, table *elements*)
+* JoinTable(name, catalog, schema *elements*)
+* MapKeyColumn(name, columnDefinition, table *elements*)
+* MapKeyJoinColumn(name, referencedColumnName, columnDefinition, table *elements*)
+* NamedStoredProcedureQuery(procedureName *element*)
+* OrderColumn(name, columnDefinition *elements*)
+* PrimaryKeyJoinColumn(name, referencedColumnName, columnDefinition *elements*)
+* SecondaryTable(name, catalog, schema *elements*)
+* SequenceGenerator(sequenceName, catalog, schema *elements*)
+* StoredProcedureParameter(name *element*)
+* Table(name, catalog, schema *elements*)
+* TableGenerator(table, catalog, schema, pkColumnName, valueColumnName *elements*)
+* UniqueConstraint(name, columnNames *elements*)
+
+The following XML elements and types contain
+elements or attributes whose values correspond to names of database
+identifiers and for which the above rules apply:
+
+* entity-mappings(schema, catalog *elements*)
+* persistence-unit-defaults(schema, catalog *elements*)
+* collection-table(name, catalog, schema *attributes*)
+* column(name, table, column-definition *attributes*)
+* column-result(name *attribute*)
+* discriminator-column(name, column-definition *attributes*)
+* entity-result(discriminator-column *attribute*)
+* field-result(column *attribute*)
+* foreign-key(name, foreign-key-definition *attributes*)
+* index(name *attribute*, column-list *element*)
+* join-column(name, referenced-column-name, column-definition, table *attributes*)
+* join-table(name, catalog, schema *attributes*)
+* map-key-column(name, column-definition, table *attributes*)
+* map-key-join-column(name, referenced-column-name, column-definition, table *attributes*)
+* named-stored-procedure-query(procedure-name *attribute*)
+* order-column(name, column-definition *attributes*)
+* primary-key-join-column(name, referenced-column-name, column-definition *attributes*)
+* secondary-table(name, catalog, schema *attributes*)
+* sequence-generator(sequence-name, catalog, schema *attributes*)
+* stored-procedure-parameter(name *attribute*)
+* table(name, catalog, schema *attributes*)
+* table-generator(table, catalog, schema, pk-column-name, value-column-name *attributes*)
+* unique-constraint(name *attribute*, column-name *element*)

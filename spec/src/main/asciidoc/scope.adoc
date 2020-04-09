@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
 == Scope
 
 Jakarta Persistence defines a standard for management of persistence

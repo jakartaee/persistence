@@ -1,0 +1,6094 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
+== Metadata for Object/Relational Mapping [[a13915]]
+
+The object/relational mapping metadata is
+part of the application domain model contract. It expresses requirements
+and expectations on the part of the application as to the mapping of the
+entities and relationships of the application domain to a database.
+Queries (and, in particular, SQL queries) written against the database
+schema that corresponds to the application domain model are dependent
+upon the mappings expressed by means of the object/relational mapping
+metadata. The implementation of this specification must assume this
+application dependency upon the object/relational mapping metadata and
+insure that the semantics and requirements expressed by that mapping are
+observed.
+
+The use of object/relational mapping metadata
+to control schema generation is specified in <<a16444>>.
+
+=== Annotations for Object/Relational Mapping
+
+These annotations and types are in the
+package _jakarta.persistence_.
+
+XML metadata may be used as an alternative to
+these annotations, or to override or augment annotations, as described
+in <<a16944>>.
+
+==== Access Annotation
+
+The _Access_ annotation is used to specify an
+access type to be applied to an entity class, mapped superclass, or
+embeddable class, or to a specific attribute of such a class.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Access {
+    AccessType value();
+}
+
+public enum AccessType {
+    FIELD,
+    PROPERTY
+}
+----
+
+<<a13935>> lists the annotation elements that may be specified
+for the _Access_ annotation.
+
+.Access Annotation Elements
+[#a13935,options="header"]
+|===
+|Type |Name |Description |Default
+|AccessType |value |(Required) The access type to be applied to the class or attribute. |
+|===
+
+==== AssociationOverride Annotation [[a13942]]
+
+The _AssociationOverride_ annotation is used
+to override a mapping for an entity relationship.
+
+The _AssociationOverride_ annotation may be
+applied to an entity that extends a mapped superclass to override a
+relationship mapping defined by the mapped superclass. If the
+_AssociationOverride_ annotation is not specified, the association is
+mapped the same as in the original mapping. When used to override a
+mapping defined by a mapped superclass, the _AssociationOverride_
+annotation is applied to the entity class.
+
+The _AssociationOverride_ annotation may be
+used to override a relationship mapping from an embeddable within an
+entity to another entity when the embeddable is on the owning side of
+the relationship. When used to override a relationship mapping defined
+by an embeddable class (including an embeddable class embedded within
+another embeddable class), the _AssociationOverride_ annotation is
+applied to the field or property containing the embeddable.
+
+When the _AssociationOverride_
+annotation is used to override a relationship mapping from an embeddable
+class, the _name_ element specifies the referencing relationship field
+or property within the embeddable class. To override mappings at
+multiple levels of embedding, a dot (".") notation syntax must be used
+in the _name_ element to indicate an attribute within an embedded
+attribute. The value of each identifier used with the dot notation is
+the name of the respective embedded field or property. When the
+_AssociationOverride_ annotation is applied to override the mappings of
+an embeddable class used as a map value, " _value._ " must be used to
+prefix the name of the attribute within the embeddable class that is
+being overridden in order to specify it as part of the map
+value.footnote:[The use of map keys
+that contain embeddables that reference entities is not permitted.]
+
+If the relationship mapping is a
+foreign key mapping, the _joinColumns_ element of the
+_AssociationOverride_ annotation is used. If the relationship mapping
+uses a join table, the _joinTable_ element of the _AssociationOverride_
+element must be specified to override the mapping of the join table
+and/or its join columns.footnote:[Note that _either_
+the _joinColumns_ element _or_ the _joinTable_ element of the
+_AssociationOverride_ annotation is specified for overriding a given
+relationship (but never both).]
+
+The _joinColumns_ element refers to the table
+for the class that contains the annotation.
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the columns
+corresponding to the _joinColumns_ element when table generation is in
+effect. If both this element and the _foreignKey_ element of any of the
+_joinColumns_ elements are specified, the behavior is undefined.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(AssociationOverrides.class)
+public @interface AssociationOverride {
+    String name();
+
+    JoinColumn[] joinColumns() default {};
+
+    ForeignKey foreignKey() default
+
+    @ForeignKey(PROVIDER_DEFAULT);
+    JoinTable joinTable() default @JoinTable;
+}
+----
+
+<<a13960>> lists the annotation elements
+that may be specified for the _AssociationOverride_ annotation.
+
+.AssociationOverride Annotation Elements
+[#a13960,options="header"]
+|===
+|Type |Name |Description |Default
+|String
+|name
+|(Required) The name of the relationship
+property whose mapping is being overridden if property-based access is
+being used, or the name of the relationship field if field-based access
+is used.
+|
+|JoinColumn[]
+|joinColumns
+|The
+join column(s) being mapped to the persistent attribute(s). The
+joinColumns element must be specified if a foreign key mapping is used
+in the overriding of the mapping of the relationship. The joinColumns
+element must not be specified if a join table is used in the overriding
+of the mapping of the relationship
+|
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join columns. This is used only if table
+generation is in effect.
+|Provider's default
+|JoinTable
+|joinTable
+|The
+join table that maps the relationship. The joinTable element must be
+specified if a join table is used in the overriding of the mapping of
+the relationship. The joinTable element must not be specified if a
+foreign key mapping is used in the overriding of the mapping of the
+relationship.
+|.
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@MappedSuperclass
+public class Employee {
+    @Id
+    protected Integer id;
+
+    @Version
+    protected Integer version;
+
+    @ManyToOne
+    protected Address address;
+
+    public Integer getId() { ... }
+
+    public void setId(Integer id) { ... }
+
+    public Address getAddress() { ... }
+
+    public void setAddress(Address address) { ... }
+}
+
+@Entity
+@AssociationOverride(name="address", joinColumns=@JoinColumn(name="ADDR_ID"))
+public class PartTimeEmployee extends Employee {
+    // address field mapping overridden to ADDR_ID foreign key
+    @Column(name="WAGE")
+    protected Float hourlyWage;
+
+    public Float getHourlyWage() { ... }
+
+    public void setHourlyWage(Float wage) { ... }
+}
+----
+
+*Example 2:* Overriding of the mapping for
+the _phoneNumbers_ relationship defined in the _ContactInfo_ embeddable
+class.
+
+[source,java]
+----
+@Entity
+public class Employee {
+    @Id
+    int id;
+
+    @AssociationOverride(
+        name="phoneNumbers",
+        joinTable=@JoinTable(
+            name="EMPPHONES",
+            joinColumns=@JoinColumn(name="EMP"),
+            inverseJoinColumns=@JoinColumn(name="PHONE")
+        )
+    )
+    @Embedded
+    ContactInfo contactInfo;
+
+    // ...
+}
+
+@Embeddable
+public class ContactInfo {
+    @ManyToOne Address address; // Unidirectional
+    @ManyToMany(targetEntity=PhoneNumber.class)
+    List phoneNumbers;
+}
+
+@Entity
+public class PhoneNumber {
+    @Id
+    int number;
+
+    @ManyToMany(mappedBy="contactInfo.phoneNumbers")
+    Collection<Employee> employees;
+}
+----
+
+==== AssociationOverrides Annotation
+
+The mappings of multiple relationship
+properties or fields may be overridden. The _AssociationOverrides_
+annotation can be used for this purpose.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface AssociationOverrides {
+    AssociationOverride[] value();
+}
+----
+
+<<a14040>> lists the annotation elements
+that may be specified for the _AssociationOverrides_ annotation.
+
+.AssociationOverrides Annotation Elements
+[#a14040,options="header"]
+|===
+|Type |Name |Description |Default
+|AssociationOverride[]
+|value |(Required)
+The association override mappings that are to be applied to the
+relationship field or property. |
+|===
+
+*Example:*
+
+[source,java]
+----
+@MappedSuperclass
+public class Employee {
+    @Id
+    protected Integer id;
+
+    @Version
+    protected Integer version;
+
+    @ManyToOne
+    protected Address address;
+
+    @OneToOne
+    protected Locker locker;
+
+    public Integer getId() { ... }
+
+    public void setId(Integer id) { ... }
+
+    public Address getAddress() { ... }
+
+    public void setAddress(Address address) { ... }
+
+    public Locker getLocker() { ... }
+
+    public void setLocker(Locker locker) { ... }
+}
+
+@Entity
+@AssociationOverrides({
+    @AssociationOverride(name="address", joinColumns=@JoinColumn("ADDR_ID")),
+    @AssociationOverride(name="locker", joinColumns=@JoinColumn("LCKR_ID"))})
+public PartTimeEmployee { ... }
+----
+
+Alternatively:
+
+[source,java]
+----
+@Entity
+@AssociationOverride(name="address", joinColumns=@JoinColumn("ADDR_ID"))
+@AssociationOverride(name="locker", joinColumns=@JoinColumn("LCKR_ID"))
+public PartTimeEmployee { ... }
+----
+
+==== AttributeOverride Annotation [[a14084]]
+
+The _AttributeOverride_ annotation is used to
+override the mapping of a _Basic_ (whether explicit or default) property
+or field or _Id_ property or field.
+
+The _AttributeOverride_ annotation may be
+applied to an entity that extends a mapped superclass or to an embedded
+field or property to override a _Basic_ mapping or _Id_ mapping defined
+by the mapped superclass or embeddable class (or embeddable class of one
+of its attributes).
+
+The _AttributeOverride_ annotation may be
+applied to an element collection containing instances of an embeddable
+class or to a map collection whose key and/or value is an embeddable
+class. When the _AttributeOverride_ annotation is applied to a map, "
+_key._ " or " _value._ " must be used to prefix the name of the
+attribute that is being overridden in order to specify it as part of the
+map key or map value.
+
+To override mappings at multiple levels of
+embedding, a dot (".") notation form must be used in the _name_ element
+to indicate an attribute within an embedded attribute. The value of each
+identifier used with the dot notation is the name of the respective
+embedded field or property.
+
+If the _AttributeOverride_ annotation is not
+specified, the column is mapped the same as in the original mapping.
+
+<<a14100>> lists the annotation elements
+that may be specified for the _AttributeOverride_ annotation.
+
+The _column_ element refers to the table for
+the class that contains the annotation.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(AttributeOverrides.class)
+public @interface AttributeOverride {
+    String name();
+    Column column();
+}
+----
+
+.AttributeOverride Annotation Elements
+[#a14100,options="header"]
+|===
+|Type |Name |Description |Default
+|String |name
+|(Required) The name of the property whose
+mapping is being overridden if property-based access is being used, or
+the name of the field if field-based access is used.
+|
+|Column |column
+|(Required) The column that is being mapped
+to the persistent attribute. The mapping type will remain the same as is
+defined in the embeddable class or mapped superclass.
+|
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@MappedSuperclass
+public class Employee {
+    @Id
+    protected Integer id;
+
+    @Version
+    protected Integer version;
+
+    protected String address;
+
+    public Integer getId() { ... }
+
+    public void setId(Integer id) { ... }
+
+    public String getAddress() { ... }
+
+    public void setAddress(String address) { ... }
+}
+
+@Entity
+@AttributeOverride(name="address", column=@Column(name="ADDR"))
+public class PartTimeEmployee extends Employee {
+    // address field mapping overridden to ADDR
+    protected Float wage();
+
+    public Float getHourlyWage() { ... }
+
+    public void setHourlyWage(Float wage) { ... }
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Embeddable public class Address {
+    protected String street;
+
+    protected String city;
+
+    protected String state;
+
+    @Embedded
+    protected Zipcode zipcode;
+}
+
+@Embeddable
+public class Zipcode {
+    protected String zip;
+    protected String plusFour;
+}
+
+@Entity
+public class Customer {
+    @Id
+    protected Integer id;
+
+    protected String name;
+
+    @AttributeOverride(name="state", column=@Column(name="ADDR_STATE"))
+    @AttributeOverride(name="zipcode.zip", column= @Column(name="ADDR_ZIP"))
+    @Embedded
+    protected Address address;
+
+    // ...
+}
+----
+
+*Example 3:*
+
+[source,java]
+----
+@Entity
+public class PropertyRecord {
+    @EmbeddedId
+    PropertyOwner owner;
+
+    @AttributeOverrides(name="key.street", column=@Column(name="STREET_NAME"))
+    @AttributeOverride(name="value.size", column=@Column(name="SQUARE_FEET"))
+    @AttributeOverride(name="value.tax", column=@Column(name="ASSESSMENT"))
+    @ElementCollection
+    Map<Address, PropertyInfo> parcels;
+}
+
+@Embeddable
+public class PropertyInfo {
+    Integer parcelNumber;
+    Integer size;
+    BigDecimal tax;
+}
+----
+
+==== AttributeOverrides Annotation [[a14178]]
+
+The mappings of multiple properties or fields
+may be overridden. The _AttributeOverrides_ annotation can be used for
+this purpose.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface AttributeOverrides {
+    AttributeOverride[] value();
+}
+----
+
+<<a14187>> lists the annotation elements
+that may be specified for the _AttributeOverrides_ annotation.
+
+
+.AttributeOverrides Annotation Elements
+[#a14187,options="header"]
+|===
+|Type |Name |Description |Default
+|AttributeOverride[]
+|value
+|(Required)
+The AttributeOverride mappings that are to be applied to the field or
+property.
+|
+|===
+
+
+*Example:*
+
+[source,java]
+----
+@Embedded
+@AttributeOverrides({
+    @AttributeOverride(name="startDate", column=@Column(name="EMP_START")),
+    @AttributeOverride(name="endDate", column=@Column(name="EMP_END"))
+})
+public EmploymentPeriod getEmploymentPeriod() { ... }
+----
+
+==== Basic Annotation [[a14205]]
+
+The _Basic_ annotation is the simplest type
+of mapping to a database column. The _Basic_ annotation can be applied
+to a persistent property or instance variable of any of the following
+types: Java primitive types, wrappers of the primitive types,
+_java.lang.String_, _java.math.BigInteger_, _java.math.BigDecimal_,
+_java.util.Date_, _java.util.Calendar_, _java.sql.Date_,
+_java.sql.Time_, _java.sql.Timestamp_, _java.time.LocalDate_,
+_java.time.LocalTime_, _java.time.LocalDateTime_,
+_java.time.OffsetTime_, _java.time.OffsetDateTime_, _byte[]_,
+_Byte[]_, _char[]_, _Character[]_, enums, and any other type that
+implements _Serializable_.footnote:[Mapping of
+java.time.LocalDate, java.time.LocalTime, java.time.LocalDateTime,
+java.time.OffsetTime, and java.time.OffsetDateTime types to columns
+other than those supported by the mappings defined by Appendix B of the
+JDBC 4.2 specification is not required to be supported by the
+persistence provider beyond the support required for other serializable
+types. See <<a19496>>.] As described in <<a511>>, the use of the _Basic_
+annotation is optional for persistent fields and properties of these
+types. If the _Basic_ annotation is not specified for such a field or
+property, the default values of the _Basic_ annotation will apply.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Basic {
+    FetchType fetch() default EAGER;
+    boolean optional() default true;
+}
+----
+
+<<a14218>> lists the annotation elements that may be specified
+for the _Basic_ annotation and their default values.
+
+The _FetchType_ enum defines strategies for
+fetching data from the database:
+
+[source,java]
+----
+public enum FetchType { LAZY, EAGER };
+----
+
+The _EAGER_ strategy is a requirement on the
+persistence provider runtime that data must be eagerly fetched. The
+_LAZY_ strategy is a _hint_ to the persistence provider runtime that
+data should be fetched lazily when it is first accessed. The
+implementation is permitted to eagerly fetch data for which the _LAZY_
+strategy hint has been specified. In particular, lazy fetching might
+only be available for _Basic_ mappings for which property-based access
+is used.
+
+The _optional_ element is a hint as to
+whether the value of the field or property may be null. It is
+disregarded for primitive types.
+
+.Basic Annotation Elements
+[#a14218,options="header"]
+|===
+|Type |Name |Description |Default
+|FetchType |fetch
+|(Optional) Whether the value of the field or
+property should be lazily loaded or must be eagerly fetched. The EAGER
+strategy is a requirement on the persistence provider runtime that the
+value must be eagerly fetched. The LAZY strategy is a hint to the
+persistence provider runtime. |EAGER
+|boolean |optional
+|(Optional) Whether the value of the field or
+property may be null. This is a hint and is disregarded for primitive
+types; it may be used in schema generation.
+|true
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Basic
+protected String name;
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Basic(fetch=LAZY)
+protected String getName() { return name; }
+----
+
+==== Cacheable Annotation
+
+The _Cacheable_ annotation
+specifies whether an entity should be cached if caching is enabled when
+the value of the _persistence.xml_ _shared-cache-mode_ element is
+_ENABLE_SELECTIVE_ or _DISABLE_SELECTIVE_. The value of the _Cacheable_
+annotation is inherited by subclasses; it can be overridden by
+specifying _Cacheable_ on a subclass.
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface Cacheable {
+    boolean value() default true;
+}
+----
+
+_Cacheable(false)_ means that the entity and
+its state must not be cached by the provider.
+
+If the _shared-cache-mode_ element is not
+specified in the _persistence.xml_ file and the
+_jakarta.persistence.sharedCache.mode_ property is not specified when the
+entity manager factory for the persistence unit is created, the
+semantics of the _Cacheable_ annotation are undefined.
+
+.Cacheable Annotation Elements
+[options="header"]
+|===
+|Type |Name |Description |Default
+|boolean
+|value
+|(Optional) Whether or not the entity should
+be cached.
+|true
+|===
+
+==== CollectionTable Annotation [[a14250]]
+
+The _CollectionTable_ annotation is used in
+the mapping of collections of basic or embeddable types. The
+_CollectionTable_ annotation specifies the table that is used for the
+mapping of the collection and is specified on the collection-valued
+field or property.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface CollectionTable {
+    String name() default "";
+    String catalog() default "";
+    String schema() default "";
+    JoinColumn[] joinColumns() default {};
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    UniqueConstraint[] uniqueConstraints() default {};
+    Index[] indexes() default {};
+}
+----
+
+By default, the columns of the collection
+table that correspond to the embeddable class or basic type are derived
+from the attributes of the embeddable class or from the basic type
+according to the default values of the _Column_ annotation, as described
+in <<a14330>>. In the
+case of a basic type, the column name is derived from the name of the
+collection-valued field or property. In the case of an embeddable class,
+the column names are derived from the field or property names of the
+embeddable class.
+
+To override the default properties of the
+column used for a basic type, the _Column_ annotation is used on the
+collection-valued attribute in addition to the _ElementCollection_
+annotation. The value of the _table_ element of the _Column_ annotation
+defaults to the name of the collection table.
+
+To override these defaults for an embeddable
+class, the _AttributeOverride_ and/or _AttributeOverrides_ annotations
+must be used in addition to the _ElementCollection_ annotation. The
+value of the _table_ element of the _Column_ annotation used in the
+_AttributeOverride_ annotation defaults to the name of the collection
+table. If the embeddable class contains references to other entities,
+the default values for the columns corresponding to those references may
+be overridden by means of the _AssociationOverride_ and/or
+_AssociationOverrides_ annotations.
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the columns
+corresponding to the _joinColumns_ element when table generation is in
+effect. If both this element and the _foreignKey_ element of any of the
+_joinColumns_ elements are specified, the behavior is undefined. If no
+_foreignKey_ annotation element is specified in either location, the
+persistence provider's default foreign key strategy will apply.
+
+If the _CollectionTable_ annotation is
+missing, the default values of the _CollectionTable_ annotation elements
+apply.
+
+<<a14269>> lists the annotation elements that
+may be specified for the _CollectionTable_ annotation and their default
+values.
+
+.CollectionTable Annotation Elements
+[#a14269,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the collection table.
+|The concatenation of the name of the
+containing entity and the name of the collection attribute, separated by
+an underscore.
+
+|String
+|catalog
+|(Optional) The catalog of the table.
+|Default catalog.
+
+|String
+|schema
+|(Optional) The schema of the table.
+|Default schema for user.
+
+|JoinColumn[]
+|joinColumns
+|(Optional) The foreign key columns of the
+collection table which reference the primary table of the entity.
+|(Default only applies if a single join
+column is used.) The same defaults as for JoinColumn (i.e., the
+concatenation of the following: the name of the entity; "_"; the name of
+the referenced primary key column.) However, if there is more than one
+join column, a JoinColumn annotation must be specified for each join
+column using the JoinColumns annotation. Both the name and the
+referencedColumnName elements must be specified in each such JoinColumn
+annotation.
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join columns. This is used only if table
+generation is in effect.
+|Provider's default
+
+|UniqueConstraint[]
+|uniqueConstraints
+|(Optional) Unique constraints that are to be
+placed on the table. These are only used if table generation is in
+effect.
+|No additional constraints
+
+|Index[]
+|indexes
+|(Optional) Indexes for the table. These are
+only used if table generation is in effect.
+|No additional indexes
+|===
+
+*Example:*
+
+[source,java]
+----
+@Embeddable
+public class Address {
+    protected String street;
+    protected String city;
+    protected String state;
+
+    // ...
+}
+
+@Entity public class Person {
+    @Id
+    protected String ssn;
+
+    protected String name;
+
+    protected Address home;
+
+    // ...
+
+    @ElementCollection // use default table (PERSON_NICKNAMES)
+    @Column(name="name", length=50)
+    protected Set<String> nickNames = new HashSet();
+
+    // ...
+}
+
+@Entity
+public class WealthyPerson extends Person {
+    @ElementCollection
+    @CollectionTable(name="HOMES") // use default join column name
+    @AttributeOverrides({
+        @AttributeOverride(name="street", column=@Column(name="HOME_STREET")),
+        @AttributeOverride(name="city", column=@Column(name="HOME_CITY")),
+        @AttributeOverride(name="state", column=@Column(name="HOME_STATE"))
+    })
+    protected Set<Address> vacationHomes = new HashSet();
+
+    // ...
+}
+----
+
+==== Column Annotation [[a14330]]
+
+The _Column_ annotation is used to specify a
+mapped column for a persistent property or field.
+
+<<a14349>> lists the annotation elements that may be specified
+for the _Column_ annotation and their default values.
+
+If no _Column_ annotation is specified, the
+default values in <<a14349>> apply.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Column {
+    String name() default "";
+    boolean unique() default false;
+    boolean nullable() default true;
+    boolean insertable() default true;
+    boolean updatable() default true;
+    String columnDefinition() default "";
+    String table() default "";
+    int length() default 255;
+    int precision() default 0; // decimal precision
+    int scale() default 0; // decimal scale
+}
+----
+
+
+.Column Annotation Elements
+[#a14349,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the column.
+|The property or field name.
+
+|boolean
+|unique
+|(Optional) Whether the column is a unique
+key. This is a shortcut for the UniqueConstraint annotation at the table
+level and is useful for when the unique key constraint corresponds to
+only a single column. This constraint applies in addition to any
+constraint entailed by primary key mapping and to constraints specified
+at the table level.
+|false
+
+|boolean
+|nullable
+|(Optional) Whether the database column is nullable.
+|true
+
+|boolean
+|insertable
+|(Optional) Whether the column is included in
+SQL INSERT statements generated by the persistence provider.
+|true
+
+|boolean
+|updatable
+|(Optional) Whether the column is included in
+SQL UPDATE statements generated by the persistence provider.
+|true
+
+|String
+|columnDefinition
+|(Optional) The SQL fragment that is used
+when generating the DDL for the column.
+|Generated SQL to create a column of the
+inferred type.
+
+|String
+|table
+|(Optional) The name of the table that
+contains the column. If absent the column is assumed to be in the
+primary table for the mapped object.
+|Column
+is in primary table.
+
+|int
+|length
+|(Optional) The column length. (Applies only
+if a string-valued column is used.)
+|255
+
+|int
+|precision
+|(Optional) The precision for a decimal
+(exact numeric) column. (Applies only if a decimal column is used.)
+|0 (Value must be set by developer.)
+
+|int
+|scale
+|(Optional) The scale for a decimal (exact
+numeric) column. (Applies only if a decimal column is used.)
+|0
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Column(name="DESC", nullable=false, length=512)
+public String getDescription() {
+    return description;
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Column(name="DESC", columnDefinition="CLOB NOT NULL", table="EMP_DETAIL")
+@Lob
+public String getDescription() {
+    return description;
+}
+----
+
+*Example 3:*
+
+[source,java]
+----
+@Column(name="ORDER_COST", updatable=false, precision=12, scale=2)
+public BigDecimal getCost() {
+    return cost;
+}
+----
+
+==== Convert Annotation [[a14398]]
+
+The _Convert_ annotation is applied directly
+to an attribute of an entity, mapped superclass, or embeddable class to
+specify conversion of a Basic attribute or to override the use of a
+converter that has been specified as _autoApply=true_. When persistent
+properties are used, the _Convert_ annotation is applied to the getter
+method. It is not necessary to use the _Basic_ annotation or
+corresponding XML element to specify the basic type
+
+The _Convert_ annotation may be applied to an
+entity that extends a mapped superclass to specify or override the
+conversion mapping for an inherited basic attribute.
+
+[source,java]
+----
+@Target({METHOD, FIELD, TYPE})
+@Retention(RUNTIME)
+@Repeatable(Converts.class)
+public @interface Convert {
+    Class converter() default void.class;
+    String attributeName() default "";
+    boolean disableConversion() default false;
+}
+----
+
+<<a14410>> lists the annotation elements that may be specified
+for the _Convert_ annotation.
+
+.Convert Annotation Elements
+[#a14410,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|converter
+|(Optional) The converter to be applied.
+|No converter
+
+|String
+|attributeName
+|(Optional) The name of the attribute to
+convert. Must be specified unless the Convert annotation is applied to
+an attribute of basic type or to an element collection of basic type.
+Must not be specified otherwise.
+|The basic
+attribute or basic element collection attribute to which the annotation
+is applied
+
+|boolean
+|disableConversion
+|(Optional) Whether conversion of the
+attribute is to be disabled.
+|false
+|===
+
+The _converter_ element is used to specify
+the converter that is to be applied. If an autoApply converter is
+applicable to the given field or property, the converter specified by
+the _converter_ element will be applied instead.
+
+The _disableConversion_ element specifies
+that any applicable autoApply converter must not be applied.
+
+The behavior is undefined if neither the
+_converter_ element nor the _disableConversion_ element has been
+specified.
+
+The _Convert_ annotation should not be used
+to specify conversion of the following: Id attributes (including the
+attributes of embedded ids and derived identities), version attributes,
+relationship attributes, and attributes explicitly annotated (or
+designated via XML) as _Enumerated_ or _Temporal_. Applications that
+specify such conversions will not be portable.
+
+The _Convert_ annotation may be applied to a
+basic attribute or to an element collection of basic type (in which case
+the converter is applied to the elements of the collection). In these
+cases, the _attributeName_ element must not be specified.
+
+The _Convert_ annotation may be applied to an
+embedded attribute or to a map collection attribute whose key or value
+is of embeddable type (in which case the converter is applied to the
+specified attribute of the embeddable instances contained in the
+collection). In these cases, the _attributeName_ element must be
+specified.
+
+To override conversion mappings at multiple
+levels of embedding, a dot (_"."_) notation form must be used in the
+_attributeName_ element to indicate an attribute within an embedded
+attribute. The value of each identifier used with the dot notation is
+the name of the respective embedded field or property.
+
+When the _Convert_ annotation is applied to a
+map containing instances of embeddable classes, the _attributeName_
+element must be specified, and _"key."_ or _"value."_ must be used to
+prefix the name of the attribute that is to be converted in order to
+specify it as part of the map key or map value.
+
+When the _Convert_ annotation is applied to a
+map to specify conversion of a map key of basic type, _"key"_ must be
+used as the value of the _attributeName_ element to specify that it is
+the map key that is to be converted.
+
+The _Convert_ annotation may be applied to an
+entity class that extends a mapped superclass to specify or override a
+conversion mapping for an inherited basic or embedded attribute.
+
+*Example 1:* Convert a basic attribute
+
+[source, java]
+----
+@Converter
+public class BooleanToIntegerConverter implements AttributeConverter<Boolean, Integer> { ... }
+
+@Entity
+public class Employee {
+    @Id
+    long id;
+
+    @Convert(converter=BooleanToIntegerConverter.class)
+    boolean fullTime;
+
+    // ...
+}
+----
+
+*Example 2:* Auto-apply conversion of a basic attribute
+
+
+[source, java]
+----
+@Converter(autoApply=true)
+public class EmployeeDateConverter implements
+    AttributeConverter<com.acme.EmployeeDate, java.sql.Date> { ... }
+
+@Entity
+public class Employee {
+    @Id
+    long id;
+
+    // ...
+
+    // EmployeeDateConverter is applied automatically
+    EmployeeDate startDate;
+}
+----
+
+*Example 3:* Disable conversion in the presence of an auto-apply converter
+
+[source, java]
+----
+@Convert(disableConversion=true)
+EmployeeDate lastReview;
+----
+
+*Example 4:* Apply a converter to an element collection of basic type
+
+[source, java]
+----
+@ElementCollection
+// applies to each element in the collection
+@Convert(converter=NameConverter.class)
+List<String> names;
+----
+
+*Example 5:* Apply a converter to an element collection that is a map of basic values. The converter is applied to the map _value_.
+
+[source, java]
+----
+@ElementCollection
+@Convert(converter=EmployeeNameConverter.class)
+Map<String, String> responsibilities;
+----
+
+*Example 6:* Apply a converter to a map key of basic type
+
+[source, java]
+----
+@OneToMany
+@Convert(converter=ResponsibilityCodeConverter.class, attributeName="key")
+Map<String, Employee> responsibilities;
+----
+
+*Example 7:* Apply a converter to an embeddable attribute
+
+[source, java]
+----
+@Embedded
+@Convert(converter=CountryConverter.class, attributeName="country")
+Address address;
+----
+
+*Example 8:* Apply a converter to a nested embeddable attribute
+
+[source, java]
+----
+@Embedded
+@Convert(converter=CityConverter.class, attributeName="region.city")
+Address address;
+----
+
+*Example 9:* Apply a converter to a nested
+attribute of an embeddable that is a map key of an element collection
+
+[source, java]
+----
+@Entity
+public class PropertyRecord {
+    // ...
+
+    @Convert(converter=CityConverter.class, attributeName="key.region.city")
+    @ElementCollection
+    Map<Address, PropertyInfo> parcels;
+}
+----
+
+*Example 10:* Apply a converter to an embeddable that is a map key for a relationship
+
+[source, java]
+----
+@OneToMany
+@Convert(converter=ResponsibilityCodeConverter.class, attributeName="key.jobType")
+Map<Responsibility, Employee> responsibilities;
+----
+
+*Example 11:* Override conversion mappings for attributes inherited from a mapped superclass
+
+[source, java]
+----
+@Entity
+@Convert(converter=DateConverter.class, attributeName="startDate")
+@Convert(converter=DateConverter.class, attributeName="endDate")
+public class FullTimeEmployee extends GenericEmployee { ... }
+----
+
+==== Converts Annotation
+
+The _Converts_ annotation can be used to
+group _Convert_ annotations. Multiple converters must not be applied to
+the same basic attribute.
+
+[source, java]
+----
+@Target({METHOD, FIELD, TYPE})
+@Retention(RUNTIME)
+public @interface Converts {
+    Convert[] value();
+}
+----
+
+<<a14515>> lists the annotation elements that may be
+specified for the _Converts_ annotation.
+
+.Converts Annotation Elements
+[#a14515,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Convert[]
+|value
+|(Required) The Convert mappings that are to
+be applied to the entity or the field or property.
+|
+|===
+
+*Example:* Multiple converters applied to an embedded attribute
+
+[source, java]
+----
+@Embedded
+@Converts({
+    @Convert(converter=CountryConverter.class, attributeName="country"),
+    @Convert(converter=CityConverter.class, attributeName="region.city")
+})
+Address address;
+----
+
+==== DiscriminatorColumn Annotation [[a14530]]
+
+For the SINGLE_TABLE mapping strategy, and
+typically also for the JOINED strategy, the persistence provider will
+use a type discriminator column. The _DiscriminatorColumn_ annotation is
+used to define the discriminator column for the SINGLE_TABLE and JOINED
+inheritance mapping strategies.
+
+The strategy and the discriminator
+column are only specified in the root of an entity class hierarchy or
+subhierarchy in which a different inheritance strategy is
+applied.footnote:[The combination of
+inheritance strategies within a single entity inheritance hierarchy is
+not defined by this specification.]
+
+The _DiscriminatorColumn_ annotation can be
+specified on an entity class (including on an abstract entity class).
+
+If the _DiscriminatorColumn_ annotation is
+missing, and a discriminator column is required, the name of the
+discriminator column defaults to "DTYPE" and the discriminator type to
+STRING.
+
+<<a14548>> lists the annotation elements
+that may be specified for the _DiscriminatorColumn_ annotation and their
+default values.
+
+The supported discriminator types are defined
+by the _DiscriminatorType_ enum:
+
+[source,java]
+----
+public enum DiscriminatorType { STRING, CHAR, INTEGER };
+----
+
+The type of the discriminator column, if
+specified in the optional _columnDefinition_ element, must be consistent
+with the discriminator type.
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface DiscriminatorColumn {
+    String name() default "DTYPE";
+    DiscriminatorType discriminatorType() default STRING;
+    String columnDefinition() default "";
+    int length() default 31;
+}
+----
+
+.DiscriminatorColumn Annotation Elements
+[#a14548,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of column to be used for
+the discriminator.
+|"DTYPE"
+
+|DiscriminatorType
+|discriminatorType
+|(Optional) The type of object/column to use
+as a class discriminator.
+|DiscriminatorType.STRING
+
+|String
+|columnDefinition
+|(Optional) The SQL fragment that is used
+when generating the DDL for the discriminator column.
+|Provider-generated SQL to create a column of
+the specified discriminator type.
+
+|int
+|length
+|(Optional) The column length for
+String-based discriminator types. Ignored for other discriminator types.
+|31
+|===
+
+*Example:*
+
+[source,java]
+----
+@Entity
+@Table(name="CUST")
+@DiscriminatorColumn(name="DISC", discriminatorType=STRING, length=20)
+public class Customer { ... }
+
+@Entity
+public class ValuedCustomer extends Customer { ... }
+----
+
+==== DiscriminatorValue Annotation
+
+The _DiscriminatorValue_ annotation is used
+to specify the value of the discriminator column for entities of the
+given type. The _DiscriminatorValue_ annotation can only be specified on
+a concrete entity class. If the _DiscriminatorValue_ annotation is not
+specified and a discriminator column is used, a provider-specific
+function will be used to generate a value representing the entity type.
+
+The inheritance strategy and the
+discriminator column are only specified in the root of an entity class
+hierarchy or subhierarchy in which a different inheritance strategy is
+applied. The discriminator value, if not defaulted, should be specified
+for each entity class in the hierarchy.
+
+<<a14585>> lists the annotation elements
+that may be specified for the _DiscriminatorValue_ annotation and their
+default values.
+
+The discriminator value must be consistent in
+type with the discriminator type of the specified or defaulted
+discriminator column. If the discriminator type is an integer, the value
+specified must be able to be converted to an integer value (e.g., "_1_").
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface DiscriminatorValue {
+    String value();
+}
+----
+
+.DiscriminatorValue Annotation Elements
+[#a14585,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|value
+|(Optional) The value that indicates that the
+row is an entity of the annotated entity type.
+|If the DiscriminatorValue annotation is not
+specified, a provider-specific function to generate a value representing
+the entity type is used for the value of the discriminator column. If
+the DiscriminatorType is STRING, the discriminator value default is the
+entity name.
+|===
+
+*Example:*
+
+[source,java]
+----
+@Entity
+@Table(name="CUST")
+@Inheritance(strategy=SINGLE_TABLE)
+@DiscriminatorColumn(name="DISC", discriminatorType=STRING,length=20)
+@DiscriminatorValue("CUSTOMER")
+public class Customer { ... }
+
+@Entity
+@DiscriminatorValue("VCUSTOMER")
+public class ValuedCustomer extends Customer { ... }
+----
+
+==== ElementCollection Annotation
+
+The _ElementCollection_ annotation
+defines a collection of instances of a basic type or embeddable class.
+The _ElementCollection_ annotation (or equivalent XML element) must be
+specified if the collection is to be mapped by means of a collection
+table.footnote:[If it is not
+specified, the rules of <<a511>> apply.]
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface ElementCollection {
+    Class targetClass() default void.class;
+    FetchType fetch() default LAZY;
+}
+----
+
+<<a14614>> lists the annotation elements
+that may be specified for the _ElementCollection_ annotation and their
+default values.
+
+.ElementCollection Annotation Elements
+[#a14614,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|targetClass
+|(Optional) The basic or embeddable class
+that is the element type of the collection. Optional only if the
+collection field or property is defined using Java generics. Must be
+specified otherwise.
+|The parameterized type
+of the collection when defined using generics.
+
+|FetchType
+|fetch
+| (Optional) Whether the collection should be
+lazily loaded or must be eagerly fetched. The EAGER strategy is a
+requirement on the persistence provider runtime that the collection
+elements must be eagerly fetched. The LAZY strategy is a hint to the
+persistence provider runtime. |LAZY
+|===
+
+*Example:*
+
+[source,java]
+----
+@Entity public class Person {
+    @Id
+    protected String ssn;
+
+    protected String name;
+
+    @ElementCollection
+    protected Set<String> nickNames = new HashSet();
+
+    // ...
+}
+----
+
+==== Embeddable Annotation [[a14634]]
+
+The _Embeddable_ annotation is used to
+specify a class whose instances are stored as an intrinsic part of an
+owning entity and share the identity of the entity.
+
+[source,java]
+----
+@Documented
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface Embeddable {
+
+}
+----
+
+*Example 1:*
+
+[source,java]
+----
+@Embeddable
+public class EmploymentPeriod {
+    @Temporal(DATE)
+    java.util.Date startDate;
+
+    @Temporal(DATE)
+    java.util.Date endDate;
+
+    // ...
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Embeddable
+public class PhoneNumber {
+    protected String areaCode;
+    protected String localNumber;
+
+    @ManyToOne
+    PhoneServiceProvider provider;
+
+    // ...
+}
+
+@Entity
+public class PhoneServiceProvider {
+    @Id
+    protected String name;
+
+    // ...
+}
+----
+
+*Example 3:*
+
+[source,java]
+----
+@Embeddable
+public class Address {
+    protected String street;
+    protected String city;
+    protected String state;
+
+    @Embedded
+    protected Zipcode zipcode;
+}
+
+@Embeddable
+public class Zipcode {
+    protected String zip;
+    protected String plusFour;
+}
+----
+
+==== Embedded Annotation [[a14672]]
+
+The _Embedded_ annotation is used to
+specify a persistent field or property of an entity or embeddable class
+whose value is an instance of an embeddable
+class.footnote:[If the embeddable
+class is used as a primary key, the _EmbeddedId_ rather than the
+_Embedded_ annotation is used.] Each of the persistent properties or
+fields of the embedded object is mapped to the database table for the
+entity or embeddable class. The embeddable class must be annotated as
+_Embeddable_.footnote:[Use of the
+_Embedded_ annotation is not required. See <<a511>>.]
+
+The _AttributeOverride_,
+_AttributeOverrides_, _AssociationOverride_, and
+_AssociationOverrides_ annotations may be used to override mappings
+declared or defaulted by the embeddable class.
+
+Implementations are not required to support
+embedded objects that are mapped across more than one table (e.g., split
+across primary and secondary tables or multiple secondary tables).
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Embedded {}
+----
+
+*Example:*
+
+[source,java]
+----
+@Embedded
+@AttributeOverrides({
+    @AttributeOverride(name="startDate", column=@Column(name="EMP_START")),
+    @AttributeOverride(name="endDate", column=@Column(name="EMP_END"))
+})
+public EmploymentPeriod getEmploymentPeriod() { ... }
+----
+
+==== EmbeddedId Annotation [[a14687]]
+
+The _EmbeddedId_ annotation is applied to a
+persistent field or property of an entity class or mapped superclass to
+denote a composite primary key that is an embeddable class. The
+embeddable class must be annotated as _Embeddable_.footnote:[Note that the _Id_
+annotation is not used in the embeddable class.] Relationship mappings defined within an
+embedded id class are not supported.
+
+There must be only one _EmbeddedId_
+annotation and no _Id_ annotation when the _EmbeddedId_ annotation is
+used.
+
+The _AttributeOverride_ annotation may be
+used to override the column mappings declared within the embeddable
+class.
+
+The _MapsId_ annotation may be used in
+conjunction with the _EmbeddedId_ annotation to specify a derived
+primary key. See <<a149>> and <<a15583>>.
+
+If the entity has a derived primary key, the
+_AttributeOverride_ annotation may only be used to override those
+attributes of the embedded id that do not correspond to the relationship
+to the parent entity.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface EmbeddedId {}
+----
+
+*Example 1:*
+
+[source,java]
+----
+@Entity public class Employee {
+    @EmbeddedId
+    protected EmployeePK empPK;
+
+    String name;
+
+    @ManyToOne
+    Set<Department> dept;
+
+    // ...
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Embeddable
+public class DependentId {
+    String name;
+    EmployeeId empPK; // corresponds to PK type of Employee
+}
+
+@Entity
+public class Dependent {
+    // default column name for "name" attribute is overridden
+    @AttributeOverride(name="name", @Column(name="dep_name"))
+    @EmbeddedId
+    DependentId id;
+
+    // ...
+
+    @MapsId("empPK")
+    @ManyToOne
+    Employee emp;
+}
+----
+
+==== Enumerated Annotation [[a14719]]
+
+An _Enumerated_ annotation specifies that a
+persistent property or field should be persisted as a enumerated type.
+The _Enumerated_ annotation may be used in conjunction with the _Basic_
+annotation. The _Enumerated_ annotation may be used in conjunction with
+the _ElementCollection_footnote:[If the element
+collection is a Map, this applies to the map value.] annotation when the
+element collection value is of basic type.
+
+An enum can be mapped as either a string or
+an integerfootnote:[Mapping of enum
+values that contain state is not supported.]. The _EnumType_ enum defines the
+mapping for enumerated types.
+
+[source,java]
+----
+public enum EnumType {
+    ORDINAL,
+    STRING
+}
+----
+
+If the enumerated type is not specified or
+the _Enumerated_ annotation is not used, the enumerated type is assumed
+to be _ORDINAL_ unless a converter is being applied.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Enumerated {
+    EnumType value() default ORDINAL;
+}
+----
+
+<<a14733>> lists the annotation elements that may be specified
+for the _Enumerated_ annotation and their default values.
+
+.Enumerated Annotation Elements
+[#a14733,options="header"]
+|===
+|Type |Name |Description |Default
+
+|EnumType
+|value
+|(Optional) The type used in mapping an enum type.
+|ORDINAL
+|===
+
+*Example:*
+
+[source,java]
+----
+public enum EmployeeStatus {FULL_TIME, PART_TIME, CONTRACT}
+public enum SalaryRate {JUNIOR, SENIOR, MANAGER, EXECUTIVE}
+
+@Entity
+public class Employee {
+    // ...
+
+    public EmployeeStatus getStatus() {...}
+
+    @Enumerated(STRING)
+    public SalaryRate getPayScale() {...}
+
+    // ...
+}
+----
+
+If the status property is mapped to a column
+of integer type, and the payscale property to a column of varchar type,
+an instance that has a status of _PART_TIME_ and a pay rate of _JUNIOR_
+will be stored with _STATUS_ set to 1 and _PAYSCALE_ set to _"JUNIOR"_.
+
+==== ForeignKey Annotation [[a14754]]
+
+The _ForeignKey_ annotation is used to
+specify the handling of foreign key constraints when schema generation
+is in effect. If this annotation is not specified, the persistence
+provider's default foreign key strategy will be used.
+
+[source,java]
+----
+@Target({})
+@Retention(RUNTIME)
+public @interface ForeignKey {
+    String name() default "";
+    ConstraintMode value() default CONSTRAINT;
+    String foreignKeyDefinition() default "";
+}
+----
+
+The _name_ element specifies a name for the
+foreign key constraint.
+
+The _ConstraintMode_ enum is used to control
+the application of constraints.
+
+[source,java]
+----
+public enum ConstraintMode {CONSTRAINT, NO_CONSTRAINT, PROVIDER_DEFAULT}
+----
+
+The enum values have the following semantics:
+A value of _CONSTRAINT_ will cause the persistence provider to generate
+a foreign key constraint. A value of _NO_CONSTRAINT_ will result in no
+constraint being generated. A value of _PROVIDER_DEFAULT_ will result in
+the provider's default behavior (which may or may not result in the
+generation of a constraint for any given join column or set of join
+columns).
+
+The syntax used in the _foreignKeyDefinition_
+element should follow the SQL syntax used by the target database for
+foreign key constraints. For example, this may be similar to the
+following:
+
+----
+FOREIGN KEY (<COLUMN expression> {, <COLUMN expression>}... )
+REFERENCES <TABLE identifier> [ (<COLUMN expression> {, <COLUMN expression>}... ) ]
+[ ON UPDATE <referential action> ]
+[ ON DELETE <referential action> ]
+----
+
+If the _ForeignKey_ annotation is specified
+with a _ConstraintMode_ value of _CONSTRAINT_, but the
+_foreignKeyDefinition_ element is not specified, the provider will
+generate a foreign key constraint whose update and delete actions it
+determines most appropriate for the join column(s) to which the foreign
+key constraint is applied
+
+<<a14776>> lists the annotation elements that may be specified
+for the _ForeignKey_ annotation.
+
+.ForeignKey Annotation Elements
+[#a14776,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the foreign key constraint.
+|A provider-generated name.
+
+|ConstraintMode
+|value
+|(Optional) Whether to generate a constraint.
+|CONSTRAINT
+
+|String
+|foreignKeyDefinition
+|(Optional) The foreign key constraint definition.
+|Provider-default. If the value of the ConstraintMode element is NO_CONSTRAINT,
+the provider must not generate a foreign key constraint.
+|===
+
+==== GeneratedValue Annotation [[a14790]]
+
+The _GeneratedValue_ annotation provides for
+the specification of generation strategies for the values of primary
+keys. The _GeneratedValue_ annotation may be applied to a primary key
+property or field of an entity or mapped superclass in conjunction with
+the _Id_ annotation.footnote:[Portable
+applications should not use the _GeneratedValue_ annotation on other
+persistent fields or properties.] The use of the
+_GeneratedValue_ annotation is only required to be supported for simple
+primary keys. Use of the _GeneratedValue_ annotation is not supported
+for derived primary keys.
+
+<<a14806>> lists the annotation elements that
+may be specified for the _GeneratedValue_ annotation and their default
+values.
+
+The types of primary key generation are
+defined by the _GenerationType_ enum:
+
+[source,java]
+----
+public enum GenerationType { TABLE, SEQUENCE, IDENTITY, AUTO };
+----
+
+The _TABLE_ generator type value indicates
+that the persistence provider must assign primary keys for the entity
+using an underlying database table to ensure uniqueness.
+
+The _SEQUENCE_ and _IDENTITY_ values
+specify the use of a database sequence or identity column,
+respectively.footnote:[Note that SEQUENCE
+and IDENTITY are not portable across all databases.]
+
+The further specification of table generators
+and sequence generators is described in <<a16164>> and <<a16256>>.
+
+The _AUTO_ value indicates that the
+persistence provider should pick an appropriate strategy for the
+particular database. The _AUTO_ generation strategy may expect a
+database resource to exist, or it may attempt to create one. A vendor
+may provide documentation on how to create such resources in the event
+that it does not support schema generation or cannot create the schema
+resource at runtime.
+
+This specification does not define the exact
+behavior of these strategies.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface GeneratedValue {
+    GenerationType strategy() default AUTO;
+    String generator() default "";
+}
+----
+
+.GeneratedValue Annotation Elements
+[#a14806,options="header"]
+|===
+|Type |Name |Description |Default
+
+|GenerationType
+|strategy
+|(Optional) The primary key generation
+strategy that the persistence provider must use to generate the
+annotated entity primary key.
+|GenerationType.AUTO
+
+|String
+|generator
+|(Optional) The name of the primary key
+generator to use as specified in the SequenceGenerator or TableGenerator
+annotation.
+|Default primary key generator supplied by persistence provider.
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Id
+@GeneratedValue(strategy=SEQUENCE, generator="CUST_SEQ")
+@Column(name="CUST_ID")
+public Long getId() { return id; }
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Id
+@GeneratedValue(strategy=TABLE, generator="CUST_GEN")
+@Column(name="CUST_ID")
+Long id;
+----
+
+==== Id Annotation [[a14827]]
+
+The _Id_ annotation specifies the primary key
+property or field of an entity. The _Id_ annotation may be applied in an
+entity or mapped superclass.
+
+The field or property to which the _Id_
+annotation is applied should be one of the following types: any Java
+primitive type; any primitive wrapper type; _java.lang.String_;
+_java.util.Date_; _java.sql.Date_; _java.math.BigDecimal_;
+_java.math.BigInteger_footnote:[Primary keys using
+types other than these will not be portable. In general, floating point
+types should never be used in primary keys.]. See <<a132>>.
+
+The mapped column for the primary key of the
+entity is assumed to be the primary key of the primary table. If no
+_Column_ annotation is specified, the primary key column name is assumed
+to be the name of the primary key property or field.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Id {}
+----
+
+*Example:*
+
+[source,java]
+----
+@Id
+public Long getId() { return id; }
+----
+
+==== IdClass Annotation [[a14836]]
+
+The _IdClass_ annotation is applied to an
+entity class or a mapped superclass to specify a composite primary key
+class that is mapped to multiple fields or properties of the entity.
+
+The names of the fields or properties in the
+primary key class and the primary key fields or properties of the entity
+must correspond and their types must match according to the rules
+specified in <<a132>> and <<a149>>.
+
+The _Id_ annotation must also be applied to
+the corresponding fields or properties of the entity.
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface IdClass {
+    Class value();
+}
+----
+
+<<a14847>> lists the annotation elements that may be specified
+for the _IdClass_ annotation.
+
+.IdClass Annotation Elements
+[#a14847,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|value
+|(Required) The composite primary key class.
+|
+|===
+
+*Example:*
+
+[source,java]
+----
+@IdClass(com.acme.EmployeePK.class)
+@Entity
+public class Employee {
+    @Id
+    String empName;
+
+    @Id
+    Date birthDay;
+
+    // ...
+}
+----
+
+==== Index Annotation [[a14862]]
+
+The _Index_ annotation is used in schema
+generation. Note that it is not necessary to specify an index for a
+primary key, as the primary key index will be created automatically,
+however, the Index annotation may be used to specify the ordering of the
+columns in the index for the primary key.
+
+[source,java]
+----
+@Target({})
+@Retention(RUNTIME)
+public @interface Index {
+    String name() default "";
+    String columnList();
+    boolean unique() default false;
+}
+----
+
+The syntax of the _columnList_ element is a
+_column_list_, as follows:
+
+----
+column::= index_column [,index_column]*
+index_column::= column_name [ASC | DESC]
+----
+
+The persistence provider must observe the specified ordering of the columns.
+
+If _ASC_ or _DESC_ is not specified, _ASC_
+(ascending order) is assumed.
+
+<<a14877>> lists the annotation elements that may be specified
+for the _Index_ annotation.
+
+.Index Annotation Elements
+[#a14877,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the index.
+|A provider-generated name.
+
+|String
+|columnList
+|(Required) The names of the columns to be
+included in the index.
+|
+
+|boolean
+|unique
+|(Optional) Whether the index is unique.
+|false
+|===
+
+==== Inheritance Annotation [[a14891]]
+
+The _Inheritance_ annotation defines the
+inheritance strategy to be used for an entity class hierarchy. It is
+specified on the entity class that is the root of the entity class
+hierarchy.
+
+If the _Inheritance_ annotation is not
+specified or if no inheritance type is specified for an entity class
+hierarchy, the SINGLE_TABLE mapping strategy is used.
+
+Support for the combination of inheritance
+strategies is not required by this specification. Portable applications
+should only use a single inheritance strategy within an entity
+hierarchy.
+
+The three inheritance mapping strategies are
+the single table per class hierarchy, joined subclass, and table per
+concrete class strategies. See <<a966>> for a more detailed discussion of
+inheritance strategies.
+
+The inheritance strategy options are defined
+by the _InheritanceType_ enum:
+
+[source,java]
+----
+public enum InheritanceType { SINGLE_TABLE, JOINED, TABLE_PER_CLASS };
+----
+
+Support for the TABLE_PER_CLASS mapping
+strategy is optional in this release.
+
+<<a14907>> lists the annotation elements that may be specified
+for the _Inheritance_ annotation and their default values.
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface Inheritance {
+    InheritanceType strategy() default SINGLE_TABLE;
+}
+----
+
+.Inheritance Annotation Elements
+[#a14907,options="header"]
+|===
+|Type |Name |Description |Default
+
+|InheritanceType
+|strategy
+|(Optional) The inheritance strategy to use for the entity inheritance hierarchy.
+|InheritanceType.SINGLE_TABLE
+|===
+
+*Example:*
+
+[source,java]
+----
+@Entity
+@Inheritance(strategy=JOINED)
+public class Customer { ... }
+
+@Entity
+public class ValuedCustomer extends Customer { ... }
+----
+
+==== JoinColumn Annotation [[a14922]]
+
+The _JoinColumn_ annotation is used to
+specify a column for joining an entity association or element
+collection.
+
+<<a14945>> lists the annotation elements that may be specified
+for the _JoinColumn_ annotation and their default values.
+
+If the _JoinColumn_ annotation itself is
+defaulted, a single join column is assumed and the default values
+described in <<a14945>> apply.
+
+The _name_ annotation element defines the
+name of the foreign key column. The remaining annotation elements (other
+than _referencedColumnName_) refer to this column and have the same
+semantics as for the _Column_ annotation.
+
+If the _referencedColumnName_ element is
+missing, the foreign key is assumed to refer to the primary key of the
+referenced table.
+
+Support for referenced columns that are not
+primary key columns of the referenced table is optional. Applications
+that use such mappings will not be portable.
+
+The _foreignKey_ annotation element is used
+to specify or control the generation of a foreign key constraint when
+schema generation is in effect. If this element is not specified, the
+persistence provider's default foreign key strategy will apply.
+
+If more than one _JoinColumn_ annotation is
+applied to a field or property, both the _name_ and the
+_referencedColumnName_ elements must be specified in each such
+_JoinColumn_ annotation.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(JoinColumns.class)
+public @interface JoinColumn {
+    String name() default "";
+    String referencedColumnName() default "";
+    boolean unique() default false;
+    boolean nullable() default true;
+    boolean insertable() default true;
+    boolean updatable() default true;
+    String columnDefinition() default "";
+    String table() default "";
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+}
+----
+
+.JoinColumn Annotation Elements
+[#a14945,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the foreign key
+column. The table in which it is found depends upon the context. If the
+join is for a OneToOne or ManyToOne mapping using a foreign key mapping
+strategy, the foreign key column is in the table of the source entity or
+embeddable. If the join is for a unidirectional OneToMany mapping using
+a foreign key mapping strategy, the foreign key is in the table of the
+target entity. If the join is for a ManyToMany mapping or for a OneToOne
+or bidirectional ManyToOne/OneToMany mapping using a join table, the
+foreign key is in a join table. If the join is for an element
+collection, the foreign key is in a collection table.
+|(Default only applies if a single join
+column is used.) The concatenation of the following: the name of the
+referencing relationship property or field of the referencing entity or
+embeddable class; "_"; the name of the referenced primary key column. If
+there is no such referencing relationship property or field in the
+entity, or if the join is for an element collection, the join column
+name is formed as the concatenation of the following: the name of the
+entity; "_"; the name of the referenced primary key column.
+
+|String
+|referencedColumnName
+|(Optional) The name of the column referenced
+by this foreign key column. When used with entity relationship mappings
+other than the cases described below, the referenced column is in the
+table of the target entity. When used with a unidirectional OneToMany
+foreign key mapping, the referenced column is in the table of the source
+entity. When used inside a JoinTable annotation, the referenced key
+column is in the entity table of the owning entity, or inverse entity if
+the join is part of the inverse join definition. When used in a
+collection table mapping, the referenced column is in the table of the
+entity containing the collection.
+|(Default
+only applies if single join column is being used.) The same name as the
+primary key column of the referenced table.
+
+|boolean
+|unique
+|(Optional) Whether the property is a unique
+key. This is a shortcut for the UniqueConstraint annotation at the table
+level and is useful for when the unique key constraint is only a single
+field. It is not necessary to explicitly specify this for a join column
+that corresponds to a primary key that is part of a foreign key.
+|false
+
+|boolean
+|nullable
+|(Optional) Whether the foreign key column is nullable.
+|true
+
+|boolean
+|insertable
+|(Optional) Whether the column is included in
+SQL INSERT statements generated by the persistence provider.
+|true
+
+|boolean
+|updatable
+|(Optional) Whether the column is included in
+SQL UPDATE statements generated by the persistence provider.
+|true
+
+|String
+|columnDefinition
+|(Optional) The SQL fragment that is used
+when generating the DDL for the column.
+|Generated SQL for the column.
+
+|String
+|table
+|(Optional) The name of the table that contains the column.
+| If the join is for a
+OneToOne or ManyToOne mapping using a foreign key mapping strategy, the
+name of the table of the source entity or embeddable. If the join is for
+a unidirectional OneToMany mapping using a foreign key mapping strategy,
+the name of the table of the target entity. If the join is for a
+ManyToMany mapping or for a OneToOne or bidirectional ManyToOne/
+OneToMany mapping using a join table, the name of the join table. If the
+join is for an element collection, the name of the collection table.
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint for
+the join column. This is used only if table generation is in effect.
+|Provider's default
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@ManyToOne
+@JoinColumn(name="ADDR_ID")
+public Address getAddress() { return address; }
+----
+
+*Example 2:* Unidirectional One-to-Many association using a foreign key mapping.
+
+In Customer class:
+
+[source,java]
+----
+@OneToMany
+@JoinColumn(name="CUST_ID") // join column is in table for Order
+public Set<Order> getOrders() { return orders; }
+----
+
+==== JoinColumns Annotation
+
+Composite foreign keys are supported by means
+of the _JoinColumns_ annotation. The _JoinColumns_ annotation groups
+_JoinColumn_ annotations for the same relationship.
+
+When the _JoinColumns_ annotation is used,
+both the _name_ and the _referencedColumnName_ elements must be
+specified in each of the grouped _JoinColumn_ annotations.
+
+The _foreignKey_ annotation element is used
+to specify or control the generation of a foreign key constraint when
+schema generation is in effect. If both this element and the
+_foreignKey_ element of any of the _JoinColumn_ elements referenced by
+the _value_ element are specified, the behavior is undefined. If no
+_foreignKey_ annotation element is specified in either location, the
+persistence provider's default foreign key strategy will apply.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface JoinColumns {
+    JoinColumn[] value();
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+}
+----
+
+<<a15003>> lists the annotation elements that may
+be specified for the _JoinColumns_ annotation.
+
+.JoinColumns Annotation Elements
+[#a15003,options="header"]
+|===
+|Type |Name |Description |Default
+
+|JoinColumn[]
+|value
+|(Required) The join columns that map the relationship.
+|
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join columns. This is used only if table
+generation is in effect.
+|Provider's default
+|===
+
+*Example:*
+
+[source,java]
+----
+@ManyToOne
+@JoinColumns({
+    @JoinColumn(name="ADDR_ID", referencedColumnName="ID"),
+    @JoinColumn(name="ADDR_ZIP", referencedColumnName="ZIP")
+})
+public Address getAddress() { return address; }
+----
+
+==== JoinTable Annotation [[a15022]]
+
+The _JoinTable_ annotation is used in the
+mapping of entity associations. A _JoinTable_ annotation is specified on
+the owning side of the association. A join table is typically used in
+the mapping of many-to-many and unidirectional one-to-many associations.
+It may also be used to map bidirectional many-to-one/one-to-many
+associations, unidirectional many-to-one relationships, and one-to-one
+associations (both bidirectional and unidirectional).
+
+<<a15043>> lists the annotation elements that may be specified
+for the _JoinTable_ annotation and their default values.
+
+If the _JoinTable_ annotation is not
+explicitly specified for the mapping of a many-to-many or unidirectional
+one-to-many relationship, the default values of the annotation elements
+apply.
+
+The name of the join table is assumed to be
+the table names of the associated primary tables concatenated together
+(owning side first) using an underscore.
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the columns
+corresponding to the _joinColumns_ element when table generation is in
+effect. If both this element and the _foreignKey_ element of any of the
+_joinColumns_ elements are specified, the behavior is undefined. If no
+_foreignKey_ annotation element is specified in either location, the
+persistence provider's default foreign key strategy will apply. The
+_inverseForeignKey_ element applies to the generation of a foreign key
+constraint for the columns corresponding to the _inverseJoinColumns_
+element, and similar rules apply.
+
+When a join table is used in mapping a
+relationship with an embeddable class on the owning side of the
+relationship, the containing entity rather than the embeddable class is
+considered the owner of the relationship.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface JoinTable {
+    String name() default "";
+    String catalog() default "";
+    String schema() default "";
+    JoinColumn[] joinColumns() default {};
+    JoinColumn[] inverseJoinColumns() default {};
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    ForeignKey inverseForeignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    UniqueConstraint[] uniqueConstraints() default {};
+    Index[] indexes() default {};
+}
+----
+
+.JoinTable Annotation Elements
+[#a15043,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the join table.
+|The concatenated names of the two associated
+primary entity tables (owning side first), separated by an underscore.
+
+|String
+|catalog
+|(Optional) The catalog of the table.
+|Default catalog.
+
+|String
+|schema
+|(Optional) The schema of the table.
+|Default schema for user.
+
+|JoinColumn[]
+|joinColumns
+|(Optional) The foreign key columns of the
+join table which reference the primary table of the entity owning the
+association (i.e. the owning side of the association).
+|The same defaults as for JoinColumn.
+
+|JoinColumn[]
+|inverseJoinColumns
+|(Optional) The foreign key columns of the
+join table which reference the primary table of the entity that does not
+own the association (i.e. the inverse side of the association).
+|The same defaults as for JoinColumn.
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join columns. This is used only if table
+generation is in effect.
+|Provider's default.
+
+|ForeignKey
+|inverseForeignKey
+|(Optional) The foreign key constraint
+specification for the inverse join columns. This is used only if table
+generation is in effect.
+|Provider's default.
+
+|UniqueConstraint[]
+|uniqueConstraints
+|(Optional) Unique constraints that are to be
+placed on the table. These are only used if table generation is in
+effect.
+|No additional constraints
+
+|Index[]
+|indexes
+|(Optional) Indexes for the table. These are
+only used if table generation is in effect.
+|No additional indexes
+|===
+
+*Example:*
+
+[source,java]
+----
+@JoinTable(
+    name="CUST_PHONE",
+    joinColumns=@JoinColumn(name="CUST_ID", referencedColumnName="ID"),
+    inverseJoinColumns=@JoinColumn(name="PHONE_ID", referencedColumnName="ID")
+)
+----
+
+==== Lob Annotation [[a15087]]
+
+A _Lob_ annotation specifies that a
+persistent property or field should be persisted as a large object to a
+database-supported large object type. Portable applications should use
+the _Lob_ annotation when mapping to a database Lob type. The _Lob_
+annotation may be used in conjunction with the _Basic_ annotation or
+with the _ElementCollection_footnote:[If the element
+collection is a Map, this applies to the map value.] annotation when the
+element collection value is of basic type. A Lob may be either a binary
+or character type. The Lob type is inferred from the type of the
+persistent field or property and, except for string and character types,
+defaults to Blob.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Lob {
+
+}
+----
+
+*Example 1:*
+
+[source,java]
+----
+@Lob
+@Basic(fetch=EAGER)
+@Column(name="REPORT")
+protected String report;
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Lob @Basic(fetch=LAZY)
+@Column(name="EMP_PIC", columnDefinition="BLOB NOT NULL")
+protected byte[] pic;
+----
+
+==== ManyToMany Annotation [[a15100]]
+
+A _ManyToMany_ annotation defines a
+many-valued association with many-to-many multiplicity. If the
+collection is defined using generics to specify the element type, the
+associated target entity class does not need to be specified; otherwise
+it must be specified.
+
+Every many-to-many association has two sides,
+the owning side and the non-owning, or inverse, side. If the association
+is bidirectional, either side may be designated as the owning side. If
+the relationship is bidirectional, the non-owning side must use the
+_mappedBy_ element of the _ManyToMany_ annotation to specify the
+relationship field or property of the owning side.
+
+The join table for the relationship, if not
+defaulted, is specified on the owning side.
+
+The _ManyToMany_ annotation may be used
+within an embeddable class contained within an entity class to specify a
+relationship to a collection of entitiesfootnote:[The _ManyToMany_
+annotation must not be used within an embeddable class used in an
+element collection.]. If the
+relationship is bidirectional and the entity containing the embeddable
+class is the owner of the relationship, the non-owning side must use the
+_mappedBy_ element of the _ManyToMany_ annotation to specify the
+relationship field or property of the embeddable class. The dot (_"."_
+) notation syntax must be used in the _mappedBy_ element to indicate the
+relationship attribute within the embedded attribute. The value of each
+identifier used with the dot notation is the name of the respective
+embedded field or property.
+
+<<a15119>> lists these annotation elements that may be
+specified for the _ManyToMany_ annotation and their default values.
+
+The _cascade_ element specifies the set of
+cascadable operations that are propagated to the associated entity. The
+operations that are cascadable are defined by the _CascadeType_ enum:
+
+[source,java]
+----
+public enum CascadeType {ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH};
+----
+
+The value _cascade=ALL_ is equivalent to
+_cascade=\{PERSIST,_ _MERGE,_ _REMOVE,_ _REFRESH, DETACH}_.
+
+When the collection is a _java.util.Map_,
+the _cascade_ element applies to the map _value_.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface ManyToMany {
+    Class targetEntity() default void.class;
+    CascadeType[] cascade() default {};
+    FetchType fetch() default LAZY;
+    String mappedBy() default "";
+}
+----
+
+The _EAGER_ strategy is a requirement on the
+persistence provider runtime that the associated entity must be eagerly
+fetched. The _LAZY_ strategy is a _hint_ to the persistence provider
+runtime that the associated entity should be fetched lazily when it is
+first accessed. The implementation is permitted to eagerly fetch
+associations for which the _LAZY_ strategy hint has been specified.
+
+.ManyToMany Annotation Elements
+[#a15119,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|targetEntity
+|(Optional) The entity class that is the
+target of the association. Optional only if the collection-valued
+relationship property is defined using Java generics. Must be specified
+otherwise.
+|The parameterized type of the collection when defined using generics.
+
+|CascadeType[]
+|cascade
+|(Optional) The operations that must be
+cascaded to the target of the association.
+|No operations are cascaded.
+
+|FetchType
+|fetch
+|(Optional) Whether the association should be
+lazily loaded or must be eagerly fetched. The EAGER strategy is a
+requirement on the persistence provider runtime that the associated
+entities must be eagerly fetched. The LAZY strategy is a hint to the
+persistence provider runtime.
+|LAZY
+
+|String
+|mappedBy
+|The field or property that owns the
+relationship. Required unless the relationship is unidirectional.
+|
+|===
+
+*Example 1:*
+
+In Customer class:
+
+[source,java]
+----
+@ManyToMany
+@JoinTable(name="CUST_PHONES")
+public Set<PhoneNumber> getPhones() { return phones; }
+----
+
+In PhoneNumber class:
+
+[source,java]
+----
+@ManyToMany(mappedBy="phones")
+public Set<Customer> getCustomers() { return customers; }
+----
+
+*Example 2:*
+
+In Customer class:
+
+[source,java]
+----
+@ManyToMany(targetEntity=com.acme.PhoneNumber.class)
+public Set getPhones() { return phones; }
+----
+
+In PhoneNumber class:
+
+[source,java]
+----
+@ManyToMany(targetEntity=com.acme.Customer.class, mappedBy="phones")
+public Set getCustomers() { return customers; }
+----
+
+*Example 3:*
+
+In Customer class:
+
+[source,java]
+----
+@ManyToMany
+@JoinTable(
+    name="CUST_PHONE",
+    joinColumns=@JoinColumn(name="CUST_ID", referencedColumnName="ID"),
+    inverseJoinColumns=@JoinColumn(name="PHONE_ID",referencedColumnName="ID")
+)
+public Set<PhoneNumber> getPhones() { return phones; }
+----
+
+In PhoneNumberClass:
+
+[source,java]
+----
+@ManyToMany(mappedBy="phones")
+public Set<Customer> getCustomers() { return customers; }
+----
+
+*Example 4:*
+
+Embeddable class used by the Employee entity
+specifies a many-to-many relationship.
+
+[source,java]
+----
+@Entity
+public class Employee {
+    @Id
+    int id;
+
+    @Embedded
+    ContactInfo contactInfo;
+
+    // ...
+}
+
+@Embeddable
+public class ContactInfo {
+    @ManyToOne
+    Address address; // Unidirectional
+
+    @ManyToMany
+    List<PhoneNumber> phoneNumbers; // Bidirectional
+}
+
+@Entity
+public class PhoneNumber {
+    @Id
+    int phNumber;
+
+    @ManyToMany(mappedBy="contactInfo.phoneNumbers")
+    Collection<Employee> employees;
+}
+----
+
+==== ManyToOne Annotation
+
+The _ManyToOne_ annotation defines a
+single-valued association to another entity class that has many-to-one
+multiplicity. It is not normally necessary to specify the target entity
+explicitly since it can usually be inferred from the type of the object
+being referenced.
+
+The _ManyToOne_ annotation may be used within
+an embeddable class to specify a relationship from the embeddable class
+to an entity class. If the relationship is bidirectional, the non-owning
+_OneToMany_ entity side must use the _mappedBy_ element of the
+_OneToMany_ annotation to specify the relationship field or property of
+the embeddable field or property on the owning side of the relationship.
+The dot (_"."_) notation syntax must be used in the _mappedBy_ element
+to indicate the relationship attribute within the embedded attribute.
+The value of each identifier used with the dot notation is the name of
+the respective embedded field or property.
+
+<<a15202>> lists the annotation elements that may be specified
+for the _ManyToOne_ annotation and their default values.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface ManyToOne {
+    Class targetEntity() default void.class;
+    CascadeType[] cascade() default {};
+    FetchType fetch() default EAGER;
+    boolean optional() default true;
+}
+----
+
+The operations that can be cascaded are
+defined by the _CascadeType_ enum, defined in <<a15100>>.
+
+The _EAGER_ strategy is a requirement on the
+persistence provider runtime that the associated entity must be eagerly
+fetched. The _LAZY_ strategy is a _hint_ to the persistence provider
+runtime that the associated entity should be fetched lazily when it is
+first accessed. The implementation is permitted to eagerly fetch
+associations for which the _LAZY_ strategy hint has been specified.
+
+.ManyToOne Annotation Elements
+[#a15202,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|targetEntity
+|(Optional) The entity class that is the target of the association.
+|The type of the field or property that stores the association.
+
+|CascadeType[]
+|cascade
+|(Optional) The operations that must be
+cascaded to the target of the association.
+|No operations are cascaded.
+
+|FetchType
+|fetch
+|(Optional) Whether the association should be
+lazily loaded or must be eagerly fetched. The EAGER strategy is a
+requirement on the persistence provider runtime that the associated
+entity must be eagerly fetched. The LAZY strategy is a hint to the
+persistence provider runtime.
+|EAGER
+
+|boolean
+|optional
+|(Optional) Whether the association is
+optional. If set to false then a non-null relationship must always
+exist.
+|true
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@ManyToOne(optional=false)
+@JoinColumn(name="CUST_ID", nullable=false, updatable=false)
+public Customer getCustomer() { return customer; }
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    @Id
+    int id;
+
+    @Embedded
+    JobInfo jobInfo;
+
+    // ...
+}
+
+@Embeddable
+public class JobInfo {
+    String jobDescription;
+
+    @ManyToOne
+    ProgramManager pm; // Bidirectional
+}
+
+@Entity
+public class ProgramManager {
+    @Id
+    int id;
+
+    @OneToMany(mappedBy="jobInfo.pm")
+    Collection<Employee> manages;
+}
+----
+
+==== MapKey Annotation
+
+The _MapKey_ annotation is used to specify
+the map key for associations of type _java.util.Map_ when the map key is
+itself the primary key or a persistent field or property of the entity
+that is the value of the map.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface MapKey {
+    String name() default "";
+}
+----
+
+The _name_ element designates the name of the
+persistent field or property of the associated entity that is used as
+the map key. If the _name_ element is not specified, the primary key of
+the associated entity is used as the map key. If the primary key is a
+composite primary key and is mapped as _IdClass_, an instance of the
+primary key class is used as the key.
+
+If a persistent field or property other than
+the primary key is used as a map key, it is expected to be unique within
+the context of the relationship.
+
+The _MapKeyClass_ annotation is not used when
+_MapKey_ is specified and vice versa.
+
+<<a15256>> lists the annotation elements that may be specified
+for the _MapKey_ annotation.
+
+.MapKey Annotation Elements
+[#a15256,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the persistent field or property that is used as the map key.
+|The primary key is used as the map key.
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Entity
+public class Department {
+
+    // ...
+
+    @OneToMany(mappedBy="department")
+    @MapKey // map key is primary key
+    public Map<Integer, Employee> getEmployees() { ... }
+
+    // ...
+}
+
+@Entity
+public class Employee {
+
+    // ...
+
+    @Id public Integer getEmpId() { ... }
+    @ManyToOne
+    @JoinColumn(name="dept_id")
+    public Department getDepartment() { ... }
+
+    // ...
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Entity
+public class Department {
+    // ...
+
+    @OneToMany(mappedBy="department")
+    @MapKey(name="name")
+    public Map<String, Employee> getEmployees() { ... }
+
+    // ...
+}
+
+@Entity
+public class Employee {
+    @Id
+    public Integer getEmpId() { ... }
+
+    // ...
+
+    public String getName() { ... }
+
+    // ...
+
+    @ManyToOne
+    @JoinColumn(name="dept_id")
+    public Department getDepartment() { ... }
+
+    // ...
+}
+----
+
+==== MapKeyClass Annotation
+
+The _MapKeyClass_ annotation is used to
+specify the type of the map key for associations of type _java.util.Map_
+. The map key can be a basic type, an embeddable class, or an entity. If
+the map is specified using Java generics, the _MapKeyClass_ annotation
+and associated type need not be specified; otherwise they must be
+specified.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface MapKeyClass {
+    Class value();
+}
+----
+
+The _MapKeyClass_ annotation is used in
+conjunction with _ElementCollection_ or one of the collection-valued
+relationship annotations (_OneToMany_ or _ManyToMany_).
+
+The _MapKey_ annotation is not used when
+_MapKeyClass_ is specified and vice versa.
+
+<<a15316>> lists the annotation elements that may
+be specified for the _MapKeyClass_ annotation.
+
+.MapKeyClass Annotation Elements
+[#a15316,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|value
+|(Required) The type of the map key.
+|
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Entity
+public class Item {
+    @Id
+    int id;
+
+    // ...
+
+    @ElementCollection(targetClass=String.class)
+    @MapKeyClass(String.class)
+    Map images; // map from image name to image filename
+
+    // ...
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+// MapKeyClass and target type of relationship can be defaulted
+@Entity
+public class Item {
+    @Id
+    int id;
+
+    // ...
+
+    @ElementCollection
+    Map<String, String> images;
+
+    // ...
+}
+----
+
+*Example 3:*
+
+[source,java]
+----
+@Entity
+public class Company {
+    @Id
+    int id;
+
+    // ...
+
+    @OneToMany(targetEntity=com.example.VicePresident.class)
+    @MapKeyClass(com.example.Division.class)
+    Map organization;
+}
+----
+
+*Example 4:*
+
+[source,java]
+----
+// MapKeyClass and target type of relationship are defaulted
+@Entity
+public class Company {
+    @Id
+    int id;
+
+    // ...
+
+    @OneToMany
+    Map<Division, VicePresident> organization;
+}
+----
+
+==== MapKeyColumn Annotation [[a15367]]
+
+The _MapKeyColumn_ annotation is used to
+specify the mapping for the key column of a map whose map key is a basic
+type. If the _name_ element is not specified, it defaults to the
+concatenation of the following: the name of the referencing relationship
+field or property; "___"; "_KEY_".
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface MapKeyColumn {
+    String name() default "";
+    boolean unique() default false;
+    boolean nullable() default false;
+    boolean insertable() default true;
+    boolean updatable() default true;
+    String columnDefinition() default "";
+    String table() default "";
+    int length() default 255;
+    int precision() default 0; // decimal precision
+    int scale() default 0; // decimal scale
+}
+----
+
+If no _MapKeyColumn_ annotation is specified,
+the default values in <<a15384>> apply.
+
+.MapKeyColumn Annotation Elements
+[#a15384,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the map key column.
+The table in which it is found depends upon the context. If the map key
+is for an element collection, the map key column is in the collection
+table for the map value. If the map key is for a ManyToMany entity
+relationship or for a OneToMany entity relationship using a join table,
+the map key column is in a join table. If the map key is for a OneToMany
+entity relationship using a foreign key mapping strategy, the map key
+column is in the table of the entity that is the value of the map.
+|The concatenation of the following: the name
+of the referencing property or field name; " ___ "; " _KEY_ ".
+
+|boolean
+|unique
+|(Optional) Whether the column is a unique
+key. This is a shortcut for the UniqueConstraint annotation at the table
+level and is useful for when the unique key constraint corresponds to
+only a single column. This constraint applies in addition to any
+constraint entailed by primary key mapping and to constraints specified
+at the table level.
+|false
+
+|boolean
+|nullable
+|(Optional) Whether the database column is nullable.
+|true
+
+|boolean
+|insertable
+|(Optional) Whether the column is included in
+SQL INSERT statements generated by the persistence provider.
+|true
+
+|boolean
+|updatable
+|(Optional) Whether the column is included in
+SQL UPDATE statements generated by the persistence provider.
+|true
+
+|String
+|columnDefinition
+|(Optional) The SQL fragment that is used when generating the DDL for the column.
+|Generated SQL to create a column of the inferred type.
+
+|String
+|table
+|(Optional) The name of the table that contains the column.
+|If the map key is for
+an element collection, the name of the collection table for the map
+value. If the map key is for a OneToMany or ManyToMany entity
+relationship using a join table, the name of the join table for the map.
+If the map key is for a OneToMany entity relationship using a foreign
+key mapping strategy, the name of the primary table of the entity that
+is the value of the map.
+
+|int
+|length
+|(Optional) The column length. (Applies only if a string-valued column is used.)
+|255
+
+|int
+|precision
+|(Optional) The precision for a decimal
+(exact numeric) column. (Applies only if a decimal column is used.)
+|0 (Value must be set by developer.)
+
+|int
+|scale
+|(Optional) The scale for a decimal (exact
+numeric) column. (Applies only if a decimal column is used.)
+|0
+|===
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Item {
+    @Id
+    int id;
+
+    // ...
+
+    @ElementCollection
+    @MapKeyColumn(name="IMAGE_NAME")
+    @Column(name="IMAGE_FILENAME")
+    @CollectionTable(name="IMAGE_MAPPING")
+    Map<String, String> images; // map from image name to filename
+
+    // ...
+}
+----
+
+==== MapKeyEnumerated Annotation [[a15433]]
+
+The _MapKeyEnumerated_ annotation is used to
+specify the enum type for a map key whose basic type is an enumerated
+type.
+
+The _MapKeyEnumerated_ annotation can be
+applied to an element collection or relationship of type _java.util.Map_
+, in conjunction with the _ElementCollection_, _OneToMany_, or
+_ManyToMany_ annotation. If the map is specified using Java generics,
+the _MapKeyClass_ annotation and associated type need not be specified;
+otherwise they must be specified.
+
+If the enumerated type is not specified or
+the _MapKeyEnumerated_ annotation is not used, the enumerated type is
+assumed to be _ORDINAL_.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface MapKeyEnumerated {
+    EnumType value() default ORDINAL;
+}
+----
+
+<<a15443>> lists the annotation elements that
+may be specified for the _MapKeyEnumerated_ annotation and their default
+values. The _EnumType_ enum is defined in <<a14719>>.
+
+.MapKeyEnumerated Annotation Elements
+[#a15443,options="header"]
+|===
+|Type |Name |Description |Default
+
+|EnumType
+|value
+|(Optional) The type used in mapping an enum type.
+|ORDINAL
+|===
+
+==== MapKeyJoinColumn Annotation [[a15450]]
+
+The _MapKeyJoinColumn_ annotation is used to
+specify a mapping to an entity that is a map key. The map key join
+column is in the collection table, join table, or table of the target
+entity that is used to represent the map.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(MapKeyJoinColumns.class)
+public @interface MapKeyJoinColumn {
+    String name() default "";
+    String referencedColumnName() default "";
+    boolean unique() default false;
+    boolean nullable() default false;
+    boolean insertable() default true;
+    boolean updatable() default true;
+    String columnDefinition() default "";
+    String table() default "";
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+}
+----
+
+<<a15474>> lists the annotation elements that
+may be specified for the _MapKeyJoinColumn_ annotation and their default
+values.
+
+If no _MapKeyJoinColumn_ annotation is
+specified, a single join column is assumed and the default values
+described below (and in <<a15474>>) apply.
+
+The _name_ annotation element defines the
+name of the foreign key column. The remaining annotation elements (other
+than _referencedColumnName_) refer to this column.
+
+If there is a single map key join column, and
+if the name annotation member is missing, the map key join column name
+is formed as the concatenation of the following: the name of the
+referencing relationship property or field of the referencing entity or
+embeddable; " ___ "; " _KEY_ ".
+
+If the _referencedColumnName_ element is
+missing, the foreign key is assumed to refer to the primary key of the
+referenced table. Support for referenced columns that are not primary
+key columns of the referenced table is optional. Applications that use
+such mappings will not be portable.
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the map key
+join column when table generation is in effect. If the _foreignKey_
+element is not specified, the persistence provider's default foreign key
+strategy will be used.
+
+If more than one _MapKeyJoinColumn_
+annotation is applied to a field or property, both the _name_ and the
+_referencedColumnName_ elements must be specified in each such
+_MapKeyJoinColumn_ annotation.
+
+.MapKeyJoinColumn Annotation Elements
+[#a15474,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the foreign key
+column for the map key. The table in which it is found depends upon the
+context. If the join is for a map key for an element collection, the
+foreign key column is in the collection table for the map value. If the
+join is for a map key for a ManyToMany entity relationship or for a
+OneToMany entity relationship using a join table, the foreign key column
+is in a join table. If the join is for a OneToMany entity relationship
+using a foreign key mapping strategy, the foreign key column for the map
+key is in the table of the entity that is the value of the map.
+|(Default only applies if a single join
+column is used.) The concatenation of the following: the name of the
+referencing relationship property or field of the referencing entity or
+embeddable class; "_"; "KEY".
+
+|String
+|referencedColumnName
+|(Optional) The name of the column referenced
+by this foreign key column. The referenced column is in the table of the
+target entity. |(Default only applies if
+single join column is being used.) The same name as the primary key
+column of the referenced table.
+
+|boolean
+|unique
+|(Optional) Whether the property is a unique
+key. This is a shortcut for the UniqueConstraint annotation at the table
+level and is useful for when the unique key constraint is only a single
+field.
+|false
+
+|boolean
+|nullable
+|(Optional) Whether the foreign key column is nullable.
+|true
+
+|boolean
+|insertable
+|(Optional) Whether the column is included in
+SQL INSERT statements generated by the persistence provider.
+|true
+
+|boolean
+|updatable
+|(Optional) Whether the column is included in
+SQL UPDATE statements generated by the persistence provider.
+|true
+
+|String
+|columnDefinition
+|(Optional) The SQL fragment that is used
+when generating the DDL for the column.
+|Generated SQL for the column.
+
+|String
+|table
+|(Optional) The name of the table that
+contains the foreign key column. If the join is for a map key for an
+element collection, the foreign key column is in the collection table
+for the map value. If the join is for a map key for a ManyToMany entity
+relationship or for a OneToMany entity relationship using a join table,
+the foreign key column is in a join table. If the join is for a
+OneToMany entity relationship using a foreign key mapping strategy, the
+foreign key column for the map key is in the table of the entity that is
+the value of the map.
+|If the map is for an
+element collection, the name of the collection table for the map value.
+If the map is for a OneToMany or ManyToMany entity relationship using a
+join table, the name of the join table for the map. If the map is for a
+OneToMany entity relationship using a foreign key mapping strategy, the
+name of the primary table of the entity that is the value of the map.
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join column. This is used only if table generation
+is in effect.
+|Provider's default
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Entity
+public class Company {
+    @Id
+    int id;
+
+    // ...
+
+    @OneToMany // unidirectional
+    @JoinTable(
+        name="COMPANY_ORGANIZATION",
+        joinColumns=@JoinColumn(name="COMPANY"),
+        inverseJoinColumns=@JoinColumn(name="VICEPRESIDENT")
+    )
+    @MapKeyJoinColumn(name="DIVISION")
+    Map<Division, VicePresident> organization;
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Entity
+public class VideoStore {
+    @Id
+    int id;
+
+    String name;
+
+    Address location;
+
+    // ...
+
+    @ElementCollection
+    @CollectionTable(name="INVENTORY", joinColumns=@JoinColumn(name="STORE"))
+    @Column(name="COPIES_IN_STOCK")
+    @MapKeyJoinColumn(name="MOVIE", referencedColumnName="ID")
+    Map<Movie, Integer> videoInventory;
+
+    // ...
+}
+
+@Entity
+public class Movie {
+    @Id
+    long id;
+
+    String title;
+
+    // ...
+}
+----
+
+*Example 3:*
+
+[source,java]
+----
+@Entity
+public class Student {
+    @Id
+    int studentId;
+
+    // ...
+
+    @ManyToMany // students and courses are also many-many
+    @JoinTable(
+        name="ENROLLMENTS",
+        joinColumns=@JoinColumn(name="STUDENT"),
+        inverseJoinColumns=@JoinColumn(name="SEMESTER")
+    )
+    @MapKeyJoinColumn(name="COURSE")
+    Map<Course, Semester> enrollment;
+
+    // ...
+}
+----
+
+==== MapKeyJoinColumns Annotation
+
+Composite map keys referencing entities are
+supported by means of the _MapKeyJoinColumns_ annotation. The
+_MapKeyJoinColumns_ annotation groups _MapKeyJoinColumn_ annotations.
+
+When the _MapKeyJoinColumns_ annotation is
+used, both the _name_ and the _referencedColumnName_ elements must be
+specified in each of the grouped _MapKeyJoinColumn_ annotations.
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the columns
+corresponding to the _MapKeyJoinColumn_ elements referenced by the
+_value_ element when table generation is in effect. If both this element
+and the _foreignKey_ element of any of the _MapKeyJoinColumn_ elements
+are specified, the behavior is undefined. If no _foreignKey_ annotation
+element is specified in either location, the persistence provider's
+default foreign key strategy will apply.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface MapKeyJoinColumns {
+    MapKeyJoinColumn[] value();
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+}
+----
+
+<<a15572>> lists the annotation elements
+that may be specified for the _MapKeyJoinColumns_ annotation.
+
+.MapKeyJoinColumns Annotation Elements
+[#a15572,options="header"]
+|===
+|Type |Name |Description |Default
+
+|MapKeyJoinColumn[]
+|value
+|(Required) The map key join columns that are used to map to the entity that is the map key.
+|
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join columns. This is used only if table
+generation is in effect.
+|Provider's default
+|===
+
+==== MapKeyTemporal Annotation [[a15583]]
+
+The _MapKeyTemporal_ annotation is used to
+specify the temporal type for a map key whose basic type is a temporal
+type.
+
+The _MapKeyTemporal_ annotation can be
+applied to an element collection or relationship of type _java.util.Map_
+, in conjunction with the _ElementCollection_, _OneToMany_, or
+_ManyToMany_ annotation. If the map is specified using Java generics,
+the _MapKeyClass_ annotation and associated type need not be specified;
+otherwise they must be specified.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface MapKeyTemporal {
+    TemporalType value();
+}
+----
+
+<<a15593>> lists the annotation elements that
+may be specified for the _MapKeyTemporal_ annotation and their default
+values. The _TemporalType_ enum is defined in <<a16361>>.
+
+.MapKeyTemporal Annotation Elements
+[#a15593,options="header"]
+|===
+|Type |Name |Description |Default
+
+|TemporalType
+|value
+|(Required) The type used in mapping java.util.Date or java.util.Calendar.
+|
+|===
+
+==== MappedSuperclass Annotation
+
+The _MappedSuperclass_ annotation designates
+a class whose mapping information is applied to the entities that
+inherit from it. A mapped superclass has no separate table defined for
+it.
+
+A class designated with the
+_MappedSuperclass_ annotation can be mapped in the same way as an entity
+except that the mappings will apply only to its subclasses since no
+table exists for the mapped superclass itself. When applied to the
+subclasses the inherited mappings will apply in the context of the
+subclass tables. Mapping information may be overridden in such
+subclasses by using the _AttributeOverride_, _AttributeOverrides_,
+_AssociationOverride_, and _AssociationOverrides_ annotations.
+
+[source,java]
+----
+@Documented
+@Target(TYPE)
+@Retention(RUNTIME)
+public @interface MappedSuperclass {}
+----
+
+==== MapsId Annotation
+
+The _MapsId_ annotation is used to designate
+a _ManyToOne_ or _OneToOne_ relationship attribute that provides the
+mapping for an _EmbeddedId_ primary key, an attribute within an
+_EmbeddedId_ primary key, or a simple primary key of the parent entity.
+
+The _value_ element specifies the attribute
+within a composite key to which the relationship attribute corresponds.
+If the entity's primary key is of the same Java type as the primary key
+of the entity referenced by the relationship, the _value_ attribute is
+not specified.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface MapsId {
+    String value() default "";
+}
+----
+
+<<a15615>> lists the annotation elements that may be specified
+for the _MapsId_ annotation.
+
+.MapsId Annotation Elements
+[#a15615,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|value
+|(Optional) The name of the attribute within
+the composite key to which the relationship attribute corresponds.
+|The relationship maps the entity's primary key.
+|===
+
+*Example:*
+
+[source,java]
+----
+// parent entity has simple primary key
+@Entity
+public class Employee {
+    @Id
+    long empId;
+
+    String name;
+
+    // ...
+}
+
+// dependent entity uses EmbeddedId for composite key
+@Embeddable
+public class DependentId {
+    String name;
+    long empid; // corresponds to PK type of Employee
+}
+
+@Entity
+public class Dependent {
+    @EmbeddedId
+    DependentId id;
+
+    // ...
+
+    @MapsId("empid") // maps the empid attribute of embedded id
+    @ManyToOne
+    Employee emp;
+}
+----
+
+==== OneToMany Annotation
+
+A _OneToMany_ annotation defines a
+many-valued association with one-to-many multiplicity.
+
+<<a15667>> lists the annotation elements that may be specified
+for the _OneToMany_ annotation and their default values.
+
+If the collection is defined using generics
+to specify the element type, the associated target entity class need not
+be specified; otherwise it must be specified.
+
+The _OneToMany_ annotation may be used within
+an embeddable class contained within an entity class to specify a
+relationship to a collection of entitiesfootnote:[The _OneToMany_
+annotation must not be used within an embeddable class used in an
+element collection.]. If the
+relationship is bidirectional, the _mappedBy_ element must be used to
+specify the relationship field or property of the entity that is the
+owner of the relationship.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface OneToMany {
+    Class targetEntity() default void.class;
+    CascadeType[] cascade() default {};
+    FetchType fetch() default LAZY;
+    String mappedBy() default "";
+    boolean orphanRemoval() default false;
+}
+----
+
+The operations that can be cascaded are
+defined by the _CascadeType_ enum, defined in <<a15100>>.
+
+When the collection is a _java.util.Map_,
+the _cascade_ element and the _orphanRemoval_ element apply to the map
+_value_.
+
+If _orphanRemoval_ is _true_ and an entity
+that is the target of the relationship is removed from the relationship
+(either by removal from the collection or by setting the relationship to
+null), the remove operation will be applied to the entity being
+orphaned. If the entity being orphaned is a detached, new, or removed
+entity, the semantics of _orphanRemoval_ do not apply.
+
+If _orphanRemoval_ is _true_ and the remove
+operation is applied to the source entity, the remove operation will be
+cascaded to the relationship target in accordance with the rules of
+<<a1946>>, (and hence it is not
+necessary to specify _cascade=REMOVE_ for the
+relationship)footnote:[If the parent is
+detached or new or was previously removed before the orphan was
+associated with it, the remove operation is not applied to the entity
+being orphaned.].
+
+The remove operation is applied at the time
+of the flush operation. The _orphanRemoval_ functionality is intended
+for entities that are privately "owned" by their parent entity. Portable
+applications must otherwise not depend upon a specific order of removal,
+and must not reassign an entity that has been orphaned to another
+relationship or otherwise attempt to persist it.
+
+The default mapping for unidirectional
+one-to-many relationships uses a join table as is described in
+<<a758>>. Unidirectional one-to-many relationships may be
+implemented using one-to-many foreign key mappings, using the
+_JoinColumn_ and _JoinColumns_ annotations.
+
+.OneToMany Annotation Elements
+[#a15667,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|targetEntity
+|(Optional) The entity class that is the
+target of the association. Optional only if the collection-valued
+relationship property is defined using Java generics. Must be specified
+otherwise.
+|The parameterized type of the collection when defined using generics.
+
+|CascadeType[]
+|cascade
+|(Optional) The operations that must be cascaded to the target of the association.
+|No operations are cascaded.
+
+|FetchType
+|fetch
+|(Optional) Whether the association should be
+lazily loaded or must be eagerly fetched. The EAGER strategy is a
+requirement on the persistence provider runtime that the associated
+entities must be eagerly fetched. The LAZY strategy is a hint to the
+persistence provider runtime.
+|LAZY
+
+|String
+|mappedBy
+|The field or property that owns the
+relationship. Required unless the relationship is unidirectional.
+|
+
+|boolean
+|orphanRemoval
+|(Optional) Whether to apply the remove
+operation to entities that have been removed from the relationship and
+to cascade the remove operation to those entities.
+|false
+|===
+
+*Example 1:* One-to-Many association using generics
+
+In Customer class:
+
+[source,java]
+----
+@OneToMany(cascade=ALL, mappedBy="customer", orphanRemoval=true)
+public Set<Order> getOrders() { return orders; }
+----
+
+In Order class:
+
+[source,java]
+----
+@ManyToOne
+@JoinColumn(name="CUST_ID", nullable=false)
+public Customer getCustomer() { return customer; }
+----
+
+*Example 2:* One-to-Many association without using generics
+
+In Customer class:
+
+[source,java]
+----
+@OneToMany(
+    targetEntity=com.acme.Order.class,
+    cascade=ALL,
+    mappedBy="customer",
+    orphanRemoval=true
+)
+public Set getOrders() { return orders; }
+----
+
+In Order class:
+
+[source,java]
+----
+@ManyToOne
+@JoinColumn(name="CUST_ID", nullable=false)
+protected Customer customer;
+----
+
+*Example 3:* Unidirectional One-to-Many association using a foreign key mapping
+
+In Customer class:
+
+[source,java]
+----
+@OneToMany(orphanRemoval=true)
+@JoinColumn(name="CUST_ID") // join column is in table for Order
+public Set<Order> getOrders() { return orders; }
+----
+
+==== OneToOne Annotation
+
+The _OneToOne_ annotation defines a
+single-valued association to another entity that has one-to-one
+multiplicity. It is not normally necessary to specify the associated
+target entity explicitly since it can usually be inferred from the type
+of the object being referenced.
+
+If the relationship is bidirectional, the
+_mappedBy_ element must be used to specify the relationship field or
+property of the entity that is the owner of the relationship.
+
+The _OneToOne_ annotation may be used within
+an embeddable class to specify a relationship from the embeddable class
+to an entity class. If the relationship is bidirectional and the entity
+containing the embeddable class is on the owning side of the
+relationship, the non-owning side must use the _mappedBy_ element of the
+_OneToOne_ annotation to specify the relationship field or property of
+the embeddable class. The dot (_"."_) notation syntax must be used in
+the _mappedBy_ element to indicate the relationship attribute within the
+embedded attribute. The value of each identifier used with the dot
+notation is the name of the respective embedded field or property.
+
+<<a15735>> lists the annotation elements that may be specified
+for the _OneToOne_ annotation and their default values.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface OneToOne {
+    Class targetEntity() default void.class;
+    CascadeType[] cascade() default {};
+    FetchType fetch() default EAGER;
+    boolean optional() default true;
+    String mappedBy() default "";
+    boolean orphanRemoval() default false;
+}
+----
+
+The operations that can be cascaded are
+defined by the _CascadeType_ enum, defined in <<a15100>>.
+
+If _orphanRemoval_ is _true_ and an entity
+that is the target of the relationship is removed from the relationship
+(by setting the relationship to null), the remove operation will be
+applied to the entity being orphaned. If the entity being orphaned is a
+detached, new, or removed entity, the semantics of _orphanRemoval_ do
+not apply.
+
+If _orphanRemoval_ is _true_ and the remove
+operation is applied to the source entity, the remove operation will be
+cascaded to the relationship target in accordance with the rules of
+<<a1946>>, (and hence it is not
+necessary to specify _cascade=REMOVE_ for the
+relationship)footnote:[If the parent is
+detached or new or was previously removed before the orphan was
+associated with it, the remove operation is not applied to the entity
+being orphaned.].
+
+The remove operation is applied at the time
+of the flush operation. The _orphanRemoval_ functionality is intended
+for entities that are privately "owned" by their parent entity. Portable
+applications must otherwise not depend upon a specific order of removal,
+and must not reassign an entity that has been orphaned to another
+relationship or otherwise attempt to persist it.
+
+.OneToOne Annotation Elements
+[#a15735,options="header"]
+|===
+|Type |Name |Description |Default
+
+|Class
+|targetEntity
+|(Optional) The entity class that is the target of the association.
+|The type of the field or property that stores the association.
+
+|CascadeType[]
+|cascade
+|(Optional) The operations that must be cascaded to the target of the association.
+|No operations are cascaded.
+
+|FetchType
+|fetch
+|(Optional) Whether the association should be
+lazily loaded or must be eagerly fetched. The EAGER strategy is a
+requirement on the persistence provider runtime that the associated
+entity must be eagerly fetched. The LAZY strategy is a hint to the
+persistence provider runtime.
+|EAGER
+
+|boolean
+|optional
+|(Optional) Whether the association is
+optional. If set to false then a non-null relationship must always
+exist.
+|true
+
+|String
+|mappedBy
+|(Optional) The field or property that owns
+the relationship. The mappedBy element is only specified on the inverse
+(non-owning) side of the association.
+|
+
+|boolean
+|orphanRemoval
+|(Optional) Whether to apply the remove
+operation to entities that have been removed from the relationship and
+to cascade the remove operation to those entities.
+|false
+|===
+
+*Example 1:* One-to-one association that maps a foreign key column.
+
+On Customer class:
+
+[source,java]
+----
+@OneToOne(optional=false)
+@JoinColumn(name="CUSTREC_ID", unique=true, nullable=false, updatable=false)
+public CustomerRecord getCustomerRecord() { return customerRecord; }
+----
+
+On CustomerRecord class:
+
+[source,java]
+----
+@OneToOne(optional=false, mappedBy="customerRecord")
+public Customer getCustomer() { return customer; }
+----
+
+*Example 2:* One-to-one association where
+both source and target share the same primary key values.
+
+On Employee class:
+
+[source,java]
+----
+@Entity
+public class Employee {
+    @Id
+    Integer id;
+
+    @OneToOne(orphanRemoval=true)
+    @MapsId
+    EmployeeInfo info;
+
+    // ...
+}
+----
+
+On EmployeeInfo class:
+
+[source,java]
+----
+@Entity
+public class EmployeeInfo {
+    @Id
+    Integer id;
+
+    //...
+}
+----
+
+*Example 3:* One-to-one association from an embeddable class to another entity.
+
+[source,java]
+----
+@Entity
+public class Employee {
+    @Id
+    int id;
+
+    @Embedded
+    LocationDetails location;
+
+    // ...
+}
+
+@Embeddable
+public class LocationDetails {
+    int officeNumber;
+
+    @OneToOne
+    ParkingSpot parkingSpot;
+
+    // ...
+}
+
+@Entity
+public class ParkingSpot {
+    @Id
+    int id;
+
+    String garage;
+
+    @OneToOne(mappedBy="location.parkingSpot")
+    Employee assignedTo;
+
+    // ...
+}
+----
+
+
+==== OrderBy Annotation
+
+The _OrderBy_ annotation specifies the
+ordering the elements of a collection-valued association or element
+collection are to have when the association or collection is retrieved.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface OrderBy {
+    String value() default "";
+}
+----
+
+The syntax of the _value_ ordering element is
+an orderby_list, as follows:
+
+----
+orderby_list ::= orderby_item [,orderby_item]*
+orderby_item ::= [property_or_field_name] [ASC | DESC]
+----
+
+If orderby_list is not specified or if _ASC_
+or _DESC_ is not specified, _ASC_ (ascending order) is assumed.
+
+If the ordering element is not
+specified for an entity association, ordering by the primary key of the
+associated entity is assumed.footnote:[If the primary key
+is a composite primary key, the precedence of ordering among the
+attributes within the primary key is not futher defined. To assign such
+a precedence within these attributes, each of the individual attributes
+must be specified as an orderby_item.]
+
+A property or field name specified as an
+_orderby_item_ must correspond to a basic persistent property or field
+of the associated class or embedded class within it. The properties or
+fields used in the ordering must correspond to columns for which
+comparison operators are supported.
+
+The dot (".") notation is used to refer to an
+attribute within an embedded attribute. The value of each identifier
+used with the dot notation is the name of the respective embedded field
+or property.
+
+The _OrderBy_ annotation may be applied to an
+element collection. When _OrderBy_ is applied to an element collection
+of basic type, the ordering will be by value of the basic objects and
+the _property_or_field_name_ is not used.footnote:[In all other cases
+when OrderBy is applied to an element collection, the
+_property_or_field_name_ must be specified.] When
+specifying an ordering over an element collection of embeddable type,
+the dot notation must be used to specify the attribute or attributes
+that determine the ordering.
+
+The _OrderBy_ annotation is not used when an
+order column is specified. See <<a15873>>.
+
+<<a15828>> lists the annotation elements that may be specified
+for the _OrderBy_ annotation.
+
+.OrderBy Annotation Elements
+[#a15828,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|value
+|(Optional) The list of attributes
+(optionally qualified with ASC or DESC) whose values are used in the
+ordering.
+|Ascending ordering by the primary key.
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Entity
+public class Course {
+    // ...
+
+    @ManyToMany
+    @OrderBy("lastname ASC")
+    public List<Student> getStudents() { ... };
+
+    // ...
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Entity
+public class Student {
+    // ...
+
+    @ManyToMany(mappedBy="students")
+    @OrderBy // PK is assumed
+    public List<Course> getCourses() { ... };
+
+    // ...
+}
+----
+
+*Example 3:*
+
+[source,java]
+----
+@Entity
+public class Person {
+    // ...
+
+    @ElementCollection
+    @OrderBy("zipcode.zip, zipcode.plusFour")
+    public Set<Address> getResidences() { ... };
+
+    // ...
+}
+
+@Embeddable
+public class Address {
+    protected String street;
+    protected String city;
+    protected String state;
+
+    @Embedded
+    protected Zipcode zipcode;
+}
+
+@Embeddable
+public class Zipcode {
+    protected String zip;
+    protected String plusFour;
+}
+----
+
+==== OrderColumn Annotation [[a15873]]
+
+The _OrderColumn_ annotation specifies
+a column that is used to maintain the persistent order of a list. The
+persistence provider is responsible for maintaining the order upon
+retrieval and in the database. The persistence provider is responsible
+for updating the ordering upon flushing to the database to reflect any
+insertion, deletion, or reordering affecting the list. The _OrderColumn_
+annotation may be specified on a one-to-many or many-to-many
+relationship or on an element collection. The _OrderColumn_ annotation
+is specified on the side of the relationship that references the
+collection that is to be ordered. The order column is not visible as
+part of the state of the entity or embeddable
+class.footnote:[The _OrderBy_
+annotation should be used for ordering that is visible as persistent
+state and maintained by the application.]
+
+The _OrderBy_ annotation is not used when
+_OrderColumn_ is specified.
+
+<<a15888>> lists the annotation elements that may be specified
+for the _OrderColumn_ annotation and their default values.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface OrderColumn {
+    String name() default "";
+    boolean nullable() default true;
+    boolean insertable() default true;
+    boolean updatable() default true;
+    String columnDefinition() default "";
+}
+----
+
+If _name_ is not specified, the column name
+is the concatenation of the following: the name of the referencing
+relationship property or field of the referencing entity or embeddable
+class; " ___ "; " _ORDER_ ".
+
+The order column must be of integral type.
+The persistence provider must maintain a contiguous (non-sparse)
+ordering of the values of the order column when updating the association
+or element collection. The order column value for the first element of
+the list must be 0.
+
+.OrderColumn Annotation Elements
+[#a15888,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the ordering column.
+|The concatenation of the name of the referencing property or field; " ___ "; " _ORDER_ ".
+
+|boolean
+|nullable
+|(Optional) Whether the database column is nullable.
+|true
+
+|boolean
+|insertable
+|(Optional) Whether the column is included in
+SQL INSERT statements generated by the persistence provider.
+|true
+
+|boolean
+|updatable
+|(Optional) Whether the column is included in
+SQL UPDATE statements generated by the persistence provider.
+|true
+
+|String
+|columnDefinition
+|(Optional) The SQL fragment that is used when generating the DDL for the column.
+|Generated SQL to create a column of the inferred type.
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Entity
+public class CreditCard {
+    @Id
+    long ccNumber;
+
+    @OneToMany // unidirectional
+    @OrderColumn
+    List<CardTransaction> transactionHistory;
+
+    // ...
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Entity
+public class Course {
+    // ...
+
+    @ManyToMany
+    @JoinTable(name="COURSE_ENROLLMENT")
+    public Set<Student> getStudents() { ... };
+
+    // ...
+
+    @ManyToMany // unidirectional
+    @JoinTable(name="WAIT_LIST")
+    @OrderColumn(name="WAITLIST_ORDER")
+    public List<Student> getWaitList()  { ... }
+}
+
+@Entity
+public class Student {
+    // ...
+
+    @ManyToMany(mappedBy="students")
+    public Set<Course> getCourses() { ... };
+
+    // ...
+}
+----
+
+*Example of querying the ordered list:*
+
+[source,sql]
+----
+SELECT w
+FROM course c JOIN c.waitlist w
+WHERE c.name = "geometry" AND INDEX(w) = 0
+----
+
+==== PrimaryKeyJoinColumn Annotation [[a15947]]
+
+The _PrimaryKeyJoinColumn_ annotation
+specifies a primary key column that is used as a foreign key to join to
+another table.
+
+The _PrimaryKeyJoinColumn_ annotation is used
+to join the primary table of an entity subclass in the JOINED mapping
+strategy to the primary table of its superclass; it is used within a
+_SecondaryTable_ annotation to join a secondary table to a primary
+table; and it may be used in a _OneToOne_ mapping in which the primary
+key of the referencing entity is used as a foreign
+keyfootnote:[It is not expected
+that a database foreign key be defined for the OneToOne mapping, as the
+OneToOne relationship may be defined as “optional=true”.] to the referenced
+entityfootnote:[The derived id
+mechanisms described in <<a155>> are now to be preferred over
+PrimaryKeyJoinColumn for the OneToOne mapping case.].
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the primary
+key join column when table generation is in effect. If the _foreignKey_
+element is not specified, the persistence provider's default foreign key
+strategy will apply.
+
+<<a15962>> lists the annotation elements
+that may be specified for the _PrimaryKeyJoinColumn_ annotation and
+their default values.
+
+If no _PrimaryKeyJoinColumn_ annotation is
+specified for a subclass in the JOINED mapping strategy, the foreign key
+columns are assumed to have the same names as the primary key columns of
+the primary table of the superclass.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(PrimaryKeyJoinColumns.class)
+public @interface PrimaryKeyJoinColumn {
+    String name() default "";
+    String referencedColumnName() default "";
+    String columnDefinition() default "";
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+}
+----
+
+.PrimaryKeyJoinColumn Annotation Elements
+[#a15962,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the primary key column of the current table.
+|The same name
+as the primary key column of the primary table of the superclass (JOINED
+mapping strategy); the same name as the primary key column of the
+primary table (SecondaryTable mapping); or the same name as the primary
+key column for the table for the referencing entity (OneToOne mapping).
+
+|String
+|referencedColumnName
+|(Optional) The name of the primary key column of the table being joined to.
+|The
+same name as the primary key column of the primary table of the
+superclass (JOINED mapping strategy); the same name as the primary key
+column of the primary table (SecondaryTable mapping); or the same name
+as the primary key column of the table for the referenced entity
+(OneToOne mapping).
+
+|String
+|columnDefinition
+|(Optional) The SQL fragment that is used
+when generating the DDL for the column. This should not be specified for
+a OneToOne primary key association.
+|Generated SQL to create a column of the inferred type.
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join column. This is used only if table generation
+is in effect.
+|Provider's default
+|===
+
+*Example:* Customer and ValuedCustomer subclass
+
+[source,java]
+----
+@Entity
+@Table(name="CUST")
+@Inheritance(strategy=JOINED)
+@DiscriminatorValue("CUST")
+public class Customer { ... }
+
+@Entity
+@Table(name="VCUST")
+@DiscriminatorValue("VCUST")
+@PrimaryKeyJoinColumn(name="CUST_ID")
+public class ValuedCustomer extends Customer { ... }
+----
+
+==== PrimaryKeyJoinColumns Annotation
+
+Composite foreign keys are supported by means
+of the _PrimaryKeyJoinColumns_ annotation. The _PrimaryKeyJoinColumns_
+annotation groups _PrimaryKeyJoinColumn_ annotations.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface PrimaryKeyJoinColumns {
+    PrimaryKeyJoinColumn[] value();
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+}
+----
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the columns
+corresponding to the _PrimaryKeyJoinColumn_ elements referenced by the
+_value_ element when table generation is in effect. If both this element
+and the _foreignKey_ element of any of the _PrimaryKeyJoinColumn_
+elements are specified, the behavior is undefined. If no _foreignKey_
+annotation element is specified in either location, the persistence
+provider's default foreign key strategy will apply.
+
+<<a16004>> lists the annotation elements
+that may be specified for the _PrimaryKeyJoinColumns_ annotation.
+
+.PrimaryKeyJoinColumns Annotation Elements
+[#a16004,options="header"]
+|===
+|Type |Name |Description |Default
+
+|PrimaryKeyJoinColumn[]
+|value
+|(Required) The primary key join columns.
+|
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint
+specification for the join columns. This is used only if table
+generation is in effect.
+|Provider's default
+|===
+
+*Example 1:* ValuedCustomer subclass
+
+[source,java]
+----
+@Entity
+@Table(name="VCUST")
+@DiscriminatorValue("VCUST")
+@PrimaryKeyJoinColumns({
+    @PrimaryKeyJoinColumn(name="CUST_ID", referencedColumnName="ID"),
+    @PrimaryKeyJoinColumn(name="CUST_TYPE", referencedColumnName="TYPE")
+})
+public class ValuedCustomer extends Customer { ... }
+----
+
+*Example 2:* OneToOne relationship
+between Employee and EmployeeInfo classes.footnote:[Note that the
+derived identity mechanisms described in <<a155>> is
+now preferred to the use of PrimaryKeyJoinColumn for this case.]
+
+[source,java]
+----
+public class EmpPK {
+    public Integer id;
+    public String name;
+}
+
+@Entity
+@IdClass(com.acme.EmpPK.class)
+public class Employee {
+    @Id
+    Integer id;
+
+    @Id
+    String name;
+
+    @OneToOne
+    @PrimaryKeyJoinColumns({
+        @PrimaryKeyJoinColumn(name="ID", referencedColumnName="EMP_ID"),
+        @PrimaryKeyJoinColumn(name="NAME", referencedColumnName="EMP_NAME")
+    })
+    EmployeeInfo info;
+
+    // ...
+}
+
+@Entity
+@IdClass(com.acme.EmpPK.class)
+public class EmployeeInfo {
+    @Id
+    @Column(name="EMP_ID")
+    Integer id;
+
+    @Id
+    @Column(name="EMP_NAME")
+    String name;
+
+    // ...
+}
+----
+
+==== SecondaryTable Annotation [[a16062]]
+
+The _SecondaryTable_ annotation is used to
+specify a secondary table for the annotated entity class.
+
+If no _SecondaryTable_ annotation is
+specified, it is assumed that all persistent fields or properties of the
+entity are mapped to the primary table. Specifying one or more secondary
+tables indicates that the data for the entity class is stored across
+multiple tables.
+
+<<a16082>> lists the annotation elements that
+may be specified for the _SecondaryTable_ annotation and their default
+values.
+
+If no primary key join columns are specified,
+the join columns are assumed to reference the primary key columns of the
+primary table, and have the same names and types as the referenced
+primary key columns of the primary table.
+
+The _foreignKey_ element is used to specify
+or control the generation of a foreign key constraint for the columns
+corresponding to the _pkJoinColumns_ element when table generation is in
+effect. If both this element and the _foreignKey_ element of any of the
+_pkJoinColumns_ elements are specified, the behavior is undefined. If no
+_foreignKey_ annotation element is specified in either location, the
+persistence provider's default foreign key strategy will apply.
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+@Repeatable(SecondaryTables.class)
+public @interface SecondaryTable {
+    String name();
+    String catalog() default "";
+    String schema() default "";
+    PrimaryKeyJoinColumn[] pkJoinColumns() default {};
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    UniqueConstraint[] uniqueConstraints() default {};
+    Index[] indexes() default {};
+}
+----
+
+.SecondaryTable Annotation Elements
+[#a16082,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Required) The name of the table.
+|
+
+|String
+|catalog
+|(Optional) The catalog of the table.
+|Default catalog
+
+|String
+|schema
+|(Optional) The schema of the table.
+|Default schema for user
+
+|PrimaryKeyJoinColumn[]
+|pkJoinColumns
+|(Optional) The columns that are used to join with the primary table.
+|Column(s) of the same name(s) as the primary key column(s) in the primary table
+
+|ForeignKey
+|foreignKey
+|(Optional) The foreign key constraint for
+the join column. This is used only if table generation is in effect.
+|Provider's default
+
+|UniqueConstraint[]
+|uniqueConstraints
+|(Optional) Unique constraints that are to be
+placed on the table. These are typically only used if table generation
+is in effect. These constraints apply in addition to any constraints
+specified by the Column and JoinColumn annotations and constraints
+entailed by primary key mappings.
+|No additional constraints
+
+|Index[]
+|indexes
+|(Optional) Indexes for the table. These are
+only used if table generation is in effect.
+|No additional indexes
+|===
+
+*Example 1:* Single secondary table with a single primary key column.
+
+[source,java]
+----
+@Entity
+@Table(name="CUSTOMER")
+@SecondaryTable(
+    name="CUST_DETAIL",
+    pkJoinColumns=@PrimaryKeyJoinColumn(name="CUST_ID")
+)
+public class Customer { ... }
+----
+
+*Example 2:* Single secondary table with multiple primary key columns.
+
+[source,java]
+----
+@Entity
+@Table(name="CUSTOMER")
+@SecondaryTable(
+    name="CUST_DETAIL",
+    pkJoinColumns={
+        @PrimaryKeyJoinColumn(name="CUST_ID"),
+        @PrimaryKeyJoinColumn(name="CUST_TYPE")
+    })
+public class Customer { ... }
+----
+
+==== SecondaryTables Annotation
+
+The _SecondaryTables_ annotation can be used
+to specify multiple secondary tables for an entity.
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface SecondaryTables {
+    SecondaryTable[] value();
+}
+----
+
+<<a16136>> lists the annotation elements that
+may be specified for the _SecondaryTables_ annotation.
+
+.SecondaryTables Annotation Elements
+[#a16136,options="header"]
+|===
+|Type |Name |Description |Default
+
+|SecondaryTable[]
+|value
+|(Required) The secondary tables that are used to map the entity class.
+|
+|===
+
+*Example 1:* Multiple secondary tables
+assuming primary key columns are named the same in all tables.
+
+[source,java]
+----
+@Entity
+@Table(name="EMPLOYEE")
+@SecondaryTables({
+    @SecondaryTable(name="EMP_DETAIL"),
+    @SecondaryTable(name="EMP_HIST")
+})
+public class Employee { ... }
+----
+
+*Example 2:* Multiple secondary tables with differently named primary key columns.
+
+[source,java]
+----
+@Entity
+@Table(name="EMPLOYEE")
+@SecondaryTables({
+    @SecondaryTable(
+        name="EMP_DETAIL",
+        pkJoinColumns=@PrimaryKeyJoinColumn(name="EMPL_ID")),
+    @SecondaryTable(
+        name="EMP_HIST",
+        pkJoinColumns=@PrimaryKeyJoinColumn(name="EMPLOYEE_ID"))
+})
+public class Employee { ... }
+----
+
+==== SequenceGenerator Annotation [[a16164]]
+
+The _SequenceGenerator_ annotation defines a
+primary key generator that may be referenced by name when a generator
+element is specified for the _GeneratedValue_ annotation. A sequence
+generator may be specified on the entity class or on the primary key
+field or property. The scope of the generator name is global to the
+persistence unit (across all generator types).
+
+<<a16179>> lists the annotation elements
+that may be specified for the _SequenceGenerator_ annotation and their
+default values.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(SequenceGenerators.class)
+public @interface SequenceGenerator {
+    String name();
+    String sequenceName() default "";
+    String catalog() default "";
+    String schema() default "";
+    int initialValue() default 1;
+    int allocationSize() default 50;
+}
+----
+
+.SequenceGenerator Annotation Elements
+[#a16179,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Required) A unique generator name that can
+be referenced by one or more classes to be the generator for primary key
+values.
+|
+
+|String
+|sequenceName
+|(Optional) The name of the database sequence
+object from which to obtain primary key values.
+|A provider- chosen value
+
+|String
+|catalog
+|(Optional) The catalog of the sequence generator.
+|Default catalog
+
+|String
+|schema
+|(Optional) The schema of the sequence generator.
+|Default schema for user
+
+|int
+|initialValue
+|(Optional) The value from which the sequence
+object is to start generating.
+|1
+
+|int
+|allocationSize
+|(Optional) The amount to increment by when
+allocating sequence numbers from the sequence.
+|50
+|===
+
+*Example:*
+
+[source,java]
+----
+@SequenceGenerator(name="EMP_SEQ", allocationSize=25)
+----
+
+==== SequenceGenerators Annotation [[a16205]]
+
+The SequenceGenerators annotation can be used
+to specify multiple sequence generators.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface SequenceGenerators {
+    SequenceGenerator[] value();
+}
+----
+
+.SequenceGenerators Annotation Elements
+[options="header"]
+|===
+|Type |Name |Description |Default
+
+|SequenceGenerator[]
+|value
+|(Required) The sequence generator mappings
+|
+|===
+
+==== Table Annotation
+
+The _Table_ annotation specifies the
+primary table for the annotated entity. Additional tables may be
+specified by using the _SecondaryTable_ or _SecondaryTables_
+annotation.footnote:[When a joined
+inheritance strategy is used, the Table annotation is used to specify a
+primary table for the subclass-specific state if the default is not
+used.]
+
+<<a16232>> lists the annotation elements that may be specified
+for the _Table_ annotation and their default values.
+
+If no _Table_ annotation is specified for an
+entity class, the default values defined in
+<<a16232>> apply.
+
+[source,java]
+----
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface Table {
+    String name() default "";
+    String catalog() default "";
+    String schema() default "";
+    UniqueConstraint[] uniqueConstraints() default {};
+    Index[] indexes() default {};
+}
+----
+
+.Table Annotation Elements
+[#a16232,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) The name of the table.
+|Entity name
+
+|String
+|catalog
+|(Optional) The catalog of the table.
+|Default catalog
+
+|String
+|schema
+|(Optional) The schema of the table.
+|Default schema for user
+
+|UniqueConstraint[]
+|uniqueConstraints
+|(Optional) Unique constraints that are to be
+placed on the table. These are only used if table generation is in
+effect. These constraints apply in addition to any constraints specified
+by the Column and JoinColumn annotations and constraints entailed by
+primary key mappings.
+|No additional
+constraints
+
+|Index[]
+|indexes
+|(Optional) Indexes for the table. These are
+only used if table generation is in effect.
+|No additional indexes
+|===
+
+*Example:*
+
+[source,java]
+----
+@Entity
+@Table(name="CUST", schema="RECORDS")
+public class Customer { ... }
+----
+
+==== TableGenerator Annotation [[a16256]]
+
+The _TableGenerator_ annotation defines a
+primary key generator that may be referenced by name when a generator
+element is specified for the _GeneratedValue_ annotation. A table
+generator may be specified on the entity class or on the primary key
+field or property. The scope of the generator name is global to the
+persistence unit (across all generator types).
+
+<<a16277>> lists the annotation elements that
+may be specified for the _TableGenerator_ annotation and their default
+values.
+
+The _table_ element specifies the name of the
+table that is used by the persistence provider to store generated
+primary key values for entities. An entity type will typically use its
+own row in the table for the generation of primary key values. The
+primary key values are normally positive integers.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(TableGenerators.class)
+public @interface TableGenerator {
+    String name();
+    String table() default "";
+    String catalog() default "";
+    String schema() default "";
+    String pkColumnName() default "";
+    String valueColumnName() default "";
+    String pkColumnValue() default "";
+    int initialValue() default 0;
+    int allocationSize() default 50;
+    UniqueConstraint[] uniqueConstraints() default {};
+    Index[] indexes() default {};
+}
+----
+
+.TableGenerator Annotation Elements
+[#a16277,options="header]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Required) A unique generator name that can be referenced by one or more classes
+to be the generator for primary key values.
+|
+
+|String
+|table
+|(Optional) Name of table that stores the
+generated primary key values.
+|Name is chosen by persistence provider
+
+|String
+|catalog
+|(Optional) The catalog of the table.
+|Default catalog
+
+|String
+|schema
+|(Optional) The schema of the table.
+|Default schema for user
+
+|String
+|pkColumnName
+|(Optional) Name of the primary key column in the table.
+|A provider-chosen name
+
+|String
+|valueColumnName
+|(Optional) Name of the column that stores the last value generated.
+|A provider-chosen name
+
+|String
+|pkColumnValue
+|(Optional) The primary key value in the
+generator table that distinguishes this set of generated values from
+others that may be stored in the table.
+|A provider-chosen value to store in the primary key column of the
+generator table
+
+|int
+|initialValue
+|(Optional) The value used to initialize the
+column that stores the last value generated.
+|0
+
+|int
+|allocationSize
+|(Optional) The amount to increment by when
+allocating numbers from the generator.
+|50
+
+|UniqueConstraint[]
+|uniqueConstraints
+|(Optional) Unique constraints that are to be
+placed on the table. These are only used if table generation is in
+effect. These constraints apply in addition to primary key constraints.
+|No additional constraints
+
+|Index[]
+|indexes
+|(Optional) Indexes for the table. These are
+only used if table generation is in effect.
+|No additional indexes
+|===
+
+*Example 1:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    // ...
+
+    @TableGenerator(
+        name="empGen",
+        table="ID_GEN",
+        pkColumnName="GEN_KEY",
+        valueColumnName="GEN_VALUE",
+        pkColumnValue="EMP_ID",
+        allocationSize=1)
+    @Id
+    @GeneratedValue(strategy=TABLE, generator="empGen")
+    int id;
+
+    // ...
+}
+----
+
+*Example 2:*
+
+[source,java]
+----
+@Entity
+public class Address {
+    // ...
+
+    @TableGenerator(
+        name="addressGen",
+        table="ID_GEN",
+        pkColumnName="GEN_KEY",
+        valueColumnName="GEN_VALUE",
+        pkColumnValue="ADDR_ID")
+    @Id
+    @GeneratedValue(strategy=TABLE, generator="addressGen")
+    int id;
+
+    // ...
+}
+----
+
+==== TableGenerators Annotation
+
+The TableGenerators annotation can be used to
+specify multiple table generators.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface TableGenerators {
+    TableGenerator[] value();
+}
+----
+
+.TableGenerators Annotation Elements
+[options="header"]
+|===
+|Type |Name |Description |Default
+
+|TableGenerator[]
+|value
+|(Required) The table generator mappings
+|
+|===
+
+==== Temporal Annotation [[a16361]]
+
+The _Temporal_ annotation must be specified
+for persistent fields or properties of type _java.util.Date_ and
+_java.util.Calendar_ unless a converter is being applied. It may only be
+specified for fields or properties of these types.
+
+The _Temporal_ annotation may be used in
+conjunction with the _Basic_ annotation, the _Id_ annotation, or the
+_ElementCollection_footnote:[If the element
+collection is a Map, this applies to the map value.] annotation (when the element
+collection value is of such a temporal type).
+
+The _TemporalType_ enum defines the mapping for these temporal types.
+
+[source,java]
+----
+public enum TemporalType {
+    DATE, //java.sql.Date
+    TIME, //java.sql.Time
+    TIMESTAMP //java.sql.Timestamp
+}
+
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Temporal {
+    TemporalType value();
+}
+----
+
+<<a16378>> lists the annotation elements that may be specified
+for the _Temporal_ annotation and their default values.
+
+.Temporal Annotation Elements
+[#a16378,options="header"]
+|===
+|Type |Name |Description |Default
+
+|TemporalType
+|value
+|(Required) The type used in mapping java.util.Date or java.util.Calendar.
+|
+|===
+
+*Example:*
+
+[source,java]
+----
+@Embeddable
+public class EmploymentPeriod {
+    @Temporal(DATE)
+    java.util.Date startDate;
+
+    @Temporal(DATE)
+    java.util.Date endDate;
+
+    // ...
+}
+----
+
+==== Transient Annotation
+
+The _Transient_ annotation is used to
+annotate a property or field of an entity class, mapped superclass, or
+embeddable class. It specifies that the property or field is not
+persistent.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Transient {}
+----
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Employee {
+    @Id
+    int id;
+
+    @Transient
+    User currentUser;
+
+    // ...
+}
+----
+
+==== UniqueConstraint Annotation [[a16403]]
+
+The _UniqueConstraint_ annotation is used to
+specify that a unique constraint is to be included in the generated DDL
+for a primary or secondary table.
+
+<<a16413>> lists the annotation elements that
+may be specified for the _UniqueConstraint_ annotation.
+
+[source,java]
+----
+@Target({})
+@Retention(RUNTIME)
+public @interface UniqueConstraint {
+    String name() default "";
+    String[] columnNames();
+}
+----
+
+.UniqueConstraint Annotation Elements
+[#a16413,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) Constraint name.
+|A provider-chosen name.
+
+|String[]
+|columnNames
+|(Required) An array of the column names that make up the constraint.
+|
+|===
+
+*Example:*
+
+[source,java]
+----
+@Entity
+@Table(
+    name="EMPLOYEE",
+    uniqueConstraints=@UniqueConstraint(columnNames={"EMP_ID", "EMP_NAME"})
+)
+public class Employee { ... }
+----
+
+==== Version Annotation [[a16432]]
+
+The _Version_ annotation specifies the
+version field or property of an entity class that serves as its
+optimistic lock value. The version is used to ensure integrity when
+performing the merge operation and for optimistic concurrency control.
+
+Only a single _Version_ property or field
+should be used per class; applications that use more than one _Version_
+property or field will not be portable.
+
+The _Version_ property should be mapped to
+the primary table for the entity class; applications that map the
+_Version_ property to a table other than the primary table will not be
+portable.
+
+In general, fields or properties that
+are specified with the _Version_ annotation should not be updated by the
+application.footnote:[See, however,
+<<a5636>>.]
+
+The following types are supported for version
+properties: _int_, _Integer_, _short_, _Short_, _long_, _Long_,
+_Timestamp_.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface Version {}
+----
+
+*Example:*
+
+[source,java]
+----
+@Version
+@Column(name="OPTLOCK")
+protected int getVersionNum() { return versionNum; }
+----
+
+=== Object/Relational Metadata Used in Schema Generation [[a16444]]
+
+The following annotations and XML elements
+define or control the generation of database objects. If schema
+generation is in effect, the persistence provider must observe the
+mapping information specified by these annotations and their
+corresponding XML elements. Unless otherwise specified, all elements of
+these annotations are observed in the schema generation process.
+
+* _CollectionTable_
+* _Column_
+* _DiscriminatorColumn_
+* _EmbeddedId_
+* _Enumerated, MapKeyEnumerated_
+* _ForeignKey_
+* _GeneratedValue_
+* _Id_
+* _Index_
+* _Inheritance_
+* _JoinColumn_
+* _JoinTable_
+* _Lob_
+* _MapKeyColumn_
+* _MapKeyJoinColumn_
+* _OrderColumn_
+* _PrimaryKeyJoinColumn_
+* _SecondaryTable_
+* _SequenceGenerator_
+* _Table_
+* _TableGenerator_
+* _Temporal, MapKeyTemporal_
+* _UniqueConstraint_
+* _Version_
+
+In some cases, these annotations and elements
+may be specified explicitly, while in other cases they may be implied by
+the default values of other annotations or elements. For example, by
+default a table is generated corresponding to an entity and bears the
+same name as that assigned to the entity (which in turn may have been
+defaulted from the name of the entity class).
+
+The naming of database objects is determined
+by the defaulting rules and the explicit names used in annotations
+and/or XML. The names of database objects must be treated in conformance
+with the requirements of <<a988>>.
+
+The metadata annotations and corresponding
+XML elements that result in generated objects are as follows.
+
+==== Table-level elements
+
+The following annotations (and corresponding
+XML elements) specify the creation of tables. The rules for their
+naming, columns, and other properties are defined in the referenced
+sections of this specification:
+
+===== Table
+
+By default, a table is created for every
+top-level entity and, by default, includes columns corresponding to the
+basic and embedded attributes of the entity and the foreign keys to the
+tables of related entities. These columns include columns that result
+from the use of mapped superclasses, if any. The _SecondaryTable_
+annotation, in conjunction with the use of the _table_ element of the
+_Column_ and _JoinColumn_ annotations, is used to override this mapping
+to partition the state of an entity across multiple tables.
+
+The mapping of the columns of a table is
+controlled by the _Column_ and _JoinColumn_ annotations. When entity
+state is inherited from a mapped superclass, the _AttributeOverride_ and
+_AssociationOverride_ annotations may be used to further control the
+column-level mapping of inherited state. The ordering of the columns is
+not defined by this specification. When it is desirable to control the
+ordering of columns, DDL scripts should be provided.
+
+See <<a16205>> for additional rules that apply to the
+generation of tables. For the treatment of column-level mappings, see
+further below.
+
+===== Inheritance
+
+The _Inheritance_ annotation defines the
+inheritance strategy for an entity hierarchy. The inheritance strategy
+determines whether the table for a top-level entity includes columns for
+entities that inherit from the entity and whether it includes a
+discriminator column, or whether separate tables are created for each
+entity type that inherits from the top-level entity. See <<a966>> and
+<<a14891>> for rules
+pertaining to the treatment of entity inheritance.
+
+===== SecondaryTable
+
+A secondary table is created to partition the
+mapping of entity state across multiple tables. See <<a16062>> for the rules
+that apply to the generation of secondary tables.
+
+===== CollectionTable
+
+A collection table is created for the mapping
+of an element collection. See <<a14250>> for the rules that apply to the generation
+of collection tables. The _Column_, _AttributeOverride_, and
+_AssociationOverride_ annotations may be used to override
+_CollectionTable_ mappings, as described in <<a14330>>,
+<<a14084>>, and <<a13942>> respectively.
+
+===== JoinTable
+
+By default, join tables are created for the
+mapping of many-to-many relationships and unidirectional one-to-many
+relationships. See <<a708>>, <<a764>>, and
+<<a800>> for the defaults that apply in such cases. Join tables may also be used
+to map bidirectional many-to-one/one-to-many associations,
+unidirectional many-to-one relationships, and one-to-one relationships
+(both bidirectional and unidirectional). See <<a15022>> for the rules that
+apply to the generation of join tables. The _AssociationOverride_
+annotation may be used to override join table mappings.
+
+===== TableGenerator
+
+Table generator tables are used to store
+generated primary key values. See <<a16256>> for the rules
+pertaining to table generators.
+
+==== Column-level elements
+
+The following annotations and corresponding
+XML elements control the mapping of columns in generated tables.
+
+The exact mapping of Java language types to
+database-specific types is not defined by this specification, as
+databases vary in the specific types that they support. In general,
+however, an implementation of this specification should conform to the
+“Standard Mapping from Java Types to JDBC Types” as defined by the JDBC
+specification <<a19496>>. Unless otherwise explicitly
+specified, however, VARCHAR and VARBINARY mappings should be used in
+preference to CHAR and BINARY mappings. Applications that are sensitive
+to the exact database mappings that are generated should use the
+_columnDefinition_ element of the _Column_ annotation or include DDL
+files that specify how the database schema is to be generated.
+
+===== Column
+
+The following elements of the _Column_
+annotation are used in schema generation:
+
+* _name_
+* _unique_
+* _nullable_
+* _columnDefinition_
+* _table_
+* _length_ (string-valued columns only)
+* _precision_ (exact numeric (decimal/numeric) columns only)
+* _scale_ (exact numeric (decimal/numeric) columns only)
+
+See <<a14330>> for the rules that apply to these elements and column
+creation. The _AttributeOverride_ annotation may be used to override
+column mappings.
+
+===== MapKeyColumn
+
+The _MapKeyColumn_ annotation specifies the
+mapping for a key column of a map when the key is of basic type. The
+following elements of the _MapKeyColumn_ annotation are used in schema
+generation:
+
+* _name_
+* _unique_
+* _nullable_
+* _columnDefinition_
+* _table_
+* _length_ (string-valued columns only)
+* _precision_ (exact numeric (decimal/numeric) columns only)
+* _scale_ (exact numeric (decimal/numeric) columns only)
+
+See <<a15367>> for the rules that apply to these elements and
+map key column creation. The _AttributeOverride_ annotation may be used
+to override map key column mappings.
+
+===== Enumerated, MapKeyEnumerated
+
+The _Enumerated_ and _MapKeyEnumerated_
+annotations control whether string- or integer-valued columns are
+generated for basic attributes of enumerated types and therefore impact
+the default column mappings for these types. See <<a14719>> and
+<<a15433>>. The
+_Column_ and _MapKeyColumn_ annotations may be used to further control
+the column mappings for attributes of enumerated types.
+
+===== Temporal, MapKeyTemporal
+
+The _Temporal_ and _MapKeyTemporal_
+annotations control whether date-, time-, or timestamp-value columns are
+generated for basic attributes of temporal types, and therefore impact
+the default column mappings for these types. See <<a16361>> and
+<<a15583>>. The _Column_
+and _MapKeyColumn_ annotations may be used to further control the column
+mappings for attributes of temporal types.
+
+===== Lob
+
+The _Lob_ annotation specifies that a
+persistent attribute is to be persisted to a database large object type.
+See <<a15087>>. In general,
+however, the treatment of the _Lob_ annotation is provider-dependent.
+Applications that are sensitive to the exact mapping that is used should
+use the _columnDefinition_ element of the _Column_ annotation or include
+DDL files that specify how the database schema is to be generated.
+
+===== OrderColumn
+
+The _OrderColumn_ annotation specifies the
+generation of a column that is used to maintain the persistent ordering
+of a list that is represented in an element collection, one-to-many, or
+many-to-many relationship.
+
+The following elements of the _OrderColumn_
+annotation are used in schema generation:
+
+* _name_
+* _nullable_
+* _columnDefinition_
+
+See <<a15873>> for the rules that pertain to the generation of order columns.
+
+===== DiscriminatorColumn
+
+A discriminator column is generated for the
+SINGLE_TABLE mapping strategy and may optionally be generated by the
+provider for use with the JOINED inheritance strategy. The
+_DiscriminatorColumn_ annotation may be used to control the mapping of
+the discriminator column. See <<a14530>> for the rules that pertain to
+discriminator columns.
+
+===== Version
+
+The _Version_ annotation specifies the
+generation of a column to serve as an entity's optimistic lock. See
+<<a16432>> for rules
+that pertain to the version column. The _Column_ annotation may be used
+to further control the column mapping for a version attribute.
+
+==== Primary Key mappings
+
+Primary keys may be represented by basic or
+embedded attributes and/or may correspond to foreign key attributes. The
+_Id_ and _EmbeddedId_ annotations define attributes whose corresponding
+columns are the constituents of database primary keys.
+
+===== Id
+
+The _Id_ annotation (which may be used used
+in conjunction with the _IdClass_ annotation) is used to specify
+attributes whose database columns correspond to a primary key. Use of
+the _Id_ annotation results in the creation of a primary key consisting
+of the corresponding column or columns. Rules for the _Id_ annotation
+are described in <<a14827>> and <<a132>>.
+
+The _Column_ annotation may be used to
+further control the column mapping for an _Id_ attribute that is applied
+to a basic type. If the _Id_ column was defined in a mapped superclass,
+the _AttributeOverride_ annotation may be used to control the column
+mapping.
+
+The _JoinColumn_ annotation may be used to
+further control the column mappings for an _Id_ attribute that is
+applied to a relationship that corresponds to a foreign key. If the _Id_
+attribute was defined in a mapped superclass, the _AssociationOverride_
+annotation may be used to control the column mapping.
+
+===== EmbeddedId
+
+The _EmbeddedId_ annotation specifies an
+embedded attribute whose corresponding columns correspond to a database
+primary key. Use of the _EmbeddedId_ annotation results in the creation
+of a primary key consisting of the corresponding columns. Rules for the
+_EmbeddedId_ annotation are described in <<a14687>> and <<a132>>.
+
+The _Column_ annotation may be used to
+control the column mapping for an embeddable class. If the _EmbeddedId_
+attribute is defined in a mapped superclass, the _AttributeOverride_
+annotation may be used to control the column mappings.
+
+If an _EmbeddedId_ attribute corresponds to a
+relationship attribute, the _MapsId_ annotation must be used, and the
+column mapping is determined by the join column for the relationship.
+See <<a149>>.
+
+===== GeneratedValue
+
+The _GeneratedValue_ annotation indicates a
+primary key whose value is to be generated by the provider. If a
+strategy is indicated, the provider must use it if it is supported by
+the target database. Note that specification of the AUTO strategy may
+result in the provider creating a database object for Id generation
+(e.g., a database sequence). Rules for the _GeneratedValue_ annotation
+are described in <<a14790>>. The _GeneratedValue_ annotation may only be portably used
+for simple (i.e., non-composite) primary keys.
+
+==== Foreign Key Column Mappings
+
+===== JoinColumn
+
+The _JoinColumn_ annotation is typically used
+in specifying a foreign key mapping. In general, the foreign key
+definitions created will be provider-dependent and database-dependent.
+Applications that are sensitive to the exact mapping that is used should
+use the _foreignKey_ element of the _JoinColumn_ annotation or include
+DDL files that specify how the database schemas are to be generated.
+
+The following elements of the _JoinColumn_
+annotation are used in schema generation:
+
+* _name_
+* _referencedColumnName_
+* _unique_
+* _nullable_
+* _columnDefinition_
+* _table_
+* _foreignKey_
+
+See <<a14922>> for rules that apply to these elements and join
+column creation, and sections <<a538>> and <<a14250>> for the rules that apply for the default
+mappings of foreign keys for relationships and element collections. The
+_AssociationOverride_ annotation may be used to override relationship
+mappings. The _PrimaryKeyJoinColumn_ annotation is used to join
+secondary tables and may be used in the mapping of one-to-one
+relationships. See <<a16567>> below.
+
+===== MapKeyJoinColumn
+
+The _MapKeyJoinColumn_ annotation is to
+specify foreign key mappings to entities that are map keys in map-valued
+element collections or relationships. In general, the foreign key
+definitions created should be expected to be provider-dependent and
+database-dependent. Applications that are sensitive to the exact mapping
+that is used should use the _foreignKey_ element of the
+_MapKeyJoinColumn_ annotation or include DDL files that specify how the
+database schemas are to be generated.
+
+The following elements of the
+_MapKeyJoinColumn_ annotation are used in schema generation:
+
+* _name_
+* _referencedColumnName_
+* _unique_
+* _nullable_
+* _columnDefinition_
+* _table_
+* _foreignKey_
+
+See <<a15450>> for rules that apply to these elements and
+map key join column creation. The _AssociationOverride_ annotation may
+be used to override such mappings.
+
+===== PrimaryKeyJoinColumn [[a16567]]
+
+The _PrimaryKeyJoinColumn_ annotation
+specifies that a primary key column is to be used as a foreign key. This
+annotation is used in the specification of the JOINED mapping strategy
+and for joining a secondary table to a primary table in a OneToOne
+relationship mapping. In general, the foreign key definitions created
+should be expected to be provider-dependent and database-dependent.
+Applications that are sensitive to the exact mapping that is used should
+use the _foreignKey_ element of the _PrimaryKeyJoinColumn_ annotation or
+include DDL files that specify how the database schemas are to be
+generated. See <<a15947>> for rules pertaining to the
+_PrimaryKeyJoinColumn_ annotation.
+
+===== ForeignKey
+
+The _ForeignKey_ annotation may be used
+within the _JoinColumn_, _JoinColumns_, _MapKeyJoinColumn_,
+_MapKeyJoinColumns_, _PrimaryKeyJoinColumn_, _PrimaryKeyJoinColumns_,
+_CollectionTable_, _JoinTable_, _SecondaryTable_, and
+_AssociationOverride_ annotations to specify or override a foreign key
+constraint. See <<a14754>>.
+
+==== Other Elements
+
+===== SequenceGenerator
+
+The _SequenceGenerator_ annotation creates a
+database sequence to be used for Id generation. The use of generators is
+limited to those databases that support them. See <<a16164>>.
+
+===== Index
+
+The _Index_ annotation generates an index
+consisting of the specified columns. The ordering of the names in the
+_columnList_ element specified in the _Index_ annotation must be
+observed by the provider when creating the index. See <<a14862>>.
+
+===== UniqueConstraint
+
+The _UniqueConstraint_ annotation generates a
+unique constraint for the given table. Databases typically implement
+unique constraints by creating unique indexes. The ordering of the
+_columnNames_ specified in the _UniqueConstraint_ annotation must be
+observed by the provider when creating the constraint. See <<a16403>>. The
+_unique_ element of the _Column_, _JoinColumn_, _MapKeyColumn_, and
+_MapKeyJoinColumn_ annotations is equivalent to the use of the
+_UniqueConstraint_ annotation when only one column is to be included in
+the constraint.
+
+=== Examples of the Application of Annotations for Object/Relational Mapping
+
+==== Examples of Simple Mappings
+
+[source,java]
+----
+@Entity
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    Long id;
+
+    @Version
+    protected int version;
+
+    @ManyToOne
+    Address address;
+
+    @Basic
+    String description;
+
+    @OneToMany(targetEntity = com.acme.Order.class,
+               mappedBy = "customer")
+    Collection orders = new Vector();
+
+    @ManyToMany(mappedBy = "customers")
+    Set<DeliveryService> serviceOptions = new HashSet();
+
+    public Long getId() {
+        return id;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address addr) {
+        this.address = addr;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
+
+    public Collection getOrders() {
+        return orders;
+    }
+
+    public Set<DeliveryService> getServiceOptions() {
+        return serviceOptions;
+    }
+}
+
+@Entity
+public class Address {
+    private Long id;
+    private int version;
+    private String street;
+
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    public Long getId() {
+        return id;
+    }
+
+    protected void setId(Long id) {
+        this.id = id;
+    }
+
+    @Version
+    public int getVersion() {
+        return version;
+    }
+
+    protected void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+}
+
+@Entity
+public class Order {
+    private Long id;
+    private int version;
+    private String itemName;
+    private int quantity;
+    private Customer cust;
+
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Version
+    protected int getVersion() {
+        return version;
+    }
+
+    protected void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    @ManyToOne
+    public Customer getCustomer() {
+        return cust;
+    }
+
+    public void setCustomer(Customer cust) {
+        this.cust = cust;
+    }
+}
+
+@Entity
+@Table(name = "DLVY_SVC")
+public class DeliveryService {
+    private String serviceName;
+    private int priceCategory;
+    private Collection customers;
+
+    @Id
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public int getPriceCategory() {
+        return priceCategory;
+    }
+
+    public void setPriceCategory(int priceCategory) {
+        this.priceCategory = priceCategory;
+    }
+
+    @ManyToMany(targetEntity = com.acme.Customer.class)
+    @JoinTable(name = "CUST_DLVRY")
+    public Collection getCustomers() {
+        return customers;
+    }
+
+    public setCustomers(Collection customers) {
+        this.customers = customers;
+    }
+}
+----
+
+==== A More Complex Example
+
+[source,java]
+----
+/***** Employee class *****/
+@Entity
+@Table(name = "EMPL")
+@SecondaryTable(name = "EMP_SALARY",
+                pkJoinColumns = @PrimaryKeyJoinColumn(name = "EMP_ID", referencedColumnName = "ID"))
+public class Employee implements Serializable {
+    private Long id;
+    private int version;
+    private String name;
+    private Address address;
+    private Collection phoneNumbers;
+    private Collection<Project> projects;
+    private Long salary;
+    private EmploymentPeriod period;
+
+    @Id
+    @GeneratedValue(strategy = TABLE)
+    public Integer getId() {
+        return id;
+    }
+
+    protected void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Version
+    @Column(name = "EMP_VERSION", nullable = false)
+    public int getVersion() {
+        return version;
+    }
+
+    protected void setVersion(int version) {
+        this.version = version;
+    }
+
+    @Column(name = "EMP_NAME", length = 80)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @ManyToOne(cascade = PERSIST, optional = false)
+    @JoinColumn(name = "ADDR_ID", referencedColumnName = "ID", nullable = false)
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @OneToMany(targetEntity = com.acme.PhoneNumber.class,
+               cascade = ALL,
+               mappedBy = "employee")
+    public Collection getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Collection phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+    @ManyToMany(cascade = PERSIST, mappedBy = "employees")
+    @JoinTable(
+        name = "EMP_PROJ",
+        joinColumns = @JoinColumn(name = "EMP_ID", referencedColumnName = "ID"),
+        inverseJoinColumns = @JoinColumn(name = "PROJ_ID", referencedColumnName = "ID"))
+    public Collection<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Collection<Project> projects) {
+        this.projects = projects;
+    }
+
+    @Column(name = "EMP_SAL", table = "EMP_SALARY")
+    public Long getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Long salary) {
+        this.salary = salary;
+    }
+
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "startDate",
+                           column = @Column(name = "EMP_START")),
+        @AttributeOverride(name = "endDate",
+                           column = @Column(name = "EMP_END"))
+    })
+    public EmploymentPeriod getEmploymentPeriod() {
+        return period;
+    }
+
+    public void setEmploymentPeriod(EmploymentPeriod period) {
+        this.period = period;
+    }
+}
+
+/***** Address class *****/
+@Entity
+public class Address implements Serializable {
+    private Integer id;
+    private int version;
+    private String street;
+    private String city;
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    public Integer getId() {
+        return id;
+    }
+
+    protected void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Version
+    @Column(name = "VERS", nullable = false)
+    public int getVersion() {
+        return version;
+    }
+
+    protected void setVersion(int version) {
+        this.version = version;
+    }
+
+    @Column(name = "RUE")
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    @Column(name = "VILLE")
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+}
+
+/***** PhoneNumber class *****/
+@Entity
+@Table(name = "PHONE")
+public class PhoneNumber implements Serializable {
+    private String number;
+    private int phoneType;
+    private Employee employee;
+
+    @Id
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    @Column(name = "PTYPE")
+    public int getPhonetype() {
+        return phonetype;
+    }
+
+    public void setPhoneType(int phoneType) {
+        this.phoneType = phoneType;
+    }
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "EMP_ID", nullable = false)
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+}
+
+/***** Project class *****/
+@Entity
+@Inheritance(strategy = JOINED)
+@DiscriminatorValue("Proj")
+@DiscriminatorColumn(name = "DISC")
+public class Project implements Serializable {
+    private Integer projId;
+    private int version;
+    private String name;
+    private Set<Employee> employees;
+
+    @Id
+    @GeneratedValue(strategy = TABLE)
+    public Integer getId() {
+        return projId;
+    }
+
+    protected void setId(Integer id) {
+        this.projId = id;
+    }
+
+    @Version
+    public int getVersion() {
+        return version;
+    }
+
+    protected void setVersion(int version) {
+        this.version = version;
+    }
+
+    @Column(name = "PROJ_NAME")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @ManyToMany(mappedBy = "projects")
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+}
+
+/***** GovernmentProject subclass *****/
+@Entity
+@Table(name = "GOVT_PROJECT")
+@DiscriminatorValue("GovtProj")
+@PrimaryKeyJoinColumn(name = "GOV_PROJ_ID", referencedColumnName = "ID")
+public class GovernmentProject extends Project {
+    private String fileInfo;
+
+    @Column(name = "INFO")
+    public String getFileInfo() {
+        return fileInfo;
+    }
+
+    public void setFileInfo(String fileInfo) {
+        this.fileInfo = fileInfo;
+    }
+}
+
+/***** CovertProject subclass *****/
+@Entity
+@Table(name = "C_PROJECT")
+@DiscriminatorValue("CovProj")
+@PrimaryKeyJoinColumn(name = "COV_PROJ_ID", referencedColumnName = "ID")
+public class CovertProject extends Project {
+    private String classified;
+
+    public CovertProject() {
+        super();
+    }
+
+    public CovertProject(String classified) {
+        this();
+        this.classified = classified;
+    }
+
+    @Column(updatable = false)
+    public String getClassified() {
+        return classified;
+    }
+
+    protected void setClassified(String classified) {
+        this.classified = classified;
+    }
+}
+
+/***** EmploymentPeriod class *****/
+@Embeddable
+public class EmploymentPeriod implements Serializable {
+    private Date start;
+    private Date end;
+
+    @Column(nullable = false)
+    public Date getStartDate() {
+        return start;
+    }
+
+    public void setStartDate(Date start) {
+        this.start = start;
+    }
+
+    public Date getEndDate() {
+        return end;
+    }
+
+    public void setEndDate(Date end) {
+        this.end = end;
+    }
+}
+----
