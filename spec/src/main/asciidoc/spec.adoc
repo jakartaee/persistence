@@ -29583,7 +29583,7 @@ any _EntityListeners_ annotation on the entity.
 These listeners apply to the entity and its
 subclasses unless otherwise excluded.
 
-===== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
+===== pre-persist,post-persist,pre-remove,post-remove,pre-update,post-update,post-load
 
 These subelements override any lifecycle
 callback methods defined by the corresponding annotations on the entity.
@@ -29740,7 +29740,7 @@ any _EntityListeners_ annotation on the mapped superclass.
 These listeners apply to the mapped
 superclass and its subclasses unless otherwise excluded.
 
-===== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
+===== pre-persist,post-persist,pre-remove,post-remove,pre-update,post-update,post-load
 
 These subelements override any lifecycle
 callback methods defined by the corresponding annotations on the mapped
