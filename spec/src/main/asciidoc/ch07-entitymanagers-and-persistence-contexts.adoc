@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
 == Entity Managers and Persistence Contexts [[a11431]]
 
 === Persistence Contexts [[a11432]]

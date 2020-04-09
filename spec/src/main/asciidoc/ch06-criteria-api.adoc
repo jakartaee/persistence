@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
 == Criteria API [[a6925]]
 
 The Java Persistence Criteria API is used to

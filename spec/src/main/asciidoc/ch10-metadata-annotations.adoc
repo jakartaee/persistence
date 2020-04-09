@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
 == Metadata Annotations
 
 This chapter and chapter <<a13915>>

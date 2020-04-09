@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
 == Entity Packaging [[a12229]]
 
 This chapter describes the packaging of

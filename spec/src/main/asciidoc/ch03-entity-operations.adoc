@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+//
+
 == Entity Operations [[a1060]]
 
 This chapter describes the use of the
