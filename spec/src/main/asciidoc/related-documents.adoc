@@ -5,22 +5,11 @@
 [bibliography]
 == Related Documents
 
-- [[[a19493,1]]]JSR-220:
-Enterprise JavaBeans, v. 3.0. Java Persistence API.
-_http://jcp.org/en/jsr/detail?id=220_.
-- [[[a19494,2]]]SQL 2003, Part 2,
-Foundation (SQL/Foundation). ISO/IEC 9075-2:2003.
-- [[[a19496,3]]]JDBC 4.2
-Specification. http://jcp.org/en/jsr/detail?id=221.
-- [[[a19497,4]]]Enterprise JavaBeans, v.
-2.1. _http://jcp.org/en/jsr/detail?id=153_.
-- [[[a19498,5]]]JSR-380: Bean Validation,
-v. 2.0. _http://jcp.org/en/jsr/detail?id=380_.
-- [[[a19499,6]]]JSR-366: Java Platform,
-Enterprise Edition 8 (Java EE 8) Specification.
-_http://jcp.org/en/jsr/detail?id=366[http://jcp.org/en/jsr/detail?id=366.]_
-- [[[a19500,7]]]JSR-365: Context and
-Dependency Injection for Java EE, v 2.0.
-_http://jcp.org/en/jsr/detail?id=365[http://jcp.org/en/jsr/detail?id=365.]_
-- [[[a19501,8]]]JSR-317: Java Persistence
-2.0. _http://jcp.org/en/jsr/detail?id=317_.
+- [[[a19493,1]]]Enterprise JavaBeans, v. 3.0. Java Persistence API.
+- [[[a19494,2]]]SQL 2003, Part 2, Foundation (SQL/Foundation). ISO/IEC 9075-2:2003.
+- [[[a19496,3]]]JDBC 4.2 Specification. http://jcp.org/en/jsr/detail?id=221.
+- [[[a19497,4]]]Enterprise JavaBeans, v. 2.1.
+- [[[a19498,5]]]Jakarta Bean Validation, v. 3.0. _https://projects.eclipse.org/projects/ee4j.bean-validation_.
+- [[[a19499,6]]]Jakarta EE Platform, v. 9.0._https://projects.eclipse.org/projects/ee4j.jakartaee-platform_.
+- [[[a19500,7]]]Jakarta Contexts and Dependency Injection, v 3.0. _https://projects.eclipse.org/projects/ee4j.cdi_.
+- [[[a19501,8]]]Java(R) Persistence, v. 2.0.
