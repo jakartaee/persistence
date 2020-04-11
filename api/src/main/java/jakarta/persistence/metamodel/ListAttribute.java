@@ -18,7 +18,7 @@ package jakarta.persistence.metamodel;
 
 /**
  * Instances of the type <code>ListAttribute</code> represent persistent 
- * <code>javax.util.List</code>-valued attributes.
+ * <code>java.util.List</code>-valued attributes.
  *
  * @param <X> The type the represented List belongs to
  * @param <E> The element type of the represented List
