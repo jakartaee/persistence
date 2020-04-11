@@ -10,6 +10,6 @@
 - [[[a19496,3]]] JDBC 4.2 Specification. http://jcp.org/en/jsr/detail?id=221.
 - [[[a19497,4]]] Enterprise JavaBeans, v. 2.1.
 - [[[a19498,5]]] Jakarta Bean Validation, v. 3.0. _https://jakarta.ee/specifications/bean-validation/3.0/_.
-- [[[a19499,6]]] Jakarta EE Platform, v. 9.0. _https://eclipse-ee4j.github.io/jakartaee-platform/jakartaee9/JakartaEE9_.
-- [[[a19500,7]]] Jakarta Contexts and Dependency Injection, v 3.0. _https://projects.eclipse.org/projects/ee4j.cdi_.
+- [[[a19499,6]]] Jakarta EE Platform, v. 9.0. _https://jakarta.ee/specifications/platform/9/_.
+- [[[a19500,7]]] Jakarta Contexts and Dependency Injection, v 3.0. _https://jakarta.ee/specifications/cdi/3.0/_.
 - [[[a19501,8]]] Java(R) Persistence, v. 2.0.
