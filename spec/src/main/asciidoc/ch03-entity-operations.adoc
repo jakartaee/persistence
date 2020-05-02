@@ -2126,11 +2126,11 @@ describes the rules that apply to method invocation order in this case.
 
 The entity listener class must have a public no-arg constructor.
 
-Entity listener classes in Java EE
+Entity listener classes in Jakarta EE
 environments support dependency injection through the Contexts and
 Dependency Injection API (CDI) <<a19500>> when CDI is
 enabledfootnote:[CDI is enabled by
-default in Java EE. See the Java EE specification
+default in Jakarta EE. See the Jakarta EE specification
 <<a19499>>.]. An entity listener class that makes use
 of CDI injection may also define lifecycle callback methods annotated
 with the _PostConstruct_ and _PreDestroy_ annotations. These methods
@@ -2144,7 +2144,7 @@ and _PreDestroy_ methods, if any; and to dispose of the entity listener
 instances.
 
 The persistence provider is only required to
-support CDI injection into entity listeners in Java EE container
+support CDI injection into entity listeners in Jakarta EE container
 environmentsfootnote:[The persistence
 provider may support CDI injection into entity listeners in other
 environments in which the BeanManager is available.]. If the CDI is not enabled, the
@@ -2183,7 +2183,7 @@ Entity listeners that do not make use of CDI
 injection are stateless. The lifecycle of such entity listeners is
 unspecified.
 
-When invoked from within a Java EE
+When invoked from within a Jakarta EE
 environment, the callback listeners for an entity share the enterprise
 naming context of the invoking component, and the entity callback
 methods are invoked in the transaction and security contexts of the
@@ -2733,8 +2733,8 @@ _ValidatorFactory.usingContext().traversableResolver(tr).getValidator()_ where _
 
 ==== Providing the ValidatorFactory [[a2394]]
 
-In Java EE environments, a _ValidatorFactory_
-instance is made available by the Java EE container. The container is
+In Jakarta EE environments, a _ValidatorFactory_
+instance is made available by the Jakarta EE container. The container is
 responsible for passing this validator factory to the persistence
 provider via the map that is passed as an argument to the
 _createContainerEntityManagerFactory_ call. The map key used by the
@@ -3609,11 +3609,11 @@ public interface AttributeConverter<X,Y> {
 }
 ----
 
-Attribute converter classes in Java EE
+Attribute converter classes in Jakarta EE
 environments support dependency injection through the Contexts and
 Dependency Injection API (CDI) <<a19500>> when CDI is
 enabledfootnote:[CDI is enabled by
-default in Java EE. See the Java EE specification
+default in Jakarta EE. See the Jakarta EE specification
 <<a19499>>.]. An attribute converter class that makes
 use of CDI injection may also define lifecycle callback methods
 annotated with the _PostConstruct_ and _PreDestroy_ annotations. These
@@ -3627,7 +3627,7 @@ _PostConstruct_ and _PreDestroy_ methods, if any; and to dispose of the
 attribute converter instances.
 
 The persistence provider is only required to
-support CDI injection into attribute converters in Java EE container
+support CDI injection into attribute converters in Jakarta EE container
 environmentsfootnote:[The persistence
 provider may support CDI injection into attribute converters in other
 environments in which the BeanManager is available.]. If CDI is not enabled, the

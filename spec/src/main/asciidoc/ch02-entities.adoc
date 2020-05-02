@@ -55,7 +55,7 @@ methods.
 The persistent state of an entity is accessed
 by the persistence provider runtimefootnote:[The term "persistence
 provider runtime" refers to the runtime environment of the persistence
-implementation. In Java EE environments, this may be the Java EE
+implementation. In Jakarta EE environments, this may be the Jakarta EE
 container or a third-party persistence provider implementation
 integrated with it.] either via
 JavaBeans style property accessors (“property access”) or via instance

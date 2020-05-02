@@ -4,12 +4,12 @@
 
 == Container and Provider Contracts for Deployment and Bootstrapping
 
-This chapter defines requirements on the Java EE container and on
+This chapter defines requirements on the Jakarta EE container and on
 the persistence provider for deployment and bootstrapping.
 
-=== Java EE Deployment [[a12802]]
+=== Jakarta EE Deployment [[a12802]]
 
-Each persistence unit deployed into a Java EE
+Each persistence unit deployed into a Jakarta EE
 container consists of a single _persistence.xml_ file, any number of
 mapping files, and any number of class files.
 
@@ -60,7 +60,7 @@ entity managers. Only one EntityManagerFactory is permitted to be
 created for each deployed persistence unit configuration. Any number of
 EntityManager instances may be created from a given factory.
 
-In a Java EE environment, the classes of the
+In a Jakarta EE environment, the classes of the
 persistence unit should not be loaded by the application class loader or
 any of its parent class loaders until after the entity manager factory
 for the persistence unit has been created.
@@ -76,7 +76,7 @@ _PersistenceUnitInfo_ metadata, to achieve the redeployment.
 In Java SE environments, the
 _Persistence.createEntityManagerFactory_ method is used by the
 application to create an entity manager factoryfootnote:[Use of these Java SE
-bootstrapping APIs may be supported in Java EE containers; however,
+bootstrapping APIs may be supported in Jakarta EE containers; however,
 support for such use is not required.].
 
 A persistence provider implementation running
@@ -345,7 +345,7 @@ Schema generation may happen either prior to
 application deployment or when the entity manager factory is created as
 part of the application deployment and initialization process.
 
-* In Java EE environments, the container may
+* In Jakarta EE environments, the container may
 call the _PersistenceProvider_ _generateSchema_ method separately from
 and/or prior to the creation of the entity manager factory for the
 persistence unit, or the container may pass additional information to
@@ -365,7 +365,7 @@ The application may provide DDL scripts to be
 used for schema generation as described in <<a12384>>. The application developer
 may package these scripts as part of the persistence unit or may specify
 strings corresponding to file URLs for the location of such scripts. In
-Java EE environments, such scripts may be executed by the container, or
+Jakarta EE environments, such scripts may be executed by the container, or
 the container may direct the persistence provider to execute the
 scripts. In Java SE environments, the execution of the scripts is the
 responsibility of the persistence provider. In the absence of the
@@ -373,16 +373,16 @@ specification of scripts, schema generation, if requested, will be
 determined by the object/relational metadata of the persistence unit.
 
 The following standard properties are defined
-for configuring the schema generation process. In Java EE environments
+for configuring the schema generation process. In Jakarta EE environments
 these properties are passed by the container in the _Map_ argument to
 either the _PersistenceProvider_ _generateSchema_ method or the
 _createContainerEntityManagerFactory_ method. In Java SE environments,
 they are passed in the _Map_ argument to either the _Persistence_
 _generateSchema_ method or _createEntityManagerFactory_ method.
 
-In Java EE environments, any strings
+In Jakarta EE environments, any strings
 corresponding to file URLs for script sources or targets must specify
-absolute paths (not relative). In Java EE environments, all source and
+absolute paths (not relative). In Jakarta EE environments, all source and
 target file locations must be accessible to the application server
 deploying the persistence unit
 
@@ -434,8 +434,8 @@ either of these values is specified and the resulting database actions
 are not disjoint, the results are undefined and the dropping of database
 artifacts may fail.
 * _jakarta.persistence.schema-generation.create-database-schemas_ +
-In Java EE environments, it is anticipated
-that the Java EE platform provider may wish to control the creation of
+In Jakarta EE environments, it is anticipated
+that the Jakarta EE platform provider may wish to control the creation of
 database schemas rather than delegate this task to the persistence
 provider. The
 _jakarta.persistence.schema-generation.create-database-schemas_ property
@@ -480,11 +480,11 @@ respectively.
 _jakarta.persistence.schema-generation.drop-script-source_ +
 The _jakarta.persistence.schema-generation.create-script-source_ and
 _jakarta.persistence.schema-generation.drop-script-source_ properties are
-used for script execution. In Java EE container environments, it is
+used for script execution. In Jakarta EE container environments, it is
 generally expected that the container will be responsible for executing
 DDL scripts, although the container is permitted to delegate this task
 to the persistence provider. If DDL scripts are to be used in Java SE
-environments or if the Java EE container delegates the execution of
+environments or if the Jakarta EE container delegates the execution of
 scripts to the persistence provider, these properties must be specified. +
 The
 _jakarta.persistence.schema-generation.create-script-source_ property
@@ -497,7 +497,7 @@ a string designating a file URL for the DDL script.
 * _jakarta.persistence.schema-generation.connection_ +
 The _jakarta.persistence.schema-generation.connection_ property specifies the
 JDBC connection to be used for schema generation. This is intended for
-use in Java EE environments, where the platform provider may want to
+use in Jakarta EE environments, where the platform provider may want to
 control the database privileges that are available to the persistence
 provider. This connection is provided by the container, and should be
 closed by the container when the schema generation request or entity
@@ -516,11 +516,11 @@ _jakarta.persistence.sql-load-script-source_ controls whether data loading
 will occur.
 
 * _jakarta.persistence.sql-load-script-source_ +
-In Java EE container environments, it is
+In Jakarta EE container environments, it is
 generally expected that the container will be responsible for executing
 data load scripts, although the container is permitted to delegate this
 task to the persistence provider. If a load script is to be used in Java
-SE environments or if the Java EE container delegates the execution of
+SE environments or if the Jakarta EE container delegates the execution of
 the load script to the persistence provider, this property must be
 specified. + The
 _jakarta.persistence.sql-load-script-source_ property specifies a
@@ -533,7 +533,7 @@ script.
 The persistence provider must implement the
 _PersistenceProvider_ SPI.
 
-In Java EE environments, the persistence
+In Jakarta EE environments, the persistence
 provider must process the metadata that is passed to it at the time
 _createContainerEntityManagerFactory_ method is called and create an
 instance of _EntityManagerFactory_ using the _PersistenceUnitInfo_
@@ -579,7 +579,7 @@ The interface
 _jakarta.persistence.spi.PersistenceProvider_ must be implemented by the
 persistence provider.
 
-It is invoked by the container in Java EE
+It is invoked by the container in Jakarta EE
 environments and by the _jakarta.persistence.Persistence_ class in Java SE
 environments. The _jakarta.persistence.spi.PersistenceProvider_
 implementation is not intended to be used by the application.
@@ -599,7 +599,7 @@ import java.util.Map;
 /**
  * Interface implemented by the persistence provider.
  *
- * <p> It is invoked by the container in Java EE environments and
+ * <p> It is invoked by the container in Jakarta EE environments and
  * by the {@link Persistence} class in Java SE environments to
  * create an {@link EntityManagerFactory} and/or to cause
  * schema generation to occur.
@@ -1206,11 +1206,11 @@ used for schema generation— i.e., to create database schemas and/or
 tables and/or to create DDL scripts.
 
 The _Persistence_ class is available in a
-Java EE container environment as well; however, support for the Java SE
+Jakarta EE container environment as well; however, support for the Java SE
 bootstrapping APIs is not required in container environments.
 
 The _Persistence_ class is used to obtain a
-_PersistenceUtil_ instance in both Java EE and Java SE environments.
+_PersistenceUtil_ instance in both Jakarta EE and Java SE environments.
 
 [source,java]
 ----
@@ -1230,13 +1230,13 @@ import jakarta.persistence.spi.LoadState;
  * in Java SE environments.  It may also be used to cause schema
  * generation to occur.
  *
- * <p> The <code>Persistence</code> class is available in a Java EE
+ * <p> The <code>Persistence</code> class is available in a Jakarta EE
  * container environment as well; however, support for the Java SE
  * bootstrapping APIs is not required in container environments.
  *
  * <p> The <code>Persistence</code> class is used to obtain a {@link
  * PersistenceUtil PersistenceUtil} instance in both
- * Java EE and Java SE environments.
+ * Jakarta EE and Java SE environments.
  *
  * @since 1.0
  */

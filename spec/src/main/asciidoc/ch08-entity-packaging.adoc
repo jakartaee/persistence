@@ -23,7 +23,7 @@ classes to the database.
 
 === Persistence Unit Packaging [[a12236]]
 
-Within Java EE environments, an EJB-JAR, WAR,
+Within Jakarta EE environments, an EJB-JAR, WAR,
 EAR, or application client JAR can define a persistence unit. Any number
 of persistence units may be defined within these scopes.
 
@@ -35,7 +35,7 @@ combination of these as defined below.
 A persistence unit is defined by a
 _persistence.xml_ file. The jar file or directory whose _META-INF_
 directory contains the _persistence.xml_ file is termed the _root_ of
-the persistence unit. In Java EE environments, the root of a persistence
+the persistence unit. In Jakarta EE environments, the root of a persistence
 unit must be one of the following:
 
 * an EJB-JAR file
@@ -71,9 +71,9 @@ The _persistence.xml_ file may be used to
 designate more than one persistence unit within the same scope.
 
 All persistence classes defined at the level
-of the Java EE EAR must be accessible to other Java EE components in the
+of the Jakarta EE EAR must be accessible to other Jakarta EE components in the
 application—i.e. loaded by the application classloader—such that if the
-same entity class is referenced by two different Java EE components
+same entity class is referenced by two different Jakarta EE components
 (which may be using different persistence units), the referenced class
 is the same identical class.
 
@@ -182,9 +182,9 @@ factory for the persistence unit must be JTA entity managers or
 resource-local entity managers. The value of this element is _JTA_ or
 _RESOURCE_LOCAL_. A _transaction-type_ of _JTA_ assumes that a JTA data
 source will be provided—either as specified by the _jta-data-source_
-element or provided by the container. In general, in Java EE
+element or provided by the container. In general, in Jakarta EE
 environments, a _transaction-type_ of _RESOURCE_LOCAL_ assumes that a
-non-JTA datasource will be provided. In a Java EE environment, if this
+non-JTA datasource will be provided. In a Jakarta EE environment, if this
 element is not specified, the default is _JTA_. In a Java SE
 environment, if this element is not specified, the default is
 _RESOURCE_LOCAL_.
@@ -204,7 +204,7 @@ being used.
 
 ===== jta-data-source, non-jta-data-source [[a12302]]
 
-In Java EE environments, the
+In Jakarta EE environments, the
 _jta-data-source_ and _non-jta-data-source_ elements are used to specify
 the JNDI name of the JTA and/or non-JTA data source to be used by the
 persistence provider. If neither is specified, the deployer must specify
@@ -463,7 +463,7 @@ both standard and vendor-specific properties and hints that apply to the
 persistence unit and its entity manager factory configuration.
 
 The following properties and hints defined by
-this specification are intended for use in both Java EE and Java SE
+this specification are intended for use in both Jakarta EE and Java SE
 environments:
 
 * _jakarta.persistence.lock.timeout_ — value in
@@ -497,7 +497,7 @@ _jakarta.persistence.schema-generation.create-script-source_ and
 _jakarta.persistence.schema-generation.drop-script-source_ properties. A
 script to specify SQL for the bulk loading of data may be specified by
 the _jakarta.persistence.sql-load-script-source_ property. These
-properties are intended for use in both Java EE and Java SE
+properties are intended for use in both Jakarta EE and Java SE
 environments:
 
 * _jakarta.persistence.schema-generation.create-script-source_ — _name of a
@@ -515,8 +515,8 @@ persistence application, these properties must specify locations
 relative to the root of the persistence unit. When scripts are provided
 externally (or when schema generation is to occur into script files, as
 described below), strings corresponding to file URLs must be specified.
-In Java EE environments, such file URL specifications must be absolute
-paths (not relative). In Java EE environments, all source and target
+In Jakarta EE environments, such file URL specifications must be absolute
+paths (not relative). In Jakarta EE environments, all source and target
 file locations must be accessible to the application server deploying
 the persistence unit.
 
@@ -609,7 +609,7 @@ managed persistence classes. If a _META-INF/orm.xml_ file exists, any
 classes referenced by it and mapping information contained in it are
 used as specified above. Because no provider is specified, the
 persistence unit is assumed to be portable across providers. Because the
-transaction type is not specified, JTA is assumed for Java EE
+transaction type is not specified, JTA is assumed for Jakarta EE
 environments. The container must provide the data source (it may be
 specified at application deployment, for example). In Java SE
 environments, the data source may be specified by other means and a
