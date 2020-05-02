@@ -11,23 +11,23 @@ entity instances in which for any persistent entity identity there is a
 unique entity instance. Within the persistence context, the entity
 instances and their lifecycle are managed by the entity manager.
 
-In Java EE environments, a JTA transaction
+In Jakarta EE environments, a JTA transaction
 typically involves calls across multiple components. Such components may
 often need to access the same persistence context within a single
-transaction. To facilitate such use of entity managers in Java EE
+transaction. To facilitate such use of entity managers in Jakarta EE
 environments, when an entity manager is injected into a component or
 looked up directly in the JNDI naming context, its persistence context
 will automatically be propagated with the current JTA transaction, and
 the EntityManager references that are mapped to the same persistence
 unit will provide access to this same persistence context within the JTA
-transaction. This propagation of persistence contexts by the Java EE
+transaction. This propagation of persistence contexts by the Jakarta EE
 container avoids the need for the application to pass references to
 EntityManager instances from one component to another. An entity manager
 for which the container manages the persistence context in this manner
 is termed a _container-managed entity manager_. A container-managed
-entity manager's lifecycle is managed by the Java EE container.
+entity manager's lifecycle is managed by the Jakarta EE container.
 
-In less common use cases within Java EE
+In less common use cases within Jakarta EE
 environments, applications may need to access a persistence context that
 is “stand-alone”—i.e. not propagated along with the JTA transaction
 across the EntityManager references for the given persistence unit.
@@ -43,11 +43,11 @@ application.
 
 Both container-managed entity managers and
 application-managed entity managers and their persistence contexts are
-required to be supported in Java EE web containers and EJB containers.
+required to be supported in Jakarta EE web containers and EJB containers.
 Within an EJB environment, container-managed entity managers are
 typically used.
 
-In Java SE environments and in Java EE
+In Java SE environments and in Jakarta EE
 application client containers, only application-managed entity managers
 are required to be footnote:[Note that the use of
 JTA is not required to be supported in application client containers.].
@@ -58,7 +58,7 @@ The entity manager for a persistence context
 is obtained from an entity manager factory.
 
 When container-managed entity managers are
-used (in Java EE environments), the application does not interact with
+used (in Jakarta EE environments), the application does not interact with
 the entity manager factory. The entity managers are obtained directly
 through dependency injection or from JNDI, and the container manages
 interaction with the entity manager factory transparently to the
@@ -73,7 +73,7 @@ multiple concurrently executing threads, as the entity manager and
 persistence context are not required to be threadsafe. Entity managers
 must only be accessed in a single-threaded manner.
 
-==== Obtaining an Entity Manager in the Java EE Environment
+==== Obtaining an Entity Manager in the Jakarta EE Environment
 
 A container-managed entity manager is
 obtained by the application through dependency injection or through
@@ -130,14 +130,14 @@ obtained by the application from an entity manager factory.
 
 The _EntityManagerFactory_ API used to obtain
 an application-managed entity manager is the same independent of whether
-this API is used in Java EE or Java SE environments.
+this API is used in Jakarta EE or Java SE environments.
 
 === Obtaining an Entity Manager Factory
 
 The _EntityManagerFactory_ interface is used
 by the application to create an application-managed entity
 managerfootnote:[It may also be used
-internally by the Java EE container. See <<a12100>>.].
+internally by the Jakarta EE container. See <<a12100>>.].
 
 Each entity manager factory provides entity
 manager instances that are all configured in the same manner (e.g.,
@@ -153,9 +153,9 @@ one entity manager factory per persistence unit, however.]
 
 Methods of the _EntityManagerFactory_ interface are threadsafe.
 
-==== Obtaining an Entity Manager Factory in a Java EE Container
+==== Obtaining an Entity Manager Factory in a Jakarta EE Container
 
-Within a Java EE environment, an entity
+Within a Jakarta EE environment, an entity
 manager factory can be injected using the _PersistenceUnit_ annotation
 or obtained through JNDI lookup. The _unitName_ element may optionally
 be specified to designate the persistence unit whose entity manager
@@ -171,7 +171,7 @@ EntityManagerFactory emf;
 
 ==== Obtaining an Entity Manager Factory in a Java SE Environment
 
-Outside a Java EE container environment, the
+Outside a Jakarta EE container environment, the
 _jakarta.persistence.Persistence_ class is the bootstrap class that
 provides access to an entity manager factory. The application creates an
 entity manager factory by calling the _createEntityManagerFactory_
@@ -447,7 +447,7 @@ _EntityTransaction_ API is termed a _resource-local entity manager_.
 
 A container-managed entity manager must be a
 JTA entity manager. JTA entity managers are only specified for use in
-Java EE containers.
+Jakarta EE containers.
 
 An application-managed entity manager may be
 either a JTA entity manager or a resource-local entity manager.
@@ -458,7 +458,7 @@ underlying entity manager factory is configured and created. See
 sections <<a12296>> and <<a12802>>.
 
 Both JTA entity managers and resource-local
-entity managers are required to be supported in Java EE web containers
+entity managers are required to be supported in Jakarta EE web containers
 and EJB containers. Within an EJB environment, a JTA entity manager is
 typically used. In general, in Java SE environments only resource-local
 entity managers are supported.

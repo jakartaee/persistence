@@ -6,7 +6,7 @@
 
 This document is the specification of the
 Jakarta API for the management of persistence and object/relational mapping
-with Java EE and Java SE. The technical objective of this work is to
+with Jakarta EE and Java SE. The technical objective of this work is to
 provide an object/relational mapping facility for the Java application
 developer using a Java domain model to manage a relational database.
 

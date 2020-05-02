@@ -2540,7 +2540,7 @@ UPDATE Employee e
 SET e.address.building = 22
 WHERE e.address.building = 14
     AND e.address.city = 'Santa Clara'
-    AND e.project = 'Java EE'
+    AND e.project = 'Jakarta EE'
 ----
 
 === Null Values [[a5676]]

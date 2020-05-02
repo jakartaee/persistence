@@ -5243,7 +5243,7 @@ q.set(e.get(Employee_.address).get(Address_.building), 22)
     .where(
         cb.equal(e.get(Employee_.address).get(Address_.building), 14),
         cb.equal(e.get(Employee_.address).get(Address_.city), "Santa Clara"),
-        cb.equal(e.get(Employee_.project).get(Project_.name), "Java EE"));
+        cb.equal(e.get(Employee_.project).get(Project_.name), "Jakarta EE"));
 ----
 
 _Address_ is an embeddable class. Note that
@@ -5258,7 +5258,7 @@ UPDATE Employee e
 SET e.address.building = 22
 WHERE e.address.building = 14
     AND e.address.city = 'Santa Clara'
-    AND e.project.name = 'Java EE'
+    AND e.project.name = 'Jakarta EE'
 ----
 
 *Example 3:*
