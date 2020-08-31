@@ -11,8 +11,8 @@ provide an object/relational mapping facility for the Java application
 developer using a Java domain model to manage a relational database.
 
 The Jakarta Persistence 3.0 specification is the first release after
-moving the project to Eclipse Foundation. All APIs are moved from _javax.*
-package_ to _jakarta.*_ package. All properties containing _javax_ as
+moving the project to Eclipse Foundation. All APIs are moved from _javax.*_
+package to _jakarta.*_ package. All properties containing _javax_ as
 part of the name are renamed the way that _javax_ is replaced with _jakarta_.
 
 The Java Persistence 2.2 specification
