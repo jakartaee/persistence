@@ -301,11 +301,7 @@ files will be searched for managed persistence classes, and any mapping
 metadata annotations found on them will be processed, or they will be
 mapped using the mapping annotation defaults defined by this
 specification. Such JAR files are specified relative to the directory or
-jar file that _contains_footnote:[This semantics
-applies to persistence.xml files written to the persistence_2_0.xsd or
-later schema. Due to ambiguity in the Java Persistence 1.0
-specification, provider-specific interpretation of the relative
-references used by this element may apply to earlier versions.] the root of the
+jar file that _contains_ the root of the
 persistence unit.footnote:[Persistence providers
 are encouraged to support this syntax for use in Java SE environments.]
 

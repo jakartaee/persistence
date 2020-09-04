@@ -38,12 +38,13 @@ subelement is not specified, the XML descriptor overrides the values set
 or defaulted by the use of annotations, as described below.
 
 The mapping files used by the application
-developer must conform to the XML schema defined in <<a17175>> or to the object/relational
-mapping schema defined in a previous version of this specification
-<<a19493>>, <<a19501>>.
+developer must conform to the XML schema defined in <<a17175>>
+or to the previous version of the XML schema, __orm_2_2.xsd__,
+defined in a previous version of this specification <<a19493>>
+in accordance with the version specified by the _orm.xml_ file.
 
-The Java Persistence persistence provider
-must support use of older versions of the object/relational mapping
+The Jakarta Persistence persistence provider
+may support use of older versions of the object/relational mapping
 schema as well as the object/relational mapping schema defined in
 <<a17175>>, whether singly or
 in combination when multiple mapping files are used.
