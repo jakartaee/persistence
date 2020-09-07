@@ -4,7 +4,7 @@
 
 == Query Language [[a4665]]
 
-The Java Persistence query language is a
+The Jakarta Persistence query language is a
 string-based query language used to define queries over entities and
 their persistent state. It enables the application developer to specify
 the semantics of queries in a portable way, independent of the
@@ -12,17 +12,17 @@ particular database schema in use in an enterprise environment. The full
 range of the language may be used in both static and dynamic queries.
 
 This chapter provides the full definition of
-the Java Persistence query language.
+the Jakarta Persistence query language.
 
 === Overview
 
-The Java Persistence query language is a
+The Jakarta Persistence query language is a
 query specification language for string-based dynamic queries and static
 queries expressed through metadata. It is used to define queries over
 the persistent entities defined by this specification and their
 persistent state and relationships.
 
-The Java Persistence query language can be
+The Jakarta Persistence query language can be
 compiled to a target language, such as SQL, of a database or other
 persistent store. This allows the execution of queries to be shifted to
 the native language facilities provided by the database, instead of
@@ -42,7 +42,7 @@ entities are deployed.
 ====
 The term abstract persistence schema refers
 to the persistent schema abstraction (persistent entities, their state,
-and their relationships) over which Java Persistence queries operate.
+and their relationships) over which Jakarta Persistence queries operate.
 Queries over this persistent schema abstraction are translated into
 queries that are executed over the database schema to which entities are
 mapped.
@@ -63,7 +63,7 @@ colocated in their mapping to a single database.
 
 === Statement Types
 
-A Java Persistence query language statement
+A Jakarta Persistence query language statement
 may be either a select statement, an update statement, or a delete
 statement.
 
@@ -81,7 +81,7 @@ defined as:
 QL_statement :: = select_statement | update_statement | delete_statement
 ----
 
-Any Java Persistence query language statement
+Any Jakarta Persistence query language statement
 may be constructed dynamically or may be statically defined in a
 metadata annotation or XML descriptor element.
 
@@ -139,7 +139,7 @@ further in <<a5636>>.
 
 === Abstract Schema Types and Query Domains
 
-The Java Persistence query language is a
+The Jakarta Persistence query language is a
 typed language, and every expression has a type. The type of an
 expression is derived from the structure of the expression, the abstract
 schema types of the identification variable declarations, the types to
@@ -311,7 +311,7 @@ character for which the method _Character.isJavaIdentifierStart_ returns
 true. This includes the underscore (___) character and the dollar sign
 (_$_) character. An identifier part character is any character for
 which the method _Character.isJavaIdentifierPart_ returns true. The
-question mark (_?_) character is reserved for use by the Java
+question mark (_?_) character is reserved for use by the Jakarta
 Persistence query language.
 
 The following are reserved identifiers: ABS,
@@ -741,7 +741,7 @@ relationship corresponding to the join_association_path_expression. It
 would typically be mapped to a SQL outer join with an ON condition on
 the foreign key relationship as in the queries below:
 
-Java Persistence query language:
+Jakarta Persistence query language:
 
 [source,sql]
 ----
@@ -764,7 +764,7 @@ An outer join with an explicit ON condition
 would cause an additional specified join condition to be added to the
 generated SQL:
 
-Java Persistence query language:
+Jakarta Persistence query language:
 
 [source,sql]
 ----
@@ -897,7 +897,7 @@ of the abstract schema type Order.
 
 ==== FROM Clause and SQL [[a4957]]
 
-The Java Persistence query language treats
+The Jakarta Persistence query language treats
 the FROM clause similarly to SQL in that the declared identification
 variables affect the results of the query even if they are not used in
 the WHERE clause. Application developers should use caution in defining
@@ -917,7 +917,7 @@ FROM Order AS o JOIN o.lineItems l JOIN l.product p
 
 ==== Polymorphism
 
-Java Persistence queries are automatically
+Jakarta Persistence queries are automatically
 polymorphic. The FROM clause of a query designates not only instances of
 the specific entity class(es) to which it explicitly refers but
 instances of subclasses of those classes as well. The instances returned
@@ -1618,7 +1618,7 @@ Arithmetic functions are described in <<a5284>>.
 
 ===== Built-in String, Arithmetic, and Datetime Functional Expressions
 
-The Java Persistence query language includes
+The Jakarta Persistence query language includes
 the built-in functions described in <<a5264>>, <<a5284>>,
 <<a5304>>, which may be used
 in the SELECT, WHERE or HAVING clause of a query. The invocation of
@@ -1744,7 +1744,7 @@ current date, time, and timestamp on the database server.
 ===== Invocation of Predefined and User-defined Database Functions [[a5311]]
 
 The invocation of functions other than the
-built-in functions of the Java Persistence query language is supported
+built-in functions of the Jakarta Persistence query language is supported
 by means of the _function_invocation_ syntax. This includes the
 invocation of predefined database functions and user-defined database
 functions.
@@ -2593,7 +2593,7 @@ defined by <<a5686, Table 1>>, <<a5705, Table 2>>, and <<a5724, Table 3>>.
 
 [NOTE]
 ====
-The Java Persistence query language
+The Jakarta Persistence query language
 defines the empty string, '', as a string
 with 0 length, which is not equal to a NULL value. However, NULL values
 and empty strings may not always be distinguished when queries are
@@ -2633,7 +2633,7 @@ class or map entry types are not supported.
 === Examples
 
 The following examples illustrate the syntax
-and semantics of the Java Persistence query language. These examples are
+and semantics of the Jakarta Persistence query language. These examples are
 based on the example presented in <<a4713>>.
 
 ==== Simple Queries
@@ -2759,7 +2759,7 @@ BNF notation summary:
 * + one or more
 * | alternates
 
-The following is the BNF for the Java Persistence query language.
+The following is the BNF for the Jakarta Persistence query language.
 
 ----
 QL_statement ::= select_statement | update_statement | delete_statement

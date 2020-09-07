@@ -240,13 +240,13 @@ public @interface NamedSubgraph {
 ==== NamedQuery Annotation [[a13711]]
 
 The _NamedQuery_ annotation is used to
-specify a named query in the Java Persistence query language.
+specify a named query in the Jakarta Persistence query language.
 
 The _name_ element is used to refer to the
 query when using the _EntityManager_ methods that create query objects.
 
 The _query_ element must specify a query
-string in the Java Persistence query language.
+string in the Jakarta Persistence query language.
 
 The _lockMode_ element specifies a lock mode
 for the results returned by the query. If a lock mode other than _NONE_

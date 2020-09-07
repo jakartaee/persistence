@@ -67,3 +67,8 @@ Created document from Java Persistence 2.2 Final Release specification.
 The document was converted to _Asciidoc_ format.
 
 Packages of all API classes were changed to _jakarta.persistence_. These changes are reflected in the specification document.
+
+Schema namespaces were changed from http://xmlns.jcp.org/xml/ns/persistence and http://xmlns.jcp.org/xml/ns/persistence/orm
+to https://jakarta.ee/xml/ns/persistence and https://jakarta.ee/xml/ns/persistence/orm
+
+References to schema versions lower than 2.2 were removed.
