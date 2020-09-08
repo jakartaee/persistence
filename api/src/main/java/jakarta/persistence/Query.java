@@ -39,7 +39,7 @@ public interface Query {
      * Execute a SELECT query and return the query results
      * as an untyped List.
      * @return a list of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -65,7 +65,7 @@ public interface Query {
      * to provide additional capabilities.
      *
      * @return a stream of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -93,7 +93,7 @@ public interface Query {
      * @return the result
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -114,7 +114,7 @@ public interface Query {
     /**
      * Execute an update or delete statement.
      * @return the number of entities updated or deleted
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language SELECT statement or for
      *         a criteria query
      * @throws TransactionRequiredException if there is 

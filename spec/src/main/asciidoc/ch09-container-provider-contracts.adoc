@@ -333,7 +333,7 @@ public class PersistenceProviderResolverHolder {
 === Schema Generation [[a12917]]
 
 In cases where a preconfigured database (or a
-“legacy” database) is not used or is not available, the Java Persistence
+“legacy” database) is not used or is not available, the Jakarta Persistence
 schema generation facility may be used to generate the tables and other
 database artifacts required by the persistence application. Whether
 schema generation entails the creation of schemas proper in the database

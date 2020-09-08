@@ -37,7 +37,7 @@ public interface TypedQuery<X> extends Query {
      * Execute a SELECT query and return the query results
      * as a typed List.
      * @return a list of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -64,7 +64,7 @@ public interface TypedQuery<X> extends Query {
      * to provide additional capabilities.
      *
      * @return a stream of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -92,7 +92,7 @@ public interface TypedQuery<X> extends Query {
      * @return the result
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is

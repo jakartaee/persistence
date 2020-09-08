@@ -40,7 +40,7 @@ operations. <<a2397>> describes mechanisms for defining conversions between enti
 and database representations for attributes of basic types. <<a3061>> describes mechanisms for
 portable second-level cache configuration. The _Query_, _TypedQuery_,
 _StoredProcedureQuery_, and related interfaces are described in <<a3125>>. <<a4639>> provides a
-summary of exceptions. The Java Persistence query language is defined in <<a4665>> and the APIs for
+summary of exceptions. The Jakarta Persistence query language is defined in <<a4665>> and the APIs for
 the construction of Criteria queries in <<a6925>>. The definition of
 persistence units is described in <<a12229>>.
 
@@ -979,10 +979,10 @@ _EntityTransaction_ objects obtained from an entity manager are valid
 while that entity manager is open.
 
 If the argument to the _createQuery_ method
-is not a valid Java Persistence query string or a valid _CriteriaQuery_
+is not a valid Jakarta Persistence query string or a valid _CriteriaQuery_
 object, the _IllegalArgumentException_ may be thrown or the query
 execution will fail and a _PersistenceException_ will be thrown. If the
-result class specification of a Java Persistence query language query is
+result class specification of a Jakarta Persistence query language query is
 incompatible with the result of the query, the
 _IllegalArgumentException_ may be thrown when the _createQuery_ method
 is invoked or the query execution will fail and a _PersistenceException_
@@ -1684,7 +1684,7 @@ Pessimistic locking guarantees that once a
 transaction has obtained a pessimistic lock on an entity instance:
 
 * no other transaction (whether a transaction
-of an application using the Java Persistence API or any other
+of an application using the Jakarta Persistence API or any other
 transaction using the underlying resource) may successfully modify or
 delete that instance until the transaction holding the lock has ended.
 * if the pessimistic lock is an exclusive
@@ -2598,7 +2598,7 @@ a single lifecycle event, the invocation order rules described in <<a2251>> appl
 === Bean Validation [[a2366]]
 
 This specification defines support for use of
-Bean Validation <<a19498>> within Java Persistence
+Bean Validation <<a19498>> within Jakarta Persistence
 applications.
 
 Managed classes (entities, mapped
@@ -2606,7 +2606,7 @@ superclasses, and embeddable classes) may be configured to include Bean
 Validation constraints.
 
 Automatic validation using these constraints
-is achieved by specifying that Java Persistence delegate validation to
+is achieved by specifying that Jakarta Persistence delegate validation to
 the Bean Validation implementation upon the pre-persist, pre-update, and
 pre-remove entity lifecycle events described in <<a2202>>.
 
@@ -3696,13 +3696,13 @@ responsible for invoking the specified conversion methods for the target
 attribute type when loading the entity attribute from the database and
 before storing the entity attribute state to the database. The
 persistence provider must apply any conversion methods to instances of
-attribute values in path expressions used within Java Persistence query
+attribute values in path expressions used within Jakarta Persistence query
 language queries or criteria queries (such as in comparisons, bulk
 updates, etc.) before sending them to the database for the query
 execution. When such converted attributes are used in comparison
 operations with literals or parameters, the value of the literal or
 parameter to which they are compared must also be converted. If the
-result of a Java Persistence query language query or criteria query
+result of a Jakarta Persistence query language query or criteria query
 includes one or more entity attributes for which conversion mappings
 have been specified, the persistence provider must apply the specified
 conversions to the corresponding values in the query result before
@@ -3931,7 +3931,7 @@ public interface Query {
      * Execute a SELECT query and return the query results
      * as an untyped List.
      * @return a list of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -3957,7 +3957,7 @@ public interface Query {
      * to provide additional capabilities.
      *
      * @return a stream of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -3985,7 +3985,7 @@ public interface Query {
      * @return the result
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -4006,7 +4006,7 @@ public interface Query {
     /**
      * Execute an update or delete statement.
      * @return the number of entities updated or deleted
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language SELECT statement or for
      *         a criteria query
      * @throws TransactionRequiredException if there is
@@ -4407,7 +4407,7 @@ public interface TypedQuery<X> extends Query {
      * Execute a SELECT query and return the query results
      * as a typed List.
      * @return a list of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -4434,7 +4434,7 @@ public interface TypedQuery<X> extends Query {
      * to provide additional capabilities.
      *
      * @return a stream of the results
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -4462,7 +4462,7 @@ public interface TypedQuery<X> extends Query {
      * @return the result
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Java
+     * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -4802,7 +4802,7 @@ public interface Parameter<T> {
      * Return the Java type of the parameter. Values bound to the
      * parameter must be assignable to this type.
      * This method is required to be supported for criteria queries
-     * only.   Applications that use this method for Java
+     * only.   Applications that use this method for Jakarta
      * Persistence query language queries and native queries will
      * not be portable.
      * @return the Java type of the parameter
@@ -5206,7 +5206,7 @@ public interface StoredProcedureQuery extends Query {
 
 ==== Query Execution
 
-Java Persistence query language, Criteria
+Jakarta Persistence query language, Criteria
 API, and native SQL select queries are executed using the
 _getResultList_ and _getSingleResult_ methods. Update and delete
 operations (update and delete “queries”) are executed using the
@@ -5215,7 +5215,7 @@ _executeUpdate_ method.
 * For _TypedQuery_ instances, the query result
 type is determined in the case of criteria queries by the type of the
 query specified when the _CriteriaQuery_ object is created, as described
-in <<a10621>>. In the case of Java Persistence query language queries, the type of the
+in <<a10621>>. In the case of Jakarta Persistence query language queries, the type of the
 result is determined by the _resultClass_ argument to the _createQuery_
 or _createNamedQuery_ method, and the select list of the query must
 contain only a single item which must be assignable to the specified
@@ -5385,9 +5385,9 @@ for a query, the query must be executed within a transaction (and the
 persistence context must be joined to the transaction) or the
 _TransactionRequiredException_ will be thrown.
 
-Locking is supported for Java Persistence
+Locking is supported for Jakarta Persistence
 query language queries and criteria queries only. If the _setLockMode_
-or _getLockMode_ method is invoked on a query that is not a Java
+or _getLockMode_ method is invoked on a query that is not a Jakarta
 Persistence query language select query or a criteria query, the
 _IllegalStateException_ may be thrown or the query execution will fail.
 
@@ -5420,7 +5420,7 @@ if they are not understood.
 ==== Parameter Objects [[a4397]]
 
 _Parameter_ objects can be used for criteria
-queries and for Java Persistence query language queries.
+queries and for Jakarta Persistence query language queries.
 
 Implementations may support the use of
 _Parameter_ objects for native queries, however support for _Parameter_
@@ -5435,7 +5435,7 @@ instance in the context of a different _Query_ or _TypedQuery_ instance.
 
 ==== Named Parameters [[a4401]]
 
-Named parameters can be used for Java
+Named parameters can be used for Jakarta
 Persistence query language queries, for criteria queries (although use
 of _Parameter_ objects is to be preferred), and for stored procedure
 queries that support named parameters.
@@ -5445,7 +5445,7 @@ identifiers defined in <<a4760>>.
 Named parameters are case-sensitive. The mixing of named and positional
 parameters is undefined.
 
-A named parameter of a Java Persistence query
+A named parameter of a Jakarta Persistence query
 language query is an identifier that is prefixed by the " _:_ " symbol.
 The parameter names passed to the _setParameter_ methods of the _Query_
 and _TypedQuery_ interfaces do not include this " _:_ " prefix.
@@ -5466,7 +5466,7 @@ The use of positional parameters is not supported for criteria queries.
 
 Named queries are static queries expressed in
 metadata or queries registered by means of the EntityManagerFactory
-_addNamedQuery_ method. Named queries can be defined in the Java
+_addNamedQuery_ method. Named queries can be defined in the Jakarta
 Persistence query language or in SQL. Query names are scoped to the
 persistence unit.
 
@@ -5525,7 +5525,7 @@ of these.
 ====
 The SQL query facility is intended to provide
 support for those cases where it is necessary to use the native SQL of
-the target database in use (and/or where the Java Persistence query
+the target database in use (and/or where the Jakarta Persistence query
 language cannot be used). Native SQL queries are not expected to be
 portable across databases.
 ====

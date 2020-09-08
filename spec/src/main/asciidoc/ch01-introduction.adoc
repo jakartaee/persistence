@@ -56,7 +56,7 @@ that contain descriptive information, such as notes describing typical
 use, or notes clarifying the text with prescriptive specification._
 
 A monospaced font is used for code examples and to specify the BNF of the
-Java Persistence query language.
+Jakarta Persistence query language.
 
 This document is written in terms of the
 use of Java language metadata annotations. An XML descriptor (as
