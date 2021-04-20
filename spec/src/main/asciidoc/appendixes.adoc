@@ -73,6 +73,6 @@ to https://jakarta.ee/xml/ns/persistence and https://jakarta.ee/xml/ns/persisten
 
 References to schema versions lower than 2.2 were removed.
 
-=== Jakarta Persistence 3.0
+=== Jakarta Persistence 3.1
 
 EntityManagerFactory and EntityManager interfaces extend java.lang.AutoCloseable interface
