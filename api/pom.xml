@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2018, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0 which is available at
@@ -25,7 +25,7 @@
 
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
 
     <name>Jakarta Persistence API</name>
     <url>https://github.com/eclipse-ee4j/jpa-api</url>
@@ -90,11 +90,11 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spec.non.final>false</spec.non.final>
-        <spec.version>3.0</spec.version>
+        <spec.version>3.1</spec.version>
         <spec.build>01</spec.build>
-        <spec.impl.version>3.0.0</spec.impl.version>
+        <spec.impl.version>3.1.0</spec.impl.version>
         <spec.api.package>jakarta.persistence</spec.api.package>
-        <spec.new.spec.version>3.0</spec.new.spec.version>
+        <spec.new.spec.version>3.1</spec.new.spec.version>
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
     </properties>
@@ -125,7 +125,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.1</version>
+                    <version>5.1.2</version>
                     <configuration>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
@@ -150,7 +150,7 @@
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>2.4</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -213,6 +213,7 @@
                     <update>${copyright.update}</update>
                     <!-- check that year is correct -->
                     <ignoreYear>${copyright.ignoreyear}</ignoreYear>
+                    <quiet>false</quiet>
                 </configuration>
                 <executions>
                     <execution>
