@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2021 Contributors to the Eclipse Foundation
 //
 
 == Entity Managers and Persistence Contexts [[a11431]]
@@ -223,7 +223,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
  *
  * @since 1.0
  */
-public interface EntityManagerFactory {
+public interface EntityManagerFactory extends AutoCloseable {
 
     /**
      * Create a new application-managed <code>EntityManager</code>.
