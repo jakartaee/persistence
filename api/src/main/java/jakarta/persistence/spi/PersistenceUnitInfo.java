@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -203,7 +203,7 @@ public interface PersistenceUnitInfo {
      * @param transformer   provider-supplied transformer that the
      * container invokes at class-(re)definition time
      */
-    public void addTransformer(ClassTransformer transformer);
+    public void addTransformer(Transformer transformer);
 
     /**
      * Return a new instance of a ClassLoader that the provider may
