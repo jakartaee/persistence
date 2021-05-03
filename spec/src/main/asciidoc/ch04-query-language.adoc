@@ -320,9 +320,9 @@ CHAR_LENGTH, CHARACTER_LENGTH, POSITION, and UNKNOWN are not currently
 used: they are reserved for future use.],
 BOTH, BY, CASE, CHAR_LENGTH, CHARACTER_LENGTH, CLASS, COALESCE, CONCAT,
 COUNT, CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC,
-DISTINCT, ELSE, EMPTY, END, ENTRY, ESCAPE, EXISTS, FALSE, FETCH, FROM,
-FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING, LEFT,
-LENGTH, LIKE, LOCATE, LOWER, MAX, MEMBER, MIN, MOD, NEW, NOT, NULL,
+DISTINCT, ELSE, EMPTY, END, ENTRY, ESCAPE, EXISTS, EXTRACT, FALSE, FETCH,
+FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
+LEFT, LENGTH, LIKE, LOCATE, LOWER, MAX, MEMBER, MIN, MOD, NEW, NOT, NULL,
 NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION, SELECT, SET, SIZE,
 SOME, SQRT, SUBSTRING, SUM, THEN, TRAILING, TREAT, TRIM, TRUE, TYPE,
 UNKNOWN, UPDATE, UPPER, VALUE, WHEN, WHERE.
@@ -1694,7 +1694,8 @@ functions_returning_numerics ::=
     SQRT(arithmetic_expression) |
     MOD(arithmetic_expression, arithmetic_expression) |
     SIZE(collection_valued_path_expression) |
-    INDEX(identification_variable)
+    INDEX(identification_variable) |
+    extract_datetime_field
 ----
 
 The ABS function takes a numeric argument and
@@ -1735,11 +1736,62 @@ AND INDEX(w) = 0
 functions_returning_datetime :=
     CURRENT_DATE |
     CURRENT_TIME |
-    CURRENT_TIMESTAMP
+    CURRENT_TIMESTAMP |
+    extract_datetime_part
 ----
 
-The datetime functions return the value of
-current date, time, and timestamp on the database server.
+The functions CURRENT_DATE, CURRENT_TIME, and CURRENT_TIMESTAMP
+return the value of the current date, time, or timestamp on the database
+server, respectively.
+
+The EXTRACT function takes a datetime argument and one of the following
+field type identifiers: YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE,
+SECOND, DATE, TIME.
+
+EXTRACT returns the value of the corresponding field or part of the
+datetime.
+
+----
+extract_datetime_field :=
+    EXTRACT(datetime_field FROM datetime_expression)
+
+datetime_field := identification_variable
+----
+
+For the following field type identifiers, EXTRACT returns an integer
+value:
+
+- YEAR means the calendar year.
+- QUARTER means the calendar quarter, numbered from 1 to 4.
+- WEEK means the ISO-8601 week number.
+- DAY means the calendar day of the month, numbered from 1.
+- HOUR means the hour of the day in 24-hour time, numbered from 0 to 23.
+- MINUTE means the minute of the hour, numbered from 0 to 59.
+- SECOND means the second of the minute, numbered from 0 to 59.
+
+It is illegal to pass a datetime argument which does not have the given
+field type to EXTRACT.
+
+----
+extract_datetime_part :=
+    EXTRACT(datetime_part FROM datetime_expression)
+
+datetime_part := identification_variable
+----
+
+For the following field type identifiers, EXTRACT returns a part of the
+datetime value:
+
+- DATE means the date part of a datetime.
+- TIME means the time part of a datetime.
+
+It is illegal to pass a datetime argument which does not have the given
+part to EXTRACT.
+
+[source,sql]
+----
+FROM Course c WHERE c.year = EXTRACT(YEAR FROM CURRENT_DATE)
+----
 
 ===== Invocation of Predefined and User-defined Database Functions [[a5311]]
 
@@ -2998,11 +3050,13 @@ functions_returning_numerics ::=
     SQRT(arithmetic_expression) |
     MOD(arithmetic_expression, arithmetic_expression) |
     SIZE(collection_valued_path_expression) |
-    INDEX(identification_variable)
+    INDEX(identification_variable) |
+    extract_datetime_field
 functions_returning_datetime ::=
     CURRENT_DATE |
     CURRENT_TIME |
-    CURRENT_TIMESTAMP
+    CURRENT_TIMESTAMP |
+    extract_datetime_part
 functions_returning_strings ::=
     CONCAT(string_expression, string_expression{, string_expression}*) |
     SUBSTRING(string_expression, arithmetic_expression[, arithmetic_expression]) |
@@ -3011,6 +3065,12 @@ functions_returning_strings ::=
     UPPER(string_expression)
 trim_specification ::= LEADING | TRAILING | BOTH
 function_invocation ::= FUNCTION(function_name{, function_arg}*)
+extract_datetime_field :=
+    EXTRACT(datetime_field FROM datetime_expression)
+datetime_field := identification_variable
+extract_datetime_part :=
+    EXTRACT(datetime_part FROM datetime_expression)
+datetime_part := identification_variable
 function_arg ::=
     literal |
     state_valued_path_expression |
