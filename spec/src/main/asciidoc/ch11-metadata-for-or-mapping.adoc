@@ -534,12 +534,12 @@ of mapping to a database column. The _Basic_ annotation can be applied
 to a persistent property or instance variable of any of the following
 types: Java primitive types, wrappers of the primitive types,
 _java.lang.String_, _java.math.BigInteger_, _java.math.BigDecimal_,
-_java.util.Date_, _java.util.Calendar_, _java.sql.Date_,
-_java.sql.Time_, _java.sql.Timestamp_, _java.time.LocalDate_,
-_java.time.LocalTime_, _java.time.LocalDateTime_,
-_java.time.OffsetTime_, _java.time.OffsetDateTime_, _byte[]_,
-_Byte[]_, _char[]_, _Character[]_, enums, and any other type that
-implements _Serializable_.footnote:[Mapping of
+_java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
+_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
+_java.time.LocalDate_, _java.time.LocalTime_, _java.time.LocalDateTime_,
+_java.time.OffsetTime_, _java.time.OffsetDateTime_,
+_byte[]_, _Byte[]_, _char[]_, _Character[]_, enums, and any other type
+that implements _Serializable_.footnote:[Mapping of
 java.time.LocalDate, java.time.LocalTime, java.time.LocalDateTime,
 java.time.OffsetTime, and java.time.OffsetDateTime types to columns
 other than those supported by the mappings defined by Appendix B of the
@@ -1825,7 +1825,7 @@ defined by the _GenerationType_ enum:
 
 [source,java]
 ----
-public enum GenerationType { TABLE, SEQUENCE, IDENTITY, AUTO };
+public enum GenerationType { TABLE, SEQUENCE, IDENTITY, UUID, AUTO };
 ----
 
 The _TABLE_ generator type value indicates
@@ -1840,13 +1840,17 @@ and IDENTITY are not portable across all databases.]
 The further specification of table generators
 and sequence generators is described in <<a16164>> and <<a16256>>.
 
+The _UUID_ value indicates that the persistence provider should
+assign an RFC 4122 Universally Unique IDentifier.
+
 The _AUTO_ value indicates that the
 persistence provider should pick an appropriate strategy for the
 particular database. The _AUTO_ generation strategy may expect a
 database resource to exist, or it may attempt to create one. A vendor
 may provide documentation on how to create such resources in the event
 that it does not support schema generation or cannot create the schema
-resource at runtime.
+resource at runtime. In the case of a field or property of type
+_java.util.UUID_, the _AUTO_ strategy is equivalent to _UUID_.
 
 This specification does not define the exact
 behavior of these strategies.
@@ -1907,11 +1911,10 @@ The _Id_ annotation specifies the primary key
 property or field of an entity. The _Id_ annotation may be applied in an
 entity or mapped superclass.
 
-The field or property to which the _Id_
-annotation is applied should be one of the following types: any Java
-primitive type; any primitive wrapper type; _java.lang.String_;
-_java.util.Date_; _java.sql.Date_; _java.math.BigDecimal_;
-_java.math.BigInteger_footnote:[Primary keys using
+The field or property to which the _Id_ annotation is applied should be
+one of the following types: any Java primitive type; any primitive wrapper
+type; _java.lang.String_; _java.util.UUID_; _java.util.Date_; _java.sql.Date_;
+_java.math.BigDecimal_; _java.math.BigInteger_footnote:[Primary keys using
 types other than these will not be portable. In general, floating point
 types should never be used in primary keys.]. See <<a132>>.
 
