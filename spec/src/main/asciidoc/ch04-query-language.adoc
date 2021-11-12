@@ -592,6 +592,9 @@ embeddable class type. The type of a _single_valued_object_field_
 is the abstract schema type of the related
 entity or embeddable class.
 
+A _single_valued_embeddable_object_field_ is designated by the name
+of a field of embeddable class type.
+
 A _state _field_ is designated by the name of
 an entity or embeddable class state field that corresponds to a basic
 type.
