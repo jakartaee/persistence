@@ -1110,6 +1110,14 @@ public class MedicalHistory {
 }
 ----
 
+=== Basic Type
+
+Basic type is any Java primitive type, wrapper of the primitive types, java.lang.String,
+java.math.BigInteger, java.math.BigDecimal, java.util.Date, java.util.Calendar, java.sql.Date,
+java.sql.Time, java.sql.Timestamp, java.time.LocalDate, java.time.LocalTime,
+java.time.LocalDateTime, java.time.OffsetTime, java.time.OffsetDateTime, byte[], Byte[], char[],
+Character[], enum, any other type that implements Serializable.
+
 === Embeddable Classes [[a487]]
 
 An entity may use other fine-grained classes
