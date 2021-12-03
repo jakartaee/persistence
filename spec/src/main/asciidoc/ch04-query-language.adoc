@@ -514,9 +514,43 @@ embeddable class may be further composed. Path expressions can be
 composed from other path expressions if the original path expression
 evaluates to a single-valued type (not a collection).
 
-In the following example, _contactInfo_
-denotes an embeddable class consisting of an address and set of phones.
-_Phone_ is an entity.
+In the following example, simple data model with _Employee_, _ContactInfo_,
+_Address_ and _Phone_ classes is used:
+
+[source,Java]
+----
+@Entity
+public class Employee {
+    @Id int id;
+    @Embedded
+    private ContactInfo contactInfo;
+}
+
+@Entity
+public class Phone {
+    @Id
+    private int id;
+    private String vendor;
+}
+
+@Embeddable
+public class ContactInfo {
+    @Embedded
+    private Address address;
+    @ManyToMany
+    private List<Phone> phones;
+}
+
+@Embeddable
+public class Address {
+    private String street;
+    private String city;
+    private String state;
+    private String zipcode;
+}
+----
+
+The _contactInfo_ field denotes an embeddable class consisting of an address and set of phones.
 
 [source,sql]
 ----
