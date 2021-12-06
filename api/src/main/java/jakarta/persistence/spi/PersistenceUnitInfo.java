@@ -203,7 +203,7 @@ public interface PersistenceUnitInfo {
      * @param transformer   provider-supplied transformer that the
      * container invokes at class-(re)definition time
      */
-    public void addTransformer(Transformer transformer);
+    public void addTransformer(ClassTransformer transformer);
 
     /**
      * Return a new instance of a ClassLoader that the provider may

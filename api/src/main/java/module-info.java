@@ -13,7 +13,6 @@
 module jakarta.persistence {
 
     requires java.logging;
-    requires static java.instrument;
     requires transitive java.sql;
 
     exports jakarta.persistence;
