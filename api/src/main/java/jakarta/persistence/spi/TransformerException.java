@@ -11,11 +11,13 @@
  */
 package jakarta.persistence.spi;
 
+import jakarta.persistence.PersistenceException;
+
 /**
  *
  * @since 3.1
  */
-public class TransformerException extends Exception {
+public class TransformerException extends PersistenceException {
 
     /**
      * Constructs a new <code>TransformerException</code> exception

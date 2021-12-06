@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -22,7 +22,8 @@ package jakarta.persistence;
  * Thrown by the persistence provider when a problem occurs.
  * All instances of <code>PersistenceException</code> except for instances of 
  * {@link NoResultException}, {@link NonUniqueResultException},
- * {@link LockTimeoutException}, and {@link QueryTimeoutException} will cause 
+ * {@link LockTimeoutException}, {@link QueryTimeoutException},
+ * and {@link jakarta.persistence.spi.TransformerException} will cause
  * the current transaction, if one is active and the persistence context has
  * been joined to it, to be marked for rollback.
  *
