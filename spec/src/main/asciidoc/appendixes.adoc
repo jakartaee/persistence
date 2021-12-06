@@ -77,4 +77,4 @@ References to schema versions lower than 2.2 were removed.
 
 EntityManagerFactory and EntityManager interfaces extend java.lang.AutoCloseable interface
 
-Supersede ClassTransformer interface by Transformer interface and make implementation of ClassTransformer explicitly optional
+Fixed ClassTransformer.transform to throw Persistence API specific exception
