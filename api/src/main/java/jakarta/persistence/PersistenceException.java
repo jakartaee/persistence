@@ -22,8 +22,7 @@ package jakarta.persistence;
  * Thrown by the persistence provider when a problem occurs.
  * All instances of <code>PersistenceException</code> except for instances of 
  * {@link NoResultException}, {@link NonUniqueResultException},
- * {@link LockTimeoutException}, {@link QueryTimeoutException},
- * and {@link jakarta.persistence.spi.TransformerException} will cause
+ * {@link LockTimeoutException}, and {@link QueryTimeoutException} will cause
  * the current transaction, if one is active and the persistence context has
  * been joined to it, to be marked for rollback.
  *
