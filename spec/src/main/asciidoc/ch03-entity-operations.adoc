@@ -5426,8 +5426,7 @@ Implementations may support the use of
 _Parameter_ objects for native queries, however support for _Parameter_
 objects with native queries is not required by this specification. The
 use of _Parameter_ objects for native queries will not be portable. The
-mixing of parameter objects with named or positional parameters is
-undefined.
+mixing of parameter objects with named or positional parameters is invalid.
 
 Portable applications should not attempt to
 reuse a _Parameter_ object obtained from a _Query_ or _TypedQuery_
@@ -5443,7 +5442,7 @@ queries that support named parameters.
 Named parameters follow the rules for
 identifiers defined in <<a4760>>.
 Named parameters are case-sensitive. The mixing of named and positional
-parameters is undefined.
+parameters is invalid.
 
 A named parameter of a Jakarta Persistence query
 language query is an identifier that is prefixed by the " _:_ " symbol.
@@ -5918,7 +5917,7 @@ If parameter names are used, the parameter name is used to bind the
 parameter value and to extract the output value (if the parameter is an
 INOUT or OUT parameter). If parameter names are not specified, it is
 assumed that positional parameters are used. The mixing of named and
-positional parameters is undefined.
+positional parameters is invalid.
 
 ===== Dynamically-specified Stored Procedure Queries
 
