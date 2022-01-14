@@ -617,6 +617,11 @@ protected String name;
 protected String getName() { return name; }
 ----
 
+If the persistence provider stores a value of type _java.util.UUID_ in
+a column of type _VARCHAR_ or equivalent, the value must be stored in
+its canonical representation, unless the application explicitly indicates
+that some other representation is preferred.
+
 ==== Cacheable Annotation
 
 The _Cacheable_ annotation
@@ -1854,6 +1859,12 @@ _java.util.UUID_, the _AUTO_ strategy is equivalent to _UUID_.
 
 This specification does not define the exact
 behavior of these strategies.
+
+However, if the persistence provider stores a value generated according
+to the _UUID_ strategy in a column of type _VARCHAR_ or equivalent, the
+value must be stored in its canonical representation, unless the
+application explicitly indicates that some other representation is
+preferred.
 
 [source,java]
 ----
