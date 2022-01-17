@@ -160,19 +160,19 @@ accessor methods. However, portable applications must not override the
 object/relational mapping metadata that applies to the persistent fields
 or properties of entity superclasses.
 
-The persistent fields or properties of an
-entity may be of the following types: Java primitive types,
-_java.lang.String_, other Java serializable types (including wrappers
-of the primitive types, _java.math.BigInteger_, _java.math.BigDecimal_
-, _java.util.Date_, _java.util.Calendarfootnote:[Note that an instance
-of Calendar must be fully initialized for the type that it is mapped to.]_,
+The persistent fields or properties of an entity may be of the following
+types: Java primitive types, _java.lang.String_, other Java serializable
+types (including wrappers of the primitive types, _java.math.BigInteger_,
+_java.math.BigDecimal_, _java.util.UUID_, _java.util.Date_,
+_java.util.Calendarfootnote:[Note that an instance of Calendar must be
+fully initialized for the type that it is mapped to.]_,
 _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_, _byte[]_,
 _Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
 _java.time.LocalTime_, _java.time.LocalDateTime_,
-_java.time.OffsetTime_, _java.time.OffsetDateTime_, and user-defined
-types that implement the _Serializable_ interface _)_; enums; entity
-types; collections of entity types; embeddable classes (see <<a487>>); collections of
-basic and embeddable types (see <<a494>>).
+_java.time.OffsetTime_, _java.time.OffsetDateTime_,
+and user-defined types that implement the _Serializable_ interface _)_;
+enums; entity types; collections of entity types; embeddable classes
+(see <<a487>>); collections of basic and embeddable types (see <<a494>>).
 
 Object/relational mapping metadata may be
 specified to customize the object/relational mapping and the loading and
@@ -397,9 +397,9 @@ arise when mapping from legacy databases when the database key is
 comprised of several columns. The _EmbeddedId_ or _IdClass_ annotation
 is used to denote a composite primary key. See <<a14687>> and <<a14836>>.
 
-A simple primary key or a field or property
-of a composite primary key should be one of the following types: any
-Java primitive type; any primitive wrapper type; _java.lang.String_;
+A simple primary key or a field or property of a composite primary key
+should be one of the following types: any Java primitive type;
+any primitive wrapper type; _java.lang.String_; _java.util.UUID_;
 _java.util.Date_; _java.sql.Date_; _java.math.BigDecimal_;
 _java.math.BigInteger_.footnote:[In general, however,
 approximate numeric types (e.g., floating point types) should never be
@@ -1267,11 +1267,11 @@ are applied in order:
 the _Embeddable_ annotation, it is mapped in the same way as if the
 field or property were annotated with the _Embedded_ annotation. See
 <<a14634>> and <<a14672>>.
-* If the type of the field or property is one
-of the following, it is mapped in the same way as it would if it were
-annotated as _Basic_: Java primitive types, wrappers of the primitive
-types, _java.lang.String_, _java.math.BigInteger_,
-_java.math.BigDecimal_, _java.util.Date_, _java.util.Calendar_,
+* If the type of the field or property is one of the following, it is
+mapped in the same way as it would if it were annotated as _Basic_:
+Java primitive types, wrappers of the primitive types,
+_java.lang.String_, _java.math.BigInteger_, _java.math.BigDecimal_,
+_java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
 _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
 _java.time.LocalDate_, _java.time.LocalTime_,
 _java.time.LocalDateTime_, _java.time.OffsetTime_,

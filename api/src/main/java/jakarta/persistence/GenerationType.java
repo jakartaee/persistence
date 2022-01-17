@@ -42,7 +42,14 @@ public enum GenerationType {
      * Indicates that the persistence provider must assign 
      * primary keys for the entity using a database identity column.
      */
-    IDENTITY, 
+    IDENTITY,
+
+    /**
+     * Indicates that the persistence provider must assign
+     * primary keys for the entity by generating an RFC 4122
+     * Universally Unique IDentifier.
+     */
+    UUID,
 
     /**
      * Indicates that the persistence provider should pick an 
