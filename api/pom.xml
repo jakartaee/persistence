@@ -105,7 +105,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -120,12 +120,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.9.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.2</version>
+                    <version>5.1.4</version>
                     <configuration>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
@@ -135,7 +135,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.2.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -177,6 +177,18 @@
                                     <targetPath>META-INF</targetPath>
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>currentyear-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>current.year</name>
+                            <locale>en,US</locale>
+                            <pattern>yyyy</pattern>
                         </configuration>
                     </execution>
                 </executions>
@@ -268,6 +280,7 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
+                    <niceManifest>true</niceManifest>
                     <instructions>
                         <Bundle-Description>Jakarta Persistence ${spec.specification.version} API jar</Bundle-Description>
                         <Bundle-Name>Jakarta Persistence API jar</Bundle-Name>
@@ -329,7 +342,7 @@
                     </header>
                     <bottom><![CDATA[<br>
 Comments to: <a href="mailto:jpa-dev@eclipse.org">jpa-dev@eclipse.org</a>.<br>
-Copyright &#169; 2019, 2020 Eclipse Foundation. All rights reserved.<br>
+Copyright &#169; 2019, ${current.year} Eclipse Foundation. All rights reserved.<br>
 Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
                     <groups>
