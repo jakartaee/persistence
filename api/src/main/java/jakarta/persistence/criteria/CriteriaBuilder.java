@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -1170,6 +1170,9 @@ public interface CriteriaBuilder {
      * if found.
      * The first position in a string is denoted by 1.  If the
      * string to be located is not found, 0 is returned.
+     * <p><strong>Warning:</strong> the order of the parameters
+     * of this method is reversed compared to the corresponding
+     * function in JPQL.
      * @param x  expression for string to be searched
      * @param pattern  expression for string to be located
      * @return expression corresponding to position
@@ -1182,6 +1185,9 @@ public interface CriteriaBuilder {
      * if found.
      * The first position in a string is denoted by 1.  If the
      * string to be located is not found, 0 is returned.
+     * <p><strong>Warning:</strong> the order of the parameters
+     * of this method is reversed compared to the corresponding
+     * function in JPQL.
      * @param x  expression for string to be searched
      * @param pattern  string to be located
      * @return expression corresponding to position
@@ -1194,6 +1200,9 @@ public interface CriteriaBuilder {
      * if found.
      * The first position in a string is denoted by 1.  If the
      * string to be located is not found, 0 is returned.
+     * <p><strong>Warning:</strong> the order of the first two
+     * parameters of this method is reversed compared to the
+     * corresponding function in JPQL.
      * @param x  expression for string to be searched
      * @param pattern  expression for string to be located
      * @param from  expression for position at which to start search
@@ -1207,6 +1216,9 @@ public interface CriteriaBuilder {
      * if found.
      * The first position in a string is denoted by 1.  If the
      * string to be located is not found, 0 is returned.
+     * <p><strong>Warning:</strong> the order of the first two
+     * parameters of this method is reversed compared to the
+     * corresponding function in JPQL.
      * @param x  expression for string to be searched
      * @param pattern  string to be located
      * @param from  position at which to start search
