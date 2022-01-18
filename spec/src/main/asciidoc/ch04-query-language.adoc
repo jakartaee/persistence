@@ -1708,17 +1708,19 @@ The LOWER and UPPER functions convert a
 string to lower and upper case, respectively, with regard to the locale
 of the database. They return a string.
 
-The LOCATE function returns the
-position of a given string within a string, starting the search at a
-specified position. It returns the first position at which the string
-was found as an integer. The first argument is the string to be located;
-the second argument is the string to be searched; the optional third
-argument is an integer that represents the string position at which the
-search is started (by default, the beginning of the string to be
-searched). The first position in a string is denoted by 1. If the string
-is not found, 0 is returned.footnote:[Note that not all
-databases support the use of the third argument to LOCATE; use of this
-argument may result in queries that are not portable.]
+The LOCATE function returns the position at which one string occurs within
+a second string, optionally ignoring any occurrences that begin before a
+specified character position in the second string. It returns the first
+character position within the second string (after the specified character
+position, if any) at which the first string occurs, as an integer, where
+the first character of the second string is denoted by 1. That is, the first
+argument is the string to be searched for; the second argument is the string
+to be searched in; the optional third argument is an integer representing
+the character position at which the search starts (by default, 1, the first
+character of the second string). If the first string does not occur within
+the second string, 0 is returned.footnote:[Note that not all databases
+support the use of the third argument to LOCATE; use of this argument may
+result in queries that are not portable.]
 
 The LENGTH function returns the length of the
 string in characters as an integer.
