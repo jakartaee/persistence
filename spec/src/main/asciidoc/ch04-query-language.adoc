@@ -322,7 +322,7 @@ BOTH, BY, CASE, CHAR_LENGTH, CHARACTER_LENGTH, CLASS, COALESCE, CONCAT,
 COUNT, CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC,
 DISTINCT, ELSE, EMPTY, END, ENTRY, ESCAPE, EXISTS, EXTRACT, FALSE, FETCH,
 FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
-LEFT, LENGTH, LIKE, LOCATE, LOWER, MAX, MEMBER, MIN, MOD, NEW, NOT, NULL,
+LEFT, LENGTH, LIKE, LOCAL, LOCATE, LOWER, MAX, MEMBER, MIN, MOD, NEW, NOT, NULL,
 NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION, SELECT, SET, SIZE,
 SOME, SQRT, SUBSTRING, SUM, THEN, TRAILING, TREAT, TRIM, TRUE, TYPE,
 UNKNOWN, UPDATE, UPPER, VALUE, WHEN, WHERE.
@@ -1776,12 +1776,21 @@ functions_returning_datetime :=
     CURRENT_DATE |
     CURRENT_TIME |
     CURRENT_TIMESTAMP |
+    LOCAL DATE |
+    LOCAL TIME |
+    LOCAL DATETIME |
     extract_datetime_part
 ----
 
+The functions LOCAL DATE, LOCAL TIME, and LOCAL DATETIME return the value
+of the current date, time, or timestamp on the database server, respectively.
+Their types are _java.time.LocalDate_, _java.time.LocalTime_, and
+_java.time.LocalDateTime_ respectively.
+
 The functions CURRENT_DATE, CURRENT_TIME, and CURRENT_TIMESTAMP
 return the value of the current date, time, or timestamp on the database
-server, respectively.
+server, respectively. Their types are _java.sql.Date_, _java.sql.Time_,
+and _java.sql.Timestamp_ respectively.
 
 The EXTRACT function takes a datetime argument and one of the following
 field type identifiers: YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE,
@@ -1830,7 +1839,7 @@ part to EXTRACT.
 
 [source,sql]
 ----
-FROM Course c WHERE c.year = EXTRACT(YEAR FROM CURRENT_DATE)
+FROM Course c WHERE c.year = EXTRACT(YEAR FROM LOCAL DATE)
 ----
 
 ===== Invocation of Predefined and User-defined Database Functions [[a5311]]
@@ -3096,6 +3105,9 @@ functions_returning_datetime ::=
     CURRENT_DATE |
     CURRENT_TIME |
     CURRENT_TIMESTAMP |
+    LOCAL DATE |
+    LOCAL TIME |
+    LOCAL DATETIME |
     extract_datetime_part
 functions_returning_strings ::=
     CONCAT(string_expression, string_expression{, string_expression}*) |
