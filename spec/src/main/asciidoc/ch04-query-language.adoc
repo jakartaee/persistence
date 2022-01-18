@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2022 Contributors to the Eclipse Foundation
 //
 
 == Query Language [[a4665]]
@@ -1800,6 +1800,7 @@ value:
 
 - YEAR means the calendar year.
 - QUARTER means the calendar quarter, numbered from 1 to 4.
+- MONTH means the calendar month of the year, numbered from 1.
 - WEEK means the ISO-8601 week number.
 - DAY means the calendar day of the month, numbered from 1.
 - HOUR means the hour of the day in 24-hour time, numbered from 0 to 23.
