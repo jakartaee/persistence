@@ -1246,6 +1246,24 @@ public interface CriteriaBuilder {
      *  @return expression for current time
      */	
     Expression<java.sql.Time> currentTime();
+
+    /**
+     *  Create expression to return current local date.
+     *  @return expression for current date
+     */
+    Expression<java.time.LocalDate> localDate();
+
+    /**
+     *  Create expression to return current local datetime.
+     *  @return expression for current timestamp
+     */
+    Expression<java.time.LocalDateTime> localDateTime();
+
+    /**
+     *  Create expression to return current local time.
+     *  @return expression for current time
+     */
+    Expression<java.time.LocalTime> localTime();
 	
 
     //in builders:
