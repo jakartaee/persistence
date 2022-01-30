@@ -1807,7 +1807,12 @@ value:
 - DAY means the calendar day of the month, numbered from 1.
 - HOUR means the hour of the day in 24-hour time, numbered from 0 to 23.
 - MINUTE means the minute of the hour, numbered from 0 to 59.
-- SECOND means the second of the minute, numbered from 0 to 59.
+
+For the SECOND field type identifier, EXTRACT returns a floating point
+value:
+
+- SECOND means the second of the minute, numbered from 0 to 59, including
+  a fractional part representing fractions of a second.
 
 It is illegal to pass a datetime argument which does not have the given
 field type to EXTRACT.
