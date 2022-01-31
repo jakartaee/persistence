@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Generato da Microsoft Visio 11.0, SVG Export, v1.0 Per-6.svg Pagina 1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="5.06in"
+		height="2.38283in" viewBox="0 0 364.32 171.564" xml:space="preserve" color-interpolation-filters="sRGB" class="st8">
+	<v:documentProperties v:langID="1040" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="MBSAAddinOutlineVisible" v:prompt="" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.16}
+		.st2 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.16}
+		.st3 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.16}
+		.st4 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.16}
+		.st5 {fill:#000000;font-family:Arial;font-size:0.666664em;font-weight:bold}
+		.st6 {fill:#ffffff;fill-opacity:0;stroke:#8c8c8c;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.16}
+		.st7 {font-size:1em}
+		.st8 {fill:none;fill-rule:evenodd;font-size:12;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Pagina 1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<g id="shape139-1" v:mID="139" v:groupContext="shape" transform="translate(2.16,-2.16)">
+			<title>Foglio.139</title>
+			<rect x="0" y="4.32" width="360" height="167.244" class="st1"/>
+		</g>
+		<g id="shape149-3" v:mID="149" v:groupContext="shape" transform="translate(45.8017,-121.215)">
+			<title>Foglio.149</title>
+			<ellipse cx="43.937" cy="154.556" rx="43.937" ry="17.0079" class="st2"/>
+		</g>
+		<g id="shape148-5" v:mID="148" v:groupContext="shape" transform="translate(227.599,97.1156) rotate(106.988)">
+			<title>Foglio.148</title>
+			<path d="M0 171.56 L73.27 171.56" class="st3"/>
+		</g>
+		<g id="shape150-8" v:mID="150" v:groupContext="shape" transform="translate(61.6876,-131.269)">
+			<title>Foglio.150</title>
+			<desc>Order</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="19.5472" cy="164.61" width="39.1" height="13.9075"/>
+			<rect x="0" y="157.657" width="39.0945" height="13.9075" class="st4"/>
+			<text x="8.65" y="167.01" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>Order</text>		</g>
+		<g id="shape151-11" v:mID="151" v:groupContext="shape" transform="translate(6.83532,-7.9941)">
+			<title>Foglio.151</title>
+			<rect x="0" y="14.0435" width="350.649" height="157.521" class="st6"/>
+		</g>
+		<g id="shape1-13" v:mID="1" v:groupContext="shape" transform="translate(146.727,-84.3647)">
+			<title>Foglio.1</title>
+			<ellipse cx="43.937" cy="154.556" rx="43.937" ry="17.0079" class="st2"/>
+		</g>
+		<g id="shape2-15" v:mID="2" v:groupContext="shape" transform="translate(160.369,-93.1344)">
+			<title>Foglio.2</title>
+			<desc>LineItem</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="22.9429" cy="164.61" width="45.89" height="13.9075"/>
+			<rect x="0" y="157.657" width="45.8858" height="13.9075" class="st4"/>
+			<text x="6.5" y="167.01" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>LineItem</text>		</g>
+		<g id="shape5-18" v:mID="5" v:groupContext="shape" transform="translate(16.3332,-22.0025)">
+			<title>Foglio.5</title>
+			<ellipse cx="43.937" cy="154.556" rx="43.937" ry="17.0079" class="st2"/>
+		</g>
+		<g id="shape6-20" v:mID="6" v:groupContext="shape" transform="translate(27.6718,-25.6123)">
+			<title>Foglio.6</title>
+			<desc>Shipping Address</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="22.9429" cy="158.166" width="45.89" height="26.7963"/>
+			<rect x="0" y="144.768" width="45.8858" height="26.7963" class="st4"/>
+			<text x="5.84" y="155.77" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>Shipping<v:newlineChar/><tspan
+						x="6.94" dy="1.2em" class="st7">Address</tspan></text>		</g>
+		<g id="shape7-24" v:mID="7" v:groupContext="shape" transform="translate(116.963,-22.0025)">
+			<title>Foglio.7</title>
+			<ellipse cx="43.937" cy="154.556" rx="43.937" ry="17.0079" class="st2"/>
+		</g>
+		<g id="shape8-26" v:mID="8" v:groupContext="shape" transform="translate(129.188,-25.6123)">
+			<title>Foglio.8</title>
+			<desc>Billing Address</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="22.9429" cy="158.166" width="45.89" height="26.7963"/>
+			<rect x="0" y="144.768" width="45.8858" height="26.7963" class="st4"/>
+			<text x="10.72" y="155.77" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>Billing<v:newlineChar/><tspan
+						x="6.94" dy="1.2em" class="st7">Address</tspan></text>		</g>
+		<g id="shape9-30" v:mID="9" v:groupContext="shape" transform="translate(222.873,-54.1821) rotate(52.4784)">
+			<title>Foglio.9</title>
+			<path d="M0 171.56 L85.19 171.56" class="st3"/>
+		</g>
+		<g id="shape10-33" v:mID="10" v:groupContext="shape" transform="translate(241.358,-85.7608) rotate(41.7368)">
+			<title>Foglio.10</title>
+			<path d="M0 171.56 L31.45 171.56" class="st3"/>
+		</g>
+		<g id="shape11-36" v:mID="11" v:groupContext="shape" transform="translate(325.502,-64.8424) rotate(33.8013)">
+			<title>Foglio.11</title>
+			<path d="M0 171.56 L42.99 171.56" class="st3"/>
+		</g>
+		<g id="shape12-39" v:mID="12" v:groupContext="shape" transform="translate(118.676,-124.05)">
+			<title>Foglio.12</title>
+			<desc>1</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="19.5472" cy="164.61" width="39.1" height="13.9075"/>
+			<rect x="0" y="157.657" width="39.0945" height="13.9075" class="st4"/>
+			<text x="17.32" y="167.01" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>1</text>		</g>
+		<g id="shape13-42" v:mID="13" v:groupContext="shape" transform="translate(130.31,-114.261)">
+			<title>Foglio.13</title>
+			<desc>m</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="19.5472" cy="164.61" width="39.1" height="13.9075"/>
+			<rect x="0" y="157.657" width="39.0945" height="13.9075" class="st4"/>
+			<text x="15.99" y="167.01" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>m</text>		</g>
+		<g id="shape14-45" v:mID="14" v:groupContext="shape" transform="translate(226.097,-87.4651)">
+			<title>Foglio.14</title>
+			<desc>m</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="19.5472" cy="164.61" width="39.1" height="13.9075"/>
+			<rect x="0" y="157.657" width="39.0945" height="13.9075" class="st4"/>
+			<text x="15.99" y="167.01" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>m</text>		</g>
+		<g id="shape15-48" v:mID="15" v:groupContext="shape" transform="translate(246.53,-74.5763)">
+			<title>Foglio.15</title>
+			<desc>1</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="19.5472" cy="164.61" width="39.1" height="13.9075"/>
+			<rect x="0" y="157.657" width="39.0945" height="13.9075" class="st4"/>
+			<text x="17.32" y="167.01" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>1</text>		</g>
+		<g id="shape3-51" v:mID="3" v:groupContext="shape" transform="translate(260.113,-47.5143)">
+			<title>Foglio.3</title>
+			<ellipse cx="43.937" cy="155.974" rx="43.937" ry="15.5906" class="st2"/>
+		</g>
+		<g id="shape4-53" v:mID="4" v:groupContext="shape" transform="translate(274.02,-56.0183)">
+			<title>Foglio.4</title>
+			<desc>Product</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="22.9429" cy="164.61" width="45.89" height="13.9075"/>
+			<rect x="0" y="157.657" width="45.8858" height="13.9075" class="st4"/>
+			<text x="7.83" y="167.01" class="st5" v:langID="1040"><v:paragraph v:horizAlign="1"/><v:tabList/>Product</text>		</g>
+	</g>
+</svg>
