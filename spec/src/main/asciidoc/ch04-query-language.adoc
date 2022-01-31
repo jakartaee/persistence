@@ -212,7 +212,7 @@ WHERE l.shipped = FALSE
 
 .Abstract Persistence Schema of Several Entities with Defined in the Same Persistence Unit.
 [[a4724]]
-image::images/Per-6.png[Image]
+image::images/Per-6.svg[Image]
 
 This query navigates over the association
 field _lineItems_ of the abstract schema type _Order_ to find line
