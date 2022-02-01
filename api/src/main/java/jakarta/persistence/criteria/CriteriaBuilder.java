@@ -20,6 +20,7 @@ package jakarta.persistence.criteria;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -1458,6 +1459,16 @@ public interface CriteriaBuilder {
      *  @return expression for current time
      */
     Expression<java.time.LocalTime> localTime();
+
+    /**
+     * Create an expression that returns the value of a
+     * field extracted from a date, time, or datetime.
+     * @param field a temporal field type
+     * @param temporal a date, time, or datetime
+     * @return expression for the value of the extracted field
+     * @since 3.2
+     */
+    <N,T extends Temporal> Expression<N> extract(TemporalField<N,T> field, Expression<T> temporal);
 	
 
     //in builders:
