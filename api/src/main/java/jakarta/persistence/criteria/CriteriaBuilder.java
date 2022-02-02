@@ -545,7 +545,9 @@ public interface CriteriaBuilder {
 
     /**
      * Create an expression that returns the sign of its
-     * argument.
+     * argument, that is, {@code 1} if its argument is
+     * positive, {@code -1} if its argument is negative,
+     * or {@code 0} if its argument is exactly zero.
      * @param x expression
      * @return sign
      */
@@ -569,7 +571,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create an expression that returns the ceiling of its
-     * argument.
+     * argument, that is, the smallest integer greater than
+     * or equal to its argument.
      * @param x expression
      * @return ceiling
      */
@@ -577,7 +580,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create an expression that returns the floor of its
-     * argument.
+     * argument, that is, the largest integer smaller than
+     * or equal to its argument.
      * @param x expression
      * @return floor
      */
@@ -692,7 +696,8 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an expression that returns the modulus
-     * of its arguments.
+     * (remainder under integer division) of its
+     * arguments.
      * @param x expression
      * @param y expression
      * @return modulus
@@ -701,7 +706,8 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an expression that returns the modulus
-     * of its arguments.
+     * (remainder under integer division) of its
+     * arguments.
      * @param x expression
      * @param y value
      * @return modulus
@@ -710,7 +716,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create an expression that returns the modulus
-     * of its arguments.
+     * (remainder under integer division) of its
+     * arguments.
      * @param x value
      * @param y expression
      * @return modulus
@@ -727,7 +734,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create an expression that returns the exponential
-     * of its argument.
+     * of its argument, that is, Euler's number <i>e</i>
+     * raised to the power of its argument.
      * @param x expression
      * @return exponential
      */
