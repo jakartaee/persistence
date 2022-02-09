@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -31,21 +31,38 @@ package jakarta.persistence;
  */
 public class NonUniqueResultException extends PersistenceException {
 
-        /** 
-         * Constructs a new <code>NonUniqueResultException</code> exception 
-         * with <code>null</code> as its detail message.
-         */
+	/**
+	 * Constructs a new <code>NonUniqueResultException</code> exception
+	 * with <code>null</code> as its detail message.
+	 */
 	public NonUniqueResultException() {
 		super();
 	}
 
-        /** 
-         * Constructs a new <code>NonUniqueResultException</code> exception 
-         * with the specified detail message.
-         * @param   message   the detail message.
-         */
+	/**
+	 * Constructs a new <code>NonUniqueResultException</code> exception
+	 * with <code>null</code> as its detail message.
+	 */
+	public NonUniqueResultException(Exception cause) {
+		super(cause);
+	}
+
+	/**
+	 * Constructs a new <code>NonUniqueResultException</code> exception
+	 * with the specified detail message.
+	 * @param   message   the detail message.
+	 */
 	public NonUniqueResultException(String message) {
 		super(message);
+	}
+
+	/**
+	 * Constructs a new <code>NonUniqueResultException</code> exception
+	 * with the specified detail message.
+	 * @param   message   the detail message.
+	 */
+	public NonUniqueResultException(String message, Exception cause) {
+		super(message, cause);
 	}
 }
 

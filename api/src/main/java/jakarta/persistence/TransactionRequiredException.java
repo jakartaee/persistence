@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -35,6 +35,14 @@ public class TransactionRequiredException extends PersistenceException {
 
 	/**
 	 * Constructs a new <code>TransactionRequiredException</code> exception with
+	 * <code>null</code> as its detail message.
+	 */
+	public TransactionRequiredException(Exception cause) {
+		super(cause);
+	}
+
+	/**
+	 * Constructs a new <code>TransactionRequiredException</code> exception with
 	 * the specified detail message.
 	 * 
 	 * @param message
@@ -42,5 +50,16 @@ public class TransactionRequiredException extends PersistenceException {
 	 */
 	public TransactionRequiredException(String message) {
 		super(message);
+	}
+
+	/**
+	 * Constructs a new <code>TransactionRequiredException</code> exception with
+	 * the specified detail message.
+	 *
+	 * @param message
+	 *            the detail message.
+	 */
+	public TransactionRequiredException(String message, Exception cause) {
+		super(message, cause);
 	}
 }

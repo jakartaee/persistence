@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -49,6 +49,14 @@ public class EntityNotFoundException extends PersistenceException {
 	}
 
 	/**
+	 * Constructs a new <code>EntityNotFoundException</code> exception with
+	 * <code>null</code> as its detail message.
+	 */
+	public EntityNotFoundException(Exception cause) {
+		super(cause);
+	}
+
+	/**
 	 * Constructs a new <code>EntityNotFoundException</code> exception with the
 	 * specified detail message.
 	 * 
@@ -57,6 +65,17 @@ public class EntityNotFoundException extends PersistenceException {
 	 */
 	public EntityNotFoundException(String message) {
 		super(message);
+	}
+
+	/**
+	 * Constructs a new <code>EntityNotFoundException</code> exception with the
+	 * specified detail message.
+	 *
+	 * @param message
+	 *            the detail message.
+	 */
+	public EntityNotFoundException(String message, Exception cause) {
+		super(message, cause);
 	}
 
 }
