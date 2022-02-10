@@ -542,6 +542,16 @@ public interface CriteriaBuilder {
 	
 
     //numerical operations:
+
+    /**
+     * Create an expression that returns the sign of its
+     * argument, that is, {@code 1} if its argument is
+     * positive, {@code -1} if its argument is negative,
+     * or {@code 0} if its argument is exactly zero.
+     * @param x expression
+     * @return sign
+     */
+    Expression<Integer> sign(Expression<? extends Number> x);
 	
     /**
      * Create an expression that returns the arithmetic negation
@@ -558,7 +568,24 @@ public interface CriteriaBuilder {
      * @return absolute value
      */
     <N extends Number> Expression<N> abs(Expression<N> x);
-	
+
+    /**
+     * Create an expression that returns the ceiling of its
+     * argument, that is, the smallest integer greater than
+     * or equal to its argument.
+     * @param x expression
+     * @return ceiling
+     */
+    <N extends Number> Expression<N> ceiling(Expression<N> x);
+
+    /**
+     * Create an expression that returns the floor of its
+     * argument, that is, the largest integer smaller than
+     * or equal to its argument.
+     * @param x expression
+     * @return floor
+     */
+    <N extends Number> Expression<N> floor(Expression<N> x);
     /**
      * Create an expression that returns the sum
      * of its arguments.
@@ -669,7 +696,8 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an expression that returns the modulus
-     * of its arguments.
+     * (remainder under integer division) of its
+     * arguments.
      * @param x expression
      * @param y expression
      * @return modulus
@@ -678,7 +706,8 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an expression that returns the modulus
-     * of its arguments.
+     * (remainder under integer division) of its
+     * arguments.
      * @param x expression
      * @param y value
      * @return modulus
@@ -687,7 +716,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create an expression that returns the modulus
-     * of its arguments.
+     * (remainder under integer division) of its
+     * arguments.
      * @param x value
      * @param y expression
      * @return modulus
@@ -702,7 +732,52 @@ public interface CriteriaBuilder {
      */	
     Expression<Double> sqrt(Expression<? extends Number> x);
 
-	
+    /**
+     * Create an expression that returns the exponential
+     * of its argument, that is, Euler's number <i>e</i>
+     * raised to the power of its argument.
+     * @param x expression
+     * @return exponential
+     */
+    Expression<Double> exp(Expression<? extends Number> x);
+
+    /**
+     * Create an expression that returns the natural logarithm
+     * of its argument.
+     * @param x expression
+     * @return natural logarithm
+     */
+    Expression<Double> ln(Expression<? extends Number> x);
+
+    /**
+     * Create an expression that returns the first argument
+     * raised to the power of its second argument.
+     * @param x base
+     * @param y exponent
+     * @return the base raised to the power of the exponent
+     */
+    Expression<Double> power(Expression<? extends Number> x, Expression<? extends Number> y);
+
+    /**
+     * Create an expression that returns the first argument
+     * raised to the power of its second argument.
+     * @param x base
+     * @param y exponent
+     * @return the base raised to the power of the exponent
+     */
+    Expression<Double> power(Expression<? extends Number> x, Number y);
+
+    /**
+     * Create an expression that returns the first argument
+     * rounded to the number of decimal places given by the
+     * second argument.
+     * @param x base
+     * @param n number of decimal places
+     * @return the rounded value
+     */
+    <T extends Number> Expression<T> round(Expression<T> x, Integer n);
+
+
     //typecasts:
     
     /**

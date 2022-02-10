@@ -314,18 +314,19 @@ which the method _Character.isJavaIdentifierPart_ returns true. The
 question mark (_?_) character is reserved for use by the Jakarta
 Persistence query language.
 
-The following are reserved identifiers: ABS,
-ALL, AND, ANY, AS, ASC, AVG, BETWEEN, BIT_LENGTHfootnote:[BIT_LENGTH,
-CHAR_LENGTH, CHARACTER_LENGTH, POSITION, and UNKNOWN are not currently
-used: they are reserved for future use.],
-BOTH, BY, CASE, CHAR_LENGTH, CHARACTER_LENGTH, CLASS, COALESCE, CONCAT,
-COUNT, CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC,
-DISTINCT, ELSE, EMPTY, END, ENTRY, ESCAPE, EXISTS, EXTRACT, FALSE, FETCH,
-FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
-LEFT, LENGTH, LIKE, LOCAL, LOCATE, LOWER, MAX, MEMBER, MIN, MOD, NEW, NOT, NULL,
-NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION, SELECT, SET, SIZE,
-SOME, SQRT, SUBSTRING, SUM, THEN, TRAILING, TREAT, TRIM, TRUE, TYPE,
-UNKNOWN, UPDATE, UPPER, VALUE, WHEN, WHERE.
+The followingfootnote:[BIT_LENGTH, CHAR_LENGTH, CHARACTER_LENGTH,
+POSITION, and UNKNOWN are not currently used: they are reserved for
+future use.] are reserved identifiers: ABS, ALL, AND, ANY, AS, ASC,
+AVG, BETWEEN, BIT_LENGTH, BOTH, BY, CASE, CEILING, CHAR_LENGTH,
+CHARACTER_LENGTH, CLASS, COALESCE, CONCAT, COUNT, CURRENT_DATE,
+CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC, DISTINCT, ELSE, EMPTY,
+END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FLOOR, FROM,
+FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
+LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
+NEW, NOT, NULL, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
+POWER, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
+THEN, TRAILING, TREAT, TRIM, TRUE, TYPE, UNKNOWN, UPDATE, UPPER,
+VALUE, WHEN, WHERE.
 
 Reserved identifiers are case insensitive.
 Reserved identifiers must not be used as identification variables or
@@ -1730,20 +1731,35 @@ string in characters as an integer.
 ----
 functions_returning_numerics ::=
     ABS(arithmetic_expression) |
-    SQRT(arithmetic_expression) |
+    CEILING(arithmetic_expression) |
+    EXP(arithmetic_expression) |
+    FLOOR(arithmetic_expression) |
+    LN(arithmetic_expression) |
     MOD(arithmetic_expression, arithmetic_expression) |
+    POWER(arithmetic_expression, arithmetic_expression) |
+    ROUND(arithmetic_expression, arithmetic_expression) |
+    SIGN(arithmetic_expression) |
+    SQRT(arithmetic_expression) |
     SIZE(collection_valued_path_expression) |
     INDEX(identification_variable) |
     extract_datetime_field
 ----
 
-The ABS function takes a numeric argument and
-returns a number (integer, float, or double) of the same type as the
-argument to the function.
+The ABS, CEILING, and FLOOR functions accept a numeric argument and
+return a number (integer, float, or double) of the same type as the
+argument.
 
-The SQRT function takes a numeric argument and returns a double.
+The SIGN function accepts a numeric argument and returns an integer.
 
-The MOD function takes two integer arguments and returns an integer.
+The SQRT, EXP, and LN functions accept a numeric argument and return
+a double.
+
+The MOD function accepts two integer arguments and returns an integer.
+
+The ROUND function accepts a numeric argument and an integer argument
+and returns a number of the same type as the first argument.
+
+The POWER function accepts two numeric arguments and returns a double.
 
 Numeric arguments to these functions may
 correspond to the numeric Java object types as well as the primitive
@@ -3101,8 +3117,15 @@ functions_returning_numerics ::=
     LENGTH(string_expression) |
     LOCATE(string_expression, string_expression[, arithmetic_expression]) |
     ABS(arithmetic_expression) |
+    CEILING(arithmetic_expression) |
+    EXP(arithmetic_expression) |
+    FLOOR(arithmetic_expression) |
+    LN(arithmetic_expression) |
+    SIGN(arithmetic_expression) |
     SQRT(arithmetic_expression) |
     MOD(arithmetic_expression, arithmetic_expression) |
+    POWER(arithmetic_expression, arithmetic_expression) |
+    ROUND(arithmetic_expression, arithmetic_expression) |
     SIZE(collection_valued_path_expression) |
     INDEX(identification_variable) |
     extract_datetime_field
