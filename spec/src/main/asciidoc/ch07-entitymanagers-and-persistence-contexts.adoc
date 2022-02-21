@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2022 Contributors to the Eclipse Foundation
 //
 
 == Entity Managers and Persistence Contexts [[a11431]]
@@ -91,7 +91,7 @@ unless the _joinTransaction_ method is invoked by the application. The
 _unitName_ element may optionally be specified to designate the
 persistence unit whose entity manager factory is used by the container.
 The semantics of the persistence context synchronization type are
-further described in <<a11797>. Section <<a13887>> provides further
+further described in <<a11797>>. Section <<a13887>> provides further
 information about the _unitName_ element.
 
 For example,

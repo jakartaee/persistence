@@ -771,7 +771,8 @@ These subelements override any lifecycle
 callback methods defined by the corresponding annotations on the mapped
 superclass.
 
-===== [[a17126]]attributes
+[[a17126]]
+===== attributes
 
 The _attributes_ element groups the mapping
 subelements for the fields and properties defined by the mapped
