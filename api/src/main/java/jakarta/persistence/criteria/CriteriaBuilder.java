@@ -1488,6 +1488,22 @@ public interface CriteriaBuilder {
 		SimpleCase<C, R> when(C condition, Expression<? extends R> result);
 
 		/**
+		 * Add a when/then clause to the case expression.
+		 * @param condition  "when" condition
+		 * @param result  "then" result value
+		 * @return simple case expression
+		 */
+		SimpleCase<C, R> when(Expression<? extends C> condition, R result);
+
+		/**
+		 * Add a when/then clause to the case expression.
+		 * @param condition  "when" condition
+		 * @param result  "then" result expression
+		 * @return simple case expression
+		 */
+		SimpleCase<C, R> when(Expression<? extends C> condition, Expression<? extends R> result);
+
+		/**
 		 * Add an "else" clause to the case expression.
 		 * @param result  "else" result
 		 * @return expression
