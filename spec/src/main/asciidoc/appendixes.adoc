@@ -75,8 +75,28 @@ References to schema versions lower than 2.2 were removed.
 
 === Jakarta Persistence 3.1
 
-EntityManagerFactory and EntityManager interfaces extend java.lang.AutoCloseable interface
+`EntityManagerFactory` and `EntityManager` interfaces extend `java.lang.AutoCloseable` interface
 
-Fixed ClassTransformer.transform to throw Persistence API specific exception
+Fixed `ClassTransformer.transform` to throw Persistence API specific exception
 
-Added support for _GenerationType.UUID_
+Added support for `java.util.UUID` and `GenerationType.UUID`
+
+Added _CEILING_, _EXP_, _FLOOR_, _LN_, _POWER_, _ROUND_, and _SIGN_
+numeric functions to Jakarta Persistence QL and _ceiling()_, _exp()_,
+_floor(), _ln()_, _power()_,  _round()_, and _sign()_ to Criteria API
+
+Added _LOCAL DATE_, _LOCAL DATETIME_, and _LOCAL TIME_ functions to Jakarta Persistence QL and
+corresponding _localDate()_, _localDateTime()_, and _localTime()_ to Criteria API
+
+Added _EXTRACT_ function to Jakarta Persistence QL
+
+Added support for __Expression__s as conditions in _Criteria_ `CASE` expressions
+
+Clarified mixing types of query input parameters
+
+Added missing definition of _single_valued_embeddable_object_field_ in Jakarta Persistence QL BNF
+
+Clarified definition of the _Basic_ type
+
+Clarified the order of parameters in the _LOCATE_ function
+
