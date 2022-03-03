@@ -36,7 +36,7 @@ query language, the Criteria API, and to the mapping of native queries.
 === Expert Group
 
 The Jakarta Persistence Specification is based on
-based on Java Persistence (JPA) 2.2, whose work was conducted as part of JSR 338 under the
+Java Persistence (JPA) 2.2, whose work was conducted as part of JSR 338 under the
 Java Community Process Program. The specification is the result of the
 collaborative work of the members of the JSR 338 Expert Group: akquinet
 tech@Spree: Michael Bouschen; Ericsson: Nicolas Seyvet; IBM: Kevin
