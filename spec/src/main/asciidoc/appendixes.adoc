@@ -100,3 +100,4 @@ Clarified definition of the _Basic_ type
 
 Clarified the order of parameters in the _LOCATE_ function
 
+Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting aliases
