@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2022 Contributors to the Eclipse Foundation
 //
 
 == Introduction
@@ -9,6 +9,10 @@ Jakarta API for the management of persistence and object/relational mapping
 with Jakarta EE and Java SE. The technical objective of this work is to
 provide an object/relational mapping facility for the Java application
 developer using a Java domain model to manage a relational database.
+
+The Jakarta Persistence 3.1 specification is the first release having
+new features and enhancements after the specification has been moved
+to the Eclipse Foundation.
 
 The Jakarta Persistence 3.0 specification is the first release after
 moving the project to Eclipse Foundation. All APIs are moved from _javax.*_
@@ -31,9 +35,9 @@ query language, the Criteria API, and to the mapping of native queries.
 
 === Expert Group
 
-This revision to the JPA specification is
-based on JPA 2.1, whose work was conducted as part of JSR 338 under the
-Java Community Process Program. This specification is the result of the
+The Jakarta Persistence Specification is based on
+Java Persistence (JPA) 2.2, whose work was conducted as part of JSR 338 under the
+Java Community Process Program. The specification is the result of the
 collaborative work of the members of the JSR 338 Expert Group: akquinet
 tech@Spree: Michael Bouschen; Ericsson: Nicolas Seyvet; IBM: Kevin
 Sutter, Pinaki Poddar; OW2: Florent Benoit; Oracle: Linda DeMichiel,

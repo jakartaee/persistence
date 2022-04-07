@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2022 Contributors to the Eclipse Foundation
 //
 
 == Entity Operations [[a1060]]
@@ -5625,8 +5625,9 @@ Query q = em.createNativeQuery(
 ----
 
 When the column names of the SQL result do
-not correspond to those of the object/relational mapping metadata, more
-explicit SQL result mapping metadata must be provided to enable the
+not correspond to those of the object/relational mapping metadata
+or introduce a conflict in mapping column defaults as in the example code above,
+more explicit SQL result mapping metadata must be provided to enable the
 persistence provider runtime to map the JDBC results into the expected
 objects. This might arise, for example, when column aliases must be used
 in the SQL SELECT clause when the SQL result would otherwise contain
