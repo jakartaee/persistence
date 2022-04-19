@@ -20,7 +20,7 @@ discovering the _persistence.xml_ files and processing them.
 When the container finds a _persistence.xml_
 file, it must process the persistence unit definitions that it contains.
 The container must validate the _persistence.xml_ file against the
-__persistence_3_0.xsd__ or __persistence_2_2.xsd__ schema in accordance with
+__persistence_3_1.xsd__, __persistence_3_0.xsd__, or __persistence_2_2.xsd__ schema in accordance with
 the version specified by the _persistence.xml_ file and report any validation errors.
 Provider or data source information not specified in the _persistence.xml_ file
 must be provided at deployment time or defaulted by the container. The
