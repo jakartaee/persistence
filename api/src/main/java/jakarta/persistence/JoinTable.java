@@ -152,4 +152,20 @@ public @interface JoinTable {
      * @since 2.1 
      */
     Index[] indexes() default {};
+
+    /**
+     * (Optional) Check constraints to be applied to the table.
+     * These are only used if table generation is in effect.
+     *
+     * @since 3.2
+     */
+    CheckConstraint[] check() default {};
+
+    /**
+     * (Optional) A comment to be applied to the table.
+     * This is only used if table generation is in effect.
+     *
+     * @since 3.2
+     */
+    String comment() default "";
 }

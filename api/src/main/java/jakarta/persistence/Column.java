@@ -121,4 +121,20 @@ public @interface Column {
      * (Applies only if a decimal column is used.)
      */
     int scale() default 0;
+
+    /**
+     * (Optional) Check constraints to be applied to the column.
+     * These are only used if table generation is in effect.
+     *
+     * @since 3.2
+     */
+    CheckConstraint[] check() default {};
+
+    /**
+     * (Optional) A comment to be applied to the column.
+     * This is only used if table generation is in effect.
+     *
+     * @since 3.2
+     */
+    String comment() default "";
 }

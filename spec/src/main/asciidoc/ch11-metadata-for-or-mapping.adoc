@@ -852,6 +852,8 @@ public @interface Column {
     int length() default 255;
     int precision() default 0; // decimal precision
     int scale() default 0; // decimal scale
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -925,6 +927,18 @@ if a string-valued column is used.)
 |(Optional) The scale for a decimal (exact
 numeric) column. (Applies only if a decimal column is used.)
 |0
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:*
@@ -2178,6 +2192,8 @@ public @interface JoinColumn {
     String columnDefinition() default "";
     String table() default "";
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -2272,6 +2288,18 @@ join is for an element collection, the name of the collection table.
 |(Optional) The foreign key constraint for
 the join column. This is used only if table generation is in effect.
 |Provider's default
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:*
@@ -2407,6 +2435,8 @@ public @interface JoinTable {
     ForeignKey inverseForeignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -2471,6 +2501,18 @@ effect.
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*
@@ -4541,6 +4583,8 @@ public @interface SecondaryTable {
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -4589,6 +4633,18 @@ entailed by primary key mappings.
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:* Single secondary table with a single primary key column.
@@ -4811,6 +4867,8 @@ public @interface Table {
     String schema() default "";
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -4849,6 +4907,18 @@ constraints
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*

@@ -114,3 +114,4 @@ Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_
 
 Made the _name_ member of _TableGenerator_ and _SequenceGenerator_ optional
 
+Introduced _comment_ and _check_ members to table and column annotations, along with _CheckConstraint_
