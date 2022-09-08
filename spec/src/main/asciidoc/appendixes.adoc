@@ -104,4 +104,6 @@ Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting 
 
 === Jakarta Persistence 3.2
 
+Added support for Java record types as embeddable classes
+
 Added `||` string concatenation operator
