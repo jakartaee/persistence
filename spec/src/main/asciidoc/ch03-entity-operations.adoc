@@ -4004,6 +4004,28 @@ public interface Query {
     Object getSingleResult();
 
     /**
+     * Execute a SELECT query that returns a single untyped result.
+     * @return the result, or null if there is no result
+     * @throws NonUniqueResultException if more than one result
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         <code>NONE</code> has been set and there is no transaction
+     *         or the persistence context has not been joined to the transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    Object getSingleResultOrNull();
+
+    /**
      * Execute an update or delete statement.
      * @return the number of entities updated or deleted
      * @throws IllegalStateException if called for a Jakarta
@@ -4480,6 +4502,28 @@ public interface TypedQuery<X> extends Query {
      *         is rolled back
      */
     X getSingleResult();
+
+    /**
+     * Execute a SELECT query that returns a single untyped result.
+     * @return the result, or null if there is no result
+     * @throws NonUniqueResultException if more than one result
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         <code>NONE</code> has been set and there is no transaction
+     *         or the persistence context has not been joined to the transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    X getSingleResultOrNull();
 
     /**
      * Set the maximum number of results to retrieve.
@@ -5174,6 +5218,25 @@ public interface StoredProcedureQuery extends Query {
     Object getSingleResult();
 
     /**
+     * Retrieve a single result from the next result set.
+     * The provider will call <code>execute</code> on the query
+     * if needed.
+     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
+     * in the order the <code>REF_CURSOR</code> parameter was
+     * registered with the query.
+     * @return the result or null if the next item is not a result set
+     *         or if there is no result in the next result set
+     * @throws NonUniqueResultException if more than one result
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    Object getSingleResultOrNull();
+
+    /**
      * Return true if the next result corresponds to a result set,
      * and false if it is an update count or if there are no results
      * other than through INOUT and OUT parameters, if any.
@@ -5206,11 +5269,11 @@ public interface StoredProcedureQuery extends Query {
 
 ==== Query Execution
 
-Jakarta Persistence query language, Criteria
-API, and native SQL select queries are executed using the
-_getResultList_ and _getSingleResult_ methods. Update and delete
-operations (update and delete “queries”) are executed using the
-_executeUpdate_ method.
+Jakarta Persistence query language, Criteria API, and native SQL
+select queries are executed using the methods _getResultList_,
+_getSingleResult_, and _getSingleResultOrNull_.
+Update and delete operations (update and delete “queries”) are
+executed using the _executeUpdate_ method.
 
 * For _TypedQuery_ instances, the query result
 type is determined in the case of criteria queries by the type of the
@@ -5232,8 +5295,8 @@ _Object[]_. If only a single item is returned as a result of the SQL
 result set mapping or if a result class is specified, the elements of
 the query result are of type _Object_.
 
-Stored procedure queries can be executed
-using the _getResultList_, _getSingleResult_, and _execute_ methods.
+Stored procedure queries can be executed using the _getResultList_,
+_getSingleResult_, _getSingleResultOrNull_, and _execute_ methods.
 Stored procedures that perform only updates or deletes can be executed
 using the _executeUpdate_ method. Stored procedure query execution is
 described in detail in <<a4625>>.
@@ -5256,10 +5319,10 @@ supported for stored procedure queries.
 _Query_ and _TypedQuery_ methods other than
 the _executeUpdate_ method are not required to be invoked within a
 transaction context, unless a lock mode other than _LockModeType.NONE_
-has been specified for the query. In particular, the _getResultList_ and
-_getSingleResult_ methods are not required to be invoked within a
-transaction context unless such a lock mode has been specified for the
-queryfootnote:[A lock mode is
+has been specified for the query. In particular, the _getResultList_,
+_getSingleResult_, and _getSingleResultOrNull_ methods are not required
+to be invoked within a transaction context unless such a lock mode has
+been specified for the queryfootnote:[A lock mode is
 specified for a query by means of the _setLockMode_ method or by
 specifying the lock mode in the _NamedQuery_ annotation.]. If an entity manager with
 transaction-scoped persistence context is in use, the resulting entities
@@ -5944,10 +6007,10 @@ the values of all required IN and INOUT parameters. It is not required
 to set the values of stored procedure parameters for which default
 values have been defined by the stored procedure.
 
-When _getResultList_ and _getSingleResult_
+When _getResultList_, _getSingleResult_, and _getSingleResultOrNull_
 are called on a _StoredProcedureQuery_ object, the persistence provider
 will call _execute_ on an unexecuted stored procedure query before
-processing _getResultList_ or _getSingleResult_.
+processing _getResultList_, _getSingleResult_ or _getSingleResultOrNull_.
 
 When _executeUpdate_ is called on a
 _StoredProcedureQuery_ object, the persistence provider will call
@@ -5966,10 +6029,10 @@ first result is a result set, and _false_ if it is an update count or
 there are no results other than through INOUT and OUT parameters, if
 any.
 
-If the _execute_ method returns _true_, the
-pending result set can be obtained by calling _getResultList_ or
-_getSingleResult_. The _hasMoreResults_ method can then be used to test
-for further results.
+If the _execute_ method returns _true_, the pending result set can be
+obtained by calling _getResultList_, _getSingleResult_, or
+_getSingleResultOrNull_. The _hasMoreResults_ method can then be used to
+test for further results.
 
 If _execute_ or _hasMoreResults_ returns
 _false_, the _getUpdateCount_ method can be called to obtain the
@@ -6082,19 +6145,18 @@ been joined to it, will be marked for rollback.
 
 *NoResultException*
 
-The _NoResultException_ is thrown by the
-persistence provider when _Query.getSingleResult_ or
-_TypedQuery.getSingleResult_ is invoked and there is no result to
-return. This exception will not cause the current transaction, if one is
+The _NoResultException_ is thrown by the persistence provider when
+_Query.getSingleResult_ is invoked and there is no result to return.
+This exception will not cause the current transaction, if one is
 active, to be marked for rollback.
 
 *NonUniqueResultException*
 
-The _NonUniqueResultException_ is thrown by
-the persistence provider when _Query.getSingleResult_ or
-_TypedQuery.getSingleResult_ is invoked and there is more than one
-result from the query. This exception will not cause the current
-transaction, if one is active, to be marked for rollback.
+The _NonUniqueResultException_ is thrown by the persistence provider
+when _Query.getSingleResult_ or _Query.getSingleResultOrNull_ is
+invoked and there is more than one result from the query. This
+exception will not cause the current transaction, if one is active,
+to be marked for rollback.
 
 *QueryTimeoutException*
 

@@ -105,3 +105,5 @@ Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting 
 === Jakarta Persistence 3.2
 
 Added `||` string concatenation operator
+
+Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
