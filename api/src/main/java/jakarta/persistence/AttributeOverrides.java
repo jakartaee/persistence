@@ -32,10 +32,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *    &#064;Embedded
  *    &#064;AttributeOverrides({
- *            &#064;AttributeOverride(name="startDate", 
- *                               column=&#064;Column("EMP_START")),
- *            &#064;AttributeOverride(name="endDate", 
- *                               column=&#064;Column("EMP_END"))
+ *            &#064;AttributeOverride(name="startDate",
+ *                               column=&#064;Column(name="EMP_START")),
+ *            &#064;AttributeOverride(name="endDate",
+ *                               column=&#064;Column(name="EMP_END"))
  *    })
  *    public EmploymentPeriod getEmploymentPeriod() { ... }
  *
@@ -44,9 +44,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see AttributeOverride
  *
- * @since 1.0 
+ * @since 1.0
  */
-@Target({TYPE, METHOD, FIELD}) 
+@Target({TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
 
 public @interface AttributeOverrides {
