@@ -16,6 +16,8 @@
 package jakarta.persistence;
 
 import jakarta.persistence.metamodel.Attribute;
+import jakarta.persistence.metamodel.PluralAttribute;
+
 import java.util.List;
 
 /**
@@ -132,6 +134,23 @@ public interface EntityGraph<T> {
      *         statically defined
      */
     public <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
+
+    /**
+     * Add a node to the graph that corresponds to a managed
+     * type referenced via a plural attribute. This allows for
+     * construction of multi-node entity graphs that include
+     * related managed types.
+     *
+     * @param attribute  plural attribute
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute's target type
+     *         is not a managed type
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public <X> Subgraph<X> addPluralSubgraph(PluralAttribute<T, ?, X> attribute);
 
     /**
      * Add a node to the graph that corresponds to a map key
