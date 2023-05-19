@@ -107,3 +107,5 @@ Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting 
 Added support for Java record types as embeddable classes
 
 Added `||` string concatenation operator
+
+Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_
