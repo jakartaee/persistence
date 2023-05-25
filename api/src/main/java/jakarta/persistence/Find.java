@@ -27,6 +27,36 @@ public interface Find<T> {
 	 * Find by primary key, using any specified entity graph,
 	 * cache modes, lock mode, hints, and properties, returning
 	 * a single entity with the given identifier value.
+	 * This operation differs from {@link #getSingleResultOrNull(Object)}
+	 * in throwing a {@link NoResultException} if no entity is found.
+	 * @param primaryKey primary key
+	 * @return the found entity instance
+	 * @throws NoResultException if there is no result
+	 * @throws IllegalArgumentException if the argument is not
+	 *         a valid type for the entity's primary key or
+	 *         is null
+	 * @throws QueryTimeoutException if the query execution exceeds
+	 *         the query timeout value set and only the statement is
+	 *         rolled back
+	 * @throws TransactionRequiredException if a lock mode other than
+	 *         <code>NONE</code> has been set and there is no transaction
+	 *         or the persistence context has not been joined to the
+	 *         transaction
+	 * @throws PessimisticLockException if pessimistic locking
+	 *         fails and the transaction is rolled back
+	 * @throws LockTimeoutException if pessimistic locking
+	 *         fails and only the statement is rolled back
+	 * @throws PersistenceException if the query execution exceeds
+	 *         the query timeout value set and the transaction
+	 *         is rolled back
+	 */
+	T getSingleResult(Object primaryKey);
+
+	/**
+	 * Find by primary key, using any specified entity graph,
+	 * cache modes, lock mode, hints, and properties, returning
+	 * a single entity with the given identifier value, or null
+	 * if no such entity is found.
 	 * This operation differs from {@link #getSingleResult(Object)}
 	 * in returning null if no entity is found.
 	 * @param primaryKey primary key
@@ -50,36 +80,7 @@ public interface Find<T> {
 	 *         the query timeout value set and the transaction
 	 *         is rolled back
 	 */
-	T find(Object primaryKey);
-
-	/**
-	 * Find by primary key, using any specified entity graph,
-	 * cache modes, lock mode, hints, and properties, returning
-	 * a single entity with the given identifier value.
-	 * This operation differs from {@link #find(Object)} in
-	 * throwing a {@link NoResultException} if no entity is found.
-	 * @param primaryKey primary key
-	 * @return the found entity instance
-	 * @throws NoResultException if there is no result
-	 * @throws IllegalArgumentException if the argument is not
-	 *         a valid type for the entity's primary key or
-	 *         is null
-	 * @throws QueryTimeoutException if the query execution exceeds
-	 *         the query timeout value set and only the statement is
-	 *         rolled back
-	 * @throws TransactionRequiredException if a lock mode other than
-	 *         <code>NONE</code> has been set and there is no transaction
-	 *         or the persistence context has not been joined to the
-	 *         transaction
-	 * @throws PessimisticLockException if pessimistic locking
-	 *         fails and the transaction is rolled back
-	 * @throws LockTimeoutException if pessimistic locking
-	 *         fails and only the statement is rolled back
-	 * @throws PersistenceException if the query execution exceeds
-	 *         the query timeout value set and the transaction
-	 *         is rolled back
-	 */
-	T getSingleResult(Object primaryKey);
+	T getSingleResultOrNull(Object primaryKey);
 
 	/**
 	 * Find by primary key, using any specified entity graph,
