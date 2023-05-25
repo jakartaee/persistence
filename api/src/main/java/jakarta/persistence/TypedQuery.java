@@ -256,6 +256,24 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setParameter(int position, Date value,  
                                TemporalType temporalType);
 
+    /**
+     * Set a fetch graph to be applied to the entity returned by
+     * this query.
+     * @param fetchGraph an entity graph to be interpreted as a
+     *                   fetch graph
+     * @return the same query instance
+     */
+    TypedQuery<X> setFetchGraph(EntityGraph<? super X> fetchGraph);
+
+    /**
+     * Set a load graph to be applied to the entity returned by
+     * this query.
+     * @param loadGraph an entity graph to be interpreted as a
+     *                  load graph
+     * @return the same query instance
+     */
+    TypedQuery<X> setLoadGraph(EntityGraph<? super X> loadGraph);
+
      /**
       * Set the flush mode type to be used for the query execution.
       * The flush mode type applies to the query regardless of the
@@ -282,7 +300,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      */
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
-    
+
      /**
       * Set the lock mode type to be used for the query execution.
       * @param lockMode  lock mode
