@@ -265,6 +265,24 @@ public interface TypedQuery<X> extends Query {
       */
      TypedQuery<X> setFlushMode(FlushModeType flushMode);
 
+    /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     */
+    TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     */
+    TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    
      /**
       * Set the lock mode type to be used for the query execution.
       * @param lockMode  lock mode

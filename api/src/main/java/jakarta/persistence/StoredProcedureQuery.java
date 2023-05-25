@@ -243,6 +243,24 @@ public interface StoredProcedureQuery extends Query {
     StoredProcedureQuery setFlushMode(FlushModeType flushMode);
 
     /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     */
+    StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     */
+    StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
      * Register a positional parameter.
      * All parameters must be registered.
      * @param position  parameter position

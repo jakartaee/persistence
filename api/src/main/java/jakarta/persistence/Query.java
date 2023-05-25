@@ -441,6 +441,24 @@ public interface Query {
     Query setFlushMode(FlushModeType flushMode);
 
     /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     */
+    Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     */
+    Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
      * Get the flush mode in effect for the query execution. 
      * If a flush mode has not been set for the query object, 
      * returns the flush mode in effect for the entity manager.
