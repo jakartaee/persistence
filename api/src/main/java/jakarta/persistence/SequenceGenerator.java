@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Lukas Jungmann  - 2.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -34,6 +35,10 @@ import java.lang.annotation.Repeatable;
  * generator name is global to the persistence unit (across all
  * generator types).
  *
+ * <p> If no name is explicitly specified, and the annotation occurs
+ * on an entity class or primary key attribute of an entity class,
+ * then the name defaults to the name of the entity.
+ *
  * <pre>
  *   Example:
  *
@@ -48,11 +53,13 @@ import java.lang.annotation.Repeatable;
 public @interface SequenceGenerator {
 
     /** 
-     * (Required) A unique generator name that can be referenced 
+     * (Optional) A unique generator name that can be referenced
      * by one or more classes to be the generator for primary key 
      * values.
+     * <p> Defaults to the name of the entity when the annotation
+     * occurs on an entity class or primary key attribute.
      */
-    String name();
+    String name() default "";
 
     /**
      * (Optional) The name of the database sequence object from 

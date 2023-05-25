@@ -11,10 +11,10 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Lukas Jungmann  - 2.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
-
 
 package jakarta.persistence;
 
@@ -35,6 +35,11 @@ import java.lang.annotation.Repeatable;
  * field or property. The scope of the generator name is global 
  * to the persistence unit (across all generator types).
  *
+ * <p> If no name is explicitly specified, and the annotation
+ * occurs on an entity class or primary key attribute of an
+ * entity class, then the name defaults to the name of the
+ * entity.
+ *
  * <pre>
  *    Example 1:
  *    
@@ -42,7 +47,7 @@ import java.lang.annotation.Repeatable;
  *        ...
  *        &#064;TableGenerator(
  *            name="empGen", 
- *            table="ID_GEN", 
+ *            table="ID_GEN",
  *            pkColumnName="GEN_KEY", 
  *            valueColumnName="GEN_VALUE", 
  *            pkColumnValue="EMP_ID", 
@@ -58,13 +63,12 @@ import java.lang.annotation.Repeatable;
  *    &#064;Entity public class Address {
  *        ...
  *        &#064;TableGenerator(
- *            name="addressGen", 
- *            table="ID_GEN", 
+ *            table="ID_GEN",
  *            pkColumnName="GEN_KEY", 
  *            valueColumnName="GEN_VALUE", 
  *            pkColumnValue="ADDR_ID")
  *        &#064;Id
- *        &#064;GeneratedValue(strategy=TABLE, generator="addressGen")
+ *        &#064;GeneratedValue(strategy=TABLE)
  *        int id;
  *        ...
  *    }
@@ -80,10 +84,12 @@ import java.lang.annotation.Repeatable;
 public @interface TableGenerator {
 
     /** 
-     * (Required) A unique generator name that can be referenced 
+     * (optional) A unique generator name that can be referenced
      * by one or more classes to be the generator for id values.
+     * <p> Defaults to the name of the entity when the annotation
+     * occurs on an entity class or primary key attribute.
      */
-    String name();
+    String name() default "";
 
     /** 
      * (Optional) Name of table that stores the generated id values. 

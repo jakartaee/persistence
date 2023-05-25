@@ -3048,7 +3048,7 @@ object/relational mapping schema for use with the persistence API.
 
         @Target({TYPE, METHOD, FIELD}) @Retention(RUNTIME)
         public @interface SequenceGenerator {
-          String name();
+          String name() default "";
           String sequenceName() default "";
           String catalog() default "";
           String schema() default "";
@@ -3157,7 +3157,7 @@ object/relational mapping schema for use with the persistence API.
 
         @Target({TYPE, METHOD, FIELD}) @Retention(RUNTIME)
         public @interface TableGenerator {
-          String name();
+          String name() default "";
           String table() default "";
           String catalog() default "";
           String schema() default "";

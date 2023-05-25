@@ -4687,6 +4687,11 @@ generator may be specified on the entity class or on the primary key
 field or property. The scope of the generator name is global to the
 persistence unit (across all generator types).
 
+If no name is explicitly specified by the _SequenceGenerator_ annotation,
+and the annotation occurs on an entity class or primary key attribute of
+an entity class, then the name defaults to the name of the entity.
+Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
+
 <<a16179>> lists the annotation elements
 that may be specified for the _SequenceGenerator_ annotation and their
 default values.
@@ -4697,7 +4702,7 @@ default values.
 @Retention(RUNTIME)
 @Repeatable(SequenceGenerators.class)
 public @interface SequenceGenerator {
-    String name();
+    String name() default "";
     String sequenceName() default "";
     String catalog() default "";
     String schema() default "";
@@ -4864,6 +4869,11 @@ generator may be specified on the entity class or on the primary key
 field or property. The scope of the generator name is global to the
 persistence unit (across all generator types).
 
+If no name is explicitly specified by the _TableGenerator_ annotation,
+and the annotation occurs on an entity class or primary key attribute
+of an entity class, then the name defaults to the name of the entity.
+Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
+
 <<a162771>> lists the annotation elements that
 may be specified for the _TableGenerator_ annotation and their default
 values.
@@ -4880,7 +4890,7 @@ primary key values are normally positive integers.
 @Retention(RUNTIME)
 @Repeatable(TableGenerators.class)
 public @interface TableGenerator {
-    String name();
+    String name() default "";
     String table() default "";
     String catalog() default "";
     String schema() default "";

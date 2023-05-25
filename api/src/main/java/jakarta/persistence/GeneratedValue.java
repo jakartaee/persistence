@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -31,7 +32,7 @@ import static jakarta.persistence.GenerationType.AUTO;
  * may be applied to a primary key property or field of an entity or
  * mapped superclass in conjunction with the {@link Id} annotation.
  * The use of the <code>GeneratedValue</code> annotation is only
- * required to be supported for simple primary keys.  Use of the
+ * required to be supported for simple primary keys. Use of the
  * <code>GeneratedValue</code> annotation is not supported for derived
  * primary keys.
  *
@@ -71,10 +72,16 @@ public @interface GeneratedValue {
     GenerationType strategy() default AUTO;
 
     /**
-     * (Optional) The name of the primary key generator
-     * to use as specified in the {@link SequenceGenerator} 
-     * or {@link TableGenerator} annotation.
-     * <p> Defaults to the id generator supplied by persistence provider.
+     * (Optional) The name of the primary key generator to
+     * use, as specified by the {@link SequenceGenerator}
+     * or {@link TableGenerator} annotation which declares
+     * the generator.
+     * <p> The name defaults to the entity name of the
+     * entity in which the annotation occurs.
+     * <p> If there is no generator with the defaulted
+     * name, then the persistence provider supplies a
+     * default id generator, of a type compatible with
+     * the value of the strategy member.
      */
     String generator() default "";
 }
