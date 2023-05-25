@@ -1893,6 +1893,34 @@ part to EXTRACT.
 FROM Course c WHERE c.year = EXTRACT(YEAR FROM LOCAL DATE)
 ----
 
+===== Typecasts
+
+The CAST function converts an expression of one type to an expression
+of a different type.
+
+----
+string_cast_function::=
+    CAST(scalar_expression AS STRING)
+arithmetic_cast_function::=
+    CAST(string_expression AS {INTEGER | LONG | FLOAT | DOUBLE})
+----
+
+The persistence provider is required to accept typecasts of the following
+forms:
+
+- any scalar expression to STRING
+- any string expression to INTEGER, LONG, FLOAT, or DOUBLE
+
+Typecast expressions are evaluated by the database, with semantics that
+vary somewhat between different databases.
+
+When a typecast occurs as a select expression, the result type of the
+select expression is:
+
+- _java.lang.String_ for a cast to STRING
+- _java.lang.Integer_, _java.lang.Long_, _java.lang.Float_, or _java.lang.Double_
+  for a cast to INTEGER, LONG, FLOAT, or DOUBLE, respectively
+
 ===== Invocation of Predefined and User-defined Database Functions [[a5311]]
 
 The invocation of functions other than the
@@ -3108,6 +3136,7 @@ arithmetic_primary ::=
     aggregate_expression |
     case_expression |
     function_invocation |
+    arithmetic_cast_function |
     (subquery)
 string_expression ::=
     state_valued_path_expression |
@@ -3117,7 +3146,8 @@ string_expression ::=
     aggregate_expression |
     case_expression |
     function_invocation |
-    string_expression || string_expression
+    string_cast_function |
+    string_expression || string_expression |
     (subquery)
 datetime_expression ::=
     state_valued_path_expression |
@@ -3151,6 +3181,8 @@ type_discriminator ::=
     TYPE(general_identification_variable |
         single_valued_object_path_expression |
         input_parameter)
+arithmetic_cast_function::=
+    CAST(string_expression AS {INTEGER | LONG | FLOAT | DOUBLE})
 functions_returning_numerics ::=
     LENGTH(string_expression) |
     LOCATE(string_expression, string_expression[, arithmetic_expression]) |
@@ -3175,6 +3207,8 @@ functions_returning_datetime ::=
     LOCAL TIME |
     LOCAL DATETIME |
     extract_datetime_part
+string_cast_function::=
+    CAST(scalar_expression AS STRING)
 functions_returning_strings ::=
     CONCAT(string_expression, string_expression{, string_expression}*) |
     SUBSTRING(string_expression, arithmetic_expression[, arithmetic_expression]) |
