@@ -324,7 +324,7 @@ END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FIRST, FLOOR,
 FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
 LAST, LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
 NEW, NOT, NULL, NULLS, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
-POWER, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
+POWER, REPLACE, RIGHT, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
 THEN, TRAILING, TREAT, TRIM, TRUE, TYPE, UNKNOWN, UPDATE, UPPER,
 VALUE, WHEN, WHERE.
 
@@ -1696,7 +1696,10 @@ functions_returning_strings ::=
               arithmetic_expression [, arithmetic_expression]) |
     TRIM([[trim_specification] [trim_character] FROM] string_expression) |
     LOWER(string_expression) |
-    UPPER(string_expression)
+    UPPER(string_expression) |
+    REPLACE(string_expression, string_expression, string_expression) |
+    LEFT(string_expression, arithmetic_expression) |
+    RIGHT(string_expression, arithmetic_expression)
 trim_specification ::= LEADING | TRAILING | BOTH
 
 functions_returning_numerics ::=
@@ -1728,6 +1731,13 @@ defaults to BOTH. The TRIM function returns the trimmed string.
 The LOWER and UPPER functions convert a
 string to lower and upper case, respectively, with regard to the locale
 of the database. They return a string.
+
+The LEFT and RIGHT functions return the leftmost or rightmost substring,
+respectively, of the first argument whose length is given by the second
+argument.
+
+The REPLACE function replaces all occurrences within the first argument
+string of the second argument string with the third argument string.
 
 The LOCATE function returns the position at which one string occurs within
 a second string, optionally ignoring any occurrences that begin before a

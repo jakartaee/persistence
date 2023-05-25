@@ -1377,6 +1377,77 @@ public interface CriteriaBuilder {
      */
     Expression<Integer> length(Expression<String> x);
 
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, String replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, String replacement);
 
     /**
      * Create expression to locate the position of one string
