@@ -12,6 +12,7 @@
 
 // Contributors:
 //     Linda DeMichiel - 2.1
+//     Gavin King - 3.2
 
 package jakarta.persistence;
 

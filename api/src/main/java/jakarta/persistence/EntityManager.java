@@ -13,6 +13,7 @@
 // Contributors:
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
+//     Gavin King - 3.2
 
 
 package jakarta.persistence;
@@ -105,7 +106,7 @@ public interface EntityManager extends AutoCloseable {
      *         not exist
      * @throws IllegalArgumentException if the first argument does
      *         not denote an entity type or the second argument is 
-     *         is not a valid type for that entity's primary key or
+     *         not a valid type for that entity's primary key or
      *         is null
      */
     public <T> T find(Class<T> entityClass, Object primaryKey);
@@ -125,7 +126,7 @@ public interface EntityManager extends AutoCloseable {
      *         not exist 
      * @throws IllegalArgumentException if the first argument does 
      *         not denote an entity type or the second argument is
-     *         is not a valid type for that entity's primary key or 
+     *         not a valid type for that entity's primary key or
      *         is null 
      * @since 2.0
      */ 
@@ -256,7 +257,17 @@ public interface EntityManager extends AutoCloseable {
      *         cannot be accessed
      */
     public <T> T getReference(Class<T> entityClass, 
-                                  Object primaryKey);
+                              Object primaryKey);
+
+    /**
+     * Obtain an instance of {@link Find} for executing queries
+     * by primary key.
+     * @param entityClass  entity class
+     * @return an instance of {@link Find}
+     * @throws IllegalArgumentException if the argument does not
+     *         denote an entity type
+     */
+    public <T> Find<T> find(Class<T> entityClass);
 
     /**
      * Synchronize the persistence context to the

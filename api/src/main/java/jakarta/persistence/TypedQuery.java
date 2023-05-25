@@ -14,6 +14,7 @@
 //     Lukas Jungmann  - 2.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
+//     Gavin King - 3.2
 
 package jakarta.persistence;
 
@@ -32,6 +33,8 @@ import java.util.stream.Stream;
  * @since 2.0
  */
 public interface TypedQuery<X> extends Query {
+
+
 	
     /**
      * Execute a SELECT query and return the query results
