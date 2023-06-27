@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
 //
 
 == Query Language [[a4665]]
@@ -1209,7 +1209,7 @@ The operators are listed below in order of decreasing precedence.
 ** +, - unary
 ** *, / multiplication and division
 ** +, - addition and subtraction
-* || string concatenation
+* String concatenation (_||_)
 * Comparison operators: _=_, _>_, _>=_, _<_
 , _<=_, _<>_ (not equal), _[NOT]_ _BETWEEN_, _[NOT]_ _LIKE_, _[NOT]_
 _IN_, _IS_ _[NOT]_ _NULL_, _IS_ _[NOT]_ _EMPTY_, _[NOT]_ _MEMBER_
