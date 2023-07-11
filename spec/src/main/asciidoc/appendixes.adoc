@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
 //
 
 [appendix]
@@ -101,3 +101,7 @@ Clarified definition of the _Basic_ type
 Clarified the order of parameters in the _LOCATE_ function
 
 Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting aliases
+
+=== Jakarta Persistence 3.2
+
+Added `||` string concatenation operator
