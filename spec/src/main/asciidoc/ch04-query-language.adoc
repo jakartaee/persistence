@@ -1053,17 +1053,30 @@ String literals in queries, like Java _String_ literals, use unicode
 character encoding. The use of Java escape notation is not supported in
 query string literals.
 
-Exact numeric literals support the use of
-Java integer literal syntax as well as SQL exact numeric literal syntax.
+A numeric literal may be either:
 
-Approximate literals support the use Java
-floating point literal syntax as well as SQL approximate numeric literal
-syntax.
+- a decimal Java integer (int or long) literal
+- a Java floating point (float or double) literal, or
+- a literal _BigInteger_ or _BigDecimal_.
 
-Appropriate suffixes can be used to indicate
-the specific type of a numeric literal in accordance with the Java
-Language Specification. Support for the use of hexadecimal and octal
-numeric literals is not required by this specification.
+A suffix _L_, _D_, or _F_ may be used to indicate the specific numeric
+type, in accordance with the Java Language Specification. The suffix is
+not case-sensitive. The literal numeric value preceding the suffix must
+conform to the rules for Java numeric literals established by the Java
+Language Specification.
+
+A suffix _BI_ or _BD_ may be used to indicate a literal _BigInteger_ or
+_BigDecimal_, respectively. The literal numeric value preceding the suffix
+must be an exact or approximate SQL numeric literal. For a _BigInteger_
+literal, the numeric value must be an exact integer literal.
+
+Just as in Java, when a numeric literal has no suffix:
+
+- an integer literal is interpreted as a Java int, and
+- a floating point literal is interpreted as a Java double.
+
+Support for hexadecimal and octal numeric literals is not required by
+this specification.
 
 Enum literals support the use of Java enum
 literal syntax. The fully qualified enum class name must be specified.
@@ -1088,7 +1101,7 @@ The boolean literals are _TRUE_ and _FALSE_.
 
 Entity type literals are specified by entity names—for example: _Customer_.
 
-Although reserved literals appear in upper case, they are case insensitive.
+Although reserved literals appear in upper case, they are case-insensitive.
 
 ==== Identification Variables
 
