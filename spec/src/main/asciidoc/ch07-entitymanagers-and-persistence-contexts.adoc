@@ -359,6 +359,17 @@ public interface EntityManagerFactory extends AutoCloseable {
     public PersistenceUnitUtil getPersistenceUnitUtil();
 
     /**
+     * Return interface providing access to schema management
+     * operations for the persistence unit.
+     * @return <code>SchemaManager</code> interface
+     * @throws IllegalStateException if the entity manager factory
+     * has been closed
+     *
+     * @since 3.2
+     */
+    public SchemaManager getSchemaManager();
+
+    /**
      * Define the query, typed query, or stored procedure query as
      * a named query such that future query objects can be created
      * from it using the <code>createNamedQuery</code> or
@@ -1524,5 +1535,102 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      *          to be an entity
      */
     public Object getIdentifier(Object entity);
+}
+----
+
+=== SchemaManager Interface [[a12178]]
+
+The _SchemaManager_ interface allows programmatic control over schema
+generation and cleanup at runtime. This differs from the functionality
+described in <<a12917>> which allows schema generation before or during
+the application deployment and initialization process. Similarly, the
+_generateSchema_ method described in <<a12803>> is intended to be called
+before the _EntityManagerFactory_ is available. By contrast, an instance
+of _SchemaManager_ is only available after an _EntityManagerFactory_ has
+already been created.
+
+For example, _SchemaManager_ is especially useful in tests.
+
+The methods of _SchemaManager_ correspond to values of the property
+_jakarta.persistence.schema-generation.scripts.action_. The methods
+_create()_, _drop()_, and _validate()_ correspond to the actions
+_create_, _drop_, and _validate_. The method _truncate()_ has no
+corresponding action.
+
+Thus, the behavior of the _SchemaManager_ may be controlled via the
+properties defined in <<a12917>> and <<a12384>>.
+
+[source,java]
+----
+package jakarta.persistence;
+
+import java.util.Map;
+
+/**
+ * Allows programmatic {@linkplain #create schema creation},
+ * {@linkplain #validate schema validation},
+ * {@linkplain #truncate data cleanup}, and
+ * {@linkplain #drop schema cleanup} for entities belonging
+ * to a certain persistence unit.
+ *
+ * <p>Properties are inherited from the {@link EntityManagerFactory},
+ * that is, they may be specified via {@code persistence.xml} or
+ * {@link Persistence#createEntityManagerFactory(String, Map)}.
+ *
+ * @see EntityManagerFactory#getSchemaManager()
+ *
+ * @since 3.2
+ */
+public interface SchemaManager {
+	/**
+	 * Create database objects mapped by entities belonging to the
+	 * persistence unit.
+	 *
+	 * <p>If a DDL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+	 *
+	 * @param createSchemas if {@code true}, attempt to create schemas,
+	 *                      otherwise, assume the schemas already exist
+	 */
+	void create(boolean createSchemas);
+
+	/**
+	 * Drop database objects mapped by entities belonging to the
+	 * persistence unit, undoing the effects of the
+	 * {@linkplain #create(boolean) previous creation}.
+	 *
+	 * <p>If a DDL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+	 *
+	 * @param dropSchemas if {@code true}, drop schemas,
+	 *                    otherwise, leave them be
+	 */
+	void drop(boolean dropSchemas);
+
+	/**
+	 * Validate that the database objects mapped by entities belonging
+	 * to the persistence unit have the expected definitions.
+	 *
+	 * <p>The persistence provider is not required to perform
+	 * any specific validation, so the semantics of this operation are
+	 * entirely provider-specific.
+	 *
+	 * @throws SchemaValidationException if a database object is missing or
+	 * does not have the expected definition
+	 */
+	void validate() throws SchemaValidationException;
+
+	/**
+	 * Truncate the database tables mapped by entities belonging to
+	 * the persistence unit, and then re-import initial data from any
+	 * configured SQL scripts for data loading.
+	 *
+	 * <p>If a SQL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+	 */
+	void truncate();
 }
 ----

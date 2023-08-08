@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -166,6 +167,17 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @since 2.0
      */
     public PersistenceUnitUtil getPersistenceUnitUtil();
+
+    /**
+     * Return interface providing access to schema management
+     * operations for the persistence unit.
+     * @return <code>SchemaManager</code> interface
+     * @throws IllegalStateException if the entity manager factory
+     * has been closed
+     *
+     * @since 3.2
+     */
+    public SchemaManager getSchemaManager();
 
     /**
      * Define the query, typed query, or stored procedure query as
