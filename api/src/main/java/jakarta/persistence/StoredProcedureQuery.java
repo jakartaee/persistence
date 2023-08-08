@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 
 package jakarta.persistence;
@@ -366,6 +367,25 @@ public interface StoredProcedureQuery extends Query {
      *         is rolled back 
      */
     Object getSingleResult();
+
+    /**
+     * Retrieve a single result from the next result set.
+     * The provider will call <code>execute</code> on the query
+     * if needed.
+     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
+     * in the order the <code>REF_CURSOR</code> parameter was
+     * registered with the query.
+     * @return the result or null if the next item is not a result set
+     *         or if there is no result in the next result set
+     * @throws NonUniqueResultException if more than one result
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    Object getSingleResultOrNull();
 
     /**
      * Return true if the next result corresponds to a result set,
