@@ -30,6 +30,30 @@ import java.util.List;
 public interface Graph<T> {
 
     /**
+     * Add an attribute nodes to the entity graph.
+     *
+     * @param attributeName  name of the attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public void addAttributeNode(String attributeName);
+
+    /**
+     * Add an attribute node to the entity graph.
+     *
+     * @param attribute  attribute
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public void addAttributeNode(Attribute<? super T, ?> attribute);
+
+    /**
      * Add one or more attribute nodes to the entity graph.
      *
      * @param attributeName  name of the attribute     
@@ -47,7 +71,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been 
      *         statically defined
      */
-    public void addAttributeNodes(Attribute<T, ?>... attribute);
+    public void addAttributeNodes(Attribute<? super T, ?>... attribute);
 
     /**
      * Add a node to the graph that corresponds to a managed
