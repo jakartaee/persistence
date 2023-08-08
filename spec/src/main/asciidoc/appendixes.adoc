@@ -114,3 +114,6 @@ Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_
 
 Made the _name_ member of _TableGenerator_ and _SequenceGenerator_ optional
 
+Entity and embeddable classes may now be static inner classes
+
+Primary key classes are no longer required to be public and serializable
