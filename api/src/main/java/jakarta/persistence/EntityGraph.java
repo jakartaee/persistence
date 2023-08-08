@@ -53,9 +53,25 @@ public interface EntityGraph<T> extends Graph<T> {
      * @param type  entity subclass
      * @return subgraph for the subclass
      * @throws IllegalArgumentException if the type is not an entity type
-     * @throws IllegalStateException if the EntityGraph has been 
+     * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
      */
+    public <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
+
+    /**
+     * Add additional attributes to this entity graph that
+     * correspond to attributes of subclasses of this EntityGraph's
+     * entity type.  Subclass subgraphs will automatically include the
+     * specified attributes of superclass subgraphs.
+     *
+     * @param type  entity subclass
+     * @return subgraph for the subclass
+     * @throws IllegalArgumentException if the type is not an entity type
+     * @throws IllegalStateException if the EntityGraph has been 
+     *         statically defined
+     * @deprecated use {@link #addTreatedSubgraph(Class)}
+     */
+    @Deprecated(since = "3.2")
     public <T> Subgraph<? extends T> addSubclassSubgraph(Class<? extends T> type);
 
 }
