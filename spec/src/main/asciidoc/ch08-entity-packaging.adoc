@@ -526,8 +526,8 @@ properties used in the _persistence.xml_ file.
 The _jakarta.persistence.schema-generation.database.action_ property specifies
 the action to be taken by the persistence provider with regard to the
 database artifacts. The values for this property are _none_, _create_,
-_drop-and-create_, _drop_. If this property is not specified, it is
-assumed that schema generation is not needed or will be initiated by
+_drop-and-create_, _drop_, _validate_. If this property is not specified,
+it is assumed that schema generation is not needed or will be initiated by
 other means, and, by default, no schema generation actions will be taken
 on the database. (See <<a12917>>.)
 * _jakarta.persistence.schema-generation.scripts.action_ +

@@ -114,6 +114,8 @@ Added _runInTransaction()_ and _callInTransaction()_ to _EntityManagerFactory_
 
 Added support for specifying null precedence when ordering JPQL and criteria queries
 
+Introduced SchemaManager API
+
 Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
 
 Added new operations to _PersistenceUnitUtil_

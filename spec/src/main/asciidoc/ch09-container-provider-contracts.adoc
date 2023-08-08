@@ -139,7 +139,7 @@ If a provider does not qualify as the
 provider for the named persistence unit, it must return _null_ when
 _createEntityManagerFactory_ is invoked on it.
 
-==== Schema Generation
+==== Schema Generation [[a12803]]
 
 In Java SE environments, the
 _Persistence.generateSchema_ method may be used by the application to
@@ -389,7 +389,7 @@ deploying the persistence unit
 The _jakarta.persistence.schema-generation.database.action_ property specifies
 the action to be taken by the persistence provider with regard to the
 database artifacts. The values for this property are _"none"_,
-_"create"_, _"drop-and-create"_, _"drop"_. If the
+_"create"_, _"drop-and-create"_, _"drop"_, _"validate"_. If the
 _jakarta.persistence.schema-generation.database.action_ property is not
 specified, no schema generation actions must be taken on the database.
 * _jakarta.persistence.schema-generation.scripts.action_ +

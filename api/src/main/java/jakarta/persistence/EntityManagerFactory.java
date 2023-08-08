@@ -172,6 +172,17 @@ public interface EntityManagerFactory extends AutoCloseable {
     public PersistenceUnitUtil getPersistenceUnitUtil();
 
     /**
+     * Return interface providing access to schema management
+     * operations for the persistence unit.
+     * @return <code>SchemaManager</code> interface
+     * @throws IllegalStateException if the entity manager factory
+     * has been closed
+     *
+     * @since 3.2
+     */
+    public SchemaManager getSchemaManager();
+
+    /**
      * Define the query, typed query, or stored procedure query as
      * a named query such that future query objects can be created
      * from it using the <code>createNamedQuery</code> or
