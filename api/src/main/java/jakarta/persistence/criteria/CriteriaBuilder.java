@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -20,6 +21,7 @@ package jakarta.persistence.criteria;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import jakarta.persistence.Tuple;
@@ -1073,6 +1075,15 @@ public interface CriteriaBuilder {
      * @return not-like predicate
      */
     Predicate notLike(Expression<String> x, String pattern, char escapeChar);
+
+    /**
+     *  Create an expression for string concatenation.
+     *  If the given list of expressions is empty, returns
+     *  an expression equivalent to {@code literal("")}.
+     *  @param expressions  string expressions
+     *  @return expression corresponding to concatenation
+     */
+    Expression<String> concat(List<Expression<String>> expressions);
 
     /**
      *  Create an expression for string concatenation.

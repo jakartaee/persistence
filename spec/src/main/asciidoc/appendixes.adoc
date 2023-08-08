@@ -104,6 +104,13 @@ Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting 
 
 === Jakarta Persistence 3.2
 
+Added support for Java record types as embeddable classes
+
 Added `||` string concatenation operator
 
+Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
+
+Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_
+
 Made the _name_ member of _TableGenerator_ and _SequenceGenerator_ optional
+

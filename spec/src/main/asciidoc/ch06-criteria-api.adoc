@@ -1206,6 +1206,15 @@ public interface CriteriaBuilder {
 
     /**
      *  Create an expression for string concatenation.
+     *  If the given list of expressions is empty, returns
+     *  an expression equivalent to {@code literal("")}.
+     *  @param expressions  string expressions
+     *  @return expression corresponding to concatenation
+     */
+    Expression<String> concat(List<Expression<String>> expressions);
+
+    /**
+     *  Create an expression for string concatenation.
      *  @param x  string expression
      *  @param y  string expression
      *  @return expression corresponding to concatenation
