@@ -114,3 +114,4 @@ Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_
 
 Made the _name_ member of _TableGenerator_ and _SequenceGenerator_ optional
 
+Clarified the primary key types supported for each _GenerationType_
