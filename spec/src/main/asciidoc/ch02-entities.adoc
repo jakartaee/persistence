@@ -24,7 +24,7 @@ constructor. The entity class may have other constructors as well. The
 no-arg constructor must be public or protected.
 
 The entity class must be a top-level class.
-An enum or interface must not be designated as an entity.
+An enum, record, or interface may not be designated as an entity.
 
 The entity class must not be final. No
 methods or persistent instance variables of the entity class may be
@@ -415,8 +415,10 @@ property, the temporal type should be specified as _DATE_.
 The following rules apply for composite
 primary keys:
 
-- The primary key class must be public and must
-have a public no-arg constructor.
+- The primary key class may be a regular Java class, in which case it must
+be public and must have a public no-arg constructor. Alternatively, it may
+be a public Java record type, in which case it need not have a no-arg
+constructor.
 
 - The access type (field- or property-based
 access) of a primary key class is determined by the access type of the
@@ -1130,11 +1132,15 @@ values. Embedded objects belong strictly to their owning entity, and are
 not sharable across persistent entities. Attempting to share an embedded
 object across entities has undefined semantics.
 
-Embeddable classes must adhere to the
-requirements specified in <<a18>> for entities with the exception that embeddable classes
-are not annotated as _Entity_. Embeddable classes must be annotated as
+Embeddable classes must be annotated as
 _Embeddable_ or denoted in the XML descriptor as such. The access type
 for an embedded object is determined as described in <<a113>>.
+
+An embeddable class may be a regular Java class which adheres to the
+requirements specified in <<a18>> for entities, with the exception that
+an embeddable class is not annotated as _Entity_.
+
+Alternatively, an embeddable class may be any Java record type.
 
 An embeddable class may be used to represent
 the state of another embeddable class.
