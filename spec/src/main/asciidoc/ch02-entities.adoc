@@ -164,10 +164,13 @@ The persistent fields or properties of an entity may be of the following
 types: Java primitive types, _java.lang.String_, other Java serializable
 types (including wrappers of the primitive types, _java.math.BigInteger_,
 _java.math.BigDecimal_, _java.util.UUID_, _java.util.Date_,
-_java.util.Calendarfootnote:[Note that an instance of Calendar must be
-fully initialized for the type that it is mapped to.]_,
-_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_, _byte[]_,
-_Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
+_java.util.Calendar_,footnote:[Note that an instance of _Calendar_ must be
+fully initialized for the type that it is mapped to.]
+_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,footnote:[The use
+of _java.util.Calendar_ or of _java.util.Date_ and its subclasses in the
+package _java.sql_ is strongly discouraged. Newly-written programs should
+use date/time types from the package _java.time_.]
+_byte[]_, _Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
 _java.time.LocalTime_, _java.time.LocalDateTime_,
 _java.time.OffsetTime_, _java.time.OffsetDateTime_,
 and user-defined types that implement the _Serializable_ interface _)_;
