@@ -320,10 +320,10 @@ future use.] are reserved identifiers: ABS, ALL, AND, ANY, AS, ASC,
 AVG, BETWEEN, BIT_LENGTH, BOTH, BY, CASE, CEILING, CHAR_LENGTH,
 CHARACTER_LENGTH, CLASS, COALESCE, CONCAT, COUNT, CURRENT_DATE,
 CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC, DISTINCT, ELSE, EMPTY,
-END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FLOOR, FROM,
-FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
-LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
-NEW, NOT, NULL, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
+END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FIRST, FLOOR,
+FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
+LAST, LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
+NEW, NOT, NULL, NULLS, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
 POWER, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
 THEN, TRAILING, TREAT, TRIM, TRUE, TYPE, UNKNOWN, UPDATE, UPPER,
 VALUE, WHEN, WHERE.
@@ -2510,6 +2510,7 @@ orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
 orderby_item ::=
     {state_field_path_expression | general_identification_variable | result_variable}
         [ASC | DESC]
+        [NULLS {FIRST | LAST}]
 ----
 
 An orderby_item must be one of the following:
@@ -2586,7 +2587,9 @@ ordering be used for the associated _orderby_item_; the keyword DESC
 specifies that descending ordering be used. Ascending ordering is the
 default.
 
-SQL rules for the ordering of null values
+The keyword NULLS specifies the ordering of null values, either FIRST or LAST.
+
+If NULLS is not specified, SQL rules for the ordering of null values
 apply: that is, all null values must appear before all non-null values
 in the ordering or all null values must appear after all non-null values
 in the ordering, but it is not specified which.
@@ -2985,6 +2988,7 @@ orderby_item ::=
     general_identification_variable |
     result_variable
     [ASC | DESC]
+    [NULLS {FIRST | LAST}]
 subquery ::= simple_select_clause subquery_from_clause [where_clause]
     [groupby_clause] [having_clause]
 subquery_from_clause ::=
