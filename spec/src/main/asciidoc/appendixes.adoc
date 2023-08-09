@@ -106,6 +106,8 @@ Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting 
 
 Added support for Java record types as embeddable classes
 
+Added support for _java.time.Instant_ and _java.time.Year_ and clarified JDBC mappings for basic types
+
 Added `||` string concatenation operator
 
 Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
