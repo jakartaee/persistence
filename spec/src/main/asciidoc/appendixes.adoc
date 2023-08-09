@@ -108,6 +108,8 @@ Added support for Java record types as embeddable classes
 
 Added `||` string concatenation operator
 
+Added support for specifying null precedence when ordering JPQL and criteria queries
+
 Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
 
 Overload _concat()_ to accept list of expressions in _CriteriaBuilder_
