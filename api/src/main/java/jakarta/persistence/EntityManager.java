@@ -93,7 +93,18 @@ public interface EntityManager extends AutoCloseable {
      *         no transaction
      */    
     public void remove(Object entity);
-    
+
+    /**
+     * Obtain an instance of {@link Finder} for the given entity class.
+     * @param entityClass  entity class
+     * @return a {@link Finder} to find instances of the entity by primary key
+     * @throws IllegalArgumentException if the first argument does
+     *         not denote an entity type
+     *
+     * @since 3.2
+     */
+    public <T> Finder<T> find(Class<T> entityClass);
+
     /**
      * Find by primary key.
      * Search for an entity of the specified class and primary key.
@@ -105,7 +116,7 @@ public interface EntityManager extends AutoCloseable {
      *         not exist
      * @throws IllegalArgumentException if the first argument does
      *         not denote an entity type or the second argument is 
-     *         is not a valid type for that entity's primary key or
+     *         not a valid type for that entity's primary key or
      *         is null
      */
     public <T> T find(Class<T> entityClass, Object primaryKey);
@@ -125,7 +136,7 @@ public interface EntityManager extends AutoCloseable {
      *         not exist 
      * @throws IllegalArgumentException if the first argument does 
      *         not denote an entity type or the second argument is
-     *         is not a valid type for that entity's primary key or 
+     *         not a valid type for that entity's primary key or
      *         is null 
      * @since 2.0
      */ 
