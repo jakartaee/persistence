@@ -110,6 +110,8 @@ Added `||` string concatenation operator
 
 Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
 
+Added _equalTo()_ and _notEqualTo()_ to _Expression_
+
 Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_
 
 Made the _name_ member of _TableGenerator_ and _SequenceGenerator_ optional
