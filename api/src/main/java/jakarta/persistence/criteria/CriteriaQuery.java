@@ -17,7 +17,6 @@
 package jakarta.persistence.criteria;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * The <code>CriteriaQuery</code> interface defines functionality that is specific 
@@ -307,12 +306,4 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * @return the list of ordering expressions
      */
     List<Order> getOrderList();
- 
-    /**
-     * Return the parameters of the query.  Returns empty set if
-     * there are no parameters.
-     * Modifications to the set do not affect the query.
-     * @return the query parameters
-     */
-    Set<ParameterExpression<?>> getParameters();
 }
