@@ -170,6 +170,7 @@ _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_, _byte[]_,
 _Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
 _java.time.LocalTime_, _java.time.LocalDateTime_,
 _java.time.OffsetTime_, _java.time.OffsetDateTime_,
+_java.time.Instant_, _java.time.Year_,
 and user-defined types that implement the _Serializable_ interface _)_;
 enums; entity types; collections of entity types; embeddable classes
 (see <<a487>>); collections of basic and embeddable types (see <<a494>>).
@@ -1114,11 +1115,12 @@ public class MedicalHistory {
 
 === Basic Type
 
-Basic type is any Java primitive type, wrapper of the primitive types, java.lang.String,
-java.math.BigInteger, java.math.BigDecimal, java.util.Date, java.util.Calendar, java.sql.Date,
-java.sql.Time, java.sql.Timestamp, java.time.LocalDate, java.time.LocalTime,
-java.time.LocalDateTime, java.time.OffsetTime, java.time.OffsetDateTime, byte[], Byte[], char[],
-Character[], enum, any other type that implements Serializable.
+A basic type is any Java primitive type, wrapper of the primitive types, java.lang.String,
+java.math.BigInteger, java.math.BigDecimal, java.util.Date, java.util.Calendar,
+java.sql.Date, java.sql.Time, java.sql.Timestamp, java.time.LocalDate, java.time.LocalTime,
+java.time.LocalDateTime, java.time.OffsetTime, java.time.OffsetDateTime,
+java.time.Instant, java.time.Year, byte[], Byte[], char[], Character[], any enum type,
+any other type that implements Serializable.
 
 === Embeddable Classes [[a487]]
 
@@ -1281,8 +1283,9 @@ _java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
 _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
 _java.time.LocalDate_, _java.time.LocalTime_,
 _java.time.LocalDateTime_, _java.time.OffsetTime_,
-_java.time.OffsetDateTime_, _byte[]_, _Byte[]_, _char[]_,
-_Character[]_, enums, any other type that implements _Serializable_.
+_java.time.OffsetDateTime_, _java.time.Instant_, _java.time.Year_
+_byte[]_, _Byte[]_, _char[]_, _Character[]_, enums,
+any other type that implements _Serializable_.
 See <<a14205>>, <<a14719>>, <<a15087>>, and <<a16361>>.
 
 It is an error if no annotation is present
