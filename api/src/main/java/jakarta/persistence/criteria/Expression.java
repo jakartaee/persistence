@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -76,11 +77,29 @@ public interface Expression<T> extends Selection<T> {
     /**
      * Perform a typecast upon the expression, returning a new
      * expression object.
-     * This method does not cause type conversion:
-     * the runtime type is not changed.
-     * Warning: may result in a runtime failure.
+     * Unlike {@link #cast(Class)}, this method does not cause
+     * type conversion: the runtime type is not changed.
+     * <p><em>Warning: may result in a runtime failure.</em>
      * @param type  intended type of the expression
      * @return new expression of the given type
+     * @see #cast(Class)
      */
     <X> Expression<X> as(Class<X> type);
+
+    /**
+     * Cast this expression to the specified type, returning a
+     * new expression object.
+     * Unlike {@link #as(Class)}, this method <em>does</em>
+     * result in a runtime type conversion.
+     * <p><em>Providers are required to support casting
+     * scalar expressions to {@link String}, and
+     * {@code String} expressions to {@link Integer},
+     * {@link Long}, {@link Float}, and {@link Double}.
+     * Support for typecasts between other basic types is
+     * not required.</em>
+     * @param type  a basic type
+     * @return a scalar expression of the given basic type
+     * @since 3.2
+     */
+    <X> Expression<X> cast(Class<X> type);
 }
