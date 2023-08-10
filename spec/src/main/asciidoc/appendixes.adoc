@@ -137,3 +137,5 @@ Entity and embeddable classes may now be static inner classes
 Primary key classes are no longer required to be public and serializable
 
 Pulled _getParameters()_ up from _CriteriaQuery_ to _CommonAbstractCriteria_
+
+Add overload of _entity()_ accepting an entity name to _Metamodel_
