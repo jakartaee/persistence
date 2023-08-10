@@ -11,13 +11,13 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
 package jakarta.persistence.criteria;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * The <code>CriteriaQuery</code> interface defines functionality that is specific 
@@ -205,6 +205,19 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
     CriteriaQuery<T> where(Predicate... restrictions);
 
     /**
+     * Modify the query to restrict the query result according
+     * to the conjunction of the specified restriction predicates.
+     * Replaces the previously added restriction(s), if any.
+     * If no restrictions are specified, any previously added
+     * restrictions are simply removed.
+     * This method only overrides the return type of the
+     * corresponding <code>AbstractQuery</code> method.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return the modified query
+     */
+    CriteriaQuery<T> where(List<Predicate> restrictions);
+
+    /**
      * Specify the expressions that are used to form groups over
      * the query results.
      * Replaces the previous specified grouping expressions, if any.
@@ -253,6 +266,20 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * @return the modified query
      */
     CriteriaQuery<T> having(Predicate... restrictions);
+
+    /**
+     * Specify restrictions over the groups of the query
+     * according the conjunction of the specified restriction
+     * predicates.
+     * Replaces the previously added having restriction(s), if any.
+     * If no restrictions are specified, any previously added
+     * restrictions are simply removed.
+     * This method only overrides the return type of the
+     * corresponding <code>AbstractQuery</code> method.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return the modified query
+     */
+    CriteriaQuery<T> having(List<Predicate> restrictions);
 
     /**
      * Specify the ordering expressions that are used to
@@ -307,12 +334,4 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * @return the list of ordering expressions
      */
     List<Order> getOrderList();
- 
-    /**
-     * Return the parameters of the query.  Returns empty set if
-     * there are no parameters.
-     * Modifications to the set do not affect the query.
-     * @return the query parameters
-     */
-    Set<ParameterExpression<?>> getParameters();
 }
