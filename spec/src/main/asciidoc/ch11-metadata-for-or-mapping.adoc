@@ -538,16 +538,25 @@ _java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
 _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
 _java.time.LocalDate_, _java.time.LocalTime_, _java.time.LocalDateTime_,
 _java.time.OffsetTime_, _java.time.OffsetDateTime_,
+_java.time.Instant_ and _java.time.Year_,
 _byte[]_, _Byte[]_, _char[]_, _Character[]_, enums, and any other type
-that implements _Serializable_.footnote:[Mapping of
-java.time.LocalDate, java.time.LocalTime, java.time.LocalDateTime,
-java.time.OffsetTime, and java.time.OffsetDateTime types to columns
-other than those supported by the mappings defined by Appendix B of the
-JDBC 4.2 specification is not required to be supported by the
-persistence provider beyond the support required for other serializable
-types. See <<a19496>>.] As described in <<a511>>, the use of the _Basic_
-annotation is optional for persistent fields and properties of these
-types. If the _Basic_ annotation is not specified for such a field or
+that implements _Serializable_.
+
+For the types listed above, the persistence provider must support mappings
+to the column types listed in tables B-2 and B-4 of Appendix B of the
+JDBC 4.3 specification. See <<a19496>>. In addition, the provider must
+support mapping:
+
+- _java.time.Instant_ to the JDBC _TIMESTAMP_ or _TIMESTAMP_WITH_TIMEZONE_ type,
+- _java.time.Year_ to the JDBC _INTEGER_ and _SMALLINT_ types,
+- _java.math.BigInteger_ and _java.math.BigDecimal_ to the JDBC _NUMERIC_ and _DECIMAL_ types,
+- _java.util.UUID_ to the JDBC _CHAR_ and _VARCHAR_ types, and
+- _char[]_ to the JDBC _CHAR_, _NCHAR_, _VARCHAR_, _NVARCHAR_, _LONGVARCHAR_,
+and _LONGNVARCHAR_ types.
+
+As described in <<a511>>, the use of the _Basic_
+annotation is optional for persistent fields and properties of the
+types listed above. If the _Basic_ annotation is not specified for such a field or
 property, the default values of the _Basic_ annotation will apply.
 
 [source,java]

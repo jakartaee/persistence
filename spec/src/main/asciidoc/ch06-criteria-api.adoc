@@ -2768,6 +2768,38 @@ public interface Expression<T> extends Selection<T> {
     Predicate isNotNull();
 
     /**
+     * Create a predicate to test whether the expression is equal to
+     * the argument.
+     * @param value  expression to be tested against
+     * @return predicate testing for equality
+     */
+    Predicate equalTo(Expression<?> value);
+
+    /**
+     * Create a predicate to test whether the expression is equal to
+     * the argument.
+     * @param value  value to be tested against
+     * @return predicate testing for equality
+     */
+    Predicate equalTo(Object value);
+
+    /**
+     * Create a predicate to test whether the expression is unequal
+     * to the argument.
+     * @param value  expression to be tested against
+     * @return predicate testing for inequality
+     */
+    Predicate notEqualTo(Expression<?> value);
+
+    /**
+     * Create a predicate to test whether the expression is unequal
+     * to the argument.
+     * @param value  value to be tested against
+     * @return predicate testing for inequality
+     */
+    Predicate notEqualTo(Object value);
+
+    /**
      * Create a predicate to test whether the expression is a member
      * of the argument list.
      * @param values  values to be tested against

@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import java.util.Set;
+
 /**
  * The <code>CommonAbstractCriteria</code> interface defines functionality 
  * that is common to both top-level criteria queries and subqueries as 
@@ -46,5 +48,13 @@ public interface CommonAbstractCriteria {
      * @return where clause predicate
      */
     Predicate getRestriction();
- 
+
+
+    /**
+     * Return the parameters of the query.  Returns empty set if
+     * there are no parameters.
+     * Modifications to the set do not affect the query.
+     * @return the query parameters
+     */
+    Set<ParameterExpression<?>> getParameters();
 }
