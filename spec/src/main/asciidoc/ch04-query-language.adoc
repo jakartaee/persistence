@@ -328,7 +328,7 @@ POWER, REPLACE, RIGHT, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SU
 THEN, TRAILING, TREAT, TRIM, TRUE, TYPE, UNKNOWN, UPDATE, UPPER,
 VALUE, WHEN, WHERE.
 
-Reserved identifiers are case insensitive.
+Reserved identifiers are case-insensitive.
 Reserved identifiers must not be used as identification variables or
 result variables (see <<a5438>>).
 
@@ -349,12 +349,11 @@ All identification variables must be declared
 in the FROM clause. Identification variables cannot be declared in other
 clauses.
 
-An identification variable must not be a
-reserved identifier or have the same name as any entity in the same
-persistence unit.
+An identification variable must not be a reserved identifier.
 
-Identification variables are case
-insensitive.
+An identification variable may have the same name as an entity.
+
+Identification variables are case-insensitive.
 
 An identification variable evaluates to a
 value of the type of the expression used in declaring the variable. For
@@ -446,6 +445,8 @@ WHERE o1.quantity > o2.quantity AND
  o2.customer.firstname= 'John'
 ----
 
+The entity name in a range variable declaration is case-sensitive.
+
 [[a4792]]
 ==== Path Expressions
 
@@ -457,6 +458,9 @@ association field to which the expression navigates. The type of a path
 expression that navigates to an association field may be specified as a
 subtype of the declared type of the association field by means of the
 TREAT operator. See <<a4965>>.
+
+A reference to a state field or association field in a path expression is
+case-sensitive.
 
 An identification variable qualified
 by the KEY, VALUE, or ENTRY operator is a path expression. The KEY,
