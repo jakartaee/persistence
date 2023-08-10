@@ -1842,29 +1842,39 @@ defined by the _GenerationType_ enum:
 public enum GenerationType { TABLE, SEQUENCE, IDENTITY, UUID, AUTO };
 ----
 
-The _TABLE_ generator type value indicates
-that the persistence provider must assign primary keys for the entity
-using an underlying database table to ensure uniqueness.
+The _TABLE_ generator type value indicates that the persistence
+provider must assign primary keys for the entity using an underlying
+database table to ensure uniqueness.
 
-The _SEQUENCE_ and _IDENTITY_ values
-specify the use of a database sequence or identity column,
-respectively.footnote:[Note that SEQUENCE
-and IDENTITY are not portable across all databases.]
+The _SEQUENCE_ and _IDENTITY_ values specify the use of a database
+sequence or identity column, respectively.footnote:[Note that
+_SEQUENCE_ and _IDENTITY_ are not portable across all databases.]
 
-The further specification of table generators
-and sequence generators is described in <<a16164>> and <<a16256>>.
+The further specification of table generators and sequence generators
+is described in <<a16164>> and <<a16256>>.
+
+A _TABLE_, _SEQUENCE_, or _IDENTITY_ generator may be used to generate
+values for a primary key property or field of type _java.lang.Long_,
+_java.lang.Integer_, _long_, or _int_.
 
 The _UUID_ value indicates that the persistence provider should
 assign an RFC 4122 Universally Unique IDentifier.
 
-The _AUTO_ value indicates that the
-persistence provider should pick an appropriate strategy for the
-particular database. The _AUTO_ generation strategy may expect a
-database resource to exist, or it may attempt to create one. A vendor
-may provide documentation on how to create such resources in the event
-that it does not support schema generation or cannot create the schema
-resource at runtime. In the case of a field or property of type
-_java.util.UUID_, the _AUTO_ strategy is equivalent to _UUID_.
+A _UUID_ generator may be used to generate values for a primary key
+property or field of type _java.util.UUID_ or _java.lang.String_.
+
+The _AUTO_ value indicates that the persistence provider should pick
+an appropriate strategy given the type of the primary key property or
+field, and the capabilities of the particular database. In the case of
+a field or property of type _java.util.UUID_ or _java.lang.String_,
+the _AUTO_ strategy is equivalent to _UUID_. In the case of a field or
+property of type _java.lang.Long_, _java.lang.Integer_, _long_, or _int_,
+the _AUTO_ strategy may select between _TABLE_, _SEQUENCE_, or _IDENTITY_.
+
+The _AUTO_ generation strategy may expect a database resource to exist,
+or it may attempt to create one. A vendor may provide documentation on
+how to create such resources in the event that it does not support
+schema generation or cannot create the schema resource at runtime.
 
 This specification does not define the exact
 behavior of these strategies.
