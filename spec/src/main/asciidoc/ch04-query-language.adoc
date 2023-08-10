@@ -320,10 +320,10 @@ future use.] are reserved identifiers: ABS, ALL, AND, ANY, AS, ASC,
 AVG, BETWEEN, BIT_LENGTH, BOTH, BY, CASE, CEILING, CHAR_LENGTH,
 CHARACTER_LENGTH, CLASS, COALESCE, CONCAT, COUNT, CURRENT_DATE,
 CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC, DISTINCT, ELSE, EMPTY,
-END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FLOOR, FROM,
-FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
-LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
-NEW, NOT, NULL, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
+END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FIRST, FLOOR,
+FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
+LAST, LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
+NEW, NOT, NULL, NULLS, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
 POWER, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
 THEN, TRAILING, TREAT, TRIM, TRUE, TYPE, UNKNOWN, UPDATE, UPPER,
 VALUE, WHEN, WHERE.
@@ -1053,17 +1053,30 @@ String literals in queries, like Java _String_ literals, use unicode
 character encoding. The use of Java escape notation is not supported in
 query string literals.
 
-Exact numeric literals support the use of
-Java integer literal syntax as well as SQL exact numeric literal syntax.
+A numeric literal may be either:
 
-Approximate literals support the use Java
-floating point literal syntax as well as SQL approximate numeric literal
-syntax.
+- a decimal Java integer (int or long) literal
+- a Java floating point (float or double) literal, or
+- a literal _BigInteger_ or _BigDecimal_.
 
-Appropriate suffixes can be used to indicate
-the specific type of a numeric literal in accordance with the Java
-Language Specification. Support for the use of hexadecimal and octal
-numeric literals is not required by this specification.
+A suffix _L_, _D_, or _F_ may be used to indicate the specific numeric
+type, in accordance with the Java Language Specification. The suffix is
+not case-sensitive. The literal numeric value preceding the suffix must
+conform to the rules for Java numeric literals established by the Java
+Language Specification.
+
+A suffix _BI_ or _BD_ may be used to indicate a literal _BigInteger_ or
+_BigDecimal_, respectively. The literal numeric value preceding the suffix
+must be an exact or approximate SQL numeric literal. For a _BigInteger_
+literal, the numeric value must be an exact integer literal.
+
+Just as in Java, when a numeric literal has no suffix:
+
+- an integer literal is interpreted as a Java int, and
+- a floating point literal is interpreted as a Java double.
+
+Support for hexadecimal and octal numeric literals is not required by
+this specification.
 
 Enum literals support the use of Java enum
 literal syntax. The fully qualified enum class name must be specified.
@@ -1088,7 +1101,7 @@ The boolean literals are _TRUE_ and _FALSE_.
 
 Entity type literals are specified by entity names—for example: _Customer_.
 
-Although reserved literals appear in upper case, they are case insensitive.
+Although reserved literals appear in upper case, they are case-insensitive.
 
 ==== Identification Variables
 
@@ -2510,6 +2523,7 @@ orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
 orderby_item ::=
     {state_field_path_expression | general_identification_variable | result_variable}
         [ASC | DESC]
+        [NULLS {FIRST | LAST}]
 ----
 
 An orderby_item must be one of the following:
@@ -2586,7 +2600,9 @@ ordering be used for the associated _orderby_item_; the keyword DESC
 specifies that descending ordering be used. Ascending ordering is the
 default.
 
-SQL rules for the ordering of null values
+The keyword NULLS specifies the ordering of null values, either FIRST or LAST.
+
+If NULLS is not specified, SQL rules for the ordering of null values
 apply: that is, all null values must appear before all non-null values
 in the ordering or all null values must appear after all non-null values
 in the ordering, but it is not specified which.
@@ -2985,6 +3001,7 @@ orderby_item ::=
     general_identification_variable |
     result_variable
     [ASC | DESC]
+    [NULLS {FIRST | LAST}]
 subquery ::= simple_select_clause subquery_from_clause [where_clause]
     [groupby_clause] [having_clause]
 subquery_from_clause ::=

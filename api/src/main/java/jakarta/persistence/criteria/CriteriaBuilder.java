@@ -117,19 +117,37 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an ordering by the ascending value of the expression.
-     * @param x  expression used to define the ordering
+     * @param expression  expression used to define the ordering
      * @return ascending ordering corresponding to the expression
      */
-    Order asc(Expression<?> x);
+    Order asc(Expression<?> expression);
 
     /**
      * Create an ordering by the descending value of the expression.
-     * @param x  expression used to define the ordering
+     * @param expression  expression used to define the ordering
      * @return descending ordering corresponding to the expression
      */
-    Order desc(Expression<?> x);
+    Order desc(Expression<?> expression);
 
-	
+    /**
+     * Create an ordering by the ascending value of the expression.
+     * @param expression  expression used to define the ordering
+     * @param nullPrecedence  the precedence of null values
+     * @return ascending ordering corresponding to the expression
+     * @since 3.2
+     */
+    Order asc(Expression<?> expression, Nulls nullPrecedence);
+
+    /**
+     * Create an ordering by the descending value of the expression.
+     * @param expression  expression used to define the ordering
+     * @param nullPrecedence  the precedence of null values
+     * @return descending ordering corresponding to the expression
+     * @since 3.2
+     */
+    Order desc(Expression<?> expression, Nulls nullPrecedence);
+
+
     //aggregate functions:
 	
     /**
@@ -267,6 +285,14 @@ public interface CriteriaBuilder {
     Predicate and(Predicate... restrictions);
 
     /**
+     * Create a conjunction of the given restriction predicates.
+     * A conjunction of zero predicates is true.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return and predicate
+     */
+    Predicate and(List<Predicate> restrictions);
+
+    /**
      * Create a disjunction of the given boolean expressions.
      * @param x  boolean expression
      * @param y  boolean expression
@@ -281,6 +307,14 @@ public interface CriteriaBuilder {
      * @return or predicate
      */
     Predicate or(Predicate... restrictions);
+
+    /**
+     * Create a disjunction of the given restriction predicates.
+     * A disjunction of zero predicates is false.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return or predicate
+     */
+    Predicate or(List<Predicate> restrictions);
 
     /**
      * Create a negation of the given restriction. 
