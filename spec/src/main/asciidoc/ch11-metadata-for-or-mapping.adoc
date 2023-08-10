@@ -5296,9 +5296,8 @@ are specified with the _Version_ annotation should not be updated by the
 application.footnote:[See, however,
 <<a5636>>.]
 
-The following types are supported for version
-properties: _int_, _Integer_, _short_, _Short_, _long_, _Long_,
-_Timestamp_.
+The following types are supported for version properties:
+_int_, _Integer_, _short_, _Short_, _long_, _Long_, _LocalDateTime_, _Instant_, _Timestamp_.
 
 [source,java]
 ----
