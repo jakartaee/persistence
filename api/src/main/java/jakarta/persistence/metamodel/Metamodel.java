@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -25,6 +26,16 @@ import java.util.Set;
  * @since 2.0
  */
 public interface Metamodel {
+
+    /**
+     *  Return the metamodel entity type representing the entity.
+     *  @param entityName  the name of the represented entity
+     *  @return the metamodel entity type
+     *  @throws IllegalArgumentException if not an entity
+     *  @see jakarta.persistence.Entity#name
+     *  @since 3.2
+     */
+    EntityType<?> entity(String entityName);
 
     /**
      *  Return the metamodel entity type representing the entity.
