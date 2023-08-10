@@ -110,6 +110,10 @@ Added `||` string concatenation operator
 
 Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
 
+Overload _concat()_ to accept list of expressions in _CriteriaBuilder_
+
+Overload _where()_, _having()_, _and()_, and _or()_ to accept _List<Predicate>_ in _CriteriaQuery_ and _CriteriaBuilder_
+
 Added _equalTo()_ and _notEqualTo()_ to _Expression_
 
 Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_

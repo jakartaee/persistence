@@ -267,6 +267,14 @@ public interface CriteriaBuilder {
     Predicate and(Predicate... restrictions);
 
     /**
+     * Create a conjunction of the given restriction predicates.
+     * A conjunction of zero predicates is true.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return and predicate
+     */
+    Predicate and(List<Predicate> restrictions);
+
+    /**
      * Create a disjunction of the given boolean expressions.
      * @param x  boolean expression
      * @param y  boolean expression
@@ -281,6 +289,14 @@ public interface CriteriaBuilder {
      * @return or predicate
      */
     Predicate or(Predicate... restrictions);
+
+    /**
+     * Create a disjunction of the given restriction predicates.
+     * A disjunction of zero predicates is false.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return or predicate
+     */
+    Predicate or(List<Predicate> restrictions);
 
     /**
      * Create a negation of the given restriction. 
