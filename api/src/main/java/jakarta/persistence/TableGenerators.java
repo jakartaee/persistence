@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to group <code>TableGenerator</code> annotations.
+ * Used to group {@code TableGenerator} annotations.
  *
  * @see TableGenerator
  * @since 2.2

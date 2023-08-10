@@ -22,7 +22,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies multiple named stored procedure queries.  Query names
- * are scoped to the persistence unit.  The <code>NamedStoredProcedureQueries</code> 
+ * are scoped to the persistence unit.  The {@code NamedStoredProcedureQueries}
  * annotation can be applied to an entity or mapped superclass.
  *
  * @see NamedStoredProcedureQuery
@@ -33,6 +33,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface NamedStoredProcedureQueries { 
 
-    /** (Required) Array of <code>NamedStoredProcedureQuery</code> annotations. */
+    /** (Required) Array of {@code NamedStoredProcedureQuery} annotations. */
     NamedStoredProcedureQuery[] value ();
 }

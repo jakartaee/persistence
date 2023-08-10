@@ -25,10 +25,10 @@ import static jakarta.persistence.ConstraintMode.CONSTRAINT;
  * generation is in effect.  If this annotation is not specified, the
  * persistence provider's default foreign key strategy will be used.
  * <p>
- * The <code>ConstraintMode</code> value is used to specify whether foreign
+ * The {@code ConstraintMode} value is used to specify whether foreign
  * key constraints should be generated.
  * <p>
- * The syntax used in the <code>foreignKeyDefinition</code> element 
+ * The syntax used in the {@code foreignKeyDefinition} element
  * should follow the SQL syntax used by the target database for foreign
  * key constraints.  For example, this may be similar the following:
  * <pre>
@@ -39,8 +39,8 @@ import static jakarta.persistence.ConstraintMode.CONSTRAINT;
  * [ ON DELETE &#060;referential action&#062; ]
  * </pre>
  *
- * When the <code>ConstraintMode</code> value is
- * <code>CONSTRAINT</code>, but the <code>foreignKeyDefinition</code>
+ * When the {@code ConstraintMode} value is
+ * {@code CONSTRAINT}, but the {@code foreignKeyDefinition}
  * element is not specified, the provider will generate foreign key
  * constraints whose update and delete actions it determines most
  * appropriate for the join column(s) to which the foreign key
@@ -72,17 +72,17 @@ public @interface ForeignKey {
      * (Optional) Used to specify whether a foreign key constraint should be
      *  generated when schema generation is in effect. 
      *  <p>
-     *  A value of <code>CONSTRAINT</code> will cause the persistence
+     *  A value of {@code CONSTRAINT} will cause the persistence
      *  provider to generate a foreign key constraint.  If the
-     *  <code>foreignKeyDefinition</code> element is not specified, the
+     *  {@code foreignKeyDefinition} element is not specified, the
      *  provider will generate a constraint whose update
      *  and delete actions it determines most appropriate for the
      *  join column(s) to which the foreign key annotation is applied.
      *  <p>
-     *  A value of <code>NO_CONSTRAINT</code> will result in no
+     *  A value of {@code NO_CONSTRAINT} will result in no
      *  constraint being generated.
      *  <p>
-     *  A value of <code>PROVIDER_DEFAULT</code> will result in the
+     *  A value of {@code PROVIDER_DEFAULT} will result in the
      *  provider's default behavior (which may or may not result
      *  in the generation of a constraint for the given join column(s).
      */

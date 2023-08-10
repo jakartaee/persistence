@@ -17,8 +17,8 @@
 package jakarta.persistence;
 
 /**
- * Type used to indicate a specific mapping of <code>java.util.Date</code> 
- * or <code>java.util.Calendar</code>.
+ * Type used to indicate a specific mapping of {@link java.util.Date}
+ * or {@link java.util.Calendar}.
  *
  * @since 1.0
  */

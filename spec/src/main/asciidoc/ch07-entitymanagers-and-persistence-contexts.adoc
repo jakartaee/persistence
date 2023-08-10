@@ -218,7 +218,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
  * <p>When the application has finished using the entity manager
  * factory, and/or at application shutdown, the application should
  * close the entity manager factory.  Once an
- * <code>EntityManagerFactory</code> has been closed, all its entity managers
+ * {@code EntityManagerFactory} has been closed, all its entity managers
  * are considered to be in the closed state.
  *
  * @since 1.0
@@ -226,10 +226,10 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 public interface EntityManagerFactory extends AutoCloseable {
 
     /**
-     * Create a new application-managed <code>EntityManager</code>.
-     * This method returns a new <code>EntityManager</code> instance each time
+     * Create a new application-managed {@code EntityManager}.
+     * This method returns a new {@code EntityManager} instance each time
      * it is invoked.
-     * The <code>isOpen</code> method will return true on the returned instance.
+     * The {@code isOpen} method will return true on the returned instance.
      * @return entity manager instance
      * @throws IllegalStateException if the entity manager factory
      * has been closed
@@ -237,11 +237,11 @@ public interface EntityManagerFactory extends AutoCloseable {
     public EntityManager createEntityManager();
 
     /**
-     * Create a new application-managed <code>EntityManager</code> with the
+     * Create a new application-managed {@code EntityManager} with the
      * specified Map of properties.
-     * This method returns a new <code>EntityManager</code> instance each time
+     * This method returns a new {@code EntityManager} instance each time
      * it is invoked.
-     * The <code>isOpen</code> method will return true on the returned instance.
+     * The {@code isOpen} method will return true on the returned instance.
      * @param map properties for entity manager
      * @return entity manager instance
      * @throws IllegalStateException if the entity manager factory
@@ -250,11 +250,11 @@ public interface EntityManagerFactory extends AutoCloseable {
     public EntityManager createEntityManager(Map map);
 
     /**
-     * Create a new JTA application-managed <code>EntityManager</code> with the
+     * Create a new JTA application-managed {@code EntityManager} with the
      * specified synchronization type.
-     * This method returns a new <code>EntityManager</code> instance each time
+     * This method returns a new {@code EntityManager} instance each time
      * it is invoked.
-     * The <code>isOpen</code> method will return true on the returned instance.
+     * The {@code isOpen} method will return true on the returned instance.
      * @param synchronizationType  how and when the entity manager should be
      * synchronized with the current JTA transaction
      * @return entity manager instance
@@ -266,11 +266,11 @@ public interface EntityManagerFactory extends AutoCloseable {
     public EntityManager createEntityManager(SynchronizationType synchronizationType);
 
     /**
-     * Create a new JTA application-managed <code>EntityManager</code> with the
+     * Create a new JTA application-managed {@code EntityManager} with the
      * specified synchronization type and map of properties.
-     * This method returns a new <code>EntityManager</code> instance each time
+     * This method returns a new {@code EntityManager} instance each time
      * it is invoked.
-     * The <code>isOpen</code> method will return true on the returned instance.
+     * The {@code isOpen} method will return true on the returned instance.
      * @param synchronizationType  how and when the entity manager should be
      * synchronized with the current JTA transaction
      * @param map properties for entity manager
@@ -283,8 +283,8 @@ public interface EntityManagerFactory extends AutoCloseable {
     public EntityManager createEntityManager(SynchronizationType synchronizationType, Map map);
 
     /**
-     * Return an instance of <code>CriteriaBuilder</code> for the creation of
-     * <code>CriteriaQuery</code> objects.
+     * Return an instance of {@code CriteriaBuilder} for the creation of
+     * {@code CriteriaQuery} objects.
      * @return CriteriaBuilder instance
      * @throws IllegalStateException if the entity manager factory
      * has been closed
@@ -294,7 +294,7 @@ public interface EntityManagerFactory extends AutoCloseable {
     public CriteriaBuilder getCriteriaBuilder();
 
     /**
-     * Return an instance of <code>Metamodel</code> interface for access to the
+     * Return an instance of {@code Metamodel} interface for access to the
      * metamodel of the persistence unit.
      * @return Metamodel instance
      * @throws IllegalStateException if the entity manager factory
@@ -314,9 +314,9 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Close the factory, releasing any resources that it holds.
      * After a factory instance has been closed, all methods invoked
-     * on it will throw the <code>IllegalStateException</code>, except
-     * for <code>isOpen</code>, which will return false. Once an
-     * <code>EntityManagerFactory</code> has been closed, all its
+     * on it will throw the {@code IllegalStateException}, except
+     * for {@code isOpen}, which will return false. Once an
+     * {@code EntityManagerFactory} has been closed, all its
      * entity managers are considered to be in the closed state.
      * @throws IllegalStateException if the entity manager factory
      * has been closed
@@ -338,7 +338,7 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Access the cache that is associated with the entity manager
      * factory (the "second level cache").
-     * @return instance of the <code>Cache</code> interface or null if
+     * @return instance of the {@code Cache} interface or null if
      * no cache is in use
      * @throws IllegalStateException if the entity manager factory
      * has been closed
@@ -350,7 +350,7 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Return interface providing access to utility methods
      * for the persistence unit.
-     * @return <code>PersistenceUnitUtil</code> interface
+     * @return {@code PersistenceUnitUtil} interface
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      *
@@ -361,8 +361,8 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Define the query, typed query, or stored procedure query as
      * a named query such that future query objects can be created
-     * from it using the <code>createNamedQuery</code> or
-     * <code>createNamedStoredProcedureQuery</code> method.
+     * from it using the {@code createNamedQuery} or
+     * {@code createNamedStoredProcedureQuery} method.
      * <p>Any configuration of the query object (except for actual
      * parameter binding) in effect when the named query is added
      * is retained as part of the named query definition.
@@ -374,8 +374,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * that is overridden does not affect the named query as
      * registered with the entity manager factory, and thus does
      * not affect subsequent query objects created from it by
-     * means of the <code>createNamedQuery</code> or
-     * <code>createNamedStoredProcedureQuery</code> method.
+     * means of the {@code createNamedQuery} or
+     * {@code createNamedStoredProcedureQuery} method.
      * <p>If a named query of the same name has been previously
      * defined, either statically via metadata or via this method,
      * that query definition is replaced.
@@ -504,7 +504,7 @@ package jakarta.persistence;
  * Interface used to control transactions on resource-local entity
  * managers.  The {@link EntityManager#getTransaction
  * EntityManager.getTransaction()} method returns the
- * <code>EntityTransaction</code> interface.
+ * {@code EntityTransaction} interface.
  *
  * @since 1.0
  */
@@ -1315,7 +1315,7 @@ package jakarta.persistence;
 /**
  * Interface used to interact with the second-level cache.
  * If a cache is not in use, the methods of this interface have
- * no effect, except for <code>contains</code>, which returns false.
+ * no effect, except for {@code contains}, which returns false.
  *
  * @since 2.0
  */

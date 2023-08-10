@@ -26,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * tables may be specified using {@link SecondaryTable} or {@link
  * SecondaryTables} annotation.
  *
- * <p> If no <code>Table</code> annotation is specified for an entity 
+ * <p> If no {@code Table} annotation is specified for an entity
  * class, the default values apply.
  *
  * <pre>
@@ -63,7 +63,7 @@ public @interface Table {
      * (Optional) Unique constraints that are to be placed on 
      * the table. These are only used if table generation is in 
      * effect. These constraints apply in addition to any constraints 
-     * specified by the <code>Column</code> and <code>JoinColumn</code> 
+     * specified by the {@code Column} and {@code JoinColumn}
      * annotations and constraints entailed by primary key mappings.
      * <p> Defaults to no additional constraints.
      */

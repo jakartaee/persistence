@@ -17,7 +17,7 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>BasicType</code> represent basic types (including
+ * Instances of the type {@code BasicType} represent basic types (including
  * temporal and enumerated types).
  *
  * @param <X> The type of the represented basic type

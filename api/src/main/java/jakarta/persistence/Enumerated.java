@@ -26,12 +26,12 @@ import static jakarta.persistence.EnumType.ORDINAL;
 
 /**
  * Specifies that a persistent property or field should be persisted
- * as a enumerated type.  The <code>Enumerated</code> annotation may
- * be used in conjunction with the <code>Basic</code> annotation, or in
- * conjunction with the <code>ElementCollection</code> annotation when the
+ * as a enumerated type.  The {@code Enumerated} annotation may
+ * be used in conjunction with the {@code Basic} annotation, or in
+ * conjunction with the {@code ElementCollection} annotation when the
  * element collection value is of basic type.  If the enumerated type
- * is not specified or the <code>Enumerated</code> annotation is not
- * used, the <code>EnumType</code> value is assumed to be <code>ORDINAL</code>.
+ * is not specified or the {@code Enumerated} annotation is not
+ * used, the {@code EnumType} value is assumed to be {@code ORDINAL}.
  *
  * <pre>
  *   Example:

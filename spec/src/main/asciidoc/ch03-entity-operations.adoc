@@ -61,17 +61,17 @@ import jakarta.persistence.criteria.CriteriaDelete;
 /**
  * Interface used to interact with the persistence context.
  *
- * <p> An <code>EntityManager</code> instance is associated with
+ * <p> An {@code EntityManager} instance is associated with
  * a persistence context. A persistence context is a set of entity
  * instances in which for any persistent entity identity there is
  * a unique entity instance. Within the persistence context, the
  * entity instances and their lifecycle are managed.
- * The <code>EntityManager</code> API is used
+ * The {@code EntityManager} API is used
  * to create and remove persistent entity instances, to find entities
  * by their primary key, and to query over entities.
  *
  * <p> The set of entities that can be managed by a given
- * <code>EntityManager</code> instance is defined by a persistence
+ * {@code EntityManager} instance is defined by a persistence
  * unit. A persistence unit defines the set of all classes that are
  * related or grouped by the application, and which must be
  * colocated in their mapping to a single database.
@@ -90,9 +90,9 @@ public interface EntityManager extends AutoCloseable {
      * Make an instance managed and persistent.
      * @param entity  entity instance
      * @throws EntityExistsException if the entity already exists.
-     * (If the entity already exists, the <code>EntityExistsException</code> may
+     * (If the entity already exists, the {@code EntityExistsException} may
      * be thrown when the persist operation is invoked, or the
-     * <code>EntityExistsException</code> or another <code>PersistenceException</code> may be
+     * {@code EntityExistsException} or another {@code PersistenceException} may be
      * thrown at flush or commit time.)
      * @throws IllegalArgumentException if the instance is not an
      *         entity
@@ -176,13 +176,13 @@ public interface EntityManager extends AutoCloseable {
      * lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock.  If these
-     * checks fail, the <code>OptimisticLockException</code> will be thrown.
+     * checks fail, the {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
+     * <li> the {@code PessimisticLockException} will be thrown if the database
      *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
+     * <li> the {@code LockTimeoutException} will be thrown if the database
      *    locking failure causes only statement-level rollback
      * </ul>
      * @param entityClass  entity class
@@ -195,10 +195,10 @@ public interface EntityManager extends AutoCloseable {
      *         not a valid type for that entity's primary key or
      *         is null
      * @throws TransactionRequiredException if there is no
-     *         transaction and a lock mode other than <code>NONE</code> is
+     *         transaction and a lock mode other than {@code NONE} is
      *         specified or if invoked on an entity manager which has
      *         not been joined to the current transaction and a lock
-     *         mode other than <code>NONE</code> is specified
+     *         mode other than {@code NONE} is specified
      * @throws OptimisticLockException if the optimistic version
      *         check fails
      * @throws PessimisticLockException if pessimistic locking
@@ -223,13 +223,13 @@ public interface EntityManager extends AutoCloseable {
      * is pessimistic and the entity has a version attribute, the
      * persistence provider must perform optimistic version checks
      * when obtaining the database lock.  If these checks fail,
-     * the <code>OptimisticLockException</code> will be thrown.
+     * the {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
+     * <li> the {@code PessimisticLockException} will be thrown if the database
      *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
+     * <li> the {@code LockTimeoutException} will be thrown if the database
      *    locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific property or hint is not recognized,
@@ -250,10 +250,10 @@ public interface EntityManager extends AutoCloseable {
      *         not a valid type for that entity's primary key or
      *         is null
      * @throws TransactionRequiredException if there is no
-     *         transaction and a lock mode other than <code>NONE</code> is
+     *         transaction and a lock mode other than {@code NONE} is
      *         specified or if invoked on an entity manager which has
      *         not been joined to the current transaction and a lock
-     *         mode other than <code>NONE</code> is specified
+     *         mode other than {@code NONE} is specified
      * @throws OptimisticLockException if the optimistic version
      *         check fails
      * @throws PessimisticLockException if pessimistic locking
@@ -271,10 +271,10 @@ public interface EntityManager extends AutoCloseable {
     /**
      * Get an instance, whose state may be lazily fetched.
      * If the requested instance does not exist in the database,
-     * the <code>EntityNotFoundException</code> is thrown when the instance
+     * the {@code EntityNotFoundException} is thrown when the instance
      * state is first accessed. (The persistence provider runtime is
-     * permitted to throw the <code>EntityNotFoundException</code> when
-     * <code>getReference</code> is called.)
+     * permitted to throw the {@code EntityNotFoundException} when
+     * {@code getReference} is called.)
      * The application should not expect that the instance state will
      * be available upon detachment, unless it was accessed by the
      * application while the entity manager was open.
@@ -322,13 +322,13 @@ public interface EntityManager extends AutoCloseable {
      * contains a version attribute, the persistence provider must
      * also perform optimistic version checks when obtaining the
      * database lock.  If these checks fail, the
-     * <code>OptimisticLockException</code> will be thrown.
+     * {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
+     * <li> the {@code PessimisticLockException} will be thrown if the database
      *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
+     * <li> the {@code LockTimeoutException} will be thrown if the database
      *    locking failure causes only statement-level rollback
      * </ul>
      * @param entity  entity instance
@@ -360,13 +360,13 @@ public interface EntityManager extends AutoCloseable {
      * contains a version attribute, the persistence provider must
      * also perform optimistic version checks when obtaining the
      * database lock.  If these checks fail, the
-     * <code>OptimisticLockException</code> will be thrown.
+     * {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
+     * <li> the {@code PessimisticLockException} will be thrown if the database
      *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
+     * <li> the {@code LockTimeoutException} will be thrown if the database
      *    locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific property or hint is not recognized,
@@ -442,9 +442,9 @@ public interface EntityManager extends AutoCloseable {
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
+     * <li> the {@code PessimisticLockException} will be thrown if the database
      *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the
+     * <li> the {@code LockTimeoutException} will be thrown if the
      *    database locking failure causes only statement-level
      *    rollback.
      * </ul>
@@ -456,10 +456,10 @@ public interface EntityManager extends AutoCloseable {
      *         container-managed entity manager of type
      *         <code>PersistenceContextType.TRANSACTION</code> when there is
      *         no transaction; if invoked on an extended entity manager when
-     *         there is no transaction and a lock mode other than <code>NONE</code>
+     *         there is no transaction and a lock mode other than {@code NONE}
      *         has been specified; or if invoked on an extended entity manager
      *         that has not been joined to the current transaction and a
-     *         lock mode other than <code>NONE</code> has been specified
+     *         lock mode other than {@code NONE} has been specified
      * @throws EntityNotFoundException if the entity no longer exists
      *         in the database
      * @throws PessimisticLockException if pessimistic locking fails
@@ -480,9 +480,9 @@ public interface EntityManager extends AutoCloseable {
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
+     * <li> the {@code PessimisticLockException} will be thrown if the database
      *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
+     * <li> the {@code LockTimeoutException} will be thrown if the database
      *    locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific property or hint is not recognized,
@@ -501,10 +501,10 @@ public interface EntityManager extends AutoCloseable {
      *         container-managed entity manager of type
      *         <code>PersistenceContextType.TRANSACTION</code> when there is
      *         no transaction; if invoked on an extended entity manager when
-     *         there is no transaction and a lock mode other than <code>NONE</code>
+     *         there is no transaction and a lock mode other than {@code NONE}
      *         has been specified; or if invoked on an extended entity manager
      *         that has not been joined to the current transaction and a
-     *         lock mode other than <code>NONE</code> has been specified
+     *         lock mode other than {@code NONE} has been specified
      * @throws EntityNotFoundException if the entity no longer exists
      *         in the database
      * @throws PessimisticLockException if pessimistic locking fails
@@ -584,7 +584,7 @@ public interface EntityManager extends AutoCloseable {
     public Map<String, Object> getProperties();
 
     /**
-     * Create an instance of <code>Query</code> for executing a
+     * Create an instance of {@code Query} for executing a
      * Jakarta Persistence query language statement.
      * @param qlString a Jakarta Persistence query string
      * @return the new query instance
@@ -594,7 +594,7 @@ public interface EntityManager extends AutoCloseable {
     public Query createQuery(String qlString);
 
     /**
-     * Create an instance of <code>TypedQuery</code> for executing a
+     * Create an instance of {@code TypedQuery} for executing a
      * criteria query.
      * @param criteriaQuery  a criteria query object
      * @return the new query instance
@@ -605,7 +605,7 @@ public interface EntityManager extends AutoCloseable {
     public <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery);
 
     /**
-     * Create an instance of <code>Query</code> for executing a criteria
+     * Create an instance of {@code Query} for executing a criteria
      * update query.
      * @param updateQuery  a criteria update query object
      * @return the new query instance
@@ -616,7 +616,7 @@ public interface EntityManager extends AutoCloseable {
     public Query createQuery(CriteriaUpdate updateQuery);
 
     /**
-     * Create an instance of <code>Query</code> for executing a criteria
+     * Create an instance of {@code Query} for executing a criteria
      * delete query.
      * @param deleteQuery  a criteria delete query object
      * @return the new query instance
@@ -627,11 +627,11 @@ public interface EntityManager extends AutoCloseable {
     public Query createQuery(CriteriaDelete deleteQuery);
 
     /**
-     * Create an instance of <code>TypedQuery</code> for executing a
+     * Create an instance of {@code TypedQuery} for executing a
      * Jakarta Persistence query language statement.
      * The select list of the query must contain only a single
      * item, which must be assignable to the type specified by
-     * the <code>resultClass</code> argument.
+     * the {@code resultClass} argument.
      * @param qlString a Jakarta Persistence query string
      * @param resultClass the type of the query result
      * @return the new query instance
@@ -643,7 +643,7 @@ public interface EntityManager extends AutoCloseable {
     public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
 
     /**
-     * Create an instance of <code>Query</code> for executing a named query
+     * Create an instance of {@code Query} for executing a named query
      * (in the Jakarta Persistence query language or in native SQL).
      * @param name the name of a query defined in metadata
      * @return the new query instance
@@ -654,11 +654,11 @@ public interface EntityManager extends AutoCloseable {
     public Query createNamedQuery(String name);
 
     /**
-     * Create an instance of <code>TypedQuery</code> for executing a
+     * Create an instance of {@code TypedQuery} for executing a
      * Jakarta Persistence query language named query.
      * The select list of the query must contain only a single
      * item, which must be assignable to the type specified by
-     * the <code>resultClass</code> argument.
+     * the {@code resultClass} argument.
      * @param name the name of a query defined in metadata
      * @param resultClass the type of the query result
      * @return the new query instance
@@ -671,7 +671,7 @@ public interface EntityManager extends AutoCloseable {
     public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
-     * Create an instance of <code>Query</code> for executing
+     * Create an instance of {@code Query} for executing
      * a native SQL statement, e.g., for update or delete.
      * If the query is not an update or delete query, query
      * execution will result in each row of the SQL result
@@ -686,7 +686,7 @@ public interface EntityManager extends AutoCloseable {
     public Query createNativeQuery(String sqlString);
 
     /**
-     * Create an instance of <code>Query</code> for executing
+     * Create an instance of {@code Query} for executing
      * a native SQL query.
      * @param sqlString a native SQL query string
      * @param resultClass the class of the resulting instance(s)
@@ -695,7 +695,7 @@ public interface EntityManager extends AutoCloseable {
     public Query createNativeQuery(String sqlString, Class resultClass);
 
     /**
-     * Create an instance of <code>Query</code> for executing
+     * Create an instance of {@code Query} for executing
      * a native SQL query.
      * @param sqlString a native SQL query string
      * @param resultSetMapping the name of the result set mapping
@@ -704,7 +704,7 @@ public interface EntityManager extends AutoCloseable {
     public Query createNativeQuery(String sqlString, String resultSetMapping);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
@@ -720,7 +720,7 @@ public interface EntityManager extends AutoCloseable {
     public StoredProcedureQuery createNamedStoredProcedureQuery(String name);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
@@ -737,11 +737,11 @@ public interface EntityManager extends AutoCloseable {
     public StoredProcedureQuery createStoredProcedureQuery(String procedureName);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
-     * <p>The <code>resultClass</code> arguments must be specified in the order in
+     * <p>The {@code resultClass} arguments must be specified in the order in
      * which the result sets will be returned by the stored procedure
      * invocation.
      * @param procedureName name of the stored procedure in the
@@ -759,11 +759,11 @@ public interface EntityManager extends AutoCloseable {
 	       String procedureName, Class... resultClasses);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
-     * <p>The <code>resultSetMapping</code> arguments must be specified in the order
+     * <p>The {@code resultSetMapping} arguments must be specified in the order
      * in which the result sets will be returned by the stored
      * procedure invocation.
      * @param procedureName name of the stored procedure in the
@@ -804,11 +804,11 @@ public interface EntityManager extends AutoCloseable {
 
     /**
      * Return an object of the specified type to allow access to the
-     * provider-specific API.   If the provider's <code>EntityManager</code>
+     * provider-specific API.   If the provider's {@code EntityManager}
      * implementation does not support the specified class, the
-     * <code>PersistenceException</code> is thrown.
+     * {@code PersistenceException} is thrown.
      * @param cls  the class of the object to be returned.  This is
-     * normally either the underlying <code>EntityManager</code> implementation
+     * normally either the underlying {@code EntityManager} implementation
      * class or an interface that it implements.
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not
@@ -818,10 +818,10 @@ public interface EntityManager extends AutoCloseable {
     public <T> T unwrap(Class<T> cls);
 
     /**
-     * Return the underlying provider object for the <code>EntityManager</code>,
+     * Return the underlying provider object for the {@code EntityManager},
      * if available. The result of this method is implementation
      * specific.
-     * <p>The <code>unwrap</code> method is to be preferred for new applications.
+     * <p>The {@code unwrap} method is to be preferred for new applications.
      * @return underlying provider object for EntityManager
      */
     public Object getDelegate();
@@ -829,12 +829,12 @@ public interface EntityManager extends AutoCloseable {
     /**
      * Close an application-managed entity manager.
      * After the close method has been invoked, all methods
-     * on the <code>EntityManager</code> instance and any
-     * <code>Query</code>, <code>TypedQuery</code>, and
-     * <code>StoredProcedureQuery</code> objects obtained from
-     * it will throw the <code>IllegalStateException</code>
-     * except for <code>getProperties</code>,
-     * <code>getTransaction</code>, and <code>isOpen</code> (which will return false).
+     * on the {@code EntityManager} instance and any
+     * {@code Query}, {@code TypedQuery}, and
+     * {@code StoredProcedureQuery} objects obtained from
+     * it will throw the {@code IllegalStateException}
+     * except for {@code getProperties},
+     * {@code getTransaction}, and {@code isOpen} (which will return false).
      * If this method is called when the entity manager is
      * joined to an active transaction, the persistence
      * context remains managed until the transaction completes.
@@ -850,8 +850,8 @@ public interface EntityManager extends AutoCloseable {
     public boolean isOpen();
 
     /**
-     * Return the resource-level <code>EntityTransaction</code> object.
-     * The <code>EntityTransaction</code> instance may be used serially to
+     * Return the resource-level {@code EntityTransaction} object.
+     * The {@code EntityTransaction} instance may be used serially to
      * begin and commit multiple transactions.
      * @return EntityTransaction instance
      * @throws IllegalStateException if invoked on a JTA
@@ -869,8 +869,8 @@ public interface EntityManager extends AutoCloseable {
     public EntityManagerFactory getEntityManagerFactory();
 
     /**
-     * Return an instance of <code>CriteriaBuilder</code> for the creation of
-     * <code>CriteriaQuery</code> objects.
+     * Return an instance of {@code CriteriaBuilder} for the creation of
+     * {@code CriteriaQuery} objects.
      * @return CriteriaBuilder instance
      * @throws IllegalStateException if the entity manager has
      *         been closed
@@ -879,7 +879,7 @@ public interface EntityManager extends AutoCloseable {
     public CriteriaBuilder getCriteriaBuilder();
 
     /**
-     * Return an instance of <code>Metamodel</code> interface for access to the
+     * Return an instance of {@code Metamodel} interface for access to the
      * metamodel of the persistence unit.
      * @return Metamodel instance
      * @throws IllegalStateException if the entity manager has
@@ -2803,9 +2803,9 @@ public interface EntityGraph<T> {
 
     /**
      * Return the name of a named EntityGraph (an entity graph
-     * defined by means of the <code>NamedEntityGraph</code>
+     * defined by means of the {@code NamedEntityGraph}
      * annotation, XML descriptor element, or added by means of the
-     * <code>addNamedEntityGraph</code> method.  Returns null if the
+     * {@code addNamedEntityGraph} method.  Returns null if the
      * EntityGraph is not a named EntityGraph.
      */
     public String getName();
@@ -3596,7 +3596,7 @@ public interface AttributeConverter<X,Y> {
      * Converts the data stored in the database column into the
      * value to be stored in the entity attribute.
      * Note that it is the responsibility of the converter writer to
-     * specify the correct <code>dbData</code> type for the corresponding
+     * specify the correct {@code dbData} type for the corresponding
      * column for use by the JDBC driver: i.e., persistence providers are
      * not expected to do such type conversion.
      *
@@ -3835,7 +3835,7 @@ package jakarta.persistence;
  * Used as the value of the
  * <code>jakarta.persistence.cache.retrieveMode</code> property to
  * specify the behavior when data is retrieved by the
- * <code>find</code> methods and by queries.
+ * {@code find} methods and by queries.
  *
  * @since 2.0
  */
@@ -3937,7 +3937,7 @@ public interface Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the transaction
      * @throws PessimisticLockException if pessimistic locking
      *         fails and the transaction is rolled back
@@ -3963,7 +3963,7 @@ public interface Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the transaction
      * @throws PessimisticLockException if pessimistic locking
      *         fails and the transaction is rolled back
@@ -3991,7 +3991,7 @@ public interface Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the transaction
      * @throws PessimisticLockException if pessimistic locking
      *         fails and the transaction is rolled back
@@ -4013,7 +4013,7 @@ public interface Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the transaction
      * @throws PessimisticLockException if pessimistic locking
      *         fails and the transaction is rolled back
@@ -4053,7 +4053,7 @@ public interface Query {
 
     /**
      * The maximum number of results the query object was set to
-     * retrieve. Returns <code>Integer.MAX_VALUE</code> if <code>setMaxResults</code> was not
+     * retrieve. Returns <code>Integer.MAX_VALUE</code> if {@code setMaxResults} was not
      * applied to the query object.
      * @return maximum number of results
      * @since 2.0
@@ -4071,7 +4071,7 @@ public interface Query {
 
     /**
      * The position of the first result the query object was set to
-     * retrieve. Returns 0 if <code>setFirstResult</code> was not applied to the
+     * retrieve. Returns 0 if {@code setFirstResult} was not applied to the
      * query object.
      * @return position of the first result
      * @since 2.0
@@ -4104,7 +4104,7 @@ public interface Query {
     Map<String, Object> getHints();
 
     /**
-     * Bind the value of a <code>Parameter</code> object.
+     * Bind the value of a {@code Parameter} object.
      * @param param  parameter object
      * @param value  parameter value
      * @return the same query instance
@@ -4116,7 +4116,7 @@ public interface Query {
     <T> Query setParameter(Parameter<T> param, T value);
 
     /**
-     * Bind an instance of <code>java.util.Calendar</code> to a <code>Parameter</code> object.
+     * Bind an instance of <code>java.util.Calendar</code> to a {@code Parameter} object.
      * @param param parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -4129,7 +4129,7 @@ public interface Query {
                        TemporalType temporalType);
 
     /**
-     * Bind an instance of <code>java.util.Date</code> to a <code>Parameter</code> object.
+     * Bind an instance of <code>java.util.Date</code> to a {@code Parameter} object.
      * @param param parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -4389,7 +4389,7 @@ public interface Query {
      * Return an object of the specified type to allow access to
      * the provider-specific API.  If the provider's query
      * implementation does not support the specified class, the
-     * <code>PersistenceException</code> is thrown.
+     * {@code PersistenceException} is thrown.
      * @param cls  the class of the object to be returned.  This is
      *             normally either the underlying query
      *             implementation class or an interface that it
@@ -4435,7 +4435,7 @@ public interface TypedQuery<X> extends Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the
      *         transaction
      * @throws PessimisticLockException if pessimistic locking
@@ -4462,7 +4462,7 @@ public interface TypedQuery<X> extends Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the transaction
      * @throws PessimisticLockException if pessimistic locking
      *         fails and the transaction is rolled back
@@ -4490,7 +4490,7 @@ public interface TypedQuery<X> extends Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the
      *         transaction
      * @throws PessimisticLockException if pessimistic locking
@@ -4513,7 +4513,7 @@ public interface TypedQuery<X> extends Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *         <code>NONE</code> has been set and there is no transaction
+     *         {@code NONE} has been set and there is no transaction
      *         or the persistence context has not been joined to the transaction
      * @throws PessimisticLockException if pessimistic locking
      *         fails and the transaction is rolled back
@@ -4560,7 +4560,7 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setHint(String hintName, Object value);
 
     /**
-     * Bind the value of a <code>Parameter</code> object.
+     * Bind the value of a {@code Parameter} object.
      * @param param  parameter object
      * @param value  parameter value
      * @return the same query instance
@@ -4571,7 +4571,7 @@ public interface TypedQuery<X> extends Query {
      <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
 
     /**
-     * Bind an instance of <code>java.util.Calendar</code> to a <code>Parameter</code> object.
+     * Bind an instance of <code>java.util.Calendar</code> to a {@code Parameter} object.
      * @param param  parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -4584,7 +4584,7 @@ public interface TypedQuery<X> extends Query {
                                TemporalType temporalType);
 
     /**
-     * Bind an instance of <code>java.util.Date</code> to a <code>Parameter</code> object.
+     * Bind an instance of <code>java.util.Date</code> to a {@code Parameter} object.
      * @param param  parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -4786,7 +4786,7 @@ public interface Tuple {
 package jakarta.persistence;
 
 /**
- * The <code>TupleElement</code> interface defines an element that is returned in
+ * The {@code TupleElement} interface defines an element that is returned in
  * a query result tuple.
  * @param <X> the type of the element
  *
@@ -4876,72 +4876,72 @@ import java.util.List;
  * Stored procedure query execution may be controlled in accordance with
  * the following:
  * <ul>
- * <li>The <code>setParameter</code> methods are used to set the values of
- * all required <code>IN</code> and <code>INOUT</code> parameters.
+ * <li>The {@code setParameter} methods are used to set the values of
+ * all required {@code IN} and {@code INOUT} parameters.
  * It is not required to set the values of stored procedure parameters
  * for which default values have been defined by the stored procedure.</li>
  * <li>
- * When <code>getResultList</code> and <code>getSingleResult</code> are
- * called on a <code>StoredProcedureQuery</code> object, the provider
- * will call <code>execute</code> on an unexecuted stored procedure
- * query before processing <code>getResultList</code> or
- * <code>getSingleResult</code>.</li>
+ * When {@code getResultList} and {@code getSingleResult} are
+ * called on a {@code StoredProcedureQuery} object, the provider
+ * will call {@code execute} on an unexecuted stored procedure
+ * query before processing {@code getResultList} or
+ * {@code getSingleResult}.</li>
  * <li>
- * When <code>executeUpdate</code> is called on a
- * <code>StoredProcedureQuery</code> object, the provider will call
- * <code>execute</code> on an unexecuted stored procedure query
- *  followed by <code>getUpdateCount</code>.  The results of
- * <code>executeUpdate</code> will be those of <code>getUpdateCount</code>.</li>
+ * When {@code executeUpdate} is called on a
+ * {@code StoredProcedureQuery} object, the provider will call
+ * {@code execute} on an unexecuted stored procedure query
+ *  followed by {@code getUpdateCount}.  The results of
+ * {@code executeUpdate} will be those of {@code getUpdateCount}.</li>
  * <li>
- * The <code>execute</code> method supports both the simple case where
- * scalar results are passed back only via <code>INOUT</code> and
- * <code>OUT</code> parameters as well as the most general case
+ * The {@code execute} method supports both the simple case where
+ * scalar results are passed back only via {@code INOUT} and
+ * {@code OUT} parameters as well as the most general case
  * (multiple result sets and/or update counts, possibly also in
  * combination with output parameter values).</li>
  * <li>
- * The <code>execute</code> method returns true if the first result is a
+ * The {@code execute} method returns true if the first result is a
  * result set, and false if it is an update count or there are no results
- * other than through <code>INOUT</code> and <code>OUT</code> parameters,
+ * other than through {@code INOUT} and {@code OUT} parameters,
  * if any.</li>
  * <li>
- * If the <code>execute</code> method returns true, the pending result set
- * can be obtained by calling <code>getResultList</code> or
- * <code>getSingleResult</code>.</li>
+ * If the {@code execute} method returns true, the pending result set
+ * can be obtained by calling {@code getResultList} or
+ * {@code getSingleResult}.</li>
  * <li>
- * The <code>hasMoreResults</code> method can then be used to test
+ * The {@code hasMoreResults} method can then be used to test
  * for further results.</li>
  * <li>
- * If <code>execute</code> or <code>hasMoreResults</code> returns false,
- * the <code>getUpdateCount</code> method can be called to obtain the
- * pending result if it is an update count.  The <code>getUpdateCount</code>
+ * If {@code execute} or {@code hasMoreResults} returns false,
+ * the {@code getUpdateCount} method can be called to obtain the
+ * pending result if it is an update count.  The {@code getUpdateCount}
  * method will return either the update count (zero or greater) or -1
  * if there is no update count (i.e., either the next result is a result set
  * or there is no next update count).</li>
  * <li>
  * For portability, results that correspond to JDBC result sets and
  * update counts need to be processed before the values of any
- * <code>INOUT</code> or <code>OUT</code> parameters are extracted.</li>
+ * {@code INOUT} or {@code OUT} parameters are extracted.</li>
  * <li>
- * After results returned through <code>getResultList</code> and
- * <code>getUpdateCount</code> have been exhausted, results returned through
- * <code>INOUT</code> and <code>OUT</code> parameters can be retrieved.</li>
+ * After results returned through {@code getResultList} and
+ * {@code getUpdateCount} have been exhausted, results returned through
+ * {@code INOUT} and {@code OUT} parameters can be retrieved.</li>
  * <li>
- * The <code>getOutputParameterValue</code> methods are used to retrieve
- * the values passed back from the procedure through <code>INOUT</code>
- * and <code>OUT</code> parameters.</li>
+ * The {@code getOutputParameterValue} methods are used to retrieve
+ * the values passed back from the procedure through {@code INOUT}
+ * and {@code OUT} parameters.</li>
  * <li>
- * When using <code>REF_CURSOR</code> parameters for result sets the
- * update counts should be exhausted before calling <code>getResultList</code>
- * to retrieve the result set.  Alternatively, the <code>REF_CURSOR</code>
- * result set can be retrieved through <code>getOutputParameterValue</code>.
+ * When using {@code REF_CURSOR} parameters for result sets the
+ * update counts should be exhausted before calling {@code getResultList}
+ * to retrieve the result set.  Alternatively, the {@code REF_CURSOR}
+ * result set can be retrieved through {@code getOutputParameterValue}.
  * Result set mappings will be applied to results corresponding to
- * <code>REF_CURSOR</code> parameters in the order the <code>REF_CURSOR</code>
+ * {@code REF_CURSOR} parameters in the order the {@code REF_CURSOR}
  * parameters were registered with the query.</li>
  * <li>
  * In the simplest case, where results are returned only via
- * <code>INOUT</code> and <code>OUT</code> parameters, <code>execute</code>
+ * {@code INOUT} and {@code OUT} parameters, {@code execute}
  * can be followed immediately by calls to
- * <code>getOutputParameterValue</code>.</li>
+ * {@code getOutputParameterValue}.</li>
  * </ul>
  *
  * @see Query
@@ -4968,7 +4968,7 @@ public interface StoredProcedureQuery extends Query {
     StoredProcedureQuery setHint(String hintName, Object value);
 
     /**
-     * Bind the value of a <code>Parameter</code> object.
+     * Bind the value of a {@code Parameter} object.
      * @param param  parameter object
      * @param value  parameter value
      * @return the same query instance
@@ -4979,7 +4979,7 @@ public interface StoredProcedureQuery extends Query {
                                           T value);
 
     /**
-     * Bind an instance of <code>java.util.Calendar</code> to a <code>Parameter</code> object.
+     * Bind an instance of <code>java.util.Calendar</code> to a {@code Parameter} object.
      * @param param parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -4992,7 +4992,7 @@ public interface StoredProcedureQuery extends Query {
                                       TemporalType temporalType);
 
     /**
-     * Bind an instance of <code>java.util.Date</code> to a <code>Parameter</code> object.
+     * Bind an instance of <code>java.util.Date</code> to a {@code Parameter} object.
      * @param param parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -5164,7 +5164,7 @@ public interface StoredProcedureQuery extends Query {
     /**
      * Return the update count of -1 if there is no pending result or
      * if the first result is not an update count.  The provider will
-     * call <code>execute</code> on the query if needed.
+     * call {@code execute} on the query if needed.
      * @return the update count or -1 if there is no pending result
      * or if the next result is not an update count.
      * @throws TransactionRequiredException if there is
@@ -5181,10 +5181,10 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve the list of results from the next result set.
-     * The provider will call <code>execute</code> on the query
+     * The provider will call {@code execute} on the query
      * if needed.
-     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
-     * in the order the <code>REF_CURSOR</code> parameter was
+     * A {@code REF_CURSOR} result set, if any, will be retrieved
+     * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
      * @return a list of the results or null is the next item is not
      * a result set
@@ -5199,10 +5199,10 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve a single result from the next result set.
-     * The provider will call <code>execute</code> on the query
+     * The provider will call {@code execute} on the query
      * if needed.
-     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
-     * in the order the <code>REF_CURSOR</code> parameter was
+     * A {@code REF_CURSOR} result set, if any, will be retrieved
+     * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
@@ -5219,10 +5219,10 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve a single result from the next result set.
-     * The provider will call <code>execute</code> on the query
+     * The provider will call {@code execute} on the query
      * if needed.
-     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
-     * in the order the <code>REF_CURSOR</code> parameter was
+     * A {@code REF_CURSOR} result set, if any, will be retrieved
+     * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set

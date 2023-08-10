@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The <code>Subquery</code> interface defines functionality that is 
+ * The {@code Subquery} interface defines functionality that is 
  * specific to subqueries.
  *
  * A subquery has an expression as its selection item.
@@ -47,7 +47,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * to the specified boolean expression.
      * Replaces the previously added restriction(s), if any.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
@@ -60,7 +60,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
@@ -73,7 +73,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no grouping expressions are specified, any previously 
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param grouping  zero or more grouping expressions
      * @return the modified subquery
      */
@@ -86,7 +86,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no grouping expressions are specified, any previously 
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param grouping  list of zero or more grouping expressions
      * @return the modified subquery
      */
@@ -96,7 +96,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Specify a restriction over the groups of the subquery.
      * Replaces the previous having restriction(s), if any.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
@@ -110,7 +110,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
@@ -123,7 +123,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If distinct has not been specified, duplicate results must
      * be retained.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param distinct  boolean value specifying whether duplicate
      *        results must be eliminated from the subquery result or
      *        whether they must be retained
@@ -181,15 +181,15 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
 
     /**
      * Return the query of which this is a subquery.
-     * This must be a CriteriaQuery or a Subquery.
+     * This must be a {@link CriteriaQuery} or a {@link Subquery}.
      * @return the enclosing query or subquery
      */
     AbstractQuery<?> getParent();
 
     /**
      * Return the query of which this is a subquery.
-     * This may be a CriteriaQuery, CriteriaUpdate, CriteriaDelete,
-     * or a Subquery.
+     * This may be a {@link CriteriaQuery}, {@link CriteriaUpdate},
+     * {@link CriteriaDelete}, or a {@link Subquery}.
      * @return the enclosing query or subquery
      * @since 2.1
      */

@@ -18,14 +18,14 @@ package jakarta.persistence.criteria;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
- * The <code>CriteriaDelete</code> interface defines functionality for performing
+ * The {@code CriteriaDelete} interface defines functionality for performing
  * bulk delete operations using the Criteria API
  *
  * <p>Criteria API bulk delete operations map directly to database 
  * delete operations.  The persistence context is not synchronized 
  * with the result of the bulk delete.
  *
- * <p> A <code>CriteriaDelete</code> object must have a single root.
+ * <p> A {@code CriteriaDelete} object must have a single root.
  *
  * @param <T>  the entity type that is the target of the delete
  *
@@ -37,7 +37,7 @@ public interface CriteriaDelete<T> extends CommonAbstractCriteria {
     /**
      * Create and add a query root corresponding to the entity
      * that is the target of the delete.
-     * A <code>CriteriaDelete</code> object has a single root, the entity that 
+     * A {@code CriteriaDelete} object has a single root, the entity that
      * is being deleted.
      * @param entityClass  the entity class
      * @return query root corresponding to the given entity
@@ -47,7 +47,7 @@ public interface CriteriaDelete<T> extends CommonAbstractCriteria {
     /**
      * Create and add a query root corresponding to the entity
      * that is the target of the delete.
-     * A <code>CriteriaDelete</code> object has a single root, the entity that 
+     * A {@code CriteriaDelete} object has a single root, the entity that
      * is being deleted.
      * @param entity  metamodel entity representing the entity
      *                of type X

@@ -34,14 +34,14 @@ public interface PersistenceUnitInfo {
 	
     /**
      * Returns the name of the persistence unit. Corresponds to the
-     * <code>name</code> attribute in the <code>persistence.xml</code> file.
+     * {@code name} attribute in the <code>persistence.xml</code> file.
      * @return  the name of the persistence unit 
      */
     public String getPersistenceUnitName();
 
     /**
      * Returns the fully qualified name of the persistence provider
-     * implementation class. Corresponds to the <code>provider</code> element in
+     * implementation class. Corresponds to the {@code provider} element in
      * the <code>persistence.xml</code> file.
      * @return  the fully qualified name of the persistence provider 
      * implementation class
@@ -50,7 +50,7 @@ public interface PersistenceUnitInfo {
 
     /**
      * Returns the transaction type of the entity managers created by
-     * the <code>EntityManagerFactory</code>. The transaction type corresponds to
+     * the {@code EntityManagerFactory}. The transaction type corresponds to
      * the <code>transaction-type</code> attribute in the <code>persistence.xml</code> file.
      * @return  transaction type of the entity managers created
      * by the EntityManagerFactory
@@ -123,7 +123,7 @@ public interface PersistenceUnitInfo {
     /**
      * Returns the list of the names of the classes that the
      * persistence provider must add to its set of managed
-     * classes. Each name corresponds to a named <code>class</code> element in the
+     * classes. Each name corresponds to a named {@code class} element in the
      * <code>persistence.xml</code> file.
      * @return the list of the names of the classes that the 
      * persistence provider must add to its set of managed 
@@ -168,7 +168,7 @@ public interface PersistenceUnitInfo {
 
     /**
      * Returns a properties object. Each property corresponds to a
-     * <code>property</code> element in the <code>persistence.xml</code> file
+     * {@code property} element in the <code>persistence.xml</code> file
      * or to a property set by the container.
      * @return Properties object 
      */

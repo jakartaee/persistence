@@ -40,9 +40,9 @@ public interface EntityGraph<T> {
 
     /**
      * Return the name of a named EntityGraph (an entity graph
-     * defined by means of the <code>NamedEntityGraph</code>
+     * defined by means of the {@code NamedEntityGraph}
      * annotation, XML descriptor element, or added by means of the
-     * <code>addNamedEntityGraph</code> method.  Returns null if the
+     * {@code addNamedEntityGraph} method.  Returns null if the
      * EntityGraph is not a named EntityGraph.
      */
     public String getName();

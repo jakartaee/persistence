@@ -81,8 +81,8 @@ public interface Path<X> extends Expression<X> {
      *  Create a path corresponding to the referenced attribute.
      * 
      *  <p> Note: Applications using the string-based API may need to 
-     *  specify the type resulting from the <code>get</code> operation in order
-     *  to avoid the use of <code>Path</code> variables.
+     *  specify the type resulting from the {@code get} operation in order
+     *  to avoid the use of {@code Path} variables.
      *
      *  <pre>
      *     For example:

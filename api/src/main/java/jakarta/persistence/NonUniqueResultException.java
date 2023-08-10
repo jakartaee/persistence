@@ -32,23 +32,23 @@ package jakarta.persistence;
 public class NonUniqueResultException extends PersistenceException {
 
 	/**
-	 * Constructs a new <code>NonUniqueResultException</code> exception
-	 * with <code>null</code> as its detail message.
+	 * Constructs a new {@code NonUniqueResultException} exception
+	 * with {@code null} as its detail message.
 	 */
 	public NonUniqueResultException() {
 		super();
 	}
 
 	/**
-	 * Constructs a new <code>NonUniqueResultException</code> exception
-	 * with <code>null</code> as its detail message.
+	 * Constructs a new {@code NonUniqueResultException} exception
+	 * with {@code null} as its detail message.
 	 */
 	public NonUniqueResultException(Exception cause) {
 		super(cause);
 	}
 
 	/**
-	 * Constructs a new <code>NonUniqueResultException</code> exception
+	 * Constructs a new {@code NonUniqueResultException} exception
 	 * with the specified detail message.
 	 * @param   message   the detail message.
 	 */
@@ -57,7 +57,7 @@ public class NonUniqueResultException extends PersistenceException {
 	}
 
 	/**
-	 * Constructs a new <code>NonUniqueResultException</code> exception
+	 * Constructs a new {@code NonUniqueResultException} exception
 	 * with the specified detail message.
 	 * @param   message   the detail message.
 	 */

@@ -25,7 +25,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies the mapped column for a persistent property or field.
- * If no <code>Column</code> annotation is specified, the default values apply.
+ * If no {@code Column} annotation is specified, the default values apply.
  *
  * <blockquote><pre>
  *    Example 1:
@@ -63,7 +63,7 @@ public @interface Column {
 
     /**
      * (Optional) Whether the column is a unique key.  This is a 
-     * shortcut for the <code>UniqueConstraint</code> annotation at the table 
+     * shortcut for the {@code UniqueConstraint} annotation at the table 
      * level and is useful for when the unique key constraint 
      * corresponds to only a single column. This constraint applies 
      * in addition to any constraint entailed by primary key mapping and 

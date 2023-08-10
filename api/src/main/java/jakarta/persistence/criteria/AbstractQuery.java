@@ -18,10 +18,12 @@ package jakarta.persistence.criteria;
 
 import java.util.List;
 import java.util.Set;
+
+import jakarta.persistence.Tuple;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
- * The <code>AbstractQuery</code> interface defines functionality that is common
+ * The {@code AbstractQuery} interface defines functionality that is common
  * to both top-level queries and subqueries.
  * It is not intended to be used directly in query construction.
  *
@@ -130,8 +132,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
 
     /**
      * Return the query roots.  These are the roots that have
-     * been defined for the <code>CriteriaQuery</code> or <code>Subquery</code> itself,
-     * including any subquery roots defined as a result of
+     * been defined for the {@link CriteriaQuery} or {@link Subquery}
+     * itself, including any subquery roots defined as a result of
      * correlation. Returns empty set if no roots have been defined.
      * Modifications to the set do not affect the query.
      * @return the set of query roots
@@ -172,11 +174,10 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
     /**
      * Return the result type of the query or subquery.  If a result
      * type was specified as an argument to the
-     * <code>createQuery</code> or <code>subquery</code> method, that
+     * {@code createQuery} or {@code subquery} method, that
      * type will be returned.  If the query was created using the
-     * <code>createTupleQuery</code> method, the result type is
-     * <code>Tuple</code>.  Otherwise, the result type is
-     * <code>Object</code>.
+     * {@code createTupleQuery} method, the result type is
+     * {@link Tuple}.  Otherwise, the result type is {@code Object}.
      * @return result type
      */
     Class<T> getResultType();  	

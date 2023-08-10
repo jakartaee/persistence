@@ -16,11 +16,13 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.persistence.Tuple;
+
 import java.util.List;
 import java.util.Set;
 
 /**
- * The <code>CriteriaQuery</code> interface defines functionality that is specific 
+ * The {@code CriteriaQuery} interface defines functionality that is specific
  * to top-level queries.
  *
  * @param <T>  the type of the defined result
@@ -77,38 +79,38 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If the type of the criteria query is
      * <code>CriteriaQuery&#060;Tuple&#062;</code> (i.e., a criteria
      * query object created by either the
-     * <code>createTupleQuery</code> method or by passing a
-     * <code>Tuple</code> class argument to the
-     * <code>createQuery</code> method), a <code>Tuple</code> object
-     * corresponding to the arguments of the <code>multiselect</code>
+     * {@code createTupleQuery} method or by passing a
+     * {@link Tuple} class argument to the
+     * {@code createQuery} method), a {@code Tuple} object
+     * corresponding to the arguments of the {@code multiselect}
      * method, in the specified order, will be instantiated and
      * returned for each row that results from the query execution.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X&#062;</code> for
      * some user-defined class X (i.e., a criteria query object
-     * created by passing a X class argument to the <code>createQuery</code> 
-     * method), the arguments to the <code>multiselect</code> method will be 
+     * created by passing a X class argument to the {@code createQuery}
+     * method), the arguments to the {@code multiselect} method will be
      * passed to the X constructor and an instance of type X will be 
      * returned for each row.  
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X[]&#062;</code> for
-     * some class X, an instance of type X[] will be returned for 
+     * some class X, an instance of type {@code X[]} will be returned for
      * each row.   The elements of the array will correspond to the 
-     * arguments of the <code>multiselect</code> method, in the
+     * arguments of the {@code multiselect} method, in the
      * specified order.  
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a 
-     * type, and only a single argument is passed to the <code>multiselect</code>
-     * method, an instance of type <code>Object</code> will be returned for 
+     * type, and only a single argument is passed to the {@code multiselect}
+     * method, an instance of type {@code Object} will be returned for
      * each row.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a 
-     * type, and more than one argument is passed to the <code>multiselect</code>
-     * method, an instance of type <code>Object[]</code> will be instantiated 
+     * type, and more than one argument is passed to the {@code multiselect}
+     * method, an instance of type {@code Object[]} will be instantiated
      * and returned for each row.  The elements of the array will 
-     * correspond to the arguments to the <code> multiselect</code>  method,
+     * correspond to the arguments to the <code> multiselect</code> method,
      * in the specified order.
      * </ul>
      *
@@ -129,46 +131,46 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      *
      * <p> The type of the result of the query execution depends on
      * the specification of the type of the criteria query object 
-     * created as well as the argument to the <code>multiselect</code> method.
-     * An element of the list passed to the <code>multiselect</code> method 
+     * created as well as the argument to the {@code multiselect} method.
+     * An element of the list passed to the {@code multiselect} method
      * must not be a tuple- or array-valued compound selection item. 
      *
      * <p> The semantics of this method are as follows:
      * <ul>
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Tuple&#062;</code>
      * (i.e., a criteria query object created by either the 
-     * <code>createTupleQuery</code> method or by passing a <code>Tuple</code> class argument 
-     * to the <code>createQuery</code> method), a <code>Tuple</code> object corresponding to 
-     * the elements of the list passed to the <code>multiselect</code> method, 
+     * {@code createTupleQuery} method or by passing a {@link Tuple} class argument
+     * to the {@code createQuery} method), a {@code Tuple} object corresponding to
+     * the elements of the list passed to the {@code multiselect} method,
      * in the specified order, will be instantiated and returned for each 
      * row that results from the query execution.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X&#062;</code> for
      * some user-defined class X (i.e., a criteria query object
-     * created by passing a X class argument to the <code>createQuery</code> 
-     * method), the elements of the list passed to the <code>multiselect</code>
+     * created by passing a X class argument to the {@code createQuery}
+     * method), the elements of the list passed to the {@code multiselect}
      * method will be passed to the X constructor and an instance
      * of type X will be returned for each row.  
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X[]&#062;</code> for
-     * some class X, an instance of type X[] will be returned for 
+     * some class X, an instance of type {@code X[]} will be returned for
      * each row.   The elements of the array will correspond to the 
-     * elements of the list passed to the <code>multiselect</code> method,
+     * elements of the list passed to the {@code multiselect} method,
      * in the specified order.  
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a 
-     * type, and the list passed to the <code>multiselect</code> method contains 
-     * only a single element, an instance of type <code>Object</code> will be 
+     * type, and the list passed to the {@code multiselect} method contains
+     * only a single element, an instance of type {@code Object} will be
      * returned for each row.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a 
-     * type, and the list passed to the <code>multiselect</code> method contains 
-     * more than one element, an instance of type <code>Object[]</code> will be 
+     * type, and the list passed to the {@code multiselect} method contains
+     * more than one element, an instance of type {@code Object[]} will be
      * instantiated and returned for each row.  The elements of the 
      * array will correspond to the elements of the list passed to
-     * the <code>multiselect</code> method, in the specified order.
+     * the {@code multiselect} method, in the specified order.
      * </ul>
      *
      * @param selectionList  list of selection items corresponding 
@@ -185,7 +187,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * to the specified boolean expression.
      * Replaces the previously added restriction(s), if any.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */
@@ -198,7 +200,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
@@ -211,7 +213,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no grouping expressions are specified, any previously 
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param grouping  zero or more grouping expressions
      * @return the modified query
      */
@@ -224,7 +226,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no grouping expressions are specified, any previously 
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param grouping  list of zero or more grouping expressions
      * @return the modified query
      */
@@ -234,7 +236,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * Specify a restriction over the groups of the query.
      * Replaces the previous having restriction(s), if any.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */
@@ -248,7 +250,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
@@ -291,7 +293,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If distinct has not been specified, duplicate results must
      * be retained.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@link AbstractQuery} method.
      * @param distinct  boolean value specifying whether duplicate
      *        results must be eliminated from the query result or
      *        whether they must be retained

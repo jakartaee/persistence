@@ -26,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a named native SQL query.
  * Query names are scoped to the persistence unit.
- * The <code>NamedNativeQuery</code> annotation can be applied to an 
+ * The {@code NamedNativeQuery} annotation can be applied to an 
  * entity or mapped superclass.
  *
  * @since 1.0

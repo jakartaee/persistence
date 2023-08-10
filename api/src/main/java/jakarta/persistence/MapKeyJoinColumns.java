@@ -25,12 +25,12 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 
 /**
  * Supports composite map keys that reference entities.  
- * <p> The <code>MapKeyJoinColumns</code> annotation groups
- * <code>MapKeyJoinColumn</code> annotations.  When the
- * <code>MapKeyJoinColumns</code> annotation is used, both the
- * <code>name</code> and the <code>referencedColumnName</code>
+ * <p> The {@code MapKeyJoinColumns} annotation groups
+ * {@code MapKeyJoinColumn} annotations.  When the
+ * {@code MapKeyJoinColumns} annotation is used, both the
+ * {@code name} and the {@code referencedColumnName}
  * elements must be specified in each of the grouped
- * <code>MapKeyJoinColumn</code> annotations.
+ * {@code MapKeyJoinColumn} annotations.
  * 
  * @see MapKeyJoinColumn
  * @see ForeignKey
@@ -49,8 +49,8 @@ public @interface MapKeyJoinColumns {
         /**
          *  (Optional) Used to specify or control the generation of a
          *  foreign key constraint when table generation is in effect.
-         *  If both this element and the <code>foreignKey</code>
-         *  element of any of the <code>MapKeyJoinColumn</code>
+         *  If both this element and the {@code foreignKey}
+         *  element of any of the {@code MapKeyJoinColumn}
          *  elements are specified, the behavior is undefined.  If no
          *  foreign key annotation element is specified in either
          *  location, the persistence provider's default foreign key

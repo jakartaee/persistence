@@ -33,7 +33,7 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * override a relationship mapping defined by the mapped
  * superclass. If not specified, the association is mapped the same as
  * in the original mapping. When used to override a mapping defined by
- * a mapped superclass, <code>AssociationOverride</code> is applied to
+ * a mapped superclass, {@code AssociationOverride} is applied to
  * the entity class.
  *
  * <p> May be used to override a relationship mapping from an
@@ -41,28 +41,28 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * is on the owning side of the relationship. When used to override a
  * relationship mapping defined by an embeddable class (including an
  * embeddable class embedded within another embeddable class),
- * <code>AssociationOverride</code> is applied to the field or
+ * {@code AssociationOverride} is applied to the field or
  * property containing the embeddable.
  *
- * <p> When <code>AssociationOverride</code> is used to override a
+ * <p> When {@code AssociationOverride} is used to override a
  * relationship mapping from an embeddable class, the
- * <code>name</code> element specifies the referencing relationship
+ * {@code name} element specifies the referencing relationship
  * field or property within the embeddable class. To override mappings
  * at multiple levels of embedding, a dot (".") notation syntax must
- * be used in the <code>name</code> element to indicate an attribute
+ * be used in the {@code name} element to indicate an attribute
  * within an embedded attribute.  The value of each identifier used
  * with the dot notation is the name of the respective embedded field
  * or property.
  * 
- * <p> When <code>AssociationOverride</code> is applied to override
+ * <p> When {@code AssociationOverride} is applied to override
  * the mappings of an embeddable class used as a map value,
  * "<code>value.</code>" must be used to prefix the name of the
  * attribute within the embeddable class that is being overridden in
  * order to specify it as part of the map value.
  *
  * <p> If the relationship mapping is a foreign key mapping, the
- * <code>joinColumns</code> element is used.  If the relationship
- * mapping uses a join table, the <code>joinTable</code> element must
+ * {@code joinColumns} element is used.  If the relationship
+ * mapping uses a join table, the {@code joinTable} element must
  * be specified to override the mapping of the join table and/or its
  * join columns.
  *
@@ -140,9 +140,9 @@ public @interface AssociationOverride {
 
     /**
      * The join column(s) being mapped to the persistent attribute(s).
-     * The <code>joinColumns</code> elements must be specified if a
+     * The {@code joinColumns} elements must be specified if a
      * foreign key mapping is used in the overriding of the mapping of
-     * the relationship.  The <code>joinColumns</code> element must
+     * the relationship.  The {@code joinColumns} element must
      * not be specified if a join table is used in the overriding of
      * the mapping of the relationship.
      */
@@ -151,9 +151,9 @@ public @interface AssociationOverride {
     /**
      *  (Optional) Used to specify or control the generation of a
      *   foreign key constraint for the columns corresponding to the
-     *   <code>joinColumns</code> element when table generation is in
-     *   effect.  If both this element and the <code>foreignKey</code>
-     *   element of any of the <code>joinColumns</code> elements are
+     *   {@code joinColumns} element when table generation is in
+     *   effect.  If both this element and the {@code foreignKey}
+     *   element of any of the {@code joinColumns} elements are
      *   specified, the behavior is undefined.  If no foreign key
      *   annotation element is specified in either location, the
      *   persistence provider's default foreign key strategy will
@@ -165,9 +165,9 @@ public @interface AssociationOverride {
 
     /**
      * The join table that maps the relationship.
-     * The <code>joinTable</code> element must be specified if a join table 
+     * The {@code joinTable} element must be specified if a join table
      * is used in the overriding of the mapping of the
-     * relationship.  The <code>joinTable</code> element must not be specified
+     * relationship.  The {@code joinTable} element must not be specified
      * if a foreign key mapping is used in the overriding of
      * the relationship.
      *

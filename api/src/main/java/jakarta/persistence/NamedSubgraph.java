@@ -20,12 +20,12 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * A <code>NamedSubgraph</code> is a member element of a
- * <code>NamedEntityGraph</code>.  The <code>NamedSubgraph</code> is
+ * A {@code NamedSubgraph} is a member element of a
+ * {@code NamedEntityGraph}.  The {@code NamedSubgraph} is
  * only referenced from within a NamedEntityGraph and can not be
- * referenced independently.  It is referenced by its <code>name</code>
- * from a <code>NamedAttributeNode</code> element of the 
- * <code>NamedEntityGraph</code>.
+ * referenced independently.  It is referenced by its {@code name}
+ * from a {@code NamedAttributeNode} element of the
+ * {@code NamedEntityGraph}.
  *
  * @see NamedEntityGraph
  * @see NamedAttributeNode

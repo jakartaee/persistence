@@ -20,7 +20,7 @@ package jakarta.persistence;
  * Interface used to control transactions on resource-local entity
  * managers.  The {@link EntityManager#getTransaction
  * EntityManager.getTransaction()} method returns the
- * <code>EntityTransaction</code> interface.
+ * {@code EntityTransaction} interface.
 
  *
  * @since 1.0

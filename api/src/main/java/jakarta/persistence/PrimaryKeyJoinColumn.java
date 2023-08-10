@@ -38,8 +38,8 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * mapping in which the primary key of the referencing entity 
  * is used as a foreign key to the referenced entity. 
  *
- * <p> If no <code>PrimaryKeyJoinColumn</code> annotation is 
- * specified for a subclass in the <code>JOINED</code>
+ * <p> If no {@code PrimaryKeyJoinColumn} annotation is 
+ * specified for a subclass in the {@code JOINED}
  * mapping strategy, the foreign key columns are assumed 
  * to have the same names as the primary key columns of the 
  * primary table of the superclass.
@@ -77,11 +77,11 @@ public @interface PrimaryKeyJoinColumn {
     /** 
      * (Optional) The name of the primary key column of the current table.
      * <p> Defaults to the same name as the primary key column 
-     * of the primary table of the superclass (<code>JOINED</code> mapping strategy); the same 
+     * of the primary table of the superclass ({@code JOINED} mapping strategy); the same 
      * name as the primary key column of the primary table 
-     * (<code>SecondaryTable</code> mapping); or the same name as the 
+     * ({@code SecondaryTable} mapping); or the same name as the 
      * primary key column for the table for the referencing entity 
-     * (<code>OneToOne</code> mapping).
+     * ({@code OneToOne} mapping).
      */
     String name() default "";
 
@@ -89,18 +89,18 @@ public @interface PrimaryKeyJoinColumn {
      * (Optional) The name of the primary key column of the table
      * being joined to.  <p> Defaults to the same name as the primary
      * key column of the primary table of the superclass
-     * (<code>JOINED</code> mapping strategy); the same name as the
+     * ({@code JOINED} mapping strategy); the same name as the
      * primary key column of the primary table
-     * (<code>SecondaryTable</code> mapping); or the same name as the
+     * ({@code SecondaryTable} mapping); or the same name as the
      * primary key column for the table for the referencing entity
-     * (<code>OneToOne</code> mapping).
+     * ({@code OneToOne} mapping).
      */
     String referencedColumnName() default "";
 
     /**
      * (Optional) The SQL fragment that is used when generating the 
      * DDL for the column. This should not be specified for a 
-     * <code>OneToOne</code> primary key association.
+     * {@code OneToOne} primary key association.
      * <p> Defaults to the generated SQL to create a column of the 
      * inferred type.
      */

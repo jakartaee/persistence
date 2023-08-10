@@ -92,7 +92,7 @@ public interface Metamodel {
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>Type</code> represent persistent object
+ * Instances of the type {@code Type} represent persistent object
  * or attribute types.
  *
  * @param <X>  The type of the represented object or attribute
@@ -139,7 +139,7 @@ package jakarta.persistence.metamodel;
 import java.util.Set;
 
 /**
- *  Instances of the type <code>ManagedType</code> represent entity, mapped
+ *  Instances of the type {@code ManagedType} represent entity, mapped
  *  superclass, and embeddable types.
  *
  *  @param <X> The represented type.
@@ -224,7 +224,7 @@ public interface ManagedType<X> extends Type<X> {
      *  @param name  the name of the represented attribute
      *  @param elementType  the element type of the represented
      *                      attribute
-     *  @return declared <code>CollectionAttribute</code> of the given name and
+     *  @return declared {@code CollectionAttribute} of the given name and
      *          element type
      *  @throws IllegalArgumentException if attribute of the given
      *          name and type is not declared in the managed type
@@ -469,7 +469,7 @@ package jakarta.persistence.metamodel;
 import java.util.Set;
 
 /**
- *  Instances of the type <code>IdentifiableType</code> represent entity or
+ *  Instances of the type {@code IdentifiableType} represent entity or
  *  mapped superclass types.
  *
  *  @param <X> The represented entity or mapped superclass type.
@@ -572,7 +572,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type <code>EntityType</code> represent entity types.
+ *  Instances of the type {@code EntityType} represent entity types.
  *
  *  @param <X> The represented entity type.
  *
@@ -597,7 +597,7 @@ public interface EntityType<X>
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type <code>EmbeddableType</code> represent embeddable types.
+ *  Instances of the type {@code EmbeddableType} represent embeddable types.
  *
  *  @param <X> The represented type.
  *
@@ -614,7 +614,7 @@ public interface EmbeddableType<X> extends ManagedType<X> {}
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type <code>MappedSuperclassType</code> represent mapped
+ *  Instances of the type {@code MappedSuperclassType} represent mapped
  *  superclass types.
  *
  *  @param <X> The represented entity type
@@ -630,7 +630,7 @@ public interface MappedSuperclassType<X> extends IdentifiableType<X> {}
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>BasicType</code> represent basic types (including
+ * Instances of the type {@code BasicType} represent basic types (including
  * temporal and enumerated types).
  *
  * @param <X> The type of the represented basic type
@@ -649,7 +649,7 @@ package jakarta.persistence.metamodel;
 import jakarta.persistence.criteria.Path;
 
 /**
- * Instances of the type <code>Bindable</code> represent object or attribute types
+ * Instances of the type {@code Bindable} represent object or attribute types
  * that can be bound into a {@link Path Path}.
  *
  * @param <T>  The type of the represented object or attribute
@@ -679,9 +679,9 @@ public interface Bindable<T> {
 
     /**
      * Return the Java type of the represented object.
-     * If the bindable type of the object is <code>PLURAL_ATTRIBUTE</code>,
+     * If the bindable type of the object is {@code PLURAL_ATTRIBUTE},
      * the Java element type is returned. If the bindable type is
-     * <code>SINGULAR_ATTRIBUTE</code> or <code>ENTITY_TYPE</code>,
+     * {@code SINGULAR_ATTRIBUTE} or {@code ENTITY_TYPE},
      * the Java type of the
      * represented entity or attribute is returned.
      * @return Java type
@@ -786,7 +786,7 @@ public interface Attribute<X, Y> {
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>SingularAttribute</code> represents persistent
+ * Instances of the type {@code SingularAttribute} represents persistent
  * single-valued properties or fields.
  *
  * @param <X> The type containing the represented attribute
@@ -834,7 +834,7 @@ public interface SingularAttribute<X, T>
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>PluralAttribute</code> represent
+ * Instances of the type {@code PluralAttribute} represent
  * persistent collection-valued attributes.
  *
  * @param <X> The type the represented collection belongs to
@@ -883,7 +883,7 @@ public interface PluralAttribute<X, C, E>
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>CollectionAttribute</code> represent persistent
+ * Instances of the type {@code CollectionAttribute} represent persistent
  * <code>java.util.Collection</code>-valued attributes.
  *
  * @param <X> The type the represented Collection belongs to
@@ -903,7 +903,7 @@ public interface CollectionAttribute<X, E>
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>SetAttribute</code> represent
+ * Instances of the type {@code SetAttribute} represent
  * persistent <code>java.util.Set</code>-valued attributes.
  *
  * @param <X> The type the represented Set belongs to
@@ -922,7 +922,7 @@ public interface SetAttribute<X, E>
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>ListAttribute</code> represent persistent
+ * Instances of the type {@code ListAttribute} represent persistent
  * <code>java.util.List</code>-valued attributes.
  *
  * @param <X> The type the represented List belongs to
@@ -942,7 +942,7 @@ public interface ListAttribute<X, E>
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>MapAttribute</code> represent
+ * Instances of the type {@code MapAttribute} represent
  * persistent <code>java.util.Map</code>-valued attributes.
  *
  * @param <X> The type the represented Map belongs to
@@ -981,7 +981,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The <code>StaticMetamodel</code> annotation specifies that the class
+ * The {@code StaticMetamodel} annotation specifies that the class
  * is a metamodel class that represents the entity, mapped
  * superclass, or embeddable class designated by the value
  * element.

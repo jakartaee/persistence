@@ -25,7 +25,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link ConstructorResult} annotation to map a column of the SELECT
  * list of a SQL query.
  *
- * <p> The <code>name</code> element references the name of a column in the SELECT list
+ * <p> The {@code name} element references the name of a column in the SELECT list
  *  &#8212; i.e., column alias, if applicable. Scalar result types can be 
  * included in the query result by specifying this annotation in 
  * the metadata.
@@ -67,7 +67,7 @@ public @interface ColumnResult {
 
     /** 
      *  (Optional) The Java type to which the column type is to be mapped.
-     *  If the <code>type</code> element is not specified, the default JDBC type 
+     *  If the {@code type} element is not specified, the default JDBC type 
      *  mapping for the column will be used.
      *  @since 2.1
      */

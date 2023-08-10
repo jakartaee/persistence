@@ -30,7 +30,7 @@ import jakarta.persistence.Tuple;
  * Used to construct criteria queries, compound selections, 
  * expressions, predicates, orderings.
  *
- * <p> Note that <code>Predicate</code> is used instead of <code>Expression&#060;Boolean&#062;</code> 
+ * <p> Note that {@code Predicate} is used instead of <code>Expression&#060;Boolean&#062;</code> 
  * in this API in order to work around the fact that Java 
  * generics are not compatible with varags.
  *
@@ -39,13 +39,13 @@ import jakarta.persistence.Tuple;
 public interface CriteriaBuilder {
 
     /**
-     *  Create a <code>CriteriaQuery</code> object.
+     *  Create a {@code CriteriaQuery} object.
      *  @return criteria query object
      */
     CriteriaQuery<Object> createQuery();
 
     /**
-     *  Create a <code>CriteriaQuery</code> object with the specified result 
+     *  Create a {@code CriteriaQuery} object with the specified result 
      *  type.
      *  @param resultClass  type of the query result
      *  @return criteria query object
@@ -53,7 +53,7 @@ public interface CriteriaBuilder {
     <T> CriteriaQuery<T> createQuery(Class<T> resultClass);
 
     /**
-     *  Create a <code>CriteriaQuery</code> object that returns a tuple of 
+     *  Create a {@code CriteriaQuery} object that returns a tuple of 
      *  objects as its result.
      *  @return criteria query object
      */
@@ -62,7 +62,7 @@ public interface CriteriaBuilder {
     // methods to construct queries for bulk updates and deletes:
 
     /**
-     *  Create a <code>CriteriaUpdate</code> query object to perform a bulk update operation.
+     *  Create a {@code CriteriaUpdate} query object to perform a bulk update operation.
      *  @param targetEntity  target type for update operation
      *  @return the query object
      *  @since 2.1
@@ -70,7 +70,7 @@ public interface CriteriaBuilder {
     <T> CriteriaUpdate<T> createCriteriaUpdate(Class<T> targetEntity);
 
     /**
-     *  Create a <code>CriteriaDelete</code> query object to perform a bulk delete operation.
+     *  Create a {@code CriteriaDelete} query object to perform a bulk delete operation.
      *  @param targetEntity  target type for delete operation
      *  @return the query object
      *  @since 2.1
@@ -233,7 +233,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create a some expression over the subquery results.
-     * This expression is equivalent to an <code>any</code> expression.
+     * This expression is equivalent to an {@code any} expression.
      * @param subquery  subquery
      * @return some expression
      */
@@ -241,7 +241,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an any expression over the subquery results. 
-     * This expression is equivalent to a <code>some</code> expression.
+     * This expression is equivalent to a {@code some} expression.
      * @param subquery  subquery
      * @return any expression
      */

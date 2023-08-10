@@ -23,11 +23,11 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Designates a <code>ManyToOne</code> or
- * <code>OneToOne</code> relationship attribute that provides the
+ * Designates a {@code ManyToOne} or
+ * {@code OneToOne} relationship attribute that provides the
  * mapping for an {@link EmbeddedId} primary key, an attribute within
- * an <code>EmbeddedId</code> primary key, or a simple primary key of
- * the parent entity. The <code>value</code> element specifies the
+ * an {@code EmbeddedId} primary key, or a simple primary key of
+ * the parent entity. The {@code value} element specifies the
  * attribute within a composite key to which the relationship
  * attribute corresponds. If the entity's primary key is of the same
  * Java type as the primary key of the entity referenced by the

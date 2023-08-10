@@ -20,7 +20,7 @@ package jakarta.persistence.criteria;
  * Defines the three types of joins.
  *
  * Right outer joins and right outer fetch joins are not required
- * to be supported. Applications that use <code>RIGHT</code> join
+ * to be supported. Applications that use {@code RIGHT} join
  * types will not be portable.
  *
  * @since 2.0

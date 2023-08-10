@@ -21,7 +21,7 @@ package jakarta.persistence;
  * Utility interface between the application and the persistence
  * provider(s). 
  * 
- * <p> The <code>PersistenceUtil</code> interface instance obtained from the 
+ * <p> The {@code PersistenceUtil} interface instance obtained from the 
  * {@link Persistence} class is used to determine the load state of an 
  * entity or entity attribute regardless of which persistence 
  * provider in the environment created the entity.

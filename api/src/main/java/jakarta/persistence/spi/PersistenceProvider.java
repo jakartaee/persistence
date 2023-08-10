@@ -34,8 +34,8 @@ import java.util.Map;
 public interface PersistenceProvider {
 
     /**
-     * Called by <code>Persistence</code> class when an
-     * <code>EntityManagerFactory</code> is to be created.
+     * Called by {@code Persistence} class when an
+     * {@code EntityManagerFactory} is to be created.
      *
      * @param emName  the name of the persistence unit
      * @param map  a Map of properties for use by the 
@@ -50,7 +50,7 @@ public interface PersistenceProvider {
     public EntityManagerFactory createEntityManagerFactory(String emName, Map map);
 
     /**
-     * Called by the container when an <code>EntityManagerFactory</code>
+     * Called by the container when an {@code EntityManagerFactory}
      * is to be created. 
      *
      * @param info  metadata for use by the persistence provider
@@ -59,7 +59,7 @@ public interface PersistenceProvider {
      * are specified).  These properties may include properties to
      * control schema generation.
      * If a Bean Validation provider is present in the classpath,
-     * the container must pass the <code>ValidatorFactory</code> instance in
+     * the container must pass the {@code ValidatorFactory} instance in
      * the map with the key <code>"jakarta.persistence.validation.factory"</code>.
      * If the containing archive is a bean archive, the container
      * must pass the BeanManager instance in the map with the key

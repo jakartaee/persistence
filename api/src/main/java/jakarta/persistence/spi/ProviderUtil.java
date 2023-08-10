@@ -63,7 +63,7 @@ public interface ProviderUtil {
      * obtain a reference to the attribute value.  (This access is
      * safe because providers which might trigger the loading of the
      * attribute state will have already been determined by
-     * <code>isLoadedWithoutReference</code>. )
+     * {@code isLoadedWithoutReference}. )
      *
      * @param entity  entity instance
      * @param attributeName  name of attribute whose load status is

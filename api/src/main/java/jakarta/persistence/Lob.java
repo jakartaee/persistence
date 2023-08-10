@@ -26,14 +26,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Specifies that a persistent property or field should be persisted
  * as a large object to a database-supported large object type.
  *
- * <p> Portable applications should use the <code>Lob</code> annotation
- * when mapping to a database Lob type.  The <code>Lob</code>
+ * <p> Portable applications should use the {@code Lob} annotation
+ * when mapping to a database Lob type.  The {@code Lob}
  * annotation may be used in conjunction with the {@link Basic}
  * annotation or the {@link ElementCollection} annotation when the
- * element collection value is of basic type. A <code>Lob</code> may
+ * element collection value is of basic type. A {@code Lob} may
  * be either a binary or character type.
  *
- * <p> The <code>Lob</code> type is inferred from the type of the 
+ * <p> The {@code Lob} type is inferred from the type of the
  * persistent field or property, and except for string and 
  * character-based types defaults to Blob.
  * <pre>

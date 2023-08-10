@@ -30,12 +30,12 @@ import jakarta.persistence.spi.LoadState;
  * in Java SE environments.  It may also be used to cause schema
  * generation to occur.
  * 
- * <p> The <code>Persistence</code> class is available in a Jakarta EE
+ * <p> The {@code Persistence} class is available in a Jakarta EE
  * container environment as well; however, support for the Java SE
  * bootstrapping APIs is not required in container environments.
  * 
- * <p> The <code>Persistence</code> class is used to obtain a {@link
- * PersistenceUtil PersistenceUtil} instance in both
+ * <p> The {@code Persistence} class is used to obtain a
+ * {@link PersistenceUtil PersistenceUtil} instance in both
  * Jakarta EE and Java SE environments.
  *
  * @since 1.0
@@ -43,21 +43,21 @@ import jakarta.persistence.spi.LoadState;
 public class Persistence {
     
     /**
-     * Create and return an EntityManagerFactory for the named
+     * Create and return an {@link EntityManagerFactory} for the named
      * persistence unit.
      * 
      * @param persistenceUnitName
      *            the name of the persistence unit
-     * @return the factory that creates EntityManagers configured according to
-     *         the specified persistence unit
+     * @return the factory that creates {@link EntityManager}s configured
+     *         according to the specified persistence unit
      */
     public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName) {
         return createEntityManagerFactory(persistenceUnitName, null);
     }
 
     /**
-     * Create and return an EntityManagerFactory for the named persistence unit
-     * using the given properties.
+     * Create and return an {@link EntityManagerFactory} for the named
+     * persistence unit using the given properties.
      * 
      * @param persistenceUnitName
      *            the name of the persistence unit
@@ -100,7 +100,7 @@ public class Persistence {
      * @param map properties for schema generation;  these may
      *             also contain provider-specific properties.  The
      *             value of these properties override any values that
-     *             may have been configured elsewhere..             
+     *             may have been configured elsewhere.
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
      *         generation otherwise fails.
@@ -122,8 +122,8 @@ public class Persistence {
     
 
     /**
-     * Return the PersistenceUtil instance
-     * @return PersistenceUtil instance
+     * Return the {@link PersistenceUtil} instance
+     * @return a {@link PersistenceUtil} instance
      * @since 2.0
      */
     public static PersistenceUtil getPersistenceUtil() {
@@ -132,7 +132,7 @@ public class Persistence {
 
     
     /**
-     * Implementation of PersistenceUtil interface
+     * Implementation of {@link PersistenceUtil} interface
      * @since 2.0
      */
     private static class PersistenceUtilImpl implements PersistenceUtil {

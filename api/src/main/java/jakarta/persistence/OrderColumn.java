@@ -30,17 +30,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * database to reflect any insertion, deletion, or reordering
  * affecting the list.
  *
- * <p> The <code>OrderColumn</code> annotation is specified on a
+ * <p> The {@code OrderColumn} annotation is specified on a
  * OneToMany or ManyToMany relationship or on an element
- * collection. The <code>OrderColumn</code> annotation is specified on
+ * collection. The {@code OrderColumn} annotation is specified on
  * the side of the relationship that references the collection that is
  * to be ordered. The order column is not visible as part of the state
  * of the entity or embeddable class.
  *
  * <p> The {@link OrderBy} annotation should be used for ordering that
  * is visible as persistent state and maintained by the
- * application. The <code>OrderBy</code> annotation is not used when
- * <code>OrderColumn</code> is specified.
+ * application. The {@code OrderBy} annotation is not used when
+ * {@code OrderColumn} is specified.
  * 
  * <p> The order column must be of integral type.  The persistence
  * provider maintains a contiguous (non-sparse) ordering of the values

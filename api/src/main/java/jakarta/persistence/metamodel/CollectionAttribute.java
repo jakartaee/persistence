@@ -17,7 +17,7 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>CollectionAttribute</code> represent persistent 
+ * Instances of the type {@code CollectionAttribute} represent persistent 
  * <code>java.util.Collection</code>-valued attributes.
  *
  * @param <X> The type the represented Collection belongs to

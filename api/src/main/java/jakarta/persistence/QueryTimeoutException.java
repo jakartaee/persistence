@@ -30,15 +30,15 @@ public class QueryTimeoutException extends PersistenceException {
     Query query;
 
     /** 
-     * Constructs a new <code>QueryTimeoutException</code> exception 
-     * with <code>null</code> as its detail message.
+     * Constructs a new {@code QueryTimeoutException} exception
+     * with {@code null} as its detail message.
      */
     public QueryTimeoutException() {
         super();
     }
 
     /** 
-     * Constructs a new <code>QueryTimeoutException</code> exception 
+     * Constructs a new {@code QueryTimeoutException} exception
      * with the specified detail message.
      * @param   message   the detail message.
      */
@@ -47,7 +47,7 @@ public class QueryTimeoutException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>QueryTimeoutException</code> exception 
+     * Constructs a new {@code QueryTimeoutException} exception
      * with the specified detail message and cause.
      * @param   message   the detail message.
      * @param   cause     the cause.
@@ -57,7 +57,7 @@ public class QueryTimeoutException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>QueryTimeoutException</code> exception 
+     * Constructs a new {@code QueryTimeoutException} exception
      * with the specified cause.
      * @param   cause     the cause.
      */
@@ -67,7 +67,7 @@ public class QueryTimeoutException extends PersistenceException {
 
 
     /** 
-     * Constructs a new <code>QueryTimeoutException</code> exception 
+     * Constructs a new {@code QueryTimeoutException} exception
      * with the specified query.
      * @param   query     the query.
      */
@@ -76,7 +76,7 @@ public class QueryTimeoutException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>QueryTimeoutException</code> exception 
+     * Constructs a new {@code QueryTimeoutException} exception
      * with the specified detail message, cause, and query.
      * @param   message   the detail message.
      * @param   cause     the cause.

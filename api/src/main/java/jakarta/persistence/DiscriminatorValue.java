@@ -25,11 +25,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Specifies the value of the discriminator column for 
  * entities of the given type. 
  *
- * <p> The <code>DiscriminatorValue</code> 
+ * <p> The {@code DiscriminatorValue} 
  * annotation can only be specified on a concrete entity 
  * class. 
  *
- * <p> If the <code>DiscriminatorValue</code> annotation is not 
+ * <p> If the {@code DiscriminatorValue} annotation is not 
  * specified and a discriminator column is used, a provider-specific 
  * function will be used to generate a value representing the 
  * entity type.  If the {@link DiscriminatorType} is <code>
@@ -71,11 +71,11 @@ public @interface DiscriminatorValue {
      * (Optional) The value that indicates that the
      * row is an entity of the annotated entity type.
      *
-     * <p> If the <code>DiscriminatorValue</code> annotation is not
+     * <p> If the {@code DiscriminatorValue} annotation is not
      * specified and a discriminator column is used, a
      * provider-specific function will be used to generate a value
-     * representing the entity type.  If the <code>DiscriminatorType</code> is
-     * <code>STRING</code>, the discriminator value default is the
+     * representing the entity type.  If the {@code DiscriminatorType} is
+     * {@code STRING}, the discriminator value default is the
      * entity name.
      */
     String value();

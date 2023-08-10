@@ -24,9 +24,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies the inheritance strategy to be used for an entity class
  * hierarchy. It is specified on the entity class that is the root of
- * the entity class hierarchy.  If the <code>Inheritance</code> annotation is not
+ * the entity class hierarchy.  If the {@code Inheritance} annotation is not
  * specified or if no inheritance type is specified for an entity
- * class hierarchy, the <code>SINGLE_TABLE</code> mapping strategy is used.
+ * class hierarchy, the {@code SINGLE_TABLE} mapping strategy is used.
  *
  * <pre>
  *

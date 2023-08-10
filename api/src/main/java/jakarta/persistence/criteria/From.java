@@ -50,8 +50,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
     Set<Join<X, ?>> getJoins();
 	
     /**
-     *  Whether the <code>From</code> object has been obtained as a result of
-     *  correlation (use of a <code>Subquery</code> <code>correlate</code> 
+     *  Whether the {@code From} object has been obtained as a result of
+     *  correlation (use of a {@code Subquery} {@code correlate} 
      *  method).
      *  @return boolean indicating whether the object has been
      *          obtained through correlation
@@ -59,9 +59,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
     boolean isCorrelated();
 
     /**
-     *  Returns the parent <code>From</code> object from which the correlated
-     *  <code>From</code> object has been obtained through correlation (use
-     *  of a <code>Subquery</code> <code>correlate</code> method).
+     *  Returns the parent {@code From} object from which the correlated
+     *  {@code From} object has been obtained through correlation (use
+     *  of a {@code Subquery} {@code correlate} method).
      *  @return  the parent of the correlated From object
      *  @throws IllegalStateException if the From object has
      *          not been obtained through correlation 

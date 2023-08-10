@@ -25,11 +25,11 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 
 /**
  * Specifies the mapping for composite foreign keys. This annotation 
- * groups <code>JoinColumn</code> annotations for the same relationship.
+ * groups {@code JoinColumn} annotations for the same relationship.
  *
- * <p> When the <code>JoinColumns</code> annotation is used, 
- * both the <code>name</code> and the <code>referencedColumnName</code> elements 
- * must be specified in each such <code>JoinColumn</code> annotation.
+ * <p> When the {@code JoinColumns} annotation is used, 
+ * both the {@code name} and the {@code referencedColumnName} elements 
+ * must be specified in each such {@code JoinColumn} annotation.
  *
  * <pre>
  *
@@ -59,8 +59,8 @@ public @interface JoinColumns {
     /**
      *  (Optional) Used to specify or control the generation of a
      *  foreign key constraint when table generation is in effect. 
-     *  If both this element and the <code>foreignKey</code> element 
-     *  of any of the <code>JoinColumn</code> elements are specified, 
+     *  If both this element and the {@code foreignKey} element 
+     *  of any of the {@code JoinColumn} elements are specified, 
      *  the behavior is undefined.  If no foreign key annotation element
      *  is specified in either location, the persistence provider's
      *  default foreign key strategy will apply.

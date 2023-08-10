@@ -54,7 +54,7 @@ public enum GenerationType {
     /**
      * Indicates that the persistence provider should pick an 
      * appropriate strategy for the particular database. The 
-     * <code>AUTO</code> generation strategy may expect a database 
+     * {@code AUTO} generation strategy may expect a database
      * resource to exist, or it may attempt to create one. A vendor 
      * may provide documentation on how to create such resources 
      * in the event that it does not support schema generation 

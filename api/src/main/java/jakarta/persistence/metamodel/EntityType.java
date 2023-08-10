@@ -17,7 +17,7 @@
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type <code>EntityType</code> represent entity types.
+ *  Instances of the type {@code EntityType} represent entity types.
  *
  *  @param <X> The represented entity type.
  *

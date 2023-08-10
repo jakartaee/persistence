@@ -21,7 +21,7 @@ import java.util.List;
 import jakarta.persistence.metamodel.ListAttribute;
 
 /**
- * The <code>ListJoin</code> interface is the type of the result of
+ * The {@code ListJoin} interface is the type of the result of
  * joining to a collection over an association or element 
  * collection that has been specified as a <code>java.util.List</code>.
  *
@@ -55,7 +55,7 @@ public interface ListJoin<Z, E>
 
     /**
      * Return the metamodel representation for the list attribute.
-     * @return metamodel type representing the <code>List</code> that is
+     * @return metamodel type representing the {@code List} that is
      *         the target of the join
      */
     ListAttribute<? super Z, E> getModel();

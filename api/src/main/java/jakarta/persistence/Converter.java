@@ -22,16 +22,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that the annotated class is a converter and defines its
- * scope.  A converter class must be annotated with the <code>Converter</code>
+ * scope.  A converter class must be annotated with the {@code Converter}
  * annotation or defined in the object/relational mapping descriptor as
  * a converter.
  *
- * <p>If the <code>autoApply</code> element is specified as
- * <code>true</code>, the persistence provider must automatically
+ * <p>If the {@code autoApply} element is specified as
+ * {@code true}, the persistence provider must automatically
  * apply the converter to all mapped attributes of the specified
  * target type for all entities in the persistence unit except for
  * attributes for which conversion is overridden by means of the
- * <code>Convert</code> annotation (or XML equivalent).
+ * {@code Convert} annotation (or XML equivalent).
  *
  * <p>In determining whether a converter is applicable to an attribute,
  * the provider must treat primitive types and wrapper types as
@@ -39,20 +39,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>Note that Id attributes, version attributes, relationship
  * attributes, and attributes explicitly annotated as
- * <code>Enumerated</code> or <code>Temporal</code> (or designated as
+ * {@code Enumerated} or {@code Temporal} (or designated as
  * such via XML) will not be converted.
  *
- * <p>Note that if <code>autoApply</code> is <code>true</code>, the
- * <code>Convert</code> annotation may be used to override or disable
+ * <p>Note that if {@code autoApply} is {@code true}, the
+ * {@code Convert} annotation may be used to override or disable
  * auto-apply conversion on a per-attribute basis.
  *
- * <p>If <code>autoApply</code> is <code>false</code>, only those
- * attributes of the target type for which the <code>Convert</code>
+ * <p>If {@code autoApply} is {@code false}, only those
+ * attributes of the target type for which the {@code Convert}
  * annotation (or corresponding XML element) has been specified will
  * be converted.
  *
  * <p>If there is more than one converter defined for the same target
- * type, the <code>Convert</code> annotation should be used to
+ * type, the {@code Convert} annotation should be used to
  * explicitly specify which converter to use.
  *
  * @see AttributeConverter

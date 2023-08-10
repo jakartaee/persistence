@@ -23,9 +23,9 @@ package jakarta.persistence;
  * <code>FlushModeType.AUTO</code> is set on the {@link
  * Query Query} or {@link TypedQuery
  * TypedQuery} object, or if the flush mode setting for the
- * persistence context is <code>AUTO</code> (the default) and a flush
- * mode setting has not been specified for the <code>Query</code> or
- * <code>TypedQuery</code> object, the persistence provider is
+ * persistence context is {@code AUTO} (the default) and a flush
+ * mode setting has not been specified for the {@code Query} or
+ * {@code TypedQuery} object, the persistence provider is
  * responsible for ensuring that all updates to the state of all
  * entities in the persistence context which could potentially affect
  * the result of the query are visible to the processing of the

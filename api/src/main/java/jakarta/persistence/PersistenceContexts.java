@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.*;
 @Retention(RUNTIME)
 public @interface PersistenceContexts {
 
-    /** (Required) One or more <code>PersistenceContext</code> annotations. */
+    /** (Required) One or more {@code PersistenceContext} annotations. */
     PersistenceContext[] value();
 
 }

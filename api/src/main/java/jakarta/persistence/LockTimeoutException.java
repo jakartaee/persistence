@@ -30,15 +30,15 @@ public class LockTimeoutException extends PersistenceException {
     Object entity;
 
     /** 
-     * Constructs a new <code>LockTimeoutException</code> exception 
-     * with <code>null</code> as its detail message.
+     * Constructs a new {@code LockTimeoutException} exception
+     * with {@code null} as its detail message.
      */
     public LockTimeoutException() {
         super();
     }
 
     /** 
-     * Constructs a new <code>LockTimeoutException</code> exception 
+     * Constructs a new {@code LockTimeoutException} exception
      * with the specified detail message.
      * @param   message   the detail message.
      */
@@ -47,7 +47,7 @@ public class LockTimeoutException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>LockTimeoutException</code> exception 
+     * Constructs a new {@code LockTimeoutException} exception
      * with the specified detail message and cause.
      * @param   message   the detail message.
      * @param   cause     the cause.
@@ -57,7 +57,7 @@ public class LockTimeoutException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>LockTimeoutException</code> exception 
+     * Constructs a new {@code LockTimeoutException} exception
      * with the specified cause.
      * @param   cause     the cause.
      */
@@ -66,7 +66,7 @@ public class LockTimeoutException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>LockTimeoutException</code> exception 
+     * Constructs a new {@code LockTimeoutException} exception
      * with the specified object.
      * @param   entity     the entity.
      */
@@ -75,7 +75,7 @@ public class LockTimeoutException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>LockTimeoutException</code> exception 
+     * Constructs a new {@code LockTimeoutException} exception
      * with the specified detail message, cause, and entity.
      * @param   message   the detail message.
      * @param   cause     the cause.

@@ -19,12 +19,12 @@ package jakarta.persistence;
 
 /**
  * Defines strategies for fetching data from the database.
- * The <code>EAGER</code> strategy is a requirement on the persistence 
+ * The {@code EAGER} strategy is a requirement on the persistence 
  * provider runtime that data must be eagerly fetched. The 
- * <code>LAZY</code> strategy is a hint to the persistence provider 
+ * {@code LAZY} strategy is a hint to the persistence provider 
  * runtime that data should be fetched lazily when it is 
  * first accessed. The implementation is permitted to eagerly 
- * fetch data for which the <code>LAZY</code> strategy hint has been 
+ * fetch data for which the {@code LAZY} strategy hint has been 
  * specified. 
  *
  * <pre>

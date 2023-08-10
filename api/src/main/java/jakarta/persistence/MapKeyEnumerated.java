@@ -25,13 +25,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies the enum type for a map key whose basic type is an enumerated type.
  * 
- * The <code>MapKeyEnumerated</code> annotation can be applied to an 
+ * The {@code MapKeyEnumerated} annotation can be applied to an 
  * element collection or relationship of type <code>java.util.Map</code>, in 
- * conjunction with the <code>ElementCollection</code>, <code>OneToMany</code>, or 
- * <code>ManyToMany</code> annotation.
- * If the enumerated type is not specified or the <code>MapKeyEnumerated</code>
+ * conjunction with the {@code ElementCollection}, {@code OneToMany}, or 
+ * {@code ManyToMany} annotation.
+ * If the enumerated type is not specified or the {@code MapKeyEnumerated}
  * annotation is not used, the enumerated type is assumed to be
- * <code>ORDINAL</code>.
+ * {@code ORDINAL}.
  *
  * <pre>
  *   Example:

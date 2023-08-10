@@ -26,23 +26,23 @@ package jakarta.persistence;
 public class TransactionRequiredException extends PersistenceException {
 
 	/**
-	 * Constructs a new <code>TransactionRequiredException</code> exception with
-	 * <code>null</code> as its detail message.
+	 * Constructs a new {@code TransactionRequiredException} exception with
+	 * {@code null} as its detail message.
 	 */
 	public TransactionRequiredException() {
 		super();
 	}
 
 	/**
-	 * Constructs a new <code>TransactionRequiredException</code> exception with
-	 * <code>null</code> as its detail message.
+	 * Constructs a new {@code TransactionRequiredException} exception with
+	 * {@code null} as its detail message.
 	 */
 	public TransactionRequiredException(Exception cause) {
 		super(cause);
 	}
 
 	/**
-	 * Constructs a new <code>TransactionRequiredException</code> exception with
+	 * Constructs a new {@code TransactionRequiredException} exception with
 	 * the specified detail message.
 	 * 
 	 * @param message
@@ -53,7 +53,7 @@ public class TransactionRequiredException extends PersistenceException {
 	}
 
 	/**
-	 * Constructs a new <code>TransactionRequiredException</code> exception with
+	 * Constructs a new {@code TransactionRequiredException} exception with
 	 * the specified detail message.
 	 *
 	 * @param message

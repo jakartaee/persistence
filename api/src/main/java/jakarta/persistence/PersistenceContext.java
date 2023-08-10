@@ -45,7 +45,7 @@ public @interface PersistenceContext {
 
     /**
      * (Optional) The name of the persistence unit as defined in the
-     * <code>persistence.xml</code> file. If the <code>unitName</code> element is
+     * <code>persistence.xml</code> file. If the {@code unitName} element is
      * specified, the persistence unit for the entity manager that is
      * accessible in JNDI must have the same name.
      */

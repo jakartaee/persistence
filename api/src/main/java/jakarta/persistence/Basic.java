@@ -24,9 +24,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * The simplest type of mapping to a database column. The
- * <code>Basic</code> annotation can be applied to a persistent
+ * {@code Basic} annotation can be applied to a persistent
  * property or instance variable of any of the following types: Java
- * primitive types, wrappers of the primitive types, <code>String</code>, 
+ * primitive types, wrappers of the primitive types, {@code String}, 
  * <code>java.math.BigInteger</code>,
  * <code>java.math.BigDecimal</code>,
  * <code>java.util.Date</code>,
@@ -37,10 +37,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <code>char[]</code>, <code>Character[]</code>, enums, and any other type that
  * implements <code>java.io.Serializable</code>.
  * 
- * <p> The use of the <code>Basic</code> annotation is optional for
+ * <p> The use of the {@code Basic} annotation is optional for
  * persistent fields and properties of these types.  If the
- * <code>Basic</code> annotation is not specified for such a field or
- * property, the default values of the <code>Basic</code> annotation
+ * {@code Basic} annotation is not specified for such a field or
+ * property, the default values of the {@code Basic} annotation
  * will apply.
  *
  * <pre>
@@ -63,11 +63,11 @@ public @interface Basic {
 
     /**
      * (Optional) Defines whether the value of the field or property should 
-     * be lazily loaded or must be eagerly fetched. The <code>EAGER</code> 
+     * be lazily loaded or must be eagerly fetched. The {@code EAGER} 
      * strategy is a requirement on the persistence provider runtime 
-     * that the value must be eagerly fetched.  The <code>LAZY</code> 
+     * that the value must be eagerly fetched.  The {@code LAZY} 
      * strategy is a hint to the persistence provider runtime.
-     * If not specified, defaults to <code>EAGER</code>.
+     * If not specified, defaults to {@code EAGER}.
      */
     FetchType fetch() default FetchType.EAGER;
 
@@ -75,7 +75,7 @@ public @interface Basic {
      * (Optional) Defines whether the value of the field or property may be null. 
      * This is a hint and is disregarded for primitive types; it may 
      * be used in schema generation.
-     * If not specified, defaults to <code>true</code>.
+     * If not specified, defaults to {@code true}.
      */
     boolean optional() default true;
 }

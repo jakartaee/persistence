@@ -26,46 +26,46 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  *  Specifies the conversion of a Basic field or property.  It is
- *  not necessary to use the <code>Basic</code> annotation or corresponding
+ *  not necessary to use the {@code Basic} annotation or corresponding
  *  XML element to specify the Basic type.
  *
- *  <p>The <code>Convert</code> annotation should not be used to specify
+ *  <p>The {@code Convert} annotation should not be used to specify
  *  conversion of the following:  Id attributes, version attributes,
  *  relationship attributes, and attributes explicitly denoted as
  *  Enumerated or Temporal.  Applications that specify such conversions
  *  will not be portable.
  *
- *  <p>The <code>Convert</code> annotation may be applied to a basic
+ *  <p>The {@code Convert} annotation may be applied to a basic
  *  attribute or to an element collection of basic type (in which case
  *  the converter is applied to the elements of the collection).  In
- *  these cases, the <code>attributeName</code> element must not be
+ *  these cases, the {@code attributeName} element must not be
  *  specified.
  *
- *  <p>The <code>Convert</code> annotation may be applied to an embedded
+ *  <p>The {@code Convert} annotation may be applied to an embedded
  *  attribute or to a map collection attribute whose key or value is of
  *  embeddable type (in which case the converter is applied to the
  *  specified attribute of the embeddable instances contained in the
- *  collection).  In these cases, the <code>attributeName</code>
+ *  collection).  In these cases, the {@code attributeName}
  *  element must be specified.
  *
  *  <p>To override conversion mappings at multiple levels of embedding,
- *  a dot (".") notation form must be used in the <code>attributeName</code>
+ *  a dot (".") notation form must be used in the {@code attributeName}
  *  element to indicate an attribute within an embedded attribute.  The
  *  value of each identifier used with the dot notation is the name of the
  *  respective embedded field or property.
  *
- *  <p>When the <code>Convert</code> annotation is applied to a map containing
- *  instances of embeddable classes, the <code>attributeName</code> element
+ *  <p>When the {@code Convert} annotation is applied to a map containing
+ *  instances of embeddable classes, the {@code attributeName} element
  *  must be specified, and <code>"key."</code> or <code>"value."</code>
  *  must be used to prefix the name of the attribute that is to be converted
  *  in order to specify it as part of the map key or map value.
  *
- *  <p>When the <code>Convert</code> annotation is applied to a map to specify
+ *  <p>When the {@code Convert} annotation is applied to a map to specify
  *  conversion of a map key of basic type, <code>"key"</code> must be used
- *  as the value of the <code>attributeName</code> element to specify that
+ *  as the value of the {@code attributeName} element to specify that
  *  it is the map key that is to be converted.
  *  
- *  <p>The <code>Convert</code> annotation may be applied to an entity class
+ *  <p>The {@code Convert} annotation may be applied to an entity class
  *  that extends a mapped superclass to specify or override a conversion
  *  mapping for an inherited basic or embedded attribute.
  *
@@ -196,16 +196,16 @@ public @interface Convert {
   Class converter() default void.class;
 
   /**
-   * The <code>attributeName</code> element must be specified unless the 
-   * <code>Convert</code> annotation is on an attribute of basic type 
+   * The {@code attributeName} element must be specified unless the 
+   * {@code Convert} annotation is on an attribute of basic type 
    * or on an element collection of basic type.  In these cases, the
-   * <code>attributeName</code> element  must not be specified.
+   * {@code attributeName} element  must not be specified.
    */
   String attributeName() default "";
 
   /**
    * Used to disable an auto-apply or inherited converter.
-   * If disableConversion is true, the <code>converter</code> element should
+   * If disableConversion is true, the {@code converter} element should
    * not be specified.
    */
   boolean disableConversion() default false;

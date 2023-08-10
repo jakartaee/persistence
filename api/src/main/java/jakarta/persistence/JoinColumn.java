@@ -27,7 +27,7 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 
 /**
  * Specifies a column for joining an entity association or element
- * collection.  If the <code>JoinColumn</code> annotation itself is
+ * collection.  If the {@code JoinColumn} annotation itself is
  * defaulted, a single join column is assumed and the default values
  * apply.
  *
@@ -103,11 +103,11 @@ public @interface JoinColumn {
      * <li> When used with a unidirectional OneToMany foreign key
      * mapping, the referenced column is in the table of the source
      * entity.  
-     * <li> When used inside a <code>JoinTable</code> annotation,
+     * <li> When used inside a {@code JoinTable} annotation,
      * the referenced key column is in the entity table of the owning
      * entity, or inverse entity if the join is part of the inverse
      * join definition.  
-     * <li> When used in a <code>CollectionTable</code> mapping, the
+     * <li> When used in a {@code CollectionTable} mapping, the
      * referenced column is in the table of the entity containing the
      * collection.
      * </ul>
@@ -120,7 +120,7 @@ public @interface JoinColumn {
 
     /**
      * (Optional) Whether the property is a unique key.  This is a
-     * shortcut for the <code>UniqueConstraint</code> annotation at
+     * shortcut for the {@code UniqueConstraint} annotation at
      * the table level and is useful for when the unique key
      * constraint is only a single field. It is not necessary to
      * explicitly specify this for a join column that corresponds to a

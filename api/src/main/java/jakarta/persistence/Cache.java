@@ -19,7 +19,7 @@ package jakarta.persistence;
 /**
  * Interface used to interact with the second-level cache.
  * If a cache is not in use, the methods of this interface have
- * no effect, except for <code>contains</code>, which returns false.
+ * no effect, except for {@code contains}, which returns false.
  *
  * @since 2.0
  */
@@ -56,7 +56,7 @@ public interface Cache {
      * Return an object of the specified type to allow access to the
      * provider-specific API.  If the provider's Cache
      * implementation does not support the specified class, the
-     * PersistenceException is thrown.
+     * {@link PersistenceException} is thrown.
      * @param cls  the class of the object to be returned.  This is
      * normally either the underlying Cache implementation
      * class or an interface that it implements.

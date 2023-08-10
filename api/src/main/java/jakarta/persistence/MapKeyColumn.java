@@ -25,7 +25,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies the mapping for the key column of a map whose
- * map key is a basic type. If the <code>name</code> element is not specified, it
+ * map key is a basic type. If the {@code name} element is not specified, it
  * defaults to the concatenation of the following: the name of the
  * referencing relationship field or property; "_"; "KEY".
  * 
@@ -60,13 +60,13 @@ public @interface MapKeyColumn {
 	 * mapping strategy, the map key column is in the table of the entity that
 	 * is the value of the map.
          * <p> Defaults to the concatenation of the following: the name of
-         * the referencing relationship field or property; "_"; "<code>KEY</code>".
+         * the referencing relationship field or property; "_"; "{@code KEY}".
 	 */
 	String name() default "";
 
 	/**
 	 * (Optional) Whether the column is a unique key. This is a
-	 * shortcut for the <code>UniqueConstraint</code> annotation
+	 * shortcut for the {@code UniqueConstraint} annotation
 	 * at the table level and is useful for when the unique key
 	 * constraint corresponds to only a single column. This
 	 * constraint applies in addition to any constraint entailed

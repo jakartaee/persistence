@@ -28,12 +28,12 @@ import static jakarta.persistence.GenerationType.AUTO;
  * Provides for the specification of generation strategies for the
  * values of primary keys. 
  *
- * <p> The <code>GeneratedValue</code> annotation
+ * <p> The {@code GeneratedValue} annotation
  * may be applied to a primary key property or field of an entity or
  * mapped superclass in conjunction with the {@link Id} annotation.
- * The use of the <code>GeneratedValue</code> annotation is only
+ * The use of the {@code GeneratedValue} annotation is only
  * required to be supported for simple primary keys. Use of the
- * <code>GeneratedValue</code> annotation is not supported for derived
+ * {@code GeneratedValue} annotation is not supported for derived
  * primary keys.
  *
  * <pre>

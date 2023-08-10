@@ -17,7 +17,7 @@
 package jakarta.persistence;
 
 /**
- * The <code>TupleElement</code> interface defines an element that is returned in
+ * The {@code TupleElement} interface defines an element that is returned in
  * a query result tuple.
  * @param <X> the type of the element
  *

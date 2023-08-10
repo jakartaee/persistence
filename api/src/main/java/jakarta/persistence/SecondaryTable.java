@@ -28,7 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * class. Specifying one or more secondary tables indicates that the
  * data for the entity class is stored across multiple tables.
  *
- * <p> If no <code>SecondaryTable</code> annotation is specified, 
+ * <p> If no {@code SecondaryTable} annotation is specified,
  * it is assumed that all persistent fields or properties of the 
  * entity are mapped to the primary table. If no primary key join 
  * columns are specified, the join columns are assumed to reference 
@@ -89,10 +89,10 @@ public @interface SecondaryTable {
     /**
      *  (Optional) Used to specify or control the generation of a
      *   foreign key constraint for the columns corresponding to the
-     *   <code>pkJoinColumns</code> element when table generation is
+     *   {@code pkJoinColumns} element when table generation is
      *   in effect.  If both this element and the
-     *   <code>foreignKey</code> element of any of the
-     *   <code>pkJoinColumns</code> elements are specified, the
+     *   {@code foreignKey} element of any of the
+     *   {@code pkJoinColumns} elements are specified, the
      *   behavior is undefined.  If no foreign key annotation element
      *   is specified in either location, the persistence provider's
      *   default foreign key strategy will apply.
@@ -105,7 +105,7 @@ public @interface SecondaryTable {
      * (Optional) Unique constraints that are to be placed on the 
      * table. These are typically only used if table generation 
      * is in effect. These constraints apply in addition to any 
-     * constraints specified by the <code>Column</code> and <code>JoinColumn</code> 
+     * constraints specified by the {@code Column} and {@code JoinColumn}
      * annotations and constraints entailed by primary key mappings.
      * <p> Defaults to no additional constraints.
      */

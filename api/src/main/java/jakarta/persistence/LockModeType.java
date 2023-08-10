@@ -17,9 +17,9 @@
 package jakarta.persistence;
 
 /**
- * Lock modes can be specified by means of passing a <code>LockModeType</code>
+ * Lock modes can be specified by means of passing a {@code LockModeType}
  * argument to one of the {@link EntityManager} methods that take locks
- * (<code>lock</code>, <code>find</code>, or <code>refresh</code>) or
+ * ({@code lock}, {@code find}, or {@code refresh}) or
  * to the {@link Query#setLockMode Query.setLockMode()} or
  * {@link TypedQuery#setLockMode TypedQuery.setLockMode()} method.
  * 
@@ -31,8 +31,8 @@ package jakarta.persistence;
  * LockModeType.OPTIMISTIC_FORCE_INCREMENT}.  The lock mode type
  * values {@link LockModeType#READ LockModeType.READ} and 
  * {@link LockModeType#WRITE LockModeType.WRITE} are
- * synonyms of <code>OPTIMISTIC</code> and
- * <code>OPTIMISTIC_FORCE_INCREMENT</code> respectively.  The latter
+ * synonyms of {@code OPTIMISTIC} and
+ * {@code OPTIMISTIC_FORCE_INCREMENT} respectively.  The latter
  * are to be preferred for new applications.
  *
  * <p> The semantics of requesting locks of type
@@ -116,7 +116,7 @@ package jakarta.persistence;
  * <p> When the lock cannot be obtained, and the database locking
  * failure results in transaction-level rollback, the provider must
  * throw the {@link PessimisticLockException} and ensure that the JTA
- * transaction or <code>EntityTransaction</code> has been marked for rollback.
+ * transaction or {@code EntityTransaction} has been marked for rollback.
  * 
  * <p> When the lock cannot be obtained, and the database locking
  * failure results in only statement-level rollback, the provider must
@@ -129,16 +129,16 @@ package jakarta.persistence;
 public enum LockModeType
 {
     /**
-     *  Synonymous with <code>OPTIMISTIC</code>.
-     *  <code>OPTIMISTIC</code> is to be preferred for new
+     *  Synonymous with {@code OPTIMISTIC}.
+     *  {@code OPTIMISTIC} is to be preferred for new
      *  applications.
      *
      */
     READ,
 
     /**
-     *  Synonymous with <code>OPTIMISTIC_FORCE_INCREMENT</code>.
-     *  <code>OPTIMISTIC_FORCE_IMCREMENT</code> is to be preferred for new
+     *  Synonymous with {@code OPTIMISTIC_FORCE_INCREMENT}.
+     *  {@code OPTIMISTIC_FORCE_IMCREMENT} is to be preferred for new
      *  applications.
      *
      */

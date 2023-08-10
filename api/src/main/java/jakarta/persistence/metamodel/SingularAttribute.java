@@ -18,7 +18,7 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>SingularAttribute</code> represents persistent 
+ * Instances of the type {@code SingularAttribute} represents persistent
  * single-valued properties or fields.
  *
  * @param <X> The type containing the represented attribute

@@ -34,7 +34,7 @@ public interface Predicate extends Expression<Boolean> {
 	
     /**
      * Return the boolean operator for the predicate.
-     * If the predicate is simple, this is <code>AND</code>.
+     * If the predicate is simple, this is {@code AND}.
      * @return boolean operator for the predicate
      */
     BooleanOperator getOperator();

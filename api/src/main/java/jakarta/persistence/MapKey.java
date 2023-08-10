@@ -33,7 +33,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * uniqueness constraint associated with it.
  *
  * <p> The {@link MapKeyClass} annotation is not used when
- * <code>MapKey</code> is specified and vice versa.
+ * {@code MapKey} is specified and vice versa.
  *
  * <pre>
  *
@@ -90,10 +90,10 @@ public @interface MapKey {
      * (Optional) The name of the persistent field or property of the 
      * associated entity that is used as the map key. 
      * <p> Default: If the 
-     * <code>name</code> element is not specified, the primary key of the 
+     * {@code name} element is not specified, the primary key of the 
      * associated entity is used as the map key. If the 
      * primary key is a composite primary key and is mapped 
-     * as <code>IdClass</code>, an instance of the primary key 
+     * as {@code IdClass}, an instance of the primary key 
      * class is used as the key.
      */
     String name() default "";

@@ -33,14 +33,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <code> mappedBy</code> element must be used to specify the relationship field or
  * property of the entity that is the owner of the relationship.
  *
- * <p> The <code>OneToMany</code> annotation may be used within an embeddable class
+ * <p> The {@code OneToMany} annotation may be used within an embeddable class
  * contained within an entity class to specify a relationship to a
  * collection of entities. If the relationship is bidirectional, the
  * <code> mappedBy</code> element must be used to specify the relationship field or
  * property of the entity that is the owner of the relationship.
  *
- * When the collection is a <code>java.util.Map</code>, the <code>cascade</code> 
- * element and the <code>orphanRemoval</code> element apply to the map value.
+ * When the collection is a <code>java.util.Map</code>, the {@code cascade} 
+ * element and the {@code orphanRemoval} element apply to the map value.
  *
  * <pre>
  *
@@ -107,7 +107,7 @@ public @interface OneToMany {
      * <p> Defaults to no operations being cascaded.
      *
      * <p> When the target collection is a {@link java.util.Map
-     * java.util.Map}, the <code>cascade</code> element applies to the
+     * java.util.Map}, the {@code cascade} element applies to the
      * map value.
      */
     CascadeType[] cascade() default {};

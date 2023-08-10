@@ -19,7 +19,7 @@ package jakarta.persistence.metamodel;
 import java.util.Set;
 
 /**
- *  Instances of the type <code>ManagedType</code> represent entity, mapped 
+ *  Instances of the type {@code ManagedType} represent entity, mapped
  *  superclass, and embeddable types.
  *
  *  @param <X> The represented type.
@@ -104,7 +104,7 @@ public interface ManagedType<X> extends Type<X> {
      *  @param name  the name of the represented attribute
      *  @param elementType  the element type of the represented 
      *                      attribute
-     *  @return declared <code>CollectionAttribute</code> of the given name and 
+     *  @return declared {@code CollectionAttribute} of the given name and
      *          element type
      *  @throws IllegalArgumentException if attribute of the given
      *          name and type is not declared in the managed type

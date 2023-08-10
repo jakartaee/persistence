@@ -27,16 +27,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * association or element collection at the point when the association
  * or collection is retrieved.
  * 
- * <p> The syntax of the <code>value</code> ordering element is an 
- * <code>orderby_list</code>, as follows:
+ * <p> The syntax of the {@code value} ordering element is an 
+ * {@code orderby_list}, as follows:
  * 
  * <pre>
  *    orderby_list::= orderby_item [,orderby_item]*
  *    orderby_item::= [property_or_field_name] [ASC | DESC]
  * </pre>
  * 
- * <p> If <code>ASC</code> or <code>DESC</code> is not specified, 
- * <code>ASC</code> (ascending order) is assumed.
+ * <p> If {@code ASC} or {@code DESC} is not specified, 
+ * {@code ASC} (ascending order) is assumed.
  *
  * <p> If the ordering element is not specified for an entity association,
  * ordering by the primary key of the associated entity is assumed.
@@ -50,15 +50,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * embedded attribute.  The value of each identifier used with the dot
  * notation is the name of the respective embedded field or property.
  *
- * <p> The <code>OrderBy</code> annotation may be applied to an element
- * collection. When <code>OrderBy</code> is applied to an element collection of
+ * <p> The {@code OrderBy} annotation may be applied to an element
+ * collection. When {@code OrderBy} is applied to an element collection of
  * basic type, the ordering will be by value of the basic objects and
  * the property or field name is not used. When specifying an ordering
  * over an element collection of embeddable type, the dot notation
  * must be used to specify the attribute or attributes that determine
  * the ordering.  
  *
- * <p> The <code>OrderBy</code> annotation is not used when an order
+ * <p> The {@code OrderBy} annotation is not used when an order
  * column is specified.
  *
  * 
@@ -121,15 +121,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface OrderBy {
 
    /**
-    * An <code>orderby_list</code>.  Specified as follows:
+    * An {@code orderby_list}.  Specified as follows:
     *
     * <pre>
     *    orderby_list::= orderby_item [,orderby_item]*
     *    orderby_item::= [property_or_field_name] [ASC | DESC]
     * </pre>
     *
-    * <p> If <code>ASC</code> or <code>DESC</code> is not specified,
-    * <code>ASC</code> (ascending order) is assumed.
+    * <p> If {@code ASC} or {@code DESC} is not specified,
+    * {@code ASC} (ascending order) is assumed.
     *
     * <p> If the ordering element is not specified, ordering by
     * the primary key of the associated entity is assumed.

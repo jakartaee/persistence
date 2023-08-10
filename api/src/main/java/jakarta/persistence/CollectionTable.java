@@ -30,29 +30,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>By default, the columns of the collection table that correspond
  * to the embeddable class or basic type are derived from the
  * attributes of the embeddable class or from the basic type according
- * to the default values of the <code>Column</code> annotation. In the case
+ * to the default values of the {@code Column} annotation. In the case
  * of a basic type, the column name is derived from the name of the
  * collection-valued field or property. In the case of an embeddable
  * class, the column names are derived from the field or property
  * names of the embeddable class.
  * <ul>
  * <li> To override the default properties of the column used for a
- * basic type, the <code>Column</code> annotation is used on the
+ * basic type, the {@code Column} annotation is used on the
  * collection-valued attribute in addition to the
- * <code>ElementCollection</code> annotation. 
+ * {@code ElementCollection} annotation. 
  *
  * <li> To override these defaults for an embeddable class, the
- * <code>AttributeOverride</code> and/or
- * <code>AttributeOverrides</code> annotations can be used in
- * addition to the <code>ElementCollection</code> annotation. If the
+ * {@code AttributeOverride} and/or
+ * {@code AttributeOverrides} annotations can be used in
+ * addition to the {@code ElementCollection} annotation. If the
  * embeddable class contains references to other entities, the default
  * values for the columns corresponding to those references may be
- * overridden by means of the <code>AssociationOverride</code> and/or
- * <code>AssociationOverrides</code> annotations.  
+ * overridden by means of the {@code AssociationOverride} and/or
+ * {@code AssociationOverrides} annotations.  
  * </ul>
  *
- * <p> If the <code>CollectionTable</code> annotation is missing, the
- * default values of the <code>CollectionTable</code> annotation
+ * <p> If the {@code CollectionTable} annotation is missing, the
+ * default values of the {@code CollectionTable} annotation
  * elements apply.
  *
  * <pre>
@@ -128,24 +128,24 @@ public @interface CollectionTable {
      *  (Optional) The foreign key columns of the collection table
      *  which reference the primary table of the entity.  The default
      *  only applies if a single join column is used.  The default is
-     *  the same as for <code>JoinColumn</code> (i.e., the
+     *  the same as for {@code JoinColumn} (i.e., the
      *  concatenation of the following: the name of the entity; "_";
      *  the name of the referenced primary key column.) However, if
-     *  there is more than one join column, a <code>JoinColumn</code>
+     *  there is more than one join column, a {@code JoinColumn}
      *  annotation must be specified for each join column using the
-     *  <code>JoinColumns</code> annotation.  In this case, both the
-     *  <code>name</code> and the <code>referencedColumnName</code>
+     *  {@code JoinColumns} annotation.  In this case, both the
+     *  {@code name} and the {@code referencedColumnName}
      *  elements must be specified in each such
-     *  <code>JoinColumn</code> annotation.
+     *  {@code JoinColumn} annotation.
      */
      JoinColumn[] joinColumns() default {};
 
     /**
      *  (Optional) Used to specify or control the generation of a
      *   foreign key constraint for the columns corresponding to the
-     *   <code>joinColumns</code> element when table generation is in
-     *   effect.  If both this element and the <code>foreignKey</code>
-     *   element of any of the <code>joinColumns</code> elements are
+     *   {@code joinColumns} element when table generation is in
+     *   effect.  If both this element and the {@code foreignKey}
+     *   element of any of the {@code joinColumns} elements are
      *   specified, the behavior is undefined.  If no foreign key
      *   annotation element is specified in either location, the
      *   persistence provider's default foreign key strategy will

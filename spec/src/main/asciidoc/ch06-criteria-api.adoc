@@ -233,7 +233,7 @@ import jakarta.persistence.Tuple;
  * Used to construct criteria queries, compound selections,
  * expressions, predicates, orderings.
  *
- * <p> Note that <code>Predicate</code> is used instead of <code>Expression&#060;Boolean&#062;</code>
+ * <p> Note that {@code Predicate} is used instead of <code>Expression&#060;Boolean&#062;</code>
  * in this API in order to work around the fact that Java
  * generics are not compatible with varags.
  *
@@ -242,13 +242,13 @@ import jakarta.persistence.Tuple;
 public interface CriteriaBuilder {
 
     /**
-     *  Create a <code>CriteriaQuery</code> object.
+     *  Create a {@code CriteriaQuery} object.
      *  @return criteria query object
      */
     CriteriaQuery<Object> createQuery();
 
     /**
-     *  Create a <code>CriteriaQuery</code> object with the specified result
+     *  Create a {@code CriteriaQuery} object with the specified result
      *  type.
      *  @param resultClass  type of the query result
      *  @return criteria query object
@@ -256,7 +256,7 @@ public interface CriteriaBuilder {
     <T> CriteriaQuery<T> createQuery(Class<T> resultClass);
 
     /**
-     *  Create a <code>CriteriaQuery</code> object that returns a tuple of
+     *  Create a {@code CriteriaQuery} object that returns a tuple of
      *  objects as its result.
      *  @return criteria query object
      */
@@ -265,7 +265,7 @@ public interface CriteriaBuilder {
     // methods to construct queries for bulk updates and deletes:
 
     /**
-     *  Create a <code>CriteriaUpdate</code> query object to perform a bulk update operation.
+     *  Create a {@code CriteriaUpdate} query object to perform a bulk update operation.
      *  @param targetEntity  target type for update operation
      *  @return the query object
      *  @since 2.1
@@ -273,7 +273,7 @@ public interface CriteriaBuilder {
     <T> CriteriaUpdate<T> createCriteriaUpdate(Class<T> targetEntity);
 
     /**
-     *  Create a <code>CriteriaDelete</code> query object to perform a bulk delete operation.
+     *  Create a {@code CriteriaDelete} query object to perform a bulk delete operation.
      *  @param targetEntity  target type for delete operation
      *  @return the query object
      *  @since 2.1
@@ -436,7 +436,7 @@ public interface CriteriaBuilder {
 
     /**
      * Create a some expression over the subquery results.
-     * This expression is equivalent to an <code>any</code> expression.
+     * This expression is equivalent to an {@code any} expression.
      * @param subquery  subquery
      * @return some expression
      */
@@ -444,7 +444,7 @@ public interface CriteriaBuilder {
 
     /**
      * Create an any expression over the subquery results.
-     * This expression is equivalent to a <code>some</code> expression.
+     * This expression is equivalent to a {@code some} expression.
      * @param subquery  subquery
      * @return any expression
      */
@@ -1763,7 +1763,7 @@ Expression<?>... args);
 package jakarta.persistence.criteria;
 
 /**
- * The <code>CommonAbstractCriteria</code> interface defines functionality
+ * The {@code CommonAbstractCriteria} interface defines functionality
  * that is common to both top-level criteria queries and subqueries as
  * well as to update and delete criteria operations.
  * It is not intended to be used directly in query construction.
@@ -1807,7 +1807,7 @@ import java.util.Set;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
- * The <code>AbstractQuery</code> interface defines functionality that is common
+ * The {@code AbstractQuery} interface defines functionality that is common
  * to both top-level queries and subqueries.
  * It is not intended to be used directly in query construction.
  *
@@ -1916,7 +1916,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
 
     /**
      * Return the query roots.  These are the roots that have
-     * been defined for the <code>CriteriaQuery</code> or <code>Subquery</code> itself,
+     * been defined for the {@code CriteriaQuery} or {@code Subquery} itself,
      * including any subquery roots defined as a result of
      * correlation. Returns empty set if no roots have been defined.
      * Modifications to the set do not affect the query.
@@ -1958,11 +1958,11 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
     /**
      * Return the result type of the query or subquery.  If a result
      * type was specified as an argument to the
-     * <code>createQuery</code> or <code>subquery</code> method, that
+     * {@code createQuery} or {@code subquery} method, that
      * type will be returned.  If the query was created using the
-     * <code>createTupleQuery</code> method, the result type is
-     * <code>Tuple</code>.  Otherwise, the result type is
-     * <code>Object</code>.
+     * {@code createTupleQuery} method, the result type is
+     * {@code Tuple}.  Otherwise, the result type is
+     * {@code Object}.
      * @return result type
      */
     Class<T> getResultType();
@@ -1979,7 +1979,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The <code>CriteriaQuery</code> interface defines functionality that is specific
+ * The {@code CriteriaQuery} interface defines functionality that is specific
  * to top-level queries.
  *
  * @param <T>  the type of the defined result
@@ -2036,35 +2036,35 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If the type of the criteria query is
      * <code>CriteriaQuery&#060;Tuple&#062;</code> (i.e., a criteria
      * query object created by either the
-     * <code>createTupleQuery</code> method or by passing a
-     * <code>Tuple</code> class argument to the
-     * <code>createQuery</code> method), a <code>Tuple</code> object
-     * corresponding to the arguments of the <code>multiselect</code>
+     * {@code createTupleQuery} method or by passing a
+     * {@code Tuple} class argument to the
+     * {@code createQuery} method), a {@code Tuple} object
+     * corresponding to the arguments of the {@code multiselect}
      * method, in the specified order, will be instantiated and
      * returned for each row that results from the query execution.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X&#062;</code> for
      * some user-defined class X (i.e., a criteria query object
-     * created by passing a X class argument to the <code>createQuery</code>
-     * method), the arguments to the <code>multiselect</code> method will be
+     * created by passing a X class argument to the {@code createQuery}
+     * method), the arguments to the {@code multiselect} method will be
      * passed to the X constructor and an instance of type X will be
      * returned for each row.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X[]&#062;</code> for
      * some class X, an instance of type X[] will be returned for
      * each row.   The elements of the array will correspond to the
-     * arguments of the <code>multiselect</code> method, in the
+     * arguments of the {@code multiselect} method, in the
      * specified order.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a
-     * type, and only a single argument is passed to the <code>multiselect</code>
-     * method, an instance of type <code>Object</code> will be returned for
+     * type, and only a single argument is passed to the {@code multiselect}
+     * method, an instance of type {@code Object} will be returned for
      * each row.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a
-     * type, and more than one argument is passed to the <code>multiselect</code>
+     * type, and more than one argument is passed to the {@code multiselect}
      * method, an instance of type <code>Object[]</code> will be instantiated
      * and returned for each row.  The elements of the array will
      * correspond to the arguments to the <code> multiselect</code>  method,
@@ -2088,46 +2088,46 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      *
      * <p> The type of the result of the query execution depends on
      * the specification of the type of the criteria query object
-     * created as well as the argument to the <code>multiselect</code> method.
-     * An element of the list passed to the <code>multiselect</code> method
+     * created as well as the argument to the {@code multiselect} method.
+     * An element of the list passed to the {@code multiselect} method
      * must not be a tuple- or array-valued compound selection item.
      *
      * <p> The semantics of this method are as follows:
      * <ul>
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Tuple&#062;</code>
      * (i.e., a criteria query object created by either the
-     * <code>createTupleQuery</code> method or by passing a <code>Tuple</code> class argument
-     * to the <code>createQuery</code> method), a <code>Tuple</code> object corresponding to
-     * the elements of the list passed to the <code>multiselect</code> method,
+     * {@code createTupleQuery} method or by passing a {@code Tuple} class argument
+     * to the {@code createQuery} method), a {@code Tuple} object corresponding to
+     * the elements of the list passed to the {@code multiselect} method,
      * in the specified order, will be instantiated and returned for each
      * row that results from the query execution.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X&#062;</code> for
      * some user-defined class X (i.e., a criteria query object
-     * created by passing a X class argument to the <code>createQuery</code>
-     * method), the elements of the list passed to the <code>multiselect</code>
+     * created by passing a X class argument to the {@code createQuery}
+     * method), the elements of the list passed to the {@code multiselect}
      * method will be passed to the X constructor and an instance
      * of type X will be returned for each row.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;X[]&#062;</code> for
      * some class X, an instance of type X[] will be returned for
      * each row.   The elements of the array will correspond to the
-     * elements of the list passed to the <code>multiselect</code> method,
+     * elements of the list passed to the {@code multiselect} method,
      * in the specified order.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a
-     * type, and the list passed to the <code>multiselect</code> method contains
-     * only a single element, an instance of type <code>Object</code> will be
+     * type, and the list passed to the {@code multiselect} method contains
+     * only a single element, an instance of type {@code Object} will be
      * returned for each row.
      *
      * <li> If the type of the criteria query is <code>CriteriaQuery&#060;Object&#062;</code>
      * or if the criteria query was created without specifying a
-     * type, and the list passed to the <code>multiselect</code> method contains
+     * type, and the list passed to the {@code multiselect} method contains
      * more than one element, an instance of type <code>Object[]</code> will be
      * instantiated and returned for each row.  The elements of the
      * array will correspond to the elements of the list passed to
-     * the <code>multiselect</code> method, in the specified order.
+     * the {@code multiselect} method, in the specified order.
      * </ul>
      *
      * @param selectionList  list of selection items corresponding
@@ -2144,7 +2144,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * to the specified boolean expression.
      * Replaces the previously added restriction(s), if any.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */
@@ -2157,7 +2157,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
@@ -2170,7 +2170,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no grouping expressions are specified, any previously
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param grouping  zero or more grouping expressions
      * @return the modified query
      */
@@ -2183,7 +2183,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no grouping expressions are specified, any previously
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param grouping  list of zero or more grouping expressions
      * @return the modified query
      */
@@ -2193,7 +2193,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * Specify a restriction over the groups of the query.
      * Replaces the previous having restriction(s), if any.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */
@@ -2207,7 +2207,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
@@ -2250,7 +2250,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * If distinct has not been specified, duplicate results must
      * be retained.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param distinct  boolean value specifying whether duplicate
      *        results must be eliminated from the query result or
      *        whether they must be retained
@@ -2287,7 +2287,7 @@ import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
- * The <code>CriteriaUpdate</code> interface defines functionality for performing
+ * The {@code CriteriaUpdate} interface defines functionality for performing
  * bulk update operations using the Criteria API.
  *
  * <p>Criteria API bulk update operations map directly to database update
@@ -2298,7 +2298,7 @@ import jakarta.persistence.metamodel.EntityType;
  * The persistence context is not synchronized with the result of the
  * bulk update.
  *
- * <p> A <code>CriteriaUpdate</code> object must have a single root.
+ * <p> A {@code CriteriaUpdate} object must have a single root.
  *
  * @param <T>  the entity type that is the target of the update
  *
@@ -2309,7 +2309,7 @@ public interface CriteriaUpdate<T> extends CommonAbstractCriteria {
    /**
     * Create and add a query root corresponding to the entity
     * that is the target of the update.
-    * A <code>CriteriaUpdate</code> object has a single root, the entity that
+    * A {@code CriteriaUpdate} object has a single root, the entity that
     * is being updated.
     * @param entityClass  the entity class
     * @return query root corresponding to the given entity
@@ -2319,7 +2319,7 @@ public interface CriteriaUpdate<T> extends CommonAbstractCriteria {
    /**
     * Create and add a query root corresponding to the entity
     * that is the target of the update.
-    * A <code>CriteriaUpdate</code> object has a single root, the entity that
+    * A {@code CriteriaUpdate} object has a single root, the entity that
     * is being updated.
     * @param entity  metamodel entity representing the entity
     *                of type X
@@ -2405,14 +2405,14 @@ package jakarta.persistence.criteria;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
- * The <code>CriteriaDelete</code> interface defines functionality for performing
+ * The {@code CriteriaDelete} interface defines functionality for performing
  * bulk delete operations using the Criteria API
  *
  * <p>Criteria API bulk delete operations map directly to database
  * delete operations.  The persistence context is not synchronized
  * with the result of the bulk delete.
  *
- * <p> A <code>CriteriaDelete</code> object must have a single root.
+ * <p> A {@code CriteriaDelete} object must have a single root.
  *
  * @param <T>  the entity type that is the target of the delete
  *
@@ -2424,7 +2424,7 @@ public interface CriteriaDelete<T> extends CommonAbstractCriteria {
     /**
      * Create and add a query root corresponding to the entity
      * that is the target of the delete.
-     * A <code>CriteriaDelete</code> object has a single root, the entity that
+     * A {@code CriteriaDelete} object has a single root, the entity that
      * is being deleted.
      * @param entityClass  the entity class
      * @return query root corresponding to the given entity
@@ -2434,7 +2434,7 @@ public interface CriteriaDelete<T> extends CommonAbstractCriteria {
     /**
      * Create and add a query root corresponding to the entity
      * that is the target of the delete.
-     * A <code>CriteriaDelete</code> object has a single root, the entity that
+     * A {@code CriteriaDelete} object has a single root, the entity that
      * is being deleted.
      * @param entity  metamodel entity representing the entity
      *                of type X
@@ -2482,7 +2482,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The <code>Subquery</code> interface defines functionality that is
+ * The {@code Subquery} interface defines functionality that is
  * specific to subqueries.
  *
  * A subquery has an expression as its selection item.
@@ -2508,7 +2508,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * to the specified boolean expression.
      * Replaces the previously added restriction(s), if any.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
@@ -2521,7 +2521,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
@@ -2534,7 +2534,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no grouping expressions are specified, any previously
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param grouping  zero or more grouping expressions
      * @return the modified subquery
      */
@@ -2547,7 +2547,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no grouping expressions are specified, any previously
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param grouping  list of zero or more grouping expressions
      * @return the modified subquery
      */
@@ -2557,7 +2557,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Specify a restriction over the groups of the subquery.
      * Replaces the previous having restriction(s), if any.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
@@ -2571,7 +2571,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
@@ -2584,7 +2584,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If distinct has not been specified, duplicate results must
      * be retained.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param distinct  boolean value specifying whether duplicate
      *        results must be eliminated from the subquery result or
      *        whether they must be retained
@@ -2684,7 +2684,7 @@ import jakarta.persistence.TupleElement;
 import java.util.List;
 
 /**
- * The <code>Selection</code> interface defines an item that is to be
+ * The {@code Selection} interface defines an item that is to be
  * returned in a query result.
  *
  * @param <X> the type of the selection item
@@ -2727,7 +2727,7 @@ public interface Selection<X> extends TupleElement<X> {
 package jakarta.persistence.criteria;
 
 /**
- * The <code>CompoundSelection</code> interface defines a compound selection item
+ * The {@code CompoundSelection} interface defines a compound selection item
  * (tuple, array, or result of constructor).
  *
  * @param <X> the type of the selection item
@@ -2837,7 +2837,7 @@ public interface Predicate extends Expression<Boolean> {
 
     /**
      * Return the boolean operator for the predicate.
-     * If the predicate is simple, this is <code>AND</code>.
+     * If the predicate is simple, this is {@code AND}.
      * @return boolean operator for the predicate
      */
     BooleanOperator getOperator();
@@ -2940,8 +2940,8 @@ public interface Path<X> extends Expression<X> {
      *  Create a path corresponding to the referenced attribute.
      *
      *  <p> Note: Applications using the string-based API may need to
-     *  specify the type resulting from the <code>get</code> operation in order
-     *  to avoid the use of <code>Path</code> variables.
+     *  specify the type resulting from the {@code get} operation in order
+     *  to avoid the use of {@code Path} variables.
      *
      *  <pre>
      *     For example:
@@ -3143,8 +3143,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
     Set<Join<X, ?>> getJoins();
 
     /**
-     *  Whether the <code>From</code> object has been obtained as a result of
-     *  correlation (use of a <code>Subquery</code> <code>correlate</code>
+     *  Whether the {@code From} object has been obtained as a result of
+     *  correlation (use of a {@code Subquery} {@code correlate}
      *  method).
      *  @return boolean indicating whether the object has been
      *          obtained through correlation
@@ -3152,9 +3152,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
     boolean isCorrelated();
 
     /**
-     *  Returns the parent <code>From</code> object from which the correlated
-     *  <code>From</code> object has been obtained through correlation (use
-     *  of a <code>Subquery</code> <code>correlate</code> method).
+     *  Returns the parent {@code From} object from which the correlated
+     *  {@code From} object has been obtained through correlation (use
+     *  of a {@code Subquery} {@code correlate} method).
      *  @return  the parent of the correlated From object
      *  @throws IllegalStateException if the From object has
      *          not been obtained through correlation
@@ -3462,7 +3462,7 @@ package jakarta.persistence.criteria;
  * Defines the three types of joins.
  *
  * Right outer joins and right outer fetch joins are not required
- * to be supported. Applications that use <code>RIGHT</code> join
+ * to be supported. Applications that use {@code RIGHT} join
  * types will not be portable.
  *
  * @since 2.0
@@ -3489,7 +3489,7 @@ package jakarta.persistence.criteria;
 import jakarta.persistence.metamodel.PluralAttribute;
 
 /**
- * The <code>PluralJoin</code> interface defines functionality
+ * The {@code PluralJoin} interface defines functionality
  * that is common to joins to all collection types.  It is
  * not intended to be used directly in query construction.
  *
@@ -3521,12 +3521,12 @@ import java.util.Collection;
 import jakarta.persistence.metamodel.CollectionAttribute;
 
 /**
- * The <code>CollectionJoin</code> interface is the type of the result of
+ * The {@code CollectionJoin} interface is the type of the result of
  * joining to a collection over an association or element
  * collection that has been specified as a <code>java.util.Collection</code>.
  *
  * @param <Z> the source type of the join
- * @param <E> the element type of the target <code>Collection</code>
+ * @param <E> the element type of the target {@code Collection}
  *
  * @since 2.0
  */
@@ -3556,7 +3556,7 @@ public interface CollectionJoin<Z, E>
     /**
      * Return the metamodel representation for the collection
      * attribute.
-     * @return metamodel type representing the <code>Collection</code> that is
+     * @return metamodel type representing the {@code Collection} that is
      *         the target of the join
      */
     CollectionAttribute<? super Z, E> getModel();
@@ -3573,12 +3573,12 @@ import java.util.Set;
 import jakarta.persistence.metamodel.SetAttribute;
 
 /**
- * The <code>SetJoin</code> interface is the type of the result of
+ * The {@code SetJoin} interface is the type of the result of
  * joining to a collection over an association or element
  * collection that has been specified as a <code>java.util.Set</code>.
  *
  * @param <Z> the source type of the join
- * @param <E> the element type of the target <code>Set</code>
+ * @param <E> the element type of the target {@code Set}
  *
  * @since 2.0
  */
@@ -3606,7 +3606,7 @@ public interface SetJoin<Z, E> extends PluralJoin<Z, Set<E>, E> {
 
     /**
      * Return the metamodel representation for the set attribute.
-     * @return metamodel type representing the <code>Set</code> that is
+     * @return metamodel type representing the {@code Set} that is
      *         the target of the join
      */
     SetAttribute<? super Z, E> getModel();
@@ -3623,7 +3623,7 @@ import java.util.List;
 import jakarta.persistence.metamodel.ListAttribute;
 
 /**
- * The <code>ListJoin</code> interface is the type of the result of
+ * The {@code ListJoin} interface is the type of the result of
  * joining to a collection over an association or element
  * collection that has been specified as a <code>java.util.List</code>.
  *
@@ -3657,7 +3657,7 @@ public interface ListJoin<Z, E>
 
     /**
      * Return the metamodel representation for the list attribute.
-     * @return metamodel type representing the <code>List</code> that is
+     * @return metamodel type representing the {@code List} that is
      *         the target of the join
      */
     ListAttribute<? super Z, E> getModel();
@@ -3685,7 +3685,7 @@ import java.util.Map;
 import jakarta.persistence.metamodel.MapAttribute;
 
 /**
- * The <code>MapJoin</code> interface is the type of the result of
+ * The {@code MapJoin} interface is the type of the result of
  * joining to a collection over an association or element
  * collection that has been specified as a <code>java.util.Map</code>.
  *
@@ -3720,7 +3720,7 @@ public interface MapJoin<Z, K, V>
 
     /**
      * Return the metamodel representation for the map attribute.
-     * @return metamodel type representing the <code>Map</code> that is
+     * @return metamodel type representing the {@code Map} that is
      *         the target of the join
      */
     MapAttribute<? super Z, K, V> getModel();
@@ -3761,7 +3761,7 @@ public interface Order {
 
    /**
     * Switch the ordering.
-    * @return a new <code>Order</code> instance with the reversed ordering
+    * @return a new {@code Order} instance with the reversed ordering
     */
     Order reverse();
 

@@ -24,7 +24,7 @@ import java.util.List;
  * 
  * <p> Implementations must be thread-safe.
  *
- * <p> Note that the <code>getPersistenceProviders</code> method can potentially
+ * <p> Note that the {@code getPersistenceProviders} method can potentially
  * be called many times: it is recommended that the implementation
  * of this method make use of caching.
  *
@@ -34,7 +34,7 @@ import java.util.List;
 public interface PersistenceProviderResolver {
 
     /**
-     * Returns a list of the <code>PersistenceProvider</code> implementations 
+     * Returns a list of the {@code PersistenceProvider} implementations 
      * available in the runtime environment.
      *
      * @return list of the persistence providers available 

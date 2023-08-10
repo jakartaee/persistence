@@ -28,10 +28,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link java.util.Date} and {@link java.util.Calendar}. It may only be 
  * specified for map keys of these types.
  * 
- * <p> The <code>MapKeyTemporal</code> annotation can be applied to an
+ * <p> The {@code MapKeyTemporal} annotation can be applied to an
  * element collection or relationship of type <code>java.util.Map</code>
- * in conjunction with the <code>ElementCollection</code>,
- * <code>OneToMany</code>, or <code>ManyToMany</code> annotation.
+ * in conjunction with the {@code ElementCollection},
+ * {@code OneToMany}, or {@code ManyToMany} annotation.
  *
  * <pre>
  *     Example:

@@ -27,7 +27,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /** 
  * Specifies a static, named query in the Jakarta Persistence query language.
  * Query names are scoped to the persistence unit.
- * The <code>NamedQuery</code> annotation can be applied to an entity or mapped superclass.
+ * The {@code NamedQuery} annotation can be applied to an entity or mapped superclass.
  *
  * <p> The following is an example of the definition of a named query 
  * in the Jakarta Persistence query language:
@@ -69,7 +69,7 @@ public @interface NamedQuery {
     String query();
 
     /** 
-     * (Optional) The lock mode type to use in query execution.  If a <code>lockMode</code>
+     * (Optional) The lock mode type to use in query execution.  If a {@code lockMode}
      * other than <code>LockModeType.NONE</code> is specified, the query must be executed in
      * a transaction and the persistence context joined to the transaction.
      * @since 2.0

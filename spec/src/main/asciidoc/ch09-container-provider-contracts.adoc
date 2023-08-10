@@ -257,7 +257,7 @@ import java.util.List;
  *
  * <p> Implementations must be thread-safe.
  *
- * <p> Note that the <code>getPersistenceProviders</code> method can potentially
+ * <p> Note that the {@code getPersistenceProviders} method can potentially
  * be called many times: it is recommended that the implementation
  * of this method make use of caching.
  *
@@ -267,7 +267,7 @@ import java.util.List;
 public interface PersistenceProviderResolver {
 
     /**
-     * Returns a list of the <code>PersistenceProvider</code> implementations
+     * Returns a list of the {@code PersistenceProvider} implementations
      * available in the runtime environment.
      *
      * @return list of the persistence providers available
@@ -293,8 +293,8 @@ import java.util.List;
 
 /**
  * Holds the global {@link PersistenceProviderResolver}
- * instance. If no <code>PersistenceProviderResolver</code> is set by the
- * environment, the default <code>PersistenceProviderResolver</code> is used.
+ * instance. If no {@code PersistenceProviderResolver} is set by the
+ * environment, the default {@code PersistenceProviderResolver} is used.
  * Enable "jakarta.persistence.spi" logger to show diagnostic information.
  *
  * Implementations must be thread-safe.
@@ -608,8 +608,8 @@ import java.util.Map;
 public interface PersistenceProvider {
 
     /**
-     * Called by <code>Persistence</code> class when an
-     * <code>EntityManagerFactory</code> is to be created.
+     * Called by {@code Persistence} class when an
+     * {@code EntityManagerFactory} is to be created.
      *
      * @param emName  the name of the persistence unit
      * @param map  a Map of properties for use by the
@@ -624,7 +624,7 @@ public interface PersistenceProvider {
     public EntityManagerFactory createEntityManagerFactory(String emName, Map map);
 
     /**
-     * Called by the container when an <code>EntityManagerFactory</code>
+     * Called by the container when an {@code EntityManagerFactory}
      * is to be created.
      *
      * @param info  metadata for use by the persistence provider
@@ -633,7 +633,7 @@ public interface PersistenceProvider {
      * are specified).  These properties may include properties to
      * control schema generation.
      * If a Bean Validation provider is present in the classpath,
-     * the container must pass the <code>ValidatorFactory</code> instance in
+     * the container must pass the {@code ValidatorFactory} instance in
      * the map with the key <code>"jakarta.persistence.validation.factory"</code>.
      * If the containing archive is a bean archive, the container
      * must pass the BeanManager instance in the map with the key
@@ -760,7 +760,7 @@ public interface ProviderUtil {
      * obtain a reference to the attribute value.  (This access is
      * safe because providers which might trigger the loading of the
      * attribute state will have already been determined by
-     * <code>isLoadedWithoutReference</code>. )
+     * {@code isLoadedWithoutReference}. )
      *
      * @param entity  entity instance
      * @param attributeName  name of attribute whose load status is
@@ -833,14 +833,14 @@ public interface PersistenceUnitInfo {
 
     /**
      * Returns the name of the persistence unit. Corresponds to the
-     * <code>name</code> attribute in the <code>persistence.xml</code> file.
+     * {@code name} attribute in the <code>persistence.xml</code> file.
      * @return  the name of the persistence unit
      */
     public String getPersistenceUnitName();
 
     /**
      * Returns the fully qualified name of the persistence provider
-     * implementation class. Corresponds to the <code>provider</code> element in
+     * implementation class. Corresponds to the {@code provider} element in
      * the <code>persistence.xml</code> file.
      * @return  the fully qualified name of the persistence provider
      * implementation class
@@ -849,7 +849,7 @@ public interface PersistenceUnitInfo {
 
     /**
      * Returns the transaction type of the entity managers created by
-     * the <code>EntityManagerFactory</code>. The transaction type corresponds to
+     * the {@code EntityManagerFactory}. The transaction type corresponds to
      * the <code>transaction-type</code> attribute in the <code>persistence.xml</code> file.
      * @return  transaction type of the entity managers created
      * by the EntityManagerFactory
@@ -922,7 +922,7 @@ public interface PersistenceUnitInfo {
     /**
      * Returns the list of the names of the classes that the
      * persistence provider must add to its set of managed
-     * classes. Each name corresponds to a named <code>class</code> element in the
+     * classes. Each name corresponds to a named {@code class} element in the
      * <code>persistence.xml</code> file.
      * @return the list of the names of the classes that the
      * persistence provider must add to its set of managed
@@ -967,7 +967,7 @@ public interface PersistenceUnitInfo {
 
     /**
      * Returns a properties object. Each property corresponds to a
-     * <code>property</code> element in the <code>persistence.xml</code> file
+     * {@code property} element in the <code>persistence.xml</code> file
      * or to a property set by the container.
      * @return Properties object
      */
@@ -1229,11 +1229,11 @@ import jakarta.persistence.spi.LoadState;
  * in Java SE environments.  It may also be used to cause schema
  * generation to occur.
  *
- * <p> The <code>Persistence</code> class is available in a Jakarta EE
+ * <p> The {@code Persistence} class is available in a Jakarta EE
  * container environment as well; however, support for the Java SE
  * bootstrapping APIs is not required in container environments.
  *
- * <p> The <code>Persistence</code> class is used to obtain a {@link
+ * <p> The {@code Persistence} class is used to obtain a {@link
  * PersistenceUtil PersistenceUtil} instance in both
  * Jakarta EE and Java SE environments.
  *
@@ -1459,7 +1459,7 @@ package jakarta.persistence;
  * Utility interface between the application and the persistence
  * provider(s).
  *
- * <p> The <code>PersistenceUtil</code> interface instance obtained from the
+ * <p> The {@code PersistenceUtil} interface instance obtained from the
  * {@link Persistence} class is used to determine the load state of an
  * entity or entity attribute regardless of which persistence
  * provider in the environment created the entity.

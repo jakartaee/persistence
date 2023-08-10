@@ -28,14 +28,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * to the entities that inherit from it. A mapped superclass 
  * has no separate table defined for it.  
  *
- * <p> A class designated with the <code>MappedSuperclass</code> 
+ * <p> A class designated with the {@code MappedSuperclass} 
  * annotation can be mapped in the same way as an entity except that the 
  * mappings will apply only to its subclasses since no table 
  * exists for the mapped superclass itself. When applied to the 
  * subclasses the inherited mappings will apply in the context 
  * of the subclass tables. Mapping information may be overridden 
- * in such subclasses by using the <code>AttributeOverride</code> and 
- * <code>AssociationOverride</code> annotations or corresponding XML elements.
+ * in such subclasses by using the {@code AttributeOverride} and 
+ * {@code AssociationOverride} annotations or corresponding XML elements.
  *
  * <pre>
  *    Example: Concrete class as a mapped superclass

@@ -26,16 +26,16 @@ import java.lang.annotation.Target;
  * as the primary key index will be created automatically.
  *
  * <p> 
- * The syntax of the <code>columnList</code> element is a 
- * <code>column_list</code>, as follows:
+ * The syntax of the {@code columnList} element is a
+ * {@code column_list}, as follows:
  * 
  * <pre>
  *    column::= index_column [,index_column]*
  *    index_column::= column_name [ASC | DESC]
  * </pre>
  * 
- * <p> If <code>ASC</code> or <code>DESC</code> is not specified, 
- * <code>ASC</code> (ascending order) is assumed.
+ * <p> If {@code ASC} or {@code DESC} is not specified,
+ * {@code ASC} (ascending order) is assumed.
  *
  * @see Table
  * @see SecondaryTable

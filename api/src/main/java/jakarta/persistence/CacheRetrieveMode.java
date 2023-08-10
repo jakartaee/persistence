@@ -20,7 +20,7 @@ package jakarta.persistence;
  * Used as the value of the
  * <code>jakarta.persistence.cache.retrieveMode</code> property to
  * specify the behavior when data is retrieved by the
- * <code>find</code> methods and by queries.
+ * {@code find} methods and by queries.
  *
  * @since 2.0
  */

@@ -30,22 +30,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * and the non-owning, or inverse, side.  The join table is specified
  * on the owning side. If the association is bidirectional, either
  * side may be designated as the owning side.  If the relationship is
- * bidirectional, the non-owning side must use the <code>mappedBy</code> element of
- * the <code>ManyToMany</code> annotation to specify the relationship field or
+ * bidirectional, the non-owning side must use the {@code mappedBy} element of
+ * the {@code ManyToMany} annotation to specify the relationship field or
  * property of the owning side.
  *
  * <p> The join table for the relationship, if not defaulted, is
  * specified on the owning side.
  *
- * <p> The <code>ManyToMany</code> annotation may be used within an
+ * <p> The {@code ManyToMany} annotation may be used within an
  * embeddable class contained within an entity class to specify a
  * relationship to a collection of entities. If the relationship is
  * bidirectional and the entity containing the embeddable class is the
  * owner of the relationship, the non-owning side must use the
- * <code>mappedBy</code> element of the <code>ManyToMany</code>
+ * {@code mappedBy} element of the {@code ManyToMany}
  * annotation to specify the relationship field or property of the
  * embeddable class. The dot (".") notation syntax must be used in the
- * <code>mappedBy</code> element to indicate the relationship
+ * {@code mappedBy} element to indicate the relationship
  * attribute within the embedded attribute.  The value of each
  * identifier used with the dot notation is the name of the respective
  * embedded field or property.
@@ -120,7 +120,7 @@ public @interface ManyToMany {
      * of the association.  
      *
      * <p> When the target collection is a {@link java.util.Map
-     * java.util.Map}, the <code>cascade</code> element applies to the
+     * java.util.Map}, the {@code cascade} element applies to the
      * map value.
      *
      * <p> Defaults to no operations being cascaded.

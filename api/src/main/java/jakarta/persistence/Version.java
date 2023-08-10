@@ -28,18 +28,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * integrity when performing the merge operation and for optimistic
  * concurrency control.
  *
- * <p> Only a single <code>Version</code> property or field 
+ * <p> Only a single {@code Version} property or field 
  * should be used per class; applications that use more than one 
- * <code>Version</code> property or field will not be portable. 
+ * {@code Version} property or field will not be portable. 
  * 
- * <p> The <code>Version</code> property should be mapped to 
+ * <p> The {@code Version} property should be mapped to 
  * the primary table for the entity class; applications that 
- * map the <code>Version</code> property to a table other than 
+ * map the {@code Version} property to a table other than 
  * the primary table will not be portable.
  * 
  * <p> The following types are supported for version properties: 
- * <code>int</code>, <code>Integer</code>, <code>short</code>, 
- * <code>Short</code>, <code>long</code>, <code>Long</code>, 
+ * {@code int}, {@code Integer}, {@code short}, 
+ * {@code Short}, {@code long}, {@code Long}, 
  * <code>java.sql.Timestamp</code>.
  *
  * <pre>

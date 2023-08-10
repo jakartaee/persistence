@@ -37,7 +37,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *containing entity rather than the embeddable class is considered the
  *owner of the relationship.
  *
- * <p> If the <code>JoinTable</code> annotation is missing, the 
+ * <p> If the {@code JoinTable} annotation is missing, the
  * default values of the annotation elements apply.  
  * The name of the join table is assumed to be the table names of the 
  * associated primary tables concatenated together (owning side 
@@ -110,9 +110,9 @@ public @interface JoinTable {
     /**
      *  (Optional) Used to specify or control the generation of a
      *   foreign key constraint for the columns corresponding to the
-     *   <code>joinColumns</code> element when table generation is in
-     *   effect.  If both this element and the <code>foreignKey</code>
-     *   element of any of the <code>joinColumns</code> elements are
+     *   {@code joinColumns} element when table generation is in
+     *   effect.  If both this element and the {@code foreignKey}
+     *   element of any of the {@code joinColumns} elements are
      *   specified, the behavior is undefined.  If no foreign key
      *   annotation element is specified in either location, the
      *   persistence provider's default foreign key strategy will
@@ -125,10 +125,10 @@ public @interface JoinTable {
     /**
      *  (Optional) Used to specify or control the generation of a
      *  foreign key constraint for the columns corresponding to the
-     *  <code>inverseJoinColumns</code> element when table generation
+     *  {@code inverseJoinColumns} element when table generation
      *  is in effect.  If both this element and the
-     *  <code>foreignKey</code> element of any of the
-     *  <code>inverseJoinColumns</code> elements are specified, the
+     *  {@code foreignKey} element of any of the
+     *  {@code inverseJoinColumns} elements are specified, the
      *  behavior is undefined.  If no foreign key annotation element
      *  is specified in either location, the persistence provider's
      *  default foreign key strategy will apply.

@@ -51,14 +51,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public @interface PrimaryKeyJoinColumns {
 
-    /** One or more <code>PrimaryKeyJoinColumn</code> annotations. */
+    /** One or more {@code PrimaryKeyJoinColumn} annotations. */
     PrimaryKeyJoinColumn[] value();
 
     /**
      *  (Optional) Used to specify or control the generation of a
      *  foreign key constraint when table generation is in effect. 
-     *  If both this element and the <code>foreignKey</code> element 
-     *  of any of the <code>PrimaryKeyJoinColumn</code> elements are specified, 
+     *  If both this element and the {@code foreignKey} element 
+     *  of any of the {@code PrimaryKeyJoinColumn} elements are specified, 
      *  the behavior is undefined.  If no foreign key annotation element
      *  is specified in either location, the persistence provider's
      *  default foreign key strategy will apply.

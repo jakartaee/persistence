@@ -28,7 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Specifies a mapping to an entity that is a map key. The map key
  * join column is in the collection table, join table, or table of the
  * target entity that is used to represent the map.  If no
- * <code>MapKeyJoinColumn</code> annotation is specified, a single
+ * {@code MapKeyJoinColumn} annotation is specified, a single
  * join column is assumed and the default values apply.
  *
  * <pre>
@@ -130,7 +130,7 @@ public @interface MapKeyJoinColumn {
 
 	/**
 	 * (Optional) Whether the property is a unique key. This is a
-	 * shortcut for the <code>UniqueConstraint</code> annotation
+	 * shortcut for the {@code UniqueConstraint} annotation
 	 * at the table level and is useful for when the unique key
 	 * constraint is only a single field.
 	 */

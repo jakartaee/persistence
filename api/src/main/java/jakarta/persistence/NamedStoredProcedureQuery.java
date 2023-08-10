@@ -26,23 +26,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies and names a stored procedure, its parameters, and its result type.
  *
- * <p>The <code>NamedStoredProcedureQuery</code> annotation can be applied to an 
+ * <p>The {@code NamedStoredProcedureQuery} annotation can be applied to an 
  * entity or mapped superclass.
  *
- * <p>The <code>name</code> element is the name that is passed as an argument to the
+ * <p>The {@code name} element is the name that is passed as an argument to the
  * {@link EntityManager#createNamedStoredProcedureQuery}
- * method to create an executable <code>StoredProcedureQuery</code> object.
+ * method to create an executable {@code StoredProcedureQuery} object.
  * Names are scoped to the persistence unit.
  *
- * <p>The <code>procedureName</code> element is the name of the stored procedure in
+ * <p>The {@code procedureName} element is the name of the stored procedure in
  * the database.
  *
  * <p>The parameters of the stored procedure are specified by the
- * <code>parameters</code> element. All parameters must be specified in the order in
+ * {@code parameters} element. All parameters must be specified in the order in
  * which they occur in the parameter list of the stored procedure.
  *
- * <p>The <code>resultClasses</code> element refers to the class (or classes) that are
- * used to map the results. The <code>resultSetMappings</code> element names one or
+ * <p>The {@code resultClasses} element refers to the class (or classes) that are
+ * used to map the results. The {@code resultSetMappings} element names one or
  * more result set mappings, as defined by the {@link SqlResultSetMapping}
  * annotation.
  *
@@ -52,18 +52,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * order of the specification of these mappings must be the same as
  * the order in which the result sets will be returned by the stored
  * procedure invocation. If the stored procedure returns one or more
- * result sets and no <code>resultClasses</code> or <code>resultSetMappings</code>
+ * result sets and no {@code resultClasses} or {@code resultSetMappings}
  * element is specified, any result set will be returned as a list of type
  * Object[]. The combining of different strategies for the mapping of
  * stored procedure result sets is undefined.
  *
- * <p>The <code>hints</code> element may be used to specify query properties and
+ * <p>The {@code hints} element may be used to specify query properties and
  * hints. Properties defined by this specification must be observed by
  * the provider. Vendor-specific hints that are not recognized by a
  * provider must be ignored.
  *
  * <p>All parameters of a named stored procedure query must be specified
- * using the <code>StoredProcedureParameter</code> annotation.
+ * using the {@code StoredProcedureParameter} annotation.
  *
  * @see StoredProcedureQuery
  * @see StoredProcedureParameter

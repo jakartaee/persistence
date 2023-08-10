@@ -26,14 +26,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Specifies the type of the map key for associations of type
  * <code>java.util.Map</code>.  The map key can be a basic type, an
  * embeddable class, or an entity. If the map is specified using Java
- * generics, the <code>MapKeyClass</code> annotation and associated
+ * generics, the {@code MapKeyClass} annotation and associated
  * type need not be specified; otherwise they must be specified.
  * 
- * <p> The <code>MapKeyClass</code> annotation is used in conjunction
- * with <code>ElementCollection</code> or one of the collection-valued
- * relationship annotations (<code>OneToMany</code> or <code>ManyToMany</code>).
- * The <code>MapKey</code> annotation is not used when
- * <code>MapKeyClass</code> is specified and vice versa.
+ * <p> The {@code MapKeyClass} annotation is used in conjunction
+ * with {@code ElementCollection} or one of the collection-valued
+ * relationship annotations ({@code OneToMany} or {@code ManyToMany}).
+ * The {@code MapKey} annotation is not used when
+ * {@code MapKeyClass} is specified and vice versa.
  *
  * <pre>
  *

@@ -19,7 +19,7 @@ package jakarta.persistence.metamodel;
 import java.util.Set;
 
 /**
- *  Instances of the type <code>IdentifiableType</code> represent entity or 
+ *  Instances of the type {@code IdentifiableType} represent entity or 
  *  mapped superclass types.
  *
  *  @param <X> The represented entity or mapped superclass type.

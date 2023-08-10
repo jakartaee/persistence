@@ -23,7 +23,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies multiple native SQL named queries.  Query names
- * are scoped to the persistence unit.  The <code>NamedNativeQueries</code> 
+ * are scoped to the persistence unit.  The {@code NamedNativeQueries}
  * annotation can be applied to an entity or mapped superclass.
  *
  * @see NamedNativeQuery
@@ -34,6 +34,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface NamedNativeQueries { 
 
-    /** (Required) Array of <code>NamedNativeQuery</code> annotations. */
+    /** (Required) Array of {@code NamedNativeQuery} annotations. */
     NamedNativeQuery[] value ();
 }
