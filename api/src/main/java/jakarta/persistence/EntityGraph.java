@@ -71,7 +71,7 @@ public interface EntityGraph<T> extends Graph<T> {
      *         statically defined
      * @deprecated use {@link #addTreatedSubgraph(Class)}
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2", forRemoval = true)
     public <T> Subgraph<? extends T> addSubclassSubgraph(Class<? extends T> type);
 
 }

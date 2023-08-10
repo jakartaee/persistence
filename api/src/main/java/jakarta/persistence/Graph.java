@@ -124,7 +124,7 @@ public interface Graph<T> {
      *         statically defined
      * @deprecated use {@link #addTreatedSubgraph(Attribute, Class)}
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2", forRemoval = true)
     public <X> Subgraph<? extends X> addSubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
 
     /**
@@ -271,7 +271,7 @@ public interface Graph<T> {
      *         statically defined
      * @deprecated use {@link #addMapKeySubgraph(MapAttribute)}
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2", forRemoval = true)
     public <X> Subgraph<X> addKeySubgraph(Attribute<? super T, X> attribute);
 
     /**
@@ -290,7 +290,7 @@ public interface Graph<T> {
      *         statically defined
      * @deprecated use {@link #addTreatedMapKeySubgraph(MapAttribute, Class)}
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2", forRemoval = true)
     public <X> Subgraph<? extends X> addKeySubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
 
     /**
