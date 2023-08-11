@@ -514,6 +514,54 @@ public interface EntityManager extends AutoCloseable {
                      Map<String, Object> properties);
 
     /**
+     * Lock an entity instance that is contained in the persistence
+     * context with the specified lock mode type, using specified
+     * {@linkplain LockOption options}.
+     * <p>If a pessimistic lock mode type is specified and the entity
+     * contains a version attribute, the persistence provider must
+     * also perform optimistic version checks when obtaining the
+     * database lock.  If these checks fail, the
+     * <code>OptimisticLockException</code> will be thrown.
+     * <p>If the lock mode type is pessimistic and the entity instance
+     * is found but cannot be locked:
+     * <ul>
+     * <li> the <code>PessimisticLockException</code> will be thrown
+     *      if the database locking failure causes transaction-level
+     *      rollback
+     * <li> the <code>LockTimeoutException</code> will be thrown if
+     *      the database locking failure causes only statement-level
+     *      rollback
+     * </ul>
+     * <p>If a vendor-specific {@link LockOption} is not recognized,
+     * it is silently ignored.
+     * <p>Portable applications should not rely on the standard
+     * {@linkplain Timeout timeout option}. Depending on the database
+     * in use and the locking mechanisms used by the provider, the
+     * option may or may not be observed.
+     * @param entity  entity instance
+     * @param lockMode  lock mode
+     * @param options  standard and vendor-specific options
+     * @throws IllegalArgumentException if the instance is not an
+     *         entity or is a detached entity
+     * @throws TransactionRequiredException if there is no
+     *         transaction or if invoked on an entity manager which
+     *         has not been joined to the current transaction
+     * @throws EntityNotFoundException if the entity does not exist
+     *         in the database when pessimistic locking is
+     *         performed
+     * @throws OptimisticLockException if the optimistic version
+     *         check fails
+     * @throws PessimisticLockException if pessimistic locking fails
+     *         and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking fails and
+     *         only the statement is rolled back
+     * @throws PersistenceException if an unsupported lock call is made
+     * @since 3.2
+     */
+    public void lock(Object entity, LockModeType lockMode,
+                     LockOption... options);
+
+    /**
      * Refresh the state of the instance from the database,
      * overwriting changes made to the entity, if any.
      * @param entity  entity instance
