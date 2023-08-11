@@ -118,9 +118,10 @@ public @interface ManyToOne {
      *     to the persistence provider runtime.
      * </ul>
      *
-     * <p>If not specified, defaults to {@code EAGER}.
+     * <p>The default fetching strategy depends on the value of
+     * the property {@code jakarta.persistence.defaultFetchType}.
      */
-    FetchType fetch() default FetchType.EAGER;
+    FetchType fetch() default FetchType.DEFAULT;
 
     /** 
      * (Optional) Whether the association is optional. If set to

@@ -49,14 +49,20 @@ package jakarta.persistence;
  * @since 1.0
  */
 public enum FetchType {
-
     /**
-     * Data may be lazily fetched.
+     * Specifies that data can be lazily fetched.
      */
     LAZY,
 
     /**
-     * Data must be eagerly fetched.
+     * Specifies that data must be eagerly fetched.
      */
-    EAGER
+    EAGER,
+
+    /**
+     * Specifies that the fetching strategy depends on the value
+     * of the property {@code jakarta.persistence.defaultFetchType}.
+     * @since 3.2
+     */
+    DEFAULT
 }
