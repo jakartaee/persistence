@@ -137,7 +137,10 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
                                       Calendar value, 
                                       TemporalType temporalType);
@@ -150,9 +153,12 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
-    StoredProcedureQuery setParameter(Parameter<Date> param, 
-                                      Date value, 
+    @Deprecated(since = "3.2")
+    StoredProcedureQuery setParameter(Parameter<Date> param,
+                                      Date value,
                                       TemporalType temporalType);
 
     /**
@@ -175,7 +181,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if the parameter name does 
      *         not correspond to a parameter of the query or if the
      *         value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(String name, 
                                       Calendar value, 
                                       TemporalType temporalType);
@@ -189,7 +198,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if the parameter name does 
      *         not correspond to a parameter of the query or if the
      *         value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(String name, 
                                       Date value, 
                                       TemporalType temporalType);
@@ -215,7 +227,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(int position, 
                                       Calendar value,  
                                       TemporalType temporalType);
@@ -229,7 +244,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(int position, 
                                       Date value,  
                                       TemporalType temporalType);

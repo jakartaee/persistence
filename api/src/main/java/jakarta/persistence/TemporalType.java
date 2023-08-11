@@ -21,7 +21,11 @@ package jakarta.persistence;
  * or <code>java.util.Calendar</code>.
  *
  * @since 1.0
+ *
+ * @deprecated Newly-written code should use the date/time types
+ *             defined in {@link java.time}.
  */
+@Deprecated(since = "3.2")
 public enum TemporalType {
 
     /** Map as <code>java.sql.Date</code> */
