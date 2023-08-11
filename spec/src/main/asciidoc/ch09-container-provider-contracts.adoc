@@ -656,6 +656,12 @@ See <<a2132>>.
 | Hint only.
 Value in milliseconds for query timeout.
 See <<a4391>>.
+| `jakarta.persistence.defaultFetchType`
+| `FetchType`
+| `jakarta.persistence.defaultFetchType`
+| Specifies whether associations mapped `fetch=DEFAULT`
+should be treated as `LAZY` or `EAGER` (by default,
+they are `EAGER`).
 | `jakarta.persistence.validation.group.pre-persist`
 | `String`
 | `jakarta.persistence.validation.group.pre-persist`

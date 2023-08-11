@@ -28,7 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * has one-to-one multiplicity. It is not usually necessary to specify
  * the associated target entity explicitly, since it can usually be
  * inferred from the type of the object being referenced.
- * 
+ *
  * <p>If the relationship is bidirectional, the non-owning side must
  * use the {@link #mappedBy} element of the {@code OneToOne} annotation
  * to specify the relationship field or property of the owning side.
@@ -41,12 +41,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * association is sometimes mapped to a join table using the
  * {@link JoinTable} annotation.
  *
- * <p>The {@code OneToOne} annotation may be used within an embeddable 
- * class to specify a relationship from the embeddable class to an 
- * entity class. If the relationship is bidirectional and the entity 
- * containing the embeddable class is on the owning side of the 
- * relationship, the non-owning side must use the {@link #mappedBy} 
- * element of the {@code OneToOne} annotation to specify the relationship 
+ * <p>The {@code OneToOne} annotation may be used within an embeddable
+ * class to specify a relationship from the embeddable class to an
+ * entity class. If the relationship is bidirectional and the entity
+ * containing the embeddable class is on the owning side of the
+ * relationship, the non-owning side must use the {@link #mappedBy}
+ * element of the {@code OneToOne} annotation to specify the relationship
  * field or property of the embeddable class. The dot ({@code .}) notation
  * syntax must be used in the {@link #mappedBy} element to indicate the
  * relationship attribute within the embedded attribute. The value of
@@ -158,9 +158,10 @@ public @interface OneToOne {
      *     to the persistence provider runtime.
      * </ul>
      *
-     * <p>If not specified, defaults to {@code EAGER}.
+     * <p>The default fetching strategy depends on the value of
+     * the property {@code jakarta.persistence.defaultFetchType}.
      */
-    FetchType fetch() default FetchType.EAGER;
+    FetchType fetch() default FetchType.DEFAULT;
 
     /** 
      * (Optional) Whether the association is optional. If set to
