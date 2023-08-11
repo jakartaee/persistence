@@ -269,6 +269,119 @@ public interface EntityManager extends AutoCloseable {
                       Map<String, Object> properties);
 
     /**
+     * Find an instance of the given entity class by primary key,
+     * using the specified {@linkplain FindOption options}.
+     * Search for an entity with the specified class and primary key.
+     * If the given options include a {@link LockModeType}, lock it
+     * with respect to the specified lock type.
+     * If the entity instance is contained in the persistence context,
+     * it is returned from there.
+     * <p>If the entity is found within the persistence context and
+     * the lock mode type is pessimistic and the entity has a version
+     * attribute, the persistence provider must perform optimistic
+     * version checks when obtaining the database lock.  If these checks
+     * fail, the <code>OptimisticLockException</code> will be thrown.
+     * <p>If the lock mode type is pessimistic and the entity instance
+     * is found but cannot be locked:
+     * <ul>
+     * <li> the <code>PessimisticLockException</code> will be thrown
+     *      if the database locking failure causes transaction-level
+     *      rollback
+     * <li> the <code>LockTimeoutException</code> will be thrown if
+     *      the database locking failure causes only statement-level
+     *      rollback
+     * </ul>
+     * <p>If a vendor-specific {@linkplain FindOption option} is not
+     * recognized, it is silently ignored.
+     * <p>Portable applications should not rely on the standard
+     * {@linkplain Timeout timeout option}. Depending on the database
+     * in use and the locking mechanisms used by the provider, this
+     * option may or may not be observed.
+     * @param entityClass  entity class
+     * @param primaryKey  primary key
+     * @param options  standard and vendor-specific options
+     * @return the found entity instance or null if the entity does
+     *         not exist
+     * @throws IllegalArgumentException if there are contradictory
+     *         options, if the first argument does not denote an entity
+     *         type belonging to the persistence unit, or if the second
+     *         argument is not a valid non-null instance of the entity
+     *         primary key type
+     * @throws TransactionRequiredException if there is no transaction
+     *         and a lock mode other than <code>NONE</code> is
+     *         specified or if invoked on an entity manager which has
+     *         not been joined to the current transaction and a lock
+     *         mode other than <code>NONE</code> is specified
+     * @throws OptimisticLockException if the optimistic version check
+     *         fails
+     * @throws PessimisticLockException if pessimistic locking fails
+     *         and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking fails and
+     *         only the statement is rolled back
+     * @throws PersistenceException if an unsupported lock call is made
+     * @since 3.2
+     */
+    public <T> T find(Class<T> entityClass, Object primaryKey,
+                      FindOption... options);
+
+    /**
+     * Find an instance of the root entity of the given {@link EntityGraph}
+     * by primary key, using the specified {@linkplain FindOption options},
+     * and interpreting the {@code EntityGraph} as a load graph.
+     * Search for an entity with the specified type and primary key.
+     * If the given options include a {@link LockModeType}, lock it
+     * with respect to the specified lock type.
+     * If the entity instance is contained in the persistence context,
+     * it is returned from there.
+     * <p> If the entity is found within the persistence context and
+     * the lock mode type is pessimistic and the entity has a version
+     * attribute, the persistence provider must perform optimistic
+     * version checks when obtaining the database lock.  If these checks
+     * fail, the <code>OptimisticLockException</code> will be thrown.
+     * <p>If the lock mode type is pessimistic and the entity instance
+     * is found but cannot be locked:
+     * <ul>
+     * <li> the <code>PessimisticLockException</code> will be thrown
+     *      if the database locking failure causes transaction-level
+     *      rollback
+     * <li> the <code>LockTimeoutException</code> will be thrown if
+     *      the database locking failure causes only statement-level
+     *      rollback
+     * </ul>
+     * <p>If a vendor-specific {@linkplain FindOption option} is not
+     * recognized, it is silently ignored.
+     * <p>Portable applications should not rely on the standard
+     * {@linkplain Timeout timeout option}. Depending on the database
+     * in use and the locking mechanisms used by the provider, this
+     * option may or may not be observed.
+     * @param entityGraph  entity graph interpreted as a load graph
+     * @param primaryKey  primary key
+     * @param options  standard and vendor-specific options
+     * @return the found entity instance or null if the entity does
+     *         not exist
+     * @throws IllegalArgumentException if there are contradictory
+     *         options, if the first argument does not denote an entity
+     *         type belonging to the persistence unit, or if the second
+     *         argument is not a valid non-null instance of the entity
+     *         primary key type
+     * @throws TransactionRequiredException if there is no transaction
+     *         and a lock mode other than <code>NONE</code> is
+     *         specified or if invoked on an entity manager which has
+     *         not been joined to the current transaction and a lock
+     *         mode other than <code>NONE</code> is specified
+     * @throws OptimisticLockException if the optimistic version check
+     *         fails
+     * @throws PessimisticLockException if pessimistic locking fails
+     *         and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking fails and
+     *         only the statement is rolled back
+     * @throws PersistenceException if an unsupported lock call is made
+     * @since 3.2
+     */
+    public <T> T find(EntityGraph<T> entityGraph, Object primaryKey,
+                      FindOption... options);
+
+    /**
      * Get an instance, whose state may be lazily fetched.
      * If the requested instance does not exist in the database,
      * the <code>EntityNotFoundException</code> is thrown when the instance
