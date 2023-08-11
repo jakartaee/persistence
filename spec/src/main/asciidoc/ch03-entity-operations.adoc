@@ -676,6 +676,34 @@ public interface EntityManager extends AutoCloseable {
     public LockModeType getLockMode(Object entity);
 
     /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @since 3.2
+     */
+    public void setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the default cache storage mode for this persistence context.
+     * @param cacheStoreMode cache storage mode
+     * @since 3.2
+     */
+    public void setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
+     * The cache retrieval mode for this persistence context.
+     * @since 3.2
+     */
+    public CacheRetrieveMode getCacheRetrieveMode();
+
+    /**
+     * The cache storage mode for this persistence context.
+     * @since 3.2
+     */
+    public CacheStoreMode getCacheStoreMode();
+
+    /**
      * Set an entity manager property or hint.
      * If a vendor-specific property or hint is not recognized, it is
      * silently ignored.
@@ -1028,7 +1056,7 @@ public interface EntityManager extends AutoCloseable {
      *         the given name
      * @since 2.1
      */
-    public EntityGraph<?> getEntityGraph(String graphName);
+    public  EntityGraph<?> getEntityGraph(String graphName);
 
     /**
      * Return all named EntityGraphs that have been defined for the provided
@@ -4294,7 +4322,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(Parameter<Calendar> param, Calendar value,
                        TemporalType temporalType);
 
@@ -4307,7 +4338,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(Parameter<Date> param, Date value,
                        TemporalType temporalType);
 
@@ -4331,7 +4365,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(String name, Calendar value,
                        TemporalType temporalType);
 
@@ -4344,7 +4381,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(String name, Date value,
                        TemporalType temporalType);
 
@@ -4369,7 +4409,10 @@ public interface Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(int position, Calendar value,
                        TemporalType temporalType);
 
@@ -4382,7 +4425,10 @@ public interface Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(int position, Date value,
                        TemporalType temporalType);
 
@@ -4554,6 +4600,40 @@ public interface Query {
      * @since 2.0
      */
     LockModeType getLockMode();
+
+    /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
+     * The cache retrieval mode that will be in effect during
+     * query execution.
+     * @since 3.2
+     */
+    CacheRetrieveMode getCacheRetrieveMode();
+
+    /**
+     * The cache storage mode that will be in effect during
+     * query execution.
+     * @since 3.2
+     */
+    CacheStoreMode getCacheStoreMode();
 
     /**
      * Return an object of the specified type to allow access to
@@ -4748,7 +4828,10 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(Parameter<Calendar> param,
                                Calendar value,
                                TemporalType temporalType);
@@ -4761,7 +4844,10 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(Parameter<Date> param, Date value,
                                TemporalType temporalType);
 
@@ -4785,7 +4871,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(String name, Calendar value,
                                TemporalType temporalType);
 
@@ -4798,7 +4887,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(String name, Date value,
                                TemporalType temporalType);
 
@@ -4823,7 +4915,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query
      *         or if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(int position, Calendar value,
                                TemporalType temporalType);
 
@@ -4836,7 +4931,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query
      *         or if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(int position, Date value,
                                TemporalType temporalType);
 
@@ -4858,6 +4956,26 @@ public interface TypedQuery<X> extends Query {
       *         or a CriteriaQuery query
       */
      TypedQuery<X> setLockMode(LockModeType lockMode);
+
+    /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
 }
 ----
@@ -5156,7 +5274,10 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
                                       Calendar value,
                                       TemporalType temporalType);
@@ -5169,7 +5290,10 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(Parameter<Date> param,
                                       Date value,
                                       TemporalType temporalType);
@@ -5194,7 +5318,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if the
      *         value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(String name,
                                       Calendar value,
                                       TemporalType temporalType);
@@ -5208,7 +5335,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if the
      *         value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(String name,
                                       Date value,
                                       TemporalType temporalType);
@@ -5234,7 +5364,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(int position,
                                       Calendar value,
                                       TemporalType temporalType);
@@ -5248,7 +5381,10 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(int position,
                                       Date value,
                                       TemporalType temporalType);
@@ -5261,6 +5397,26 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      */
     StoredProcedureQuery setFlushMode(FlushModeType flushMode);
+
+    /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
      * Register a positional parameter.

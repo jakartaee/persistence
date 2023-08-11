@@ -513,6 +513,40 @@ public interface Query {
     LockModeType getLockMode();
 
     /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
+     * The cache retrieval mode that will be in effect during
+     * query execution.
+     * @since 3.2
+     */
+    CacheRetrieveMode getCacheRetrieveMode();
+
+    /**
+     * The cache storage mode that will be in effect during
+     * query execution.
+     * @since 3.2
+     */
+    CacheStoreMode getCacheStoreMode();
+
+    /**
      * Return an object of the specified type to allow access to 
      * the provider-specific API.  If the provider's query 
      * implementation does not support the specified class, the 
