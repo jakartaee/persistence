@@ -24,7 +24,7 @@ package jakarta.persistence;
  *
  * @since 2.0
  */
-public enum CacheRetrieveMode {
+public enum CacheRetrieveMode implements FindOption {
 
     /**
      * Read entity data from the cache: this is 

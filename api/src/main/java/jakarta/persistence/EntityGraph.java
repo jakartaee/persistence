@@ -39,7 +39,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * Return the name of a named EntityGraph (an entity graph
      * defined by means of the <code>NamedEntityGraph</code>
      * annotation, XML descriptor element, or added by means of the
-     * <code>addNamedEntityGraph</code> method.  Returns null if the
+     * <code>addNamedEntityGraph</code> method).  Returns null if the
      * EntityGraph is not a named EntityGraph.
      */
     public String getName();

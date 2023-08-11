@@ -24,7 +24,7 @@ package jakarta.persistence;
  *
  * @since 2.0
  */
-public enum CacheStoreMode {
+public enum CacheStoreMode implements FindOption {
 
     /**
      * Insert entity data into cache when read from database

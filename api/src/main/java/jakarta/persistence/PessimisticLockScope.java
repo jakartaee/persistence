@@ -27,7 +27,7 @@ package jakarta.persistence;
  *
  * @since 2.0
  */
-public enum PessimisticLockScope {
+public enum PessimisticLockScope implements FindOption {
 
     /**
      * This value defines the default behavior for pessimistic locking.
