@@ -642,7 +642,35 @@ public interface EntityManager extends AutoCloseable {
      */
     public LockModeType getLockMode(Object entity);
 
-    /** 
+    /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @since 3.2
+     */
+    public void setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the default cache storage mode for this persistence context.
+     * @param cacheStoreMode cache storage mode
+     * @since 3.2
+     */
+    public void setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
+     * The cache retrieval mode for this persistence context.
+     * @since 3.2
+     */
+    public CacheRetrieveMode getCacheRetrieveMode();
+
+    /**
+     * The cache storage mode for this persistence context.
+     * @since 3.2
+     */
+    public CacheStoreMode getCacheStoreMode();
+
+    /**
      * Set an entity manager property or hint. 
      * If a vendor-specific property or hint is not recognized, it is
      * silently ignored. 
