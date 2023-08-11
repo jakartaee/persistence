@@ -56,6 +56,38 @@ public interface Graph<T> {
     public void addAttributeNode(Attribute<? super T, ?> attribute);
 
     /**
+     * Remove an attribute node from the entity graph.
+     * When this graph is interpreted as a load graph, this operation
+     * suppresses inclusion of an attribute mapped for eager fetching.
+     * The effect of this call may be overridden by subsequent
+     * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
+     * @param attributeName  name of the attribute
+     * @since 3.2
+     */
+    public void removeAttributeNode(String attributeName);
+
+    /**
+     * Remove an attribute node from the entity graph.
+     * When this graph is interpreted as a load graph, this operation
+     * suppresses inclusion of an attribute mapped for eager fetching.
+     * The effect of this call may be overridden by subsequent
+     * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
+     * @param attribute  attribute
+     * @since 3.2
+     */
+    public void removeAttributeNode(Attribute<? super T, ?> attribute);
+
+    /**
+     * Remove all attribute nodes of the given attribute types.
+     * When this graph is interpreted as a load graph, this operation
+     * suppresses inclusion of attributes mapped for eager fetching.
+     * The effect of this call may be overridden by subsequent
+     * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
+     * @since 3.2
+     */
+    public void removeAttributeNodes(Attribute.PersistentAttributeType nodeTypes);
+
+    /**
      * Add one or more attribute nodes to the entity graph.
      *
      * @param attributeName  name of the attribute     
