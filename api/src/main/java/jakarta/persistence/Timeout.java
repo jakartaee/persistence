@@ -22,7 +22,7 @@ package jakarta.persistence;
  *
  * @since 3.2
  */
-public class Timeout implements FindOption {
+public class Timeout implements FindOption, RefreshOption {
     private final int milliseconds;
 
     private Timeout(int milliseconds) {

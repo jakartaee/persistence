@@ -546,7 +546,7 @@ public interface EntityManager extends AutoCloseable {
      * @since 2.0
      */
     public void refresh(Object entity,
-                            Map<String, Object> properties);
+                        Map<String, Object> properties);
 
     /**
      * Refresh the state of the instance from the database,
@@ -630,6 +630,51 @@ public interface EntityManager extends AutoCloseable {
      */
     public void refresh(Object entity, LockModeType lockMode,
                         Map<String, Object> properties);
+
+    /**
+     * Refresh the state of the given entity instance from the
+     * database, using the specified {@linkplain RefreshOption options},
+     * overwriting changes made to the entity, if any. If the supplied
+     * options include a {@link LockModeType}, lock the given entity with
+     * respect to the specified lock type.
+     * <p>If the lock mode type is pessimistic and the entity instance is
+     * found but cannot be locked:
+     * <ul>
+     * <li> the <code>PessimisticLockException</code> will be thrown if
+     *      the database locking failure causes transaction-level rollback
+     * <li> the <code>LockTimeoutException</code> will be thrown if the
+     *      database locking failure causes only statement-level rollback
+     * </ul>
+     * <p>If a vendor-specific {@link RefreshOption} is not recognized,
+     * it is silently ignored.
+     * <p>Portable applications should not rely on the standard
+     * {@linkplain Timeout timeout option}. Depending on the database in
+     * use and the locking mechanisms used by the provider, the hint may
+     * or may not be observed.
+     * @param entity  entity instance
+     * @param options  standard and vendor-specific options
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or the entity is not managed
+     * @throws TransactionRequiredException if invoked on a
+     *         container-managed entity manager of type
+     *         <code>PersistenceContextType.TRANSACTION</code> when there
+     *         is no transaction; if invoked on an extended entity manager
+     *         when there is no transaction and a lock mode other than
+     *         <code>NONE</code> has been specified; or if invoked on an
+     *         extended entity manager that has not been joined to the
+     *         current transaction and a lock mode other than
+     *         <code>NONE</code> has been specified
+     * @throws EntityNotFoundException if the entity no longer exists in
+     *         the database
+     * @throws PessimisticLockException if pessimistic locking fails and
+     *         the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking fails and only
+     *         the statement is rolled back
+     * @throws PersistenceException if an unsupported lock call is made
+     * @since 3.2
+     */
+    public void refresh(Object entity,
+                        RefreshOption... options);
 
     /**
      * Clear the persistence context, causing all managed
