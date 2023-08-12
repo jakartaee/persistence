@@ -1921,7 +1921,7 @@ primary key of _PATENT_. This foreign key column is named _PATENTS__
 <PK of PATENT>, where <PK of PATENT> denotes the name of the primary key
 column of table _PATENT_.
 
-=== Inheritance
+=== Inheritance [[a765]]
 
 An entity may inherit from another entity
 class. Entities support inheritance, polymorphic associations, and

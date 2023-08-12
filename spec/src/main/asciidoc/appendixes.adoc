@@ -108,6 +108,8 @@ Added support for Java record types as embeddable classes
 
 Added support for _java.time.Instant_ and _java.time.Year_ and clarified JDBC mappings for basic types
 
+Added `union`, `intersect`, and `except` for JPQL and criteria queries
+
 Added `||` string concatenation operator
 
 Added support for specifying null precedence when ordering JPQL and criteria queries
