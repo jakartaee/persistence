@@ -91,6 +91,18 @@ undefined.].
 where _S_ is the most derived managed class (i.e., entity or mapped
 superclass) extended by _X_, then class _X__ must extend class _S__,
 where _S__ is the metamodel class created for _S_.
+* For every persistent attribute _y_ declared by class _X_, the
+metamodel class must contain a declaration as follows:
++
+[source,java]
+----
+public static final String Y = "y";
+----
++
+where the field name _Y_ is obtained by transforming each lowercase
+character in the attribute name _y_ to uppercase, and inserting an
+underscore if the character following the transformed character
+is uppercase.
 * For every persistent non-collection-valued
 attribute _y_ declared by class _X_, where the type of _y_ is _Y_, the
 metamodel class must contain a declaration as follows:
@@ -132,6 +144,22 @@ public static volatile MapAttribute<X, K, Z> z;
 ----
 +
 where _K_ is the type of the key of the map in class _X_
+* For every named query, named entity graph, or SQL result set
+mapping with name _"n"_ declared by annotations of the class _X_,
+the metamodel class must contain a declaration as follows:
++
+[source,java]
+----
+public static final String T_N = "n";
+----
++
+where The prefix _T_ is the string _QUERY_, _GRAPH_, or _MAPPING_,
+as appropriate, depending on the annotation type, and the suffix
+_N_ is obtained by transforming each lowercase character in the
+name _n_ to uppercase, inserting an underscore if the character
+following the transformed character is uppercase, and then
+replacing each character which is not a legal Java identifier
+character with an underscore.
 
 Import statements must be included for the
 needed _jakarta.persistence.metamodel_ types as appropriate (e.g.,
