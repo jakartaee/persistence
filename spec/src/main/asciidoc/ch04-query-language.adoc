@@ -78,7 +78,7 @@ In BNF syntax, a query language statement is
 defined as:
 
 ----
-QL_statement :: = select_statement | update_statement | delete_statement
+QL_statement ::= select_statement | update_statement | delete_statement
 ----
 
 Any Jakarta Persistence query language statement
@@ -89,8 +89,7 @@ All statement types may have parameters.
 
 ==== Select Statements
 
-A select statement is a string which consists
-of the following clauses:
+A select query is a string with the following clauses:
 
 * a SELECT clause, which determines the type of
 the objects or values to be selected.
@@ -106,28 +105,54 @@ filtering over aggregated groups.
 * an optional ORDER BY clause, which may be
 used to order the results that are returned by the query.
 
-In BNF syntax, a select statement is defined
-as:
+In BNF syntax, a select query is defined by:
 
 ----
-select_statement :: = select_clause from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
+select_query ::= select_clause from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
 ----
 
 A select statement must always have a SELECT
 and a FROM clause. The square brackets [] indicate that the other
 clauses are optional.
 
+===== Set Operators in Select Statements
+
+A select statement may be a single select query, or it may combine
+multiple select queries using the binary left-associative operators
+`UNION`, `UNION ALL`, `INTERSECT`, `INTERSECT ALL`, `EXCEPT`, and
+`EXCEPT ALL`. The semantics of these operators are identical to SQL.
+footnote:[As in SQL, the `INTERSECT` and `INTERSECT ALL` operations have
+higher precedence than `UNION`, `UNION ALL`, `EXCEPT`, and `EXCEPT ALL`.]
+
+The full syntax for a select statement is defined by:
+
+----
+select_statement ::= union
+union ::= intersection | union {UNION [ALL] | EXCEPT [ALL]} intersection
+intersection ::= query_expression | intersection INTERSECT [ALL] query_expression
+query_expression ::= select_query | (union)
+----
+
+A provider is only required to support select statements where every
+constituent select query has the same number of items in the select
+clause, and where corresponding items in the select clauses of the
+constituent select queries either:
+
+- have exactly the same type, as defined by <<a5439>>, or
+- are entity types which inherit a common entity type, as defined
+  by <<a765>>.
+
+
 ==== Update and Delete Statements
 
 Update and delete statements provide bulk
 operations over sets of entities.
 
-In BNF syntax, these operations are defined
-as:
+In BNF syntax, these operations are defined by:
 
 ----
-update_statement :: = update_clause [where_clause]
-delete_statement :: = delete_clause [where_clause]
+update_statement ::= update_clause [where_clause]
+delete_statement ::= delete_clause [where_clause]
 ----
 
 The update and delete clauses determine the
@@ -2250,7 +2275,7 @@ ORDER BY itemCount
 ----
 
 
-==== Result Type of the SELECT Clause
+==== Result Type of the SELECT Clause [[a5439]]
 
 The type of the query result specified by the
 SELECT clause of a query is an entity
@@ -2953,7 +2978,11 @@ The following is the BNF for the Jakarta Persistence query language.
 
 ----
 QL_statement ::= select_statement | update_statement | delete_statement
-select_statement ::= select_clause from_clause [where_clause] [groupby_clause]
+select_statement ::= union
+union ::= intersection | union {UNION [ALL] | EXCEPT [ALL]} intersection
+intersection ::= query_expression | intersection INTERSECT [ALL] query_expression
+query_expression ::= select_query | (union)
+select_query ::= select_clause from_clause [where_clause] [groupby_clause]
     [having_clause] [orderby_clause]
 update_statement ::= update_clause [where_clause]
 delete_statement ::= delete_clause [where_clause]
