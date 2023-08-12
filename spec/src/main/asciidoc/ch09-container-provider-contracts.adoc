@@ -863,6 +863,25 @@ public interface PersistenceUnitInfo {
     public String getPersistenceProviderClassName();
 
     /**
+     * Returns the fully-qualified class name of an annotation annotated
+     * {@code Scope} or {@code NormalScope}. Corresponds to the {@code scope}
+     * element in {@code persistence.xml}.
+     * @return  the fully-qualified class name of the scope annotation,
+     *          or null if no scope was explicitly specified
+     */
+    public String getScopeAnnotationName();
+
+    /**
+     * Returns the fully-qualified class names of annotations annotated
+     * {@code Qualifier}. Corresponds to the {@code qualifier} element in
+     * {@code persistence.xml}.
+     * @return  the fully-qualified class names of the qualifier annotations,
+     *          or an empty list if no qualifier annotations were explicitly
+     *          specified
+     */
+    public List<String> getQualifierAnnotationNames();
+
+    /**
      * Returns the transaction type of the entity managers created by
      * the <code>EntityManagerFactory</code>. The transaction type corresponds to
      * the <code>transaction-type</code> attribute in the <code>persistence.xml</code> file.
@@ -1401,11 +1420,18 @@ integer value. This corresponds to the property of the same name in the
 * `jakarta.persistence.provider` — string
 corresponding to the `provider` element in the pe `rsistence.xml`. See
 <<a12300>>.
+* `jakarta.persistence.qualifiers` — string array
+corresponding to the `qualifier` elements in the `persistence.xml`. See
+<<a12310>>.
+* `jakarta.persistence.scope` — string
+corresponding to the `scope` element in the `persistence.xml`. See
+<<a12310>>.
 * `jakarta.persistence.transactionType` — string
 corresponding to the `transaction-type` attribute in the
 `persistence.xml`. See <<a12296>>.
 * `jakarta.persistence.jtaDataSource` — string
 corresponding to the `jta-data-source` element in the `persistence.xml`.
+Jakarta Persistence)
 See <<a12302>>.
 * `jakarta.persistence.nonJtaDataSource` —
 string corresponding to the `non-jta-data-source` element in the

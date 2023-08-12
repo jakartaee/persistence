@@ -206,6 +206,17 @@ of `jakarta.persistence.spi.PersistenceProvider`. The `provider` element is
 optional, but should be explicitly specified if the application depends on the
 use of a particular persistence provider.
 
+===== qualifier [[a12310]]
+
+The _qualifier_ element specifies the fully-qualified class name of
+an annotation annotated _jakarta.inject.Qualifier_.
+
+===== scope [[a12311]]
+
+The _scope_ element specifies the fully-qualified class name of
+an annotation annotated _jakarta.inject.Scope_ or
+_jakarta.enterprise.context.NormalScope_.
+
 ===== jta-data-source, non-jta-data-source [[a12302]]
 
 In Jakarta EE environments:
