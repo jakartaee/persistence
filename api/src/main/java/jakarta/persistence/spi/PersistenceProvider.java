@@ -18,6 +18,7 @@ package jakarta.persistence.spi;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceConfiguration;
 import jakarta.persistence.PersistenceException;
 import java.util.Map;
 
@@ -45,9 +46,26 @@ public interface PersistenceProvider {
      * properties not specified in the <code>persistence.xml</code>
      * (and may be null if no properties are specified).
      * @return EntityManagerFactory for the persistence unit, 
-     * or null if the provider is not the right provider 
+     * or null if the provider is not the right provider
+     *
+     * @see Persistence#createEntityManagerFactory(String, Map)
      */
     public EntityManagerFactory createEntityManagerFactory(String emName, Map map);
+
+    /**
+     * Called by <code>Persistence</code> class when an
+     * <code>EntityManagerFactory</code> is to be created.
+     *
+     * @param configuration  the configuration of the persistence unit
+     * @return EntityManagerFactory for the persistence unit,
+     * or null if the provider is not the right provider
+     * @throws IllegalStateException if required configuration is missing
+     *
+     * @see Persistence#createEntityManagerFactory(PersistenceConfiguration)
+     *
+     * @since 3.2
+     */
+    public EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration);
 
     /**
      * Called by the container when an <code>EntityManagerFactory</code>

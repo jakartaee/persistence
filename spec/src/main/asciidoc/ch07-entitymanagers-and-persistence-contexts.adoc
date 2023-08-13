@@ -187,6 +187,34 @@ EntityManagerFactory emf =
 EntityManager em = emf.createEntityManager();
 ----
 
+==== Obtaining an Entity Manager Factory for a programmatically-defined persistence unit
+
+The class _jakarta.persistence.PersistenceConfiguration_ described
+in <<a13444>> may be used to programmatically define and configure a
+persistence unit (see <<a12235>>), as an alternative to packaging a
+_persistence.xml_ file, mapping files, and classes inside an archive
+as described in <<a12236>>.
+
+An _EntityManagerFactory_ may be obtained directly from the
+_PersistenceConfiguration_.
+
+For example,
+
+[source,java]
+----
+DataSource datasource = (DataSource)
+        new InitialContext()
+                .lookup("java:global/jdbc/MyOrderDB");
+EntityManagerFactory emf =
+        new PersistenceConfiguration()
+                .name("OrderManagement")
+                .jtaDataSource(datasource)
+                .mappingFile("ormap.xml")
+                .managedClass(Order.class)
+                .managedClass(Customer.class)
+                .createEntityManagerFactory();
+----
+
 === EntityManagerFactory Interface
 
 The _EntityManagerFactory_ interface is used
