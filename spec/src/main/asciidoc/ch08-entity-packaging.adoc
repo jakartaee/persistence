@@ -7,7 +7,7 @@
 This chapter describes the packaging of
 persistence units.
 
-=== Persistence Unit
+=== Persistence Unit [[a12235]]
 
 A persistence unit is a logical grouping that
 includes:
@@ -84,7 +84,7 @@ necessary to explicitly list the managed persistence classes that are
 included in the persistence unit using the _class_ element of the
 _persistence.xml_ file. See <<a12305>>.
 
-==== persistence.xml file
+==== persistence.xml file [[a12237]]
 
 A _persistence.xml_ file defines a
 persistence unit. The _persistence.xml_ file is located in the

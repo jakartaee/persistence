@@ -88,6 +88,36 @@ public class Persistence {
         return emf;
     }
 
+    /**
+     * Create and return an EntityManagerFactory for the named persistence unit
+     * using the given properties.
+     *
+     * @param configuration
+     *            configuration of the persistence unit
+     * @return the factory that creates EntityManagers configured according to
+     *         the specified persistence unit.
+     *
+     * @since 3.2
+     */
+    public static EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration) {
+
+        EntityManagerFactory emf = null;
+        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+
+        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
+
+        for (PersistenceProvider provider : providers) {
+            emf = provider.createEntityManagerFactory(configuration);
+            if (emf != null) {
+                break;
+            }
+        }
+        if (emf == null) {
+            throw new PersistenceException("No Persistence provider for EntityManager named " + configuration.name());
+        }
+        return emf;
+    }
+
 
     /**
      * Create database schemas and/or tables and/or create DDL

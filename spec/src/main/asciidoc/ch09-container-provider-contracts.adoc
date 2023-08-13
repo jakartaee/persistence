@@ -624,6 +624,21 @@ public interface PersistenceProvider {
     public EntityManagerFactory createEntityManagerFactory(String emName, Map map);
 
     /**
+     * Called by <code>Persistence</code> class when an
+     * <code>EntityManagerFactory</code> is to be created.
+     *
+     * @param configuration  the configuration of the persistence unit
+     * @return EntityManagerFactory for the persistence unit,
+     * or null if the provider is not the right provider
+     * @throws IllegalStateException if required configuration is missing
+     *
+     * @see Persistence#createEntityManagerFactory(PersistenceConfiguration)
+     *
+     * @since 3.2
+     */
+    public EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration);
+
+    /**
      * Called by the container when an <code>EntityManagerFactory</code>
      * is to be created.
      *
@@ -1199,17 +1214,16 @@ public interface ClassTransformer {
 
 === jakarta.persistence.Persistence Class [[a13443]]
 
-The _Persistence_ class is used to obtain an
-_EntityManagerFactory_ instance in Java SE environments. It may also be
-used for schema generation— i.e., to create database schemas and/or
-tables and/or to create DDL scripts.
+The _Persistence_ class is used to obtain an _EntityManagerFactory_ instance
+in Java SE environments. It may also be used for schema generation—i.e., to
+create database schemas and/or tables and/or to create DDL scripts.
 
-The _Persistence_ class is available in a
-Jakarta EE container environment as well; however, support for the Java SE
-bootstrapping APIs is not required in container environments.
+The _Persistence_ class is also available in a Jakarta EE container environment;
+however, support for the Java SE bootstrapping APIs is not required in container
+environments.
 
-The _Persistence_ class is used to obtain a
-_PersistenceUtil_ instance in both Jakarta EE and Java SE environments.
+The _Persistence_ class is used to obtain a _PersistenceUtil_ instance in both
+Jakarta EE and Java SE environments.
 
 [source,java]
 ----
@@ -1283,6 +1297,36 @@ public class Persistence {
         }
         if (emf == null) {
             throw new PersistenceException("No Persistence provider for EntityManager named " + persistenceUnitName);
+        }
+        return emf;
+    }
+
+    /**
+     * Create and return an EntityManagerFactory for the named persistence unit
+     * using the given properties.
+     *
+     * @param configuration
+     *            configuration of the persistence unit
+     * @return the factory that creates EntityManagers configured according to
+     *         the specified persistence unit.
+     *
+     * @since 3.2
+     */
+    public static EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration) {
+
+        EntityManagerFactory emf = null;
+        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+
+        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
+
+        for (PersistenceProvider provider : providers) {
+            emf = provider.createEntityManagerFactory(configuration);
+            if (emf != null) {
+                break;
+            }
+        }
+        if (emf == null) {
+            throw new PersistenceException("No Persistence provider for EntityManager named " + configuration.name());
         }
         return emf;
     }
@@ -1444,6 +1488,21 @@ properties (e.g., _com.acme.persistence.logging_). Entries that make
 use of the namespace _jakarta.persistence_ and its subnamespaces must not
 be used for vendor-specific information. The namespace
 _jakarta.persistence_ is reserved for use by this specification.
+
+=== jakarta.persistence.PersistenceConfiguration Class [[a13444]]
+
+The _PersistenceConfiguration_ class is used to programmatically define and
+configure a persistence unit and create an _EntityManagerFactory_ instance
+directly. Thus, _PersistenceConfiguration_ is an alternative to XML-based
+configuration using _persistence.xml_, and so the configuration options
+available via this API reflect the similarly-named elements of
+_persistence.xml_. See <<a12237>>.
+
+A programmatically-configured persistence unit is considered a Java SE
+persistence unit, even when this API is used within the Jakarta EE
+environment.footnote:[Persistence units defined programmatically using the
+_PersistenceConfiguration_ class do not support JNDI lookup or injection via
+the _PersistenceContext_ or _PersistenceUnit_ annotations.]
 
 === PersistenceUtil Interface
 
