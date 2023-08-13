@@ -141,7 +141,7 @@ _jakarta.inject.Inject_. In the Jakarta EE environment, the
 container must feature built-integration of Jakarta Persistence
 with the CDI bean manager.
 
-For each persistence unit, a bean container which features this
+For each persistence unit, a container which features such
 built-in integration must make available a bean with:
 
 - bean type _EntityManager_,
@@ -219,8 +219,8 @@ the annotation _jakarta.inject.Inject_. In the Jakarta EE
 environment, the container must feature built-integration of
 Jakarta Persistence with the CDI bean manager.
 
-For each persistence unit, a bean container which features
-such integration must make available a bean with:
+For each persistence unit, a container which features such
+built-in integration must make available a bean with:
 
 - bean type _EntityManagerFactory_,
 - the qualifiers specified by _qualifier_ XML elements in
@@ -233,8 +233,7 @@ if no qualifiers are explicitly specified,
 this specification for a container-managed entity manager
 factory.
 
-Furthermore, the bean container must make available five beans
-with:
+Furthermore, the container must make available five beans with:
 
 - bean types _CriteriaBuilder_, _PersistenceUnitUtil_, _Cache_,
 _SchemaManager_, and _Metamodel_, respectively,
