@@ -1123,6 +1123,8 @@ java.time.LocalDateTime, java.time.OffsetTime, java.time.OffsetDateTime,
 java.time.Instant, java.time.Year, byte[], Byte[], char[], Character[], any enum type,
 any other type that implements Serializable.
 
+Persistence for basic types is defined in <<a14205>> and <<a14719>>.
+
 === Embeddable Classes [[a487]]
 
 An entity may use other fine-grained classes

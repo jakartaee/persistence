@@ -1677,18 +1677,19 @@ public class Dependent {
 
 ==== Enumerated Annotation [[a14719]]
 
-An _Enumerated_ annotation specifies that a
-persistent property or field should be persisted as a enumerated type.
+An _Enumerated_ annotation specifies that a persistent property or field
+should be persisted as an enumerated type. The _Enumerated_ annotation is
+optional if the type of a persistent field or property is a Java enum type.
+
 The _Enumerated_ annotation may be used in conjunction with the _Basic_
 annotation. The _Enumerated_ annotation may be used in conjunction with
-the _ElementCollection_footnote:[If the element
-collection is a Map, this applies to the map value.] annotation when the
-element collection value is of basic type.
+the _ElementCollection_ annotationfootnote:[If the element collection is
+a _Map_, this applies to the map value.] when the element type of the
+collection is an enum type.
 
-An enum can be mapped as either a string or
-an integerfootnote:[Mapping of enum
-values that contain state is not supported.]. The _EnumType_ enum defines the
-mapping for enumerated types.
+An enum can be mapped as either a string or an integerfootnote:[Mapping
+of stateful enum values is not supported.]. The _EnumType_ enum defines
+the available options for mapping enumerated types.
 
 [source,java]
 ----
@@ -1698,9 +1699,7 @@ public enum EnumType {
 }
 ----
 
-If the enumerated type is not specified or
-the _Enumerated_ annotation is not used, the enumerated type is assumed
-to be _ORDINAL_ unless a converter is being applied.
+The _value_ member of the _Enumerated_ annotation specifies the `EnumType`:
 
 [source,java]
 ----
@@ -1711,8 +1710,8 @@ public @interface Enumerated {
 }
 ----
 
-<<a14733>> lists the annotation elements that may be specified
-for the _Enumerated_ annotation and their default values.
+<<a14733>> lists the annotation elements that may be specified for the
+_Enumerated_ annotation and their default values.
 
 .Enumerated Annotation Elements
 [#a14733,options="header"]
@@ -1724,6 +1723,25 @@ for the _Enumerated_ annotation and their default values.
 |(Optional) The type used in mapping an enum type.
 |ORDINAL
 |===
+
+If a persistent field or property of enum type has no explicit _Enumerated_
+annotation, and if no converter is applied to the field or property:
+
+- if the enum type has a final field of type _java.lang.String_ annotated
+  _EnumeratedValue_, the enumerated type is inferred to be _STRING_;
+- otherwise, the enumerated type is taken to be _ORDINAL_.
+
+The enum type may have a final field annotated _EnumeratedValue_.
+This field, if it exists, controls the mapping of enum values to database
+column values:
+
+- if the enum type does have a field annotated _EnumeratedValue_,
+  each enum value is mapped to the value of the annotated field,
+  or, otherwise,
+- if the enumerated type is _ORDINAL_, each enum value is mapped
+  to the value of the _ordinal_ field, but
+- if the enumerated type is _STRING_, each enum value is mapped
+  to the value of the _name_ field.
 
 *Example:*
 
@@ -1749,6 +1767,45 @@ If the status property is mapped to a column
 of integer type, and the payscale property to a column of varchar type,
 an instance that has a status of _PART_TIME_ and a pay rate of _JUNIOR_
 will be stored with _STATUS_ set to 1 and _PAYSCALE_ set to _"JUNIOR"_.
+
+==== EnumeratedValue Annotation [[a14720]]
+
+The _EnumeratedValue_ annotation specifies that an annotated field of
+a Java enum type is the source of database column values when the enum
+occurs as the declared type of an _Enumerated_ property or field. The
+annotated field must be declared final, and must be of type:
+
+- _byte_, _short_, or _int_ for an _ORDINAL_ enumerated type, or
+- _java.lang.String_ for a _STRING_ enumerated type.
+
+The field must not be set to null, and must hold a distinct value for
+each value of the enum type.
+
+If the type of the field annotated _EnumeratedValue_ disagrees with
+the enumerated type mapping specified by the _Enumerated_ annotation,
+the behavior is undefined. Portable applications should ensure that
+the type of the field annotated _EnumeratedValue_ agrees with the
+type mapping wherever the enum type is used in a field or property
+explicitly annotated _Enumerated_.
+
+If a converter is applied to an _Enumerated_ field or property, the
+_EnumeratedValue_ annotation is ignored for that field or property.
+
+*Example:*
+
+[source,java]
+----
+enum Status {
+    OPEN(0), CLOSED(1), CANCELLED(-1);
+
+    @EnumeratedValue
+    final int intValue;
+
+    Status(int intValue) {
+        this.intValue = intValue;
+    }
+}
+----
 
 ==== ForeignKey Annotation [[a14754]]
 
