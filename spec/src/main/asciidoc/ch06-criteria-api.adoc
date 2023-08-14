@@ -4150,11 +4150,8 @@ q.select(customer.get(Customer_.name))
     .where(cb.equal(item.get(Item_.product).get(Product_.productType), "printer"));
 ----
 
-By default, the _join_ method defines an
-inner join. Outer joins are defined by specifying a _JoinType_ argument.
-Only left outer joins and left outer fetch joins are required to be
-supported. Applications that make use of right outer joins or right
-outer fetch joins will not be portable.
+By default, the _join_ method defines an inner join. Outer joins are defined
+by explicitly specifying a _JoinType_ argument.
 
 The following query uses a left outer join:
 

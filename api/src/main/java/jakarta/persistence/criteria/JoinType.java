@@ -17,22 +17,28 @@
 package jakarta.persistence.criteria;
 
 /**
- * Defines the three types of joins.
+ * Defines the three varieties of join.
  *
- * Right outer joins and right outer fetch joins are not required
- * to be supported. Applications that use <code>RIGHT</code> join
- * types will not be portable.
+ * <p>Support for {@link #RIGHT} outer joins is not required. Applications
+ * which make use of right joins might not be portable between providers or
+ * between SQL databases.
  *
  * @since 2.0
  */
 public enum JoinType {
 
-    /** Inner join. */
+    /**
+     * Inner join.
+     */
     INNER, 
 
-    /** Left outer join. */
+    /**
+     * Left outer join.
+     */
     LEFT, 
 
-    /** Right outer join. */
-    RIGHT
+    /**
+     * Right outer join.
+     */
+    RIGHT,
 }
