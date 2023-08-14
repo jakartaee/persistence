@@ -58,8 +58,10 @@ public interface Join<Z, X> extends From<Z, X> {
     Predicate getOn();
 
     /**
-     * Return the metamodel attribute corresponding to the join.
-     * @return metamodel attribute corresponding to the join
+     * Return the metamodel attribute representing the join
+     * target, if any, or null if the target of the join is an
+     * entity type.
+     * @return metamodel attribute or null
      */
     Attribute<? super Z, ?> getAttribute();
 

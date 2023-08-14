@@ -17,6 +17,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.CollectionAttribute;
 import jakarta.persistence.metamodel.ListAttribute;
@@ -67,6 +68,40 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          not been obtained through correlation 
      */
     From<Z, X> getCorrelationParent();
+
+    /**
+     * Create and add an inner join to the given entity.
+     * @param entityClass  the target entity class
+     * @return the resulting join
+     * @since 3.2
+     */
+    <Y> Join<X, Y> join(Class<Y> entityClass);
+
+    /**
+     * Create and add a join to the given entity.
+     * @param entityClass  the target entity class
+     * @param joinType  join type
+     * @return the resulting join
+     * @since 3.2
+     */
+    <Y> Join<X, Y> join(Class<Y> entityClass, JoinType joinType);
+
+    /**
+     * Create and add an inner join to the given entity.
+     * @param entity  metamodel entity representing the join target
+     * @return the resulting join
+     * @since 3.2
+     */
+    <Y> Join<X, Y> join(EntityType<Y> entity);
+
+    /**
+     * Create and add a join to the given entity.
+     * @param entity  metamodel entity representing the join target
+     * @param joinType  join type
+     * @return the resulting join
+     * @since 3.2
+     */
+    <Y> Join<X, Y> join(EntityType<Y> entity, JoinType joinType);
 
     /**
      *  Create an inner join to the specified single-valued 
@@ -150,7 +185,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      */
     <K, V> MapJoin<X, K, V> join(MapAttribute<? super X, K, V> map, JoinType jt);
 
-	
+
     //String-based:
 
     /**

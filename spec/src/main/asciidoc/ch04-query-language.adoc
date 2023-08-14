@@ -303,9 +303,16 @@ identification_variable_declaration ::= range_variable_declaration {join | fetch
 
 range_variable_declaration ::= entity_name [AS] identification_variable
 
-join ::= join_spec join_association_path_expression [AS] identification_variable [join_condition]
+join ::= range_join | path_join
+
+range_join ::= join_spec range_variable_declaration [join_condition]
+
+path_join ::=
+    join_spec join_association_path_expression [AS] identification_variable [join_condition]
 
 fetch_join ::= join_spec FETCH join_association_path_expression
+
+join_spec ::= [INNER | LEFT [OUTER]] JOIN
 
 join_association_path_expression ::=
     join_collection_valued_path_expression |
@@ -316,8 +323,6 @@ join_association_path_expression ::=
 join_collection_valued_path_expression ::= identification_variable.{single_valued_embeddable_object_field.}*collection_valued_field
 
 join_single_valued_path_expression ::= identification_variable.{single_valued_embeddable_object_field.}*single_valued_object_field
-
-join_spec ::= [LEFT [OUTER] | INNER] JOIN
 
 join_condition ::= ON conditional_expression
 
@@ -433,7 +438,7 @@ query (or subquery) in which it is defined and is also visible to any
 subqueries within that query scope that do not define an identification
 variable of the same name.
 
-==== Range Variable Declarations
+==== Range Variable Declarations [[a4766]]
 
 The syntax for declaring an
 identification variable as a range variable is similar to that of SQL;
@@ -686,22 +691,43 @@ SELECT DISTINCT l.product
 FROM Order AS o JOIN o.lineItems l
 ----
 
-It is illegal to use a
-_collection_valued_path_expression_ other than in the FROM clause of a
-query except in an _empty_collection_comparison_expression,_ in a
-_collection_member_expression_, or as an argument to the SIZE operator.
+A _collection_valued_path_expression_ may only occur in:
+
+- the FROM clause of a query,
+- an _empty_collection_comparison_expression,_
+- a _collection_member_expression_, or
+- as an argument to the SIZE operator.
+
 See <<a5139>>, <<a5150>>, and <<a5284>>.
 
 ==== Joins
 
-An inner join may be implicitly specified by
-the use of a cartesian product in the FROM clause and a join condition
-in the WHERE clause. In the absence of a join condition, this reduces to
-the cartesian product.
+JPQL defines the following varieties of join:
 
-The main use case for this generalized style
-of join is when a join condition does not involve a foreign key
-relationship that is mapped to an entity relationship.
+- inner joins,
+- left outer joins,
+- right outer joins,
+- full outer joins.
+
+The semantics of each variety of join is identical to SQL, and the
+syntax is borrowed from ANSI SQL. Providers are not required to
+support right joins or full joins on databases which do not natively
+support these join types.
+
+Every join has a target, either:
+
+- an entity-valued path expression, or
+- an entity type (that is, range variable declaration, as already
+  specified in <<a4766>>).
+
+An inner join may be implicitly specified by the use of a cartesian
+product in the FROM clause and a join condition in the WHERE clause.
+In the absence of a join condition, this reduces to the cartesian
+product.
+
+The main use case for this generalized style of join is when a join
+condition does not involve a foreign key relationship mapped to an
+association between entities.
 
 Example:
 
@@ -710,17 +736,22 @@ Example:
 SELECT c FROM Customer c, Employee e WHERE c.hatsize = e.shoesize
 ----
 
-In general, use of this style of inner join
-(also referred to as theta-join) is less typical than explicitly defined
-joins over relationships.
+This style of inner join (sometimes called a "theta" join) is less
+typical than explicitly defined joins over relationships.
 
-The syntax for explicit join operations is as
-follows:
+The syntax for explicit join operations is given by:
 
 ----
-join ::= join_spec join_association_path_expression [AS] identification_variable [join_condition]
+join ::= range_join | path_join
+
+range_join ::= join_spec range_variable_declaration [join_condition]
+
+path_join ::=
+    join_spec join_association_path_expression [AS] identification_variable [join_condition]
 
 fetch_join ::= join_spec FETCH join_association_path_expression
+
+join_spec ::= [INNER | LEFT [OUTER]] JOIN
 
 join_association_path_expression ::=
     join_collection_valued_path_expression |
@@ -734,51 +765,93 @@ join_collection_valued_path_expression ::=
 join_single_valued_path_expression ::=
     identification_variable.{single_valued_embeddable_object_field.}*single_valued_object_field
 
-join_spec ::= [LEFT [OUTER] | INNER] JOIN
-
 join_condition ::= ON conditional_expression
 ----
 
-The inner and outer join operation types
-described in <<a4884>>, <<a4898>>, and <<a4931>> are supported.
+The inner and outer join operation types described in <<a4884>>, <<a4898>>,
+and <<a4931>> are supported.
 
-===== Inner Joins (Relationship Joins) [[a4884]]
+===== Inner Joins [[a4884]]
 
-The syntax for the inner join operation is
+The syntax for an inner join to an entity type is given by:
+
+----
+[INNER] JOIN range_variable_declaration [join_condition]
+----
+
+The keyword INNER is optional and does not affect the semantics
+of the query.
+
+[source,sql]
+----
+SELECT c
+FROM Customer c
+    JOIN Order o ON o.customer.id = c.id
+WHERE c.status = 1
+----
+
+Or, equivalently:
+
+[source,sql]
+----
+SELECT c
+FROM Customer c
+    INNER JOIN Order o ON o.customer.id = c.id
+WHERE c.status = 1
+----
+
+These queries are equivalent to the following query involving
+an implicit "theta" join:
+
+[source,sql]
+----
+SELECT c
+FROM Customer c, Order o
+WHERE o.customer.id = c.id AND c.status = 1
+----
+
+The syntax for an inner join over an association is given by:
 
 ----
 [INNER] JOIN join_association_path_expression [AS] identification_variable [join_condition]
 ----
 
-For example, the query below joins over the
-relationship between customers and orders. This type of join typically
-equates to a join over a foreign key relationship in the database.
+For example, the query below joins over the relationship between
+customers and orders. This type of join typically equates to a
+join over a foreign key relationship in the database.
 
 [source,sql]
 ----
-SELECT c FROM Customer c JOIN c.orders o WHERE c.status = 1
+SELECT c
+FROM Customer c
+   JOIN c.orders o
+WHERE c.status = 1
 ----
 
-The keyword INNER may optionally be used:
+Equivalently:
 
 [source,sql]
 ----
-SELECT c FROM Customer c INNER JOIN c.orders o WHERE c.status = 1
+SELECT c
+FROM Customer c
+    INNER JOIN c.orders o
+WHERE c.status = 1
 ----
 
-This is equivalent to the following query
-using the earlier IN construct, defined in
-<<a19497>>. It selects those customers of
+This is equivalent to the following query using the earlier IN
+construct, defined in <<a19497>>. It selects those customers of
 status 1 for which at least one order exists:
 
 [source,sql]
 ----
-SELECT OBJECT(c) FROM Customer c, IN(c.orders) o WHERE c.status = 1
+SELECT OBJECT(c)
+FROM Customer c, IN(c.orders) o
+WHERE c.status = 1
 ----
 
-The query below joins over _Employee_,
-_ContactInfo_ and _Phone_. _ContactInfo_ is an embeddable class that
-consists of an address and set of phones. _Phone_ is an entity.
+The query below joins over _Employee_, _ContactInfo_ and _Phone_.
+_ContactInfo_ is an embeddable class that consists of an address
+and set of phones. _Phone_ is an entity.
 
 [source,sql]
 ----
@@ -787,27 +860,53 @@ FROM Employee e JOIN e.contactInfo c JOIN c.phones p
 WHERE c.address.zipcode = '95054'
 ----
 
-A join condition may be specified for an
-inner join. This is equivalent to specification of the same condition in
-the WHERE clause.
+A join condition may be specified for an inner join. This is equivalent
+to specification of the same condition in the WHERE clause.
 
-===== Left Outer Joins [[a4898]]
+===== Outer Joins [[a4898]]
 
-LEFT JOIN and LEFT OUTER JOIN are synonymous.
-They enable the retrieval of a set of entities where matching values in
-the join condition may be absent.
+The syntax for an outer join to an entity type is given by:
 
-The syntax for a left outer join is
+----
+LEFT [OUTER] JOIN range_variable_declaration [join_condition]
+----
+
+The keyword OUTER is optional and does not affect the semantics of
+the query.
+
+[source,sql]
+----
+SELECT c
+FROM Customer c
+    LEFT JOIN Order o ON o.customer.id = c.id
+WHERE c.status = 1
+----
+
+Or, equivalently:
+
+[source,sql]
+----
+SELECT c
+FROM Customer c
+    LEFT OUTER JOIN Order o ON o.customer.id = c.id
+WHERE c.status = 1
+----
+
+Outer joins enable the retrieval of a set of entities where matching
+values in the join condition may be absent. For example, the queries
+above return _Customer_ instances with no matching _Order_.
+
+The syntax for an outer join over an association is given by:
 
 ----
 LEFT [OUTER] JOIN join_association_path_expression [AS] identification_variable [join_condition]
 ----
 
-An outer join without a specified join
-condition has an implicit join condition over the foreign key
-relationship corresponding to the join_association_path_expression. It
-would typically be mapped to a SQL outer join with an ON condition on
-the foreign key relationship as in the queries below:
+An association outer join without no explicit _join_condition_ has an
+implicit join condition inferred from the foreign key relationship
+mapped by the _join_association_path_expression_. Typically, a JPQL
+join of this form is translated to a SQL outer join with an ON condition
+specifying the foreign key relationship, as in the following examples.
 
 Jakarta Persistence query language:
 
@@ -828,9 +927,9 @@ FROM Suppliers s LEFT JOIN Products p
 GROUP By s.name
 ----
 
-An outer join with an explicit ON condition
-would cause an additional specified join condition to be added to the
-generated SQL:
+An explicit _join_condition_ (that is, an ON condition in the JOIN)
+results in an additional restriction in the ON condition of the
+generated SQL.
 
 Jakarta Persistence query language:
 
@@ -852,8 +951,8 @@ FROM Suppliers s LEFT JOIN Products p
 GROUP BY s.name
 ----
 
-Note that the result of this query will be
-different from that of the following query:
+Note that the result of this query will be different from that of the
+following query:
 
 [source,sql]
 ----
@@ -863,26 +962,26 @@ WHERE p.status = 'inStock'
 GROUP BY s.name
 ----
 
-The result of the latter query will exclude
-suppliers who have no products in stock whereas the former query will
-include them.
+The result of the latter query will exclude suppliers who have no
+products in stock whereas the former query will include them.
 
-An important use case for LEFT JOIN is in
-enabling the prefetching of related data items as a side effect of a
-query. This is accomplished by specifying the LEFT JOIN as a FETCH JOIN
-as described below.
+An important use case for LEFT JOIN is in enabling the prefetching of
+related data items as a side effect of a query. This is accomplished by
+specifying the LEFT JOIN as a FETCH JOIN, as described below.
 
 ===== Fetch Joins [[a4931]]
 
-A FETCH JOIN enables the fetching of an
-association or element collection as a side effect of the execution of a
-query.
+A FETCH JOIN clause in a query results in eager fetching of an association
+or element collection as a side effect of execution of the query.
 
-The syntax for a fetch join is
+The syntax for a fetch join is given by:
 
 ----
 fetch_join ::= [LEFT [OUTER] | INNER] JOIN FETCH join_association_path_expression
 ----
+
+A FETCH JOIN must be an INNER or LEFT (OUTER) join. A FETCH JOIN does not
+have an explicit join condition or identification variable.
 
 The association referenced by the right side
 of the FETCH JOIN clause must be an association or element collection
@@ -920,7 +1019,7 @@ the FROM clause of a subquery.
 ==== Collection Member Declarations
 
 An identification variable declared by a
-collection_member_declaration ranges over values of a collection
+_collection_member_declaration_ ranges over values of a collection
 obtained by navigation using a path expression.
 
 An identification variable of a collection
@@ -2990,10 +3089,12 @@ from_clause ::=
         {, {identification_variable_declaration | collection_member_declaration}}*
 identification_variable_declaration ::= range_variable_declaration {join | fetch_join}*
 range_variable_declaration ::= entity_name [AS] identification_variable
-join ::= join_spec join_association_path_expression [AS] identification_variable
-    [join_condition]
+join ::= range_join | path_join
+range_join ::= join_spec range_variable_declaration [join_condition]
+path_join ::=
+    join_spec join_association_path_expression [AS] identification_variable [join_condition]
 fetch_join ::= join_spec FETCH join_association_path_expression
-join_spec ::= [LEFT [OUTER] | INNER] JOIN
+join_spec ::= [INNER | LEFT [OUTER]] JOIN
 join_condition ::= ON conditional_expression
 join_association_path_expression ::=
     join_collection_valued_path_expression |
