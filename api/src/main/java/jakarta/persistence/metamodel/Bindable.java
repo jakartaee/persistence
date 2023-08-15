@@ -28,25 +28,36 @@ import jakarta.persistence.criteria.Path;
  *
  */
 public interface Bindable<T> {
-	
-	public static enum BindableType { 
+    
+    public static enum BindableType {
+        /**
+         * Single-valued attribute type.
+         *
+         * @see SingularAttribute
+         */
+        SINGULAR_ATTRIBUTE, 
 
-	    /** Single-valued attribute type */
-	    SINGULAR_ATTRIBUTE, 
+        /**
+         * Multivalued attribute type, that is, a collection.
+         *
+         * @see PluralAttribute
+         */
+        PLURAL_ATTRIBUTE, 
 
-	    /** Multi-valued attribute type */
-	    PLURAL_ATTRIBUTE, 
-
-	    /** Entity type */
-	    ENTITY_TYPE
-	}
+        /**
+         * Entity type.
+         *
+         * @see EntityType
+         */
+        ENTITY_TYPE
+    }
 
     /**
      *  Return the bindable type of the represented object.
      *  @return bindable type
      */	
     BindableType getBindableType();
-	
+
     /**
      * Return the Java type of the represented object.
      * If the bindable type of the object is <code>PLURAL_ATTRIBUTE</code>,
