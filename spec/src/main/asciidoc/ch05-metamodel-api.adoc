@@ -660,14 +660,25 @@ import jakarta.persistence.criteria.Path;
 public interface Bindable<T> {
 
     public static enum BindableType {
-
-        /** Single-valued attribute type */
+        /**
+         * Single-valued attribute type.
+         *
+         * @see SingularAttribute
+         */
         SINGULAR_ATTRIBUTE,
 
-        /** Multi-valued attribute type */
+        /**
+         * Multivalued attribute type, that is, a collection.
+         *
+         * @see PluralAttribute
+         */
         PLURAL_ATTRIBUTE,
 
-        /** Entity type */
+        /**
+         * Entity type.
+         *
+         * @see EntityType
+         */
         ENTITY_TYPE
     }
 
