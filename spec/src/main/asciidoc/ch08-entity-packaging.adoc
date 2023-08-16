@@ -305,7 +305,7 @@ _orm.xml_ files), the resulting mappings are obtained by combining the
 mappings from all the files. If multiple mapping files referenced within
 a single persistence unit (including any _orm.xml_ file) contain
 overlapping mapping information for a given class, the result is
-undefined. That is the object/relational mapping information contained
+undefined. That is, the object/relational mapping information contained
 in any given mapping file referenced within the persistence unit must be
 disjoint at the class level from object/relational mapping information
 contained in other mapping files referenced within the persistence unit.
@@ -474,65 +474,63 @@ and its entity manager factory configuration.
 The following properties and hints defined by this specification are
 intended for use in both Jakarta EE and Java SE environments:
 
-* _jakarta.persistence.lock.timeout_ — value in
-milliseconds for pessimistic lock timeout. This is a hint only.
-* _jakarta.persistence.query.timeout_ — value in
-milliseconds for query timeout. This is a hint only.
-* _jakarta.persistence.validation.group.pre-persist_ — groups that are
-targeted for validation upon the pre-persist event (overrides the
-default behavior).
-* _jakarta.persistence.validation.group.pre-update_ — groups that are
-targeted for validation upon the pre-update event (overrides the default
-behavior).
-* _jakarta.persistence.validation.group.pre-remove_ — groups that are
-targeted for validation upon the pre-remove event (overrides the default
-behavior).
+_jakarta.persistence.lock.timeout_::
+The pessimistic lock timeout in milliseconds. This is a hint only.
+_jakarta.persistence.query.timeout_::
+The query timeout in milliseconds. This is a hint only.
+_jakarta.persistence.validation.group.pre-persist_::
+Bean Validation groups that are targeted for validation upon the
+pre-persist event (overrides the default behavior).
+_jakarta.persistence.validation.group.pre-update_::
+Bean Validation groups that are targeted for validation upon the
+pre-update event (overrides the default behavior).
+_jakarta.persistence.validation.group.pre-remove_::
+Bean Validation groups that are targeted for validation upon the
+pre-remove event (overrides the default behavior).
 
-The following properties defined by this
-specification are intended for use in Java SE environments.
+The following properties defined by this specification are intended
+for use in Java SE environments.
 
-* _jakarta.persistence.jdbc.driver_ — fully
-qualified name of the driver class
-* _jakarta.persistence.jdbc.url_ — driver-specific URL
-* _jakarta.persistence.jdbc.user_ — username
-used by database connection
-* _jakarta.persistence.jdbc.password_ — password
-for database connection validation
+_jakarta.persistence.jdbc.driver_::
+Fully qualified name of the JDBC driver class.
+_jakarta.persistence.jdbc.url_::
+Driver-specific connection URL.
+_jakarta.persistence.jdbc.user_::
+Username for database connection authentication.
+_jakarta.persistence.jdbc.password_::
+Password for database connection authentication
 
-Scripts for use in schema generation may be
-specified using the
+Scripts for use in schema generation may be specified using the
 _jakarta.persistence.schema-generation.create-script-source_ and
-_jakarta.persistence.schema-generation.drop-script-source_ properties. A
-script to specify SQL for the bulk loading of data may be specified by
-the _jakarta.persistence.sql-load-script-source_ property. These
+_jakarta.persistence.schema-generation.drop-script-source_ properties.
+A script to specify SQL for the bulk loading of data may be specified
+by the _jakarta.persistence.sql-load-script-source_ property. These
 properties are intended for use in both Jakarta EE and Java SE
 environments:
 
-* _jakarta.persistence.schema-generation.create-script-source_ — _name of a
-script packaged as part of the persistence application or a string
-corresponding to a file URL string that designates a script._
-* _jakarta.persistence.schema-generation.drop-script-source_ — _name of a
-script packaged as part of the persistence application or a string
-corresponding to a file URL string that designates a script._
-* _jakarta.persistence.sql-load-script-source_ —
-_name of a script packaged as part of the persistence unit or a string
-corresponding to a file URL string that designates a script._
+_jakarta.persistence.schema-generation.create-script-source_::
+Name of a script packaged as part of the persistence application or
+a string identifying a file URL that designates a script.
+_jakarta.persistence.schema-generation.drop-script-source_::
+Name of a script packaged as part of the persistence application or
+a string identifying a file URL that designates a script.
+_jakarta.persistence.sql-load-script-source_::
+Name of a script packaged as part of the persistence unit or a string
+identifying a file URL that designates a script.
 
-When scripts are packaged as part of the
-persistence application, these properties must specify locations
-relative to the root of the persistence unit. When scripts are provided
-externally (or when schema generation is to occur into script files, as
-described below), strings corresponding to file URLs must be specified.
-In Jakarta EE environments, such file URL specifications must be absolute
-paths (not relative). In Jakarta EE environments, all source and target
-file locations must be accessible to the application server deploying
-the persistence unit.
+When scripts are packaged as part of the persistence application, these
+properties must specify locations relative to the root of the persistence
+unit. When scripts are provided externally (or when schema generation is
+configured to write script files, as described below), strings identifying
+file URLs must be specified. In Jakarta EE environments, such file URLs
+must be absolute paths. In Jakarta EE environments, all source and target
+file locations must be accessible to the application server deploying the
+persistence unit.
 
-In general, it is expected that schema
-generation will be initiated by means of the APIs described in
-<<a12917>>. However, schema
-generation actions may also be specified by means of the following
-properties used in the _persistence.xml_ file.
+In general, it is expected that schema generation will be initiated by
+means of the APIs described in <<a12917>>. However, schema generation
+actions may also be specified by means of the following properties used
+in the _persistence.xml_ file.
 
 _jakarta.persistence.schema-generation.database.action_ ::
 The _jakarta.persistence.schema-generation.database.action_ property specifies
@@ -588,15 +586,13 @@ If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. These
 targets are specified as strings corresponding to file URLs.
 
-If a persistence provider does not recognize
-a property (other than a property defined by this specification), the
-provider must ignore it.
+If a persistence provider does not recognize a property (other than a
+property defined by this specification), the provider must ignore it.
 
-Vendors should use vendor namespaces for
-properties (e.g., _com.acme.persistence.logging_). Entries that make
-use of the namespace _jakarta.persistence_ and its subnamespaces must not
-be used for vendor-specific information. The namespace
-_jakarta.persistence_ is reserved for use by this specification.
+Vendors should define properties in vendor-specific namespaces, (e.g
+_com.acme.persistence.logging_). The namespace _jakarta.persistence_
+is reserved for use by this specification, and must not be used to
+define vendor-specific properties.
 
 ===== Examples
 
