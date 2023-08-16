@@ -109,7 +109,7 @@ The managed persistence classes may be:
 - specified by reference—that is, by naming the classes, class archives, or
   XML mapping files (which in turn reference classes) that are accessible on
   the application classpath, or
-- specified by some combination of these means.
+- specified by any combination of these means.
 
 See <<a12305>>.
 
@@ -187,7 +187,7 @@ _RESOURCE_LOCAL_:
 - In a Jakarta EE environment, _RESOURCE_LOCAL_ usually means that a non-JTA
   datasource is provided.
 
-See <<a12302>>.
+Configuration of datasources is described below in <<a12302>>.
 
 If the _transaction-type_ is not explicitly specified, its value is defaulted:
 
@@ -721,40 +721,41 @@ is _order.jar_.
 
 ==== Persistence Unit Scope [[a12459]]
 
-An EJB-JAR, WAR, application client jar, or
-EAR can define a persistence unit.
+An EJB-JAR, WAR, application client JAR, or EAR can define a persistence
+unit. When referencing a persistence unit using the _unitName_ annotation
+element or _persistence-unit-name_ deployment descriptor element, the
+visibility scope of the persistence unit is determined by its point of
+definition:
 
-When referencing a persistence unit using the
-_unitName_ annotation element or _persistence-unit-name_ deployment
-descriptor element, the visibility scope of the persistence unit is
-determined by its point of definition:
+- A persistence unit defined at the level of an EJB-JAR, WAR, or
+  application client JAR is scoped to that EJB-JAR, WAR, or application
+  JAR respectively and is visible to the components defined in that jar
+  or WAR.
+- A persistence unit defined at the level of an EAR is generally visible
+  to all components in the application. However, if a persistence unit of
+  the same name is defined by an EJB-JAR, WAR, or application JAR file
+  within the EAR, the persistence unit of that name defined at EAR level
+  will not be visible to the components defined by that EJB-JAR, WAR, or
+  application JAR file, unless the persistence unit reference uses the
+  persistence unit name # syntax to specify a path name to disambiguate
+  the reference.
 
-* A persistence unit that is defined at the
-level of an EJB-JAR, WAR, or application client jar is scoped to that
-EJB-JAR, WAR, or application jar respectively and is visible to the
-components defined in that jar or war.
-* A persistence unit that is defined at the
-level of the EAR is generally visible to all components in the
-application. However, if a persistence unit of the same name is defined
-by an EJB-JAR, WAR, or application jar file within the EAR, the
-persistence unit of that name defined at EAR level will not be visible
-to the components defined by that EJB-JAR, WAR, or application jar file
-unless the persistence unit reference uses the persistence unit name #
-syntax to specify a path name to disambiguate the reference. When the #
-syntax is used, the path name is relative to the referencing application
-component jar file. For example, the syntax
-_../lib/persistenceUnitRoot.jar#myPersistenceUnit_ refers to a
-persistence unit whose name, as specified in the name element of the
-_persistence.xml_ file, is _myPersistenceUnit_ and for which the
-relative path name of the root of the persistence unit is
-_../lib/persistenceUnitRoot.jar_. The # syntax may be used with both
-the _unitName_ annotation element or _persistence-unit-name_ deployment
-descriptor element to reference a persistence unit defined at EAR level.
+The # syntax may be used with both the _unitName_ annotation element or
+_persistence-unit-name_ deployment descriptor element to reference a
+persistence unit defined at EAR level.
+
+When the # syntax is used, the path name is interpreted relative to the
+referencing application component jar file. For example, the syntax
+_../lib/persistenceUnitRoot.jar#myPersistenceUnit_ refers to a persistence
+unit with:
+
+- name _myPersistenceUnit_, as specified in the _name_ element of the
+  _persistence.xml_ file, and
+- root given by the relative path name _../lib/persistenceUnitRoot.jar_.
 
 === persistence.xml Schema
 
-This section provides the XML schema for the
-_persistence.xml_ file.
+This section provides the XML schema for the _persistence.xml_ file.
 
 [source,xml]
 ----
