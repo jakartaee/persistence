@@ -4,127 +4,129 @@
 
 == Entity Packaging [[a12229]]
 
-This chapter describes the packaging of
-persistence units.
+This chapter describes the packaging of persistence units.
 
 === Persistence Unit
 
-A persistence unit is a logical grouping that
-includes:
+A persistence unit is a logical grouping that includes:
 
-* An entity manager factory and its entity
-managers, together with their configuration information.
-* The set of managed classes included in the
-persistence unit and managed by the entity managers of the entity
-manager factory.
-* Mapping metadata (in the form of metadata
-annotations and/or XML metadata) that specifies the mapping of the
-classes to the database.
+- an entity manager factory and its entity managers, together with
+  their configuration information,
+- the set of managed classes included in the persistence unit and
+  managed by entity managers created by the entity manager factory,
+  and
+- mapping metadata (in the form of metadata annotations and/or XML
+  metadata) specifying the mapping of these classes to the database.
 
 === Persistence Unit Packaging [[a12236]]
 
-Within Jakarta EE environments, an EJB-JAR, WAR,
-EAR, or application client JAR can define a persistence unit. Any number
-of persistence units may be defined within these scopes.
+Within Jakarta EE environments, any EJB-JAR, WAR, EAR, or application
+client JAR can define a persistence unit. Any number of persistence
+units may be defined within these scopes.
 
-A persistence unit may be packaged within one
-or more jar files contained within a WAR or EAR, as a set of classes
-within an EJB-JAR file or in the WAR _classes_ directory, or as a
-combination of these as defined below.
+A persistence unit may be packaged:
 
-A persistence unit is defined by a
-_persistence.xml_ file. The jar file or directory whose _META-INF_
-directory contains the _persistence.xml_ file is termed the _root_ of
-the persistence unit. In Jakarta EE environments, the root of a persistence
-unit must be one of the following:
+- within one or more jar files contained within a WAR or EAR,
+- as a set of classes within an EJB-JAR file or in the WAR _classes_
+  directory, or
+- as a combination of these, as defined below.
 
-* an EJB-JAR file
-* the _WEB-INF/classes_ directory of a WAR filefootnote:[The root of the
-persistence unit is the _WEB-INF/classes_ directory; the
-_persistence.xml_ file is therefore contained in the
-_WEB-INF/classes/META-INF_ directory.]
-* a jar file in the _WEB-INF/lib_ directory of
-* a WAR file
-* a jar file in the EAR library directory
-* an application client jar file
+A persistence unit is defined by a _persistence.xml_ file. The jar file
+or directory whose _META-INF_ directory contains the _persistence.xml_
+file is termed the _root_ of the persistence unit. In Jakarta EE
+environments, the root of a persistence unit must be either:
 
-It is not required that an EJB-JAR or WAR
-file containing a persistence unit be packaged in an EAR unless the
-persistence unit contains persistence classes in addition to those
-contained within the EJB-JAR or WAR. See <<a12305>>.
+- an EJB-JAR file,
+- the _WEB-INF/classes_ directory of a WAR filefootnote:[The root of
+  the persistence unit is the _WEB-INF/classes_ directory;
+  the _persistence.xml_ file is therefore contained in the
+  _WEB-INF/classes/META-INF_ directory.],
+- a jar file in the _WEB-INF/lib_ directory of a WAR file,
+- a jar file in the library directory or an EAR, or
+- an application client JAR file.
+
+It is not required that an EJB-JAR or WAR file containing a persistence
+unit be packaged in an EAR unless the persistence unit contains extra
+persistence classes in addition to those contained within the EJB-JAR or
+WAR. See <<a12305>>.
 
 [NOTE]
 ====
-Java Persistence 1.0 supported use of a
-jar file in the root of the EAR as the root of a persistence unit. This
-use is no longer supported. Portable applications should use the EAR
-library directory for this case instead. See
-<<a19499>>.
+Java Persistence 1.0 supported the use of a jar file in the root of the
+EAR as the root of a persistence unit. This use is no longer supported.
+Portable applications should use the EAR library directory for this case
+instead. See <<a19499>>.
 ====
 
-A persistence unit must have a name. Only one
-persistence unit of any given name must be defined within a single
-EJB-JAR file, within a single WAR file, within a single application
-client jar, or within an EAR. See <<a12459>>.
+A persistence unit must have a name. The name of the persistence unit must
+be unique within a given EJB-JAR file, within a given WAR file, within a
+given application client JAR, or within an EAR. See <<a12459>>.
 
-The _persistence.xml_ file may be used to
-designate more than one persistence unit within the same scope.
+The _persistence.xml_ file may be used to define more than one persistence
+unit within the same scope.
 
-All persistence classes defined at the level
-of the Jakarta EE EAR must be accessible to other Jakarta EE components in the
-application—i.e. loaded by the application classloader—such that if the
-same entity class is referenced by two different Jakarta EE components
-(which may be using different persistence units), the referenced class
-is the same identical class.
+All persistence classes defined at the level of the Jakarta EE EAR must be
+accessible to other Jakarta EE components in the application—that is, to
+all components loaded by the application classloader—such that if the same
+entity class is referenced by two different Jakarta EE components (which
+may be using different persistence units), the referenced class is the same
+identical class.
 
-In Java SE environments, the metadata mapping
-files, jar files, and classes described in the following sections can be
-used. To insure the portability of a Java SE application, it is
-necessary to explicitly list the managed persistence classes that are
-included in the persistence unit using the _class_ element of the
-_persistence.xml_ file. See <<a12305>>.
+In Java SE environments, the metadata mapping files, jar files, and classes
+described in the following sections can be used. To insure the portability
+of a Java SE application, it is necessary to explicitly list the managed
+persistence classes included in the persistence unit using the _class_
+element of the _persistence.xml_ file. See <<a12305>>.
 
 ==== persistence.xml file
 
-A _persistence.xml_ file defines a
-persistence unit. The _persistence.xml_ file is located in the
-_META-INF_ directory of the root of the persistence unit. It may be used
-to specify managed persistence classes included in the persistence unit,
-object/relational mapping information for those classes, scripts for use
-in schema generation and the bulk loading of data, and other
-configuration information for the persistence unit and for the entity
-manager(s) and entity manager factory for the persistence unit. This
-information may be defined by containment or by reference, as described
+A _persistence.xml_ file defines a persistence unit. The _persistence.xml_
+file is located in the _META-INF_ directory of the root of the persistence
+unit. It may be used to specify:
+
+- managed persistence classes included in the persistence unit,
+- object/relational mapping information for those classes,
+- scripts for use in schema generation and bulk loading of data, and
+- other configuration information for the persistence unit and for the
+  entity managers and entity manager factory of the persistence unit.
+
+This information may be defined by containment or by reference, as described
 below.
 
-The object/relational mapping information can
-take the form of annotations on the managed persistence classes included
-in the persistence unit, an _orm.xml_ file contained in the _META-INF_
-directory of the root of the persistence unit, one or more XML files on
-the classpath and referenced from the _persistence.xml_ file, or a
-combination of these.
+The object/relational mapping information can take the form of:
 
-The managed persistence classes may either be
-contained within the root of the persistence unit; or they may be
-specified by reference—i.e., by naming the classes, class archives, or
-XML mapping files (which in turn reference classes) that are accessible
-on the application classpath; or they may be specified by some
-combination of these means. See <<a12305>>.
+- annotations on the managed persistence classes included in the persistence
+  unit,
+- an _orm.xml_ file contained in the _META-INF_ directory of the root of the
+  persistence unit,
+- one or more XML files accessible on the classpath and referenced from the
+  _persistence.xml_ file, or
+- any combination of the previous options.
 
-The root element of the _persistence.xml_
-file is the _persistence_ element. The _persistence_ element consists of
-one or more _persistence-unit_ elements.
+The managed persistence classes may be:
 
-The _persistence-unit_ element consists of
-the _name_ and _transaction-type_ attributes and the following
-sub-elements: _description_, _provider_, _jta-data-source_,
-_non-jta-data-source_, _mapping-file_, _jar-file_, _class_,
-_exclude-unlisted-classes_, _shared-cache-mode_, _validation-mode_,
+- contained within the root of the persistence unit,
+- specified by reference—that is, by naming the classes, class archives, or
+  XML mapping files (which in turn reference classes) that are accessible on
+  the application classpath, or
+- specified by some combination of these means.
+
+See <<a12305>>.
+
+The root element of the _persistence.xml_ file is the _persistence_ element.
+The _persistence_ element consists of one or more _persistence-unit_ elements.
+
+The _persistence-unit_ element consists of the _name_ and _transaction-type_
+attributes and the following sub-elements:
+_description_, _provider_,
+_jta-data-source_, _non-jta-data-source_,
+_mapping-file_, _jar-file_, _class_,
+_exclude-unlisted-classes_,
+_shared-cache-mode_, _validation-mode_,
 and _properties_.
 
-The _name_ attribute is required; the other
-attributes and elements are optional. Their semantics are described in
-the following subsections.
+The _name_ attribute is required; the other attributes and elements are optional.
+Their semantics are described in the following subsections.
 
 Examples:
 
@@ -168,149 +170,163 @@ Examples:
 
 ===== name
 
-The _name_ attribute defines the name for the
-persistence unit. This name may be used to identify a persistence unit
-referred to by the _PersistenceContext_ and _PersistenceUnit_
-annotations and in the programmatic API for creating an entity manager
-factory.
+The _name_ attribute defines the name of the persistence unit. This name is
+used to identify the persistence unit referred to by a _PersistenceContext_
+or _PersistenceUnit_ annotation and in the programmatic API for creating an
+entity manager factory.
 
 ===== transaction-type [[a12296]]
 
-The _transaction-type_ attribute is used to
-specify whether the entity managers provided by the entity manager
-factory for the persistence unit must be JTA entity managers or
-resource-local entity managers. The value of this element is _JTA_ or
-_RESOURCE_LOCAL_. A _transaction-type_ of _JTA_ assumes that a JTA data
-source will be provided—either as specified by the _jta-data-source_
-element or provided by the container. In general, in Jakarta EE
-environments, a _transaction-type_ of _RESOURCE_LOCAL_ assumes that a
-non-JTA datasource will be provided. In a Jakarta EE environment, if this
-element is not specified, the default is _JTA_. In a Java SE
-environment, if this element is not specified, the default is
-_RESOURCE_LOCAL_.
+The _transaction-type_ attribute specifies whether entity managers created by
+the entity manager factory for the persistence unit are JTA entity managers or
+resource-local entity managers. The value of this element must be _JTA_ or
+_RESOURCE_LOCAL_:
+
+- _JTA_ means that a JTA data source is provided—either as specified by the
+  _jta-data-source_ element, or by the container.
+- In a Jakarta EE environment, _RESOURCE_LOCAL_ usually means that a non-JTA
+  datasource is provided.
+
+See <<a12302>>.
+
+If the _transaction-type_ is not explicitly specified, its value is defaulted:
+
+- in a Jakarta EE environment, the default is _JTA_, but
+- in a Java SE environment, the default is _RESOURCE_LOCAL_.
 
 ===== description
 
-The _description_ element provides optional
-descriptive information about the persistence unit.
+The _description_ element provides optional descriptive information about the
+persistence unit.
 
 ===== provider [[a12300]]
 
-The _provider_ element specifies the name of
-the persistence provider's _jakarta.persistence.spi.PersistenceProvider_
-class. The _provider_ element is optional, but should be specified if
-the application is dependent upon a particular persistence provider
-being used.
+The _provider_ element specifies the name of a provider-specific implementation
+of _jakarta.persistence.spi.PersistenceProvider_. The _provider_ element is
+optional, but should be explicitly specified if the application depends on the
+use of a particular persistence provider.
 
 ===== jta-data-source, non-jta-data-source [[a12302]]
 
-In Jakarta EE environments, the
-_jta-data-source_ and _non-jta-data-source_ elements are used to specify
-the JNDI name of the JTA and/or non-JTA data source to be used by the
-persistence provider. If neither is specified, the deployer must specify
-a JTA data source at deployment or the default JTA data source must be
-provided by the container, and a JTA EntityManagerFactory will be
-created to correspond to it.
+In Jakarta EE environments:
 
-In Java SE environments, these elements may
-be used or the data source information may be specified by other
-means—depending upon the requirements of the provider.
+- the _jta-data-source_ element specifies the JNDI name of a JTA data source,
+  and/or
+- the _non-jta-data-source_ element specifies the JNDI name of a non-JTA data
+  source.
+
+The specified data source is used by the persistence provider to obtain database
+connections. If neither element is specified, the deployer must specify a data
+source at deployment, or a default data source must be provided by the container.
+
+In Java SE environments, these elements may be used, or the data source
+information may be specified by other means, depending upon the requirements
+of the provider.
 
 ===== mapping-file, jar-file, class, exclude-unlisted-classes [[a12305]]
 
-The following classes must be implicitly or
-explicitly denoted as managed persistence classes to be included within
-a persistence unit: entity classes; embeddable classes; mapped
-superclasses; converter classes.
+The following classes must be implicitly or explicitly denoted as managed
+persistence classes to be included within a persistence unit:
 
-The set of managed persistence classes
-that are managed by a persistence unit is defined by using one or more
-of the following:footnote:[Note that an
-individual class may be used in more than one persistence unit.]
+- entity classes;
+- embeddable classes;
+- mapped superclasses;
+- converter classes.
 
-* Annotated managed persistence classes
-contained in the root of the persistence unit (unless the
-_exclude-unlisted-classes_ element is specified)
-* One or more object/relational mapping XML
-files
-* One or more jar files that will be searched
-for classes
-* An explicit list of classes
+The set of managed persistence classes managed by a persistence unit is
+specified using one or more of the following:footnote:[Note that an
+given class may be used in more than one persistence unit.]
 
-The set of entities managed by the
-persistence unit is the union of these sources, with the mapping
-metadata annotations (or annotation defaults) for any given class being
-overridden by the XML mapping information file if there are both
-annotations as well as XML mappings for that class. The minimum portable
-level of overriding is at the level of the persistent field or property.
+- annotated managed persistence classes contained in the root of the
+  persistence unit (unless the _exclude-unlisted-classes_ element is
+  specified);
+- one or more object/relational mapping XML files;
+- one or more JAR files to be searched for classes;
+- an explicit list of classes.
 
-The classes and/or jars that are named as
-part of a persistence unit must be on the classpath; referencing them
-from the _persistence.xml_ file does not cause them to be placed on the
-classpath.
+The set of entities managed by the persistence unit is the union of these
+sources, with the mapping metadata annotations (or annotation defaults)
+for any given class being overridden by the XML mapping information file
+if there are both annotations and XML mappings for that class. The minimum
+portable level of overriding is at the level of the persistent field or
+property.
 
-All classes must be on the classpath to
-ensure that entity managers from different persistence units that map
-the same class will be accessing the same identical class.
+The classes and/or jars that named as part of a persistence unit must be
+on the classpath; referencing them from the _persistence.xml_ file does
+not cause them to be placed on the classpath.
+
+All classes must be on the classpath to ensure that entity managers from
+different persistence units that map the same class will be accessing the
+same identical class.
 
 ====== Annotated Classes in the Root of the Persistence Unit
 
-All classes contained in the root of the
-persistence unit are searched for annotated managed persistence
-classes—classes with the _Entity_, _Embeddable_, _MappedSuperclass_,
-or _Converter_ annotation—and any mapping metadata annotations found on
-these classes will be processed, or they will be mapped using the
-mapping annotation defaults. If it is not intended that the annotated
-persistence classes contained in the root of the persistence unit be
-included in the persistence unit, the _exclude-unlisted-classes_ element
-must be specified as _true_. The _exclude-unlisted-classes_ element is
-not intended for use in Java SE environments.
+By default, in the Java EE environment, the root of the persistence
+unit is searched for annotated managed persistence classes—classes
+with an _Entity_, _Embeddable_, _MappedSuperclass_, or _Converter_
+annotation—and mapping metadata annotations found on these classes
+are processed. Where mapping annotations are missing, the classes
+are mapped using mapping annotation defaults.
+
+This behavior is disabled if the _exclude-unlisted-classes_ of the
+_persistence.xml_ file is specified as _true_. In this case, an
+annotated persistence class located in the root of the persistence
+unit is not included in the persistence unit unless it is explicitly
+listed in a _class_ element of the _persistence.xml_ file or in a
+mapping file.
+
+In the Java SE environment, this behavior is not required. Portable
+Java SE applications should explicitly list each persistence class
+in a _class_ element of the _persistence.xml_ file or in a mapping
+file. The _exclude-unlisted-classes_ element is not intended for use
+in Java SE environments.
 
 ====== Object/relational Mapping Files
 
-An object/relational mapping XML file
-contains mapping information for the classes listed in it.
+An object/relational mapping XML file contains mapping information for
+the classes it lists.
 
-An object/relational mapping XML file named
-_orm.xml_ may be specified in the _META-INF_ directory in the root of
-the persistence unit or in the _META-INF_ directory of any jar file
-referenced by the _persistence.xml_. Alternatively, or in addition, one
-or more mapping files may be referenced by the _mapping-file_ elements
-of the _persistence-unit_ element. These mapping files may be present
-anywhere on the class path.
+- An object/relational mapping XML file named _orm.xml_ may be located
+  in the _META-INF_ directory in the root of the persistence unit or in
+  the _META-INF_ directory of any jar file referenced by the
+  _persistence.xml_.
 
-An _orm.xml_ mapping file or other mapping
-file is loaded as a resource by the persistence provider. If a mapping
-file is specified, the classes and mapping information specified in the
-mapping file will be used as described in <<a16944>>. If multiple mapping files are specified (possibly including
-one or more _orm.xml_ files), the resulting mappings are obtained by
-combining the mappings from all of the files. The result is undefined if
-multiple mapping files (including any _orm.xml_ file) referenced within
-a single persistence unit contain overlapping mapping information for
-any given class. The object/relational mapping information contained in
-any mapping file referenced within the persistence unit must be disjoint
-at the class-level from object/relational mapping information contained
-in any other such mapping file.
+- Alternatively, or in addition, one or more mapping files may be
+  referenced by the _mapping-file_ elements of the _persistence-unit_
+  element. These mapping files may be present anywhere on the class path.
+
+An _orm.xml_ mapping file or other mapping file is loaded as a resource
+by the persistence provider. If a mapping file is specified, the classes
+and mapping information listed in the mapping file are used as described
+in <<a16944>>.
+
+If multiple mapping files are specified (possibly including one or more
+_orm.xml_ files), the resulting mappings are obtained by combining the
+mappings from all the files. If multiple mapping files referenced within
+a single persistence unit (including any _orm.xml_ file) contain
+overlapping mapping information for a given class, the result is
+undefined. That is the object/relational mapping information contained
+in any given mapping file referenced within the persistence unit must be
+disjoint at the class level from object/relational mapping information
+contained in other mapping files referenced within the persistence unit.
 
 ====== Jar Files
 
-One or more JAR files may be specified
-using the _jar-file_ elements instead of, or in addition to the mapping
-files specified in the _mapping-file_ elements. If specified, these JAR
-files will be searched for managed persistence classes, and any mapping
-metadata annotations found on them will be processed, or they will be
-mapped using the mapping annotation defaults defined by this
-specification. Such JAR files are specified relative to the directory or
-jar file that _contains_ the root of the
-persistence unit.footnote:[Persistence providers
-are encouraged to support this syntax for use in Java SE environments.]
+One or more JAR files may be specified using _jar-file_ elements instead
+of, or in addition to, the mapping files listed by the _mapping-file_
+elements. These JAR files are searched for managed persistence classes
+and any mapping metadata annotations found on them are processed. Where
+mapping annotations are missing, the classes are mapped using the mapping
+annotation defaults defined by this specification. Such JAR files are
+specified relative to the directory or jar file that _contains_ the root
+of the persistence unit.footnote:[Persistence providers are encouraged to
+support this syntax for use in Java SE environments.]
 
-The following examples illustrate the use of
-the _jar-file_ element to reference additional persistence classes.
-These examples use the convention that a jar file with a name
-terminating in “ _PUnit_ ” contains the _persistence.xml_ file and that
-a jar file with a name terminating in “ _Entities_ ” contains additional
-persistence classes.
+The following examples illustrate the use of the _jar-file_ element to
+reference additional persistence classes. These examples make use of the
+convention that a jar file with a name terminating in "_PUnit_" contains
+the _persistence.xml_ file and that a jar file with a name terminating in
+"_Entities_" contains additional persistence classes.
 
 *Example 1:*
 
@@ -423,44 +439,40 @@ _persistence.xml_ contains:
 
 ====== List of Managed Classes
 
-A list of named managed persistence
-classes—entity classes, embeddable classes, mapped superclasses, and
-converter classes—may be specified instead of, or in addition to, the
-JAR files and mapping files. Any mapping metadata annotations found on
-these classes will be processed, or they will be mapped using the
-mapping annotation defaults. The _class_ element is used to list a
-managed persistence class.
+A list of named managed persistence classes—entity classes, embeddable
+classes, mapped superclasses, and converter classes—may be specified
+instead of, or in addition to, the listed JAR files and mapping files.
+Any mapping metadata annotations found on these classes are processed.
+Where mapping annotations are missing, the classes are mapped using
+the mapping annotation defaults. The _class_ element is used to list
+a managed persistence class.
 
-A list of all named managed persistence
-classes must be specified in Java SE environments to insure portability.
-Portable Java SE applications should not rely on the other mechanisms
-described here to specify the managed persistence classes of a
-persistence unit. Persistence providers may require that the set of
-entity classes and classes that are to be managed must be fully
-enumerated in each of the _persistence.xml_ files in Java SE
-environments.
+In Java SE environments, an explicit list of all managed persistence
+class names must be specified to insure portability. Portable Java SE
+applications should not rely on the other mechanisms described here to
+determine the managed persistence classes of a persistence unit. In
+Java SE environments, a persistence provider may require that the set
+of entity classes and other classes to be managed is fully enumerated
+in each _persistence.xml_ file.
 
 ===== shared-cache-mode [[a12380]]
 
-The _shared-cache-mode_ element determines
-whether second-level caching is in effect for the persistence unit. See
-<<a3065>>.
+The _shared-cache-mode_ element determines whether second-level caching
+is in effect for the persistence unit. See <<a3065>>.
 
 ===== validation-mode [[a12382]]
 
-The _validation-mode_ element determines
-whether automatic lifecycle event time validation is in effect. See
-<<a2374>>.
+The _validation-mode_ element determines whether automatic lifecycle
+event time validation is in effect. See <<a2374>>.
 
 ===== properties [[a12384]]
 
-The _properties_ element is used to specify
-both standard and vendor-specific properties and hints that apply to the
-persistence unit and its entity manager factory configuration.
+The _properties_ element is used to specify both standard and
+vendor-specific properties and hints that apply to the persistence unit
+and its entity manager factory configuration.
 
-The following properties and hints defined by
-this specification are intended for use in both Jakarta EE and Java SE
-environments:
+The following properties and hints defined by this specification are
+intended for use in both Jakarta EE and Java SE environments:
 
 * _jakarta.persistence.lock.timeout_ — value in
 milliseconds for pessimistic lock timeout. This is a hint only.
