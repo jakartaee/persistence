@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.persistence.metamodel.EntityType;
+
 import java.util.Set;
 
 /**
@@ -42,13 +44,19 @@ public interface CommonAbstractCriteria {
     <U> Subquery<U> subquery(Class<U> type);
 
     /**
+     * Create a subquery of the query.
+     * @param type  the subquery result type
+     * @return subquery
+     */
+    <U> Subquery<U> subquery(EntityType<U> type);
+
+    /**
      * Return the predicate that corresponds to the where clause
      * restriction(s), or null if no restrictions have been
      * specified.
      * @return where clause predicate
      */
     Predicate getRestriction();
-
 
     /**
      * Return the parameters of the query.  Returns empty set if
