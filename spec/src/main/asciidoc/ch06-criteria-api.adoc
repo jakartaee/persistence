@@ -1905,6 +1905,13 @@ public interface CommonAbstractCriteria {
      */
     Predicate getRestriction();
 
+    /**
+     * Return the parameters of the query.  Returns empty set if
+     * there are no parameters.
+     * Modifications to the set do not affect the query.
+     * @return the query parameters
+     */
+    Set<ParameterExpression<?>> getParameters();
 }
 ----
 
@@ -2378,14 +2385,6 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * @return the list of ordering expressions
      */
     List<Order> getOrderList();
-
-    /**
-     * Return the parameters of the query.  Returns empty set if
-     * there are no parameters.
-     * Modifications to the set do not affect the query.
-     * @return the query parameters
-     */
-    Set<ParameterExpression<?>> getParameters();
 }
 ----
 
