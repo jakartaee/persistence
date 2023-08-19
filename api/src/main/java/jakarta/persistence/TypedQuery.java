@@ -336,4 +336,11 @@ public interface TypedQuery<X> extends Query {
      */
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
+    /**
+     * Set the query timeout.
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 3.2
+     */
+    TypedQuery<X> setTimeout(Integer timeout);
 }

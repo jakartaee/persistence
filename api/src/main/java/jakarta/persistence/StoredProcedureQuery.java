@@ -282,6 +282,14 @@ public interface StoredProcedureQuery extends Query {
     StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
+     * Set the query timeout.
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 3.2
+     */
+    StoredProcedureQuery setTimeout(Integer timeout);
+
+    /**
      * Register a positional parameter.
      * All parameters must be registered.
      * @param position  parameter position
