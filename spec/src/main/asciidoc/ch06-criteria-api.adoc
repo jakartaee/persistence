@@ -88,6 +88,15 @@ undefined.].
 most derived managed class (i.e., entity or mapped superclass) extended
 by _X_, then the metamodel class _pass:[X_]_ must extend the metamodel
 class _pass:[S_]_ created for _S_.
+* The metamodel class must contain a field declaration as follows:
++
+[source,java]
+----
+public static volatile jakarta.persistence.metamodel.T<X> class_;
+----
++
+where _T_ is _EntityType_, _EmbeddableType_, or _MappedSuperclassType_
+depending on whether _X_ is an entity, embeddable, or mapped superclass.
 * For every persistent attribute _y_ declared by class _X_, the
 metamodel class must contain a field declaration as follows:
 +
