@@ -431,9 +431,8 @@ public enum ParameterMode {
 
 ==== Annotations for SQL Result Set Mappings [[a13797]]
 
-The _SqlResultSetMapping_ annotation is used
-to specify the mapping of the result of a native SQL query or stored
-procedure.
+The _SqlResultSetMapping_ annotation is used to specify the mapping of
+the result set of a native SQL query or stored procedure.
 
 [source,java]
 ----
@@ -454,11 +453,12 @@ public @interface SqlResultSetMappings {
 }
 ----
 
-The _name_ element is the name given to the
-result set mapping, and is used to refer to it in the methods of the
-_Query_ and _StoredProcedureQuery_ APIs. The _entities_, _classes_,
-and _columns_ elements are used to specify the mapping to entities,
-constructors, and to scalar values respectively.
+The _name_ element is the name given to the result set mapping, and is
+used to identify it when calling methods of the _EntityManager_ which
+create instances of _Query_ and _StoredProcedureQuery_. The _entities_,
+_classes_, and _columns_ elements are used to specify the mapping of
+result set columns to entities, to constructors, and to scalar values,
+respectively.
 
 [source,java]
 ----
@@ -466,21 +466,23 @@ constructors, and to scalar values respectively.
 @Retention(RUNTIME)
 public @interface EntityResult {
     Class entityClass();
+    LockModeType lockMode() default LockModeType.OPTIMISTIC;
     FieldResult[] fields() default {};
     String discriminatorColumn() default "";
 }
 ----
 
-The _entityClass_ element specifies the class
-of the result.
+The _entityClass_ element specifies the class of the result.
 
-The _fields_ element is used to map the
-columns specified in the SELECT list of the query to the properties or
-fields of the entity class.
+The _lockMode_ element specifies the _LockModeType_ obtained when the
+native SQL query is executed.
 
-The _discriminatorColumn_ element is used to
-specify the column name (or alias) of the column in the SELECT list that
-is used to determine the type of the entity instance.
+The _fields_ element is used to map the columns specified in the SELECT
+list of the query to the properties or fields of the entity class.
+
+The _discriminatorColumn_ element is used to specify the column name
+(or alias) of the column in the SELECT list that is used to determine
+the type of the entity instance.
 
 [source,java]
 ----
@@ -492,12 +494,11 @@ public @interface FieldResult {
 }
 ----
 
-The _name_ element is the name of the
-persistent field or property of the class.
+The _name_ element is the name of the persistent field or property of
+the class.
 
-The _column_ element specifies the name of
-the corresponding column in the SELECT list—i.e., column alias, if
-applicable.
+The _column_ element specifies the name of the corresponding column in
+the SELECT list—i.e., column alias, if applicable.
 
 [source,java]
 ----
@@ -509,12 +510,11 @@ public @interface ConstructorResult {
 }
 ----
 
-The _targetClass_ element specifies the class
-whose constructor is to be invoked.
+The _targetClass_ element specifies the class whose constructor is to
+be invoked.
 
-The _columns_ element specifies the mapping
-of columns in the SELECT list to the arguments of the intended
-constructor.
+The _columns_ element specifies the mapping of columns in the SELECT
+list to the arguments of the intended constructor.
 
 [source,java]
 ----
@@ -526,12 +526,11 @@ public @interface ColumnResult {
 }
 ----
 
-The _name_ element specifies the name of the
-column in the SELECT list.
+The _name_ element specifies the name of the column in the SELECT list.
 
-The _type_ element specifies the Java type to
-which the column type is to be mapped. If the _type_ element is not
-specified, the default JDBC type mapping for the column will be used.
+The _type_ element specifies the Java type to which the column type is
+to be mapped. If the _type_ element is not specified, the default JDBC
+type mapping for the column will be used.
 
 === References to EntityManager and EntityManagerFactory
 
