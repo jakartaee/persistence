@@ -21,15 +21,16 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used in conjunction with the {@link SqlResultSetMapping} annotation to map the SELECT
- * clause of a SQL query to a constructor.
+ * Used in conjunction with the {@link SqlResultSetMapping} or
+ * {@link NamedNativeQuery} annotation to map the SELECT clause
+ * of a SQL query to a constructor.
  *
  * <p>Applies a constructor for the target class, passing in as arguments
- * values from the specified columns.  All columns corresponding
- * to arguments of the intended constructor must be specified using the
+ * values from the specified columns. All columns corresponding to
+ * arguments of the intended constructor must be specified using the
  * <code>columns</code> element of the <code>ConstructorResult</code>
  * annotation in the same order as that of the argument list of the
- * constructor.  Any entities returned as constructor results will be
+ * constructor. Any entities returned as constructor results will be
  * in either the new or detached state, depending on whether a primary
  * key is retrieved for the constructed object.
  * 
@@ -62,21 +63,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </pre>
  *
  * @see SqlResultSetMapping
+ * @see NamedNativeQuery
  * @see ColumnResult
  *
  * @since 2.1
  */
 @Target({}) 
 @Retention(RUNTIME)
-
 public @interface ConstructorResult { 
 
-    /** (Required) The class whose constructor is to be invoked. */
-    Class targetClass();
+    /**
+     * (Required) The class whose constructor is to be invoked.
+     */
+    Class<?> targetClass();
 
     /** 
-     *  (Required) The mapping of columns in the SELECT list to the arguments
-     *  of the intended constructor, in order.
+     * (Required) The mapping of columns in the SELECT list
+     * to the arguments of the intended constructor, in order.
      */
     ColumnResult[] columns();
 }
