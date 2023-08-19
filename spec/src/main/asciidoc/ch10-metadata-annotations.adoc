@@ -290,27 +290,30 @@ public @interface NamedQueries {
 
 ==== NamedNativeQuery Annotation
 
-The _NamedNativeQuery_ annotation is used to
-specify a native SQL named query.
+The _NamedNativeQuery_ annotation defines a named native SQL query.
 
-The _name_ element is used to refer to the
-query when using the _EntityManager_ methods that create query objects.
+The _name_ element specifies the name used to identify the query when
+calling methods of _EntityManager_ which create query objects.
 
-The _query_ element specifies the native
-query.
+The _query_ element specifies the query itself, written in the native SQL
+dialect of the database.
 
-The _resultClass_ element refers to the class
-of the result; the value of the _resultSetMapping_ element is the name
-of a _SqlResultSetMapping_ specification, as defined in metadata.
+The _resultClass_ element specifies the class of the query result.
 
-The _hints_ elements may be used to specify
-query properties and hints. Hints defined by this specification should
-be observed by the provider when possible. Vendor-specific hints that
-are not recognized by a provider must be ignored.
+The _resultSetMapping_ element specifies the name of a
+_SqlResultSetMapping_ specification defined elsewhere in metadata.
+The named _SqlResultSetMapping_ is used to interpret the result set of
+the native SQL query. Alternatively, the elements _entities_, _classes_,
+and _columns_ may be used to specify a result set mapping. These elements
+may not be used in conjunction with _resultSetMapping_.
 
-The _NamedNativeQuery_ and
-_NamedNativeQueries_ annotations can be applied to an entity or mapped
-superclass.
+The _hints_ element may be used to specify query properties and hints.
+Hints defined by this specification should be observed by the provider
+when possible. Vendor-specific hints which are not recognized by the
+provider must be ignored.
+
+The _NamedNativeQuery_ and _NamedNativeQueries_ annotations can be applied
+to an entity or mapped superclass.
 
 [source,java]
 ----
@@ -323,6 +326,9 @@ public @interface NamedNativeQuery {
     QueryHint[] hints() default {};
     Class resultClass() default void.class;
     String resultSetMapping() default "";
+    EntityResult[] entities() default {};
+    ConstructorResult[] classes() default {};
+    ColumnResult[] columns() default {};
 }
 
 @Target({TYPE})

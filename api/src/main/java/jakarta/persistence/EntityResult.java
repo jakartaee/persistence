@@ -21,11 +21,12 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used in conjunction with the {@link SqlResultSetMapping} annotation to map the SELECT
- * clause of a SQL query to an entity result.
+ * Used in conjunction with the {@link SqlResultSetMapping} or
+ * {@link NamedNativeQuery} annotation to map the SELECT clause
+ * of a SQL query to an entity result.
  *
  * <p>If this annotation is used, the SQL statement should select 
- * all of the columns that are mapped to the entity object. 
+ * all the columns that are mapped to the entity object.
  * This should include foreign key columns to related entities. 
  * The results obtained when insufficient data is available 
  * are undefined.
@@ -46,6 +47,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </pre>
  *
  * @see SqlResultSetMapping
+ * @see NamedNativeQuery
  *
  * @since 1.0
  */
@@ -53,8 +55,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface EntityResult { 
 
-    /** The class of the result. */
-    Class entityClass(); 
+    /**
+     * The class of the result.
+     */
+    Class<?> entityClass();
 
     /** 
      * Maps the columns specified in the SELECT list of the 

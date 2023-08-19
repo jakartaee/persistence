@@ -24,10 +24,13 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a named native SQL query.
+ * Specifies a named native SQL query and, optionally, the mapping of
+ * the result of the native SQL query.
  * Query names are scoped to the persistence unit.
  * The <code>NamedNativeQuery</code> annotation can be applied to an 
  * entity or mapped superclass.
+ *
+ * @see SqlResultSetMapping
  *
  * @since 1.0
  */
@@ -42,15 +45,45 @@ public @interface NamedNativeQuery {
      */
     String name();
 
-    /** The SQL query string. */
+    /**
+     * The SQL query string.
+     */
     String query();
 
-    /** Query properties and hints.  (May include vendor-specific query hints.) */
+    /**
+     * Query properties and hints.
+     * (May include vendor-specific query hints.)
+     */
     QueryHint[] hints() default {};
 
-    /** The class of the result. */
-    Class resultClass() default void.class; 
+    /**
+     * The class of the result.
+     */
+    Class<?> resultClass() default void.class;
 
-    /** The name of a {@link SqlResultSetMapping}, as defined in metadata. */
+    /**
+     * The name of a {@link SqlResultSetMapping}, as defined in metadata.
+     */
     String resultSetMapping() default "";
+
+    /**
+     * Specifies the result set mapping to entities.
+     * May not be used in combination with {@link #resultSetMapping}.
+     * @since 3.2
+     */
+    EntityResult[] entities() default {};
+
+    /**
+     * Specifies the result set mapping to constructors.
+     * May not be used in combination with {@link #resultSetMapping}.
+     * @since 3.2
+     */
+    ConstructorResult[] classes() default {};
+
+    /**
+     * Specifies the result set mapping to scalar values.
+     * May not be used in combination with {@link #resultSetMapping}.
+     * @since 3.2
+     */
+    ColumnResult[] columns() default {};
 }

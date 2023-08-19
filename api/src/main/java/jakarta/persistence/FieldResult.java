@@ -51,7 +51,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({}) 
 @Retention(RUNTIME)
-
 public @interface FieldResult { 
 
     /** Name of the persistent field or property of the class. */
