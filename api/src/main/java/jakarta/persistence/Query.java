@@ -547,6 +547,20 @@ public interface Query {
     CacheStoreMode getCacheStoreMode();
 
     /**
+     * Set the query timeout.
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 3.2
+     */
+    Query setTimeout(Integer timeout);
+
+    /**
+     * The query timeout.
+     * @since 3.2
+     */
+    Integer getTimeout();
+
+    /**
      * Return an object of the specified type to allow access to 
      * the provider-specific API.  If the provider's query 
      * implementation does not support the specified class, the 
