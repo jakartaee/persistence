@@ -412,6 +412,56 @@ public interface EntityManagerFactory extends AutoCloseable {
      */
     public <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
 
+    /**
+     * Create a new application-managed {@code EntityManager} with an active
+     * transaction, and execute the given function, passing the {@code EntityManager}
+     * to the function.
+     * <p>
+     * If the transaction type of the persistence unit is JTA, and there is a JTA
+     * transaction already associated with the caller, then the {@code EntityManager}
+     * is associated with this current transaction. If the given function throws an
+     * exception, the JTA transaction is marked for rollback, and the exception is
+     * rethrown.
+     * <p>
+     * Otherwise, if the transaction type of the persistence unit is resource-local,
+     * or if there is no JTA transaction already associated with the caller, then
+     * the {@code EntityManager} is associated with a new transaction. If the given
+     * function returns without throwing an exception, this transaction is committed.
+     * If the function does throw an exception, the transaction is rolled back, and
+     * the exception is rethrown.
+     * <p>
+     * Finally, the {@code EntityManager} is closed before this method returns
+     * control to the client.
+     *
+     * @param work a function to be executed in the scope of the transaction
+     */
+    public void runInTransaction(Consumer<EntityManager> work);
+    /**
+     * Create a new application-managed {@code EntityManager} with an active
+     * transaction, and call the given function, passing the {@code EntityManager}
+     * to the function.
+     * <p>
+     * If the transaction type of the persistence unit is JTA, and there is a JTA
+     * transaction already associated with the caller, then the {@code EntityManager}
+     * is associated with this current transaction. If the given function returns
+     * without throwing an exception, the result of the function is returned. If the
+     * given function throws an exception, the JTA transaction is marked for rollback,
+     * and the exception is rethrown.
+     * <p>
+     * Otherwise, if the transaction type of the persistence unit is resource-local,
+     * or if there is no JTA transaction already associated with the caller, then
+     * the {@code EntityManager} is associated with a new transaction. If the given
+     * function returns without throwing an exception, this transaction is committed
+     * and the result of the function is returned. If the function does throw an
+     * exception, the transaction is rolled back, and the exception is rethrown.
+    * <p>
+     * Finally, the {@code EntityManager} is closed before this method returns
+     * control to the client.
+     *
+     * @param work a function to be called in the scope of the transaction
+     * @return the value returned by the given function
+     */
+    public <R> R callInTransaction(Function<EntityManager,R> work);
 }
 ----
 
@@ -577,14 +627,13 @@ public class PasswordChanger {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        User user = (User)em.createQuery
-            ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass")
+        User user = em.createQuery
+            ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass", User.class)
             .setParameter("name", args[0])
             .setParameter("pass", args[1])
             .getSingleResult();
 
-        if (user!=null)
-            user.setPassword(args[2]);
+        user.setPassword(args[2]);
 
         em.getTransaction().commit();
         em.close();
@@ -592,6 +641,60 @@ public class PasswordChanger {
     }
 }
 ----
+
+=== The runInTransaction and callInTransaction methods
+
+The _runInTransaction_ and _callInTransaction_ methods of the
+_EntityManagerFactory_ provide a shortcut for persistence context
+and transaction management with an application-managed _EntityManager_.
+
+[source,java]
+----
+entityManagerFactory.runInTransaction(entityManager -> {
+    User user = em.createQuery
+        ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass", User.class)
+        .setParameter("name", args[0])
+        .setParameter("pass", args[1])
+        .getSingleResult();
+
+    user.setPassword(args[2]);
+})
+----
+
+The argument function passed to _runInTransaction_ or
+_callInTransaction_ must be called and passed a new instance of
+_EntityManager_. When the argument function returns or throws an
+exception, this _EntityManager_ must be closed before _runInTransaction_
+or _callInTransaction_ returns.
+
+The argument function is executed in the context of a transaction
+associated with this new _EntityManager_.
+
+- If the transaction type of the persistence unit is JTA, and there
+  is a JTA transaction already associated with the caller, then the
+  _EntityManager_ is associated with this current transaction. If the
+  argument function throws an exception, the JTA transaction must be
+  marked for rollback, and the exception must be rethrown by
+  _runInTransaction_ or _callInTransaction_.  Otherwise,
+  _callInTransaction_ must return the same value returned by the
+  argument function.
+
+- Otherwise, if the transaction type of the persistence unit is
+  resource-local, or if there is no JTA transaction already associated
+  with the caller, then the _EntityManager_ is associated with a new
+  transaction. If the argument function throws an exception, this
+  transaction must be rolled back, and then the exception must be
+  rethrown by _runInTransaction_ or _callInTransaction_. If the argument
+  function returns, then _runInTransaction_ or _callInTransaction_ must
+  attempt to commit the transaction. If the attempt to commit the
+  transaction fails, the exception must be rethrown. Otherwise,
+  _callInTransaction_ must return the same value returned by the argument
+  function.
+
+The application should not attempt to manage the lifecycle of the
+transaction or _EntityManager_ directly. If the application calls an
+operation of _EntityTransaction_ from within a call to _runInTransaction_
+or _callInTransaction_, the behavior is undefined.
 
 === Container-managed Persistence Contexts [[a11791]]
 
