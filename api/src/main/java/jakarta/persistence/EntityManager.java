@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -1127,5 +1128,37 @@ public interface EntityManager extends AutoCloseable {
      * @since 2.1
      */
     public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
+
+    /**
+     * Execute the given action using the {@link java.sql.Connection} underlying
+     * this {@code EntityManager}. If this {@code EntityManager} is associated
+     * with a transaction, the action is executed in the context of the transaction.
+     * The given action should close any JDBC resources it creates, but should not
+     * close the connection itself, nor commit or roll back the transaction. If the
+     * given action throws an exception, the persistence provider must mark the
+     * transaction for rollback.
+     * @param action the action
+     * @throws PersistenceException wrapping the {@link java.sql.SQLException}
+     *         thrown by {@link ConnectionConsumer#accept}, if any
+     * @since 3.2
+     */
+    public void runWithConnection(ConnectionConsumer action);
+
+    /**
+     * Call the given function and return its result using the
+     * {@link java.sql.Connection} underlying this {@code EntityManager}. If this
+     * {@code EntityManager} is associated with a transaction, the function is
+     * executed in the context of the transaction. The given function should close
+     * any JDBC resources it creates, but should not close the connection itself,
+     * nor commit or roll back the transaction. If the given action throws an
+     * exception, the persistence provider must mark the transaction for rollback.
+     * @param function the function
+     * @param <T> the type of result returned by the function
+     * @return the value returned by {@link ConnectionFunction#apply}.
+     * @throws PersistenceException wrapping the {@link java.sql.SQLException}
+     *         thrown by {@link ConnectionFunction#apply}, if any
+     * @since 3.2
+     */
+    public <T> T callWithConnection(ConnectionFunction<T> function);
 
 }

@@ -112,6 +112,8 @@ Added `union`, `intersect`, and `except` for JPQL and criteria queries
 
 Added `||` string concatenation operator
 
+Added _runWithConnection()_ and _callWithConnection()_ to _EntityManager_
+
 Added _runInTransaction()_ and _callInTransaction()_ to _EntityManagerFactory_
 
 Added support for specifying null precedence when ordering JPQL and criteria queries
