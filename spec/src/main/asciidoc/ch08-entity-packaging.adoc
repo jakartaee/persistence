@@ -466,6 +466,9 @@ environments:
 milliseconds for pessimistic lock timeout. This is a hint only.
 * _jakarta.persistence.query.timeout_ — value in
 milliseconds for query timeout. This is a hint only.
+* _jakarta.persistence.defaultFetchType_ — specifies whether associations
+mapped _fetch=DEFAULT_ should be treated as LAZY or EAGER (by default,
+they are EAGER).
 * _jakarta.persistence.validation.group.pre-persist_ — groups that are
 targeted for validation upon the pre-persist event (overrides the
 default behavior).

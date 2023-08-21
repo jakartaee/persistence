@@ -2874,7 +2874,7 @@ for the _ManyToOne_ annotation and their default values.
 public @interface ManyToOne {
     Class targetEntity() default void.class;
     CascadeType[] cascade() default {};
-    FetchType fetch() default EAGER;
+    FetchType fetch() default DEFAULT;
     boolean optional() default true;
 }
 ----
@@ -2911,8 +2911,10 @@ cascaded to the target of the association.
 lazily loaded or must be eagerly fetched. The EAGER strategy is a
 requirement on the persistence provider runtime that the associated
 entity must be eagerly fetched. The LAZY strategy is a hint to the
-persistence provider runtime.
-|EAGER
+persistence provider runtime.  The DEFAULT strategy selects between
+EAGER and LAZY depending on the value of the property
+_jakarta.persistence.defaultFetchType_.
+|DEFAULT
 
 |boolean
 |optional
@@ -3964,7 +3966,7 @@ for the _OneToOne_ annotation and their default values.
 public @interface OneToOne {
     Class targetEntity() default void.class;
     CascadeType[] cascade() default {};
-    FetchType fetch() default EAGER;
+    FetchType fetch() default DEFAULT;
     boolean optional() default true;
     String mappedBy() default "";
     boolean orphanRemoval() default false;
@@ -4019,8 +4021,11 @@ relationship or otherwise attempt to persist it.
 lazily loaded or must be eagerly fetched. The EAGER strategy is a
 requirement on the persistence provider runtime that the associated
 entity must be eagerly fetched. The LAZY strategy is a hint to the
-persistence provider runtime.
-|EAGER
+persistence provider runtime. The DEFAULT strategy selects between
+EAGER and LAZY depending on the value of the property
+_jakarta.persistence.defaultFetchType_.
+_
+|DEFAULT
 
 |boolean
 |optional

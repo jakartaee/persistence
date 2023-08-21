@@ -1398,6 +1398,9 @@ same name in the _persistence.xml_, and is a hint only. See <<a2132>>.
 value in milliseconds for query timeout or string corresponding to
 integer value. This corresponds to the property of the same name in the
 _persistence.xml_, and is a hint only. See <<a4391>>.
+* _jakarta.persistence.defaultFetchType_ — specifies whether associations
+mapped _fetch=DEFAULT_ should be treated as LAZY or EAGER (by default,
+they are EAGER).
 * _jakarta.persistence.provider_ — string
 corresponding to the _provider_ element in the pe _rsistence.xml_. See
 <<a12300>>.

@@ -2318,7 +2318,7 @@ object/relational mapping schema for use with the persistence API.
         public @interface ManyToOne {
           Class targetEntity() default void.class;
           CascadeType[] cascade() default {};
-          FetchType fetch() default EAGER;
+          FetchType fetch() default DEFAULT;
           boolean optional() default true;
         }
 
@@ -2744,7 +2744,7 @@ object/relational mapping schema for use with the persistence API.
         public @interface OneToOne {
           Class targetEntity() default void.class;
           CascadeType[] cascade() default {};
-          FetchType fetch() default EAGER;
+          FetchType fetch() default DEFAULT;
           boolean optional() default true;
           String mappedBy() default "";
           boolean orphanRemoval() default false;
