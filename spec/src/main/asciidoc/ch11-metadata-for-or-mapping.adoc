@@ -538,16 +538,25 @@ _java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
 _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
 _java.time.LocalDate_, _java.time.LocalTime_, _java.time.LocalDateTime_,
 _java.time.OffsetTime_, _java.time.OffsetDateTime_,
+_java.time.Instant_ and _java.time.Year_,
 _byte[]_, _Byte[]_, _char[]_, _Character[]_, enums, and any other type
-that implements _Serializable_.footnote:[Mapping of
-java.time.LocalDate, java.time.LocalTime, java.time.LocalDateTime,
-java.time.OffsetTime, and java.time.OffsetDateTime types to columns
-other than those supported by the mappings defined by Appendix B of the
-JDBC 4.2 specification is not required to be supported by the
-persistence provider beyond the support required for other serializable
-types. See <<a19496>>.] As described in <<a511>>, the use of the _Basic_
-annotation is optional for persistent fields and properties of these
-types. If the _Basic_ annotation is not specified for such a field or
+that implements _Serializable_.
+
+For the types listed above, the persistence provider must support mappings
+to the column types listed in tables B-2 and B-4 of Appendix B of the
+JDBC 4.3 specification. See <<a19496>>. In addition, the provider must
+support mapping:
+
+- _java.time.Instant_ to the JDBC _TIMESTAMP_ or _TIMESTAMP_WITH_TIMEZONE_ type,
+- _java.time.Year_ to the JDBC _INTEGER_ and _SMALLINT_ types,
+- _java.math.BigInteger_ and _java.math.BigDecimal_ to the JDBC _NUMERIC_ and _DECIMAL_ types,
+- _java.util.UUID_ to the JDBC _CHAR_ and _VARCHAR_ types, and
+- _char[]_ to the JDBC _CHAR_, _NCHAR_, _VARCHAR_, _NVARCHAR_, _LONGVARCHAR_,
+and _LONGNVARCHAR_ types.
+
+As described in <<a511>>, the use of the _Basic_
+annotation is optional for persistent fields and properties of the
+types listed above. If the _Basic_ annotation is not specified for such a field or
 property, the default values of the _Basic_ annotation will apply.
 
 [source,java]
@@ -852,6 +861,8 @@ public @interface Column {
     int length() default 255;
     int precision() default 0; // decimal precision
     int scale() default 0; // decimal scale
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -925,6 +936,18 @@ if a string-valued column is used.)
 |(Optional) The scale for a decimal (exact
 numeric) column. (Applies only if a decimal column is used.)
 |0
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:*
@@ -1833,29 +1856,39 @@ defined by the _GenerationType_ enum:
 public enum GenerationType { TABLE, SEQUENCE, IDENTITY, UUID, AUTO };
 ----
 
-The _TABLE_ generator type value indicates
-that the persistence provider must assign primary keys for the entity
-using an underlying database table to ensure uniqueness.
+The _TABLE_ generator type value indicates that the persistence
+provider must assign primary keys for the entity using an underlying
+database table to ensure uniqueness.
 
-The _SEQUENCE_ and _IDENTITY_ values
-specify the use of a database sequence or identity column,
-respectively.footnote:[Note that SEQUENCE
-and IDENTITY are not portable across all databases.]
+The _SEQUENCE_ and _IDENTITY_ values specify the use of a database
+sequence or identity column, respectively.footnote:[Note that
+_SEQUENCE_ and _IDENTITY_ are not portable across all databases.]
 
-The further specification of table generators
-and sequence generators is described in <<a16164>> and <<a16256>>.
+The further specification of table generators and sequence generators
+is described in <<a16164>> and <<a16256>>.
+
+A _TABLE_, _SEQUENCE_, or _IDENTITY_ generator may be used to generate
+values for a primary key property or field of type _java.lang.Long_,
+_java.lang.Integer_, _long_, or _int_.
 
 The _UUID_ value indicates that the persistence provider should
 assign an RFC 4122 Universally Unique IDentifier.
 
-The _AUTO_ value indicates that the
-persistence provider should pick an appropriate strategy for the
-particular database. The _AUTO_ generation strategy may expect a
-database resource to exist, or it may attempt to create one. A vendor
-may provide documentation on how to create such resources in the event
-that it does not support schema generation or cannot create the schema
-resource at runtime. In the case of a field or property of type
-_java.util.UUID_, the _AUTO_ strategy is equivalent to _UUID_.
+A _UUID_ generator may be used to generate values for a primary key
+property or field of type _java.util.UUID_ or _java.lang.String_.
+
+The _AUTO_ value indicates that the persistence provider should pick
+an appropriate strategy given the type of the primary key property or
+field, and the capabilities of the particular database. In the case of
+a field or property of type _java.util.UUID_ or _java.lang.String_,
+the _AUTO_ strategy is equivalent to _UUID_. In the case of a field or
+property of type _java.lang.Long_, _java.lang.Integer_, _long_, or _int_,
+the _AUTO_ strategy may select between _TABLE_, _SEQUENCE_, or _IDENTITY_.
+
+The _AUTO_ generation strategy may expect a database resource to exist,
+or it may attempt to create one. A vendor may provide documentation on
+how to create such resources in the event that it does not support
+schema generation or cannot create the schema resource at runtime.
 
 This specification does not define the exact
 behavior of these strategies.
@@ -2178,6 +2211,8 @@ public @interface JoinColumn {
     String columnDefinition() default "";
     String table() default "";
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -2272,6 +2307,18 @@ join is for an element collection, the name of the collection table.
 |(Optional) The foreign key constraint for
 the join column. This is used only if table generation is in effect.
 |Provider's default
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:*
@@ -2407,6 +2454,8 @@ public @interface JoinTable {
     ForeignKey inverseForeignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -2471,6 +2520,18 @@ effect.
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*
@@ -3534,6 +3595,8 @@ public @interface MapKeyTemporal {
 }
 ----
 
+The _MapKeyTemporal_ enum is deprecated, and its use in newly-written code is strongly discouraged.
+
 <<a15593>> lists the annotation elements that
 may be specified for the _MapKeyTemporal_ annotation and their default
 values. The _TemporalType_ enum is defined in <<a16361>>.
@@ -4541,6 +4604,8 @@ public @interface SecondaryTable {
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -4589,6 +4654,18 @@ entailed by primary key mappings.
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:* Single secondary table with a single primary key column.
@@ -4687,6 +4764,11 @@ generator may be specified on the entity class or on the primary key
 field or property. The scope of the generator name is global to the
 persistence unit (across all generator types).
 
+If no name is explicitly specified by the _SequenceGenerator_ annotation,
+and the annotation occurs on an entity class or primary key attribute of
+an entity class, then the name defaults to the name of the entity.
+Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
+
 <<a16179>> lists the annotation elements
 that may be specified for the _SequenceGenerator_ annotation and their
 default values.
@@ -4697,7 +4779,7 @@ default values.
 @Retention(RUNTIME)
 @Repeatable(SequenceGenerators.class)
 public @interface SequenceGenerator {
-    String name();
+    String name() default "";
     String sequenceName() default "";
     String catalog() default "";
     String schema() default "";
@@ -4806,6 +4888,8 @@ public @interface Table {
     String schema() default "";
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -4844,6 +4928,18 @@ constraints
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*
@@ -4864,6 +4960,11 @@ generator may be specified on the entity class or on the primary key
 field or property. The scope of the generator name is global to the
 persistence unit (across all generator types).
 
+If no name is explicitly specified by the _TableGenerator_ annotation,
+and the annotation occurs on an entity class or primary key attribute
+of an entity class, then the name defaults to the name of the entity.
+Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
+
 <<a162771>> lists the annotation elements that
 may be specified for the _TableGenerator_ annotation and their default
 values.
@@ -4880,7 +4981,7 @@ primary key values are normally positive integers.
 @Retention(RUNTIME)
 @Repeatable(TableGenerators.class)
 public @interface TableGenerator {
-    String name();
+    String name() default "";
     String table() default "";
     String catalog() default "";
     String schema() default "";
@@ -5064,6 +5165,8 @@ public @interface Temporal {
     TemporalType value();
 }
 ----
+
+The _Temporal_ annotation and _TemporalType_ enum are deprecated, and their use in newly-written code is strongly discouraged.
 
 <<a16378>> lists the annotation elements that may be specified
 for the _Temporal_ annotation and their default values.

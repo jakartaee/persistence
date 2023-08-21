@@ -1206,6 +1206,15 @@ public interface CriteriaBuilder {
 
     /**
      *  Create an expression for string concatenation.
+     *  If the given list of expressions is empty, returns
+     *  an expression equivalent to {@code literal("")}.
+     *  @param expressions  string expressions
+     *  @return expression corresponding to concatenation
+     */
+    Expression<String> concat(List<Expression<String>> expressions);
+
+    /**
+     *  Create an expression for string concatenation.
      *  @param x  string expression
      *  @param y  string expression
      *  @return expression corresponding to concatenation
@@ -1368,6 +1377,77 @@ public interface CriteriaBuilder {
      */
     Expression<Integer> length(Expression<String> x);
 
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, String replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, String replacement);
 
     /**
      * Create expression to locate the position of one string
@@ -2757,6 +2837,38 @@ public interface Expression<T> extends Selection<T> {
      *  @return predicate testing whether the expression is not null
      */
     Predicate isNotNull();
+
+    /**
+     * Create a predicate to test whether the expression is equal to
+     * the argument.
+     * @param value  expression to be tested against
+     * @return predicate testing for equality
+     */
+    Predicate equalTo(Expression<?> value);
+
+    /**
+     * Create a predicate to test whether the expression is equal to
+     * the argument.
+     * @param value  value to be tested against
+     * @return predicate testing for equality
+     */
+    Predicate equalTo(Object value);
+
+    /**
+     * Create a predicate to test whether the expression is unequal
+     * to the argument.
+     * @param value  expression to be tested against
+     * @return predicate testing for inequality
+     */
+    Predicate notEqualTo(Expression<?> value);
+
+    /**
+     * Create a predicate to test whether the expression is unequal
+     * to the argument.
+     * @param value  value to be tested against
+     * @return predicate testing for inequality
+     */
+    Predicate notEqualTo(Object value);
 
     /**
      * Create a predicate to test whether the expression is a member

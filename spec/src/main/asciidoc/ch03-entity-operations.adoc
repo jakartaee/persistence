@@ -2772,14 +2772,344 @@ override these annotations or to define additional named entity graphs.
 The semantics of entity graphs with regard to
 find and query operations are described in <<a2814>>.
 
-==== EntityGraph Interface
+==== Graph Interface
 
 [source,java]
 ----
 package jakarta.persistence;
 
 import jakarta.persistence.metamodel.Attribute;
+import jakarta.persistence.metamodel.MapAttribute;
+import jakarta.persistence.metamodel.PluralAttribute;
+
 import java.util.List;
+
+/**
+* Declares operations common to {@link EntityGraph} and {@link Subgraph}.
+*
+* @see EntityGraph
+* @see Subgraph
+*
+* @since 3.2
+*/
+public interface Graph<T> {
+
+    /**
+     * Add an attribute nodes to the entity graph.
+     *
+     * @param attributeName  name of the attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public void addAttributeNode(String attributeName);
+
+    /**
+     * Add an attribute node to the entity graph.
+     *
+     * @param attribute  attribute
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public void addAttributeNode(Attribute<? super T, ?> attribute);
+
+    /**
+     * Add one or more attribute nodes to the entity graph.
+     *
+     * @param attributeName  name of the attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this managed type.
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     */
+    public void addAttributeNodes(String ... attributeName);
+
+    /**
+     * Add one or more attribute nodes to the entity graph.
+     * @param attribute  attribute
+     *
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     */
+    public void addAttributeNodes(Attribute<? super T, ?>... attribute);
+
+    /**
+     * Add a node to the graph that corresponds to a managed
+     * type. This allows for construction of multi-node entity graphs
+     * that include related managed types.
+     *
+     * @param attribute  attribute
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     */
+    public <X> Subgraph<X> addSubgraph(Attribute<? super T, X> attribute);
+
+    /**
+     * Add a node to the graph that corresponds to a managed
+     * type with inheritance.  This allows for multiple subclass
+     * subgraphs to be defined for this node of the entity
+     * graph. Subclass subgraphs will automatically include the
+     * specified attributes of superclass subgraphs.
+     *
+     * @param attribute  attribute
+     * @param type  entity subclass
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public <Y> Subgraph<Y> addTreatedSubgraph(Attribute<? super T, ? super Y> attribute, Class<Y> type);
+
+    /**
+     * Add a node to the graph that corresponds to a managed
+     * type with inheritance.  This allows for multiple subclass
+     * subgraphs to be defined for this node of the entity
+     * graph. Subclass subgraphs will automatically include the specified
+     * attributes of superclass subgraphs
+     *
+     * @param attribute  attribute
+     * @param type  entity subclass
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     * @deprecated use {@link #addTreatedSubgraph(Attribute, Class)}
+     */
+    @Deprecated(since = "3.2", forRemoval = true)
+    public <X> Subgraph<? extends X> addSubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
+
+    /**
+     * Add a node to the graph that corresponds to a managed
+     * type. This allows for construction of multi-node entity graphs
+     * that include related managed types.
+     *
+     * @param attributeName  name of the attribute
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this managed type.
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     */
+    public <X> Subgraph<X> addSubgraph(String attributeName);
+
+    /**
+     * Add a node to the graph that corresponds to a managed
+     * type with inheritance.  This allows for multiple subclass
+     * subgraphs to be defined for this node of the entity
+     * graph. Subclass subgraphs will automatically include the
+     * specified attributes of superclass subgraphs
+     *
+     * @param attributeName  name of the attribute
+     * @param type  entity subclass
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute is not
+     *         an attribute of this managed type.
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     */
+    public <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
+
+    /**
+     * Add a node to the graph that corresponds to a collection element
+     * that is a managed type. This allows for construction of
+     * multi-node entity graphs that include related managed types.
+     *
+     * @param attribute  attribute
+     * @return subgraph for the element attribute
+     * @throws IllegalArgumentException if the attribute's target type
+     *         is not an entity
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public <E> Subgraph<E> addElementSubgraph(PluralAttribute<? super T, ?, E> attribute);
+
+    /**
+     * Add a node to the graph that corresponds to a collection element
+     * that is a managed type. This allows for construction of
+     * multi-node entity graphs that include related managed types.
+     *
+     * @param attribute  attribute
+     * @return subgraph for the element attribute
+     * @throws IllegalArgumentException if the attribute's target type
+     *         is not an entity
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    public <E> Subgraph<E> addTreatedElementSubgraph(PluralAttribute<? super T, ?, ? super E> attribute, Class<E> type);
+
+    /**
+     * Add a node to the graph that corresponds to a collection element
+     * that is a managed type. This allows for construction of
+     * multi-node entity graphs that include related managed types.
+     *
+     * @param attributeName  name of the attribute
+     * @return subgraph for the element attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if this EntityGraph has been
+     *          statically defined
+     */
+    public <X> Subgraph<X> addElementSubgraph(String attributeName);
+
+    /**
+     * Add a node to the graph that corresponds to a collection element
+     * that is a managed type. This allows for construction of
+     * multi-node entity graphs that include related managed types.
+     *
+     * @param attributeName  name of the attribute
+     * @param type  entity subclass
+     * @return subgraph for the element attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if this EntityGraph has been
+     *          statically defined
+     */
+    public <X> Subgraph<X> addElementSubgraph(String attributeName, Class<X> type);
+
+    /**
+     * Add a node to the graph that corresponds to a map key
+     * that is a managed type. This allows for construction of
+     * multi-node entity graphs that include related managed types.
+     *
+     * @param attribute  attribute
+     * @return subgraph for the key attribute
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type entity
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     */
+    public <K> Subgraph<K> addMapKeySubgraph(MapAttribute<? super T, K, ?> attribute);
+
+    /**
+     * Add a node to the graph that corresponds to a map key
+     * that is a managed type with inheritance. This allows for
+     * construction of multi-node entity graphs that include related
+     * managed types.  Subclass subgraphs will automatically include
+     * the specified attributes of superclass subgraphs
+     *
+     * @param attribute  attribute
+     * @param type  entity subclass
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type entity
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     */
+    public <K> Subgraph<K> addTreatedMapKeySubgraph(MapAttribute<? super T, ? super K, ?> attribute, Class<K> type);
+
+    /**
+     * Add a node to the graph that corresponds to a map key
+     * that is a managed type. This allows for construction of
+     * multi-node entity graphs that include related managed types.
+     *
+     * @param attribute  attribute
+     * @return subgraph for the key attribute
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type entity
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     * @deprecated use {@link #addMapKeySubgraph(MapAttribute)}
+     */
+    @Deprecated(since = "3.2", forRemoval = true)
+    public <X> Subgraph<X> addKeySubgraph(Attribute<? super T, X> attribute);
+
+    /**
+     * Add a node to the graph that corresponds to a map key
+     * that is a managed type with inheritance. This allows for
+     * construction of multi-node entity graphs that include related
+     * managed types.  Subclass subgraphs will automatically include
+     * the specified attributes of superclass subgraphs
+     *
+     * @param attribute  attribute
+     * @param type  entity subclass
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type entity
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     * @deprecated use {@link #addTreatedMapKeySubgraph(MapAttribute, Class)}
+     */
+    @Deprecated(since = "3.2", forRemoval = true)
+    public <X> Subgraph<? extends X> addKeySubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
+
+    /**
+     * Add a node to the graph that corresponds to a map key
+     * that is a managed type. This allows for construction of
+     * multi-node entity graphs that include related managed types.
+     *
+     * @param attributeName  name of the attribute
+     * @return subgraph for the key attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if this EntityGraph has been
+     *          statically defined
+     */
+    public <X> Subgraph<X> addKeySubgraph(String attributeName);
+
+    /**
+     * Add a node to the graph that corresponds to a map key
+     * that is a managed type with inheritance. This allows for
+     * construction of multi-node entity graphs that include related
+     * managed types.  Subclass subgraphs will include the specified
+     * attributes of superclass subgraphs
+     *
+     * @param attributeName  name of the attribute
+     * @param type  entity subclass
+     * @return subgraph for the attribute
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws IllegalArgumentException if the attribute's target
+     *         type is not a managed type
+     * @throws IllegalStateException if this EntityGraph has been
+     *         statically defined
+     */
+    public <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
+
+    /**
+     * Return the attribute nodes corresponding to the attributes of
+     * this managed type that are included in the graph.
+     * @return list of attribute nodes included in the graph or an
+     * empty list if none have been defined
+     */
+    public List<AttributeNode<?>> getAttributeNodes();
+
+}
+----
+
+The deprecated methods of this interface will be removed
+in a future major release of this specification.
+
+==== EntityGraph Interface
+
+[source,java]
+----
+package jakarta.persistence;
 
 /**
  * This type represents the root of an entity graph that will be used
@@ -2799,7 +3129,7 @@ import java.util.List;
  *
  * @since 2.1
  */
-public interface EntityGraph<T> {
+public interface EntityGraph<T> extends Graph<T> {
 
     /**
      * Return the name of a named EntityGraph (an entity graph
@@ -2809,159 +3139,6 @@ public interface EntityGraph<T> {
      * EntityGraph is not a named EntityGraph.
      */
     public String getName();
-
-    /**
-     * Add one or more attribute nodes to the entity graph.
-     *
-     * @param attributeName  name of the attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     */
-    public void addAttributeNodes(String ... attributeName);
-
-    /**
-     * Add one or more attribute nodes to the entity graph.
-     *
-     * @param attribute  attribute
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     */
-    public void addAttributeNodes(Attribute<T, ?>... attribute);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type. This allows for construction of multi-node entity graphs
-     * that include related managed types.
-     *
-     * @param attribute  attribute
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute's target type
-     *         is not a managed type
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addSubgraph(Attribute<T, X> attribute);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type with inheritance.  This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity
-     * graph. Subclass subgraphs will automatically include the
-     * specified attributes of superclass subgraphs.
-     *
-     * @param attribute  attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<? extends X> addSubgraph(Attribute<T, X> attribute, Class<? extends X> type);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type. This allows for construction of multi-node entity graphs
-     * that include related managed types.
-     *
-     * @param attributeName  name of the attribute
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
-     * @throws IllegalArgumentException if the attribute's target type
-     *         is not a managed type
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addSubgraph(String attributeName);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type with inheritance.  This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity graph.
-     * Subclass subgraphs will automatically include the specified
-     * attributes of superclass subgraphs.
-     *
-     * @param attributeName  name of the attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this managed type.
-     * @throws IllegalArgumentException if the attribute's target type
-     *         is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type. This allows for construction of
-     * multi-node entity graphs that include related managed types.
-     *
-     * @param attribute  attribute
-     * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute's target type
-     *         is not an entity
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addKeySubgraph(Attribute<T, X> attribute);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type with inheritance. This allows for
-     * construction of multi-node entity graphs that include related
-     * managed types.  Subclass subgraphs will include the specified
-     * attributes of superclass subgraphs.
-     *
-     * @param attribute  attribute
-     * @param type  entity subclass
-     * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute's target type
-     *         is not an entity
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<? extends X> addKeySubgraph(Attribute<T, X> attribute, Class<? extends X> type);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type. This allows for construction of
-     * multi-node entity graphs that include related managed types.
-     *
-     * @param attributeName  name of the attribute
-     * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
-     * @throws IllegalArgumentException if the attribute's target type
-     *         is not an entity
-     * @throws IllegalStateException if this EntityGraph has been
-     *          statically defined
-     */
-    public <X> Subgraph<X> addKeySubgraph(String attributeName);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type with inheritance. This allows for
-     * construction of multi-node entity graphs that include related
-     * managed types. Subclass subgraphs will automatically include
-     * the specified attributes of superclass subgraphs
-     *
-     * @param attributeName  name of the attribute
-     * @param type  entity subclass
-     * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
-     * @throws IllegalArgumentException if the attribute's target type
-     *         is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
-
 
     /**
      * Add additional attributes to this entity graph that
@@ -2975,19 +3152,29 @@ public interface EntityGraph<T> {
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
      */
-    public <T> Subgraph<? extends T> addSubclassSubgraph(Class<? extends T> type);
-
+    public <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
 
     /**
-     * Return the attribute nodes of this entity that are included in
-     * the entity graph.
-     * @return attribute nodes for the annotated entity type or empty
-     *         list if none have been defined
+     * Add additional attributes to this entity graph that
+     * correspond to attributes of subclasses of this EntityGraph's
+     * entity type.  Subclass subgraphs will automatically include the
+     * specified attributes of superclass subgraphs.
+     *
+     * @param type  entity subclass
+     * @return subgraph for the subclass
+     * @throws IllegalArgumentException if the type is not an entity type
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     * @deprecated use {@link #addTreatedSubgraph(Class)}
      */
-    public List<AttributeNode<?>> getAttributeNodes();
+    @Deprecated(since = "3.2", forRemoval = true)
+    public <T> Subgraph<? extends T> addSubclassSubgraph(Class<? extends T> type);
 
 }
 ----
+
+The deprecated method of this interface will be removed
+in a future major release of this specification.
 
 ==== AttributeNode Interface
 
@@ -3041,9 +3228,6 @@ public interface AttributeNode<T> {
 ----
 package jakarta.persistence;
 
-import jakarta.persistence.metamodel.Attribute;
-import java.util.List;
-
 /**
  * This type represents a subgraph for an attribute node that
  * corresponds to a Managed Type. Using this class, an entity subgraph
@@ -3057,173 +3241,14 @@ import java.util.List;
  *
  * @since 2.1
  */
-public interface Subgraph<T> {
-
-    /**
-     * Add one or more attribute nodes to the entity graph.
-     *
-     * @param attributeName  name of the attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this managed type.
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     */
-    public void addAttributeNodes(String ... attributeName);
-
-    /**
-     * Add one or more attribute nodes to the entity graph.
-     * @param attribute  attribute
-     *
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public void addAttributeNodes(Attribute<T, ?>... attribute);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type. This allows for construction of multi-node entity graphs
-     * that include related managed types.
-     *
-     * @param attribute  attribute
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addSubgraph(Attribute<T, X> attribute);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type with inheritance.  This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity
-     * graph. Subclass subgraphs will automatically include the specified
-     * attributes of superclass subgraphs
-     *
-     * @param attribute  attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<? extends X> addSubgraph(Attribute<T, X> attribute, Class<? extends X> type);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type. This allows for construction of multi-node entity graphs
-     * that include related managed types.
-     *
-     * @param attributeName  name of the attribute
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this managed type.
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addSubgraph(String attributeName);
-
-    /**
-     * Add a node to the graph that corresponds to a managed
-     * type with inheritance.  This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity
-     * graph. Subclass subgraphs will automatically include the
-     * specified attributes of superclass subgraphs
-     *
-     * @param attributeName  name of the attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not
-     *         an attribute of this managed type.
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type. This allows for construction of
-     * multinode entity graphs that include related managed types.
-     *
-     * @param attribute  attribute
-     * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type entity
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addKeySubgraph(Attribute<T, X> attribute);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type with inheritance. This allows for
-     * construction of multi-node entity graphs that include related
-     * managed types.  Subclass subgraphs will automatically include
-     * the specified attributes of superclass subgraphs
-     *
-     * @param attribute  attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type entity
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<? extends X> addKeySubgraph(Attribute<T, X> attribute, Class<? extends X> type);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type. This allows for construction of
-     * multi-node entity graphs that include related managed types.
-     *
-     * @param attributeName  name of the attribute
-     * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been
-     *          statically defined
-     */
-    public <X> Subgraph<X> addKeySubgraph(String attributeName);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type with inheritance. This allows for
-     * construction of multi-node entity graphs that include related
-     * managed types.  Subclass subgraphs will include the specified
-     * attributes of superclass subgraphs
-     *
-     * @param attributeName  name of the attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
-     * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
-     */
-    public <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
-
-    /**
-     * Return the attribute nodes corresponding to the attributes of
-     * this managed type that are included in the subgraph.
-     * @return list of attribute nodes included in the subgraph or
-     * empty List if none have been defined
-     */
-    public List<AttributeNode<?>> getAttributeNodes();
+public interface Subgraph<T> extends Graph<T> {
 
     /**
      * Return the type for which this subgraph was defined.
      * @return managed type referenced by the subgraph
      */
     public Class<T> getClassType();
+
 }
 ----
 
@@ -4004,6 +4029,28 @@ public interface Query {
     Object getSingleResult();
 
     /**
+     * Execute a SELECT query that returns a single untyped result.
+     * @return the result, or null if there is no result
+     * @throws NonUniqueResultException if more than one result
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         <code>NONE</code> has been set and there is no transaction
+     *         or the persistence context has not been joined to the transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    Object getSingleResultOrNull();
+
+    /**
      * Execute an update or delete statement.
      * @return the number of entities updated or deleted
      * @throws IllegalStateException if called for a Jakarta
@@ -4480,6 +4527,28 @@ public interface TypedQuery<X> extends Query {
      *         is rolled back
      */
     X getSingleResult();
+
+    /**
+     * Execute a SELECT query that returns a single untyped result.
+     * @return the result, or null if there is no result
+     * @throws NonUniqueResultException if more than one result
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         <code>NONE</code> has been set and there is no transaction
+     *         or the persistence context has not been joined to the transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    X getSingleResultOrNull();
 
     /**
      * Set the maximum number of results to retrieve.
@@ -5174,6 +5243,25 @@ public interface StoredProcedureQuery extends Query {
     Object getSingleResult();
 
     /**
+     * Retrieve a single result from the next result set.
+     * The provider will call <code>execute</code> on the query
+     * if needed.
+     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
+     * in the order the <code>REF_CURSOR</code> parameter was
+     * registered with the query.
+     * @return the result or null if the next item is not a result set
+     *         or if there is no result in the next result set
+     * @throws NonUniqueResultException if more than one result
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    Object getSingleResultOrNull();
+
+    /**
      * Return true if the next result corresponds to a result set,
      * and false if it is an update count or if there are no results
      * other than through INOUT and OUT parameters, if any.
@@ -5206,11 +5294,11 @@ public interface StoredProcedureQuery extends Query {
 
 ==== Query Execution
 
-Jakarta Persistence query language, Criteria
-API, and native SQL select queries are executed using the
-_getResultList_ and _getSingleResult_ methods. Update and delete
-operations (update and delete “queries”) are executed using the
-_executeUpdate_ method.
+Jakarta Persistence query language, Criteria API, and native SQL
+select queries are executed using the methods _getResultList_,
+_getSingleResult_, and _getSingleResultOrNull_.
+Update and delete operations (update and delete “queries”) are
+executed using the _executeUpdate_ method.
 
 * For _TypedQuery_ instances, the query result
 type is determined in the case of criteria queries by the type of the
@@ -5232,8 +5320,8 @@ _Object[]_. If only a single item is returned as a result of the SQL
 result set mapping or if a result class is specified, the elements of
 the query result are of type _Object_.
 
-Stored procedure queries can be executed
-using the _getResultList_, _getSingleResult_, and _execute_ methods.
+Stored procedure queries can be executed using the _getResultList_,
+_getSingleResult_, _getSingleResultOrNull_, and _execute_ methods.
 Stored procedures that perform only updates or deletes can be executed
 using the _executeUpdate_ method. Stored procedure query execution is
 described in detail in <<a4625>>.
@@ -5256,10 +5344,10 @@ supported for stored procedure queries.
 _Query_ and _TypedQuery_ methods other than
 the _executeUpdate_ method are not required to be invoked within a
 transaction context, unless a lock mode other than _LockModeType.NONE_
-has been specified for the query. In particular, the _getResultList_ and
-_getSingleResult_ methods are not required to be invoked within a
-transaction context unless such a lock mode has been specified for the
-queryfootnote:[A lock mode is
+has been specified for the query. In particular, the _getResultList_,
+_getSingleResult_, and _getSingleResultOrNull_ methods are not required
+to be invoked within a transaction context unless such a lock mode has
+been specified for the queryfootnote:[A lock mode is
 specified for a query by means of the _setLockMode_ method or by
 specifying the lock mode in the _NamedQuery_ annotation.]. If an entity manager with
 transaction-scoped persistence context is in use, the resulting entities
@@ -5944,10 +6032,10 @@ the values of all required IN and INOUT parameters. It is not required
 to set the values of stored procedure parameters for which default
 values have been defined by the stored procedure.
 
-When _getResultList_ and _getSingleResult_
+When _getResultList_, _getSingleResult_, and _getSingleResultOrNull_
 are called on a _StoredProcedureQuery_ object, the persistence provider
 will call _execute_ on an unexecuted stored procedure query before
-processing _getResultList_ or _getSingleResult_.
+processing _getResultList_, _getSingleResult_ or _getSingleResultOrNull_.
 
 When _executeUpdate_ is called on a
 _StoredProcedureQuery_ object, the persistence provider will call
@@ -5966,10 +6054,10 @@ first result is a result set, and _false_ if it is an update count or
 there are no results other than through INOUT and OUT parameters, if
 any.
 
-If the _execute_ method returns _true_, the
-pending result set can be obtained by calling _getResultList_ or
-_getSingleResult_. The _hasMoreResults_ method can then be used to test
-for further results.
+If the _execute_ method returns _true_, the pending result set can be
+obtained by calling _getResultList_, _getSingleResult_, or
+_getSingleResultOrNull_. The _hasMoreResults_ method can then be used to
+test for further results.
 
 If _execute_ or _hasMoreResults_ returns
 _false_, the _getUpdateCount_ method can be called to obtain the
@@ -6082,19 +6170,18 @@ been joined to it, will be marked for rollback.
 
 *NoResultException*
 
-The _NoResultException_ is thrown by the
-persistence provider when _Query.getSingleResult_ or
-_TypedQuery.getSingleResult_ is invoked and there is no result to
-return. This exception will not cause the current transaction, if one is
+The _NoResultException_ is thrown by the persistence provider when
+_Query.getSingleResult_ is invoked and there is no result to return.
+This exception will not cause the current transaction, if one is
 active, to be marked for rollback.
 
 *NonUniqueResultException*
 
-The _NonUniqueResultException_ is thrown by
-the persistence provider when _Query.getSingleResult_ or
-_TypedQuery.getSingleResult_ is invoked and there is more than one
-result from the query. This exception will not cause the current
-transaction, if one is active, to be marked for rollback.
+The _NonUniqueResultException_ is thrown by the persistence provider
+when _Query.getSingleResult_ or _Query.getSingleResultOrNull_ is
+invoked and there is more than one result from the query. This
+exception will not cause the current transaction, if one is active,
+to be marked for rollback.
 
 *QueryTimeoutException*
 

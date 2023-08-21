@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Lukas Jungmann  - 2.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -112,6 +113,28 @@ public interface Query {
     Object getSingleResult();
 
     /**
+     * Execute a SELECT query that returns a single untyped result.
+     * @return the result, or null if there is no result
+     * @throws NonUniqueResultException if more than one result
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         <code>NONE</code> has been set and there is no transaction
+     *         or the persistence context has not been joined to the transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    Object getSingleResultOrNull();
+
+    /**
      * Execute an update or delete statement.
      * @return the number of entities updated or deleted
      * @throws IllegalStateException if called for a Jakarta
@@ -210,7 +233,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(Parameter<Calendar> param, Calendar value, 
                        TemporalType temporalType);
 
@@ -223,7 +249,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(Parameter<Date> param, Date value, 
                        TemporalType temporalType);
 
@@ -247,7 +276,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter name does 
      *         not correspond to a parameter of the query or if
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(String name, Calendar value, 
                        TemporalType temporalType);
 
@@ -260,7 +292,10 @@ public interface Query {
      * @throws IllegalArgumentException if the parameter name does 
      *         not correspond to a parameter of the query or if
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(String name, Date value, 
                        TemporalType temporalType);
 
@@ -285,7 +320,10 @@ public interface Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(int position, Calendar value,  
                        TemporalType temporalType);
 
@@ -298,7 +336,10 @@ public interface Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query or
      *         if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     Query setParameter(int position, Date value,  
                        TemporalType temporalType);
 

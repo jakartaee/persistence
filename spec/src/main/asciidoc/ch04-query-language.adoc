@@ -320,11 +320,11 @@ future use.] are reserved identifiers: ABS, ALL, AND, ANY, AS, ASC,
 AVG, BETWEEN, BIT_LENGTH, BOTH, BY, CASE, CEILING, CHAR_LENGTH,
 CHARACTER_LENGTH, CLASS, COALESCE, CONCAT, COUNT, CURRENT_DATE,
 CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC, DISTINCT, ELSE, EMPTY,
-END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FLOOR, FROM,
-FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
-LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
-NEW, NOT, NULL, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
-POWER, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
+END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FIRST, FLOOR,
+FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
+LAST, LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
+NEW, NOT, NULL, NULLS, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
+POWER, REPLACE, RIGHT, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
 THEN, TRAILING, TREAT, TRIM, TRUE, TYPE, UNKNOWN, UPDATE, UPPER,
 VALUE, WHEN, WHERE.
 
@@ -1053,17 +1053,30 @@ String literals in queries, like Java _String_ literals, use unicode
 character encoding. The use of Java escape notation is not supported in
 query string literals.
 
-Exact numeric literals support the use of
-Java integer literal syntax as well as SQL exact numeric literal syntax.
+A numeric literal may be either:
 
-Approximate literals support the use Java
-floating point literal syntax as well as SQL approximate numeric literal
-syntax.
+- a decimal Java integer (int or long) literal
+- a Java floating point (float or double) literal, or
+- a literal _BigInteger_ or _BigDecimal_.
 
-Appropriate suffixes can be used to indicate
-the specific type of a numeric literal in accordance with the Java
-Language Specification. Support for the use of hexadecimal and octal
-numeric literals is not required by this specification.
+A suffix _L_, _D_, or _F_ may be used to indicate the specific numeric
+type, in accordance with the Java Language Specification. The suffix is
+not case-sensitive. The literal numeric value preceding the suffix must
+conform to the rules for Java numeric literals established by the Java
+Language Specification.
+
+A suffix _BI_ or _BD_ may be used to indicate a literal _BigInteger_ or
+_BigDecimal_, respectively. The literal numeric value preceding the suffix
+must be an exact or approximate SQL numeric literal. For a _BigInteger_
+literal, the numeric value must be an exact integer literal.
+
+Just as in Java, when a numeric literal has no suffix:
+
+- an integer literal is interpreted as a Java int, and
+- a floating point literal is interpreted as a Java double.
+
+Support for hexadecimal and octal numeric literals is not required by
+this specification.
 
 Enum literals support the use of Java enum
 literal syntax. The fully qualified enum class name must be specified.
@@ -1088,7 +1101,7 @@ The boolean literals are _TRUE_ and _FALSE_.
 
 Entity type literals are specified by entity names—for example: _Customer_.
 
-Although reserved literals appear in upper case, they are case insensitive.
+Although reserved literals appear in upper case, they are case-insensitive.
 
 ==== Identification Variables
 
@@ -1683,7 +1696,10 @@ functions_returning_strings ::=
               arithmetic_expression [, arithmetic_expression]) |
     TRIM([[trim_specification] [trim_character] FROM] string_expression) |
     LOWER(string_expression) |
-    UPPER(string_expression)
+    UPPER(string_expression) |
+    REPLACE(string_expression, string_expression, string_expression) |
+    LEFT(string_expression, arithmetic_expression) |
+    RIGHT(string_expression, arithmetic_expression)
 trim_specification ::= LEADING | TRAILING | BOTH
 
 functions_returning_numerics ::=
@@ -1715,6 +1731,13 @@ defaults to BOTH. The TRIM function returns the trimmed string.
 The LOWER and UPPER functions convert a
 string to lower and upper case, respectively, with regard to the locale
 of the database. They return a string.
+
+The LEFT and RIGHT functions return the leftmost or rightmost substring,
+respectively, of the first argument whose length is given by the second
+argument.
+
+The REPLACE function replaces all occurrences within the first argument
+string of the second argument string with the third argument string.
 
 The LOCATE function returns the position at which one string occurs within
 a second string, optionally ignoring any occurrences that begin before a
@@ -1869,6 +1892,34 @@ part to EXTRACT.
 ----
 FROM Course c WHERE c.year = EXTRACT(YEAR FROM LOCAL DATE)
 ----
+
+===== Typecasts
+
+The CAST function converts an expression of one type to an expression
+of a different type.
+
+----
+string_cast_function::=
+    CAST(scalar_expression AS STRING)
+arithmetic_cast_function::=
+    CAST(string_expression AS {INTEGER | LONG | FLOAT | DOUBLE})
+----
+
+The persistence provider is required to accept typecasts of the following
+forms:
+
+- any scalar expression to STRING
+- any string expression to INTEGER, LONG, FLOAT, or DOUBLE
+
+Typecast expressions are evaluated by the database, with semantics that
+vary somewhat between different databases.
+
+When a typecast occurs as a select expression, the result type of the
+select expression is:
+
+- _java.lang.String_ for a cast to STRING
+- _java.lang.Integer_, _java.lang.Long_, _java.lang.Float_, or _java.lang.Double_
+  for a cast to INTEGER, LONG, FLOAT, or DOUBLE, respectively
 
 ===== Invocation of Predefined and User-defined Database Functions [[a5311]]
 
@@ -2510,6 +2561,7 @@ orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
 orderby_item ::=
     {state_field_path_expression | general_identification_variable | result_variable}
         [ASC | DESC]
+        [NULLS {FIRST | LAST}]
 ----
 
 An orderby_item must be one of the following:
@@ -2586,7 +2638,9 @@ ordering be used for the associated _orderby_item_; the keyword DESC
 specifies that descending ordering be used. Ascending ordering is the
 default.
 
-SQL rules for the ordering of null values
+The keyword NULLS specifies the ordering of null values, either FIRST or LAST.
+
+If NULLS is not specified, SQL rules for the ordering of null values
 apply: that is, all null values must appear before all non-null values
 in the ordering or all null values must appear after all non-null values
 in the ordering, but it is not specified which.
@@ -2985,6 +3039,7 @@ orderby_item ::=
     general_identification_variable |
     result_variable
     [ASC | DESC]
+    [NULLS {FIRST | LAST}]
 subquery ::= simple_select_clause subquery_from_clause [where_clause]
     [groupby_clause] [having_clause]
 subquery_from_clause ::=
@@ -3081,6 +3136,7 @@ arithmetic_primary ::=
     aggregate_expression |
     case_expression |
     function_invocation |
+    arithmetic_cast_function |
     (subquery)
 string_expression ::=
     state_valued_path_expression |
@@ -3090,7 +3146,8 @@ string_expression ::=
     aggregate_expression |
     case_expression |
     function_invocation |
-    string_expression || string_expression
+    string_cast_function |
+    string_expression || string_expression |
     (subquery)
 datetime_expression ::=
     state_valued_path_expression |
@@ -3124,6 +3181,8 @@ type_discriminator ::=
     TYPE(general_identification_variable |
         single_valued_object_path_expression |
         input_parameter)
+arithmetic_cast_function::=
+    CAST(string_expression AS {INTEGER | LONG | FLOAT | DOUBLE})
 functions_returning_numerics ::=
     LENGTH(string_expression) |
     LOCATE(string_expression, string_expression[, arithmetic_expression]) |
@@ -3148,6 +3207,8 @@ functions_returning_datetime ::=
     LOCAL TIME |
     LOCAL DATETIME |
     extract_datetime_part
+string_cast_function::=
+    CAST(scalar_expression AS STRING)
 functions_returning_strings ::=
     CONCAT(string_expression, string_expression{, string_expression}*) |
     SUBSTRING(string_expression, arithmetic_expression[, arithmetic_expression]) |

@@ -11,8 +11,10 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
+//     Gavin King - 3.2
 
 
 package jakarta.persistence.criteria;
@@ -20,6 +22,7 @@ package jakarta.persistence.criteria;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import jakarta.persistence.Tuple;
@@ -115,19 +118,37 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an ordering by the ascending value of the expression.
-     * @param x  expression used to define the ordering
+     * @param expression  expression used to define the ordering
      * @return ascending ordering corresponding to the expression
      */
-    Order asc(Expression<?> x);
+    Order asc(Expression<?> expression);
 
     /**
      * Create an ordering by the descending value of the expression.
-     * @param x  expression used to define the ordering
+     * @param expression  expression used to define the ordering
      * @return descending ordering corresponding to the expression
      */
-    Order desc(Expression<?> x);
+    Order desc(Expression<?> expression);
 
-	
+    /**
+     * Create an ordering by the ascending value of the expression.
+     * @param expression  expression used to define the ordering
+     * @param nullPrecedence  the precedence of null values
+     * @return ascending ordering corresponding to the expression
+     * @since 3.2
+     */
+    Order asc(Expression<?> expression, Nulls nullPrecedence);
+
+    /**
+     * Create an ordering by the descending value of the expression.
+     * @param expression  expression used to define the ordering
+     * @param nullPrecedence  the precedence of null values
+     * @return descending ordering corresponding to the expression
+     * @since 3.2
+     */
+    Order desc(Expression<?> expression, Nulls nullPrecedence);
+
+
     //aggregate functions:
 	
     /**
@@ -265,6 +286,14 @@ public interface CriteriaBuilder {
     Predicate and(Predicate... restrictions);
 
     /**
+     * Create a conjunction of the given restriction predicates.
+     * A conjunction of zero predicates is true.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return and predicate
+     */
+    Predicate and(List<Predicate> restrictions);
+
+    /**
      * Create a disjunction of the given boolean expressions.
      * @param x  boolean expression
      * @param y  boolean expression
@@ -279,6 +308,14 @@ public interface CriteriaBuilder {
      * @return or predicate
      */
     Predicate or(Predicate... restrictions);
+
+    /**
+     * Create a disjunction of the given restriction predicates.
+     * A disjunction of zero predicates is false.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return or predicate
+     */
+    Predicate or(List<Predicate> restrictions);
 
     /**
      * Create a negation of the given restriction. 
@@ -1076,6 +1113,15 @@ public interface CriteriaBuilder {
 
     /**
      *  Create an expression for string concatenation.
+     *  If the given list of expressions is empty, returns
+     *  an expression equivalent to {@code literal("")}.
+     *  @param expressions  string expressions
+     *  @return expression corresponding to concatenation
+     */
+    Expression<String> concat(List<Expression<String>> expressions);
+
+    /**
+     *  Create an expression for string concatenation.
      *  @param x  string expression
      *  @param y  string expression
      *  @return expression corresponding to concatenation
@@ -1237,8 +1283,80 @@ public interface CriteriaBuilder {
      * @return length expression
      */
     Expression<Integer> length(Expression<String> x);
-	
-	
+
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, String replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, String replacement);
+
+
     /**
      * Create expression to locate the position of one string
      * within another, returning position of first character
