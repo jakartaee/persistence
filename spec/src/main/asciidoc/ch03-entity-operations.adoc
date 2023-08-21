@@ -2469,39 +2469,41 @@ component.]
 
 ==== Lifecycle Callback Methods
 
-Entity lifecycle callback methods can be
-defined on an entity listener class and/or directly on an entity class
-or mapped superclass.
+Entity lifecycle callback methods can be defined on an entity listener
+class and/or directly on an entity class or mapped superclass.
 
-Lifecycle callback methods are annotated with
-annotations designating the callback events for which they are invoked
-or are mapped to the callback event using the XML descriptor.
+A lifecycle callback method must be either:
 
-The annotations (and XML elements) used for
-callback methods on the entity class or mapped superclass and for
-callback methods on the entity listener class are the same. The
-signatures of individual methods, however, differ.
+- annotated with annotations designating the callback events for which
+  it is invoked, or
+- mapped to a callback event type using the XML descriptor.
 
-Callback methods defined on an entity class
-or mapped superclass have the following signature:
+The same annotations (and XML elements) are used to declare:
 
+- callback methods of an entity class or mapped superclass, and
+- callback methods of an entity listener class.
+
+The signatures of the callback methods differ between these two cases:
+
+- a callback method defined by an entity class or mapped superclass has
+  the signature:
++
  void <METHOD>()
++
+- a callback method defined by an entity listener class has the signature:
++
+ void <METHOD>(S)
++
+where _S_ is any supertype of the entity class or mapped superclass to
+which the entity listener is applied. At runtime, the argument to the
+entity listener callback method is the entity instance for which the
+callback method is being invoked.
 
-Callback methods defined on an entity
-listener class have the following signature:
+Callback methods can have public, private, protected, or package level
+access, but must not be _static_ or _final_.
 
- void <METHOD>(Object)
-
-The _Object_ argument is the entity instance
-for which the callback method is invoked. It may be declared as the
-actual entity type.
-
-The callback methods can have public,
-private, protected, or package level access, but must not be _static_ or
-_final_.
-
-The following annotations designate lifecycle
-event callback methods of the corresponding types.
+The following annotations designate lifecycle event callback methods of
+the corresponding types.
 
 * _PrePersist_
 * _PostPersist_
@@ -2513,24 +2515,20 @@ event callback methods of the corresponding types.
 
 The following rules apply to lifecycle callback methods:
 
-* Lifecycle callback methods may throw
-unchecked/runtime exceptions. A runtime exception thrown by a callback
-method that executes within a transaction causes that transaction to be
-marked for rollback if the persistence context is joined to the
-transaction.
-* Lifecycle callbacks can invoke JNDI, JDBC,
-JMS, and enterprise beans.
-* In general, the lifecycle method of a
-portable application should not invoke _EntityManager_ or query
-operations, access other entity instances, or modify relationships
-within the same persistence
-contextfootnote:[Note that this
-caution applies also to the actions of objects that might be injected
-into an entity listener]footnote:[The semantics of such
-operations may be standardized in a future release of this
-specification.]. A lifecycle
-callback method may modify the non-relationship state of the entity on
-which it is invoked.
+* Lifecycle callback methods may throw unchecked/runtime exceptions.
+  A runtime exception thrown by a callback method that executes within
+  a transaction causes that transaction to be marked for rollback if
+  the persistence context is joined to the transaction.
+* Lifecycle callbacks can invoke JNDI, JDBC, JMS, and enterprise beans.
+* A lifecycle callback method may modify the non-relationship state of
+  the entity on which it is invoked.
+* In general, the lifecycle method of a portable application should not
+  invoke _EntityManager_ or query operations, access other entity
+  instances, or modify relationships within the same persistence
+  contextfootnote:[Note that this caution applies also to the actions of
+  objects that might be injected into an entity listener]footnote:[The
+  semantics of such operations may be standardized in a future release of
+  this specification.].
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
