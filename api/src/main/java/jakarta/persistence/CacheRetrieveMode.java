@@ -22,9 +22,12 @@ package jakarta.persistence;
  * specify the behavior when data is retrieved by the
  * <code>find</code> methods and by queries.
  *
+ * @see EntityManager#setCacheRetrieveMode(CacheRetrieveMode)
+ * @see Query#setCacheRetrieveMode(CacheRetrieveMode)
+ *
  * @since 2.0
  */
-public enum CacheRetrieveMode {
+public enum CacheRetrieveMode implements FindOption {
 
     /**
      * Read entity data from the cache: this is 

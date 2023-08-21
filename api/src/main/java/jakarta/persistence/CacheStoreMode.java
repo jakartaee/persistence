@@ -22,9 +22,12 @@ package jakarta.persistence;
  * the behavior when data is read from the database and when data is
  * committed into the database.
  *
+ * @see EntityManager#setCacheStoreMode(CacheStoreMode)
+ * @see Query#setCacheStoreMode(CacheStoreMode)
+ *
  * @since 2.0
  */
-public enum CacheStoreMode {
+public enum CacheStoreMode implements FindOption, RefreshOption {
 
     /**
      * Insert entity data into cache when read from database

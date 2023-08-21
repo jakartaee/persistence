@@ -35,6 +35,13 @@ public interface Order {
     */
     boolean isAscending();
 
+    /**
+     * Return the precedence of null values.
+     * @return the {@linkplain Nulls precedence of null values}
+     * @since 3.2
+     */
+    Nulls getNullPrecedence();
+
    /**
     * Return the expression that is used for ordering.
     * @return expression used for ordering

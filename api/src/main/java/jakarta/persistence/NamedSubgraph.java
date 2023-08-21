@@ -47,7 +47,7 @@ public @interface NamedSubgraph {
      * must be specified when this subgraph is extending a definition
      * on behalf of a subclass.
      */
-    Class type() default void.class;
+    Class<?> type() default void.class;
 
     /** 
      * (Required) The list of the attributes of the class that must

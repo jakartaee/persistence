@@ -187,7 +187,10 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(Parameter<Calendar> param, 
                                Calendar value,  
                                TemporalType temporalType);
@@ -200,7 +203,10 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(Parameter<Date> param, Date value,  
                                TemporalType temporalType);
 
@@ -224,7 +230,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if 
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(String name, Calendar value, 
                                TemporalType temporalType);
 
@@ -237,7 +246,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or if 
      *         the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(String name, Date value, 
                                TemporalType temporalType);
 
@@ -262,7 +274,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query
      *         or if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(int position, Calendar value,  
                                TemporalType temporalType);
 
@@ -275,7 +290,10 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if position does not
      *         correspond to a positional parameter of the query
      *         or if the value argument is of incorrect type
+     * @deprecated Newly-written code should use the date/time types
+     *             defined in {@link java.time}.
      */
+    @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(int position, Date value,  
                                TemporalType temporalType);
 
@@ -298,4 +316,31 @@ public interface TypedQuery<X> extends Query {
       */
      TypedQuery<X> setLockMode(LockModeType lockMode);
 
+    /**
+     * Set the cache retrieval mode that is in effect during
+     * query execution. This cache retrieval mode overrides the
+     * cache retrieve mode in use by the entity manager.
+     * @param cacheRetrieveMode cache retrieval mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+
+    /**
+     * Set the cache storage mode that is in effect during
+     * query execution. This cache storage mode overrides the
+     * cache storage mode in use by the entity manager.
+     * @param cacheStoreMode cache storage mode
+     * @return the same query instance
+     * @since 3.2
+     */
+    TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
+     * Set the query timeout.
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 3.2
+     */
+    TypedQuery<X> setTimeout(Integer timeout);
 }

@@ -538,16 +538,25 @@ _java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
 _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
 _java.time.LocalDate_, _java.time.LocalTime_, _java.time.LocalDateTime_,
 _java.time.OffsetTime_, _java.time.OffsetDateTime_,
+_java.time.Instant_ and _java.time.Year_,
 _byte[]_, _Byte[]_, _char[]_, _Character[]_, enums, and any other type
-that implements _Serializable_.footnote:[Mapping of
-java.time.LocalDate, java.time.LocalTime, java.time.LocalDateTime,
-java.time.OffsetTime, and java.time.OffsetDateTime types to columns
-other than those supported by the mappings defined by Appendix B of the
-JDBC 4.2 specification is not required to be supported by the
-persistence provider beyond the support required for other serializable
-types. See <<a19496>>.] As described in <<a511>>, the use of the _Basic_
-annotation is optional for persistent fields and properties of these
-types. If the _Basic_ annotation is not specified for such a field or
+that implements _Serializable_.
+
+For the types listed above, the persistence provider must support mappings
+to the column types listed in tables B-2 and B-4 of Appendix B of the
+JDBC 4.3 specification. See <<a19496>>. In addition, the provider must
+support mapping:
+
+- _java.time.Instant_ to the JDBC _TIMESTAMP_ or _TIMESTAMP_WITH_TIMEZONE_ type,
+- _java.time.Year_ to the JDBC _INTEGER_ and _SMALLINT_ types,
+- _java.math.BigInteger_ and _java.math.BigDecimal_ to the JDBC _NUMERIC_ and _DECIMAL_ types,
+- _java.util.UUID_ to the JDBC _CHAR_ and _VARCHAR_ types, and
+- _char[]_ to the JDBC _CHAR_, _NCHAR_, _VARCHAR_, _NVARCHAR_, _LONGVARCHAR_,
+and _LONGNVARCHAR_ types.
+
+As described in <<a511>>, the use of the _Basic_
+annotation is optional for persistent fields and properties of the
+types listed above. If the _Basic_ annotation is not specified for such a field or
 property, the default values of the _Basic_ annotation will apply.
 
 [source,java]
@@ -852,6 +861,8 @@ public @interface Column {
     int length() default 255;
     int precision() default 0; // decimal precision
     int scale() default 0; // decimal scale
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -925,6 +936,18 @@ if a string-valued column is used.)
 |(Optional) The scale for a decimal (exact
 numeric) column. (Applies only if a decimal column is used.)
 |0
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:*
@@ -1654,18 +1677,19 @@ public class Dependent {
 
 ==== Enumerated Annotation [[a14719]]
 
-An _Enumerated_ annotation specifies that a
-persistent property or field should be persisted as a enumerated type.
+An _Enumerated_ annotation specifies that a persistent property or field
+should be persisted as an enumerated type. The _Enumerated_ annotation is
+optional if the type of a persistent field or property is a Java enum type.
+
 The _Enumerated_ annotation may be used in conjunction with the _Basic_
 annotation. The _Enumerated_ annotation may be used in conjunction with
-the _ElementCollection_footnote:[If the element
-collection is a Map, this applies to the map value.] annotation when the
-element collection value is of basic type.
+the _ElementCollection_ annotationfootnote:[If the element collection is
+a _Map_, this applies to the map value.] when the element type of the
+collection is an enum type.
 
-An enum can be mapped as either a string or
-an integerfootnote:[Mapping of enum
-values that contain state is not supported.]. The _EnumType_ enum defines the
-mapping for enumerated types.
+An enum can be mapped as either a string or an integerfootnote:[Mapping
+of stateful enum values is not supported.]. The _EnumType_ enum defines
+the available options for mapping enumerated types.
 
 [source,java]
 ----
@@ -1675,9 +1699,7 @@ public enum EnumType {
 }
 ----
 
-If the enumerated type is not specified or
-the _Enumerated_ annotation is not used, the enumerated type is assumed
-to be _ORDINAL_ unless a converter is being applied.
+The _value_ member of the _Enumerated_ annotation specifies the `EnumType`:
 
 [source,java]
 ----
@@ -1688,8 +1710,8 @@ public @interface Enumerated {
 }
 ----
 
-<<a14733>> lists the annotation elements that may be specified
-for the _Enumerated_ annotation and their default values.
+<<a14733>> lists the annotation elements that may be specified for the
+_Enumerated_ annotation and their default values.
 
 .Enumerated Annotation Elements
 [#a14733,options="header"]
@@ -1701,6 +1723,25 @@ for the _Enumerated_ annotation and their default values.
 |(Optional) The type used in mapping an enum type.
 |ORDINAL
 |===
+
+If a persistent field or property of enum type has no explicit _Enumerated_
+annotation, and if no converter is applied to the field or property:
+
+- if the enum type has a final field of type _java.lang.String_ annotated
+  _EnumeratedValue_, the enumerated type is inferred to be _STRING_;
+- otherwise, the enumerated type is taken to be _ORDINAL_.
+
+The enum type may have a final field annotated _EnumeratedValue_.
+This field, if it exists, controls the mapping of enum values to database
+column values:
+
+- if the enum type does have a field annotated _EnumeratedValue_,
+  each enum value is mapped to the value of the annotated field,
+  or, otherwise,
+- if the enumerated type is _ORDINAL_, each enum value is mapped
+  to the value of the _ordinal_ field, but
+- if the enumerated type is _STRING_, each enum value is mapped
+  to the value of the _name_ field.
 
 *Example:*
 
@@ -1726,6 +1767,45 @@ If the status property is mapped to a column
 of integer type, and the payscale property to a column of varchar type,
 an instance that has a status of _PART_TIME_ and a pay rate of _JUNIOR_
 will be stored with _STATUS_ set to 1 and _PAYSCALE_ set to _"JUNIOR"_.
+
+==== EnumeratedValue Annotation [[a14720]]
+
+The _EnumeratedValue_ annotation specifies that an annotated field of
+a Java enum type is the source of database column values when the enum
+occurs as the declared type of an _Enumerated_ property or field. The
+annotated field must be declared final, and must be of type:
+
+- _byte_, _short_, or _int_ for an _ORDINAL_ enumerated type, or
+- _java.lang.String_ for a _STRING_ enumerated type.
+
+The field must not be set to null, and must hold a distinct value for
+each value of the enum type.
+
+If the type of the field annotated _EnumeratedValue_ disagrees with
+the enumerated type mapping specified by the _Enumerated_ annotation,
+the behavior is undefined. Portable applications should ensure that
+the type of the field annotated _EnumeratedValue_ agrees with the
+type mapping wherever the enum type is used in a field or property
+explicitly annotated _Enumerated_.
+
+If a converter is applied to an _Enumerated_ field or property, the
+_EnumeratedValue_ annotation is ignored for that field or property.
+
+*Example:*
+
+[source,java]
+----
+enum Status {
+    OPEN(0), CLOSED(1), CANCELLED(-1);
+
+    @EnumeratedValue
+    final int intValue;
+
+    Status(int intValue) {
+        this.intValue = intValue;
+    }
+}
+----
 
 ==== ForeignKey Annotation [[a14754]]
 
@@ -1833,29 +1913,39 @@ defined by the _GenerationType_ enum:
 public enum GenerationType { TABLE, SEQUENCE, IDENTITY, UUID, AUTO };
 ----
 
-The _TABLE_ generator type value indicates
-that the persistence provider must assign primary keys for the entity
-using an underlying database table to ensure uniqueness.
+The _TABLE_ generator type value indicates that the persistence
+provider must assign primary keys for the entity using an underlying
+database table to ensure uniqueness.
 
-The _SEQUENCE_ and _IDENTITY_ values
-specify the use of a database sequence or identity column,
-respectively.footnote:[Note that SEQUENCE
-and IDENTITY are not portable across all databases.]
+The _SEQUENCE_ and _IDENTITY_ values specify the use of a database
+sequence or identity column, respectively.footnote:[Note that
+_SEQUENCE_ and _IDENTITY_ are not portable across all databases.]
 
-The further specification of table generators
-and sequence generators is described in <<a16164>> and <<a16256>>.
+The further specification of table generators and sequence generators
+is described in <<a16164>> and <<a16256>>.
+
+A _TABLE_, _SEQUENCE_, or _IDENTITY_ generator may be used to generate
+values for a primary key property or field of type _java.lang.Long_,
+_java.lang.Integer_, _long_, or _int_.
 
 The _UUID_ value indicates that the persistence provider should
 assign an RFC 4122 Universally Unique IDentifier.
 
-The _AUTO_ value indicates that the
-persistence provider should pick an appropriate strategy for the
-particular database. The _AUTO_ generation strategy may expect a
-database resource to exist, or it may attempt to create one. A vendor
-may provide documentation on how to create such resources in the event
-that it does not support schema generation or cannot create the schema
-resource at runtime. In the case of a field or property of type
-_java.util.UUID_, the _AUTO_ strategy is equivalent to _UUID_.
+A _UUID_ generator may be used to generate values for a primary key
+property or field of type _java.util.UUID_ or _java.lang.String_.
+
+The _AUTO_ value indicates that the persistence provider should pick
+an appropriate strategy given the type of the primary key property or
+field, and the capabilities of the particular database. In the case of
+a field or property of type _java.util.UUID_ or _java.lang.String_,
+the _AUTO_ strategy is equivalent to _UUID_. In the case of a field or
+property of type _java.lang.Long_, _java.lang.Integer_, _long_, or _int_,
+the _AUTO_ strategy may select between _TABLE_, _SEQUENCE_, or _IDENTITY_.
+
+The _AUTO_ generation strategy may expect a database resource to exist,
+or it may attempt to create one. A vendor may provide documentation on
+how to create such resources in the event that it does not support
+schema generation or cannot create the schema resource at runtime.
 
 This specification does not define the exact
 behavior of these strategies.
@@ -2178,6 +2268,8 @@ public @interface JoinColumn {
     String columnDefinition() default "";
     String table() default "";
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -2272,6 +2364,18 @@ join is for an element collection, the name of the collection table.
 |(Optional) The foreign key constraint for
 the join column. This is used only if table generation is in effect.
 |Provider's default
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:*
@@ -2407,6 +2511,8 @@ public @interface JoinTable {
     ForeignKey inverseForeignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -2471,6 +2577,18 @@ effect.
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*
@@ -3534,6 +3652,8 @@ public @interface MapKeyTemporal {
 }
 ----
 
+The _MapKeyTemporal_ enum is deprecated, and its use in newly-written code is strongly discouraged.
+
 <<a15593>> lists the annotation elements that
 may be specified for the _MapKeyTemporal_ annotation and their default
 values. The _TemporalType_ enum is defined in <<a16361>>.
@@ -4541,6 +4661,8 @@ public @interface SecondaryTable {
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -4589,6 +4711,18 @@ entailed by primary key mappings.
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:* Single secondary table with a single primary key column.
@@ -4811,6 +4945,8 @@ public @interface Table {
     String schema() default "";
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {}
+    String comment() default "";
 }
 ----
 
@@ -4849,6 +4985,18 @@ constraints
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the table. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*
@@ -5075,6 +5223,8 @@ public @interface Temporal {
 }
 ----
 
+The _Temporal_ annotation and _TemporalType_ enum are deprecated, and their use in newly-written code is strongly discouraged.
+
 <<a16378>> lists the annotation elements that may be specified
 for the _Temporal_ annotation and their default values.
 
@@ -5203,9 +5353,8 @@ are specified with the _Version_ annotation should not be updated by the
 application.footnote:[See, however,
 <<a5636>>.]
 
-The following types are supported for version
-properties: _int_, _Integer_, _short_, _Short_, _long_, _Long_,
-_Timestamp_.
+The following types are supported for version properties:
+_int_, _Integer_, _short_, _Short_, _long_, _Long_, _LocalDateTime_, _Instant_, _Timestamp_.
 
 [source,java]
 ----

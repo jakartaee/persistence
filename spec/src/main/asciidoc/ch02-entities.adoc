@@ -23,7 +23,7 @@ The entity class must have a no-arg
 constructor. The entity class may have other constructors as well. The
 no-arg constructor must be public or protected.
 
-The entity class must be a top-level class.
+The entity class must be a top-level class or a static inner class.
 An enum, record, or interface may not be designated as an entity.
 
 The entity class must not be final. No
@@ -164,12 +164,16 @@ The persistent fields or properties of an entity may be of the following
 types: Java primitive types, _java.lang.String_, other Java serializable
 types (including wrappers of the primitive types, _java.math.BigInteger_,
 _java.math.BigDecimal_, _java.util.UUID_, _java.util.Date_,
-_java.util.Calendarfootnote:[Note that an instance of Calendar must be
-fully initialized for the type that it is mapped to.]_,
-_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_, _byte[]_,
-_Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
+_java.util.Calendar_,footnote:[Note that an instance of _Calendar_ must be
+fully initialized for the type that it is mapped to.]
+_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,footnote:[The use
+of _java.util.Calendar_ or of _java.util.Date_ and its subclasses in the
+package _java.sql_ is strongly discouraged. Newly-written programs should
+use date/time types from the package _java.time_.]
+_byte[]_, _Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
 _java.time.LocalTime_, _java.time.LocalDateTime_,
 _java.time.OffsetTime_, _java.time.OffsetDateTime_,
+_java.time.Instant_, _java.time.Year_,
 and user-defined types that implement the _Serializable_ interface _)_;
 enums; entity types; collections of entity types; embeddable classes
 (see <<a487>>); collections of basic and embeddable types (see <<a494>>).
@@ -415,10 +419,10 @@ property, the temporal type should be specified as _DATE_.
 The following rules apply for composite
 primary keys:
 
-- The primary key class may be a regular Java class, in which case it must
-be public and must have a public no-arg constructor. Alternatively, it may
-be a public Java record type, in which case it need not have a no-arg
-constructor.
+- The primary key class may be a non-abstract regular Java class with a
+no-arg constructor. The no-arg constructor must be public or protected.
+Alternatively, the primary key class may be any Java record type, in
+which case it need not have a no-arg constructor.
 
 - The access type (field- or property-based
 access) of a primary key class is determined by the access type of the
@@ -427,8 +431,6 @@ embedded id and a different access type is specified. See Section <<a113>>.
 
 - If property-based access is used, the
 properties of the primary key class must be public or protected.
-
-- The primary key class must be serializable.
 
 - The primary key class must define _equals_
 and _hashCode_ methods. The semantics of value equality for these
@@ -1114,11 +1116,14 @@ public class MedicalHistory {
 
 === Basic Type
 
-Basic type is any Java primitive type, wrapper of the primitive types, java.lang.String,
-java.math.BigInteger, java.math.BigDecimal, java.util.Date, java.util.Calendar, java.sql.Date,
-java.sql.Time, java.sql.Timestamp, java.time.LocalDate, java.time.LocalTime,
-java.time.LocalDateTime, java.time.OffsetTime, java.time.OffsetDateTime, byte[], Byte[], char[],
-Character[], enum, any other type that implements Serializable.
+A basic type is any Java primitive type, wrapper of the primitive types, java.lang.String,
+java.math.BigInteger, java.math.BigDecimal, java.util.Date, java.util.Calendar,
+java.sql.Date, java.sql.Time, java.sql.Timestamp, java.time.LocalDate, java.time.LocalTime,
+java.time.LocalDateTime, java.time.OffsetTime, java.time.OffsetDateTime,
+java.time.Instant, java.time.Year, byte[], Byte[], char[], Character[], any enum type,
+any other type that implements Serializable.
+
+Persistence for basic types is defined in <<a14205>> and <<a14719>>.
 
 === Embeddable Classes [[a487]]
 
@@ -1138,7 +1143,8 @@ for an embedded object is determined as described in <<a113>>.
 
 An embeddable class may be a regular Java class which adheres to the
 requirements specified in <<a18>> for entities, with the exception that
-an embeddable class is not annotated as _Entity_.
+an embeddable class is not annotated as _Entity_, and an embeddable
+class may not be abstract.
 
 Alternatively, an embeddable class may be any Java record type.
 
@@ -1281,8 +1287,9 @@ _java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
 _java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
 _java.time.LocalDate_, _java.time.LocalTime_,
 _java.time.LocalDateTime_, _java.time.OffsetTime_,
-_java.time.OffsetDateTime_, _byte[]_, _Byte[]_, _char[]_,
-_Character[]_, enums, any other type that implements _Serializable_.
+_java.time.OffsetDateTime_, _java.time.Instant_, _java.time.Year_
+_byte[]_, _Byte[]_, _char[]_, _Character[]_, enums,
+any other type that implements _Serializable_.
 See <<a14205>>, <<a14719>>, <<a15087>>, and <<a16361>>.
 
 It is an error if no annotation is present
@@ -1916,7 +1923,7 @@ primary key of _PATENT_. This foreign key column is named _PATENTS__
 <PK of PATENT>, where <PK of PATENT> denotes the name of the primary key
 column of table _PATENT_.
 
-=== Inheritance
+=== Inheritance [[a765]]
 
 An entity may inherit from another entity
 class. Entities support inheritance, polymorphic associations, and

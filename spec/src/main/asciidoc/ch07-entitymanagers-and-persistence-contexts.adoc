@@ -359,6 +359,17 @@ public interface EntityManagerFactory extends AutoCloseable {
     public PersistenceUnitUtil getPersistenceUnitUtil();
 
     /**
+     * Return interface providing access to schema management
+     * operations for the persistence unit.
+     * @return <code>SchemaManager</code> interface
+     * @throws IllegalStateException if the entity manager factory
+     * has been closed
+     *
+     * @since 3.2
+     */
+    public SchemaManager getSchemaManager();
+
+    /**
      * Define the query, typed query, or stored procedure query as
      * a named query such that future query objects can be created
      * from it using the <code>createNamedQuery</code> or
@@ -412,6 +423,56 @@ public interface EntityManagerFactory extends AutoCloseable {
      */
     public <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
 
+    /**
+     * Create a new application-managed {@code EntityManager} with an active
+     * transaction, and execute the given function, passing the {@code EntityManager}
+     * to the function.
+     * <p>
+     * If the transaction type of the persistence unit is JTA, and there is a JTA
+     * transaction already associated with the caller, then the {@code EntityManager}
+     * is associated with this current transaction. If the given function throws an
+     * exception, the JTA transaction is marked for rollback, and the exception is
+     * rethrown.
+     * <p>
+     * Otherwise, if the transaction type of the persistence unit is resource-local,
+     * or if there is no JTA transaction already associated with the caller, then
+     * the {@code EntityManager} is associated with a new transaction. If the given
+     * function returns without throwing an exception, this transaction is committed.
+     * If the function does throw an exception, the transaction is rolled back, and
+     * the exception is rethrown.
+     * <p>
+     * Finally, the {@code EntityManager} is closed before this method returns
+     * control to the client.
+     *
+     * @param work a function to be executed in the scope of the transaction
+     */
+    public void runInTransaction(Consumer<EntityManager> work);
+    /**
+     * Create a new application-managed {@code EntityManager} with an active
+     * transaction, and call the given function, passing the {@code EntityManager}
+     * to the function.
+     * <p>
+     * If the transaction type of the persistence unit is JTA, and there is a JTA
+     * transaction already associated with the caller, then the {@code EntityManager}
+     * is associated with this current transaction. If the given function returns
+     * without throwing an exception, the result of the function is returned. If the
+     * given function throws an exception, the JTA transaction is marked for rollback,
+     * and the exception is rethrown.
+     * <p>
+     * Otherwise, if the transaction type of the persistence unit is resource-local,
+     * or if there is no JTA transaction already associated with the caller, then
+     * the {@code EntityManager} is associated with a new transaction. If the given
+     * function returns without throwing an exception, this transaction is committed
+     * and the result of the function is returned. If the function does throw an
+     * exception, the transaction is rolled back, and the exception is rethrown.
+    * <p>
+     * Finally, the {@code EntityManager} is closed before this method returns
+     * control to the client.
+     *
+     * @param work a function to be called in the scope of the transaction
+     * @return the value returned by the given function
+     */
+    public <R> R callInTransaction(Function<EntityManager,R> work);
 }
 ----
 
@@ -577,14 +638,13 @@ public class PasswordChanger {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        User user = (User)em.createQuery
-            ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass")
+        User user = em.createQuery
+            ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass", User.class)
             .setParameter("name", args[0])
             .setParameter("pass", args[1])
             .getSingleResult();
 
-        if (user!=null)
-            user.setPassword(args[2]);
+        user.setPassword(args[2]);
 
         em.getTransaction().commit();
         em.close();
@@ -592,6 +652,60 @@ public class PasswordChanger {
     }
 }
 ----
+
+=== The runInTransaction and callInTransaction methods
+
+The _runInTransaction_ and _callInTransaction_ methods of the
+_EntityManagerFactory_ provide a shortcut for persistence context
+and transaction management with an application-managed _EntityManager_.
+
+[source,java]
+----
+entityManagerFactory.runInTransaction(entityManager -> {
+    User user = em.createQuery
+        ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass", User.class)
+        .setParameter("name", args[0])
+        .setParameter("pass", args[1])
+        .getSingleResult();
+
+    user.setPassword(args[2]);
+})
+----
+
+The argument function passed to _runInTransaction_ or
+_callInTransaction_ must be called and passed a new instance of
+_EntityManager_. When the argument function returns or throws an
+exception, this _EntityManager_ must be closed before _runInTransaction_
+or _callInTransaction_ returns.
+
+The argument function is executed in the context of a transaction
+associated with this new _EntityManager_.
+
+- If the transaction type of the persistence unit is JTA, and there
+  is a JTA transaction already associated with the caller, then the
+  _EntityManager_ is associated with this current transaction. If the
+  argument function throws an exception, the JTA transaction must be
+  marked for rollback, and the exception must be rethrown by
+  _runInTransaction_ or _callInTransaction_.  Otherwise,
+  _callInTransaction_ must return the same value returned by the
+  argument function.
+
+- Otherwise, if the transaction type of the persistence unit is
+  resource-local, or if there is no JTA transaction already associated
+  with the caller, then the _EntityManager_ is associated with a new
+  transaction. If the argument function throws an exception, this
+  transaction must be rolled back, and then the exception must be
+  rethrown by _runInTransaction_ or _callInTransaction_. If the argument
+  function returns, then _runInTransaction_ or _callInTransaction_ must
+  attempt to commit the transaction. If the attempt to commit the
+  transaction fails, the exception must be rethrown. Otherwise,
+  _callInTransaction_ must return the same value returned by the argument
+  function.
+
+The application should not attempt to manage the lifecycle of the
+transaction or _EntityManager_ directly. If the application calls an
+operation of _EntityTransaction_ from within a call to _runInTransaction_
+or _callInTransaction_, the behavior is undefined.
 
 === Container-managed Persistence Contexts [[a11791]]
 
@@ -1378,6 +1492,8 @@ been obtained.
 ----
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Attribute;
+
 /**
  * Utility interface between the application and the persistence
  * provider managing the persistence unit.
@@ -1402,6 +1518,17 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
     public boolean isLoaded(Object entity, String attributeName);
 
     /**
+     * Determine the load state of a given persistent attribute
+     * of an entity belonging to the persistence unit.
+     * @param entity  entity instance containing the attribute
+     * @param attribute  attribute whose load state is to be determined
+     * @return false if entity's state has not been loaded or if
+     *         the attribute state has not been loaded, else true
+     * @since 3.2
+     */
+    public <E> boolean isLoaded(E entity, Attribute<? super E,?> attribute);
+
+    /**
      * Determine the load state of an entity belonging to the
      * persistence unit.  This method can be used to determine the
      * load state of an entity passed as a reference.  An entity is
@@ -1417,6 +1544,90 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
     public boolean isLoaded(Object entity);
 
     /**
+     * Load the persistent value of a given persistent attribute
+     * of an entity belonging to the persistence unit and to an
+     * open persistence context.
+     * After this method returns, {@link #isLoaded(Object,String)}
+     * must return true with the given entity instance and attribute.
+     * @param entity  entity instance
+     * @param attributeName  the name of the attribute to be loaded
+     * @throws IllegalArgumentException if the given object is not an
+     * instance of an entity class belonging to the persistence unit
+     * @throws PersistenceException if the entity is not associated
+     * with an open persistence context or cannot be loaded from the
+     * database
+     * @since 3.2
+     */
+    public void load(Object entity, String attributeName);
+
+    /**
+     * Load the persistent value of a given persistent attribute
+     * of an entity belonging to the persistence unit and to an
+     * open persistence context.
+     * After this method returns, {@link #isLoaded(Object,Attribute)}
+     * must return true with the given entity instance and attribute.
+     * @param entity  entity instance to be loaded
+     * @param attribute  the attribute to be loaded
+     * @throws IllegalArgumentException if the given object is not an
+     * instance of an entity class belonging to the persistence unit
+     * @throws PersistenceException if the entity is not associated
+     * with an open persistence context or cannot be loaded from the
+     * database
+     * @since 3.2
+     */
+    public <E> void load(E entity, Attribute<? super E,?> attribute);
+
+    /**
+     * Load the persistent state of an entity belonging to the
+     * persistence unit and to an open persistence context.
+     * After this method returns, {@link #isLoaded(Object)} must
+     * return true with the given entity instance.
+     * @param entity  entity instance to be loaded
+     * @throws IllegalArgumentException if the given object is not an
+     * instance of an entity class belonging to the persistence unit
+     * @throws PersistenceException if the entity is not associated
+     * with an open persistence context or cannot be loaded from the
+     * database
+     * @since 3.2
+     */
+    public void load(Object entity);
+
+    /**
+     * Return true if the given entity belonging to the persistence
+     * unit and to an open persistence context is an instance of the
+     * given entity class, or false otherwise. This method may, but
+     * is not required to, load the given entity by side effect.
+     * @param entity  entity instance
+     * @param entityClass  an entity class belonging to the persistence
+     * unit
+     * @throws IllegalArgumentException if the given object is not an
+     * instance of an entity class belonging to the persistence unit
+     * or if the given class is not an entity class belonging to the
+     * persistence unit
+     * @throws PersistenceException if the entity is not associated
+     * with an open persistence context or cannot be loaded from the
+     * database
+     * @since 3.2
+     */
+    public boolean isInstance(Object entity, Class<?> entityClass);
+
+    /**
+     * Return the concrete entity class if the given entity belonging
+     * to the persistence unit and to an open persistence context.
+     * This method may, but is not required to, load the given entity
+     * by side effect.
+     * @param entity  entity instance
+     * @return an entity class belonging to the persistence unit
+     * @throws IllegalArgumentException if the given object is not an
+     * instance of an entity class belonging to the persistence unit
+     * @throws PersistenceException if the entity is not associated
+     * with an open persistence context or cannot be loaded from the
+     * database
+     * @since 3.2
+     */
+    public <T> Class<? extends T> getClass(T entity);
+
+    /**
      *  Return the id of the entity.
      *  A generated id is not guaranteed to be available until after
      *  the database insert has occurred.
@@ -1427,5 +1638,102 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      *          to be an entity
      */
     public Object getIdentifier(Object entity);
+}
+----
+
+=== SchemaManager Interface [[a12178]]
+
+The _SchemaManager_ interface allows programmatic control over schema
+generation and cleanup at runtime. This differs from the functionality
+described in <<a12917>> which allows schema generation before or during
+the application deployment and initialization process. Similarly, the
+_generateSchema_ method described in <<a12803>> is intended to be called
+before the _EntityManagerFactory_ is available. By contrast, an instance
+of _SchemaManager_ is only available after an _EntityManagerFactory_ has
+already been created.
+
+For example, _SchemaManager_ is especially useful in tests.
+
+The methods of _SchemaManager_ correspond to values of the property
+_jakarta.persistence.schema-generation.scripts.action_. The methods
+_create()_, _drop()_, and _validate()_ correspond to the actions
+_create_, _drop_, and _validate_. The method _truncate()_ has no
+corresponding action.
+
+Thus, the behavior of the _SchemaManager_ may be controlled via the
+properties defined in <<a12917>> and <<a12384>>.
+
+[source,java]
+----
+package jakarta.persistence;
+
+import java.util.Map;
+
+/**
+ * Allows programmatic {@linkplain #create schema creation},
+ * {@linkplain #validate schema validation},
+ * {@linkplain #truncate data cleanup}, and
+ * {@linkplain #drop schema cleanup} for entities belonging
+ * to a certain persistence unit.
+ *
+ * <p>Properties are inherited from the {@link EntityManagerFactory},
+ * that is, they may be specified via {@code persistence.xml} or
+ * {@link Persistence#createEntityManagerFactory(String, Map)}.
+ *
+ * @see EntityManagerFactory#getSchemaManager()
+ *
+ * @since 3.2
+ */
+public interface SchemaManager {
+	/**
+	 * Create database objects mapped by entities belonging to the
+	 * persistence unit.
+	 *
+	 * <p>If a DDL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+	 *
+	 * @param createSchemas if {@code true}, attempt to create schemas,
+	 *                      otherwise, assume the schemas already exist
+	 */
+	void create(boolean createSchemas);
+
+	/**
+	 * Drop database objects mapped by entities belonging to the
+	 * persistence unit, undoing the effects of the
+	 * {@linkplain #create(boolean) previous creation}.
+	 *
+	 * <p>If a DDL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+	 *
+	 * @param dropSchemas if {@code true}, drop schemas,
+	 *                    otherwise, leave them be
+	 */
+	void drop(boolean dropSchemas);
+
+	/**
+	 * Validate that the database objects mapped by entities belonging
+	 * to the persistence unit have the expected definitions.
+	 *
+	 * <p>The persistence provider is not required to perform
+	 * any specific validation, so the semantics of this operation are
+	 * entirely provider-specific.
+	 *
+	 * @throws SchemaValidationException if a database object is missing or
+	 * does not have the expected definition
+	 */
+	void validate() throws SchemaValidationException;
+
+	/**
+	 * Truncate the database tables mapped by entities belonging to
+	 * the persistence unit, and then re-import initial data from any
+	 * configured SQL scripts for data loading.
+	 *
+	 * <p>If a SQL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+	 */
+	void truncate();
 }
 ----

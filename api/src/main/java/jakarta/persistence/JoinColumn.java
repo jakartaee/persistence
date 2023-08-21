@@ -183,4 +183,20 @@ public @interface JoinColumn {
      *  @since 2.1
      */
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+
+    /**
+     * (Optional) Check constraints to be applied to the column.
+     * These are only used if table generation is in effect.
+     *
+     * @since 3.2
+     */
+    CheckConstraint[] check() default {};
+
+    /**
+     * (Optional) A comment to be applied to the column.
+     * This is only used if table generation is in effect.
+     *
+     * @since 3.2
+     */
+    String comment() default "";
 }

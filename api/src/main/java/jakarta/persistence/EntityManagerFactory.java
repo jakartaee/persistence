@@ -11,12 +11,16 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
 package jakarta.persistence;
 
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
@@ -168,6 +172,17 @@ public interface EntityManagerFactory extends AutoCloseable {
     public PersistenceUnitUtil getPersistenceUnitUtil();
 
     /**
+     * Return interface providing access to schema management
+     * operations for the persistence unit.
+     * @return <code>SchemaManager</code> interface
+     * @throws IllegalStateException if the entity manager factory
+     * has been closed
+     *
+     * @since 3.2
+     */
+    public SchemaManager getSchemaManager();
+
+    /**
      * Define the query, typed query, or stored procedure query as
      * a named query such that future query objects can be created
      * from it using the <code>createNamedQuery</code> or
@@ -221,4 +236,54 @@ public interface EntityManagerFactory extends AutoCloseable {
      */
     public <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
 
+    /**
+     * Create a new application-managed {@code EntityManager} with an active
+     * transaction, and execute the given function, passing the {@code EntityManager}
+     * to the function.
+     * <p>
+     * If the transaction type of the persistence unit is JTA, and there is a JTA
+     * transaction already associated with the caller, then the {@code EntityManager}
+     * is associated with this current transaction. If the given function throws an
+     * exception, the JTA transaction is marked for rollback, and the exception is
+     * rethrown.
+     * <p>
+     * Otherwise, if the transaction type of the persistence unit is resource-local,
+     * or if there is no JTA transaction already associated with the caller, then
+     * the {@code EntityManager} is associated with a new transaction. If the given
+     * function returns without throwing an exception, this transaction is committed.
+     * If the function does throw an exception, the transaction is rolled back, and
+     * the exception is rethrown.
+     * <p>
+     * Finally, the {@code EntityManager} is closed before this method returns
+     * control to the client.
+     *
+     * @param work a function to be executed in the scope of the transaction
+     */
+    public void runInTransaction(Consumer<EntityManager> work);
+    /**
+     * Create a new application-managed {@code EntityManager} with an active
+     * transaction, and call the given function, passing the {@code EntityManager}
+     * to the function.
+     * <p>
+     * If the transaction type of the persistence unit is JTA, and there is a JTA
+     * transaction already associated with the caller, then the {@code EntityManager}
+     * is associated with this current transaction. If the given function returns
+     * without throwing an exception, the result of the function is returned. If the
+     * given function throws an exception, the JTA transaction is marked for rollback,
+     * and the exception is rethrown.
+     * <p>
+     * Otherwise, if the transaction type of the persistence unit is resource-local,
+     * or if there is no JTA transaction already associated with the caller, then
+     * the {@code EntityManager} is associated with a new transaction. If the given
+     * function returns without throwing an exception, this transaction is committed
+     * and the result of the function is returned. If the function does throw an
+     * exception, the transaction is rolled back, and the exception is rethrown.
+    * <p>
+     * Finally, the {@code EntityManager} is closed before this method returns
+     * control to the client.
+     *
+     * @param work a function to be called in the scope of the transaction
+     * @return the value returned by the given function
+     */
+    public <R> R callInTransaction(Function<EntityManager,R> work);
 }

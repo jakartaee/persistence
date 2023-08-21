@@ -17,16 +17,30 @@
 package jakarta.persistence;
 
 /**
- * Defines mapping for enumerated types.  The constants of this
- * enumerated type specify how a persistent property or
- * field of an enumerated type should be persisted.
- * 
+ * Enumerated available options for mapping enumerated types.
+ * The values of this enumeration specify how a persistent
+ * property or field whose type is a Java {@code enum} type
+ * should be persisted.
+ *
+ * @see Enumerated#value()
+ * @see EnumeratedValue
+ *
  * @since 1.0
  */
 public enum EnumType {
-    /** Persist enumerated type property or field as an integer. */
+    /**
+     * Persist enumerated type property or field as an integer.
+     * The ordinal value of an enum instance with no
+     * {@link EnumeratedValue} field is the value of its
+     * {@link Enum#ordinal()} member.
+     */
     ORDINAL,
 
-    /** Persist enumerated type property or field as a string. */
+    /**
+     * Persist enumerated type property or field as a string.
+     * The string value of an enum instance with no
+     * {@link EnumeratedValue} field is the value of its
+     * {@link Enum#name()} member.
+     */
     STRING
 }

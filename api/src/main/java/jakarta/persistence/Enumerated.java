@@ -26,12 +26,29 @@ import static jakarta.persistence.EnumType.ORDINAL;
 
 /**
  * Specifies that a persistent property or field should be persisted
- * as a enumerated type.  The <code>Enumerated</code> annotation may
- * be used in conjunction with the <code>Basic</code> annotation, or in
- * conjunction with the <code>ElementCollection</code> annotation when the
- * element collection value is of basic type.  If the enumerated type
- * is not specified or the <code>Enumerated</code> annotation is not
- * used, the <code>EnumType</code> value is assumed to be <code>ORDINAL</code>.
+ * as an enumerated type. This annotation is optional if the type of
+ * a persistent field or property is a Java {@code enum} type.
+ *
+ * <p>The {@code Enumerated} annotation may be used in conjunction
+ * with the {@link Basic} annotation, or in conjunction with the
+ * {@link ElementCollection} annotation when the element type of the
+ * collection is an enum type.
+ *
+ * <p>An enum can be mapped as either a {@linkplain EnumType#STRING
+ * string} or an {@linkplain EnumType#ORDINAL integer}, where
+ * {@link EnumType} enumerates the available options. The mapping
+ * may be {@linkplain #value explicitly specified} by this annotation.
+ *
+ * <p>If a persistent field or property of enum type has no explicit
+ * {@code Enumerated} annotation, and if no converter is applied to the
+ * field or property:
+ * <ul>
+ * <li>if the enum type has a final field of type {@link String}
+ *     annotated {@link EnumeratedValue}, the enumerated type is
+ *     inferred to be {@link EnumType#STRING};
+ * <li>otherwise, the enumerated type is taken to be
+ *     {@link EnumType#ORDINAL}.
+ * </ul>
  *
  * <pre>
  *   Example:
@@ -49,6 +66,7 @@ import static jakarta.persistence.EnumType.ORDINAL;
  *   }
  * </pre>
  *
+ * @see EnumeratedValue
  * @see Basic
  * @see ElementCollection
  *

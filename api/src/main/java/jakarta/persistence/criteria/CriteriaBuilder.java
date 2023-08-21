@@ -14,6 +14,7 @@
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
+//     Gavin King - 3.2
 
 
 package jakarta.persistence.criteria;
@@ -117,19 +118,37 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an ordering by the ascending value of the expression.
-     * @param x  expression used to define the ordering
+     * @param expression  expression used to define the ordering
      * @return ascending ordering corresponding to the expression
      */
-    Order asc(Expression<?> x);
+    Order asc(Expression<?> expression);
 
     /**
      * Create an ordering by the descending value of the expression.
-     * @param x  expression used to define the ordering
+     * @param expression  expression used to define the ordering
      * @return descending ordering corresponding to the expression
      */
-    Order desc(Expression<?> x);
+    Order desc(Expression<?> expression);
 
-	
+    /**
+     * Create an ordering by the ascending value of the expression.
+     * @param expression  expression used to define the ordering
+     * @param nullPrecedence  the precedence of null values
+     * @return ascending ordering corresponding to the expression
+     * @since 3.2
+     */
+    Order asc(Expression<?> expression, Nulls nullPrecedence);
+
+    /**
+     * Create an ordering by the descending value of the expression.
+     * @param expression  expression used to define the ordering
+     * @param nullPrecedence  the precedence of null values
+     * @return descending ordering corresponding to the expression
+     * @since 3.2
+     */
+    Order desc(Expression<?> expression, Nulls nullPrecedence);
+
+
     //aggregate functions:
 	
     /**
@@ -267,6 +286,14 @@ public interface CriteriaBuilder {
     Predicate and(Predicate... restrictions);
 
     /**
+     * Create a conjunction of the given restriction predicates.
+     * A conjunction of zero predicates is true.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return and predicate
+     */
+    Predicate and(List<Predicate> restrictions);
+
+    /**
      * Create a disjunction of the given boolean expressions.
      * @param x  boolean expression
      * @param y  boolean expression
@@ -281,6 +308,14 @@ public interface CriteriaBuilder {
      * @return or predicate
      */
     Predicate or(Predicate... restrictions);
+
+    /**
+     * Create a disjunction of the given restriction predicates.
+     * A disjunction of zero predicates is false.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return or predicate
+     */
+    Predicate or(List<Predicate> restrictions);
 
     /**
      * Create a negation of the given restriction. 
@@ -1248,8 +1283,80 @@ public interface CriteriaBuilder {
      * @return length expression
      */
     Expression<Integer> length(Expression<String> x);
-	
-	
+
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, int len);
+
+    /**
+     * Create an expression for the leftmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the leftmost substring
+     */
+    Expression<String> left(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression for the rightmost substring of a string,
+     * @param x  string expression
+     * @param len  length of the substring to return
+     * @return expression for the rightmost substring
+     */
+    Expression<String> right(Expression<String> x, Expression<Integer> len);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, Expression<String> replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, Expression<String> substring, String replacement);
+
+    /**
+     * Create an expression replacing every occurrence of a substring
+     * within a string.
+     * @param x  string expression
+     * @param substring  the literal substring to replace
+     * @param replacement  the replacement string
+     * @return expression for the resulting string
+     */
+    Expression<String> replace(Expression<String> x, String substring, String replacement);
+
+
     /**
      * Create expression to locate the position of one string
      * within another, returning position of first character
@@ -1659,6 +1766,59 @@ Expression<?>... args);
      */
     <X, T extends X> Root<T> treat(Root<X> root, Class<T> type);
 
+    /**
+     * Create a query which is the union of the given queries.
+     * @return a new criteria query which returns the union of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaQuery<T> union(CriteriaQuery<? extends T> left, CriteriaQuery<? extends T> right);
+
+    /**
+     * Create a query which is the union of the given queries,
+     * without elimination of duplicate results.
+     * @return a new criteria query which returns the union of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaQuery<T> unionAll(CriteriaQuery<? extends T> left, CriteriaQuery<? extends T> right);
+
+    /**
+     * Create a query which is the intersection of the given queries.
+     * @return a new criteria query which returns the intersection of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaQuery<T> intersect(CriteriaQuery<? super T> left, CriteriaQuery<? super T> right);
+
+    /**
+     * Create a query which is the intersection of the given queries,
+     * without elimination of duplicate results.
+     * @return a new criteria query which returns the intersection of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaQuery<T> intersectAll(CriteriaQuery<? super T> left, CriteriaQuery<? super T> right);
+
+    /**
+     * Create a query by (setwise) subtraction of the second query
+     * from the first query.
+     * @return a new criteria query which returns the result of
+     *         subtracting the results of the second query from the
+     *         results of the first query
+     * @since 3.2
+     */
+    <T> CriteriaQuery<T> except(CriteriaQuery<T> left, CriteriaQuery<?> right);
+
+    /**
+     * Create a query by (setwise) subtraction of the second query
+     * from the first query, without elimination of duplicate results.
+     * @return a new criteria query which returns the result of
+     *         subtracting the results of the second query from the
+     *         results of the first query
+     * @since 3.2
+     */
+    <T> CriteriaQuery<T> exceptAll(CriteriaQuery<T> left, CriteriaQuery<?> right);
 }
 
 
