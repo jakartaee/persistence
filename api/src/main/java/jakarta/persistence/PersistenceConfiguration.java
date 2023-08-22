@@ -311,8 +311,9 @@ public class PersistenceConfiguration {
     }
 
     /**
-     * Add an XML mapping file name to the configuration.
-     * @param name the file path of the mapping file
+     * Add the path of an XML mapping file loaded as a resource to
+     * the configuration.
+     * @param name the resource path of the mapping file
      * @return this configuration
      */
     public PersistenceConfiguration mappingFile(String name) {
@@ -321,8 +322,8 @@ public class PersistenceConfiguration {
     }
 
     /**
-     * The configured XML mapping files.
-     * @return all configured mapping file names
+     * The configured resource paths of XML mapping files.
+     * @return all configured mapping file resource paths
      */
     public List<String> mappingFiles() {
         return mappingFileNames;
