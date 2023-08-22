@@ -107,6 +107,15 @@ public @interface PrimaryKeyJoinColumn {
     String columnDefinition() default "";
 
     /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * which declares this column. May not be used in
+     * conjunction with {@link #columnDefinition()}.
+     *
+     * @since 3.2
+     */
+    String options() default "";
+
+    /**
      *  (Optional) Used to specify or control the generation of a
      *  foreign key constraint for the primary key join column 
      *  when table generation is in effect.  If

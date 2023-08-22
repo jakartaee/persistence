@@ -41,13 +41,25 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface UniqueConstraint {
 
-    /** (Optional) Constraint name.  A provider-chosen name will be chosen
-     * if a name is not specified.
+    /**
+     * (Optional) The name of the constraint.
+     * <p> Defaults to a provider-generated name.
      *
      * @since 2.0
      */
     String name() default "";
 
-    /** (Required) An array of the column names that make up the constraint. */
+    /**
+     * (Required) The names of the column which make up the
+     * constraint.
+     */
     String[] columnNames();
+
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * which creates this constraint.
+     *
+     * @since 3.2
+     */
+    String options() default "";
 }

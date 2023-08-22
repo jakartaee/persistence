@@ -77,6 +77,15 @@ public @interface DiscriminatorColumn {
      */
     String columnDefinition() default "";
 
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * which declares this column. May not be used in
+     * conjunction with {@link #columnDefinition()}.
+     *
+     * @since 3.2
+     */
+    String options() default "";
+
     /** 
      * (Optional) The column length for String-based discriminator types. 
      * Ignored for other discriminator types.

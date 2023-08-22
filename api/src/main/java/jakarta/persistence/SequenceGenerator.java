@@ -91,4 +91,12 @@ public @interface SequenceGenerator {
      * sequence numbers from the sequence.
      */
     int allocationSize() default 50;
+
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * statement which creates this sequence.
+     *
+     * @since 3.2
+     */
+    String options() default "";
 }
