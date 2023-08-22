@@ -46,6 +46,7 @@ public interface Expression<T> extends Selection<T> {
      * the argument.
      * @param value  expression to be tested against
      * @return predicate testing for equality
+     * @since 3.2
      */
     Predicate equalTo(Expression<?> value);
 
@@ -54,6 +55,7 @@ public interface Expression<T> extends Selection<T> {
      * the argument.
      * @param value  value to be tested against
      * @return predicate testing for equality
+     * @since 3.2
      */
     Predicate equalTo(Object value);
 
@@ -62,6 +64,7 @@ public interface Expression<T> extends Selection<T> {
      * to the argument.
      * @param value  expression to be tested against
      * @return predicate testing for inequality
+     * @since 3.2
      */
     Predicate notEqualTo(Expression<?> value);
 
@@ -70,6 +73,7 @@ public interface Expression<T> extends Selection<T> {
      * to the argument.
      * @param value  value to be tested against
      * @return predicate testing for inequality
+     * @since 3.2
      */
     Predicate notEqualTo(Object value);
 
