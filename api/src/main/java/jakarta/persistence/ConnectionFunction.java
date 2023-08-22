@@ -16,12 +16,11 @@
 
 package jakarta.persistence;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 /**
- * A function which makes use of a {@linkplain Connection JDBC connection}
- * to compute a result.
+ * A function which makes use of a native database connection to compute
+ * a result. The connection is usually a JDBC connection.
+ *
+ * @param <C> the connection type, usually {@code java.sql.Connection}
  *
  * @see ConnectionConsumer
  * @see EntityManager#callWithConnection(ConnectionFunction)
@@ -29,7 +28,7 @@ import java.sql.SQLException;
  * @since 3.2
  */
 @FunctionalInterface
-public interface ConnectionFunction<T> {
+public interface ConnectionFunction<C,T> {
 	/**
 	 * Compute a result using the given connection.
 	 *
@@ -37,7 +36,8 @@ public interface ConnectionFunction<T> {
 	 *
 	 * @return the result
 	 * 
-	 * @throws SQLException if a problem occurs calling JDBC
+	 * @throws Exception if a problem occurs calling the connection,
+	 *                   usually a {@code java.sql.SQLException}
 	 */
-	T apply(Connection connection) throws SQLException;
+	T apply(C connection) throws Exception;
 }
