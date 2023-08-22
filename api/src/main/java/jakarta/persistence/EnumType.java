@@ -17,7 +17,7 @@
 package jakarta.persistence;
 
 /**
- * Enumerated available options for mapping enumerated types.
+ * Enumerates available options for mapping enumerated types.
  * The values of this enumeration specify how a persistent
  * property or field whose type is a Java {@code enum} type
  * should be persisted.

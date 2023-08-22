@@ -11,9 +11,10 @@
  */
 
 // Contributors:
+//     Gavin King       - 3.2
 //     Petros Splinakis - 2.2
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Linda DeMichiel  - 2.1
+//     Linda DeMichiel  - 2.0
 
 package jakarta.persistence;
 
