@@ -157,4 +157,12 @@ public @interface TableGenerator {
      * @since 2.1 
      */
     Index[] indexes() default {};
+
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * statement which creates this table.
+     *
+     * @since 3.2
+     */
+    String options() default "";
 }

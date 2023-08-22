@@ -34,7 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface CheckConstraint {
 
     /**
-     * (Optional) The name of the constraint; defaults to a provider-generated name.
+     * (Optional) The name of the constraint.
+     * <p> Defaults to a provider-generated name.
      */
     String name() default "";
 
@@ -43,4 +44,11 @@ public @interface CheckConstraint {
      */
     String constraint();
 
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * which creates this constraint.
+     *
+     * @since 3.2
+     */
+    String options() default "";
 }

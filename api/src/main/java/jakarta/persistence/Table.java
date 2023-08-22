@@ -49,12 +49,14 @@ public @interface Table {
      */
     String name() default "";
 
-    /** (Optional) The catalog of the table.
+    /**
+     * (Optional) The catalog of the table.
      * <p> Defaults to the default catalog.
      */
     String catalog() default "";
 
-    /** (Optional) The schema of the table.
+    /**
+     * (Optional) The schema of the table.
      * <p> Defaults to the default schema for user.
      */
     String schema() default "";
@@ -94,4 +96,13 @@ public @interface Table {
      * @since 3.2
      */
     String comment() default "";
+
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * statement which creates this table. This is only used if
+     * table generation is in effect.
+     *
+     * @since 3.2
+     */
+    String options() default "";
 }

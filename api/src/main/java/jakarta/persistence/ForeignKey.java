@@ -63,28 +63,28 @@ import static jakarta.persistence.ConstraintMode.CONSTRAINT;
 public @interface ForeignKey {
 
     /**
-     * (Optional) The name of the foreign key constraint.  If this
-     * is not specified, it defaults to a provider-generated name.
+     * (Optional) The name of the foreign key constraint.
+     * <p> Defaults to a provider-generated name.
      */
     String name() default "";
 
     /**
-     * (Optional) Used to specify whether a foreign key constraint should be
-     *  generated when schema generation is in effect. 
-     *  <p>
-     *  A value of <code>CONSTRAINT</code> will cause the persistence
-     *  provider to generate a foreign key constraint.  If the
-     *  <code>foreignKeyDefinition</code> element is not specified, the
-     *  provider will generate a constraint whose update
-     *  and delete actions it determines most appropriate for the
-     *  join column(s) to which the foreign key annotation is applied.
-     *  <p>
-     *  A value of <code>NO_CONSTRAINT</code> will result in no
-     *  constraint being generated.
-     *  <p>
-     *  A value of <code>PROVIDER_DEFAULT</code> will result in the
-     *  provider's default behavior (which may or may not result
-     *  in the generation of a constraint for the given join column(s).
+     * (Optional) Used to specify whether a foreign key constraint
+     * should be generated when schema generation is in effect.
+     * <ul>
+     * <li><code>CONSTRAINT</code> specifies that the persistence
+     * provider must generate a foreign key constraint. If the
+     * <code>foreignKeyDefinition</code> element is not specified,
+     * the provider will generate a constraint whose update and
+     * delete actions it determines most appropriate for the join
+     * column or columns to which the foreign key annotation is
+     * applied.
+     * <li><code>NO_CONSTRAINT</code> specifies that no constraint
+     * should be generated.
+     * <li><code>PROVIDER_DEFAULT</code> selects the default
+     * behavior of the provider, which may or may not result in
+     * generation of a constraint.
+     * </ul>
      */
     ConstraintMode value() default CONSTRAINT;
 
@@ -92,4 +92,13 @@ public @interface ForeignKey {
      * (Optional) The foreign key constraint definition.  
      */
     String foreignKeyDefinition() default "";
+
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * which creates this foreign key. May not be used in
+     * conjunction with {@link #foreignKeyDefinition()}.
+     *
+     * @since 3.2
+     */
+    String options() default "";
 }

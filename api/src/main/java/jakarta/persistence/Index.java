@@ -51,12 +51,13 @@ import java.lang.annotation.Target;
 public @interface Index {
 
     /**
-     * (Optional) The name of the index; defaults to a provider-generated name.
+     * (Optional) The name of the index.
+     * <p> Defaults to a provider-generated name.
      */
     String name() default "";
 
     /**
-     * (Required) The names of the columns to be included in the index, 
+     * (Required) The names of the columns included in the index,
      * in order.
      */
     String columnList();
@@ -66,4 +67,11 @@ public @interface Index {
      */
     boolean unique() default false;
 
+    /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * which creates this index.
+     *
+     * @since 3.2
+     */
+    String options() default "";
 }

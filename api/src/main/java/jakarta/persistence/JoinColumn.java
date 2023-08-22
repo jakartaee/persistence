@@ -153,6 +153,15 @@ public @interface JoinColumn {
     String columnDefinition() default "";
 
     /**
+     * (Optional) A SQL fragment appended to the generated DDL
+     * which declares this column. May not be used in
+     * conjunction with {@link #columnDefinition()}.
+     *
+     * @since 3.2
+     */
+    String options() default "";
+
+    /**
      * (Optional) The name of the table that contains
      * the column. If a table is not specified, the column
      * is assumed to be in the primary table of the
