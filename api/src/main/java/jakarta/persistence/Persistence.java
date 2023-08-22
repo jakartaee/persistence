@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -130,7 +131,7 @@ public class Persistence {
      * @param map properties for schema generation;  these may
      *             also contain provider-specific properties.  The
      *             value of these properties override any values that
-     *             may have been configured elsewhere..             
+     *             may have been configured elsewhere.
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
      *         generation otherwise fails.

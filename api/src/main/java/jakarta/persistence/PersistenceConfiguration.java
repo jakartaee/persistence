@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents a configuration of a persistence unit, allowing programmatic
@@ -61,13 +62,19 @@ import java.util.Map;
  * }
  * </pre>
  *
+ * <p>It is intended that persistence providers define subclasses of
+ * this class with vendor-specific configuration options. A provider
+ * must support configuration via any instance of this class or of any
+ * subclass of this class.
+ *
  * @see Persistence#createEntityManagerFactory(PersistenceConfiguration)
  *
  * @since 3.2
  */
 public class PersistenceConfiguration {
 
-    private String name;
+    private final String name;
+
     private String provider;
     private String jtaDataSource;
     private String nonJtaDataSource;
@@ -76,27 +83,35 @@ public class PersistenceConfiguration {
     private ValidationMode validationMode = ValidationMode.AUTO;
     private PersistenceTransactionType transactionType = PersistenceTransactionType.RESOURCE_LOCAL;
 
-    private List<Class<?>> managedClasses = new ArrayList<>();
-    private List<String> mappingFileNames = new ArrayList<>();
-    private Map<String,Object> properties = new HashMap<>();
+    private final List<Class<?>> managedClasses = new ArrayList<>();
+    private final List<String> mappingFileNames = new ArrayList<>();
+    private final Map<String,Object> properties = new HashMap<>();
+
+    /**
+     * Create a new empty configuration. An empty configuration does not
+     * typically hold enough information for successful invocation of
+     * {@link #createEntityManagerFactory()}.
+     *
+     * @param name the name of the persistence unit, which may be used by
+     *             the persistence provider for logging and error reporting
+     */
+    public PersistenceConfiguration(String name) {
+        Objects.requireNonNull(name, "Persistence unit name should not be null");
+        this.name = name;
+    }
 
     /**
      * Create a new {@link EntityManagerFactory} based on this configuration.
-     * @throws IllegalStateException if required configuration is missing
+     * @throws PersistenceException if required configuration is missing or
+     *                              if the factory could not be created
      */
     public EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(this);
     }
 
     /**
-     * Specify the name of the persistence unit.
-     */
-    public PersistenceConfiguration name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    /**
+     * The name of the persistence unit, which may be used by the persistence
+     * provider for logging and error reporting.
      * @return the name of the persistence unit.
      */
     public String name() {
@@ -114,6 +129,8 @@ public class PersistenceConfiguration {
     }
 
     /**
+     * The fully-qualified name of a concrete class implementing
+     * {@link jakarta.persistence.spi.PersistenceProvider}.
      * @return the qualified name of the persistence provider class.
      */
     public String provider() {
@@ -131,7 +148,8 @@ public class PersistenceConfiguration {
     }
 
     /**
-     * @return the configured JTA datasource, if any
+     * The JNDI name of a JTA {@code javax.sql.DataSource}.
+     * @return the configured JTA datasource, if any, or null
      */
     public String jtaDataSource() {
         return jtaDataSource;
@@ -148,15 +166,17 @@ public class PersistenceConfiguration {
     }
 
     /**
-     * @return the configured non-JTA datasource, if any
+     * The JNDI name of a non-JTA {@code javax.sql.DataSource}.
+     * @return the configured non-JTA datasource, if any, or null
      */
     public String nonJtaDataSource() {
         return nonJtaDataSource;
     }
 
     /**
-     * Add a managed class (an {@link Entity}, {@link Embeddable}, or
-     * {@link MappedSuperclass}) to the configuration.
+     * Add a managed class (an {@link Entity}, {@link Embeddable},
+     * {@link MappedSuperclass}, or {@link Converter}) to the
+     * configuration.
      * @param managedClass the managed class
      * @return this configuration
      */
@@ -166,6 +186,9 @@ public class PersistenceConfiguration {
     }
 
     /**
+     * The configured managed classes, that is, a list of classes
+     * annotated {@link Entity}, {@link Embeddable},
+     * {@link MappedSuperclass}, or {@link Converter}.
      * @return all configured managed classes
      */
     public List<Class<?>> managedClasses() {
@@ -173,7 +196,7 @@ public class PersistenceConfiguration {
     }
 
     /**
-     * Add an {@code orm.xml} mapping file name to the configuration.
+     * Add an XML mapping file name to the configuration.
      * @param name the file path of the mapping file
      * @return this configuration
      */
@@ -183,6 +206,7 @@ public class PersistenceConfiguration {
     }
 
     /**
+     * The configured XML mapping files.
      * @return all configured mapping file names
      */
     public List<String> mappingFiles() {
@@ -200,6 +224,16 @@ public class PersistenceConfiguration {
     }
 
     /**
+     * The {@linkplain PersistenceTransactionType transaction type}.
+     * <ul>
+     * <li>If {@link PersistenceTransactionType#JTA}, a JTA data
+     *     source must be provided via {@link #jtaDataSource()},
+     *     or by the container.
+     * <li>If {@link PersistenceTransactionType#RESOURCE_LOCAL},
+     *     database connection properties may be specified via
+     *     {@link #properties()}, or a non-JTA datasource may be
+     *     provided via {@link #nonJtaDataSource()}.
+     * </ul>
      * @return the transaction type
      */
     public PersistenceTransactionType transactionType() {
@@ -217,6 +251,8 @@ public class PersistenceConfiguration {
     }
 
     /**
+     * The shared cache mode. The default behavior is unspecified
+     * and {@linkplain SharedCacheMode#UNSPECIFIED provider-specific}.
      * @return the shared cache mode
      */
     public SharedCacheMode sharedCacheMode() {
@@ -234,6 +270,7 @@ public class PersistenceConfiguration {
     }
 
     /**
+     * The validation mode, {@link ValidationMode#AUTO} by default.
      * @return the validation mode
      */
     public ValidationMode validationMode() {
@@ -262,6 +299,7 @@ public class PersistenceConfiguration {
     }
 
     /**
+     * Standard and vendor-specific property settings.
      * @return the configured properties
      */
     public Map<String, Object> properties() {
