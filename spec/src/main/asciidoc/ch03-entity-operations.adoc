@@ -1162,36 +1162,42 @@ public interface EntityManager extends AutoCloseable {
     public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
 
     /**
-     * Execute the given action using the {@link java.sql.Connection} underlying
-     * this {@code EntityManager}. If this {@code EntityManager} is associated
-     * with a transaction, the action is executed in the context of the transaction.
-     * The given action should close any JDBC resources it creates, but should not
-     * close the connection itself, nor commit or roll back the transaction. If the
-     * given action throws an exception, the persistence provider must mark the
+     * Execute the given action using the database connection underlying this
+     * {@code EntityManager}. Usually, the connection is a JDBC connection, but a
+     * provider might support some other native connection type, and is not required
+     * to support {@code java.sql.Connection}. If this {@code EntityManager} is
+     * associated with a transaction, the action is executed in the context of the
+     * transaction. The given action should close any resources it creates, but should
+     * not close the connection itself, nor commit or roll back the transaction. If
+     * the given action throws an exception, the persistence provider must mark the
      * transaction for rollback.
      * @param action the action
-     * @throws PersistenceException wrapping the {@link java.sql.SQLException}
-     *         thrown by {@link ConnectionConsumer#accept}, if any
+     * @param <C> the connection type, usually {@code java.sql.Connection}
+     * @throws PersistenceException wrapping the checked {@link Exception} thrown by
+     *         {@link ConnectionConsumer#accept}, if any
      * @since 3.2
      */
-    public void runWithConnection(ConnectionConsumer action);
+    public <C> void runWithConnection(ConnectionConsumer<C> action);
 
     /**
-     * Call the given function and return its result using the
-     * {@link java.sql.Connection} underlying this {@code EntityManager}. If this
+     * Call the given function and return its result using the database connection
+     * underlying this {@code EntityManager}. Usually, the connection is a JDBC
+     * connection, but a provider might support some other native connection type,
+     * and is not required to support {@code java.sql.Connection}. If this
      * {@code EntityManager} is associated with a transaction, the function is
      * executed in the context of the transaction. The given function should close
-     * any JDBC resources it creates, but should not close the connection itself,
-     * nor commit or roll back the transaction. If the given action throws an
-     * exception, the persistence provider must mark the transaction for rollback.
+     * any resources it creates, but should not close the connection itself, nor
+     * commit or roll back the transaction. If the given action throws an exception,
+     * the persistence provider must mark the transaction for rollback.
      * @param function the function
+     * @param <C> the connection type, usually {@code java.sql.Connection}
      * @param <T> the type of result returned by the function
      * @return the value returned by {@link ConnectionFunction#apply}.
-     * @throws PersistenceException wrapping the {@link java.sql.SQLException}
-     *         thrown by {@link ConnectionFunction#apply}, if any
+     * @throws PersistenceException wrapping the checked {@link Exception} thrown by
+     *         {@link ConnectionFunction#apply}, if any
      * @since 3.2
      */
-    public <T> T callWithConnection(ConnectionFunction<T> function);
+    public <C,T> T callWithConnection(ConnectionFunction<C,T> function);
 
 }
 ----

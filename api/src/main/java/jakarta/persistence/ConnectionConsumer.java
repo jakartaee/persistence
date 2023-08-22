@@ -16,11 +16,11 @@
 
 package jakarta.persistence;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 /**
- * An executable action which makes use of a {@linkplain Connection JDBC connection}.
+ * An executable action which makes use of a native database connection.
+ * The connection is usually a JDBC connection.
+ *
+ * @param <C> the connection type, usually {@code java.sql.Connection}
  *
  * @see ConnectionFunction
  * @see EntityManager#runWithConnection(ConnectionConsumer)
@@ -28,13 +28,14 @@ import java.sql.SQLException;
  * @since 3.2
  */
 @FunctionalInterface
-public interface ConnectionConsumer {
+public interface ConnectionConsumer<C> {
 	/**
 	 * Execute the action using the given connection.
 	 *
 	 * @param connection the connection to use
 	 *
-	 * @throws SQLException if a problem occurs calling JDBC
+	 * @throws Exception if a problem occurs calling the connection,
+	 *                   usually a {@code java.sql.SQLException}
 	 */
-	void accept(Connection connection) throws SQLException;
+	void accept(C connection) throws Exception;
 }
