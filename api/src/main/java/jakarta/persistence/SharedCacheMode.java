@@ -52,7 +52,6 @@ public enum SharedCacheMode {
     DISABLE_SELECTIVE, 
 
     /**
-     * 
      * Caching behavior is undefined: provider-specific defaults may apply.
      */
     UNSPECIFIED

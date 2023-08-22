@@ -1504,6 +1504,12 @@ environment.footnote:[Persistence units defined programmatically using the
 _PersistenceConfiguration_ class do not support JNDI lookup or injection via
 the _PersistenceContext_ or _PersistenceUnit_ annotations.]
 
+A persistence provider may define a subclass of _PersistenceConfiguration_
+with vendor-specific configuration options. A provider must support
+configuration via any instance of _PersistenceConfiguration_ or of any
+subclass of _PersistenceConfiguration_. If a subclass defines configuration
+options the provider does not recognize, it should ignore those options.
+
 === PersistenceUtil Interface
 
 This interface is used to determine load
