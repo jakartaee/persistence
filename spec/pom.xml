@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2018, 2022 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2018, 2023 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
         <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -30,8 +30,8 @@
     <properties>
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <maven.site.skip>true</maven.site.skip>
-        <asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>1.6.2</asciidoctorj.pdf.version>
+        <asciidoctor.maven.plugin.version>2.2.4</asciidoctor.maven.plugin.version>
+        <asciidoctorj.pdf.version>2.3.9</asciidoctorj.pdf.version>
         <spec.name>jakarta-${project.artifactId}-${project.version}</spec.name>
         <!-- status: DRAFT, BETA, etc., or blank for final -->
         <status>DRAFT</status>
@@ -58,7 +58,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -141,7 +141,6 @@
                 </executions>
                 <configuration>
                     <sourceDocumentName>jakarta.persistence-spec.adoc</sourceDocumentName>
-                    <sourceHighlighter>coderay</sourceHighlighter>
                     <attributes>
                         <revnumber>${project.version}</revnumber>
                         <revremark>${status}</revremark>
@@ -157,7 +156,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.6.0</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
