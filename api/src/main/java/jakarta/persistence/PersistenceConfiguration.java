@@ -73,6 +73,121 @@ import java.util.Objects;
  */
 public class PersistenceConfiguration {
 
+    /**
+     * Fully qualified name of the JDBC driver class.
+     */
+    public static final String JDBC_DRIVER = "jakarta.persistence.jdbc.driver";
+    /**
+     * JDBC URL.
+     */
+    public static final String JDBC_URL = "jakarta.persistence.jdbc.url";
+    /**
+     * Username for JDBC authentication.
+     */
+    public static final String JDBC_USER = "jakarta.persistence.jdbc.user";
+    /**
+     * Password for JDBC authentication.
+     */
+    public static final String JDBC_PASSWORD = "jakarta.persistence.jdbc.password";
+    /**
+     * An instance of {@code javax.sql.DataSource}.
+     */
+    public static final String JDBC_DATASOURCE = "jakarta.persistence.dataSource";
+
+    /**
+     * Default pessimistic lock timeout hint.
+     */
+    public static final String LOCK_TIMEOUT = "jakarta.persistence.lock.timeout";
+    /**
+     * Default query timeout hint.
+     */
+    public static final String QUERY_TIMEOUT = "jakarta.persistence.query.timeout";
+
+    /**
+     * The action to be performed against the database.
+     *
+     * <p>Standard actions are: {@code none}, {@code create},
+     * {@code drop}, {@code drop-and-create}, {@code validate}.
+     */
+    public static final String SCHEMAGEN_DATABASE_ACTION = "jakarta.persistence.schema-generation.database.action";
+    /**
+     * The action to be generated as a SQL script.
+     *
+     * <p>The script is generated in the location specified by
+     * {@value #SCHEMAGEN_CREATE_TARGET} or {@value #SCHEMAGEN_DROP_TARGET}.
+     *
+     * <p>Standard actions are: {@code none}, {@code create},
+     * {@code drop}, {@code drop-and-create}.
+     */
+    public static final String SCHEMAGEN_SCRIPTS_ACTION = "jakarta.persistence.schema-generation.scripts.action";
+    /**
+     * The source of artifacts to be created.
+     *
+     * <p>Standard sources are: {@code metadata}, {@code script},
+     * {@code metadata-then-script}, {@code script-then-metadata}.
+     *
+     * <p>The location of the script source is specified by
+     * {@value #SCHEMAGEN_CREATE_SCRIPT_SOURCE}.
+     */
+    public static final String SCHEMAGEN_CREATE_SOURCE = "jakarta.persistence.schema-generation.create-source";
+    /**
+     * The source of artifacts to be dropped.
+     *
+     * <p>Standard sources are: {@code metadata}, {@code script},
+     * {@code metadata-then-script}, {@code script-then-metadata}.
+     *
+     * <p>The location of the script source is specified by
+     * {@value #SCHEMAGEN_DROP_SCRIPT_SOURCE}.
+     */
+    public static final String SCHEMAGEN_DROP_SOURCE = "jakarta.persistence.schema-generation.drop-source";
+    /**
+     * An application-provided SQL script to be executed when the
+     * schema is created.
+     */
+    public static final String SCHEMAGEN_CREATE_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.create-script-source";
+    /**
+     * An application-provided SQL script to be executed when the
+     * schema is dropped.
+     */
+    public static final String SCHEMAGEN_DROP_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.drop-script-source";
+    /**
+     * The provider-generated SQL script which creates the schema
+     * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+     */
+    public static final String SCHEMAGEN_CREATE_TARGET = "jakarta.persistence.schema-generation.create-target";
+    /**
+     * The provider-generated SQL script which drops the schema
+     * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+     */
+    public static final String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.drop-target";
+
+    /**
+     * An instance of {@code jakarta.validation.ValidatorFactory},
+     */
+    public static final String VALIDATION_FACTORY = "jakarta.persistence.validation.factory";
+    /**
+     * Target groups for validation at {@link PrePersist}.
+     */
+    public static final String VALIDATION_GROUP_PRE_PERSIST = "jakarta.persistence.validation.group.pre-persist";
+    /**
+     * Target groups for validation at {@link PreUpdate}.
+     */
+    public static final String VALIDATION_GROUP_PRE_UPDATE = "jakarta.persistence.validation.group.pre-update";
+    /**
+     * Target groups for validation at {@link PreRemove}.
+     */
+    public static final String VALIDATION_GROUP_PRE_REMOVE = "jakarta.persistence.validation.group.pre-remove";
+
+    /**
+     * String specifying a {@link SharedCacheMode}.
+     *
+     * <p>Defined for use with
+     * {@link Persistence#createEntityManagerFactory(String, Map)}.
+     * Clients of this {@code PersistenceConfiguration} class
+     * should use {@link #sharedCacheMode(SharedCacheMode)}.
+     */
+    public static final String CACHE_MODE = "jakarta.persistence.sharedCache.mode";
+
     private final String name;
 
     private String provider;
