@@ -172,6 +172,14 @@ public interface EntityManagerFactory extends AutoCloseable {
     public PersistenceUnitUtil getPersistenceUnitUtil();
 
     /**
+     * The type of transaction management used by this persistence
+     * unit, either resource-local transaction management, or JTA.
+     *
+     * @since 3.2
+     */
+    public PersistenceUnitTransactionType getTransactionType();
+
+    /**
      * Return interface providing access to schema management
      * operations for the persistence unit.
      * @return <code>SchemaManager</code> interface

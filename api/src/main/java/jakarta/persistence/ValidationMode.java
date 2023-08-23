@@ -44,4 +44,4 @@ public enum ValidationMode {
      * The persistence provider must not perform lifecycle event validation.
      */
     NONE
-    }
+}
