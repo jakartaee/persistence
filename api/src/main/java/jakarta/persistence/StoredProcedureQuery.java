@@ -299,7 +299,7 @@ public interface StoredProcedureQuery extends Query {
      */
     StoredProcedureQuery registerStoredProcedureParameter(
 	  int position,
-	  Class type,
+	  Class<?> type,
 	  ParameterMode mode);
 
     /**
@@ -312,7 +312,7 @@ public interface StoredProcedureQuery extends Query {
      */
     StoredProcedureQuery registerStoredProcedureParameter(
 	  String parameterName,
-	  Class type,
+	  Class<?> type,
 	  ParameterMode mode);
 
     /**

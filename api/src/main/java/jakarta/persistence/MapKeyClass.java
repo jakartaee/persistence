@@ -95,6 +95,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target( { METHOD, FIELD })
 @Retention(RUNTIME)
 public @interface MapKeyClass {
-	/**(Required) The type of the map key.*/
-	Class value();
+	/**
+	 * (Required) The type of the map key.
+	 */
+	Class<?> value();
 }

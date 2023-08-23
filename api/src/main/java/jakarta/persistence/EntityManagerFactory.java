@@ -60,7 +60,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
-    public EntityManager createEntityManager(Map map);
+    public EntityManager createEntityManager(Map<?,?> map);
 
     /**
      * Create a new JTA application-managed <code>EntityManager</code> with the 
@@ -93,7 +93,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.1
      */
-    public EntityManager createEntityManager(SynchronizationType synchronizationType, Map map);
+    public EntityManager createEntityManager(SynchronizationType synchronizationType, Map<?,?> map);
 
     /**
      * Return an instance of <code>CriteriaBuilder</code> for the creation of

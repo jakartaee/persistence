@@ -50,5 +50,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface IdClass {
 
     /** Primary key class */
-    Class value();
+    Class<?> value();
 }

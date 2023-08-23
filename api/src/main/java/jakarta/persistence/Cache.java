@@ -31,21 +31,21 @@ public interface Cache {
      * @param primaryKey  primary key
      * @return boolean indicating whether the entity is in the cache
      */
-    public boolean contains(Class cls, Object primaryKey);
+    public boolean contains(Class<?> cls, Object primaryKey);
 
     /**
      * Remove the data for the given entity from the cache.
      * @param cls  entity class
      * @param primaryKey  primary key
      */
-    public void evict(Class cls, Object primaryKey);
+    public void evict(Class<?> cls, Object primaryKey);
 
     /**
      * Remove the data for entities of the specified class (and its
      * subclasses) from the cache.
      * @param cls  entity class
      */
-    public void evict(Class cls);
+    public void evict(Class<?> cls);
 
     /**
      * Clear the cache.

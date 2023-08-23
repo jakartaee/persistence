@@ -70,7 +70,7 @@ public class Persistence {
      * @return the factory that creates EntityManagers configured according to
      *         the specified persistence unit.
      */
-    public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName, Map properties) {
+    public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName, Map<?,?> properties) {
 
         EntityManagerFactory emf = null;
         PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
@@ -138,7 +138,7 @@ public class Persistence {
      *
      * @since 2.1
      */
-    public static void generateSchema(String persistenceUnitName, Map map) {
+    public static void generateSchema(String persistenceUnitName, Map<?,?> map) {
         PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
         List<PersistenceProvider> providers = resolver.getPersistenceProviders();
         
