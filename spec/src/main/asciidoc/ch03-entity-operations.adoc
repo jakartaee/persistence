@@ -2543,8 +2543,11 @@ callback methods will be invoked for the managed instance after the
 entity state has been copied to it. These _PrePersist_ and _PreRemove_
 callbacks will also be invoked on all entities to which these operations
 are cascaded. The _PrePersist_ and _PreRemove_ methods will always be
-invoked as part of the synchronous persist, merge, and remove
-operations.
+invoked as part of the synchronous persist, merge, and remove operations.
+Primary key values generated using the _SEQUENCE_, _TABLE_, or _UUID_
+strategy are available in the _PrePersist_ method. Primary key values
+generated using the _IDENTITY_ strategy are not available in the
+_PrePersist_ method.
 
 The _PostPersist_ and _PostRemove_ callback
 methods are invoked for an entity after the entity has been made
@@ -2555,7 +2558,7 @@ delete operations respectively. These database operations may occur
 directly after the persist, merge, or remove operations have been
 invoked or they may occur directly after a flush operation has occurred
 (which may be at the end of the transaction). Generated primary key
-values are available in the _PostPersist_ method.
+values are always available in the _PostPersist_ method.
 
 The _PreUpdate_ and _PostUpdate_ callbacks
 occur before and after the database update operations to entity data
