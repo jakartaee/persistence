@@ -55,7 +55,7 @@ public @interface ElementCollection {
      * paramterized type of the collection when defined using
      * generics.
      */
-    Class targetClass() default void.class;
+    Class<?> targetClass() default void.class;
     
     /**
      *  (Optional) Whether the collection should be lazily loaded or must be

@@ -815,7 +815,7 @@ public interface EntityManager extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    public Query createQuery(CriteriaUpdate updateQuery);
+    public Query createQuery(CriteriaUpdate<?> updateQuery);
 
     /**
      * Create an instance of <code>Query</code> for executing a criteria
@@ -826,7 +826,7 @@ public interface EntityManager extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    public Query createQuery(CriteriaDelete deleteQuery);
+    public Query createQuery(CriteriaDelete<?> deleteQuery);
 
     /**
      * Create an instance of <code>TypedQuery</code> for executing a
@@ -894,7 +894,7 @@ public interface EntityManager extends AutoCloseable {
      * @param resultClass the class of the resulting instance(s)
      * @return the new query instance
      */
-    public Query createNativeQuery(String sqlString, Class resultClass);
+    public Query createNativeQuery(String sqlString, Class<?> resultClass);
 
     /**
      * Create an instance of <code>Query</code> for executing
@@ -958,7 +958,7 @@ public interface EntityManager extends AutoCloseable {
      * @since 2.1
      */
     public StoredProcedureQuery createStoredProcedureQuery(
-	       String procedureName, Class... resultClasses);
+	       String procedureName, Class<?>... resultClasses);
 
     /**
      * Create an instance of <code>StoredProcedureQuery</code> for executing a

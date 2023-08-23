@@ -193,7 +193,7 @@ public @interface Convert {
    * element must be specified if multiple converters would
    * otherwise apply.
    */
-  Class converter() default void.class;
+  Class<? extends AttributeConverter> converter() default AttributeConverter.class;
 
   /**
    * The <code>attributeName</code> element must be specified unless the 

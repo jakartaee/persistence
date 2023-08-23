@@ -99,7 +99,7 @@ public @interface OneToMany {
      * <p> Defaults to the parameterized type of
      * the collection when defined using generics.
      */
-    Class targetEntity() default void.class;
+    Class<?> targetEntity() default void.class;
 
     /** 
      * (Optional) The operations that must be cascaded to 

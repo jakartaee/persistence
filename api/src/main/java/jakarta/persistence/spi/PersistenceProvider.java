@@ -51,7 +51,7 @@ public interface PersistenceProvider {
      *
      * @see Persistence#createEntityManagerFactory(String, Map)
      */
-    public EntityManagerFactory createEntityManagerFactory(String emName, Map map);
+    public EntityManagerFactory createEntityManagerFactory(String emName, Map<?,?> map);
 
     /**
      * Called by <code>Persistence</code> class when an
@@ -86,7 +86,7 @@ public interface PersistenceProvider {
      * @return EntityManagerFactory for the persistence unit 
      * specified by the metadata
      */
-    public EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo info, Map map);
+    public EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo info, Map<?,?> map);
 
 
     /**
@@ -106,7 +106,7 @@ public interface PersistenceProvider {
      *
      * @since 2.1
      */
-    public void generateSchema(PersistenceUnitInfo info, Map map);
+    public void generateSchema(PersistenceUnitInfo info, Map<?,?> map);
 
     /**
      * Create database schemas and/or tables and/or create DDL
@@ -128,7 +128,7 @@ public interface PersistenceProvider {
      *
      * @since 2.1
      */
-    public boolean generateSchema(String persistenceUnitName, Map map); 
+    public boolean generateSchema(String persistenceUnitName, Map<?,?> map);
 
     /**
      * Return the utility interface implemented by the persistence

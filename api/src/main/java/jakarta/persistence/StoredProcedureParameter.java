@@ -46,7 +46,9 @@ public @interface StoredProcedureParameter {
      */
     ParameterMode mode() default ParameterMode.IN;
 
-    /** JDBC type of the paramter. */
-    Class type();
+    /**
+     * JDBC type of the parameter.
+     */
+    Class<?> type();
 
 }

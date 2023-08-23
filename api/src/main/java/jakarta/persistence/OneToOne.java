@@ -122,7 +122,7 @@ public @interface OneToOne {
      * <p> Defaults to the type of the field or property 
      * that stores the association. 
      */
-    Class targetEntity() default void.class;
+    Class<?> targetEntity() default void.class;
 
     /**
      * (Optional) The operations that must be cascaded to 
