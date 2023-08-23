@@ -23,7 +23,7 @@ package jakarta.persistence;
  *
  * @since 3.2
  */
-public enum PersistenceTransactionType {
+public enum PersistenceUnitTransactionType {
     /**
      * Transaction management via JTA.
      */

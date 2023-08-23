@@ -22,7 +22,11 @@ package jakarta.persistence.spi;
  * resource-local entity managers.
  *
  * @since 1.0
+ *
+ * @deprecated replaced by
+ * {@link jakarta.persistence.PersistenceUnitTransactionType}
  */
+@Deprecated(since = "3.2", forRemoval = true)
 public enum PersistenceUnitTransactionType {
 
     /** JTA entity managers will be created. */

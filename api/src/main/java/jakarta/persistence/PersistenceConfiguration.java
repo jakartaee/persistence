@@ -196,7 +196,7 @@ public class PersistenceConfiguration {
 
     private SharedCacheMode sharedCacheMode = SharedCacheMode.UNSPECIFIED;
     private ValidationMode validationMode = ValidationMode.AUTO;
-    private PersistenceTransactionType transactionType = PersistenceTransactionType.RESOURCE_LOCAL;
+    private PersistenceUnitTransactionType transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
 
     private final List<Class<?>> managedClasses = new ArrayList<>();
     private final List<String> mappingFileNames = new ArrayList<>();
@@ -334,25 +334,25 @@ public class PersistenceConfiguration {
      * @param transactionType the transaction type
      * @return this configuration
      */
-    public PersistenceConfiguration transactionType(PersistenceTransactionType transactionType) {
+    public PersistenceConfiguration transactionType(PersistenceUnitTransactionType transactionType) {
         this.transactionType = transactionType;
         return this;
     }
 
     /**
-     * The {@linkplain PersistenceTransactionType transaction type}.
+     * The {@linkplain PersistenceUnitTransactionType transaction type}.
      * <ul>
-     * <li>If {@link PersistenceTransactionType#JTA}, a JTA data
+     * <li>If {@link PersistenceUnitTransactionType#JTA}, a JTA data
      *     source must be provided via {@link #jtaDataSource()},
      *     or by the container.
-     * <li>If {@link PersistenceTransactionType#RESOURCE_LOCAL},
+     * <li>If {@link PersistenceUnitTransactionType#RESOURCE_LOCAL},
      *     database connection properties may be specified via
      *     {@link #properties()}, or a non-JTA datasource may be
      *     provided via {@link #nonJtaDataSource()}.
      * </ul>
      * @return the transaction type
      */
-    public PersistenceTransactionType transactionType() {
+    public PersistenceUnitTransactionType transactionType() {
         return transactionType;
     }
 
