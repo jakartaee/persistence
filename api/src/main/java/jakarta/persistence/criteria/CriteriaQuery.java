@@ -214,6 +214,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * corresponding <code>AbstractQuery</code> method.
      * @param restrictions  a list of zero or more restriction predicates
      * @return the modified query
+     * @since 3.2
      */
     CriteriaQuery<T> where(List<Predicate> restrictions);
 
@@ -278,6 +279,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * corresponding <code>AbstractQuery</code> method.
      * @param restrictions  a list of zero or more restriction predicates
      * @return the modified query
+     * @since 3.2
      */
     CriteriaQuery<T> having(List<Predicate> restrictions);
 
