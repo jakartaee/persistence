@@ -350,27 +350,51 @@ public interface EntityManager extends AutoCloseable {
                       FindOption... options);
 
     /**
-     * Get an instance, whose state may be lazily fetched.
-     * If the requested instance does not exist in the database,
-     * the <code>EntityNotFoundException</code> is thrown when the instance 
-     * state is first accessed. (The persistence provider runtime is 
-     * permitted to throw the <code>EntityNotFoundException</code> when 
-     * <code>getReference</code> is called.)
-     * The application should not expect that the instance state will
+     * Obtain a reference to an instance of the given entity class
+     * with the given primary key, whose state may be lazily fetched.
+     * <p>If the requested instance does not exist in the database,
+     * the <code>EntityNotFoundException</code> is thrown when the
+     * instance state is first accessed.
+     * (The persistence provider runtime is permitted but not
+     * required to throw the <code>EntityNotFoundException</code>
+     * when <code>getReference</code> is called.)
+     * <p>The application should not expect the instance state to
      * be available upon detachment, unless it was accessed by the
      * application while the entity manager was open.
      * @param entityClass  entity class
      * @param primaryKey  primary key
-     * @return the found entity instance
+     * @return a reference to the entity instance
      * @throws IllegalArgumentException if the first argument does
      *         not denote an entity type or the second argument is
      *         not a valid type for that entity's primary key or
      *         is null
-     * @throws EntityNotFoundException if the entity state 
-     *         cannot be accessed
+     * @throws EntityNotFoundException if the entity state cannot
+     *         be accessed
      */
-    public <T> T getReference(Class<T> entityClass, 
-                                  Object primaryKey);
+    public <T> T getReference(Class<T> entityClass, Object primaryKey);
+
+    /**
+     * Obtain a reference to an instance of the entity class of the
+     * given object, with the same primary key as the given object,
+     * whose state may be lazily fetched. The given object may be
+     * persistent or detached, but may be neither new nor removed.
+     * <p>If the requested instance does not exist in the database,
+     * the <code>EntityNotFoundException</code> is thrown when the
+     * instance state is first accessed.
+     * (The persistence provider runtime is permitted but not
+     * required to throw the <code>EntityNotFoundException</code>
+     * when <code>getReference</code> is called.)
+     * <p>The application should not expect the instance state to
+     * be available upon detachment, unless it was accessed by the
+     * application while the entity manager was open.
+     * @param entity  a persistent or detached entity instance
+     * @return a reference to the entity instance
+     * @throws IllegalArgumentException if the given object is not
+     *         an entity, or if it is neither persistent nor detached
+     * @throws EntityNotFoundException if the entity state cannot be
+     *         accessed
+     */
+    public <T> T getReference(T entity);
 
     /**
      * Synchronize the persistence context to the
