@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -67,6 +68,20 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
     Subquery<T> where(Predicate... restrictions);
 
     /**
+     * Modify the query to restrict the query result according
+     * to the conjunction of the specified restriction predicates.
+     * Replaces the previously added restriction(s), if any.
+     * If no restrictions are specified, any previously added
+     * restrictions are simply removed.
+     * This method only overrides the return type of the
+     * corresponding <code>AbstractQuery</code> method.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return the modified query
+     * @since 3.2
+     */
+    Subquery<T> where(List<Predicate> restrictions);
+
+    /**
      * Specify the expressions that are used to form groups over
      * the subquery results.
      * Replaces the previous specified grouping expressions, if any.
@@ -115,6 +130,21 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the modified subquery
      */
     Subquery<T> having(Predicate... restrictions);
+
+    /**
+     * Specify restrictions over the groups of the query
+     * according the conjunction of the specified restriction
+     * predicates.
+     * Replaces the previously added having restriction(s), if any.
+     * If no restrictions are specified, any previously added
+     * restrictions are simply removed.
+     * This method only overrides the return type of the
+     * corresponding <code>AbstractQuery</code> method.
+     * @param restrictions  a list of zero or more restriction predicates
+     * @return the modified query
+     * @since 3.2
+     */
+    Subquery<T> having(List<Predicate> restrictions);
 
     /**
      * Specify whether duplicate query results will be eliminated.
