@@ -1253,47 +1253,48 @@ _collection_member_expression_, or as an argument to the SIZE operator.
 
 ==== Input Parameters
 
-Either positional or named parameters may be
-used. Positional and named parameters must not be mixed in a single
-query.
+An input parameter allows a value in the Java program to be safely
+interpolated into the text of the parameterized query.
 
-Input parameters can only be used in the
-WHERE clause or HAVING clause of a query or
-as the new value for an update item in the SET clause of an update
-statement.
+In a given query, either positional or named parameters may be used.
+Positional and named parameters must not be mixed in a single query.
+
+The persistence provider is required to support input parameters which
+occur in the _WHERE_ clause or _HAVING_ clause of a query, or as the
+new value for an update item in the _SET_ clause of an update statement.
 
 [NOTE]
 ====
-Note that if an input parameter value is
-null, comparison operations or arithmetic operations involving the input
-parameter will return an unknown value. See <<a5676>>.
+Note that if an input parameter value is null, comparison operations or
+arithmetic operations involving the input parameter will result in an
+unknown value. See <<a5676>>.
 ====
 
-All input parameters must be single-valued,
-except in IN expressions (see <<a5107>>), which support the use of collection-valued input
-parameters.
+Every input parameter must be single-valued, unless the parameter occurs
+as the right hand side of an _IN_ expressions (see <<a5107>>). Such input
+parameters may be collection-valued.
 
-The API for the binding of query parameters
-is described in <<a1060>>.
+The API for the binding concrete arguments to query parameters is described
+in <<a3125>>.
 
 ===== Positional Parameters
 
-The following rules apply to positional
-parameters.
+The following rules apply to positional input parameters.
 
-* Input parameters are designated by the
-question mark (_?_) prefix followed by an integer. For example: _?1_.
+* A positional parameter is designated by an integer, and prefixed with a
+  _?_ symbol (question mark) in the text of the query string.
+  For example: _?1_.
 * Input parameters are numbered starting from 1.
-* The same parameter can be used more than once in the query string.
-* The ordering of the use of parameters within
-the query string need not conform to the order of the positional
-parameters.
+* A given positional parameter may occur more than once in the query string.
+* The ordering of the use of parameters within the text of the query string
+  need not match the numbering of the positional parameters.
 
 ===== Named Parameters
 
-A named parameter is denoted by an identifier
-that is prefixed by the ":" symbol. It follows the rules for identifiers
-defined in <<a4760>>. Named parameters are case sensitive.
+A named parameter is denoted by an identifier, and prefixed by the _:_ symbol
+(colon) in the text of the query string. The identifier name must follow the
+usual rules for identifiers specified in <<a4760>>. Named parameters are
+case-sensitive.
 
 Example:
 
@@ -1304,7 +1305,7 @@ FROM Customer c
 WHERE c.status = :stat
 ----
 
-The same named parameter can be used more than once in the query string.
+A given named parameter may occur more than once in the query string.
 
 ==== Conditional Expression Composition
 
