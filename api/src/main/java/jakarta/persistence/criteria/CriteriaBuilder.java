@@ -14,7 +14,6 @@
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
-//     Gavin King - 3.2
 
 
 package jakarta.persistence.criteria;
@@ -290,6 +289,7 @@ public interface CriteriaBuilder {
      * A conjunction of zero predicates is true.
      * @param restrictions  a list of zero or more restriction predicates
      * @return and predicate
+     * @since 3.2
      */
     Predicate and(List<Predicate> restrictions);
 
@@ -314,6 +314,7 @@ public interface CriteriaBuilder {
      * A disjunction of zero predicates is false.
      * @param restrictions  a list of zero or more restriction predicates
      * @return or predicate
+     * @since 3.2
      */
     Predicate or(List<Predicate> restrictions);
 
