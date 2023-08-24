@@ -2520,9 +2520,7 @@ The following rules apply to lifecycle callback methods:
   invoke _EntityManager_ or query operations, access other entity
   instances, or modify relationships within the same persistence
   contextfootnote:[Note that this caution applies also to the actions of
-  objects that might be injected into an entity listener]footnote:[The
-  semantics of such operations may be standardized in a future release of
-  this specification.].
+  objects that might be injected into an entity listener].
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
