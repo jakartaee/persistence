@@ -56,6 +56,7 @@ public interface Query {
      *         the query timeout value set and the transaction 
      *         is rolled back 
      */
+    @SuppressWarnings({"rawtypes"})
     List getResultList();
 
     /**
@@ -85,6 +86,7 @@ public interface Query {
      * @see #getResultList()
      * @since 2.2
      */
+    @SuppressWarnings({"rawtypes"})
     default Stream getResultStream() {
         return getResultList().stream();
     }
