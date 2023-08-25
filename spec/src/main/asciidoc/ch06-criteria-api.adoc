@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
 //
 
 == Criteria API [[a6925]]
@@ -80,10 +80,9 @@ this specification.]
 managed class by appending "pass:[_]" to the name of the managed class.
 * The metamodel class _pass:[X_]_ must be annotated with the
 _jakarta.persistence.StaticMetamodel_ annotationfootnote:[If the class
-was generated, the _jakarta.annotation.Generated_ annotation should be
-used to annotate the class. The use of any annotations other than
-_StaticMetamodel_ and _Generated_ on static metamodel classes is
-undefined.].
+was generated, the _javax.annotation.processing.Generated_ or _jakarta.annotation.Generated_
+annotation should be used to annotate the class. The use of any other annotations on static
+metamodel classes is undefined.].
 * If the managed class _X_ extends another class _S_, where _S_ is the
 most derived managed class (i.e., entity or mapped superclass) extended
 by _X_, then the metamodel class _pass:[X_]_ must extend the metamodel

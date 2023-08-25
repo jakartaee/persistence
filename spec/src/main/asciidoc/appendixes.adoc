@@ -33,6 +33,8 @@ Added _getVersion()_, _isLoaded()_, _load()_, _isInstance()_ and _getClass()_ me
 
 Added overload of _entity()_ accepting an entity name to _Metamodel_
 
+Added _javax.annotation.processing.Generated_ to the list of defined annotations on _StaticMetamodel_
+
 Added joins on __EntityType__s
 
 Added constants for managed types, named queries, named graphs and named result set mappings to generated _StaticMetamodel_
