@@ -112,6 +112,10 @@ Added `union`, `intersect`, `except`, `cast`, `left`, `right`, and `replace` for
 
 Added `||` string concatenation operator to JPQL
 
+Added _extract()_ to _CriteriaBuilder_
+
+Added _subquery(EntityType)_ to _CommonAbstractCriteria_
+
 Added support for specifying null precedence when ordering JPQL and criteria queries
 
 Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
@@ -120,13 +124,15 @@ Added _entities()_, _classes()_ and _columns()_ to _NamedNativeQuery_
 
 Added _lockMode()_ to _EntityResult_ with the default being `OPTIMISTIC`
 
-Added _getVersion()_, _isLoaded()_, _load()_, _isInstance()_ and _getClass() methods to _PersistenceUnitUtil_
+Added _getVersion()_, _isLoaded()_, _load()_, _isInstance()_ and _getClass()_ methods to _PersistenceUnitUtil_
 
 Added overload of _entity()_ accepting an entity name to _Metamodel_
 
-Added _LocalDateTime_ and _Instant_ to supported _Version_ types
+Added joins on __EntityType__s
 
-Added _concat()_ overloads accepting list of expressions to _CriteriaBuilder_
+Added constants for managed types, named queries, named graphs and named result set mappings to generated _StaticMetamodel_
+
+Added _LocalDateTime_ and _Instant_ to supported _Version_ types
 
 Added _where()_, _having()_, _and()_, and _or()_ overloads accepting _List<Predicate>_ to _CriteriaQuery_ and _CriteriaBuilder_
 
@@ -144,13 +150,19 @@ and __LockOption__s respectively
 
 Added _setCacheStoreMode()_, and _setCacheRetreiveMode()_ methods to _EntityManager_ and _Query_
 
+Added _getReference_ overload to _EntityManager_
+
 Added _runWithConnection()_ and _callWithConnection()_ to _EntityManager_
 
 Added _runInTransaction()_ and _callInTransaction()_ to _EntityManagerFactory_
 
 Added programmatic API to obtain _EntityManagerFactory_ using _PersistenceConfiguration_
 
+Added constants for properties defined by the specification to the _PersistenceConfiguration_
+
 Added _SchemaManager_ API
+
+Added options member to elements which result in DDL generation
 
 Added _EnumeratedValue_ allowing custom mapping of fields of Java enums
 
@@ -159,6 +171,8 @@ Added _comment_ and _check_ members to table and column annotations, along with 
 Made the _name_ member of _TableGenerator_ and _SequenceGenerator_ optional
 
 Clarified the primary key types supported for each _GenerationType_
+
+Clarified availability of _SEQUENCE_, _TABLE_ and _UUID_ generated IDs on _PrePersist_
 
 Clarified semantics of numeric literals and added support for `bi` and `bd` suffixes
 
@@ -178,6 +192,8 @@ Fixed lower type bounds to the _Path.get_ entity argument _X_
 
 Fixed example code in the javadoc of _AttributeOverrides_
 
+Partially fixed raw types warnings through the API
+
 Improved AsciiDoc formatting and fixed typos through the specification document
 
 ==== Deprecations
@@ -191,3 +207,6 @@ Deprecated _addSubclassSubgraph()_ in _EntityGraph_ for removal; _addTreatedSubg
 
 Deprecated _addSubgraph(Attribute, Class)_ and _addKeySubgraph()_ in _Graph_/_EntityGraph_/_SubGraph_ for removal; _addTreatedSubgraph(Attribute, Class)_
 and _addMapKeySubgraph()_ methods should be used as direct replacements
+
+Deprecated _jakarta.persistence.spi.PersistenceUnitTransactionType_ for removal; _jakarta.persistence.PersistenceUnitTransactionType_
+methods should be used as direct replacement
