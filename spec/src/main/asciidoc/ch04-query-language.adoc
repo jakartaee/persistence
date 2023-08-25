@@ -704,15 +704,13 @@ See <<a5139>>, <<a5150>>, and <<a5284>>.
 
 JPQL defines the following varieties of join:
 
-- inner joins,
-- left outer joins,
-- right outer joins,
-- full outer joins.
+- inner joins, and.
+- left outer joins.footnote:[Support for right outer joins and full
+outer joins is under consideration for inclusion in a future version
+of this specification.]
 
 The semantics of each variety of join is identical to SQL, and the
-syntax is borrowed from ANSI SQL. Providers are not required to
-support right joins or full joins on databases which do not natively
-support these join types.
+syntax is borrowed from ANSI SQL.
 
 Every join has a target, either:
 
