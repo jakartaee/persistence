@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Lukas Jungmann  - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -54,8 +55,11 @@ public interface PersistenceUnitInfo {
      * the <code>transaction-type</code> attribute in the <code>persistence.xml</code> file.
      * @return  transaction type of the entity managers created
      * by the EntityManagerFactory
+     *
+     * <p>Note: This method will change its return type to {@link jakarta.persistence.PersistenceUnitTransactionType}
+     * in the next major version.
      */
-    public PersistenceUnitTransactionType getTransactionType();
+    PersistenceUnitTransactionType getTransactionType();
 
     /**
      * Returns the JTA-enabled data source to be used by the
