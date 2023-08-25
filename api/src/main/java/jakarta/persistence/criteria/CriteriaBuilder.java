@@ -1195,7 +1195,7 @@ public interface CriteriaBuilder {
     /**
      *  Used to specify how strings are trimmed.
      */
-    public static enum Trimspec { 
+    enum Trimspec {
 
         /**
          * Trim from leading end.
@@ -1476,7 +1476,7 @@ public interface CriteriaBuilder {
     /**
      *  Interface used to build in predicates.
      */
-    public static interface In<T> extends Predicate {
+    interface In<T> extends Predicate {
 
          /**
           * Return the expression to be tested against the
@@ -1561,7 +1561,7 @@ public interface CriteriaBuilder {
      * that returns null if all its arguments evaluate to null,
      * and the value of its first non-null argument otherwise.
      */
-    public static interface Coalesce<T> extends Expression<T> {
+    interface Coalesce<T> extends Expression<T> {
 
          /**
           * Add an argument to the coalesce expression.
@@ -1592,7 +1592,7 @@ public interface CriteriaBuilder {
      *  Case conditions are evaluated in the order in which
      *  they are specified.
      */
-    public static interface SimpleCase<C,R> extends Expression<R> {
+    interface SimpleCase<C,R> extends Expression<R> {
 
 		/**
 		 * Return the expression to be tested against the
@@ -1661,7 +1661,7 @@ public interface CriteriaBuilder {
      *  Case conditions are evaluated in the order in which
      *  they are specified.
      */
-    public static interface Case<R> extends Expression<R> {
+    interface Case<R> extends Expression<R> {
 
 		/**
 		 * Add a when/then clause to the case expression.

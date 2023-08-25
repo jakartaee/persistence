@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -31,7 +31,7 @@ public interface EntityTransaction {
       * Start a resource transaction. 
       * @throws IllegalStateException if <code>isActive()</code> is true
       */
-     public void begin();
+     void begin();
 
      /**
       * Commit the current resource transaction, writing any 
@@ -39,7 +39,7 @@ public interface EntityTransaction {
       * @throws IllegalStateException if <code>isActive()</code> is false
       * @throws RollbackException if the commit fails
       */
-     public void commit();
+     void commit();
 
      /**
       * Roll back the current resource transaction. 
@@ -47,7 +47,7 @@ public interface EntityTransaction {
       * @throws PersistenceException if an unexpected error 
       *         condition is encountered
       */
-     public void rollback();
+     void rollback();
 
      /**
       * Mark the current resource transaction so that the only 
@@ -55,7 +55,7 @@ public interface EntityTransaction {
       * to be rolled back. 
       * @throws IllegalStateException if <code>isActive()</code> is false
       */
-     public void setRollbackOnly();
+     void setRollbackOnly();
 
      /**
       * Determine whether the current resource transaction has been 
@@ -64,7 +64,7 @@ public interface EntityTransaction {
       *         marked for rollback
       * @throws IllegalStateException if <code>isActive()</code> is false
       */
-     public boolean getRollbackOnly();
+     boolean getRollbackOnly();
 
      /**
       * Indicate whether a resource transaction is in progress.
@@ -73,5 +73,5 @@ public interface EntityTransaction {
       * @throws PersistenceException if an unexpected error 
       *         condition is encountered
       */
-     public boolean isActive();
+     boolean isActive();
 }

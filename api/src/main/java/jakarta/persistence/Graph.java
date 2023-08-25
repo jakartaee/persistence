@@ -42,7 +42,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    public void addAttributeNode(String attributeName);
+    void addAttributeNode(String attributeName);
 
     /**
      * Add an attribute node to the entity graph.
@@ -53,7 +53,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    public void addAttributeNode(Attribute<? super T, ?> attribute);
+    void addAttributeNode(Attribute<? super T, ?> attribute);
 
     /**
      * Remove an attribute node from the entity graph.
@@ -64,7 +64,7 @@ public interface Graph<T> {
      * @param attributeName  name of the attribute
      * @since 3.2
      */
-    public void removeAttributeNode(String attributeName);
+    void removeAttributeNode(String attributeName);
 
     /**
      * Remove an attribute node from the entity graph.
@@ -75,7 +75,7 @@ public interface Graph<T> {
      * @param attribute  attribute
      * @since 3.2
      */
-    public void removeAttributeNode(Attribute<? super T, ?> attribute);
+    void removeAttributeNode(Attribute<? super T, ?> attribute);
 
     /**
      * Remove all attribute nodes of the given attribute types.
@@ -85,7 +85,7 @@ public interface Graph<T> {
      * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
      * @since 3.2
      */
-    public void removeAttributeNodes(Attribute.PersistentAttributeType nodeTypes);
+    void removeAttributeNodes(Attribute.PersistentAttributeType nodeTypes);
 
     /**
      * Add one or more attribute nodes to the entity graph.
@@ -96,7 +96,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if the EntityGraph has been 
      *         statically defined
      */
-    public void addAttributeNodes(String ... attributeName);
+    void addAttributeNodes(String... attributeName);
 
     /**
      * Add one or more attribute nodes to the entity graph.
@@ -105,7 +105,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been 
      *         statically defined
      */
-    public void addAttributeNodes(Attribute<? super T, ?>... attribute);
+    void addAttributeNodes(Attribute<? super T, ?>... attribute);
 
     /**
      * Add a node to the graph that corresponds to a managed
@@ -119,7 +119,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if the EntityGraph has been 
      *         statically defined
      */
-    public <X> Subgraph<X> addSubgraph(Attribute<? super T, X> attribute);
+    <X> Subgraph<X> addSubgraph(Attribute<? super T, X> attribute);
 
     /**
      * Add a node to the graph that corresponds to a managed
@@ -138,7 +138,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    public <Y> Subgraph<Y> addTreatedSubgraph(Attribute<? super T, ? super Y> attribute, Class<Y> type);
+    <Y> Subgraph<Y> addTreatedSubgraph(Attribute<? super T, ? super Y> attribute, Class<Y> type);
 
     /**
      * Add a node to the graph that corresponds to a managed
@@ -157,7 +157,7 @@ public interface Graph<T> {
      * @deprecated use {@link #addTreatedSubgraph(Attribute, Class)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
-    public <X> Subgraph<? extends X> addSubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
+    <X> Subgraph<? extends X> addSubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
 
     /**
      * Add a node to the graph that corresponds to a managed
@@ -173,7 +173,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been 
      *         statically defined
      */
-    public <X> Subgraph<X> addSubgraph(String attributeName);
+    <X> Subgraph<X> addSubgraph(String attributeName);
 
     /**
      * Add a node to the graph that corresponds to a managed
@@ -192,7 +192,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been 
      *         statically defined
      */
-    public <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
+    <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -208,7 +208,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    public <E> Subgraph<E> addElementSubgraph(PluralAttribute<? super T, ?, E> attribute);
+    <E> Subgraph<E> addElementSubgraph(PluralAttribute<? super T, ?, E> attribute);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -224,7 +224,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    public <E> Subgraph<E> addTreatedElementSubgraph(PluralAttribute<? super T, ?, ? super E> attribute, Class<E> type);
+    <E> Subgraph<E> addTreatedElementSubgraph(PluralAttribute<? super T, ?, ? super E> attribute, Class<E> type);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -240,7 +240,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *          statically defined
      */
-    public <X> Subgraph<X> addElementSubgraph(String attributeName);
+    <X> Subgraph<X> addElementSubgraph(String attributeName);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -257,7 +257,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *          statically defined
      */
-    public <X> Subgraph<X> addElementSubgraph(String attributeName, Class<X> type);
+    <X> Subgraph<X> addElementSubgraph(String attributeName, Class<X> type);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -271,7 +271,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
      */
-    public <K> Subgraph<K> addMapKeySubgraph(MapAttribute<? super T, K, ?> attribute);
+    <K> Subgraph<K> addMapKeySubgraph(MapAttribute<? super T, K, ?> attribute);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -288,7 +288,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
      */
-    public <K> Subgraph<K> addTreatedMapKeySubgraph(MapAttribute<? super T, ? super K, ?> attribute, Class<K> type);
+    <K> Subgraph<K> addTreatedMapKeySubgraph(MapAttribute<? super T, ? super K, ?> attribute, Class<K> type);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -304,7 +304,7 @@ public interface Graph<T> {
      * @deprecated use {@link #addMapKeySubgraph(MapAttribute)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
-    public <X> Subgraph<X> addKeySubgraph(Attribute<? super T, X> attribute);
+    <X> Subgraph<X> addKeySubgraph(Attribute<? super T, X> attribute);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -323,7 +323,7 @@ public interface Graph<T> {
      * @deprecated use {@link #addTreatedMapKeySubgraph(MapAttribute, Class)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
-    public <X> Subgraph<? extends X> addKeySubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
+    <X> Subgraph<? extends X> addKeySubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -339,7 +339,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *          statically defined
      */
-    public <X> Subgraph<X> addKeySubgraph(String attributeName);
+    <X> Subgraph<X> addKeySubgraph(String attributeName);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -358,7 +358,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been 
      *         statically defined
      */
-    public <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
+    <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
 
     /**
      * Return the attribute nodes corresponding to the attributes of
@@ -366,6 +366,6 @@ public interface Graph<T> {
      * @return list of attribute nodes included in the graph or an
      * empty list if none have been defined
      */
-    public List<AttributeNode<?>> getAttributeNodes();
+    List<AttributeNode<?>> getAttributeNodes();
 
 }

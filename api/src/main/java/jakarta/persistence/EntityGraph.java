@@ -42,7 +42,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * <code>addNamedEntityGraph</code> method).  Returns null if the
      * EntityGraph is not a named EntityGraph.
      */
-    public String getName();
+    String getName();
 
     /**
      * Add additional attributes to this entity graph that
@@ -56,7 +56,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
      */
-    public <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
+    <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
 
     /**
      * Add additional attributes to this entity graph that
@@ -72,6 +72,6 @@ public interface EntityGraph<T> extends Graph<T> {
      * @deprecated use {@link #addTreatedSubgraph(Class)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
-    public <T> Subgraph<? extends T> addSubclassSubgraph(Class<? extends T> type);
+    <T> Subgraph<? extends T> addSubclassSubgraph(Class<? extends T> type);
 
 }
