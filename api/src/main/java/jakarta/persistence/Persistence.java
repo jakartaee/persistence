@@ -12,6 +12,7 @@
 
 // Contributors:
 //     Gavin King      - 3.2
+//     Lukas Jungmann  - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -42,7 +43,17 @@ import jakarta.persistence.spi.LoadState;
  * @since 1.0
  */
 public class Persistence {
-    
+
+    /**
+     * Default constructor.
+     * @deprecated This class is not intended to be extended nor instantiated,
+     *     it is going to be marked {@code final} when this constructor becomes hidden.
+     */
+    @Deprecated(since = "3.2", forRemoval = true)
+    public Persistence() {
+        //kept for backward compatibility with pre-3.2 versions
+    }
+
     /**
      * Create and return an {@link EntityManagerFactory} for the named
      * persistence unit.
@@ -219,7 +230,7 @@ public class Persistence {
      * "jakarta.persistence.spi.PersistenceProvider" or remove PERSISTENCE_PROVIDER field and also update TCK signature 
      * tests. 
      */
-    @Deprecated
+    @Deprecated(since = "3.2", forRemoval = true)
     public static final String PERSISTENCE_PROVIDER = "jakarta.persistence.spi.PersistenceProvider";
     
     /**
@@ -227,6 +238,6 @@ public class Persistence {
      * @since 1.0
      * @deprecated
      */
-    @Deprecated
+    @Deprecated(since = "3.2", forRemoval = true)
     protected static final Set<PersistenceProvider> providers = new HashSet<PersistenceProvider>();
 }
