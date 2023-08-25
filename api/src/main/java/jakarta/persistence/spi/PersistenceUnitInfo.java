@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Lukas Jungmann  - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -55,6 +56,9 @@ public interface PersistenceUnitInfo {
      * file.
      * @return  transaction type of the entity managers created
      * by the EntityManagerFactory
+     *
+     * <p>Note: This method will change its return type to {@link jakarta.persistence.PersistenceUnitTransactionType}
+     * in the next major version.
      */
     PersistenceUnitTransactionType getTransactionType();
 
