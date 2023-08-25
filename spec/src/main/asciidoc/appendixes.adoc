@@ -5,102 +5,7 @@
 [appendix]
 == Revision History
 
-This appendix lists the significant changes
-that have been made during the development of the Java Persistence 2.2
-specification.
-
-=== Maintenance Release Draft
-
-Created document from Java Persistence 2.1
-Final Release specification.
-
-The following annotations have been marked _@Repeatable_:
-
-* AssociationOverride
-* AttributeOverride
-* Convert
-* JoinColumn
-* MapKeyJoinColumn
-* NamedEntityGraph
-* NamedNativeQuery
-* NamedQuery
-* NamedStoredProcedureQuery
-* PersistenceContext
-* PersistenceUnit
-* PrimaryKeyJoinColumn
-* SecondaryTable
-* SqlResultSetMapping
-* SequenceGenerator
-* TableGenerator
-
-Added SequenceGenerators and TableGenerators annotations.
-
-Added support for CDI injection into
-AttributeConverter classes.
-
-Added support for the mapping of the following java.time types:
-
-* java.time.LocalDate
-* java.time.LocalTime
-* java.time.LocalDateTime
-* java.time.OffsetTime
-* java.time.OffsetDateTime
-
-Added default Stream getResultStream() method
-to Query interface.
-
-Added default Stream<X> getResultStream()
-method to TypedQuery interface.
-
-Replaced reference to JAR file specification
-in persistence provider bootstrapping section with more general
-reference to Java SE service provider requirements.
-
-Updated persistence.xml and orm.xml schemas to 2.2 versions.
-
-Updated Related Documents.
-
-=== Jakarta Persistence 3.0
-
-Created document from Java Persistence 2.2 Final Release specification.
-
-The document was converted to _Asciidoc_ format.
-
-Packages of all API classes were changed to _jakarta.persistence_. These changes are reflected in the specification document.
-
-Schema namespaces were changed from http://xmlns.jcp.org/xml/ns/persistence and http://xmlns.jcp.org/xml/ns/persistence/orm
-to https://jakarta.ee/xml/ns/persistence and https://jakarta.ee/xml/ns/persistence/orm
-
-References to schema versions lower than 2.2 were removed.
-
-=== Jakarta Persistence 3.1
-
-`EntityManagerFactory` and `EntityManager` interfaces extend `java.lang.AutoCloseable` interface
-
-Fixed `ClassTransformer.transform` to throw Persistence API specific exception
-
-Added support for `java.util.UUID` and `GenerationType.UUID`
-
-Added _CEILING_, _EXP_, _FLOOR_, _LN_, _POWER_, _ROUND_, and _SIGN_
-numeric functions to Jakarta Persistence QL and _ceiling()_, _exp()_,
-_floor(), _ln()_, _power()_,  _round()_, and _sign()_ to Criteria API
-
-Added _LOCAL DATE_, _LOCAL DATETIME_, and _LOCAL TIME_ functions to Jakarta Persistence QL and
-corresponding _localDate()_, _localDateTime()_, and _localTime()_ to Criteria API
-
-Added _EXTRACT_ function to Jakarta Persistence QL
-
-Added support for __Expression__s as conditions in _Criteria_ `CASE` expressions
-
-Clarified mixing types of query input parameters
-
-Added missing definition of _single_valued_embeddable_object_field_ in Jakarta Persistence QL BNF
-
-Clarified definition of the _Basic_ type
-
-Clarified the order of parameters in the _LOCATE_ function
-
-Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting aliases
+This appendix lists the significant changes that have been made during the development of the Jakarta Persistence specification.
 
 === Jakarta Persistence 3.2
 
@@ -108,15 +13,15 @@ Added support for Java record types as embeddable classes
 
 Added support for _java.time.Instant_ and _java.time.Year_ and clarified JDBC mappings for basic types
 
-Added `union`, `intersect`, `except`, `cast`, `left`, `right`, and `replace` for JPQL and criteria queries
+Added `union`, `intersect`, `except`, `cast`, `left`, `right`, and `replace` for Jakarta Persistence QL and criteria queries
 
-Added `||` string concatenation operator to JPQL
+Added `||` string concatenation operator to Jakarta Persistence QL
 
 Added _extract()_ to _CriteriaBuilder_
 
 Added _subquery(EntityType)_ to _CommonAbstractCriteria_
 
-Added support for specifying null precedence when ordering JPQL and criteria queries
+Added support for specifying null precedence when ordering Jakarta Persistence QL and criteria queries
 
 Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
 
@@ -176,7 +81,7 @@ Clarified availability of _SEQUENCE_, _TABLE_ and _UUID_ generated IDs on _PrePe
 
 Clarified semantics of numeric literals and added support for `bi` and `bd` suffixes
 
-Clarified rules around distinction of entity names and identification variables and case-sensitivity in JPQL queries
+Clarified rules around distinction of entity names and identification variables and case-sensitivity in Jakarta Persistence QL queries
 
 Clarified the semantics of __Bindable.ENTITY_TYPE__ in javadoc
 
@@ -210,3 +115,96 @@ and _addMapKeySubgraph()_ methods should be used as direct replacements
 
 Deprecated _jakarta.persistence.spi.PersistenceUnitTransactionType_ for removal; _jakarta.persistence.PersistenceUnitTransactionType_
 methods should be used as direct replacement
+
+=== Jakarta Persistence 3.1
+
+`EntityManagerFactory` and `EntityManager` interfaces extend `java.lang.AutoCloseable` interface
+
+Fixed `ClassTransformer.transform` to throw Persistence API specific exception
+
+Added support for `java.util.UUID` and `GenerationType.UUID`
+
+Added _CEILING_, _EXP_, _FLOOR_, _LN_, _POWER_, _ROUND_, and _SIGN_
+numeric functions to Jakarta Persistence QL and _ceiling()_, _exp()_,
+_floor(), _ln()_, _power()_,  _round()_, and _sign()_ to Criteria API
+
+Added _LOCAL DATE_, _LOCAL DATETIME_, and _LOCAL TIME_ functions to Jakarta Persistence QL and
+corresponding _localDate()_, _localDateTime()_, and _localTime()_ to Criteria API
+
+Added _EXTRACT_ function to Jakarta Persistence QL
+
+Added support for __Expression__s as conditions in _Criteria_ `CASE` expressions
+
+Clarified mixing types of query input parameters
+
+Added missing definition of _single_valued_embeddable_object_field_ in Jakarta Persistence QL BNF
+
+Clarified definition of the _Basic_ type
+
+Clarified the order of parameters in the _LOCATE_ function
+
+Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting aliases
+
+=== Jakarta Persistence 3.0
+
+Created document from Java Persistence 2.2 Final Release specification.
+
+The document was converted to _Asciidoc_ format.
+
+Packages of all API classes were changed to _jakarta.persistence_. These changes are reflected in the specification document.
+
+Schema namespaces were changed from http://xmlns.jcp.org/xml/ns/persistence and http://xmlns.jcp.org/xml/ns/persistence/orm
+to https://jakarta.ee/xml/ns/persistence and https://jakarta.ee/xml/ns/persistence/orm
+
+References to schema versions lower than 2.2 were removed.
+
+=== Java Persistence 2.2 (Maintenance Release Draft)
+
+Created document from Java Persistence 2.1
+Final Release specification.
+
+The following annotations have been marked _@Repeatable_:
+
+* AssociationOverride
+* AttributeOverride
+* Convert
+* JoinColumn
+* MapKeyJoinColumn
+* NamedEntityGraph
+* NamedNativeQuery
+* NamedQuery
+* NamedStoredProcedureQuery
+* PersistenceContext
+* PersistenceUnit
+* PrimaryKeyJoinColumn
+* SecondaryTable
+* SqlResultSetMapping
+* SequenceGenerator
+* TableGenerator
+
+Added SequenceGenerators and TableGenerators annotations.
+
+Added support for CDI injection into
+AttributeConverter classes.
+
+Added support for the mapping of the following java.time types:
+
+* java.time.LocalDate
+* java.time.LocalTime
+* java.time.LocalDateTime
+* java.time.OffsetTime
+* java.time.OffsetDateTime
+
+Added default Stream getResultStream() method
+to Query interface.
+
+Added default Stream<X> getResultStream()
+method to TypedQuery interface.
+
+Replaced reference to JAR file specification
+in persistence provider bootstrapping section with more general
+reference to Java SE service provider requirements.
+
+Updated persistence.xml and orm.xml schemas to 2.2 versions.
+
+Updated Related Documents.
