@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -46,7 +46,7 @@ public interface ProviderUtil {
      *        to be determined
      * @return load status of the attribute
      */
-    public LoadState isLoadedWithoutReference(Object entity, String attributeName);
+    LoadState isLoadedWithoutReference(Object entity, String attributeName);
 
     /**
      * If the provider determines that the entity has been provided
@@ -70,7 +70,7 @@ public interface ProviderUtil {
      *        to be determined
      * @return load status of the attribute
      */
-    public LoadState isLoadedWithReference(Object entity, String attributeName);
+    LoadState isLoadedWithReference(Object entity, String attributeName);
 
     /**
      * If the provider determines that the entity has been provided
@@ -89,5 +89,5 @@ public interface ProviderUtil {
      * @param entity whose loaded status is to be determined
      * @return load status of the entity
      */
-    public LoadState isLoaded(Object entity);
+    LoadState isLoaded(Object entity);
 }

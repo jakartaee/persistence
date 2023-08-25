@@ -47,7 +47,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
-    public EntityManager createEntityManager();
+    EntityManager createEntityManager();
     
     /**
      * Create a new application-managed <code>EntityManager</code> with the 
@@ -60,7 +60,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
-    public EntityManager createEntityManager(Map<?,?> map);
+    EntityManager createEntityManager(Map<?, ?> map);
 
     /**
      * Create a new JTA application-managed <code>EntityManager</code> with the 
@@ -76,7 +76,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.1
      */
-    public EntityManager createEntityManager(SynchronizationType synchronizationType);
+    EntityManager createEntityManager(SynchronizationType synchronizationType);
 
     /**
      * Create a new JTA application-managed <code>EntityManager</code> with the 
@@ -93,7 +93,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.1
      */
-    public EntityManager createEntityManager(SynchronizationType synchronizationType, Map<?,?> map);
+    EntityManager createEntityManager(SynchronizationType synchronizationType, Map<?, ?> map);
 
     /**
      * Return an instance of <code>CriteriaBuilder</code> for the creation of
@@ -104,7 +104,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
-    public CriteriaBuilder getCriteriaBuilder();
+    CriteriaBuilder getCriteriaBuilder();
     
     /**
      * Return an instance of <code>Metamodel</code> interface for access to the
@@ -115,14 +115,14 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
-    public Metamodel getMetamodel();
+    Metamodel getMetamodel();
 
     /**
      * Indicates whether the factory is open. Returns true
      * until the factory has been closed.
      * @return boolean indicating whether the factory is open
      */
-    public boolean isOpen();
+    boolean isOpen();
     
     /**
      * Close the factory, releasing any resources that it holds.
@@ -134,7 +134,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
-    public void close();
+    void close();
 
     /**
      * Get the properties and associated values that are in effect
@@ -146,7 +146,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
-    public Map<String, Object> getProperties();
+    Map<String, Object> getProperties();
 
     /**
      * Access the cache that is associated with the entity manager 
@@ -158,7 +158,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
-    public Cache getCache();
+    Cache getCache();
 
     /**
      * Return interface providing access to utility methods
@@ -169,7 +169,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
-    public PersistenceUnitUtil getPersistenceUnitUtil();
+    PersistenceUnitUtil getPersistenceUnitUtil();
 
     /**
      * The type of transaction management used by this persistence
@@ -177,7 +177,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
-    public PersistenceUnitTransactionType getTransactionType();
+    PersistenceUnitTransactionType getTransactionType();
 
     /**
      * Return interface providing access to schema management
@@ -188,7 +188,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
-    public SchemaManager getSchemaManager();
+    SchemaManager getSchemaManager();
 
     /**
      * Define the query, typed query, or stored procedure query as
@@ -217,7 +217,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.1
      */
-    public void addNamedQuery(String name, Query query);
+    void addNamedQuery(String name, Query query);
 
     /**
      * Return an object of the specified type to allow access to the
@@ -232,7 +232,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * support the call
      * @since 2.1
      */
-    public <T> T unwrap(Class<T> cls);
+    <T> T unwrap(Class<T> cls);
 
     /**
      * Add a named copy of the EntityGraph to the
@@ -242,7 +242,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @param entityGraph  entity graph
      * @since 2.1
      */
-    public <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
+    <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
 
     /**
      * Create a new application-managed {@code EntityManager} with an active
@@ -267,7 +267,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @param work a function to be executed in the scope of the transaction
      */
-    public void runInTransaction(Consumer<EntityManager> work);
+    void runInTransaction(Consumer<EntityManager> work);
     /**
      * Create a new application-managed {@code EntityManager} with an active
      * transaction, and call the given function, passing the {@code EntityManager}
@@ -293,5 +293,5 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @param work a function to be called in the scope of the transaction
      * @return the value returned by the given function
      */
-    public <R> R callInTransaction(Function<EntityManager,R> work);
+    <R> R callInTransaction(Function<EntityManager, R> work);
 }

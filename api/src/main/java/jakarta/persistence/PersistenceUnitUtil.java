@@ -40,7 +40,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * @return false if entity's state has not been loaded or if 
      *         the attribute state has not been loaded, else true
      */
-    public boolean isLoaded(Object entity, String attributeName);
+    boolean isLoaded(Object entity, String attributeName);
 
     /**
      * Determine the load state of a given persistent attribute
@@ -51,7 +51,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      *         the attribute state has not been loaded, else true
      * @since 3.2
      */
-    public <E> boolean isLoaded(E entity, Attribute<? super E,?> attribute);
+    <E> boolean isLoaded(E entity, Attribute<? super E, ?> attribute);
 
     /**
      * Determine the load state of an entity belonging to the
@@ -66,7 +66,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * @param entity   entity instance whose load state is to be determined
      * @return false if the entity has not been loaded, else true
      */
-    public boolean isLoaded(Object entity);
+    boolean isLoaded(Object entity);
 
     /**
      * Load the persistent value of a given persistent attribute
@@ -83,7 +83,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    public void load(Object entity, String attributeName);
+    void load(Object entity, String attributeName);
 
     /**
      * Load the persistent value of a given persistent attribute
@@ -100,7 +100,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    public <E> void load(E entity, Attribute<? super E,?> attribute);
+    <E> void load(E entity, Attribute<? super E, ?> attribute);
 
     /**
      * Load the persistent state of an entity belonging to the
@@ -115,7 +115,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    public void load(Object entity);
+    void load(Object entity);
 
     /**
      * Return true if the given entity belonging to the persistence
@@ -134,7 +134,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    public boolean isInstance(Object entity, Class<?> entityClass);
+    boolean isInstance(Object entity, Class<?> entityClass);
 
     /**
      * Return the concrete entity class if the given entity belonging
@@ -150,7 +150,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    public <T> Class<? extends T> getClass(T entity);
+    <T> Class<? extends T> getClass(T entity);
 
     /**
      *  Return the id of the entity.
@@ -162,7 +162,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      *  @throws IllegalArgumentException if the object is found not 
      *          to be an entity
      */
-    public Object getIdentifier(Object entity);
+    Object getIdentifier(Object entity);
 
     /**
      *  Return the version of the entity.
@@ -175,5 +175,5 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      *          to be an entity
      * @since 3.2
      */
-    public Object getVersion(Object entity);
+    Object getVersion(Object entity);
 }

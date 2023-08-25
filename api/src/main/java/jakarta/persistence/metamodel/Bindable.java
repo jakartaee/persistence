@@ -29,7 +29,7 @@ import jakarta.persistence.criteria.Path;
  */
 public interface Bindable<T> {
     
-    public static enum BindableType {
+    enum BindableType {
         /**
          * Single-valued attribute type.
          *

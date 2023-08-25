@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -34,7 +34,7 @@ public interface AttributeConverter<X,Y> {
      * @return  the converted data to be stored in the database 
      *          column
      */
-    public Y convertToDatabaseColumn (X attribute);
+    Y convertToDatabaseColumn(X attribute);
 
     /**
      * Converts the data stored in the database column into the 
@@ -49,5 +49,5 @@ public interface AttributeConverter<X,Y> {
      * @return  the converted value to be stored in the entity 
      *          attribute
      */
-    public X convertToEntityAttribute (Y dbData);
+    X convertToEntityAttribute(Y dbData);
 }

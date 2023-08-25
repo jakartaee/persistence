@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -35,7 +35,7 @@ public interface AttributeNode<T> {
      * attribute node.
      * @return name of the attribute
      */
-    public String getAttributeName();
+    String getAttributeName();
 
     /**
      * Return the Map&#060;Class, Subgraph&#062; of subgraphs associated
@@ -43,7 +43,7 @@ public interface AttributeNode<T> {
      * @return Map of subgraphs associated with this attribute node
      * or empty Map if none have been defined
      */
-    public Map<Class, Subgraph> getSubgraphs();
+    Map<Class, Subgraph> getSubgraphs();
 
     /**
      * Return the Map&#060;Class, Subgraph&#062; of subgraphs associated
@@ -51,6 +51,6 @@ public interface AttributeNode<T> {
      * @return Map of subgraphs associated with this attribute 
      * node's map key or empty Map if none have been defined
      */
-    public Map<Class, Subgraph> getKeySubgraphs();
+    Map<Class, Subgraph> getKeySubgraphs();
 }
 

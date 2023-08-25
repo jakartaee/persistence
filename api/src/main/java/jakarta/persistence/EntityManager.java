@@ -68,7 +68,7 @@ public interface EntityManager extends AutoCloseable {
      *         invoked on a container-managed entity manager of that is of type 
      *         <code>PersistenceContextType.TRANSACTION</code>
      */
-    public void persist(Object entity);
+    void persist(Object entity);
     
     /**
      * Merge the state of the given entity into the
@@ -80,8 +80,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws TransactionRequiredException if there is no transaction when
      *         invoked on a container-managed entity manager of that is of type 
      *         <code>PersistenceContextType.TRANSACTION</code>
-     */    
-    public <T> T merge(T entity);
+     */
+    <T> T merge(T entity);
 
     /**
      * Remove the entity instance.
@@ -92,8 +92,8 @@ public interface EntityManager extends AutoCloseable {
      *         container-managed entity manager of type 
      *         <code>PersistenceContextType.TRANSACTION</code> and there is 
      *         no transaction
-     */    
-    public void remove(Object entity);
+     */
+    void remove(Object entity);
     
     /**
      * Find by primary key.
@@ -109,7 +109,7 @@ public interface EntityManager extends AutoCloseable {
      *         is not a valid type for that entity's primary key or
      *         is null
      */
-    public <T> T find(Class<T> entityClass, Object primaryKey);
+    <T> T find(Class<T> entityClass, Object primaryKey);
     
     /**
      * Find by primary key, using the specified properties. 
@@ -129,9 +129,9 @@ public interface EntityManager extends AutoCloseable {
      *         is not a valid type for that entity's primary key or 
      *         is null 
      * @since 2.0
-     */ 
-    public <T> T find(Class<T> entityClass, Object primaryKey, 
-                      Map<String, Object> properties); 
+     */
+    <T> T find(Class<T> entityClass, Object primaryKey,
+               Map<String, Object> properties);
     
     /**
      * Find by primary key and lock.
@@ -177,8 +177,8 @@ public interface EntityManager extends AutoCloseable {
      *         is made
      * @since 2.0
      */
-    public <T> T find(Class<T> entityClass, Object primaryKey,
-                      LockModeType lockMode);
+    <T> T find(Class<T> entityClass, Object primaryKey,
+               LockModeType lockMode);
 
     /**
      * Find by primary key and lock, using the specified properties. 
@@ -232,9 +232,9 @@ public interface EntityManager extends AutoCloseable {
      *         is made
      * @since 2.0
      */
-    public <T> T find(Class<T> entityClass, Object primaryKey,
-                      LockModeType lockMode, 
-                      Map<String, Object> properties);
+    <T> T find(Class<T> entityClass, Object primaryKey,
+               LockModeType lockMode,
+               Map<String, Object> properties);
 
     /**
      * Find an instance of the given entity class by primary key,
@@ -289,8 +289,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
-    public <T> T find(Class<T> entityClass, Object primaryKey,
-                      FindOption... options);
+    <T> T find(Class<T> entityClass, Object primaryKey,
+               FindOption... options);
 
     /**
      * Find an instance of the root entity of the given {@link EntityGraph}
@@ -346,8 +346,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
-    public <T> T find(EntityGraph<T> entityGraph, Object primaryKey,
-                      FindOption... options);
+    <T> T find(EntityGraph<T> entityGraph, Object primaryKey,
+               FindOption... options);
 
     /**
      * Obtain a reference to an instance of the given entity class
@@ -371,7 +371,7 @@ public interface EntityManager extends AutoCloseable {
      * @throws EntityNotFoundException if the entity state cannot
      *         be accessed
      */
-    public <T> T getReference(Class<T> entityClass, Object primaryKey);
+    <T> T getReference(Class<T> entityClass, Object primaryKey);
 
     /**
      * Obtain a reference to an instance of the entity class of the
@@ -394,7 +394,7 @@ public interface EntityManager extends AutoCloseable {
      * @throws EntityNotFoundException if the entity state cannot be
      *         accessed
      */
-    public <T> T getReference(T entity);
+    <T> T getReference(T entity);
 
     /**
      * Synchronize the persistence context to the
@@ -404,21 +404,21 @@ public interface EntityManager extends AutoCloseable {
      *         joined to the current transaction
      * @throws PersistenceException if the flush fails
      */
-    public void flush();
+    void flush();
 
     /**
      * Set the flush mode that applies to all objects contained
      * in the persistence context. 
      * @param flushMode  flush mode
      */
-    public void setFlushMode(FlushModeType flushMode);
+    void setFlushMode(FlushModeType flushMode);
 
     /**
      * Get the flush mode that applies to all objects contained
      * in the persistence context. 
      * @return flushMode
      */
-    public FlushModeType getFlushMode();
+    FlushModeType getFlushMode();
 
     /**
      * Lock an entity instance that is contained in the persistence
@@ -455,7 +455,7 @@ public interface EntityManager extends AutoCloseable {
      * @throws PersistenceException if an unsupported lock call 
      *         is made
      */
-    public void lock(Object entity, LockModeType lockMode);
+    void lock(Object entity, LockModeType lockMode);
 
     /**
      * Lock an entity instance that is contained in the persistence
@@ -502,8 +502,8 @@ public interface EntityManager extends AutoCloseable {
      *         is made
      * @since 2.0
      */
-    public void lock(Object entity, LockModeType lockMode,
-                     Map<String, Object> properties);
+    void lock(Object entity, LockModeType lockMode,
+              Map<String, Object> properties);
 
     /**
      * Lock an entity instance that is contained in the persistence
@@ -550,8 +550,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
-    public void lock(Object entity, LockModeType lockMode,
-                     LockOption... options);
+    void lock(Object entity, LockModeType lockMode,
+              LockOption... options);
 
     /**
      * Refresh the state of the instance from the database, 
@@ -564,8 +564,8 @@ public interface EntityManager extends AutoCloseable {
      *         entity manager of type <code>PersistenceContextType.TRANSACTION</code>
      * @throws EntityNotFoundException if the entity no longer
      *         exists in the database
-     */    
-    public void refresh(Object entity);
+     */
+    void refresh(Object entity);
 
     /**
      * Refresh the state of the instance from the database, using 
@@ -584,9 +584,9 @@ public interface EntityManager extends AutoCloseable {
      * @throws EntityNotFoundException if the entity no longer 
      *         exists in the database 
      * @since 2.0
-     */     
-    public void refresh(Object entity,
-                        Map<String, Object> properties);
+     */
+    void refresh(Object entity,
+                 Map<String, Object> properties);
 
     /**
      * Refresh the state of the instance from the database, 
@@ -623,7 +623,7 @@ public interface EntityManager extends AutoCloseable {
      *         is made
      * @since 2.0
      */
-    public void refresh(Object entity, LockModeType lockMode);
+    void refresh(Object entity, LockModeType lockMode);
 
     /**
      * Refresh the state of the instance from the database, 
@@ -668,8 +668,8 @@ public interface EntityManager extends AutoCloseable {
      *         is made
      * @since 2.0
      */
-    public void refresh(Object entity, LockModeType lockMode,
-                        Map<String, Object> properties);
+    void refresh(Object entity, LockModeType lockMode,
+                 Map<String, Object> properties);
 
     /**
      * Refresh the state of the given entity instance from the
@@ -713,8 +713,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
-    public void refresh(Object entity,
-                        RefreshOption... options);
+    void refresh(Object entity,
+                 RefreshOption... options);
 
     /**
      * Clear the persistence context, causing all managed
@@ -722,7 +722,7 @@ public interface EntityManager extends AutoCloseable {
      * have not been flushed to the database will not be
      * persisted.
      */
-    public void clear();
+    void clear();
 
     /**
      * Remove the given entity from the persistence context, causing
@@ -736,7 +736,7 @@ public interface EntityManager extends AutoCloseable {
      *         entity 
      * @since 2.0
      */
-    public void detach(Object entity); 
+    void detach(Object entity);
 
     /**
      * Check if the instance is a managed entity instance belonging
@@ -744,8 +744,8 @@ public interface EntityManager extends AutoCloseable {
      * @param entity  entity instance
      * @return boolean indicating if entity is in persistence context
      * @throws IllegalArgumentException if not an entity
-     */    
-    public boolean contains(Object entity);
+     */
+    boolean contains(Object entity);
 
     /**
      * Get the current lock mode for the entity instance.
@@ -758,7 +758,7 @@ public interface EntityManager extends AutoCloseable {
      *         managed entity and a transaction is active
      * @since 2.0
      */
-    public LockModeType getLockMode(Object entity);
+    LockModeType getLockMode(Object entity);
 
     /**
      * Set the cache retrieval mode that is in effect during
@@ -767,26 +767,26 @@ public interface EntityManager extends AutoCloseable {
      * @param cacheRetrieveMode cache retrieval mode
      * @since 3.2
      */
-    public void setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+    void setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
      * Set the default cache storage mode for this persistence context.
      * @param cacheStoreMode cache storage mode
      * @since 3.2
      */
-    public void setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    void setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
      * The cache retrieval mode for this persistence context.
      * @since 3.2
      */
-    public CacheRetrieveMode getCacheRetrieveMode();
+    CacheRetrieveMode getCacheRetrieveMode();
 
     /**
      * The cache storage mode for this persistence context.
      * @since 3.2
      */
-    public CacheStoreMode getCacheStoreMode();
+    CacheStoreMode getCacheStoreMode();
 
     /**
      * Set an entity manager property or hint. 
@@ -797,8 +797,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws IllegalArgumentException if the second argument is 
      *         not valid for the implementation 
      * @since 2.0
-     */ 
-    public void setProperty(String propertyName, Object value);
+     */
+    void setProperty(String propertyName, Object value);
 
     /**
      * Get the properties and hints and associated values that are in effect 
@@ -807,7 +807,7 @@ public interface EntityManager extends AutoCloseable {
      * @return map of properties and hints in effect for entity manager
      * @since 2.0
      */
-    public Map<String, Object> getProperties();
+    Map<String, Object> getProperties();
 
     /**
      * Create an instance of <code>Query</code> for executing a
@@ -817,7 +817,7 @@ public interface EntityManager extends AutoCloseable {
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
      */
-    public Query createQuery(String qlString);
+    Query createQuery(String qlString);
 
     /**
      * Create an instance of <code>TypedQuery</code> for executing a
@@ -828,7 +828,7 @@ public interface EntityManager extends AutoCloseable {
      *         found to be invalid
      * @since 2.0
      */
-    public <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery); 
+    <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery);
 
     /**
      * Create an instance of <code>Query</code> for executing a criteria
@@ -839,7 +839,7 @@ public interface EntityManager extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    public Query createQuery(CriteriaUpdate<?> updateQuery);
+    Query createQuery(CriteriaUpdate<?> updateQuery);
 
     /**
      * Create an instance of <code>Query</code> for executing a criteria
@@ -850,7 +850,7 @@ public interface EntityManager extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    public Query createQuery(CriteriaDelete<?> deleteQuery);
+    Query createQuery(CriteriaDelete<?> deleteQuery);
 
     /**
      * Create an instance of <code>TypedQuery</code> for executing a
@@ -866,7 +866,7 @@ public interface EntityManager extends AutoCloseable {
      *         not be assignable to the specified type
      * @since 2.0
      */
-    public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
+    <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
 
     /**
      * Create an instance of <code>Query</code> for executing a named query
@@ -877,7 +877,7 @@ public interface EntityManager extends AutoCloseable {
      *         defined with the given name or if the query string is
      *         found to be invalid
      */
-    public Query createNamedQuery(String name);
+    Query createNamedQuery(String name);
 
     /**
      * Create an instance of <code>TypedQuery</code> for executing a
@@ -894,7 +894,7 @@ public interface EntityManager extends AutoCloseable {
      *         not be assignable to the specified type
      * @since 2.0
      */
-    public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
+    <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
      * Create an instance of <code>Query</code> for executing
@@ -909,7 +909,7 @@ public interface EntityManager extends AutoCloseable {
      * @param sqlString a native SQL query string
      * @return the new query instance
      */
-    public Query createNativeQuery(String sqlString);
+    Query createNativeQuery(String sqlString);
 
     /**
      * Create an instance of <code>Query</code> for executing
@@ -918,7 +918,7 @@ public interface EntityManager extends AutoCloseable {
      * @param resultClass the class of the resulting instance(s)
      * @return the new query instance
      */
-    public Query createNativeQuery(String sqlString, Class<?> resultClass);
+    Query createNativeQuery(String sqlString, Class<?> resultClass);
 
     /**
      * Create an instance of <code>Query</code> for executing
@@ -927,7 +927,7 @@ public interface EntityManager extends AutoCloseable {
      * @param resultSetMapping the name of the result set mapping
      * @return the new query instance
      */
-    public Query createNativeQuery(String sqlString, String resultSetMapping);
+    Query createNativeQuery(String sqlString, String resultSetMapping);
 
     /**
      * Create an instance of <code>StoredProcedureQuery</code> for executing a
@@ -943,7 +943,7 @@ public interface EntityManager extends AutoCloseable {
      * defined with the given name
      * @since 2.1
      */
-    public StoredProcedureQuery createNamedStoredProcedureQuery(String name);
+    StoredProcedureQuery createNamedStoredProcedureQuery(String name);
 
     /**
      * Create an instance of <code>StoredProcedureQuery</code> for executing a
@@ -960,7 +960,7 @@ public interface EntityManager extends AutoCloseable {
      * fail)
      * @since 2.1
      */
-    public StoredProcedureQuery createStoredProcedureQuery(String procedureName);
+    StoredProcedureQuery createStoredProcedureQuery(String procedureName);
 
     /**
      * Create an instance of <code>StoredProcedureQuery</code> for executing a
@@ -981,8 +981,8 @@ public interface EntityManager extends AutoCloseable {
      * fail)
      * @since 2.1
      */
-    public StoredProcedureQuery createStoredProcedureQuery(
-	       String procedureName, Class<?>... resultClasses);
+    StoredProcedureQuery createStoredProcedureQuery(
+            String procedureName, Class<?>... resultClasses);
 
     /**
      * Create an instance of <code>StoredProcedureQuery</code> for executing a
@@ -1002,8 +1002,8 @@ public interface EntityManager extends AutoCloseable {
      *         result set mapping of the given name does not exist
      *         (or the query execution will fail)
      */
-    public StoredProcedureQuery createStoredProcedureQuery(
-              String procedureName, String... resultSetMappings);
+    StoredProcedureQuery createStoredProcedureQuery(
+            String procedureName, String... resultSetMappings);
 
     /**
      * Indicate to the entity manager that a JTA transaction is
@@ -1016,7 +1016,7 @@ public interface EntityManager extends AutoCloseable {
      * @throws TransactionRequiredException if there is
      *         no transaction
      */
-    public void joinTransaction();
+    void joinTransaction();
 
     /**
      * Determine whether the entity manager is joined to the
@@ -1026,7 +1026,7 @@ public interface EntityManager extends AutoCloseable {
      * @return boolean
      * @since 2.1
      */
-    public boolean isJoinedToTransaction();
+    boolean isJoinedToTransaction();
 
     /**
      * Return an object of the specified type to allow access to the
@@ -1041,7 +1041,7 @@ public interface EntityManager extends AutoCloseable {
      *         support the call 
      * @since 2.0
      */
-    public <T> T unwrap(Class<T> cls); 
+    <T> T unwrap(Class<T> cls);
 
     /**
      * Return the underlying provider object for the <code>EntityManager</code>,
@@ -1050,7 +1050,7 @@ public interface EntityManager extends AutoCloseable {
      * <p>The <code>unwrap</code> method is to be preferred for new applications.
      * @return underlying provider object for EntityManager
      */
-    public Object getDelegate();
+    Object getDelegate();
 
     /**
      * Close an application-managed entity manager. 
@@ -1067,13 +1067,13 @@ public interface EntityManager extends AutoCloseable {
      * @throws IllegalStateException if the entity manager
      *         is container-managed
      */
-    public void close();
+    void close();
 
     /**
      * Determine whether the entity manager is open. 
      * @return true until the entity manager has been closed
      */
-    public boolean isOpen();
+    boolean isOpen();
 
     /**
      * Return the resource-level <code>EntityTransaction</code> object. 
@@ -1083,7 +1083,7 @@ public interface EntityManager extends AutoCloseable {
      * @throws IllegalStateException if invoked on a JTA
      *         entity manager
      */
-    public EntityTransaction getTransaction();
+    EntityTransaction getTransaction();
 
     /**
      * Return the entity manager factory for the entity manager.
@@ -1092,7 +1092,7 @@ public interface EntityManager extends AutoCloseable {
      *         been closed
      * @since 2.0
      */
-    public EntityManagerFactory getEntityManagerFactory();
+    EntityManagerFactory getEntityManagerFactory();
 
     /**
      * Return an instance of <code>CriteriaBuilder</code> for the creation of
@@ -1102,7 +1102,7 @@ public interface EntityManager extends AutoCloseable {
      *         been closed
      * @since 2.0
      */
-    public CriteriaBuilder getCriteriaBuilder();
+    CriteriaBuilder getCriteriaBuilder();
 
     /**
      * Return an instance of <code>Metamodel</code> interface for access to the
@@ -1112,7 +1112,7 @@ public interface EntityManager extends AutoCloseable {
      *         been closed
      * @since 2.0
      */
-    public Metamodel getMetamodel();
+    Metamodel getMetamodel();
 
     /**
      * Return a mutable EntityGraph that can be used to dynamically create an
@@ -1121,7 +1121,7 @@ public interface EntityManager extends AutoCloseable {
      * @return entity graph
      * @since 2.1
      */
-    public <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
+    <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
 
     /**
      * Return a mutable copy of the named EntityGraph.  If there
@@ -1130,7 +1130,7 @@ public interface EntityManager extends AutoCloseable {
      * @return entity graph
      * @since 2.1
      */
-    public EntityGraph<?> createEntityGraph(String graphName);
+    EntityGraph<?> createEntityGraph(String graphName);
 
     /**
      * Return a named EntityGraph. The returned EntityGraph 
@@ -1141,7 +1141,7 @@ public interface EntityManager extends AutoCloseable {
      *         the given name
      * @since 2.1
      */
-    public  EntityGraph<?> getEntityGraph(String graphName);
+    EntityGraph<?> getEntityGraph(String graphName);
 
     /**
      * Return all named EntityGraphs that have been defined for the provided
@@ -1151,7 +1151,7 @@ public interface EntityManager extends AutoCloseable {
      * @throws IllegalArgumentException if the class is not an entity
      * @since 2.1
      */
-    public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
+    <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
 
     /**
      * Execute the given action using the database connection underlying this
@@ -1169,7 +1169,7 @@ public interface EntityManager extends AutoCloseable {
      *         {@link ConnectionConsumer#accept}, if any
      * @since 3.2
      */
-    public <C> void runWithConnection(ConnectionConsumer<C> action);
+    <C> void runWithConnection(ConnectionConsumer<C> action);
 
     /**
      * Call the given function and return its result using the database connection
@@ -1189,6 +1189,6 @@ public interface EntityManager extends AutoCloseable {
      *         {@link ConnectionFunction#apply}, if any
      * @since 3.2
      */
-    public <C,T> T callWithConnection(ConnectionFunction<C,T> function);
+    <C,T> T callWithConnection(ConnectionFunction<C, T> function);
 
 }

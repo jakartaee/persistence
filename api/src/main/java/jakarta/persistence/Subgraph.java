@@ -34,6 +34,6 @@ public interface Subgraph<T> extends Graph<T> {
      * Return the type for which this subgraph was defined.
      * @return managed type referenced by the subgraph
      */
-    public Class<T> getClassType();
+    Class<T> getClassType();
 
 }

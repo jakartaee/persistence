@@ -31,26 +31,26 @@ public interface Cache {
      * @param primaryKey  primary key
      * @return boolean indicating whether the entity is in the cache
      */
-    public boolean contains(Class<?> cls, Object primaryKey);
+    boolean contains(Class<?> cls, Object primaryKey);
 
     /**
      * Remove the data for the given entity from the cache.
      * @param cls  entity class
      * @param primaryKey  primary key
      */
-    public void evict(Class<?> cls, Object primaryKey);
+    void evict(Class<?> cls, Object primaryKey);
 
     /**
      * Remove the data for entities of the specified class (and its
      * subclasses) from the cache.
      * @param cls  entity class
      */
-    public void evict(Class<?> cls);
+    void evict(Class<?> cls);
 
     /**
      * Clear the cache.
      */
-    public void evictAll();
+    void evictAll();
 
     /**
      * Return an object of the specified type to allow access to the
@@ -65,5 +65,5 @@ public interface Cache {
      * support the call
      * @since 2.1
      */
-    public <T> T unwrap(Class<T> cls);
+    <T> T unwrap(Class<T> cls);
 }

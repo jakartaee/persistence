@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -38,7 +38,7 @@ public interface PersistenceUtil {
      * @return false if entity's state has not been loaded or
      *  if the attribute state has not been loaded, else true
      */
-    public boolean isLoaded(Object entity, String attributeName);
+    boolean isLoaded(Object entity, String attributeName);
 
     /**
      * Determine the load state of an entity.
@@ -52,5 +52,5 @@ public interface PersistenceUtil {
      * @param entity whose load state is to be determined
      * @return false if the entity has not been loaded, else true
      */
-    public boolean isLoaded(Object entity);
+    boolean isLoaded(Object entity);
 }

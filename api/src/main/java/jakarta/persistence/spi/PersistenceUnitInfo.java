@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -37,7 +37,7 @@ public interface PersistenceUnitInfo {
      * <code>name</code> attribute in the <code>persistence.xml</code> file.
      * @return  the name of the persistence unit 
      */
-    public String getPersistenceUnitName();
+    String getPersistenceUnitName();
 
     /**
      * Returns the fully qualified name of the persistence provider
@@ -46,7 +46,7 @@ public interface PersistenceUnitInfo {
      * @return  the fully qualified name of the persistence provider 
      * implementation class
      */
-    public String getPersistenceProviderClassName();
+    String getPersistenceProviderClassName();
 
     /**
      * Returns the transaction type of the entity managers created by
@@ -55,7 +55,7 @@ public interface PersistenceUnitInfo {
      * @return  transaction type of the entity managers created
      * by the EntityManagerFactory
      */
-    public PersistenceUnitTransactionType getTransactionType();
+    PersistenceUnitTransactionType getTransactionType();
 
     /**
      * Returns the JTA-enabled data source to be used by the
@@ -65,7 +65,7 @@ public interface PersistenceUnitInfo {
      * @return the JTA-enabled data source to be used by the 
      * persistence provider
      */
-    public DataSource getJtaDataSource();
+    DataSource getJtaDataSource();
 
     /**
      * Returns the non-JTA-enabled data source to be used by the
@@ -77,7 +77,7 @@ public interface PersistenceUnitInfo {
      * persistence provider for accessing data outside a JTA 
      * transaction
      */
-    public DataSource getNonJtaDataSource();
+    DataSource getNonJtaDataSource();
 
     /**
      * Returns the list of the names of the mapping files that the
@@ -91,7 +91,7 @@ public interface PersistenceUnitInfo {
      * provider must load to determine the mappings for the entity
      * classes 
      */
-    public List<String> getMappingFileNames();
+    List<String> getMappingFileNames();
 
     /**
      * Returns a list of URLs for the jar files or exploded jar
@@ -105,7 +105,7 @@ public interface PersistenceUnitInfo {
      * @return a list of URL objects referring to jar files or
      * directories 
      */
-    public List<URL> getJarFileUrls();
+    List<URL> getJarFileUrls();
 
     /**
      * Returns the URL for the jar file or directory that is the
@@ -118,7 +118,7 @@ public interface PersistenceUnitInfo {
      * format can be obtained.
      * @return a URL referring to a jar file or directory
      */
-    public URL getPersistenceUnitRootUrl();
+    URL getPersistenceUnitRootUrl();
 
     /**
      * Returns the list of the names of the classes that the
@@ -129,7 +129,7 @@ public interface PersistenceUnitInfo {
      * persistence provider must add to its set of managed 
      * classes 
      */
-    public List<String> getManagedClassNames();
+    List<String> getManagedClassNames();
 
     /**
      * Returns whether classes in the root of the persistence unit
@@ -140,7 +140,7 @@ public interface PersistenceUnitInfo {
      * unit that have not been explicitly listed are to be
      * included in the set of managed classes
      */
-    public boolean excludeUnlistedClasses();
+    boolean excludeUnlistedClasses();
 
     /**
      * Returns the specification of how the provider must use
@@ -152,7 +152,7 @@ public interface PersistenceUnitInfo {
      *
      * @since 2.0
      */
-    public SharedCacheMode getSharedCacheMode();
+    SharedCacheMode getSharedCacheMode();
 
     /**
      * Returns the validation mode to be used by the persistence
@@ -164,7 +164,7 @@ public interface PersistenceUnitInfo {
      * 
      * @since 2.0
      */
-    public ValidationMode getValidationMode();
+    ValidationMode getValidationMode();
 
     /**
      * Returns a properties object. Each property corresponds to a
@@ -172,7 +172,7 @@ public interface PersistenceUnitInfo {
      * or to a property set by the container.
      * @return Properties object 
      */
-    public Properties getProperties();
+    Properties getProperties();
     
     /**
      * Returns the schema version of the <code>persistence.xml</code> file.
@@ -180,7 +180,7 @@ public interface PersistenceUnitInfo {
      *
      * @since 2.0
      */
-    public String getPersistenceXMLSchemaVersion();
+    String getPersistenceXMLSchemaVersion();
 
     /**
      * Returns ClassLoader that the provider may use to load any
@@ -188,7 +188,7 @@ public interface PersistenceUnitInfo {
      * @return ClassLoader that the provider may use to load any 
      * classes, resources, or open URLs 
      */
-    public ClassLoader getClassLoader();
+    ClassLoader getClassLoader();
 
     /**
      * Add a transformer supplied by the provider that will be 
@@ -203,7 +203,7 @@ public interface PersistenceUnitInfo {
      * @param transformer   provider-supplied transformer that the
      * container invokes at class-(re)definition time
      */
-    public void addTransformer(ClassTransformer transformer);
+    void addTransformer(ClassTransformer transformer);
 
     /**
      * Return a new instance of a ClassLoader that the provider may
@@ -218,5 +218,5 @@ public interface PersistenceUnitInfo {
      * @return temporary ClassLoader with same visibility as current
      * loader
      */
-    public ClassLoader getNewTempClassLoader();
+    ClassLoader getNewTempClassLoader();
 }
