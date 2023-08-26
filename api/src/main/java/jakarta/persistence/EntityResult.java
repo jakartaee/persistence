@@ -32,9 +32,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The results obtained when insufficient data is available 
  * are undefined.
  *
+ * <p>Example:
  * <pre>
- *   Example:
- *
  *   Query q = em.createNativeQuery(
  *       "SELECT o.id, o.quantity, o.item, i.id, i.name, i.description "+
  *           "FROM Order o, Item i " +

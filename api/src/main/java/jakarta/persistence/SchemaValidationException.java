@@ -45,7 +45,7 @@ public class SchemaValidationException extends Exception {
      * while validating the schema.
      * @param message an overall message
      * @param failures an array of exceptions, each representing a
-     *                 separate problem
+     *                separate problem
      */
     public SchemaValidationException(String message, Exception... failures) {
         super(message);

@@ -39,9 +39,8 @@ import java.lang.annotation.Repeatable;
  * on an entity class or primary key attribute of an entity class,
  * then the name defaults to the name of the entity.
  *
+ * <p>Example:
  * <pre>
- *   Example:
- *
  *   &#064;SequenceGenerator(name="EMP_SEQ", allocationSize=25)
  * </pre>
  *

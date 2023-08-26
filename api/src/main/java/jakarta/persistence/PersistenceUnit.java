@@ -25,8 +25,8 @@ import static java.lang.annotation.RetentionPolicy.*;
 
 
 /**
- * Expresses a dependency on an {@link EntityManagerFactory} and its
- * associated persistence unit.
+ * Expresses a dependency on an {@link EntityManagerFactory} and
+ * its associated persistence unit.
  *
  * @since 1.0
  */
@@ -36,15 +36,15 @@ import static java.lang.annotation.RetentionPolicy.*;
 public @interface PersistenceUnit {
 
     /**
-     * (Optional) The name by which the entity manager factory is to be accessed 
-     * in the environment referencing context;  not needed when 
-     * dependency injection is used.
+     * (Optional) The name by which the entity manager factory
+     * is to be accessed in the environment referencing context;
+     * not needed when dependency injection is used.
      */
     String name() default "";
 
     /**
-     * (Optional) The name of the persistence unit as defined in the
-     * <code>persistence.xml</code> file. If specified, the
+     * (Optional) The name of the persistence unit as defined
+     * in the {@code persistence.xml} file. If specified, the
      * persistence unit for the entity manager factory that is
      * accessible in JNDI must have the same name.
      */

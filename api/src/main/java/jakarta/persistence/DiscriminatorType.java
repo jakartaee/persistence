@@ -17,7 +17,9 @@
 package jakarta.persistence;
 
 /**
- * Defines supported types of the discriminator column. 
+ * Defines supported types of the discriminator column.
+ *
+ * @see DiscriminatorColumn#discriminatorType
  *
  * @since 1.0
  */

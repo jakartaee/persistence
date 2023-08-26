@@ -19,7 +19,7 @@ package jakarta.persistence.criteria;
 import jakarta.persistence.metamodel.PluralAttribute;
 
 /**
- * The <code>PluralJoin</code> interface defines functionality
+ * The {@code PluralJoin} interface defines functionality
  * that is common to joins to all collection types.  It is
  * not intended to be used directly in query construction.
  *
@@ -35,7 +35,7 @@ public interface PluralJoin<Z, C, E> extends Join<Z, E> {
      * Return the metamodel representation for the collection-valued 
      * attribute corresponding to the join.
      * @return metamodel collection-valued attribute corresponding
-     *         to the target of the join
+     *        to the target of the join
      */
     PluralAttribute<? super Z, C, E> getModel();
 }

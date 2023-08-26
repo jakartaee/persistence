@@ -57,43 +57,44 @@ public interface Attribute<X, Y> {
     String getName();
 
     /**
-     *  Return the persistent attribute type for the attribute.
-     *  @return persistent attribute type
+     * Return the persistent attribute type for the attribute.
+     * @return persistent attribute type
      */
     PersistentAttributeType getPersistentAttributeType();
 
     /**
-     *  Return the managed type representing the type in which 
-     *  the attribute was declared.
-     *  @return declaring type
+     * Return the managed type representing the type in which 
+     * the attribute was declared.
+     * @return declaring type
      */
     ManagedType<X> getDeclaringType();
 
     /**
-     *  Return the Java type of the represented attribute.
-     *  @return Java type
+     * Return the Java type of the represented attribute.
+     * @return Java type
      */
     Class<Y> getJavaType();
 
     /**
-     *  Return the <code>java.lang.reflect.Member</code> for the represented 
-     *  attribute.
-     *  @return corresponding <code>java.lang.reflect.Member</code>
+     * Return the {@link java.lang.reflect.Member} for the
+	 *  represented attribute.
+     * @return corresponding {@link java.lang.reflect.Member}
      */
     java.lang.reflect.Member getJavaMember();
 
     /**
-     *  Is the attribute an association.
-     *  @return boolean indicating whether the attribute 
-     *          corresponds to an association
+     * Is the attribute an association.
+     * @return boolean indicating whether the attribute 
+     *         corresponds to an association
      */
     boolean isAssociation();
 
     /**
-     *  Is the attribute collection-valued (represents a Collection,
-     *  Set, List, or Map).
-     *  @return boolean indicating whether the attribute is 
-     *          collection-valued
+     * Is the attribute collection-valued (represents a
+	 *  {@code Collection}, {@code Set}, {@code List}, or
+	 *  {@code Map}).
+     * @return boolean indicating whether the attribute is 
+     *         collection-valued
      */
     boolean isCollection();
 }

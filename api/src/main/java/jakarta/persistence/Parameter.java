@@ -18,6 +18,7 @@ package jakarta.persistence;
 
 /**
  * Type for query parameter objects.
+ *
  * @param <T> the type of the parameter
  *
  * @see Query
@@ -42,17 +43,17 @@ public interface Parameter<T> {
     Integer getPosition();
 
     /**
-     * Return the Java type of the parameter. Values bound to the
-     * parameter must be assignable to this type.
-     * This method is required to be supported for criteria queries
-     * only.   Applications that use this method for Jakarta 
-     * Persistence query language queries and native queries will 
-     * not be portable.
+     * Return the Java type of the parameter. Values bound to
+     * the parameter must be assignable to this type.
+     * This method is required to be supported for criteria
+     * queries only. Applications that use this method for
+     * Jakarta Persistence query language queries and native
+     * queries will not be portable.
      * @return the Java type of the parameter
      * @throws IllegalStateException if invoked on a parameter
-     *         obtained from a query language 
-     *         query or native query when the implementation does 
-     *         not support this use
+     *        obtained from a query language query or native
+     *        query when the implementation does not support
+     *        this usage
      */
      Class<T> getParameterType();
 }

@@ -20,9 +20,9 @@ import java.util.Map;
 import jakarta.persistence.metamodel.MapAttribute;
 
 /**
- * The <code>MapJoin</code> interface is the type of the result of
+ * The {@code MapJoin} interface is the type of the result of
  * joining to a collection over an association or element 
- * collection that has been specified as a <code>java.util.Map</code>.
+ * collection that has been specified as a {@link java.util.Map}.
  *
  * @param <Z> the source type of the join
  * @param <K> the type of the target Map key
@@ -34,29 +34,29 @@ public interface MapJoin<Z, K, V>
 		extends PluralJoin<Z, Map<K, V>, V> {
 
     /**
-     *  Modify the join to restrict the result according to the
-     *  specified ON condition and return the join object.  
-     *  Replaces the previous ON condition, if any.
-     *  @param restriction  a simple or compound boolean expression
-     *  @return the modified join object
-     *  @since 2.1
+     * Modify the join to restrict the result according to the
+     * specified ON condition and return the join object.  
+     * Replaces the previous ON condition, if any.
+     * @param restriction  a simple or compound boolean expression
+     * @return the modified join object
+     * @since 2.1
      */
     MapJoin<Z, K, V> on(Expression<Boolean> restriction);
 
     /**
-     *  Modify the join to restrict the result according to the
-     *  specified ON condition and return the join object.  
-     *  Replaces the previous ON condition, if any.
-     *  @param restrictions  zero or more restriction predicates
-     *  @return the modified join object
-     *  @since 2.1
+     * Modify the join to restrict the result according to the
+     * specified ON condition and return the join object.  
+     * Replaces the previous ON condition, if any.
+     * @param restrictions  zero or more restriction predicates
+     * @return the modified join object
+     * @since 2.1
      */
     MapJoin<Z, K, V> on(Predicate... restrictions);
 
     /**
      * Return the metamodel representation for the map attribute.
-     * @return metamodel type representing the <code>Map</code> that is
-     *         the target of the join
+     * @return metamodel type representing the {@code Map} that is
+     *        the target of the join
      */
     MapAttribute<? super Z, K, V> getModel();
     

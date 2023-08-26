@@ -25,16 +25,14 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a mapping to an entity that is a map key. The map key
- * join column is in the collection table, join table, or table of the
- * target entity that is used to represent the map.  If no
- * <code>MapKeyJoinColumn</code> annotation is specified, a single
- * join column is assumed and the default values apply.
+ * Specifies a mapping to an entity that is a map key. The map key join
+ * column is in the collection table, join table, or table of the target
+ * entity that is used to represent the map. If no {@code MapKeyJoinColumn}
+ * annotation is specified, a single join column is assumed and the default
+ * values apply.
  *
+ * <p>Example 1:
  * <pre>
- *
- *    Example 1:
- *
  *    &#064;Entity
  *    public class Company {
  *       &#064;Id int id;
@@ -46,9 +44,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *       &#064;MapKeyJoinColumn(name="DIVISION")
  *       Map&#060;Division, VicePresident&#062; organization;
  *    }
+ * </pre>
  *
- *    Example 2:
- *
+ * <p>Example 2:
+ * <pre>
  *    &#064;Entity
  *    public class VideoStore {
  *       &#064;Id int id;
@@ -70,9 +69,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *        String title;
  *        ...
  *     }
+ * </pre>
  *
- *     Example 3:
- *
+ * <p>Example 3:
+ * <pre>
  *     &#064;Entity
  *     public class Student {
  *        &#064;Id int studentId;
@@ -96,43 +96,43 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface MapKeyJoinColumn {
     /**
-     * (Optional) The name of the foreign key column for the map
-     * key. The table in which it is found depends upon the
-     * context.  
+     * (Optional) The name of the foreign key column for the map key.
+     * The table in which it is found depends upon the context.
      * <ul> 
-     * <li> If the join is for a map key for an
-     * element collection, the foreign key column is in the
-     * collection table for the map value.  
-     * <li> If the join is  for a map key for a ManyToMany entity
-     * relationship or for a  OneToMany entity relationship 
-     * using a join table, the foreign key column is in a join table. 
-     * <li> If the join is for a  OneToMany entity relationship using 
-     * a foreign key mapping strategy, the foreign key column for the 
-     * map key is in the table of the entity that is the value of the map.
+     * <li> If the join is for a map key for an element collection,
+     *      the foreign key column is in the collection table for the
+     *      map value.
+     * <li> If the join is for a map key for a {@link ManyToMany}
+     *      entity relationship or for a {@link OneToMany} entity
+     *      relationship using a join table, the foreign key column
+     *      is in a join table.
+     * <li> If the join is for a {@link OneToMany} entity relationship
+     *      using a foreign key mapping strategy, the foreign key column
+     *      for the map key is in the table of the entity that is the
+     *      value of the map.
      * </ul>
      *
      * <p> Default (only applies if a single join column is used.)
-     * The concatenation of the following: the name of the
-     * referencing relationship property or field of the
-     * referencing entity or embeddable class; "_"; "KEY".
+     * The concatenation of the following: the name of the referencing
+     * relationship property or field of the referencing entity or
+     * embeddable class; "{@code _}"; "{@code KEY}".
      */
     String name() default "";
 
     /**
-     * (Optional) The name of the column referenced by this foreign key column.
-     * The referenced column is in the table of the target entity.
+     * (Optional) The name of the column referenced by this foreign key
+     * column. The referenced column is in the table of the target entity.
      *
-     * <p> Default (only applies if single join column is being
-     * used.) The same name as the primary key column of the
-     * referenced table
+     * <p> Default (only applies if single join column is being used.)
+     * The same name as the primary key column of the referenced table.
      */
     String referencedColumnName() default "";
 
     /**
      * (Optional) Whether the property is a unique key. This is a
-     * shortcut for the <code>UniqueConstraint</code> annotation
-     * at the table level and is useful for when the unique key
-     * constraint is only a single field.
+     * shortcut for the {@link UniqueConstraint} annotation at the
+     * table level and is useful for when the unique key constraint
+     * is only a single field.
      */
     boolean unique() default false;
 
@@ -142,21 +142,21 @@ public @interface MapKeyJoinColumn {
     boolean nullable() default false;
 
     /**
-     * (Optional) Whether the column is included in SQL INSERT statements
-     * generated by the persistence provider.
+     * (Optional) Whether the column is included in SQL INSERT
+     * statements generated by the persistence provider.
      */
     boolean insertable() default true;
 
     /**
-     * (Optional) Whether the column is included in SQL UPDATE statements
-     * generated by the persistence provider.
+     * (Optional) Whether the column is included in SQL UPDATE
+     * statements generated by the persistence provider.
      */
     boolean updatable() default true;
 
     /**
-     * (Optional) The SQL fragment that is used when generating the DDL for the
-     * column.
-         *  Defaults to SQL generated by the provider for the column.
+     * (Optional) The SQL fragment that is used when generating
+     * the DDL for the column.
+     * Defaults to SQL generated by the provider for the column.
      */
     String columnDefinition() default "";
     
@@ -170,37 +170,43 @@ public @interface MapKeyJoinColumn {
     String options() default "";
     
     /**
-     * (Optional) The name of the table that contains the foreign key column. 
+     * (Optional) The name of the table that contains the foreign
+     * key column.
      * <ul>
-     * <li> If the join is for a map key for an element collection, the foreign key
-     * column is in the collection table for the map value. 
-     * <li> If the join is for a map key for a ManyToMany entity relationship 
-     * or for a OneToMany entity relationship using a join table, 
-     * the foreign key column is in a join table.
-     * <li> If the join is for a OneToMany entity relationship using a foreign
-     * key mapping strategy, the foreign key column for the map key is in the
-     * table of the entity that is the value of the map.
+     * <li> If the join is for a map key for an element collection,
+     *      the foreign key column is in the collection table for
+     *      the map value.
+     * <li> If the join is for a map key for a {@link ManyToMany}
+     *      entity relationship or for a {@link OneToMany} entity
+     *      relationship using a join table, the foreign key column
+     *      is in a join table.
+     * <li> If the join is for a {@link OneToMany} entity relationship
+     *      using a foreign key mapping strategy, the foreign key column
+     *      for the map key is in the table of the entity that is the
+     *      value of the map.
      * </ul>
+     *
      * <p> Default: 
      * <ul>
-     * <li> If the map is for an element collection, the
-     * name of the collection table for the map value.
-     * <li> If the map is for a OneToMany or ManyToMany entity relationship 
-     * using a join table, the name of the join table for the map. 
-     * <li> If the map is for a OneToMany entity relationship using a
-     * foreign key mapping strategy, the name of the primary table
-     * of the entity that is the value of the map.
+     * <li> If the map is for an element collection, the name of the
+     *      collection table for the map value.
+     * <li> If the map is for a {@link OneToMany} or {@link ManyToMany}
+     *      entity relationship using a join table, the name of the join
+     *      table for the map.
+     * <li> If the map is for a {@link OneToMany} entity relationship
+     *      using a foreign key mapping strategy, the name of the primary
+     *      table of the entity that is the value of the map.
      * </ul>
      */
     String table() default "";
 
     /**
-     *  (Optional) Used to specify or control the generation of a
-     *  foreign key constraint when table generation is in effect.  If
-     *  this element is not specified, the persistence provider's
-     *  default foreign key strategy will apply.
+     * (Optional) Used to specify or control the generation of a
+     * foreign key constraint when table generation is in effect.
+     * If this element is not specified, a default foreign key
+     * strategy will be selected by the persistence provider.
      *
-     *  @since 2.1
+     * @since 2.1
      */
     ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
 }

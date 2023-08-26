@@ -20,7 +20,7 @@ import jakarta.persistence.TupleElement;
 import java.util.List;
 
 /**
- * The <code>Selection</code> interface defines an item that is to be
+ * The {@code Selection} interface defines an item that is to be
  * returned in a query result.
  *
  * @param <X> the type of the selection item
@@ -41,7 +41,7 @@ public interface Selection<X> extends TupleElement<X> {
     /**
      * Whether the selection item is a compound selection.
      * @return boolean indicating whether the selection is a compound
-     *         selection
+     *        selection
      */
     boolean isCompoundSelection();
 
@@ -50,7 +50,7 @@ public interface Selection<X> extends TupleElement<X> {
      * Modifications to the list do not affect the query.
      * @return list of selection items
      * @throws IllegalStateException if selection is not a 
-     *         compound selection
+     *        compound selection
      */
     List<Selection<?>> getCompoundSelectionItems();
 }

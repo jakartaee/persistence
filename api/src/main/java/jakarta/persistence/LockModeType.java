@@ -17,37 +17,40 @@
 package jakarta.persistence;
 
 /**
- * Lock modes can be specified by means of passing a <code>LockModeType</code>
- * argument to one of the {@link EntityManager} methods that take locks
- * (<code>lock</code>, <code>find</code>, or <code>refresh</code>) or
- * to the {@link Query#setLockMode Query.setLockMode()} or
- * {@link TypedQuery#setLockMode TypedQuery.setLockMode()} method.
- * 
- * <p> Lock modes can be used to specify either optimistic or pessimistic locks.
+ * Enumerates the kinds of optimistic or pessimistic lock which
+ * may be obtained on an entity instance.
  *
- * <p> Optimistic locks are specified using {@link
- * LockModeType#OPTIMISTIC LockModeType.OPTIMISTIC} and {@link
- * LockModeType#OPTIMISTIC_FORCE_INCREMENT
- * LockModeType.OPTIMISTIC_FORCE_INCREMENT}.  The lock mode type
- * values {@link LockModeType#READ LockModeType.READ} and 
- * {@link LockModeType#WRITE LockModeType.WRITE} are
- * synonyms of <code>OPTIMISTIC</code> and
- * <code>OPTIMISTIC_FORCE_INCREMENT</code> respectively.  The latter
- * are to be preferred for new applications.
+ * <p> A specific lock mode may be requested by passing an explicit
+ * {@code LockModeType} as an argument to:
+ * <ul>
+ * <li>one of the methods of {@link EntityManager} which obtains
+ *     locks ({@link EntityManager#lock lock()},
+ *     {@link EntityManager#find find()}, or
+ *     {@link EntityManager#refresh refresh()}), or
+ * <li>to {@link Query#setLockMode(LockModeType)} or
+ *     {@link TypedQuery#setLockMode(LockModeType)}.
+ * </ul>
+ * 
+ * <p> Optimistic locks are specified using
+ * {@link LockModeType#OPTIMISTIC LockModeType.OPTIMISTIC} and
+ * {@link LockModeType#OPTIMISTIC_FORCE_INCREMENT}. The lock mode
+ * types {@link LockModeType#READ} and {@link LockModeType#WRITE} are
+ * synonyms for {@code OPTIMISTIC} and {@code OPTIMISTIC_FORCE_INCREMENT}
+ * respectively. The latter are preferred for new applications.
  *
  * <p> The semantics of requesting locks of type
- * <code>LockModeType.OPTIMISTIC</code> and
- * <code>LockModeType.OPTIMISTIC_FORCE_INCREMENT</code> are the
+ * {@code LockModeType.OPTIMISTIC} and
+ * {@code LockModeType.OPTIMISTIC_FORCE_INCREMENT} are the
  * following.
  *
  * <p> If transaction T1 calls for a lock of type 
- * <code>LockModeType.OPTIMISTIC</code> on a versioned object, 
+ * {@code LockModeType.OPTIMISTIC} on a versioned object, 
  * the entity manager must ensure that neither of the following 
  * phenomena can occur:
  * <ul>
  *   <li> P1 (Dirty read): Transaction T1 modifies a row. 
- * Another transaction T2 then reads that row and obtains 
- * the modified value, before T1 has committed or rolled back. 
+ * Another transaction T2 then reads that row and obtains the
+ * modified value, before T1 has committed or rolled back.
  * Transaction T2 eventually commits successfully; it does not 
  * matter whether T1 commits or rolls back and whether it does 
  * so before or after T2 commits.
@@ -61,30 +64,30 @@ package jakarta.persistence;
  *
  * <p> Lock modes must always prevent the phenomena P1 and P2.
  *
- * <p> In addition, calling a lock of type 
- * <code>LockModeType.OPTIMISTIC_FORCE_INCREMENT</code> on a versioned object,
- * will also force an update (increment) to the entity's version
- * column.
+ * <p> In addition, obtaining a lock of type
+ * {@code LockModeType.OPTIMISTIC_FORCE_INCREMENT} on a versioned
+ * object, will also force an update (increment) to the entity's
+ * version column.
  *
  * <p> The persistence implementation is not required to support
- * the use of optimistic lock modes on non-versioned objects. When it
- * cannot support a such lock call, it must throw the {@link
+ * the use of optimistic lock modes on non-versioned objects. When
+ * it cannot support such a lock request, it must throw the {@link
  * PersistenceException}.
  *
- * <p>The lock modes {@link LockModeType#PESSIMISTIC_READ
- * LockModeType.PESSIMISTIC_READ}, {@link
- * LockModeType#PESSIMISTIC_WRITE LockModeType.PESSIMISTIC_WRITE}, and
- * {@link LockModeType#PESSIMISTIC_FORCE_INCREMENT
- * LockModeType.PESSIMISTIC_FORCE_INCREMENT} are used to immediately
- * obtain long-term database locks.
+ * <p>The lock modes {@link LockModeType#PESSIMISTIC_READ},
+ * {@link LockModeType#PESSIMISTIC_WRITE}, and
+ * {@link LockModeType#PESSIMISTIC_FORCE_INCREMENT} are used to
+ * immediately obtain long-term database locks.
  *
  * <p> The semantics of requesting locks of type
- * <code>LockModeType.PESSIMISTIC_READ</code>, <code>LockModeType.PESSIMISTIC_WRITE</code>, and
- * <code>LockModeType.PESSIMISTIC_FORCE_INCREMENT</code> are the following.  
+ * {@code LockModeType.PESSIMISTIC_READ},
+ * {@code LockModeType.PESSIMISTIC_WRITE}, and
+ * {@code LockModeType.PESSIMISTIC_FORCE_INCREMENT} are the
+ * following.
  *
  * <p> If transaction T1 calls for a lock of type
- * <code>LockModeType.PESSIMISTIC_READ</code> or
- * <code>LockModeType.PESSIMISTIC_WRITE</code> on an object, the entity
+ * {@code LockModeType.PESSIMISTIC_READ} or
+ * {@code LockModeType.PESSIMISTIC_WRITE} on an object, the entity
  * manager must ensure that neither of the following phenomena can
  * occur: 
  * <ul> 
@@ -92,53 +95,53 @@ package jakarta.persistence;
  * row. Another transaction T2 then reads that row and obtains the
  * modified value, before T1 has committed or rolled back.
  *
- * <li> P2 (Non-repeatable read): Transaction T1 reads a row. Another
- * transaction T2 then modifies or deletes that row, before T1 has
- * committed or rolled back.
+ * <li> P2 (Non-repeatable read): Transaction T1 reads a row.
+ * Another transaction T2 then modifies or deletes that row, before
+ * T1 has committed or rolled back.
  * </ul>
  *
- * <p> A lock with <code>LockModeType.PESSIMISTIC_WRITE</code> can be obtained on
- * an entity instance to force serialization among transactions
- * attempting to update the entity data. A lock with
- * <code>LockModeType.PESSIMISTIC_READ</code> can be used to query data using
- * repeatable-read semantics without the need to reread the data at
- * the end of the transaction to obtain a lock, and without blocking
- * other transactions reading the data. A lock with
- * <code>LockModeType.PESSIMISTIC_WRITE</code> can be used when querying data and
- * there is a high likelihood of deadlock or update failure among
- * concurrent updating transactions.
+ * <p> A lock with {@code LockModeType.PESSIMISTIC_WRITE} can be
+ * obtained on an entity instance to force serialization among
+ * transactions attempting to update the entity data. A lock with
+ * {@code LockModeType.PESSIMISTIC_READ} can be used to query data
+ * using repeatable-read semantics without the need to reread the
+ * data at the end of the transaction to obtain a lock, and without
+ * blocking other transactions reading the data. A lock with
+ * {@code LockModeType.PESSIMISTIC_WRITE} can be used when querying
+ * data and there is a high likelihood of deadlock or update failure
+ * among concurrent updating transactions.
  * 
- * <p> The persistence implementation must support use of locks of type
- * <code>LockModeType.PESSIMISTIC_READ</code> 
- * <code>LockModeType.PESSIMISTIC_WRITE</code> on a non-versioned entity as well as
- * on a versioned entity.
+ * <p> The persistence implementation must support the use of locks
+ * of type {@code LockModeType.PESSIMISTIC_READ} and
+ * {@code LockModeType.PESSIMISTIC_WRITE} with non-versioned entities
+ * as well as with versioned entities.
  *
  * <p> When the lock cannot be obtained, and the database locking
  * failure results in transaction-level rollback, the provider must
- * throw the {@link PessimisticLockException} and ensure that the JTA
- * transaction or <code>EntityTransaction</code> has been marked for rollback.
+ * throw the {@link PessimisticLockException} and ensure that the
+ * JTA transaction or {@code EntityTransaction} has been marked for
+ * rollback.
  * 
  * <p> When the lock cannot be obtained, and the database locking
- * failure results in only statement-level rollback, the provider must
- * throw the {@link LockTimeoutException} (and must not mark the transaction
- * for rollback).
+ * failure results in only statement-level rollback, the provider
+ * must throw the {@link LockTimeoutException} (and must not mark
+ * the transaction for rollback).
  *
  * @since 1.0
  *
  */
 public enum LockModeType implements FindOption, RefreshOption {
     /**
-     *  Synonymous with <code>OPTIMISTIC</code>.
-     *  <code>OPTIMISTIC</code> is to be preferred for new
-     *  applications.
+     * Synonymous with {@link #OPTIMISTIC}.
+     * {@code OPTIMISTIC} is preferred for new applications.
      *
      */
     READ,
 
     /**
-     *  Synonymous with <code>OPTIMISTIC_FORCE_INCREMENT</code>.
-     *  <code>OPTIMISTIC_FORCE_IMCREMENT</code> is to be preferred for new
-     *  applications.
+     * Synonymous with {@link #OPTIMISTIC_FORCE_INCREMENT}.
+     * {@code OPTIMISTIC_FORCE_IMCREMENT} is preferred for
+     * new applications.
      *
      */
     WRITE,

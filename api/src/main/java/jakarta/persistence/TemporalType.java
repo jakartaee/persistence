@@ -17,8 +17,8 @@
 package jakarta.persistence;
 
 /**
- * Type used to indicate a specific mapping of <code>java.util.Date</code> 
- * or <code>java.util.Calendar</code>.
+ * Type used to indicate a specific mapping of {@link java.util.Date}
+ * or {@link java.util.Calendar}.
  *
  * @since 1.0
  *
@@ -28,12 +28,12 @@ package jakarta.persistence;
 @Deprecated(since = "3.2")
 public enum TemporalType {
 
-    /** Map as <code>java.sql.Date</code> */
+    /** Map as {@code java.sql.Date} */
     DATE, 
 
-    /** Map as <code>java.sql.Time</code> */
+    /** Map as {@code java.sql.Time} */
     TIME, 
 
-    /** Map as <code>java.sql.Timestamp</code> */
+    /** Map as {@code java.sql.Timestamp} */
     TIMESTAMP
 }

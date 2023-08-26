@@ -22,7 +22,7 @@ package jakarta.persistence;
  * property or field whose type is a Java {@code enum} type
  * should be persisted.
  *
- * @see Enumerated#value()
+ * @see Enumerated
  * @see EnumeratedValue
  *
  * @since 1.0

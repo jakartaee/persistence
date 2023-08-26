@@ -23,49 +23,48 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies the ordering of the elements of a collection valued
+ * Specifies the ordering of the elements of a collection-valued
  * association or element collection at the point when the association
  * or collection is retrieved.
  * 
- * <p> The syntax of the <code>value</code> ordering element is an 
- * <code>orderby_list</code>, as follows:
+ * <p> The syntax of the {@code value} ordering element is an 
+ * {@code orderby_list}, as follows:
  * 
  * <pre>
  *    orderby_list::= orderby_item [,orderby_item]*
  *    orderby_item::= [property_or_field_name] [ASC | DESC]
  * </pre>
  * 
- * <p> If <code>ASC</code> or <code>DESC</code> is not specified, 
- * <code>ASC</code> (ascending order) is assumed.
+ * <p>If {@code ASC} or {@code DESC} is not specified, {@code ASC}
+ * (ascending order) is assumed.
  *
- * <p> If the ordering element is not specified for an entity association,
+ * <p>If the ordering element is not specified for an entity association,
  * ordering by the primary key of the associated entity is assumed.
  *
- * <p> The property or field name must correspond to that of a 
- * persistent property or field of the associated class or embedded class
- * within it.  The properties or fields used in the ordering must correspond to 
- * columns for which comparison operators are supported.
+ * <p>The property or field name must correspond to that of a persistent
+ * property or field of the associated class or embedded class within it.
+ * The properties or fields used in the ordering must correspond to columns
+ * for which comparison operators are supported.
  *
- * <p> The dot (".") notation is used to refer to an attribute within an
- * embedded attribute.  The value of each identifier used with the dot
+ * <p>The dot ({@code .}) notation is used to refer to an attribute within
+ * an embedded attribute.  The value of each identifier used with the dot
  * notation is the name of the respective embedded field or property.
  *
- * <p> The <code>OrderBy</code> annotation may be applied to an element
- * collection. When <code>OrderBy</code> is applied to an element collection of
- * basic type, the ordering will be by value of the basic objects and
+ * <p> The {@code OrderBy} annotation may be applied to an element
+ * collection. When {@code OrderBy} is applied to an element collection
+ * of basic type, the ordering will be by value of the basic objects and
  * the property or field name is not used. When specifying an ordering
- * over an element collection of embeddable type, the dot notation
- * must be used to specify the attribute or attributes that determine
- * the ordering.  
+ * over an element collection of embeddable type, the dot notation must
+ * be used to specify the attribute or attributes that determine the
+ * ordering.
  *
- * <p> The <code>OrderBy</code> annotation is not used when an order
- * column is specified.
+ * <p> The {@code OrderBy} annotation is not used when an order column is
+ * specified using {@link OrderColumn}.
  *
- * 
+ *
+ * <p>Example 1:
  * <pre>
- *    Example 1:
- *    
- *    &#064;Entity 
+ *    &#064;Entity
  *    public class Course {
  *       ...
  *       &#064;ManyToMany
@@ -73,10 +72,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *       public List&#060;Student&#062; getStudents() {...};
  *       ...
  *    }
- *    
- *    Example 2:
+ * </pre>
  *
- *    &#064;Entity 
+ * <p>Example 2:
+ * <pre>
+ *    &#064;Entity
  *    public class Student {
  *       ...
  *       &#064;ManyToMany(mappedBy="students")
@@ -84,9 +84,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *       public List&#060;Course&#062; getCourses() {...};
  *       ...
  *    }
+ * </pre>
  *
- *    Example 3: 
- *
+ * <p>Example 3:
+ * <pre>
  *    &#064;Entity 
  *    public class Person {
  *         ...
@@ -121,15 +122,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface OrderBy {
 
    /**
-    * An <code>orderby_list</code>.  Specified as follows:
+    * An {@code orderby_list}. Specified as follows:
     *
     * <pre>
     *    orderby_list::= orderby_item [,orderby_item]*
     *    orderby_item::= [property_or_field_name] [ASC | DESC]
     * </pre>
     *
-    * <p> If <code>ASC</code> or <code>DESC</code> is not specified,
-    * <code>ASC</code> (ascending order) is assumed.
+    * <p> If {@code ASC} or {@code DESC} is not specified,
+    * {@code ASC} (ascending order) is assumed.
     *
     * <p> If the ordering element is not specified, ordering by
     * the primary key of the associated entity is assumed.

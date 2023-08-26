@@ -23,9 +23,9 @@ import jakarta.persistence.metamodel.Attribute;
  * Utility interface between the application and the persistence
  * provider managing the persistence unit.
  *
- * <p>The methods of this interface should only be invoked on entity
- * instances obtained from or managed by entity managers for this
- * persistence unit or on new entity instances.
+ * <p>The methods of this interface should only be invoked on
+ * entity instances obtained from or managed by entity managers
+ * for this persistence unit or on new entity instances.
  *
  * @since 2.0
  */
@@ -36,9 +36,9 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * of an entity belonging to the persistence unit.
      * @param entity  entity instance containing the attribute
      * @param attributeName name of attribute whose load state is
-     *        to be determined
+     *       to be determined
      * @return false if entity's state has not been loaded or if 
-     *         the attribute state has not been loaded, else true
+     *        the attribute state has not been loaded, else true
      */
     boolean isLoaded(Object entity, String attributeName);
 
@@ -48,21 +48,20 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * @param entity  entity instance containing the attribute
      * @param attribute  attribute whose load state is to be determined
      * @return false if entity's state has not been loaded or if
-     *         the attribute state has not been loaded, else true
+     *        the attribute state has not been loaded, else true
      * @since 3.2
      */
     <E> boolean isLoaded(E entity, Attribute<? super E, ?> attribute);
 
     /**
      * Determine the load state of an entity belonging to the
-     * persistence unit.  This method can be used to determine the
-     * load state of an entity passed as a reference.  An entity is
+     * persistence unit. This method can be used to determine the
+     * load state of an entity passed as a reference. An entity is
      * considered loaded if all attributes for which
-     * <code>FetchType.EAGER</code> has been specified have been
-     * loaded.  
-     * <p> The <code>isLoaded(Object, String)</code> method
-     * should be used to determine the load state of an attribute.
-     * Not doing so might lead to unintended loading of state.
+     * {@link FetchType#EAGER} has been specified have been loaded.
+     * <p> The {@link #isLoaded(Object, String)} method should be
+     * used to determine the load state of an attribute. Not doing
+     * so might lead to unintended loading of state.
      * @param entity   entity instance whose load state is to be determined
      * @return false if the entity has not been loaded, else true
      */
@@ -153,26 +152,26 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
     <T> Class<? extends T> getClass(T entity);
 
     /**
-     *  Return the id of the entity.
-     *  A generated id is not guaranteed to be available until after
-     *  the database insert has occurred.
-     *  Returns null if the entity does not yet have an id.
-     *  @param entity  entity instance
-     *  @return id of the entity
-     *  @throws IllegalArgumentException if the object is found not 
-     *          to be an entity
+     * Return the id of the entity.
+     * A generated id is not guaranteed to be available until after
+     * the database insert has occurred.
+     * Returns null if the entity does not yet have an id.
+     * @param entity  entity instance
+     * @return id of the entity
+     * @throws IllegalArgumentException if the object is found not 
+     *         to be an entity
      */
     Object getIdentifier(Object entity);
 
     /**
-     *  Return the version of the entity.
-     *  A generated version is not guaranteed to be available until after
-     *  the database insert has occurred.
-     *  Returns null if the entity does not yet have an id.
-     *  @param entity  entity instance
-     *  @return id of the entity
-     *  @throws IllegalArgumentException if the object is found not
-     *          to be an entity
+     * Return the version of the entity.
+     * A generated version is not guaranteed to be available until after
+     * the database insert has occurred.
+     * Returns null if the entity does not yet have an id.
+     * @param entity  entity instance
+     * @return id of the entity
+     * @throws IllegalArgumentException if the object is found not
+     *         to be an entity
      * @since 3.2
      */
     Object getVersion(Object entity);

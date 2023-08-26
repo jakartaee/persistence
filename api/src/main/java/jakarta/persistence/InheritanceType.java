@@ -17,23 +17,43 @@
 package jakarta.persistence;
 
 /**
- * Defines inheritance strategy options.
+ * Enumerated the options for mapping entity inheritance.
+ *
+ * @see Inheritance#strategy
  *
  * @since 1.0
  */
 public enum InheritanceType { 
 
-    /** A single table per class hierarchy. */
+    /**
+     * A single table for each entity class hierarchy.
+     *
+     * <p>Subclasses are stored together with the root
+     * class, and each entity instance is stored as a
+     * single table row.
+     */
     SINGLE_TABLE, 
 
-    /** A table per concrete entity class. */
+    /**
+     * A table for each concrete entity class.
+     *
+     * <p>Each concrete class in the hierarchy has its
+     * own table, and each entity instance is stored as
+     * a single table row.
+     */
     TABLE_PER_CLASS, 
 
-    /** 
-     * A strategy in which fields that are specific to a 
-     * subclass are mapped to a separate table than the fields 
-     * that are common to the parent class, and a join is 
-     * performed to instantiate the subclass.
+    /**
+     * A table for each abstract or concrete entity class,
+     * with only the columns mapped to persistent fields
+     * and properties <em>declared</em> by the entity class.
+     *
+     * <p>Each class in the hierarchy has its own table,
+     * but that table does not contain columns mapped to
+     * inherited fields or properties, and so the state of
+     * an entity instance might be stored across multiple
+     * table rows. A join is used to retrieve the state of
+     * such entities.
      */
     JOINED 
 }

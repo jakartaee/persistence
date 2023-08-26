@@ -22,7 +22,7 @@ import java.util.Set;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
- * The <code>AbstractQuery</code> interface defines functionality that is common
+ * The {@code AbstractQuery} interface defines functionality that is common
  * to both top-level queries and subqueries.
  * It is not intended to be used directly in query construction.
  *
@@ -49,7 +49,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * Create and add a query root corresponding to the given entity,
      * forming a cartesian product with any existing roots.
      * @param entity  metamodel entity representing the entity
-     *                of type X
+     *               of type X
      * @return query root corresponding to the given entity
      */
     <X> Root<X> from(EntityType<X> entity);
@@ -148,15 +148,15 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * If distinct has not been specified, duplicate results must
      * be retained.
      * @param distinct  boolean value specifying whether duplicate
-     *        results must be eliminated from the query result or
-     *        whether they must be retained
+     *       results must be eliminated from the query result or
+     *       whether they must be retained
      * @return the modified query
      */
     AbstractQuery<T> distinct(boolean distinct);
 
     /**
      * Return the query roots.  These are the roots that have
-     * been defined for the <code>CriteriaQuery</code> or <code>Subquery</code> itself,
+     * been defined for the {@code CriteriaQuery} or {@code Subquery} itself,
      * including any subquery roots defined as a result of
      * correlation. Returns empty set if no roots have been defined.
      * Modifications to the set do not affect the query.
@@ -165,9 +165,9 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
     Set<Root<?>> getRoots();
 
     /**
-     *  Return the selection of the query, or null if no selection
-     *  has been set.
-     *  @return selection item 
+     * Return the selection of the query, or null if no selection
+     * has been set.
+     * @return selection item 
      */
     Selection<T> getSelection();
 
@@ -191,18 +191,18 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * Return whether duplicate query results must be eliminated or
      * retained.
      * @return boolean indicating whether duplicate query results 
-     *         must be eliminated
+     *        must be eliminated
      */
     boolean isDistinct();
 
     /**
      * Return the result type of the query or subquery.  If a result
      * type was specified as an argument to the
-     * <code>createQuery</code> or <code>subquery</code> method, that
+     * {@code createQuery} or {@code subquery} method, that
      * type will be returned.  If the query was created using the
-     * <code>createTupleQuery</code> method, the result type is
-     * <code>Tuple</code>.  Otherwise, the result type is
-     * <code>Object</code>.
+     * {@code createTupleQuery} method, the result type is
+     * {@code Tuple}.  Otherwise, the result type is
+     * {@code Object}.
      * @return result type
      */
     Class<T> getResultType();  	

@@ -31,18 +31,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> Note that the {@link Transient} annotation may be used to 
  * designate the non-persistent state of an embeddable class.
  *
+ * <p>Example 1:
  * <pre>
- *
- *    Example 1:
- *
- *    &#064;Embeddable public class EmploymentPeriod { 
+ *    &#064;Embeddable public class EmploymentPeriod {
  *       &#064;Temporal(DATE) java.util.Date startDate;
  *       &#064;Temporal(DATE) java.util.Date endDate;
  *      ... 
  *    }
+ * </pre>
  *
- *    Example 2:
- *
+ * <p>Example 2:
+ * <pre>
  *    &#064;Embeddable public class PhoneNumber {
  *        protected String areaCode;
  *        protected String localNumber;
@@ -54,9 +53,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *        &#064;Id protected String name;
  *         ...
  *     }
+ * </pre>
  *
- *    Example 3:
- *
+ * <p>Example 3:
+ * <pre>
  *    &#064;Embeddable public class Address {
  *       protected String street;
  *       protected String city;
@@ -68,9 +68,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *       protected String zip;
  *       protected String plusFour;
  *     }
-
-
  * </pre>
+ *
+ * @see Embedded
+ * @see EmbeddedId
  *
  * @since 1.0
  */

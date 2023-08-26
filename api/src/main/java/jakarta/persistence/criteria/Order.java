@@ -25,7 +25,7 @@ public interface Order {
 
    /**
     * Switch the ordering.
-    * @return a new <code>Order</code> instance with the reversed ordering
+    * @return a new {@code Order} instance with the reversed ordering
     */
     Order reverse();
 

@@ -38,18 +38,20 @@ public interface AttributeNode<T> {
     String getAttributeName();
 
     /**
-     * Return the Map&#060;Class, Subgraph&#062; of subgraphs associated
-     * with this attribute node.
-     * @return Map of subgraphs associated with this attribute node
-     * or empty Map if none have been defined
+     * Return a map of subgraphs associated with this attribute
+     * node.
+     * @return a {@link Map} of subgraphs associated with this
+     * attribute node or an empty {@code Map} if none have been
+     * defined
      */
     Map<Class, Subgraph> getSubgraphs();
 
     /**
-     * Return the Map&#060;Class, Subgraph&#062; of subgraphs associated
-     * with this attribute node's map key.
-     * @return Map of subgraphs associated with this attribute 
-     * node's map key or empty Map if none have been defined
+     * Return a map of subgraphs associated with this attribute
+     * node's map key.
+     * @return a {@link Map} of subgraphs associated with this
+     * attribute node's map key or an empty {@code Map} if none
+     * have been defined
      */
     Map<Class, Subgraph> getKeySubgraphs();
 }

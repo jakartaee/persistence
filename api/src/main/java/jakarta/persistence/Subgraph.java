@@ -17,8 +17,8 @@ package jakarta.persistence;
 
 /**
  * This type represents a subgraph for an attribute node that
- * corresponds to a Managed Type. Using this class, an entity subgraph
- * can be embedded within an EntityGraph.
+ * corresponds to a managed type. Using this class, an entity
+ * subgraph can be embedded within an {@link EntityGraph}.
  *
  * @param <T> The type of the attribute.
  *

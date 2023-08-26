@@ -17,8 +17,8 @@
 package jakarta.persistence.criteria;
 
 /**
- * The <code>CompoundSelection</code> interface defines a compound selection item
- * (tuple, array, or result of constructor).
+ * The {@code CompoundSelection} interface defines a compound
+ * selection item (a tuple, array, or result of a constructor).
  *
  * @param <X> the type of the selection item
  *

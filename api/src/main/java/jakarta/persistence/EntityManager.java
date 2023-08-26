@@ -29,17 +29,17 @@ import jakarta.persistence.criteria.CriteriaDelete;
 /**
  * Interface used to interact with the persistence context.
  *
- * <p> An <code>EntityManager</code> instance is associated with 
+ * <p> An {@code EntityManager} instance is associated with
  * a persistence context. A persistence context is a set of entity 
  * instances in which for any persistent entity identity there is 
  * a unique entity instance. Within the persistence context, the 
  * entity instances and their lifecycle are managed. 
- * The <code>EntityManager</code> API is used 
+ * The {@code EntityManager} API is used
  * to create and remove persistent entity instances, to find entities 
  * by their primary key, and to query over entities.
  *
  * <p> The set of entities that can be managed by a given 
- * <code>EntityManager</code> instance is defined by a persistence 
+ * {@code EntityManager} instance is defined by a persistence
  * unit. A persistence unit defines the set of all classes that are 
  * related or grouped by the application, and which must be 
  * colocated in their mapping to a single database.
@@ -58,15 +58,15 @@ public interface EntityManager extends AutoCloseable {
      * Make an instance managed and persistent.
      * @param entity  entity instance
      * @throws EntityExistsException if the entity already exists.
-     * (If the entity already exists, the <code>EntityExistsException</code> may 
+     * (If the entity already exists, the {@code EntityExistsException} may
      * be thrown when the persist operation is invoked, or the
-     * <code>EntityExistsException</code> or another <code>PersistenceException</code> may be 
+     * {@code EntityExistsException} or another {@code PersistenceException} may be
      * thrown at flush or commit time.) 
      * @throws IllegalArgumentException if the instance is not an
-     *         entity
+     *        entity
      * @throws TransactionRequiredException if there is no transaction when
-     *         invoked on a container-managed entity manager of that is of type 
-     *         <code>PersistenceContextType.TRANSACTION</code>
+     *        invoked on a container-managed entity manager of that is of type 
+     *        {@code PersistenceContextType.TRANSACTION}
      */
     void persist(Object entity);
     
@@ -76,10 +76,10 @@ public interface EntityManager extends AutoCloseable {
      * @param entity  entity instance
      * @return the managed instance that the state was merged to
      * @throws IllegalArgumentException if instance is not an
-     *         entity or is a removed entity
+     *        entity or is a removed entity
      * @throws TransactionRequiredException if there is no transaction when
-     *         invoked on a container-managed entity manager of that is of type 
-     *         <code>PersistenceContextType.TRANSACTION</code>
+     *        invoked on a container-managed entity manager of that is of type 
+     *        {@code PersistenceContextType.TRANSACTION}
      */
     <T> T merge(T entity);
 
@@ -87,11 +87,11 @@ public interface EntityManager extends AutoCloseable {
      * Remove the entity instance.
      * @param entity  entity instance
      * @throws IllegalArgumentException if the instance is not an
-     *         entity or is a detached entity
+     *        entity or is a detached entity
      * @throws TransactionRequiredException if invoked on a
-     *         container-managed entity manager of type 
-     *         <code>PersistenceContextType.TRANSACTION</code> and there is 
-     *         no transaction
+     *        container-managed entity manager of type 
+     *        {@code PersistenceContextType.TRANSACTION} and there is
+     *        no transaction
      */
     void remove(Object entity);
     
@@ -103,11 +103,11 @@ public interface EntityManager extends AutoCloseable {
      * @param entityClass  entity class
      * @param primaryKey  primary key
      * @return the found entity instance or null if the entity does
-     *         not exist
+     *        not exist
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or the second argument is 
-     *         is not a valid type for that entity's primary key or
-     *         is null
+     *        not denote an entity type or the second argument is 
+     *        is not a valid type for that entity's primary key or
+     *        is null
      */
     <T> T find(Class<T> entityClass, Object primaryKey);
     
@@ -121,13 +121,13 @@ public interface EntityManager extends AutoCloseable {
      * @param entityClass  entity class
      * @param primaryKey   primary key
      * @param properties  standard and vendor-specific properties 
-     *        and hints
+     *       and hints
      * @return the found entity instance or null if the entity does
-     *         not exist 
+     *        not exist 
      * @throws IllegalArgumentException if the first argument does 
-     *         not denote an entity type or the second argument is
-     *         is not a valid type for that entity's primary key or 
-     *         is null 
+     *        not denote an entity type or the second argument is
+     *        is not a valid type for that entity's primary key or 
+     *        is null 
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -144,37 +144,37 @@ public interface EntityManager extends AutoCloseable {
      * lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock.  If these 
-     * checks fail, the <code>OptimisticLockException</code> will be thrown.
+     * checks fail, the {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
-     *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
-     *    locking failure causes only statement-level rollback
+     * <li> the {@code PessimisticLockException} will be thrown if the database
+     *   locking failure causes transaction-level rollback
+     * <li> the {@code LockTimeoutException} will be thrown if the database
+     *   locking failure causes only statement-level rollback
      * </ul>
      * @param entityClass  entity class
      * @param primaryKey  primary key
      * @param lockMode  lock mode
      * @return the found entity instance or null if the entity does
-     *         not exist
+     *        not exist
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or the second argument is 
-     *         not a valid type for that entity's primary key or 
-     *         is null
+     *        not denote an entity type or the second argument is 
+     *        not a valid type for that entity's primary key or 
+     *        is null
      * @throws TransactionRequiredException if there is no 
-     *         transaction and a lock mode other than <code>NONE</code> is
-     *         specified or if invoked on an entity manager which has
-     *         not been joined to the current transaction and a lock
-     *         mode other than <code>NONE</code> is specified
+     *        transaction and a lock mode other than {@code NONE} is
+     *        specified or if invoked on an entity manager which has
+     *        not been joined to the current transaction and a lock
+     *        mode other than {@code NONE} is specified
      * @throws OptimisticLockException if the optimistic version 
-     *         check fails
+     *        check fails
      * @throws PessimisticLockException if pessimistic locking 
-     *         fails and the transaction is rolled back
+     *        fails and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call 
-     *         is made
+     *        is made
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -191,14 +191,14 @@ public interface EntityManager extends AutoCloseable {
      * is pessimistic and the entity has a version attribute, the
      * persistence provider must perform optimistic version checks
      * when obtaining the database lock.  If these checks fail,
-     * the <code>OptimisticLockException</code> will be thrown.
+     * the {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
-     *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
-     *    locking failure causes only statement-level rollback
+     * <li> the {@code PessimisticLockException} will be thrown if the database
+     *   locking failure causes transaction-level rollback
+     * <li> the {@code LockTimeoutException} will be thrown if the database
+     *   locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific property or hint is not recognized, 
      * it is silently ignored.  
@@ -210,26 +210,26 @@ public interface EntityManager extends AutoCloseable {
      * @param primaryKey  primary key
      * @param lockMode  lock mode
      * @param properties  standard and vendor-specific properties
-     *        and hints
+     *       and hints
      * @return the found entity instance or null if the entity does
-     *         not exist
+     *        not exist
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or the second argument is 
-     *         not a valid type for that entity's primary key or 
-     *         is null
+     *        not denote an entity type or the second argument is 
+     *        not a valid type for that entity's primary key or 
+     *        is null
      * @throws TransactionRequiredException if there is no 
-     *         transaction and a lock mode other than <code>NONE</code> is
-     *         specified or if invoked on an entity manager which has
-     *         not been joined to the current transaction and a lock
-     *         mode other than <code>NONE</code> is specified
+     *        transaction and a lock mode other than {@code NONE} is
+     *        specified or if invoked on an entity manager which has
+     *        not been joined to the current transaction and a lock
+     *        mode other than {@code NONE} is specified
      * @throws OptimisticLockException if the optimistic version 
-     *         check fails
+     *        check fails
      * @throws PessimisticLockException if pessimistic locking 
-     *         fails and the transaction is rolled back
+     *        fails and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call 
-     *         is made
+     *        is made
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -248,16 +248,16 @@ public interface EntityManager extends AutoCloseable {
      * the lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock.  If these checks
-     * fail, the <code>OptimisticLockException</code> will be thrown.
+     * fail, the {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown
-     *      if the database locking failure causes transaction-level
-     *      rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if
-     *      the database locking failure causes only statement-level
-     *      rollback
+     * <li> the {@code PessimisticLockException} will be thrown
+     *     if the database locking failure causes transaction-level
+     *     rollback
+     * <li> the {@code LockTimeoutException} will be thrown if
+     *     the database locking failure causes only statement-level
+     *     rollback
      * </ul>
      * <p>If a vendor-specific {@linkplain FindOption option} is not
      * recognized, it is silently ignored.
@@ -269,23 +269,23 @@ public interface EntityManager extends AutoCloseable {
      * @param primaryKey  primary key
      * @param options  standard and vendor-specific options
      * @return the found entity instance or null if the entity does
-     *         not exist
+     *        not exist
      * @throws IllegalArgumentException if there are contradictory
-     *         options, if the first argument does not denote an entity
-     *         type belonging to the persistence unit, or if the second
-     *         argument is not a valid non-null instance of the entity
-     *         primary key type
+     *        options, if the first argument does not denote an entity
+     *        type belonging to the persistence unit, or if the second
+     *        argument is not a valid non-null instance of the entity
+     *        primary key type
      * @throws TransactionRequiredException if there is no transaction
-     *         and a lock mode other than <code>NONE</code> is
-     *         specified or if invoked on an entity manager which has
-     *         not been joined to the current transaction and a lock
-     *         mode other than <code>NONE</code> is specified
+     *        and a lock mode other than {@code NONE} is
+     *        specified or if invoked on an entity manager which has
+     *        not been joined to the current transaction and a lock
+     *        mode other than {@code NONE} is specified
      * @throws OptimisticLockException if the optimistic version check
-     *         fails
+     *        fails
      * @throws PessimisticLockException if pessimistic locking fails
-     *         and the transaction is rolled back
+     *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
@@ -305,16 +305,16 @@ public interface EntityManager extends AutoCloseable {
      * the lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock.  If these checks
-     * fail, the <code>OptimisticLockException</code> will be thrown.
+     * fail, the {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown
-     *      if the database locking failure causes transaction-level
-     *      rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if
-     *      the database locking failure causes only statement-level
-     *      rollback
+     * <li> the {@code PessimisticLockException} will be thrown
+     *     if the database locking failure causes transaction-level
+     *     rollback
+     * <li> the {@code LockTimeoutException} will be thrown if
+     *     the database locking failure causes only statement-level
+     *     rollback
      * </ul>
      * <p>If a vendor-specific {@linkplain FindOption option} is not
      * recognized, it is silently ignored.
@@ -326,23 +326,23 @@ public interface EntityManager extends AutoCloseable {
      * @param primaryKey  primary key
      * @param options  standard and vendor-specific options
      * @return the found entity instance or null if the entity does
-     *         not exist
+     *        not exist
      * @throws IllegalArgumentException if there are contradictory
-     *         options, if the first argument does not denote an entity
-     *         type belonging to the persistence unit, or if the second
-     *         argument is not a valid non-null instance of the entity
-     *         primary key type
+     *        options, if the first argument does not denote an entity
+     *        type belonging to the persistence unit, or if the second
+     *        argument is not a valid non-null instance of the entity
+     *        primary key type
      * @throws TransactionRequiredException if there is no transaction
-     *         and a lock mode other than <code>NONE</code> is
-     *         specified or if invoked on an entity manager which has
-     *         not been joined to the current transaction and a lock
-     *         mode other than <code>NONE</code> is specified
+     *        and a lock mode other than {@code NONE} is
+     *        specified or if invoked on an entity manager which has
+     *        not been joined to the current transaction and a lock
+     *        mode other than {@code NONE} is specified
      * @throws OptimisticLockException if the optimistic version check
-     *         fails
+     *        fails
      * @throws PessimisticLockException if pessimistic locking fails
-     *         and the transaction is rolled back
+     *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
@@ -353,11 +353,11 @@ public interface EntityManager extends AutoCloseable {
      * Obtain a reference to an instance of the given entity class
      * with the given primary key, whose state may be lazily fetched.
      * <p>If the requested instance does not exist in the database,
-     * the <code>EntityNotFoundException</code> is thrown when the
+     * the {@code EntityNotFoundException} is thrown when the
      * instance state is first accessed.
      * (The persistence provider runtime is permitted but not
-     * required to throw the <code>EntityNotFoundException</code>
-     * when <code>getReference</code> is called.)
+     * required to throw the {@code EntityNotFoundException}
+     * when {@code getReference} is called.)
      * <p>The application should not expect the instance state to
      * be available upon detachment, unless it was accessed by the
      * application while the entity manager was open.
@@ -365,11 +365,11 @@ public interface EntityManager extends AutoCloseable {
      * @param primaryKey  primary key
      * @return a reference to the entity instance
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or the second argument is
-     *         not a valid type for that entity's primary key or
-     *         is null
+     *        not denote an entity type or the second argument is
+     *        not a valid type for that entity's primary key or
+     *        is null
      * @throws EntityNotFoundException if the entity state cannot
-     *         be accessed
+     *        be accessed
      */
     <T> T getReference(Class<T> entityClass, Object primaryKey);
 
@@ -379,20 +379,20 @@ public interface EntityManager extends AutoCloseable {
      * whose state may be lazily fetched. The given object may be
      * persistent or detached, but may be neither new nor removed.
      * <p>If the requested instance does not exist in the database,
-     * the <code>EntityNotFoundException</code> is thrown when the
+     * the {@code EntityNotFoundException} is thrown when the
      * instance state is first accessed.
      * (The persistence provider runtime is permitted but not
-     * required to throw the <code>EntityNotFoundException</code>
-     * when <code>getReference</code> is called.)
+     * required to throw the {@code EntityNotFoundException}
+     * when {@code getReference} is called.)
      * <p>The application should not expect the instance state to
      * be available upon detachment, unless it was accessed by the
      * application while the entity manager was open.
      * @param entity  a persistent or detached entity instance
      * @return a reference to the entity instance
      * @throws IllegalArgumentException if the given object is not
-     *         an entity, or if it is neither persistent nor detached
+     *        an entity, or if it is neither persistent nor detached
      * @throws EntityNotFoundException if the entity state cannot be
-     *         accessed
+     *        accessed
      */
     <T> T getReference(T entity);
 
@@ -400,8 +400,8 @@ public interface EntityManager extends AutoCloseable {
      * Synchronize the persistence context to the
      * underlying database.
      * @throws TransactionRequiredException if there is
-     *         no transaction or if the entity manager has not been
-     *         joined to the current transaction
+     *        no transaction or if the entity manager has not been
+     *        joined to the current transaction
      * @throws PersistenceException if the flush fails
      */
     void flush();
@@ -427,33 +427,33 @@ public interface EntityManager extends AutoCloseable {
      * contains a version attribute, the persistence provider must 
      * also perform optimistic version checks when obtaining the 
      * database lock.  If these checks fail, the 
-     * <code>OptimisticLockException</code> will be thrown.
+     * {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
-     *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
-     *    locking failure causes only statement-level rollback
+     * <li> the {@code PessimisticLockException} will be thrown if the database
+     *   locking failure causes transaction-level rollback
+     * <li> the {@code LockTimeoutException} will be thrown if the database
+     *   locking failure causes only statement-level rollback
      * </ul>
      * @param entity  entity instance
      * @param lockMode  lock mode
      * @throws IllegalArgumentException if the instance is not an
-     *         entity or is a detached entity
+     *        entity or is a detached entity
      * @throws TransactionRequiredException if there is no 
-     *         transaction or if invoked on an entity manager which
-     *         has not been joined to the current transaction
+     *        transaction or if invoked on an entity manager which
+     *        has not been joined to the current transaction
      * @throws EntityNotFoundException if the entity does not exist 
-     *         in the database when pessimistic locking is 
-     *         performed
+     *        in the database when pessimistic locking is 
+     *        performed
      * @throws OptimisticLockException if the optimistic version 
-     *         check fails
+     *        check fails
      * @throws PessimisticLockException if pessimistic locking fails 
-     *         and the transaction is rolled back
+     *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call 
-     *         is made
+     *        is made
      */
     void lock(Object entity, LockModeType lockMode);
 
@@ -465,14 +465,14 @@ public interface EntityManager extends AutoCloseable {
      * contains a version attribute, the persistence provider must 
      * also perform optimistic version checks when obtaining the 
      * database lock.  If these checks fail, the 
-     * <code>OptimisticLockException</code> will be thrown.
+     * {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
-     *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
-     *    locking failure causes only statement-level rollback
+     * <li> the {@code PessimisticLockException} will be thrown if the database
+     *   locking failure causes transaction-level rollback
+     * <li> the {@code LockTimeoutException} will be thrown if the database
+     *   locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific property or hint is not recognized, 
      * it is silently ignored.  
@@ -483,23 +483,23 @@ public interface EntityManager extends AutoCloseable {
      * @param entity  entity instance
      * @param lockMode  lock mode
      * @param properties  standard and vendor-specific properties
-     *        and hints
+     *       and hints
      * @throws IllegalArgumentException if the instance is not an
-     *         entity or is a detached entity
+     *        entity or is a detached entity
      * @throws TransactionRequiredException if there is no 
-     *         transaction or if invoked on an entity manager which
-     *         has not been joined to the current transaction
+     *        transaction or if invoked on an entity manager which
+     *        has not been joined to the current transaction
      * @throws EntityNotFoundException if the entity does not exist 
-     *         in the database when pessimistic locking is 
-     *         performed
+     *        in the database when pessimistic locking is 
+     *        performed
      * @throws OptimisticLockException if the optimistic version 
-     *         check fails
+     *        check fails
      * @throws PessimisticLockException if pessimistic locking fails 
-     *         and the transaction is rolled back
+     *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call 
-     *         is made
+     *        is made
      * @since 2.0
      */
     void lock(Object entity, LockModeType lockMode,
@@ -513,16 +513,16 @@ public interface EntityManager extends AutoCloseable {
      * contains a version attribute, the persistence provider must
      * also perform optimistic version checks when obtaining the
      * database lock. If these checks fail, the
-     * <code>OptimisticLockException</code> will be thrown.
+     * {@code OptimisticLockException} will be thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown
-     *      if the database locking failure causes transaction-level
-     *      rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if
-     *      the database locking failure causes only statement-level
-     *      rollback
+     * <li> the {@code PessimisticLockException} will be thrown
+     *     if the database locking failure causes transaction-level
+     *     rollback
+     * <li> the {@code LockTimeoutException} will be thrown if
+     *     the database locking failure causes only statement-level
+     *     rollback
      * </ul>
      * <p>If a vendor-specific {@link LockOption} is not recognized,
      * it is silently ignored.
@@ -534,19 +534,19 @@ public interface EntityManager extends AutoCloseable {
      * @param lockMode  lock mode
      * @param options  standard and vendor-specific options
      * @throws IllegalArgumentException if the instance is not an
-     *         entity or is a detached entity
+     *        entity or is a detached entity
      * @throws TransactionRequiredException if there is no
-     *         transaction or if invoked on an entity manager which
-     *         has not been joined to the current transaction
+     *        transaction or if invoked on an entity manager which
+     *        has not been joined to the current transaction
      * @throws EntityNotFoundException if the entity does not exist
-     *         in the database when pessimistic locking is
-     *         performed
+     *        in the database when pessimistic locking is
+     *        performed
      * @throws OptimisticLockException if the optimistic version
-     *         check fails
+     *        check fails
      * @throws PessimisticLockException if pessimistic locking fails
-     *         and the transaction is rolled back
+     *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
@@ -558,12 +558,12 @@ public interface EntityManager extends AutoCloseable {
      * overwriting changes made to the entity, if any. 
      * @param entity  entity instance
      * @throws IllegalArgumentException if the instance is not
-     *         an entity or the entity is not managed
+     *        an entity or the entity is not managed
      * @throws TransactionRequiredException if there is no
-     *         transaction when invoked on a container-managed
-     *         entity manager of type <code>PersistenceContextType.TRANSACTION</code>
+     *        transaction when invoked on a container-managed
+     *        entity manager of type {@code PersistenceContextType.TRANSACTION}
      * @throws EntityNotFoundException if the entity no longer
-     *         exists in the database
+     *        exists in the database
      */
     void refresh(Object entity);
 
@@ -575,14 +575,14 @@ public interface EntityManager extends AutoCloseable {
      * it is silently ignored. 
      * @param entity  entity instance
      * @param properties  standard and vendor-specific properties 
-     *        and hints
+     *       and hints
      * @throws IllegalArgumentException if the instance is not 
-     *         an entity or the entity is not managed 
+     *        an entity or the entity is not managed 
      * @throws TransactionRequiredException if there is no
-     *         transaction when invoked on a container-managed
-     *         entity manager of type <code>PersistenceContextType.TRANSACTION</code>
+     *        transaction when invoked on a container-managed
+     *        entity manager of type {@code PersistenceContextType.TRANSACTION}
      * @throws EntityNotFoundException if the entity no longer 
-     *         exists in the database 
+     *        exists in the database 
      * @since 2.0
      */
     void refresh(Object entity,
@@ -595,32 +595,32 @@ public interface EntityManager extends AutoCloseable {
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
-     *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the
-     *    database locking failure causes only statement-level 
-     *    rollback.
+     * <li> the {@code PessimisticLockException} will be thrown if the database
+     *   locking failure causes transaction-level rollback
+     * <li> the {@code LockTimeoutException} will be thrown if the
+     *   database locking failure causes only statement-level 
+     *   rollback.
      * </ul>
      * @param entity  entity instance
      * @param lockMode  lock mode
      * @throws IllegalArgumentException if the instance is not
-     *         an entity or the entity is not managed
+     *        an entity or the entity is not managed
      * @throws TransactionRequiredException if invoked on a 
-     *         container-managed entity manager of type
-     *         <code>PersistenceContextType.TRANSACTION</code> when there is
-     *         no transaction; if invoked on an extended entity manager when
-     *         there is no transaction and a lock mode other than <code>NONE</code>
-     *         has been specified; or if invoked on an extended entity manager
-     *         that has not been joined to the current transaction and a
-     *         lock mode other than <code>NONE</code> has been specified
+     *        container-managed entity manager of type
+     *        {@code PersistenceContextType.TRANSACTION} when there is
+     *        no transaction; if invoked on an extended entity manager when
+     *        there is no transaction and a lock mode other than {@code NONE}
+     *        has been specified; or if invoked on an extended entity manager
+     *        that has not been joined to the current transaction and a
+     *        lock mode other than {@code NONE} has been specified
      * @throws EntityNotFoundException if the entity no longer exists
-     *         in the database
+     *        in the database
      * @throws PessimisticLockException if pessimistic locking fails
-     *         and the transaction is rolled back
+     *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call
-     *         is made
+     *        is made
      * @since 2.0
      */
     void refresh(Object entity, LockModeType lockMode);
@@ -633,13 +633,13 @@ public interface EntityManager extends AutoCloseable {
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if the database
-     *    locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the database
-     *    locking failure causes only statement-level rollback
+     * <li> the {@code PessimisticLockException} will be thrown if the database
+     *   locking failure causes transaction-level rollback
+     * <li> the {@code LockTimeoutException} will be thrown if the database
+     *   locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific property or hint is not recognized, 
-     *    it is silently ignored.  
+     *   it is silently ignored.  
      * <p>Portable applications should not rely on the standard timeout
      * hint. Depending on the database in use and the locking
      * mechanisms used by the provider, the hint may or may not
@@ -647,25 +647,25 @@ public interface EntityManager extends AutoCloseable {
      * @param entity  entity instance
      * @param lockMode  lock mode
      * @param properties  standard and vendor-specific properties
-     *        and hints
+     *       and hints
      * @throws IllegalArgumentException if the instance is not
-     *         an entity or the entity is not managed
+     *        an entity or the entity is not managed
      * @throws TransactionRequiredException if invoked on a 
-     *         container-managed entity manager of type
-     *         <code>PersistenceContextType.TRANSACTION</code> when there is
-     *         no transaction; if invoked on an extended entity manager when
-     *         there is no transaction and a lock mode other than <code>NONE</code>
-     *         has been specified; or if invoked on an extended entity manager
-     *         that has not been joined to the current transaction and a
-     *         lock mode other than <code>NONE</code> has been specified
+     *        container-managed entity manager of type
+     *        {@code PersistenceContextType.TRANSACTION} when there is
+     *        no transaction; if invoked on an extended entity manager when
+     *        there is no transaction and a lock mode other than {@code NONE}
+     *        has been specified; or if invoked on an extended entity manager
+     *        that has not been joined to the current transaction and a
+     *        lock mode other than {@code NONE} has been specified
      * @throws EntityNotFoundException if the entity no longer exists
-     *         in the database
+     *        in the database
      * @throws PessimisticLockException if pessimistic locking fails
-     *         and the transaction is rolled back
+     *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
+     *        only the statement is rolled back
      * @throws PersistenceException if an unsupported lock call
-     *         is made
+     *        is made
      * @since 2.0
      */
     void refresh(Object entity, LockModeType lockMode,
@@ -680,10 +680,10 @@ public interface EntityManager extends AutoCloseable {
      * <p>If the lock mode type is pessimistic and the entity instance is
      * found but cannot be locked:
      * <ul>
-     * <li> the <code>PessimisticLockException</code> will be thrown if
-     *      the database locking failure causes transaction-level rollback
-     * <li> the <code>LockTimeoutException</code> will be thrown if the
-     *      database locking failure causes only statement-level rollback
+     * <li> the {@code PessimisticLockException} will be thrown if
+     *     the database locking failure causes transaction-level rollback
+     * <li> the {@code LockTimeoutException} will be thrown if the
+     *     database locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific {@link RefreshOption} is not recognized,
      * it is silently ignored.
@@ -694,22 +694,22 @@ public interface EntityManager extends AutoCloseable {
      * @param entity  entity instance
      * @param options  standard and vendor-specific options
      * @throws IllegalArgumentException if the instance is not an entity
-     *         or the entity is not managed
+     *        or the entity is not managed
      * @throws TransactionRequiredException if invoked on a
-     *         container-managed entity manager of type
-     *         <code>PersistenceContextType.TRANSACTION</code> when there
-     *         is no transaction; if invoked on an extended entity manager
-     *         when there is no transaction and a lock mode other than
-     *         <code>NONE</code> has been specified; or if invoked on an
-     *         extended entity manager that has not been joined to the
-     *         current transaction and a lock mode other than
-     *         <code>NONE</code> has been specified
+     *        container-managed entity manager of type
+     *        {@code PersistenceContextType.TRANSACTION} when there
+     *        is no transaction; if invoked on an extended entity manager
+     *        when there is no transaction and a lock mode other than
+     *        {@code NONE} has been specified; or if invoked on an
+     *        extended entity manager that has not been joined to the
+     *        current transaction and a lock mode other than
+     *        {@code NONE} has been specified
      * @throws EntityNotFoundException if the entity no longer exists in
-     *         the database
+     *        the database
      * @throws PessimisticLockException if pessimistic locking fails and
-     *         the transaction is rolled back
+     *        the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and only
-     *         the statement is rolled back
+     *        the statement is rolled back
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
@@ -733,7 +733,7 @@ public interface EntityManager extends AutoCloseable {
      * reference it.
      * @param entity  entity instance
      * @throws IllegalArgumentException if the instance is not an 
-     *         entity 
+     *        entity 
      * @since 2.0
      */
     void detach(Object entity);
@@ -752,10 +752,10 @@ public interface EntityManager extends AutoCloseable {
      * @param entity  entity instance
      * @return lock mode
      * @throws TransactionRequiredException if there is no 
-     *         transaction or if the entity manager has not been
-     *         joined to the current transaction
+     *        transaction or if the entity manager has not been
+     *        joined to the current transaction
      * @throws IllegalArgumentException if the instance is not a
-     *         managed entity and a transaction is active
+     *        managed entity and a transaction is active
      * @since 2.0
      */
     LockModeType getLockMode(Object entity);
@@ -795,7 +795,7 @@ public interface EntityManager extends AutoCloseable {
      * @param propertyName name of property or hint
      * @param value  value for property or hint
      * @throws IllegalArgumentException if the second argument is 
-     *         not valid for the implementation 
+     *        not valid for the implementation 
      * @since 2.0
      */
     void setProperty(String propertyName, Object value);
@@ -810,94 +810,94 @@ public interface EntityManager extends AutoCloseable {
     Map<String, Object> getProperties();
 
     /**
-     * Create an instance of <code>Query</code> for executing a
+     * Create an instance of {@code Query} for executing a
      * Jakarta Persistence query language statement.
      * @param qlString a Jakarta Persistence query string
      * @return the new query instance
      * @throws IllegalArgumentException if the query string is
-     *         found to be invalid
+     *        found to be invalid
      */
     Query createQuery(String qlString);
 
     /**
-     * Create an instance of <code>TypedQuery</code> for executing a
+     * Create an instance of {@code TypedQuery} for executing a
      * criteria query.
      * @param criteriaQuery  a criteria query object
      * @return the new query instance
      * @throws IllegalArgumentException if the criteria query is
-     *         found to be invalid
+     *        found to be invalid
      * @since 2.0
      */
     <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery);
 
     /**
-     * Create an instance of <code>Query</code> for executing a criteria
+     * Create an instance of {@code Query} for executing a criteria
      * update query.
      * @param updateQuery  a criteria update query object
      * @return the new query instance
      * @throws IllegalArgumentException if the update query is
-     *         found to be invalid
+     *        found to be invalid
      * @since 2.1
      */
     Query createQuery(CriteriaUpdate<?> updateQuery);
 
     /**
-     * Create an instance of <code>Query</code> for executing a criteria
+     * Create an instance of {@code Query} for executing a criteria
      * delete query.
      * @param deleteQuery  a criteria delete query object
      * @return the new query instance
      * @throws IllegalArgumentException if the delete query is
-     *         found to be invalid
+     *        found to be invalid
      * @since 2.1
      */
     Query createQuery(CriteriaDelete<?> deleteQuery);
 
     /**
-     * Create an instance of <code>TypedQuery</code> for executing a
+     * Create an instance of {@code TypedQuery} for executing a
      * Jakarta Persistence query language statement.
      * The select list of the query must contain only a single
      * item, which must be assignable to the type specified by
-     * the <code>resultClass</code> argument.
+     * the {@code resultClass} argument.
      * @param qlString a Jakarta Persistence query string
      * @param resultClass the type of the query result
      * @return the new query instance
      * @throws IllegalArgumentException if the query string is found
-     *         to be invalid or if the query result is found to
-     *         not be assignable to the specified type
+     *        to be invalid or if the query result is found to
+     *        not be assignable to the specified type
      * @since 2.0
      */
     <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
 
     /**
-     * Create an instance of <code>Query</code> for executing a named query
+     * Create an instance of {@code Query} for executing a named query
      * (in the Jakarta Persistence query language or in native SQL).
      * @param name the name of a query defined in metadata
      * @return the new query instance
      * @throws IllegalArgumentException if a query has not been
-     *         defined with the given name or if the query string is
-     *         found to be invalid
+     *        defined with the given name or if the query string is
+     *        found to be invalid
      */
     Query createNamedQuery(String name);
 
     /**
-     * Create an instance of <code>TypedQuery</code> for executing a
+     * Create an instance of {@code TypedQuery} for executing a
      * Jakarta Persistence query language named query.
      * The select list of the query must contain only a single
      * item, which must be assignable to the type specified by
-     * the <code>resultClass</code> argument.
+     * the {@code resultClass} argument.
      * @param name the name of a query defined in metadata
      * @param resultClass the type of the query result
      * @return the new query instance
      * @throws IllegalArgumentException if a query has not been
-     *         defined with the given name or if the query string is
-     *         found to be invalid or if the query result is found to
-     *         not be assignable to the specified type
+     *        defined with the given name or if the query string is
+     *        found to be invalid or if the query result is found to
+     *        not be assignable to the specified type
      * @since 2.0
      */
     <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
-     * Create an instance of <code>Query</code> for executing
+     * Create an instance of {@code Query} for executing
      * a native SQL statement, e.g., for update or delete.
      * If the query is not an update or delete query, query
      * execution will result in each row of the SQL result
@@ -912,7 +912,7 @@ public interface EntityManager extends AutoCloseable {
     Query createNativeQuery(String sqlString);
 
     /**
-     * Create an instance of <code>Query</code> for executing
+     * Create an instance of {@code Query} for executing
      * a native SQL query.
      * @param sqlString a native SQL query string
      * @param resultClass the class of the resulting instance(s)
@@ -921,7 +921,7 @@ public interface EntityManager extends AutoCloseable {
     Query createNativeQuery(String sqlString, Class<?> resultClass);
 
     /**
-     * Create an instance of <code>Query</code> for executing
+     * Create an instance of {@code Query} for executing
      * a native SQL query.
      * @param sqlString a native SQL query string
      * @param resultSetMapping the name of the result set mapping
@@ -930,7 +930,7 @@ public interface EntityManager extends AutoCloseable {
     Query createNativeQuery(String sqlString, String resultSetMapping);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
@@ -946,7 +946,7 @@ public interface EntityManager extends AutoCloseable {
     StoredProcedureQuery createNamedStoredProcedureQuery(String name);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
@@ -963,11 +963,11 @@ public interface EntityManager extends AutoCloseable {
     StoredProcedureQuery createStoredProcedureQuery(String procedureName);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
-     * <p>The <code>resultClass</code> arguments must be specified in the order in
+     * <p>The {@code resultClass} arguments must be specified in the order in
      * which the result sets will be returned by the stored procedure
      * invocation.
      * @param procedureName name of the stored procedure in the
@@ -985,22 +985,22 @@ public interface EntityManager extends AutoCloseable {
             String procedureName, Class<?>... resultClasses);
 
     /**
-     * Create an instance of <code>StoredProcedureQuery</code> for executing a
+     * Create an instance of {@code StoredProcedureQuery} for executing a
      * stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
-     * <p>The <code>resultSetMapping</code> arguments must be specified in the order
+     * <p>The {@code resultSetMapping} arguments must be specified in the order
      * in which the result sets will be returned by the stored
      * procedure invocation.
      * @param procedureName name of the stored procedure in the
-     *        database
+     *       database
      * @param resultSetMappings the names of the result set mappings
-     *        to be used in mapping result sets
-     *        returned by the stored procedure
+     *       to be used in mapping result sets
+     *       returned by the stored procedure
      * @return the new stored procedure query instance
      * @throws IllegalArgumentException if a stored procedure or
-     *         result set mapping of the given name does not exist
-     *         (or the query execution will fail)
+     *        result set mapping of the given name does not exist
+     *        (or the query execution will fail)
      */
     StoredProcedureQuery createStoredProcedureQuery(
             String procedureName, String... resultSetMappings);
@@ -1011,10 +1011,10 @@ public interface EntityManager extends AutoCloseable {
      * <p>This method should be called on a JTA application 
      * managed entity manager that was created outside the scope
      * of the active transaction or on an entity manager of type
-     * <code>SynchronizationType.UNSYNCHRONIZED</code> to associate
+     * {@code SynchronizationType.UNSYNCHRONIZED} to associate
      * it with the current JTA transaction.
      * @throws TransactionRequiredException if there is
-     *         no transaction
+     *        no transaction
      */
     void joinTransaction();
 
@@ -1029,25 +1029,26 @@ public interface EntityManager extends AutoCloseable {
     boolean isJoinedToTransaction();
 
     /**
-     * Return an object of the specified type to allow access to the
-     * provider-specific API.   If the provider's <code>EntityManager</code>
-     * implementation does not support the specified class, the
-     * <code>PersistenceException</code> is thrown.
-     * @param cls  the class of the object to be returned.  This is
-     * normally either the underlying <code>EntityManager</code> implementation
-     * class or an interface that it implements.
+     * Return an object of the specified type to allow access to
+     * a provider-specific API. If the provider implementation of
+     * {@code EntityManager} does not support the given type, the
+     * {@link PersistenceException} is thrown.
+     * @param cls  the class of the object to be returned.
+     *            This is usually either the underlying class
+     *            implementing {@code EntityManager} or an
+     *            interface it implements.
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not 
-     *         support the call 
+     *        support the given type
      * @since 2.0
      */
     <T> T unwrap(Class<T> cls);
 
     /**
-     * Return the underlying provider object for the <code>EntityManager</code>,
+     * Return the underlying provider object for the {@code EntityManager},
      * if available. The result of this method is implementation
      * specific. 
-     * <p>The <code>unwrap</code> method is to be preferred for new applications.
+     * <p>The {@code unwrap} method is to be preferred for new applications.
      * @return underlying provider object for EntityManager
      */
     Object getDelegate();
@@ -1055,17 +1056,17 @@ public interface EntityManager extends AutoCloseable {
     /**
      * Close an application-managed entity manager. 
      * After the close method has been invoked, all methods
-     * on the <code>EntityManager</code> instance and any 
-     * <code>Query</code>, <code>TypedQuery</code>, and
-     * <code>StoredProcedureQuery</code> objects obtained from 
-     * it will throw the <code>IllegalStateException</code>
-     * except for <code>getProperties</code>, 
-     * <code>getTransaction</code>, and <code>isOpen</code> (which will return false).
+     * on the {@code EntityManager} instance and any
+     * {@code Query}, {@code TypedQuery}, and
+     * {@code StoredProcedureQuery} objects obtained from
+     * it will throw the {@code IllegalStateException}
+     * except for {@code getProperties},
+     * {@code getTransaction}, and {@code isOpen} (which will return false).
      * If this method is called when the entity manager is
      * joined to an active transaction, the persistence
      * context remains managed until the transaction completes. 
      * @throws IllegalStateException if the entity manager
-     *         is container-managed
+     *        is container-managed
      */
     void close();
 
@@ -1076,12 +1077,12 @@ public interface EntityManager extends AutoCloseable {
     boolean isOpen();
 
     /**
-     * Return the resource-level <code>EntityTransaction</code> object. 
-     * The <code>EntityTransaction</code> instance may be used serially to 
+     * Return the resource-level {@code EntityTransaction} object.
+     * The {@code EntityTransaction} instance may be used serially to
      * begin and commit multiple transactions.
      * @return EntityTransaction instance
      * @throws IllegalStateException if invoked on a JTA
-     *         entity manager
+     *        entity manager
      */
     EntityTransaction getTransaction();
 
@@ -1089,27 +1090,27 @@ public interface EntityManager extends AutoCloseable {
      * Return the entity manager factory for the entity manager.
      * @return EntityManagerFactory instance
      * @throws IllegalStateException if the entity manager has 
-     *         been closed
+     *        been closed
      * @since 2.0
      */
     EntityManagerFactory getEntityManagerFactory();
 
     /**
-     * Return an instance of <code>CriteriaBuilder</code> for the creation of
-     * <code>CriteriaQuery</code> objects.
+     * Return an instance of {@code CriteriaBuilder} for the creation of
+     * {@code CriteriaQuery} objects.
      * @return CriteriaBuilder instance
      * @throws IllegalStateException if the entity manager has
-     *         been closed
+     *        been closed
      * @since 2.0
      */
     CriteriaBuilder getCriteriaBuilder();
 
     /**
-     * Return an instance of <code>Metamodel</code> interface for access to the
+     * Return an instance of {@code Metamodel} interface for access to the
      * metamodel of the persistence unit.
      * @return Metamodel instance
      * @throws IllegalStateException if the entity manager has
-     *         been closed
+     *        been closed
      * @since 2.0
      */
     Metamodel getMetamodel();
@@ -1138,7 +1139,7 @@ public interface EntityManager extends AutoCloseable {
      * @param graphName  name of an existing entity graph
      * @return named entity graph
      * @throws IllegalArgumentException if there is no EntityGraph of
-     *         the given name
+     *        the given name
      * @since 2.1
      */
     EntityGraph<?> getEntityGraph(String graphName);
@@ -1166,7 +1167,7 @@ public interface EntityManager extends AutoCloseable {
      * @param action the action
      * @param <C> the connection type, usually {@code java.sql.Connection}
      * @throws PersistenceException wrapping the checked {@link Exception} thrown by
-     *         {@link ConnectionConsumer#accept}, if any
+     *        {@link ConnectionConsumer#accept}, if any
      * @since 3.2
      */
     <C> void runWithConnection(ConnectionConsumer<C> action);
@@ -1186,7 +1187,7 @@ public interface EntityManager extends AutoCloseable {
      * @param <T> the type of result returned by the function
      * @return the value returned by {@link ConnectionFunction#apply}.
      * @throws PersistenceException wrapping the checked {@link Exception} thrown by
-     *         {@link ConnectionFunction#apply}, if any
+     *        {@link ConnectionFunction#apply}, if any
      * @since 3.2
      */
     <C,T> T callWithConnection(ConnectionFunction<C, T> function);

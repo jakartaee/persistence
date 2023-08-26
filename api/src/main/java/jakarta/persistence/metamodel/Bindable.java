@@ -19,7 +19,7 @@ package jakarta.persistence.metamodel;
 import jakarta.persistence.criteria.Path;
 
 /**
- * Instances of the type <code>Bindable</code> represent object or attribute types 
+ * Instances of the type {@code Bindable} represent object or attribute types 
  * that can be bound into a {@link Path Path}.
  *
  * @param <T>  The type of the represented object or attribute
@@ -53,16 +53,16 @@ public interface Bindable<T> {
     }
 
     /**
-     *  Return the bindable type of the represented object.
-     *  @return bindable type
+     * Return the bindable type of the represented object.
+     * @return bindable type
      */	
     BindableType getBindableType();
 
     /**
      * Return the Java type of the represented object.
-     * If the bindable type of the object is <code>PLURAL_ATTRIBUTE</code>,
+     * If the bindable type of the object is {@code PLURAL_ATTRIBUTE},
      * the Java element type is returned. If the bindable type is
-     * <code>SINGULAR_ATTRIBUTE</code> or <code>ENTITY_TYPE</code>, 
+     * {@code SINGULAR_ATTRIBUTE} or {@code ENTITY_TYPE}, 
      * the Java type of the
      * represented entity or attribute is returned.
      * @return Java type

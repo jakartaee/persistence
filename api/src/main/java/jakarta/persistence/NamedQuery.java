@@ -25,12 +25,13 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Specifies a static, named query in the Jakarta Persistence query language.
- * Query names are scoped to the persistence unit.
- * The <code>NamedQuery</code> annotation can be applied to an entity or mapped superclass.
+ * Declares a static, named query in the Jakarta Persistence query
+ * language. Query names are scoped to the persistence unit. The
+ * {@code NamedQuery} annotation can be applied to an entity or
+ * mapped superclass.
  *
- * <p> The following is an example of the definition of a named query 
- * in the Jakarta Persistence query language:
+ * <p> The following is an example of the definition of a named
+ * query in the Jakarta Persistence query language:
  *
  * <pre>
  *    &#064;NamedQuery(
@@ -58,26 +59,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedQuery {
 
     /** 
-     * (Required) The name used to refer to the query with the {@link EntityManager} 
-     * methods that create query objects. 
+     * (Required) The name used to refer to the query with the
+     * {@link EntityManager} methods that create query objects.
      */
     String name();
 
-    /** (Required) 
-     * The query string in the Jakarta Persistence query language.
+    /**
+     * (Required) The query string in the Jakarta Persistence
+     * query language.
      */
     String query();
 
     /** 
-     * (Optional) The lock mode type to use in query execution.  If a <code>lockMode</code>
-     * other than <code>LockModeType.NONE</code> is specified, the query must be executed in
-     * a transaction and the persistence context joined to the transaction.
+     * (Optional) The lock mode type to use in query execution.
+     * If a {@code lockMode} other than {@link LockModeType#NONE}
+     * is specified, the query must be executed in a transaction
+     * and the persistence context joined to the transaction.
      * @since 2.0
      */
     LockModeType lockMode() default LockModeType.NONE;
     
-    /** (Optional) Query properties and hints.  May include
-     * vendor-specific query hints. 
+    /**
+     * (Optional) Query properties and hints. May include
+     * vendor-specific query hints.
      */
     QueryHint[] hints() default {};
 }

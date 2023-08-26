@@ -22,30 +22,26 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies the value of the discriminator column for 
- * entities of the given type. 
+ * Specifies the value of the discriminator column for the annotated
+ * entity type.
  *
- * <p> The <code>DiscriminatorValue</code> 
- * annotation can only be specified on a concrete entity 
- * class. 
+ * <p>The {@code DiscriminatorValue} annotation can only be specified
+ * on a concrete entity class.
  *
- * <p> If the <code>DiscriminatorValue</code> annotation is not 
- * specified and a discriminator column is used, a provider-specific 
- * function will be used to generate a value representing the 
- * entity type.  If the {@link DiscriminatorType} is <code>
- * STRING</code>, the discriminator value 
- * default is the entity name. 
+ * <p> If the {@code DiscriminatorValue} annotation is not specified,
+ * and a discriminator column is used, a provider-specific function
+ * will be used to generate a value representing the entity type. If
+ * the {@link DiscriminatorType} is {@link DiscriminatorType#STRING
+ * STRING}, the discriminator value default is the entity name.
  *
- * <p> The inheritance strategy and the discriminator column 
- * are only specified in the root of an entity class hierarchy 
- * or subhierarchy in which a different inheritance strategy is 
- * applied. The discriminator value, if not defaulted, should be 
- * specified for each entity class in the hierarchy.
+ * <p>The inheritance strategy and the discriminator column are only
+ * specified for the root of an entity class hierarchy or subhierarchy
+ * in which a different inheritance strategy is applied. But the
+ * discriminator value, if not defaulted, should be specified for each
+ * concrete entity class in the hierarchy.
  *
+ * <p>Example:
  * <pre>
- *
- *    Example:
- *
  *    &#064;Entity
  *    &#064;Table(name="CUST")
  *    &#064;Inheritance(strategy=SINGLE_TABLE)
@@ -68,15 +64,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface DiscriminatorValue {
 
     /**
-     * (Optional) The value that indicates that the
-     * row is an entity of the annotated entity type.
+     * (Optional) The value that indicates that the row is an entity of
+     * the annotated entity type.
      *
-     * <p> If the <code>DiscriminatorValue</code> annotation is not
-     * specified and a discriminator column is used, a
-     * provider-specific function will be used to generate a value
-     * representing the entity type.  If the <code>DiscriminatorType</code> is
-     * <code>STRING</code>, the discriminator value default is the
-     * entity name.
+     * <p> If the {@code DiscriminatorValue} annotation is not specified
+     * and a discriminator column is used, a provider-specific function
+     * will be used to generate a value representing the entity type. If
+     * the {@link DiscriminatorType} is {@link DiscriminatorType#STRING
+     * STRING}, the discriminator value default is the entity name.
      */
     String value();
 }

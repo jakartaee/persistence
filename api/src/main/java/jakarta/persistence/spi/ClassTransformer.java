@@ -20,8 +20,7 @@ import java.security.ProtectionDomain;
 
 /**
  * A persistence provider supplies an instance of this 
- * interface to the {@link PersistenceUnitInfo#addTransformer 
- * PersistenceUnitInfo.addTransformer}
+ * interface to the {@link PersistenceUnitInfo#addTransformer}
  * method. The supplied transformer instance will get 
  * called to transform entity class files when they are 
  * loaded or redefined. The transformation occurs before  
@@ -38,19 +37,19 @@ public interface ClassTransformer {
      * file.
      *
      * @param loader  the defining loader of the class to be 
-     *        transformed, may be null if the bootstrap loader
+     *       transformed, may be null if the bootstrap loader
      * @param className  the name of the class in the internal form 
-     *        of fully qualified class and interface names 
+     *       of fully qualified class and interface names 
      * @param classBeingRedefined  if this is a redefine, the 
-     *        class being redefined, otherwise null
+     *       class being redefined, otherwise null
      * @param protectionDomain  the protection domain of the 
-     *        class being defined or redefined
+     *       class being defined or redefined
      * @param classfileBuffer  the input byte buffer in class 
-     *        file format - must not be modified 
+     *       file format - must not be modified 
      * @return a well-formed class file buffer (the result of 
-     *         the transform), or null if no transform is performed
+     *        the transform), or null if no transform is performed
      * @throws TransformerException  if the input does
-     *         not represent a well-formed class file
+     *        not represent a well-formed class file
      */
     byte[] transform(ClassLoader loader,
                      String className,

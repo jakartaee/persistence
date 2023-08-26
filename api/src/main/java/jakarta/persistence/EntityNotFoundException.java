@@ -41,23 +41,23 @@ package jakarta.persistence;
 public class EntityNotFoundException extends PersistenceException {
 
 	/**
-	 * Constructs a new <code>EntityNotFoundException</code> exception with
-	 * <code>null</code> as its detail message.
+	 * Constructs a new {@code EntityNotFoundException} exception with
+	 * {@code null} as its detail message.
 	 */
 	public EntityNotFoundException() {
 		super();
 	}
 
 	/**
-	 * Constructs a new <code>EntityNotFoundException</code> exception with
-	 * <code>null</code> as its detail message.
+	 * Constructs a new {@code EntityNotFoundException} exception with
+	 * {@code null} as its detail message.
 	 */
 	public EntityNotFoundException(Exception cause) {
 		super(cause);
 	}
 
 	/**
-	 * Constructs a new <code>EntityNotFoundException</code> exception with the
+	 * Constructs a new {@code EntityNotFoundException} exception with the
 	 * specified detail message.
 	 * 
 	 * @param message
@@ -68,7 +68,7 @@ public class EntityNotFoundException extends PersistenceException {
 	}
 
 	/**
-	 * Constructs a new <code>EntityNotFoundException</code> exception with the
+	 * Constructs a new {@code EntityNotFoundException} exception with the
 	 * specified detail message.
 	 *
 	 * @param message

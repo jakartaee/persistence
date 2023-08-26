@@ -34,24 +34,24 @@ public interface Predicate extends Expression<Boolean> {
 	
     /**
      * Return the boolean operator for the predicate.
-     * If the predicate is simple, this is <code>AND</code>.
+     * If the predicate is simple, this is {@code AND}.
      * @return boolean operator for the predicate
      */
     BooleanOperator getOperator();
     
     /**
      * Whether the predicate has been created from another
-     * predicate by applying the <code>Predicate.not()</code> method
-     * or the <code>CriteriaBuilder.not()</code> method.
+     * predicate by applying {@link Predicate#not()}
+     * or by calling {@link CriteriaBuilder#not}.
      * @return boolean indicating if the predicate is 
-     *                 a negated predicate
+     *                a negated predicate
      */
     boolean isNegated();
 
     /**
-     * Return the top-level conjuncts or disjuncts of the predicate.
-     * Returns empty list if there are no top-level conjuncts or
-     * disjuncts of the predicate.
+     * Return the top-level conjuncts or disjuncts of the
+     * predicate. Returns empty list if there are no top-level
+     * conjuncts or disjuncts of the predicate.
      * Modifications to the list do not affect the query.
      * @return list of boolean expressions forming the predicate
      */

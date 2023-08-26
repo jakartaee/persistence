@@ -26,23 +26,25 @@ package jakarta.persistence;
 public enum ParameterMode {
 
     /**
-     *  Stored procedure input parameter
+     * Stored procedure input parameter
      */
     IN,
 
     /**
-     *  Stored procedure input/output parameter
+     * Stored procedure input/output parameter
      */
     INOUT,
 
     /**
-     *  Stored procedure output parameter
+     * Stored procedure output parameter
      */
     OUT,
 
     /**
-     *  Stored procedure reference cursor parameter.   Some databases use
-     *  REF_CURSOR parameters to return result sets from stored procedures.
+     * Stored procedure reference cursor parameter.
+     *
+     * <p>Some databases use REF_CURSOR parameters to return result
+     * sets from stored procedures.
      */
     REF_CURSOR,
 

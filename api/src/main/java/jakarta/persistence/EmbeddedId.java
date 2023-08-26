@@ -23,37 +23,39 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Applied to a persistent field or property of an entity 
- * class or mapped superclass to denote a composite primary 
- * key that is an embeddable class. The embeddable class 
- * must be annotated as {@link Embeddable}. 
+ * Applied to a persistent field or property of an entity class
+ * or mapped superclass to denote a composite primary key that
+ * is an embeddable class. The embeddable class must be annotated
+ * as {@link Embeddable}.
  *
- * <p> There must be only one <code>EmbeddedId</code> annotation and
- * no <code>Id</code> annotation when the <code>EmbeddedId</code> annotation is used.
+ * <p>There must be only one {@code EmbeddedId} annotation and
+ * no {@link Id} annotation when the {@link EmbeddedId} annotation
+ * is used.
  *
- * <p> The {@link AttributeOverride} annotation may be used to override
- * the column mappings declared within the embeddable class.
+ * <p>The {@link AttributeOverride} annotation may be used to
+ * override the column mappings declared within the embeddable
+ * class.
  * 
- * <p> The {@link MapsId} annotation may be used in conjunction
- * with the <code>EmbeddedId</code> annotation to specify a derived
+ * <p>The {@link MapsId} annotation may be used in conjunction
+ * with the {@code EmbeddedId} annotation to specify a derived
  * primary key.
  *
- * <p> If the entity has a derived primary key, the
- * <code>AttributeOverride</code> annotation may only be used to
- * override those attributes of the embedded id that do not correspond
- * to the relationship to the parent entity.
+ * <p>If the entity has a derived primary key, the
+ * {@link AttributeOverride} annotation may only be used to override
+ * those attributes of the embedded id that do not correspond to the
+ * relationship to the parent entity.
  *
- * <p> Relationship mappings defined within an embedded id class are not supported.
+ * <p>Relationship mappings defined within an embedded id class are
+ * not supported.
  *
+ * <p>Example 1:
  * <pre>
- *    Example 1:
- *
  *    &#064;EmbeddedId
  *    protected EmployeePK empPK;
+ * </pre>
  *
- *
- *    Example 2:
- *
+ * <p>Example 2:
+ * <pre>
  *    &#064;Embeddable
  *    public class DependentId {
  *       String name;
@@ -73,6 +75,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see Embeddable
  * @see MapsId
+ * @see IdClass
  *
  * @since 1.0
  */

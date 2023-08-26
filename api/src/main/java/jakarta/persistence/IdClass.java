@@ -23,16 +23,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies a composite primary key class that is mapped to 
- * multiple fields or properties of the entity.  
+ * multiple fields or properties of the annotated entity.
  *
- * <p> The names of the fields or properties in the primary key 
- * class and the primary key fields or properties of the entity 
- * must correspond and their types must be the same.
+ * <p>The primary key fields of the entity must be annotated
+ * {@link Id}, and the specified primary key class must have
+ * fields or properties with matching names and types. The
+ * mapping of fields or properties of the entity to fields or
+ * properties of the primary key class is implicit.
  *
+ * <p>Example:
  * <pre>
- *
- *   Example:
- *
  *   &#064;IdClass(com.acme.EmployeePK.class)
  *   &#064;Entity
  *   public class Employee {
@@ -42,13 +42,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *   }
  * </pre>
  *
+ * @see EmbeddedId
+ *
  * @since 1.0
  */
 @Target({TYPE})
 @Retention(RUNTIME)
-
 public @interface IdClass {
 
-    /** Primary key class */
+    /**
+     * The primary key class, which must declare fields or
+     * properties with names and types that match the
+     * {@link Id} fields and properties of the annotated
+     * entity class.
+     */
     Class<?> value();
 }

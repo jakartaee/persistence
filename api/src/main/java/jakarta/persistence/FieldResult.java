@@ -22,8 +22,9 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used in conjunction with the {@link EntityResult} annotation to map columns specified 
- * in the SELECT list of a SQL query to the properties or fields of an entity class.
+ * Used in conjunction with the {@link EntityResult} annotation to map
+ * columns specified in the SELECT list of a SQL query to the properties
+ * or fields of an entity class.
  *
  * <pre>
  *
@@ -53,7 +54,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface FieldResult { 
 
-    /** Name of the persistent field or property of the class. */
+    /**
+     * Name of the persistent field or property of the class.
+     */
     String name();
 
     /** 

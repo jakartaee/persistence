@@ -18,10 +18,8 @@ package jakarta.persistence;
 
 /**
  * Interface used to control transactions on resource-local entity
- * managers.  The {@link EntityManager#getTransaction
- * EntityManager.getTransaction()} method returns the
- * <code>EntityTransaction</code> interface.
-
+ * managers. The {@link EntityManager#getTransaction} method returns
+ * the {@code EntityTransaction} interface.
  *
  * @since 1.0
  */
@@ -29,31 +27,31 @@ public interface EntityTransaction {
 
      /**
       * Start a resource transaction. 
-      * @throws IllegalStateException if <code>isActive()</code> is true
+      * @throws IllegalStateException if {@link #isActive()} is true
       */
      void begin();
 
      /**
-      * Commit the current resource transaction, writing any 
-      * unflushed changes to the database.  
-      * @throws IllegalStateException if <code>isActive()</code> is false
+      * Commit the current resource transaction, writing any unflushed
+      * changes to the database.
+      * @throws IllegalStateException if {@link #isActive()} is false
       * @throws RollbackException if the commit fails
       */
      void commit();
 
      /**
       * Roll back the current resource transaction. 
-      * @throws IllegalStateException if <code>isActive()</code> is false
+      * @throws IllegalStateException if {@link #isActive()} is false
       * @throws PersistenceException if an unexpected error 
-      *         condition is encountered
+      *        condition is encountered
       */
      void rollback();
 
      /**
-      * Mark the current resource transaction so that the only 
-      * possible outcome of the transaction is for the transaction 
+      * Mark the current resource transaction so that the only possible
+      * outcome of the transaction is for the transaction
       * to be rolled back. 
-      * @throws IllegalStateException if <code>isActive()</code> is false
+      * @throws IllegalStateException if {@link #isActive()} is false
       */
      void setRollbackOnly();
 
@@ -61,17 +59,16 @@ public interface EntityTransaction {
       * Determine whether the current resource transaction has been 
       * marked for rollback.
       * @return boolean indicating whether the transaction has been
-      *         marked for rollback
-      * @throws IllegalStateException if <code>isActive()</code> is false
+      *        marked for rollback
+      * @throws IllegalStateException if {@link #isActive()} is false
       */
      boolean getRollbackOnly();
 
      /**
       * Indicate whether a resource transaction is in progress.
-      * @return boolean indicating whether transaction is
-      *         in progress
+      * @return boolean indicating whether transaction is in progress
       * @throws PersistenceException if an unexpected error 
-      *         condition is encountered
+      *        condition is encountered
       */
      boolean isActive();
 }

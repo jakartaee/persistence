@@ -22,16 +22,17 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies the inheritance strategy to be used for an entity class
- * hierarchy. It is specified on the entity class that is the root of
- * the entity class hierarchy.  If the <code>Inheritance</code> annotation is not
- * specified or if no inheritance type is specified for an entity
- * class hierarchy, the <code>SINGLE_TABLE</code> mapping strategy is used.
+ * Specifies the inheritance mapping strategy for the entity class
+ * hierarchy which descends from the annotated entity class.
  *
+ * <p>This annotation must be applied to the entity class that is
+ * the root of the entity class hierarchy. If the {@code Inheritance}
+ * annotation is not specified, or if no inheritance type is specified
+ * for an entity class hierarchy, the {@link InheritanceType#SINGLE_TABLE
+ * SINGLE_TABLE} mapping strategy is used.
+ *
+ * <p>Example:
  * <pre>
- *
- *   Example:
- *
  *   &#064;Entity
  *   &#064;Inheritance(strategy=JOINED)
  *   public class Customer { ... }
@@ -40,13 +41,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *   public class ValuedCustomer extends Customer { ... }
  * </pre>
  *
+ * @see InheritanceType
+ *
  * @since 1.0
  */
 @Target({TYPE})
 @Retention(RUNTIME)
-
 public @interface Inheritance {
 
-    /** The strategy to be used for the entity inheritance hierarchy. */
+    /**
+     * The inheritance mapping strategy for the entity inheritance
+     * hierarchy.
+     */
     InheritanceType strategy() default InheritanceType.SINGLE_TABLE;
 }

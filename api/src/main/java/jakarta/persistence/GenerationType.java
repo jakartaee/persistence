@@ -17,7 +17,7 @@
 package jakarta.persistence;
 
 /** 
- * Defines the types of primary key generation strategies. 
+ * Enumerates the defined primary key generation strategies.
  *
  * @see GeneratedValue
  *
@@ -29,18 +29,31 @@ public enum GenerationType {
      * Indicates that the persistence provider must assign 
      * primary keys for the entity using an underlying 
      * database table to ensure uniqueness.
+     *
+     * <p>May be used to generate primary keys of type
+     * {@link Long}, {@link Integer}, {@code long}, or
+     * {@code int}.
      */
     TABLE, 
 
     /**
      * Indicates that the persistence provider must assign 
      * primary keys for the entity using a database sequence.
+     *
+     * <p>May be used to generate primary keys of type
+     * {@link Long}, {@link Integer}, {@code long}, or
+     * {@code int}.
      */
     SEQUENCE, 
 
     /**
      * Indicates that the persistence provider must assign 
-     * primary keys for the entity using a database identity column.
+     * primary keys for the entity using a database identity
+     * column.
+     *
+     * <p>May be used to generate primary keys of type
+     * {@link Long}, {@link Integer}, {@code long}, or
+     * {@code int}.
      */
     IDENTITY,
 
@@ -48,17 +61,30 @@ public enum GenerationType {
      * Indicates that the persistence provider must assign
      * primary keys for the entity by generating an RFC 4122
      * Universally Unique IDentifier.
+     *
+     * <p>May be used to generate primary keys of type
+     * {@link java.util.UUID} or {@link String}.
      */
     UUID,
 
     /**
      * Indicates that the persistence provider should pick an 
-     * appropriate strategy for the particular database. The 
-     * <code>AUTO</code> generation strategy may expect a database 
-     * resource to exist, or it may attempt to create one. A vendor 
-     * may provide documentation on how to create such resources 
-     * in the event that it does not support schema generation 
-     * or cannot create the schema resource at runtime.
+     * appropriate strategy for the particular database.
+     * <ul>
+     * <li>For a primary key of type {@link java.util.UUID} or
+     *    {@link String}, this is equivalent to {@link #UUID}.
+     * <li>For a primary key of type {@link Long}, {@link Integer},
+     *    {@code long}, or {@code int}, the provider selects
+     *    between {@link #TABLE}, {@link #SEQUENCE}, and
+     *    {@link #IDENTITY}.
+     * </ul>
+     *
+     * <p>The {@code AUTO} generation strategy may expect a
+     * database resource to exist, or it may attempt to create
+     * one. A vendor may provide documentation on how to create
+     * such resources in the event that it does not support
+     * schema generation or cannot create the schema resource
+     * at runtime.
      */
     AUTO
 }

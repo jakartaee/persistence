@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * 
  * @since 2.0
  */
-@Target( { TYPE, METHOD, FIELD })
+@Target({ TYPE, METHOD, FIELD })
 @Retention(RUNTIME)
 public @interface Access {
 

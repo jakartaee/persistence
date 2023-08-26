@@ -18,8 +18,9 @@ package jakarta.persistence;
 
 /**
  * Interface used to interact with the second-level cache.
- * If a cache is not in use, the methods of this interface have
- * no effect, except for <code>contains</code>, which returns false.
+ * If no second-level cache is in use, the methods of this
+ * interface have no effect, except for {@link #contains},
+ * which returns false.
  *
  * @since 2.0
  */
@@ -41,8 +42,8 @@ public interface Cache {
     void evict(Class<?> cls, Object primaryKey);
 
     /**
-     * Remove the data for entities of the specified class (and its
-     * subclasses) from the cache.
+     * Remove the data for entities of the specified class
+     * (and its subclasses) from the cache.
      * @param cls  entity class
      */
     void evict(Class<?> cls);
@@ -53,16 +54,17 @@ public interface Cache {
     void evictAll();
 
     /**
-     * Return an object of the specified type to allow access to the
-     * provider-specific API.  If the provider's Cache
-     * implementation does not support the specified class, the
-     * PersistenceException is thrown.
-     * @param cls  the class of the object to be returned.  This is
-     * normally either the underlying Cache implementation
-     * class or an interface that it implements.
-     * @return an instance of the specified class
-     * @throws PersistenceException if the provider does not
-     * support the call
+     * Return an object of the specified type to allow access to
+     * the provider-specific API. If the provider's implementation
+     * of the {@code Cache} interface does not support the specified
+     * class, the {@link PersistenceException} is thrown.
+     * @param cls  the class of the object to be returned.
+     *            This is usually either the underlying class
+     *            implementing {@code Cache}, or an interface it
+     *            implements.
+     * @return an instance of the specified type
+     * @throws PersistenceException if the provider does not support
+     *        the given type
      * @since 2.1
      */
     <T> T unwrap(Class<T> cls);

@@ -17,7 +17,9 @@
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type <code>EmbeddableType</code> represent embeddable types.
+ *  Instances of the type {@code EmbeddableType} represent
+ *  {@linkplain jakarta.persistence.Embeddable embeddable}
+ *  types.
  *
  *  @param <X> The represented type.
  *

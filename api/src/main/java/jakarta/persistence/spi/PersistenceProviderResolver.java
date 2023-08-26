@@ -19,14 +19,14 @@ package jakarta.persistence.spi;
 import java.util.List;
 
 /**
- * Determine the list of persistence providers available in the 
- * runtime environment.
+ * Provides a list of {@linkplain PersistenceProvider persistence
+ * providers} available in the runtime environment.
  * 
  * <p> Implementations must be thread-safe.
  *
- * <p> Note that the <code>getPersistenceProviders</code> method can potentially
- * be called many times: it is recommended that the implementation
- * of this method make use of caching.
+ * <p> Note that the {@link #getPersistenceProviders} method can
+ * potentially be called many times: it is recommended that the
+ * implementation of this method make use of caching.
  *
  * @see PersistenceProvider
  * @since 2.0
@@ -34,17 +34,17 @@ import java.util.List;
 public interface PersistenceProviderResolver {
 
     /**
-     * Returns a list of the <code>PersistenceProvider</code> implementations 
-     * available in the runtime environment.
+     * Returns a list of the {@linkplain PersistenceProvider
+     * persistence provider} implementations available in the
+     * runtime environment.
      *
      * @return list of the persistence providers available 
-     *         in the environment
+     *        in the environment
      */
     List<PersistenceProvider> getPersistenceProviders();
 
     /**
      * Clear cache of providers.
-     *
      */
     void clearCachedProviders();
 } 

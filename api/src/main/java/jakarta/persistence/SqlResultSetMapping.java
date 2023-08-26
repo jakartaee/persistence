@@ -24,12 +24,11 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Specifies the mapping of the result of a native SQL query or stored 
- * procedure.
+ * Specifies a mapping of the columns of a result set of a native SQL query
+ * or stored procedure.
  *
+ * <p>Example:
  * <pre>
- *    Example:
- *
  *    Query q = em.createNativeQuery(
  *        "SELECT o.id AS order_id, " +
  *            "o.quantity AS order_quantity, " +
@@ -63,13 +62,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface SqlResultSetMapping { 
 
     /** 
-     * The name given to the result set mapping, and used to refer 
-     * to it in the methods of the {@link Query} and 
+     * The name given to the result set mapping, and used to
+     * refer to it in the methods of the {@link Query} and
      * {@link StoredProcedureQuery} APIs.
      */
     String name(); 
 
-    /** Specifies the result set mapping to entities. */
+    /**
+     * Specifies the result set mapping to entities.
+     */
     EntityResult[] entities() default {};
 
     /** 
@@ -78,6 +79,8 @@ public @interface SqlResultSetMapping {
      */
     ConstructorResult[] classes() default {};
 
-    /** Specifies the result set mapping to scalar values. */
+    /**
+     * Specifies the result set mapping to scalar values.
+     */
     ColumnResult[] columns() default {};
 }

@@ -20,12 +20,11 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * A <code>NamedSubgraph</code> is a member element of a
- * <code>NamedEntityGraph</code>.  The <code>NamedSubgraph</code> is
- * only referenced from within a NamedEntityGraph and can not be
- * referenced independently.  It is referenced by its <code>name</code>
- * from a <code>NamedAttributeNode</code> element of the 
- * <code>NamedEntityGraph</code>.
+ * A {@code NamedSubgraph} is a member element of a {@link NamedEntityGraph}.
+ * The {@code NamedSubgraph} is only referenced from within its containing
+ * {@code NamedEntityGraph} and cannot be referenced independently. It is
+ * referenced by its {@link #name} from a {@link NamedAttributeNode} element
+ * of the {@code NamedEntityGraph}.
  *
  * @see NamedEntityGraph
  * @see NamedAttributeNode
@@ -43,7 +42,7 @@ public @interface NamedSubgraph {
     String name();
 
     /**
-     * (Optional) The type represented by this subgraph.  The element
+     * (Optional) The type represented by this subgraph. The element
      * must be specified when this subgraph is extending a definition
      * on behalf of a subclass.
      */
@@ -51,7 +50,7 @@ public @interface NamedSubgraph {
 
     /** 
      * (Required) The list of the attributes of the class that must
-     * be included.  If the named subgraph corresponds to a subclass
+     * be included. If the named subgraph corresponds to a subclass
      * of the class referenced by the corresponding attribute node,
      * then only subclass-specific attributes are listed.
      */

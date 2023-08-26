@@ -29,15 +29,15 @@ import java.util.Collection;
 public interface Expression<T> extends Selection<T> {
 
     /**
-     *  Create a predicate to test whether the expression is null.
-     *  @return predicate testing whether the expression is null
+     * Create a predicate to test whether the expression is null.
+     * @return predicate testing whether the expression is null
      */
     Predicate isNull();
 
     /**
-     *  Create a predicate to test whether the expression is 
-     *  not null.
-     *  @return predicate testing whether the expression is not null
+     * Create a predicate to test whether the expression is 
+     * not null.
+     * @return predicate testing whether the expression is not null
      */
     Predicate isNotNull();
 
@@ -105,7 +105,7 @@ public interface Expression<T> extends Selection<T> {
      * Create a predicate to test whether the expression is a member
      * of the collection.
      * @param values expression corresponding to collection to be
-     *        tested against
+     *       tested against
      * @return predicate testing for membership
      */
     Predicate in(Expression<Collection<?>> values);

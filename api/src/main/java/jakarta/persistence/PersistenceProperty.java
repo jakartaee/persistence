@@ -21,8 +21,8 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.*;
 
 /**
- * Describes a single container or persistence provider property.  Used in {@link 
- * PersistenceContext}.
+ * Describes a single container or persistence provider property.
+ * Used in {@link PersistenceContext}.
  * 
  * <p> Vendor specific properties may be included in the set of 
  * properties, and are passed to the persistence provider by the 

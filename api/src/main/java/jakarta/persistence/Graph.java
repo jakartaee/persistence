@@ -36,9 +36,9 @@ public interface Graph<T> {
      *
      * @param attributeName  name of the attribute
      * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
+     *        attribute of this entity.
      * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
+     *        statically defined
      *
      * @since 3.2
      */
@@ -49,7 +49,7 @@ public interface Graph<T> {
      *
      * @param attribute  attribute
      * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
+     *        statically defined
      *
      * @since 3.2
      */
@@ -92,9 +92,9 @@ public interface Graph<T> {
      *
      * @param attributeName  name of the attribute     
      * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this managed type.
+     *        attribute of this managed type.
      * @throws IllegalStateException if the EntityGraph has been 
-     *         statically defined
+     *        statically defined
      */
     void addAttributeNodes(String... attributeName);
 
@@ -103,7 +103,7 @@ public interface Graph<T> {
      * @param attribute  attribute
      *
      * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
+     *        statically defined
      */
     void addAttributeNodes(Attribute<? super T, ?>... attribute);
 
@@ -115,9 +115,9 @@ public interface Graph<T> {
      * @param attribute  attribute
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if the EntityGraph has been 
-     *         statically defined
+     *        statically defined
      */
     <X> Subgraph<X> addSubgraph(Attribute<? super T, X> attribute);
 
@@ -132,46 +132,46 @@ public interface Graph<T> {
      * @param type  entity subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
+     *        statically defined
      *
      * @since 3.2
      */
     <Y> Subgraph<Y> addTreatedSubgraph(Attribute<? super T, ? super Y> attribute, Class<Y> type);
 
     /**
-     * Add a node to the graph that corresponds to a managed
-     * type with inheritance.  This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity
-     * graph. Subclass subgraphs will automatically include the specified
+     * Add a node to the graph that corresponds to a managed type
+     * with inheritance. This allows for multiple subclass
+     * subgraphs to be defined for this node of the entity graph.
+     * Subclass subgraphs will automatically include the specified
      * attributes of superclass subgraphs
      *
      * @param attribute  attribute
      * @param type  entity subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
+     *        statically defined
      * @deprecated use {@link #addTreatedSubgraph(Attribute, Class)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
     <X> Subgraph<? extends X> addSubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
 
     /**
-     * Add a node to the graph that corresponds to a managed
-     * type. This allows for construction of multi-node entity graphs
+     * Add a node to the graph that corresponds to a managed type.
+     * This allows for construction of multi-node entity graphs
      * that include related managed types.
      *
      * @param attributeName  name of the attribute 
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this managed type.
+     *        attribute of this managed type.
      * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
+     *        statically defined
      */
     <X> Subgraph<X> addSubgraph(String attributeName);
 
@@ -186,11 +186,11 @@ public interface Graph<T> {
      * @param type  entity subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute is not 
-     *         an attribute of this managed type.
+     *        an attribute of this managed type.
      * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
+     *        statically defined
      */
     <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
 
@@ -202,9 +202,9 @@ public interface Graph<T> {
      * @param attribute  attribute
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute's target type
-     *         is not an entity
+     *        is not an entity
      * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
+     *        statically defined
      *
      * @since 3.2
      */
@@ -218,9 +218,9 @@ public interface Graph<T> {
      * @param attribute  attribute
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute's target type
-     *         is not an entity
+     *        is not an entity
      * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
+     *        statically defined
      *
      * @since 3.2
      */
@@ -234,11 +234,11 @@ public interface Graph<T> {
      * @param attributeName  name of the attribute
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
+     *        attribute of this entity.
      * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been
-     *          statically defined
+     *         statically defined
      */
     <X> Subgraph<X> addElementSubgraph(String attributeName);
 
@@ -251,11 +251,11 @@ public interface Graph<T> {
      * @param type  entity subclass
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
+     *        attribute of this entity.
      * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been
-     *          statically defined
+     *         statically defined
      */
     <X> Subgraph<X> addElementSubgraph(String attributeName, Class<X> type);
 
@@ -267,9 +267,9 @@ public interface Graph<T> {
      * @param attribute  attribute
      * @return subgraph for the key attribute
      * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type entity
+     *        type is not a managed type entity
      * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
+     *        statically defined
      */
     <K> Subgraph<K> addMapKeySubgraph(MapAttribute<? super T, K, ?> attribute);
 
@@ -284,9 +284,9 @@ public interface Graph<T> {
      * @param type  entity subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type entity
+     *        type is not a managed type entity
      * @throws IllegalStateException if this EntityGraph has been
-     *         statically defined
+     *        statically defined
      */
     <K> Subgraph<K> addTreatedMapKeySubgraph(MapAttribute<? super T, ? super K, ?> attribute, Class<K> type);
 
@@ -298,9 +298,9 @@ public interface Graph<T> {
      * @param attribute  attribute
      * @return subgraph for the key attribute
      * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type entity
+     *        type is not a managed type entity
      * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
+     *        statically defined
      * @deprecated use {@link #addMapKeySubgraph(MapAttribute)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
@@ -317,9 +317,9 @@ public interface Graph<T> {
      * @param type  entity subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type entity
+     *        type is not a managed type entity
      * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
+     *        statically defined
      * @deprecated use {@link #addTreatedMapKeySubgraph(MapAttribute, Class)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
@@ -333,11 +333,11 @@ public interface Graph<T> {
      * @param attributeName  name of the attribute
      * @return subgraph for the key attribute
      * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this entity.
+     *        attribute of this entity.
      * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been
-     *          statically defined
+     *         statically defined
      */
     <X> Subgraph<X> addKeySubgraph(String attributeName);
 
@@ -352,11 +352,11 @@ public interface Graph<T> {
      * @param type  entity subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this entity.
+     *        attribute of this entity.
      * @throws IllegalArgumentException if the attribute's target
-     *         type is not a managed type
+     *        type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
+     *        statically defined
      */
     <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
 

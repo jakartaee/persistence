@@ -22,15 +22,17 @@ import static jakarta.persistence.ConstraintMode.CONSTRAINT;
 
 /**
  * Used to specify the handling of foreign key constraints when schema
- * generation is in effect.  If this annotation is not specified, the
- * persistence provider's default foreign key strategy will be used.
- * <p>
- * The <code>ConstraintMode</code> value is used to specify whether foreign
- * key constraints should be generated.
- * <p>
- * The syntax used in the <code>foreignKeyDefinition</code> element 
- * should follow the SQL syntax used by the target database for foreign
- * key constraints.  For example, this may be similar the following:
+ * generation is in effect. If this annotation is not specified, a
+ * default foreign key strategy will be selected by the persistence
+ * provider.
+ *
+ * <p>The {@link ConstraintMode} value is used to specify whether
+ * foreign key constraints should be generated.
+ *
+ * <p>The syntax used in the {@link #foreignKeyDefinition} element
+ * should follow the SQL syntax used by the target database for
+ * foreign key constraint creation. For example, it might be similar
+ * to the following:
  * <pre>
  * FOREIGN KEY ( &#060;COLUMN expression&#062; {, &#060;COLUMN expression&#062;}... )
  * REFERENCES &#060;TABLE identifier&#062; [
@@ -39,12 +41,12 @@ import static jakarta.persistence.ConstraintMode.CONSTRAINT;
  * [ ON DELETE &#060;referential action&#062; ]
  * </pre>
  *
- * When the <code>ConstraintMode</code> value is
- * <code>CONSTRAINT</code>, but the <code>foreignKeyDefinition</code>
- * element is not specified, the provider will generate foreign key
- * constraints whose update and delete actions it determines most
- * appropriate for the join column(s) to which the foreign key
- * annotation is applied.
+ * <p>When the {@link ConstraintMode} value is
+ * {@link ConstraintMode#CONSTRAINT CONSTRAINT}, but the
+ * {@link #foreignKeyDefinition} element is not specified, the provider
+ * will generate foreign key constraints whose update and delete actions
+ * it determines most appropriate for the join column(s) to which the
+ * foreign key annotation is applied.
  *
  * @see JoinColumn
  * @see JoinColumns
@@ -72,18 +74,18 @@ public @interface ForeignKey {
      * (Optional) Used to specify whether a foreign key constraint
      * should be generated when schema generation is in effect.
      * <ul>
-     * <li><code>CONSTRAINT</code> specifies that the persistence
-     * provider must generate a foreign key constraint. If the
-     * <code>foreignKeyDefinition</code> element is not specified,
+     * <li>{@link ConstraintMode#CONSTRAINT} specifies that the
+     * persistence provider must generate a foreign key constraint.
+     * If the {@link #foreignKeyDefinition} element is not specified,
      * the provider will generate a constraint whose update and
      * delete actions it determines most appropriate for the join
      * column or columns to which the foreign key annotation is
      * applied.
-     * <li><code>NO_CONSTRAINT</code> specifies that no constraint
-     * should be generated.
-     * <li><code>PROVIDER_DEFAULT</code> selects the default
-     * behavior of the provider, which may or may not result in
-     * generation of a constraint.
+     * <li>{@link ConstraintMode#NO_CONSTRAINT} specifies that no
+     * constraint should be generated.
+     * <li>{@link ConstraintMode#PROVIDER_DEFAULT} selects the
+     * default behavior of the provider, which may or may not
+     * result in generation of a constraint.
      * </ul>
      */
     ConstraintMode value() default CONSTRAINT;

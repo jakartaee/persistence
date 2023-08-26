@@ -21,8 +21,8 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * A <code>NamedAttributeNode</code> is a member element of a
- * <code>NamedEntityGraph</code>.
+ * A {@code NamedAttributeNode} is a member element of a
+ * {@link NamedEntityGraph}.
  *
  * @see NamedEntityGraph
  * @see NamedSubgraph
@@ -34,7 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedAttributeNode {
 
     /**
-     * (Required) The name of the attribute that must be included in the graph.
+     * (Required) The name of the attribute that must be included in
+     * the graph.
      */
     String value();
 
@@ -48,8 +49,8 @@ public @interface NamedAttributeNode {
      * be merged into subclass subgraphs.  
      *
      * <p> The value of this element is the name of the subgraph as
-     * specified by the <code>name</code> element of the corresponding
-     * <code>NamedSubgraph</code> element.  If multiple subgraphs are
+     * specified by the {@code name} element of the corresponding
+     * {@code NamedSubgraph} element.  If multiple subgraphs are
      * specified due to inheritance, they are referenced by this name.
      */
     String subgraph() default "";
@@ -65,8 +66,8 @@ public @interface NamedAttributeNode {
     * subclass subgraphs.  
     * 
     * <p> The value of this element is the name of the key subgraph as
-    * specified by the <code>name</code> element of the corresponding
-    * <code>NamedSubgraph</code> element.  If multiple key subgraphs
+    * specified by the {@code name} element of the corresponding
+    * {@code NamedSubgraph} element.  If multiple key subgraphs
     * are specified due to inheritance, they are referenced by this
     * name.
     */

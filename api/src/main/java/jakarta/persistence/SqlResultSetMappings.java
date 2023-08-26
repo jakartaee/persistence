@@ -22,7 +22,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Is used to define one or more {@link SqlResultSetMapping} annotations.
+ * Used to define one or more {@link SqlResultSetMapping} annotations.
  *
  * @since 1.0
  */
@@ -30,6 +30,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface SqlResultSetMappings { 
 
-    /** One or more <code>SqlResultSetMapping</code> annotations. */
+    /** One or more {@code SqlResultSetMapping} annotations. */
     SqlResultSetMapping[] value();
 }

@@ -23,10 +23,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The <code>StaticMetamodel</code> annotation specifies that the class
- * is a metamodel class that represents the entity, mapped 
- * superclass, or embeddable class designated by the value
- * element.
+ * The {@code StaticMetamodel} annotation specifies that the class is
+ * a metamodel class that represents the entity, mapped superclass,
+ * or embeddable class designated by the {@link #value} element.
  *
  * @since 2.0
  */

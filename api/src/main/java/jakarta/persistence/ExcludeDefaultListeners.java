@@ -23,8 +23,8 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies that the invocation of default listeners is 
- * to be excluded for the entity class (or mapped superclass) 
+ * Specifies that the invocation of default listeners is to
+ * be excluded for the entity class (or mapped superclass)
  * and its subclasses.
  *
  * @since 1.0

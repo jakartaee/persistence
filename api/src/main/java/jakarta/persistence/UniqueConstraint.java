@@ -21,11 +21,11 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies that a unique constraint is to be included in
- * the generated DDL for a primary or secondary table.
+ * Specifies that a unique constraint is to be included in the
+ * generated DDL for a primary or secondary table.
  *
+ * <p>Example:
  * <pre>
- *    Example:
  *    &#064;Entity
  *    &#064;Table(
  *        name="EMPLOYEE", 

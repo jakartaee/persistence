@@ -17,27 +17,29 @@
 package jakarta.persistence;
 
 /**
- * Thrown by the persistence provider when an pessimistic locking conflict
- * occurs. This exception may be thrown as part of an API call, a flush or at 
- * commit time. The current transaction, if one is active, will be marked for 
- * rollback.
+ * Thrown by the persistence provider when a pessimistic locking conflict
+ * occurs. This exception may be thrown as part of an API call, a flush or
+ * at commit time. The current transaction, if one is active, is marked
+ * for rollback.
  *
  * @since 2.0
  */
 public class PessimisticLockException extends PersistenceException {
-    /** The object that caused the exception */
+    /**
+     * The object that caused the exception
+     */
     Object entity;
 
     /** 
-     * Constructs a new <code>PessimisticLockException</code> exception 
-     * with <code>null</code> as its detail message.
+     * Constructs a new {@code PessimisticLockException} exception 
+     * with {@code null} as its detail message.
      */
     public PessimisticLockException() {
         super();
     }
 
     /** 
-     * Constructs a new <code>PessimisticLockException</code> exception 
+     * Constructs a new {@code PessimisticLockException} exception 
      * with the specified detail message.
      * @param   message   the detail message.
      */
@@ -46,7 +48,7 @@ public class PessimisticLockException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>PessimisticLockException</code> exception 
+     * Constructs a new {@code PessimisticLockException} exception 
      * with the specified detail message and cause.
      * @param   message   the detail message.
      * @param   cause     the cause.
@@ -56,7 +58,7 @@ public class PessimisticLockException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>PessimisticLockException</code> exception 
+     * Constructs a new {@code PessimisticLockException} exception 
      * with the specified cause.
      * @param   cause     the cause.
      */
@@ -65,7 +67,7 @@ public class PessimisticLockException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>PessimisticLockException</code> exception 
+     * Constructs a new {@code PessimisticLockException} exception 
      * with the specified entity.
      * @param   entity     the entity.
      */
@@ -74,7 +76,7 @@ public class PessimisticLockException extends PersistenceException {
     }
 
     /** 
-     * Constructs a new <code>PessimisticLockException</code> exception 
+     * Constructs a new {@code PessimisticLockException} exception 
      * with the specified detail message, cause, and entity.
      * @param   message   the detail message.
      * @param   cause     the cause.

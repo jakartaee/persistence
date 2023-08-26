@@ -18,8 +18,9 @@
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type <code>MappedSuperclassType</code> represent mapped
- *  superclass types.
+ *  Instances of the type {@code MappedSuperclassType} represent
+ *  {@linkplain jakarta.persistence.MappedSuperclass mapped superclass}
+ *  types.
  *
  *  @param <X> The represented entity type
  *  @since 2.0

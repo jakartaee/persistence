@@ -27,33 +27,31 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Specifies a many-valued association with many-to-many multiplicity. 
  *
  * <p> Every many-to-many association has two sides, the owning side
- * and the non-owning, or inverse, side.  The join table is specified
+ * and the non-owning, or inverse, side. The join table is specified
  * on the owning side. If the association is bidirectional, either
- * side may be designated as the owning side.  If the relationship is
- * bidirectional, the non-owning side must use the <code>mappedBy</code> element of
- * the <code>ManyToMany</code> annotation to specify the relationship field or
- * property of the owning side.
+ * side may be designated as the owning side. If the relationship is
+ * bidirectional, the non-owning side must use the {@link #mappedBy}
+ * element of the {@code ManyToMany} annotation to specify the
+ * relationship field or property of the owning side.
  *
  * <p> The join table for the relationship, if not defaulted, is
  * specified on the owning side.
  *
- * <p> The <code>ManyToMany</code> annotation may be used within an
+ * <p> The {@code ManyToMany} annotation may be used within an
  * embeddable class contained within an entity class to specify a
  * relationship to a collection of entities. If the relationship is
- * bidirectional and the entity containing the embeddable class is the
- * owner of the relationship, the non-owning side must use the
- * <code>mappedBy</code> element of the <code>ManyToMany</code>
- * annotation to specify the relationship field or property of the
- * embeddable class. The dot (".") notation syntax must be used in the
- * <code>mappedBy</code> element to indicate the relationship
- * attribute within the embedded attribute.  The value of each
- * identifier used with the dot notation is the name of the respective
- * embedded field or property.
+ * bidirectional and the entity containing the embeddable class is
+ * the owner of the relationship, the non-owning side must use the
+ * {@link #mappedBy} element of the {@code ManyToMany} annotation to
+ * specify the relationship field or property of the embeddable class.
+ * The dot {@code .} notation syntax must be used in the
+ * {@code mappedBy} element to indicate the relationship attribute
+ * within the embedded attribute. The value of each identifier used
+ * with the dot notation is the name of the respective embedded field
+ * or property.
  *
+ * <p>Example 1:
  * <pre>
- *
- *    Example 1:
- *
  *    // In Customer class:
  *
  *    &#064;ManyToMany
@@ -64,9 +62,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *    &#064;ManyToMany(mappedBy="phones")
  *    public Set&#060;Customer&#062; getCustomers() { return customers; }
+ * </pre>
  *
- *    Example 2:
- *
+ * <p>Example 2:
+ * <pre>
  *    // In Customer class:
  *
  *    &#064;ManyToMany(targetEntity=com.acme.PhoneNumber.class)
@@ -76,9 +75,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *    &#064;ManyToMany(targetEntity=com.acme.Customer.class, mappedBy="phones")
  *    public Set getCustomers() { return customers; }
+ * </pre>
  *
- *    Example 3:
- *
+ * <p>Example 3:
+ * <pre>
  *    // In Customer class:
  *
  *    &#064;ManyToMany
@@ -107,8 +107,8 @@ public @interface ManyToMany {
     /**
      * (Optional) The entity class that is the target of the
      * association. Optional only if the collection-valued
-     * relationship property is defined using Java generics.  Must be
-     * specified otherwise.
+     * relationship property is defined using Java generics.
+     * Must be specified otherwise.
      *
      * <p> Defaults to the parameterized type of
      * the collection when defined using generics.
@@ -116,22 +116,28 @@ public @interface ManyToMany {
     Class<?> targetEntity() default void.class;
 
     /** 
-     * (Optional) The operations that must be cascaded to the target
-     * of the association.  
+     * (Optional) The operations that must be cascaded to the
+     * target of the association.
      *
-     * <p> When the target collection is a {@link java.util.Map
-     * java.util.Map}, the <code>cascade</code> element applies to the
-     * map value.
+     * <p> When the target collection is a {@link java.util.Map},
+     * the {@code cascade} element applies to the map value.
      *
      * <p> Defaults to no operations being cascaded.
      */
     CascadeType[] cascade() default {};
 
-    /** (Optional) Whether the association should be lazily loaded or
-     * must be eagerly fetched. The EAGER strategy is a requirement on
-     * the persistence provider runtime that the associated entities
-     * must be eagerly fetched.  The LAZY strategy is a hint to the
-     * persistence provider runtime.
+    /**
+     * (Optional) Whether the association should be lazily
+     * loaded or must be eagerly fetched.
+     * <ul>
+     * <li>The {@link FetchType#EAGER EAGER} strategy is a
+     *    requirement on the persistence provider runtime
+     *    that the associated entity must be eagerly fetched.
+     * <li>The {@link FetchType#LAZY LAZY} strategy is a hint
+     *    to the persistence provider runtime.
+     * </ul>
+     *
+     * <p>If not specified, defaults to {@code LAZY}.
      */
     FetchType fetch() default FetchType.LAZY;
 

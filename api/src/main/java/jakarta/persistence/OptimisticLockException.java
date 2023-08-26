@@ -18,9 +18,9 @@ package jakarta.persistence;
 
 /**
  * Thrown by the persistence provider when an optimistic locking conflict
- * occurs. This exception may be thrown as part of an API call, a flush or at
- * commit time. The current transaction, if one is active, will be marked for
- * rollback.
+ * occurs. This exception may be thrown as part of an API call, a flush or
+ * at commit time. The current transaction, if one is active, will be marked
+ * for rollback.
  * 
  * @see EntityManager#find(Class, Object, LockModeType)
  * @see EntityManager#find(Class, Object, LockModeType, java.util.Map)
@@ -37,15 +37,15 @@ public class OptimisticLockException extends PersistenceException {
 	Object entity;
 
 	/**
-	 * Constructs a new <code>OptimisticLockException</code> exception with
-	 * <code>null</code> as its detail message.
+	 * Constructs a new {@code OptimisticLockException} exception with
+	 * {@code null} as its detail message.
 	 */
 	public OptimisticLockException() {
 		super();
 	}
 
 	/**
-	 * Constructs a new <code>OptimisticLockException</code> exception with the
+	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified detail message.
 	 * 
 	 * @param message
@@ -56,7 +56,7 @@ public class OptimisticLockException extends PersistenceException {
 	}
 
 	/**
-	 * Constructs a new <code>OptimisticLockException</code> exception with the
+	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified detail message and cause.
 	 * 
 	 * @param message
@@ -69,7 +69,7 @@ public class OptimisticLockException extends PersistenceException {
 	}
 
 	/**
-	 * Constructs a new <code>OptimisticLockException</code> exception with the
+	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified cause.
 	 * 
 	 * @param cause
@@ -80,7 +80,7 @@ public class OptimisticLockException extends PersistenceException {
 	}
 
 	/**
-	 * Constructs a new <code>OptimisticLockException</code> exception with the
+	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified entity.
 	 * 
 	 * @param entity
@@ -91,7 +91,7 @@ public class OptimisticLockException extends PersistenceException {
 	}
 
 	/**
-	 * Constructs a new <code>OptimisticLockException</code> exception with the
+	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified detail message, cause, and entity.
 	 * 
 	 * @param message

@@ -16,72 +16,72 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.persistence.FetchType;
+
 /**
- * Utility interface implemented by the persistence provider.  This
- * interface is invoked by the {@link
- * jakarta.persistence.PersistenceUtil} implementation to determine
- * the load status of an entity or entity attribute.
+ * Utility interface implemented by the persistence provider. This
+ * interface is invoked by the {@link jakarta.persistence.PersistenceUtil}
+ * implementation to determine the load status of an entity or entity
+ * attribute.
  *
  * @since 2.0
  */
 public interface ProviderUtil { 
 
     /**
-     * If the provider determines that the entity has been provided
-     * by itself and that the state of the specified attribute has
-     * been loaded, this method returns <code>LoadState.LOADED</code>.
+     * If the provider determines that the entity has been provided by
+     * itself and that the state of the specified attribute has been loaded,
+     * this method returns {@link LoadState#LOADED}.
      * <p> If the provider determines that the entity has been provided
-     * by itself and that either entity attributes with <code>FetchType.EAGER</code> 
-     * have not been loaded or that the state of the specified
-     * attribute has not been loaded, this methods returns
-     * <code>LoadState.NOT_LOADED</code>.
+     * by itself and that either entity attributes with {@link FetchType#EAGER}
+     * have not been loaded or that the state of the specified attribute has
+     * not been loaded, this method returns {@link LoadState#NOT_LOADED}.
      * <p> If a provider cannot determine the load state, this method
-     * returns <code>LoadState.UNKNOWN</code>.
-     * <p> The provider's implementation of this method must not obtain
-     * a reference to an attribute value, as this could trigger the
-     * loading of entity state if the entity has been provided by a
-     * different provider.
+     * returns {@link LoadState#UNKNOWN}.
+     * <p> The provider's implementation of this method must not obtain a
+     * reference to an attribute value, as this could trigger the loading
+     * of entity state if the entity has been provided by a different
+     * provider.
      * @param entity  entity instance
      * @param attributeName  name of attribute whose load status is
-     *        to be determined
+     *       to be determined
      * @return load status of the attribute
      */
     LoadState isLoadedWithoutReference(Object entity, String attributeName);
 
     /**
-     * If the provider determines that the entity has been provided
-     * by itself and that the state of the specified attribute has
-     * been loaded, this method returns <code>LoadState.LOADED</code>.
-     * <p> If a provider determines that the entity has been provided
-     * by itself and that either the entity attributes with <code>FetchType.EAGER</code>
-     * have not been loaded or that the state of the specified
-     * attribute has not been loaded, this method returns
-     * return <code>LoadState.NOT_LOADED</code>.
+     * If the provider determines that the entity has been provided by
+     * itself and that the state of the specified attribute has been loaded,
+     * this method returns {@link LoadState#LOADED}.
+     * <p> If a provider determines that the entity has been provided by
+     * itself and that either the entity attributes with {@link FetchType#EAGER}
+     * have not been loaded or that the state of the specified attribute has
+     * not been loaded, this method returns {@link LoadState#NOT_LOADED}.
      * <p> If the provider cannot determine the load state, this method
-     * returns <code>LoadState.UNKNOWN</code>.
+     * returns {@link LoadState#UNKNOWN}.
      * <p> The provider's implementation of this method is permitted to
-     * obtain a reference to the attribute value.  (This access is
-     * safe because providers which might trigger the loading of the
-     * attribute state will have already been determined by
-     * <code>isLoadedWithoutReference</code>. )
+     * obtain a reference to the attribute value. (This access is safe
+     * because providers which might trigger the loading of the attribute
+     * state will have already been determined by
+     * {@link #isLoadedWithoutReference}.)
      *
      * @param entity  entity instance
      * @param attributeName  name of attribute whose load status is
-     *        to be determined
+     *       to be determined
      * @return load status of the attribute
      */
     LoadState isLoadedWithReference(Object entity, String attributeName);
 
     /**
-     * If the provider determines that the entity has been provided
-     * by itself and that the state of all attributes for which
-     * <code>FetchType.EAGER</code> has been specified have been loaded, this 
-     * method returns <code>LoadState.LOADED</code>.
+     * If the provider determines that the entity has been provided by
+     * itself and that the state of all attributes for which
+     * {@link FetchType#EAGER} has been specified have been loaded, this
+     * method returns {@link LoadState#LOADED}.
      * <p> If the provider determines that the entity has been provided
-     * by itself and that not all attributes with <code>FetchType.EAGER</code> 
-     * have been loaded, this method returns <code>LoadState.NOT_LOADED</code>.
+     * by itself and that not all attributes with {@link FetchType#EAGER}
+     * have been loaded, this method returns {@link LoadState#NOT_LOADED}.
      * <p> If the provider cannot determine if the entity has been
-     * provided by itself, this method returns <code>LoadState.UNKNOWN</code>.
+     * provided by itself, this method returns {@link LoadState#UNKNOWN}.
      * <p> The provider's implementation of this method must not obtain
      * a reference to any attribute value, as this could trigger the
      * loading of entity state if the entity has been provided by a
