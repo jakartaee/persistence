@@ -352,6 +352,13 @@ public interface EntityManagerFactory extends AutoCloseable {
     public void close();
 
     /**
+     * The name of the persistence unit.
+     *
+     * @since 3.2
+     */
+    public String getName();
+
+    /**
      * Get the properties and associated values that are in effect
      * for the entity manager factory. Changing the contents of the
      * map does not change the configuration in effect.
