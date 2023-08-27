@@ -146,10 +146,10 @@ public @interface OneToOne {
      * loaded or must be eagerly fetched.
      * <ul>
      * <li>The {@link FetchType#EAGER EAGER} strategy is a
-     *    requirement on the persistence provider runtime
-     *    that the associated entity must be eagerly fetched.
+     *     requirement on the persistence provider runtime
+     *     that the associated entity must be eagerly fetched.
      * <li>The {@link FetchType#LAZY LAZY} strategy is a hint
-     *    to the persistence provider runtime.
+     *     to the persistence provider runtime.
      * </ul>
      *
      * <p>If not specified, defaults to {@code EAGER}.
@@ -162,9 +162,10 @@ public @interface OneToOne {
      */
     boolean optional() default true;
 
-    /** (Optional) The field that owns the relationship. This 
-      * element is only specified on the inverse (non-owning) 
-      * side of the association.
+    /**
+     * (Optional) The field that owns the relationship. This
+     * element is only specified on the inverse (non-owning)
+     * side of the association.
      */
     String mappedBy() default "";
 
