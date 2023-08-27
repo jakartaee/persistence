@@ -29,26 +29,116 @@ import jakarta.persistence.criteria.CriteriaDelete;
 /**
  * Interface used to interact with the persistence context.
  *
- * <p> An {@code EntityManager} instance is associated with
- * a persistence context. A persistence context is a set of entity 
- * instances in which for any persistent entity identity there is 
- * a unique entity instance. Within the persistence context, the 
- * entity instances and their lifecycle are managed. 
- * The {@code EntityManager} API is used
- * to create and remove persistent entity instances, to find entities 
- * by their primary key, and to query over entities.
+ * <p>An instance of {@code EntityManager} must be obtained from
+ * an {@link EntityManagerFactory}, and is only able to manage
+ * persistence of entities belonging to the associated persistence
+ * unit.
  *
- * <p> The set of entities that can be managed by a given 
- * {@code EntityManager} instance is defined by a persistence
- * unit. A persistence unit defines the set of all classes that are 
- * related or grouped by the application, and which must be 
- * colocated in their mapping to a single database.
+ * <p>An application-managed {@code EntityManager} may be created
+ * via a call to {@link EntityManagerFactory#createEntityManager()}.
+ * The {@code EntityManager} must be explicitly closed via a call
+ * to {@link #close()}, to allow resources to be cleaned up by the
+ * persistence provider. This approach places almost complete
+ * responsibility for cleanup and exception management on the client,
+ * and is thus considered quite error-prone. It is much safer to use
+ * the methods {@link EntityManagerFactory#runInTransaction} and
+ * {@link EntityManagerFactory#callInTransaction}.
+ *
+ * <p>In the Jakarta EE environment, a container-managed
+ * {@link EntityManagerFactory} may be obtained by dependency
+ * injection, using {@link PersistenceContext}.
+ *
+ * <p>If the persistence unit has
+ * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
+ * resource local} transaction management, transactions must
+ * be managed using the {@link EntityTransaction} obtained by
+ * calling {@link #getTransaction()}.
+ *
+ * <p>Each {@code EntityManager} instance is associated with a
+ * distinct <em>persistence context</em>. A persistence context
+ * is a set of entity instances in which for any given persistent
+ * entity identity (defined by an entity type and primary key)
+ * there is at most one entity instance. The entity instances
+ * associated with a persistence context are considered managed
+ * objects, with a well-defined lifecycle under the control of
+ * the persistence provider.
+ *
+ * <p>Any entity instance can be characterized as being in one of
+ * the following lifecycle states:
+ * <ul>
+ * <li>A <em>new</em> entity has no persistent identity, and is
+ *     not yet associated with any persistence context.
+ * <li>A <em>managed</em> entity is an instance with a persistent
+ *     identity that is currently associated with a persistence
+ *     context.
+ * <li>A <em>detached</em> entity is an instance with a persistent
+ *     identity that is not (or no longer) associated with any
+ *     active persistence context.
+ * <li>A <em>removed</em> entity is an instance with a persistent
+ *     identity, and associated with a persistence context, that
+ *     will be removed from the database upon transaction commit.
+ * </ul>
+ *
+ * <p>The {@code EntityManager} API is used to perform operations
+ * that affect the state of the persistence context, or that modify
+ * the lifecycle state of individual entity instances. The client
+ * may {@linkplain #persist} and {@linkplain #remove} instances,
+ * {@linkplain #find(Class, Object) find} entities by their primary
+ * key, and execute {@linkplain #createQuery(String) queries} which
+ * range over entity types. An entity may be disassociated from
+ * the persistence context by calling {@link #detach}, and a
+ * persistence context may be completely cleared, detaching all
+ * its entities, by calling {@link #clear()}.
+ *
+ * <p>The client may also make changes to the state of an entity
+ * instance by mutating the entity directly, or it may request
+ * that the state of a detached instance be {@linkplain #merge
+ * merged}, replacing the state of a managed instance with the
+ * same persistent identity. Note that there is no explicit
+ * "update" operation; since an entity is a managed object,
+ * modifications to its persistent fields and properties are
+ * automatically detected, as long as it is associated with an
+ * active persistence context.
+ *
+ * <p>Modifications to the state of entities associated with a
+ * persistence context are not immediately synchronized with the
+ * database. Synchronization happens during a process called
+ * <em>flush</em>. The timing of the flush process depends on the
+ * {@linkplain FlushModeType flush mode}, which may be set
+ * explicitly by calling {@link #setFlushMode(FlushModeType)}.
+ * <ul>
+ * <li>For {@link FlushModeType#COMMIT}, the persistence context
+ *     is flushed before the transaction commits.
+ * <li>For {@link FlushModeType#AUTO}, which is the default, the
+ *     persistence context must also be flushed before execution
+ *     of any query whose result set would be affected by
+ *     unflushed modifications to entities associated with the
+ *     persistence context.
+ * </ul>
+ * The client may force an immediate flush to occur by calling
+ * {@link #flush()}.
+ *
+ * <p>At any given moment, a persistence context might hold an
+ * optimistic or pessimistic <em>lock</em> on an entity instance.
+ * The full range of possible lock types is enumerated by
+ * {@link LockModeType}. Some operations of this interface,
+ * including the methods {@link #lock(Object, LockModeType)},
+ * {@link #refresh(Object, LockModeType)}, and
+ * {@link #find(Class, Object, LockModeType)}, accept an explicit
+ * {@link LockModeType}, allowing the client to request a specific
+ * type of lock.
+ *
+ * <p>Interaction of the persistence context (or first-level cache)
+ * with the second-level cache, if any, may be controlled by
+ * calling {@link #setCacheRetrieveMode(CacheRetrieveMode)} and
+ * {@link #setCacheStoreMode(CacheStoreMode)}.
  *
  * @see Query
  * @see TypedQuery
  * @see CriteriaQuery
  * @see PersistenceContext
  * @see StoredProcedureQuery
+ * @see EntityManagerFactory
  * 
  * @since 1.0
  */

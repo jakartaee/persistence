@@ -25,14 +25,77 @@ import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
 /**
- * Interface used to interact with the entity manager factory for
- * the persistence unit.
+ * Interface used to interact with the persistence unit, and to
+ * create new instances of {@link EntityManager}.
+ *
+ * <p>A persistence unit defines the set of all classes that are
+ * related or grouped by the application, and which must be
+ * colocated in their mapping to a single database. If two entity
+ * types participate in an association, then they must belong to
+ * the same persistence unit.
+ *
+ * <p>A persistence unit may be defined by a {@code persistence.xml}
+ * file, or it may be defined at runtime via the
+ * {@link PersistenceConfiguration} API.
+ *
+ * <p>Every persistence unit has a <em>transaction type</em>,
+ * either {@link PersistenceUnitTransactionType#JTA JTA}, or
+ * {@link PersistenceUnitTransactionType#RESOURCE_LOCAL RESOURCE_LOCAL}.
+ * Resource-local transactions are managed programmatically via the
+ * {@link EntityTransaction} interface.
+ *
+ * <p>An {@link EntityManagerFactory} with a lifecycle managed by
+ * the application may be created using the static operations of
+ * the {@link Persistence} class:
+ * <ul>
+ * <li>if the persistence unit is defined in {@code persistence.xml},
+ *     an entity manager factory may be created by calling
+ *     {@link Persistence#createEntityManagerFactory(String)} or
+ *     {@link Persistence#createEntityManagerFactory(String,Map)},
+ *     or
+ * <li>if the persistence unit was defined using
+ *     {@link PersistenceConfiguration}, an entity manager factory
+ *     may be created by calling
+ *     {@link Persistence#createEntityManagerFactory(PersistenceConfiguration)}.
+ * </ul>
+ *
+ * <p>Alternatively, in the Jakarta EE environment, a
+ * container-managed {@code EntityManagerFactory} may be obtained
+ * by dependency injection, using {@link PersistenceUnit}.
+ *
+ * <p>An application-managed {@code EntityManager} may be created
+ * via a call to {@link #createEntityManager()}. However, this
+ * approach places complete responsibility for cleanup and exception
+ * management on the client, and is thus considered error-prone. It
+ * is much safer to use the methods {@link #runInTransaction} and
+ * {@link #callInTransaction} to obtain {@code EntityManager}s.
+ *
+ * <p>The {@code EntityManagerFactory} provides access to certain
+ * other useful APIs:
+ * <ul>
+ * <li>an instance of {@link Metamodel} exposing a model of the
+ *     managed types associated with the persistence unit may be
+ *     obtained by calling {@link #getMetamodel()},
+ * <li>an instance of {@link SchemaManager}, allowing programmatic
+ *     control over schema generation and validation, may be
+ *     obtained by calling {@link #getSchemaManager()},
+ * <li>an instance of {@link Cache}, allowing direct programmatic
+ *     control over the second-level cache, may be obtained by
+ *     calling {@link #getCache()},
+ * <li>the {@link CriteriaBuilder}, used to define criteria queries,
+ *     may be obtained by calling {@link #getCriteriaBuilder()},
+ *     and
+ * <li>the {@link PersistenceUnitUtil} may be obtained by calling
+ *     {@link #getPersistenceUnitUtil()}.
+ * </ul>
  *
  * <p>When the application has finished using the entity manager
  * factory, and/or at application shutdown, the application should
- * close the entity manager factory. Once an
+ * {@linkplain #close} the entity manager factory. Once an
  * {@code EntityManagerFactory} has been closed, all its entity
  * managers are considered to be in the closed state.
+ *
+ * @see EntityManager
  *
  * @since 1.0
  */
