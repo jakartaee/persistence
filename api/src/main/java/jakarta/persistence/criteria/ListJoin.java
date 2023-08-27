@@ -56,7 +56,7 @@ public interface ListJoin<Z, E>
     /**
      * Return the metamodel representation for the list attribute.
      * @return metamodel type representing the {@code List} that is
-     *        the target of the join
+     *         the target of the join
      */
     ListAttribute<? super Z, E> getModel();
 

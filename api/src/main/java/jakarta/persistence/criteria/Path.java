@@ -105,7 +105,7 @@ public interface Path<X> extends Expression<X> {
      * @param attributeName  name of the attribute
      * @return path corresponding to the referenced attribute
      * @throws IllegalStateException if invoked on a path that
-     *        corresponds to a basic type
+     *         corresponds to a basic type
      * @throws IllegalArgumentException if attribute of the given
      *         name does not otherwise exist
      */

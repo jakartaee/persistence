@@ -57,7 +57,7 @@ public interface CollectionJoin<Z, E>
      * Return the metamodel representation for the collection
      * attribute.
      * @return metamodel type representing the {@code Collection} that is
-     *        the target of the join
+     *         the target of the join
      */
     CollectionAttribute<? super Z, E> getModel();
 }

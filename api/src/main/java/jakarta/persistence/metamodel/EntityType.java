@@ -17,13 +17,13 @@
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type {@code EntityType} represent
- *  {@linkplain jakarta.persistence.Entity entity} types.
+ * An instance of {@code EntityType} represents
+ * an {@linkplain jakarta.persistence.Entity entity}
+ * type.
  *
- *  @param <X> The represented entity type.
+ * @param <X> The represented entity type.
  *
  * @since 2.0
- *
  */
 public interface EntityType<X> 
             extends IdentifiableType<X>, Bindable<X>{

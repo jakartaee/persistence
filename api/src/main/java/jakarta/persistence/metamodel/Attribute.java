@@ -91,8 +91,8 @@ public interface Attribute<X, Y> {
 
     /**
      * Is the attribute collection-valued (represents a
-	 *  {@code Collection}, {@code Set}, {@code List}, or
-	 *  {@code Map}).
+	 * {@code Collection}, {@code Set}, {@code List}, or
+	 * {@code Map}).
      * @return boolean indicating whether the attribute is 
      *         collection-valued
      */

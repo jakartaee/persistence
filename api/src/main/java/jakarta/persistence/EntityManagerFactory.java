@@ -71,8 +71,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * <p>The {@link EntityManager#isOpen} method will return true on
      * the returned instance.
      * @param synchronizationType  how and when the entity manager should
-     *                            be synchronized with the current JTA
-     *                            transaction
+     *                             be synchronized with the current JTA
+     *                             transaction
      * @return entity manager instance
      * @throws IllegalStateException if the entity manager factory has
      * been configured for resource-local entity managers or is closed
@@ -89,8 +89,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * <p>The {@link EntityManager#isOpen} method will return true on the
      * returned instance.
      * @param synchronizationType  how and when the entity manager should
-     *                            be synchronized with the current JTA
-     *                            transaction
+     *                             be synchronized with the current JTA
+     *                             transaction
      * @param map properties for entity manager
      * @return entity manager instance
      * @throws IllegalStateException if the entity manager factory has
@@ -101,11 +101,14 @@ public interface EntityManagerFactory extends AutoCloseable {
     EntityManager createEntityManager(SynchronizationType synchronizationType, Map<?, ?> map);
 
     /**
-     * Return an instance of {@link CriteriaBuilder} for the creation of
-     * {@link jakarta.persistence.criteria.CriteriaQuery} objects.
+     * Return an instance of {@link CriteriaBuilder} which may be used
+     * to construct {@link jakarta.persistence.criteria.CriteriaQuery}
+     * objects.
      * @return an instance of {@link CriteriaBuilder}
      * @throws IllegalStateException if the entity manager factory has
      * been closed
+     *
+     * @see EntityManager#getCriteriaBuilder()
      *
      * @since 2.0
      */
@@ -230,9 +233,9 @@ public interface EntityManagerFactory extends AutoCloseable {
      * {@code EntityManagerFactory} does not support the given
      * type, the {@link PersistenceException} is thrown.
      * @param cls the class of the object to be returned.
-     *           This is usually either the underlying class
-     *           implementing {@code EntityManagerFactory} or an
-     *           interface it implements.
+     *            This is usually either the underlying class
+     *            implementing {@code EntityManagerFactory} or an
+     *            interface it implements.
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not support
      *        the given type

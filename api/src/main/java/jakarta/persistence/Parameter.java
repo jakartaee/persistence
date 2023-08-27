@@ -51,9 +51,9 @@ public interface Parameter<T> {
      * queries will not be portable.
      * @return the Java type of the parameter
      * @throws IllegalStateException if invoked on a parameter
-     *        obtained from a query language query or native
-     *        query when the implementation does not support
-     *        this usage
+     *         obtained from a query language query or native
+     *         query when the implementation does not support
+     *         this usage
      */
      Class<T> getParameterType();
 }

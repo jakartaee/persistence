@@ -54,7 +54,7 @@ public interface SetJoin<Z, E> extends PluralJoin<Z, Set<E>, E> {
     /**
      * Return the metamodel representation for the set attribute.
      * @return metamodel type representing the {@code Set} that is
-     *        the target of the join
+     *         the target of the join
      */
     SetAttribute<? super Z, E> getModel();
 }

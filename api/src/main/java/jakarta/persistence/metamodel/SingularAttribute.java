@@ -30,25 +30,28 @@ public interface SingularAttribute<X, T>
 		extends Attribute<X, T>, Bindable<T> {
 	
     /**
-     * Is the attribute an id attribute. This method returns
-     * true if the attribute is an attribute that corresponds
-     * to a simple id, an embedded id, or an attribute of an id
-     * class.
+     * Is the attribute an id attribute? This method returns true
+     * if the attribute is a {@linkplain jakarta.persistence.Id simple
+     * id}, an {@linkplain jakarta.persistence.EmbeddedId embedded id},
+     * or an attribute of an {@linkplain jakarta.persistence.IdClass
+     * id class}.
      * @return boolean indicating whether the attribute is an id
      */
     boolean isId();
 
     /**
-     * Is the attribute a version attribute.
-     * @return boolean indicating whether the attribute is
-     *        a version attribute
+     * Is the attribute a {@linkplain jakarta.persistence.Version
+     * version} attribute?
+     * @return boolean indicating whether the attribute is a
+     *         version attribute
      */
     boolean isVersion();
 
     /** 
-     * Can the attribute be null.
+     * Can the attribute be null?
      * @return boolean indicating whether the attribute can
      *        be null
+     * @see jakarta.persistence.Basic#optional
      */
     boolean isOptional();
 

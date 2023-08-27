@@ -49,7 +49,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * Create and add a query root corresponding to the given entity,
      * forming a cartesian product with any existing roots.
      * @param entity  metamodel entity representing the entity
-     *               of type X
+     *                of type X
      * @return query root corresponding to the given entity
      */
     <X> Root<X> from(EntityType<X> entity);
@@ -148,8 +148,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * If distinct has not been specified, duplicate results must
      * be retained.
      * @param distinct  boolean value specifying whether duplicate
-     *       results must be eliminated from the query result or
-     *       whether they must be retained
+     *        results must be eliminated from the query result or
+     *        whether they must be retained
      * @return the modified query
      */
     AbstractQuery<T> distinct(boolean distinct);
@@ -191,7 +191,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * Return whether duplicate query results must be eliminated or
      * retained.
      * @return boolean indicating whether duplicate query results 
-     *        must be eliminated
+     *         must be eliminated
      */
     boolean isDistinct();
 

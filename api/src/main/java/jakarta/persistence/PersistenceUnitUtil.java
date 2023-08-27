@@ -36,9 +36,9 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * of an entity belonging to the persistence unit.
      * @param entity  entity instance containing the attribute
      * @param attributeName name of attribute whose load state is
-     *       to be determined
+     *        to be determined
      * @return false if entity's state has not been loaded or if 
-     *        the attribute state has not been loaded, else true
+     *         the attribute state has not been loaded, else true
      */
     boolean isLoaded(Object entity, String attributeName);
 
@@ -48,7 +48,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * @param entity  entity instance containing the attribute
      * @param attribute  attribute whose load state is to be determined
      * @return false if entity's state has not been loaded or if
-     *        the attribute state has not been loaded, else true
+     *         the attribute state has not been loaded, else true
      * @since 3.2
      */
     <E> boolean isLoaded(E entity, Attribute<? super E, ?> attribute);

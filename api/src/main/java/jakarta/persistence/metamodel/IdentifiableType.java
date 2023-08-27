@@ -19,12 +19,12 @@ package jakarta.persistence.metamodel;
 import java.util.Set;
 
 /**
- *  Instances of the type {@code IdentifiableType} represent entity or
- *  mapped superclass types.
+ * An instance of the type {@code IdentifiableType} represents an
+ * entity or mapped superclass type.
  *
- *  @param <X> The represented entity or mapped superclass type.
+ * @param <X> The represented entity or mapped superclass type.
  *
- *  @since 2.0
+ * @since 2.0
  *
  */
 public interface IdentifiableType<X> extends ManagedType<X> {

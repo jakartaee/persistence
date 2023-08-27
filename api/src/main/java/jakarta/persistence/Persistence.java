@@ -49,7 +49,7 @@ public class Persistence {
      * 
      * @param persistenceUnitName the name of the persistence unit
      * @return the factory that creates {@link EntityManager}s configured
-     *        according to the specified persistence unit
+     *         according to the specified persistence unit
      */
     public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName) {
         return createEntityManagerFactory(persistenceUnitName, null);
@@ -61,10 +61,10 @@ public class Persistence {
      * 
      * @param persistenceUnitName the name of the persistence unit
      * @param properties additional properties to use when creating the
-     *                  factory. These properties may include properties
-     *                  to control schema generation. The values of these
-     *                  properties override any values that may have been
-     *                  configured elsewhere.
+     *                   factory. These properties may include properties
+     *                   to control schema generation. The values of these
+     *                   properties override any values that may have been
+     *                   configured elsewhere.
      * @return the factory that creates {@link EntityManager}s configured
      *        according to the specified persistence unit
      */
@@ -93,7 +93,7 @@ public class Persistence {
      *
      * @param configuration configuration of the persistence unit
      * @return the factory that creates {@link EntityManager}s configured
-     *        according to the specified persistence unit
+     *         according to the specified persistence unit
      *
      * @since 3.2
      */
@@ -126,12 +126,12 @@ public class Persistence {
      * <p>
      * @param persistenceUnitName the name of the persistence unit
      * @param map properties for schema generation; these may also
-     *           contain provider-specific properties. The values
-     *           of these properties override any values that may
-     *           have been configured elsewhere.
+     *            contain provider-specific properties. The values
+     *            of these properties override any values that may
+     *            have been configured elsewhere.
      * @throws PersistenceException if insufficient or inconsistent
-     *        configuration information is provided or if schema
-     *        generation otherwise fails.
+     *         configuration information is provided or if schema
+     *         generation otherwise fails.
      *
      * @since 2.1
      */

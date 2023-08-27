@@ -32,8 +32,8 @@ public interface Tuple {
      * @param tupleElement  tuple element
      * @return value of tuple element
      * @throws IllegalArgumentException if tuple element
-     *        does not correspond to an element in the
-     *        query result tuple
+     *         does not correspond to an element in the
+     *         query result tuple
      */
     <X> X get(TupleElement<X> tupleElement);
 
@@ -44,9 +44,9 @@ public interface Tuple {
      * @param type of the tuple element
      * @return value of the tuple element
      * @throws IllegalArgumentException if alias
-     *        does not correspond to an element in the
-     *        query result tuple or element cannot be
-     *        assigned to the specified type
+     *         does not correspond to an element in the
+     *         query result tuple or element cannot be
+     *         assigned to the specified type
      */
     <X> X get(String alias, Class<X> type); 
 
@@ -56,8 +56,8 @@ public interface Tuple {
      * @param alias  alias assigned to tuple element
      * @return value of the tuple element
      * @throws IllegalArgumentException if alias
-     *        does not correspond to an element in the
-     *        query result tuple
+      *        does not correspond to an element in the
+     *         query result tuple
      */
     Object get(String alias); 
 
@@ -69,8 +69,8 @@ public interface Tuple {
      * @param type  type of the tuple element
      * @return value of the tuple element
      * @throws IllegalArgumentException if i exceeds
-     *        length of result tuple  or element cannot
-     *        be assigned to the specified type
+     *         length of result tuple  or element cannot
+     *         be assigned to the specified type
      */
     <X> X get(int i, Class<X> type);
 
@@ -81,7 +81,7 @@ public interface Tuple {
      * @param i  position in result tuple
      * @return value of the tuple element
      * @throws IllegalArgumentException if i exceeds
-     *        length of result tuple
+     *         length of result tuple
      */
     Object get(int i);
 

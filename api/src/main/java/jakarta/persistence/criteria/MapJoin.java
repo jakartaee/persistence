@@ -56,7 +56,7 @@ public interface MapJoin<Z, K, V>
     /**
      * Return the metamodel representation for the map attribute.
      * @return metamodel type representing the {@code Map} that is
-     *        the target of the join
+     *         the target of the join
      */
     MapAttribute<? super Z, K, V> getModel();
     

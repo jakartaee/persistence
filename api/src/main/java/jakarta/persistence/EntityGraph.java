@@ -31,6 +31,12 @@ package jakarta.persistence;
  * @see Subgraph
  * @see NamedEntityGraph
  *
+ * @see EntityManager#createEntityGraph(Class)
+ * @see EntityManager#createEntityGraph(String)
+ * @see EntityManager#getEntityGraph(String)
+ * @see EntityManagerFactory#addNamedEntityGraph(String, EntityGraph)
+ * @see EntityManager#find(EntityGraph, Object, FindOption...)
+ *
  * @since 2.1
  */
 public interface EntityGraph<T> extends Graph<T> {
@@ -55,7 +61,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * @return subgraph for the subclass
      * @throws IllegalArgumentException if the type is not an entity type
      * @throws IllegalStateException if the EntityGraph has been
-     *        statically defined
+     *         statically defined
      */
     <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
 
@@ -69,7 +75,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * @return subgraph for the subclass
      * @throws IllegalArgumentException if the type is not an entity type
      * @throws IllegalStateException if the EntityGraph has been 
-     *        statically defined
+     *         statically defined
      * @deprecated use {@link #addTreatedSubgraph(Class)}
      */
     @Deprecated(since = "3.2", forRemoval = true)

@@ -19,10 +19,10 @@ package jakarta.persistence.metamodel;
 import jakarta.persistence.criteria.Path;
 
 /**
- * Instances of the type {@code Bindable} represent object or attribute types 
- * that can be bound into a {@link Path Path}.
+ * An instances of the type {@code Bindable} represents an object
+ * or attribute type that can be bound into a {@link Path Path}.
  *
- * @param <T>  The type of the represented object or attribute
+ * @param <T> The type of the represented object or attribute
  *
  * @since 2.0
  *

@@ -208,7 +208,7 @@ public interface ManagedType<X> extends Type<X> {
      * List-, and Map-valued attributes) declared by the 
      * managed type.
      * Returns empty set if the managed type has no declared
-     * multi-valued attributes.
+     * multivalued attributes.
      * @return declared Collection-, Set-, List-, and Map-valued
      *         attributes
      */

@@ -101,8 +101,8 @@ public interface PersistenceProvider {
      * @param map properties for schema generation;  these may
      *            also include provider-specific properties
      * @throws PersistenceException if insufficient or inconsistent
-     *        configuration information is provided of if schema
-     *        generation otherwise fails
+     *         configuration information is provided of if schema
+     *         generation otherwise fails
      *
      * @since 2.1
      */
@@ -123,8 +123,8 @@ public interface PersistenceProvider {
      *            may have been configured elsewhere.
      * @return true  if schema was generated, otherwise false
      * @throws PersistenceException if insufficient or inconsistent
-     *        configuration information is provided or if schema
-     *        generation otherwise fails
+     *         configuration information is provided or if schema
+     *         generation otherwise fails
      *
      * @since 2.1
      */

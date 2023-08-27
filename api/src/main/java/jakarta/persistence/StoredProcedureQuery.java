@@ -101,7 +101,7 @@ public interface StoredProcedureQuery extends Query {
      * @param value  value for the property or hint
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
-     *        valid for the implementation
+     *         valid for the implementation
      */
     StoredProcedureQuery setHint(String hintName, Object value);
 
@@ -111,7 +111,7 @@ public interface StoredProcedureQuery extends Query {
      * @param value  parameter value
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
-     *        correspond to a parameter of the query
+     *         correspond to a parameter of the query
      */
     <T> StoredProcedureQuery setParameter(Parameter<T> param, 
                                           T value);
@@ -123,9 +123,9 @@ public interface StoredProcedureQuery extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
-     *        correspond to a parameter of the query
+     *         correspond to a parameter of the query
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
@@ -139,9 +139,9 @@ public interface StoredProcedureQuery extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
-     *        correspond to a parameter of the query
+     *         correspond to a parameter of the query
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(Parameter<Date> param,
@@ -154,8 +154,8 @@ public interface StoredProcedureQuery extends Query {
      * @param value  parameter value
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *        not correspond to a parameter of the query or if the
-     *        argument is of incorrect type
+     *         not correspond to a parameter of the query or if the
+     *         argument is of incorrect type
      */
     StoredProcedureQuery setParameter(String name, Object value);
 
@@ -166,10 +166,10 @@ public interface StoredProcedureQuery extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *        not correspond to a parameter of the query or if the
-     *        value argument is of incorrect type
+     *         not correspond to a parameter of the query or if the
+     *         value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(String name, 
@@ -183,10 +183,10 @@ public interface StoredProcedureQuery extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *        not correspond to a parameter of the query or if the
-     *        value argument is of incorrect type
+     *         not correspond to a parameter of the query or if the
+     *         value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(String name, 
@@ -199,8 +199,8 @@ public interface StoredProcedureQuery extends Query {
      * @param value  parameter value
      * @return the same query instance
      * @throws IllegalArgumentException if position does not
-     *        correspond to a positional parameter of the query
-     *        or if the argument is of incorrect type
+     *         correspond to a positional parameter of the query
+     *         or if the argument is of incorrect type
      */
     StoredProcedureQuery setParameter(int position, Object value);
 
@@ -212,10 +212,10 @@ public interface StoredProcedureQuery extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if position does not
-     *        correspond to a positional parameter of the query or
-     *        if the value argument is of incorrect type
+     *         correspond to a positional parameter of the query or
+     *         if the value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(int position, 
@@ -229,10 +229,10 @@ public interface StoredProcedureQuery extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if position does not
-     *        correspond to a positional parameter of the query or
-     *        if the value argument is of incorrect type
+     *         correspond to a positional parameter of the query or
+     *         if the value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     StoredProcedureQuery setParameter(int position, 
@@ -323,7 +323,7 @@ public interface StoredProcedureQuery extends Query {
      * and update counts must be retrieved before the values of 
      * output parameters.
      * @param parameterName  name of the parameter as registered or
-     *             specified in metadata
+     *        specified in metadata
      * @return the result that is passed back through the parameter
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or is
@@ -337,11 +337,11 @@ public interface StoredProcedureQuery extends Query {
      * other than through INOUT and OUT parameters, if any.
      * @return  true if first result corresponds to result set
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     boolean execute();
 
@@ -352,14 +352,14 @@ public interface StoredProcedureQuery extends Query {
      * @return the update count or -1 if there is no pending result
      * or if the next result is not an update count.
      * @throws TransactionRequiredException if there is 
-     *        no transaction or the persistence context has not
-     *        been joined to the transaction
+     *         no transaction or the persistence context has not
+     *         been joined to the transaction
      * @throws QueryTimeoutException if the statement execution 
-     *        exceeds the query timeout value set and only 
-     *        the statement is rolled back
+     *         exceeds the query timeout value set and only
+     *         the statement is rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     int executeUpdate();
 
@@ -373,11 +373,11 @@ public interface StoredProcedureQuery extends Query {
      * @return a list of the results or null is the next item is not 
      * a result set
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     List getResultList();
 
@@ -390,14 +390,14 @@ public interface StoredProcedureQuery extends Query {
      * registered with the query.
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
-     *        result set
+     *         result set
      * @throws NonUniqueResultException if more than one result
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     Object getSingleResult();
 
@@ -409,14 +409,14 @@ public interface StoredProcedureQuery extends Query {
      * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
      * @return the result or null if the next item is not a result set
-     *        or if there is no result in the next result set
+     *         or if there is no result in the next result set
      * @throws NonUniqueResultException if more than one result
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws PersistenceException if the query execution exceeds
-     *        the query timeout value set and the transaction
-     *        is rolled back
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     Object getSingleResultOrNull();
 
@@ -424,27 +424,27 @@ public interface StoredProcedureQuery extends Query {
      * Return true if the next result corresponds to a result set,
      * and false if it is an update count or if there are no results
      * other than through INOUT and OUT parameters, if any.
-     * @return  true if next result corresponds to result set
+     * @return true if next result corresponds to result set
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     boolean hasMoreResults();
 
     /**
      * Return the update count or  -1 if there is no pending result
      * or if the next result is not an update count.
-     * @return  update count or -1 if there is no pending result or if
+     * @return update count or -1 if there is no pending result or if
      *         the next result is not an update count
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     int getUpdateCount();
 

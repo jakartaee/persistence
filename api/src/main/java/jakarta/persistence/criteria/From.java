@@ -58,7 +58,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Whether the {@link From} object has been obtained as a result
      * of correlation (use of a {@link Subquery#correlate} method).
      * @return boolean indicating whether the object has been
-     *        obtained through correlation
+     *         obtained through correlation
      */
     boolean isCorrelated();
 
@@ -66,9 +66,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Returns the parent {@link From} object from which the correlated
      * {@link From} object has been obtained through correlation (use
      * of {@link Subquery#correlate} method).
-     * @return  the parent of the correlated From object
-     * @throws IllegalStateException if the From object has
-     *        not been obtained through correlation 
+     * @return  the parent of the correlated {@code From} object
+     * @throws IllegalStateException if the {@code From} object has
+     *         not been obtained through correlation
      */
     From<Z, X> getCorrelationParent();
 
@@ -197,10 +197,10 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
     /**
      * Create an inner join to the specified attribute.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> Join<X, Y> join(String attributeName);	
 
@@ -208,10 +208,10 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified {@link Collection}-valued
      * attribute.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> CollectionJoin<X, Y> joinCollection(String attributeName);	
 
@@ -219,10 +219,10 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified {@link Set}-valued
      * attribute.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> SetJoin<X, Y> joinSet(String attributeName);	
 
@@ -230,10 +230,10 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified {@link List}-valued
      * attribute.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> ListJoin<X, Y> joinList(String attributeName);		
     
@@ -241,10 +241,10 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified {@link Map}-valued
      * attribute.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, K, V> MapJoin<X, K, V> joinMap(String attributeName);	
 
@@ -252,11 +252,11 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create a join to the specified attribute using the given
      * join type.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @param jt  join type
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> Join<X, Y> join(String attributeName, JoinType jt);	
     
@@ -264,11 +264,11 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create a join to the specified {@link Collection}-valued
      * attribute using the given join type.
      * @param attributeName  name of the attribute for the 
-     *             target of the join
+     *                       target of the join
      * @param jt  join type
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> CollectionJoin<X, Y> joinCollection(String attributeName, JoinType jt);	
 
@@ -276,11 +276,11 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create a join to the specified {@link Set}-valued attribute
      * using the given join type.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @param jt  join type
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> SetJoin<X, Y> joinSet(String attributeName, JoinType jt);	
 
@@ -288,11 +288,11 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create a join to the specified {@link List}-valued attribute
      * using the given join type.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @param jt  join type
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     *         name does not exist
      */
     <X, Y> ListJoin<X, Y> joinList(String attributeName, JoinType jt);	
 
@@ -300,7 +300,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create a join to the specified {@link Map}-valued attribute
      * using the given join type.
      * @param attributeName  name of the attribute for the
-     *                      target of the join
+     *                       target of the join
      * @param jt  join type
      * @return the resulting join
      * @throws IllegalArgumentException if attribute of the given

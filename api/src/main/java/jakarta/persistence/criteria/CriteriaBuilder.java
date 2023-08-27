@@ -94,7 +94,7 @@ public interface CriteriaBuilder {
      * @param selections  arguments to the constructor
      * @return compound selection item
      * @throws IllegalArgumentException if an argument is a 
-     *        tuple- or array-valued selection item
+     *         tuple- or array-valued selection item
      */
     <Y> CompoundSelection<Y> construct(Class<Y> resultClass, Selection<?>... selections);
 
@@ -103,7 +103,7 @@ public interface CriteriaBuilder {
      * @param selections  selection items
      * @return tuple-valued compound selection
      * @throws IllegalArgumentException if an argument is a 
-     *        tuple- or array-valued selection item
+     *         tuple- or array-valued selection item
      */
     CompoundSelection<Tuple> tuple(Selection<?>... selections);
 
@@ -112,7 +112,7 @@ public interface CriteriaBuilder {
      * @param selections  selection items
      * @return array-valued compound selection
      * @throws IllegalArgumentException if an argument is a 
-     *        tuple- or array-valued selection item
+     *         tuple- or array-valued selection item
      */
     CompoundSelection<Object[]> array(Selection<?>... selections);
 
@@ -204,7 +204,7 @@ public interface CriteriaBuilder {
      * Create an aggregate expression for finding the greatest of
      * the values (strings, dates, etc).
      * @param x  expression representing input value to greatest
-     *          operation
+     *           operation
      * @return greatest expression
      */
     <X extends Comparable<? super X>> Expression<X> greatest(Expression<X> x);
@@ -213,7 +213,7 @@ public interface CriteriaBuilder {
      * Create an aggregate expression for finding the least of
      * the values (strings, dates, etc).
      * @param x  expression representing input value to least
-     *          operation
+     *           operation
      * @return least expression
      */
     <X extends Comparable<? super X>> Expression<X> least(Expression<X> x);
@@ -221,7 +221,7 @@ public interface CriteriaBuilder {
     /**
      * Create an aggregate expression applying the count operation.
      * @param x  expression representing input value to count 
-     *          operation
+     *           operation
      * @return count expression
      */
     Expression<Long> count(Expression<?> x);
@@ -230,7 +230,7 @@ public interface CriteriaBuilder {
      * Create an aggregate expression applying the count distinct 
      * operation.
      * @param x  expression representing input value to 
-     *       count distinct operation
+     *        count distinct operation
      * @return count distinct expression
      */
     Expression<Long> countDistinct(Expression<?> x);
@@ -902,7 +902,7 @@ public interface CriteriaBuilder {
      * Create a parameter expression with the given name.
      * @param paramClass parameter class
      * @param name  name that can be used to refer to 
-     *             the parameter
+     *              the parameter
      * @return parameter expression
      */
     <T> ParameterExpression<T> parameter(Class<T> paramClass, String name);
@@ -1784,7 +1784,7 @@ Expression<?>... args);
     /**
      * Create a query which is the union of the given queries.
      * @return a new criteria query which returns the union of
-     *        the results of the given queries
+     *         the results of the given queries
      * @since 3.2
      */
     <T> CriteriaQuery<T> union(CriteriaQuery<? extends T> left, CriteriaQuery<? extends T> right);
@@ -1793,7 +1793,7 @@ Expression<?>... args);
      * Create a query which is the union of the given queries,
      * without elimination of duplicate results.
      * @return a new criteria query which returns the union of
-     *        the results of the given queries
+     *         the results of the given queries
      * @since 3.2
      */
     <T> CriteriaQuery<T> unionAll(CriteriaQuery<? extends T> left, CriteriaQuery<? extends T> right);
@@ -1801,7 +1801,7 @@ Expression<?>... args);
     /**
      * Create a query which is the intersection of the given queries.
      * @return a new criteria query which returns the intersection of
-     *        the results of the given queries
+     *         the results of the given queries
      * @since 3.2
      */
     <T> CriteriaQuery<T> intersect(CriteriaQuery<? super T> left, CriteriaQuery<? super T> right);
@@ -1810,7 +1810,7 @@ Expression<?>... args);
      * Create a query which is the intersection of the given queries,
      * without elimination of duplicate results.
      * @return a new criteria query which returns the intersection of
-     *        the results of the given queries
+     *         the results of the given queries
      * @since 3.2
      */
     <T> CriteriaQuery<T> intersectAll(CriteriaQuery<? super T> left, CriteriaQuery<? super T> right);
@@ -1819,8 +1819,8 @@ Expression<?>... args);
      * Create a query by (setwise) subtraction of the second query
      * from the first query.
      * @return a new criteria query which returns the result of
-     *        subtracting the results of the second query from the
-     *        results of the first query
+     *         subtracting the results of the second query from the
+     *         results of the first query
      * @since 3.2
      */
     <T> CriteriaQuery<T> except(CriteriaQuery<T> left, CriteriaQuery<?> right);
@@ -1829,8 +1829,8 @@ Expression<?>... args);
      * Create a query by (setwise) subtraction of the second query
      * from the first query, without elimination of duplicate results.
      * @return a new criteria query which returns the result of
-     *        subtracting the results of the second query from the
-     *        results of the first query
+     *         subtracting the results of the second query from the
+     *         results of the first query
      * @since 3.2
      */
     <T> CriteriaQuery<T> exceptAll(CriteriaQuery<T> left, CriteriaQuery<?> right);

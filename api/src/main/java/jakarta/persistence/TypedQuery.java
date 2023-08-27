@@ -40,21 +40,21 @@ public interface TypedQuery<X> extends Query {
      * {@link List}.
      * @return a list of the results
      * @throws IllegalStateException if called for a Jakarta
-     *        Persistence query language UPDATE or DELETE statement
+     *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *        {@code NONE} has been set and there is no transaction
-     *        or the persistence context has not been joined to the
-     *        transaction
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
      * @throws PessimisticLockException if pessimistic locking
-     *        fails and the transaction is rolled back
+     *         fails and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking
-     *        fails and only the statement is rolled back
+     *         fails and only the statement is rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     List<X> getResultList();
 
@@ -68,21 +68,21 @@ public interface TypedQuery<X> extends Query {
      *
      * @return a stream of the results
      * @throws IllegalStateException if called for a Jakarta
-     *        Persistence query language UPDATE or DELETE statement
+     *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *        {@code NONE} has been set and there is no transaction
-     *        or the persistence context has not been joined to the
-     *        transaction
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
      * @throws PessimisticLockException if pessimistic locking
-     *        fails and the transaction is rolled back
+     *         fails and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking
-     *        fails and only the statement is rolled back
+     *         fails and only the statement is rolled back
      * @throws PersistenceException if the query execution exceeds
-     *        the query timeout value set and the transaction
-     *        is rolled back
+     *         the query timeout value set and the transaction
+     *         is rolled back
      * @see Stream
      * @see #getResultList()
      * @since 2.2
@@ -97,21 +97,21 @@ public interface TypedQuery<X> extends Query {
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
-     *        Persistence query language UPDATE or DELETE statement
+     *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *        {@code NONE} has been set and there is no transaction
-     *        or the persistence context has not been joined to the
-     *        transaction
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
      * @throws PessimisticLockException if pessimistic locking
-     *        fails and the transaction is rolled back
+     *         fails and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking
-     *        fails and only the statement is rolled back
+     *         fails and only the statement is rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *        the query timeout value set and the transaction 
-     *        is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     X getSingleResult();
 
@@ -120,21 +120,21 @@ public interface TypedQuery<X> extends Query {
      * @return the result, or null if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
-     *        Persistence query language UPDATE or DELETE statement
+     *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
-     *        the query timeout value set and only the statement is
-     *        rolled back
+     *         the query timeout value set and only the statement is
+     *         rolled back
      * @throws TransactionRequiredException if a lock mode other than
-     *        {@code NONE} has been set and there is no transaction
-     *        or the persistence context has not been joined to the
-     *        transaction
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
      * @throws PessimisticLockException if pessimistic locking
-     *        fails and the transaction is rolled back
+     *         fails and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking
-     *        fails and only the statement is rolled back
+     *         fails and only the statement is rolled back
      * @throws PersistenceException if the query execution exceeds
-     *        the query timeout value set and the transaction
-     *        is rolled back
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     X getSingleResultOrNull();
 
@@ -149,7 +149,7 @@ public interface TypedQuery<X> extends Query {
     /**
      * Set the position of the first result to retrieve.
      * @param startPosition position of the first result, 
-     *       numbered from 0
+     *        numbered from 0
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
@@ -168,7 +168,7 @@ public interface TypedQuery<X> extends Query {
      * @param value  value for the property or hint
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
-     *        valid for the implementation
+     *         valid for the implementation
      */
     TypedQuery<X> setHint(String hintName, Object value);
 
@@ -178,8 +178,8 @@ public interface TypedQuery<X> extends Query {
      * @param value  parameter value
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter
-     *        does not correspond to a parameter of the
-     *        query
+     *         does not correspond to a parameter of the
+     *         query
      */
      <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
 
@@ -190,9 +190,9 @@ public interface TypedQuery<X> extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
-     *        correspond to a parameter of the query
+     *         correspond to a parameter of the query
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(Parameter<Calendar> param, 
@@ -206,9 +206,9 @@ public interface TypedQuery<X> extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
-     *        correspond to a parameter of the query
+     *         correspond to a parameter of the query
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(Parameter<Date> param, Date value,  
@@ -220,8 +220,8 @@ public interface TypedQuery<X> extends Query {
      * @param value  parameter value
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *        not correspond to a parameter of the query or if
-     *        the argument is of incorrect type
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
      */
     TypedQuery<X> setParameter(String name, Object value);
 
@@ -232,10 +232,10 @@ public interface TypedQuery<X> extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *        not correspond to a parameter of the query or if 
-     *        the value argument is of incorrect type
+     *         not correspond to a parameter of the query or if
+     *         the value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(String name, Calendar value, 
@@ -248,10 +248,10 @@ public interface TypedQuery<X> extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *        not correspond to a parameter of the query or if 
-     *        the value argument is of incorrect type
+     *         not correspond to a parameter of the query or if
+     *         the value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(String name, Date value, 
@@ -263,8 +263,8 @@ public interface TypedQuery<X> extends Query {
      * @param value  parameter value
      * @return the same query instance
      * @throws IllegalArgumentException if position does not
-     *        correspond to a positional parameter of the
-     *        query or if the argument is of incorrect type
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
      */
     TypedQuery<X> setParameter(int position, Object value);
 
@@ -276,10 +276,10 @@ public interface TypedQuery<X> extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if position does not
-     *        correspond to a positional parameter of the query
-     *        or if the value argument is of incorrect type
+     *         correspond to a positional parameter of the query
+     *         or if the value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(int position, Calendar value,  
@@ -293,10 +293,10 @@ public interface TypedQuery<X> extends Query {
      * @param temporalType  temporal type
      * @return the same query instance
      * @throws IllegalArgumentException if position does not
-     *        correspond to a positional parameter of the query
-     *        or if the value argument is of incorrect type
+      *        correspond to a positional parameter of the query
+     *         or if the value argument is of incorrect type
      * @deprecated Newly-written code should use the date/time types
-     *            defined in {@link java.time}.
+     *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
     TypedQuery<X> setParameter(int position, Date value,  
@@ -316,9 +316,9 @@ public interface TypedQuery<X> extends Query {
       * @param lockMode  lock mode
       * @return the same query instance
       * @throws IllegalStateException if the query is found not to 
-      *        be a Jakarta Persistence query language SELECT query
-      *        or a {@link jakarta.persistence.criteria.CriteriaQuery}
-      *        query
+      *         be a Jakarta Persistence query language SELECT query
+      *         or a {@link jakarta.persistence.criteria.CriteriaQuery}
+      *         query
       */
      TypedQuery<X> setLockMode(LockModeType lockMode);
 

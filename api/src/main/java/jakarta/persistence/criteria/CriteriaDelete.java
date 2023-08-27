@@ -50,7 +50,7 @@ public interface CriteriaDelete<T> extends CommonAbstractCriteria {
      * A {@code CriteriaDelete} object has a single root, the entity that
      * is being deleted.
      * @param entity  metamodel entity representing the entity
-     *               of type X
+     *                of type X
      * @return query root corresponding to the given entity
      */
     Root<T> from(EntityType<T> entity);

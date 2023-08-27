@@ -44,7 +44,7 @@ public interface ProviderUtil {
      * provider.
      * @param entity  entity instance
      * @param attributeName  name of attribute whose load status is
-     *       to be determined
+     *        to be determined
      * @return load status of the attribute
      */
     LoadState isLoadedWithoutReference(Object entity, String attributeName);
@@ -67,7 +67,7 @@ public interface ProviderUtil {
      *
      * @param entity  entity instance
      * @param attributeName  name of attribute whose load status is
-     *       to be determined
+     *        to be determined
      * @return load status of the attribute
      */
     LoadState isLoadedWithReference(Object entity, String attributeName);

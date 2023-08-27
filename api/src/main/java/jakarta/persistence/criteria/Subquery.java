@@ -38,7 +38,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * result.
      * Replaces the previously specified selection, if any.
      * @param expression  expression specifying the item that
-     *       is to be returned as the subquery result
+     *        is to be returned as the subquery result
      * @return the modified subquery
      */
     Subquery<T> select(Expression<T> expression);
@@ -155,8 +155,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * This method only overrides the return type of the 
      * corresponding {@code AbstractQuery} method.
      * @param distinct  boolean value specifying whether duplicate
-     *       results must be eliminated from the subquery result or
-     *       whether they must be retained
+     *        results must be eliminated from the subquery result or
+     *        whether they must be retained
      * @return the modified subquery.
      */
     Subquery<T> distinct(boolean distinct);

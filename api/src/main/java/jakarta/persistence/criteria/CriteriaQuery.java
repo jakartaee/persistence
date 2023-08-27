@@ -56,8 +56,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      *                   to be returned in the query result
      * @return the modified query
      * @throws IllegalArgumentException if the selection is
-     *        a compound selection and more than one selection 
-     *        item has the same assigned alias
+     *         a compound selection and more than one selection
+     *         item has the same assigned alias
      */
     CriteriaQuery<T> select(Selection<? extends T> selection);
 
@@ -110,8 +110,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      *                    results to be returned by the query
      * @return the modified query
      * @throws IllegalArgumentException if a selection item is
-     *        not valid or if more than one selection item has
-     *        the same assigned alias
+     *         not valid or if more than one selection item has
+     *         the same assigned alias
      */
     CriteriaQuery<T> multiselect(Selection<?>... selections);
 
@@ -163,8 +163,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      *                       query
      * @return the modified query
      * @throws IllegalArgumentException if a selection item is
-     *        not valid or if more than one selection item has
-     *        the same assigned alias
+     *         not valid or if more than one selection item has
+     *         the same assigned alias
      */
     CriteriaQuery<T> multiselect(List<Selection<?>> selectionList);
 
@@ -310,8 +310,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * This method only overrides the return type of the 
      * corresponding {@code AbstractQuery} method.
      * @param distinct  boolean value specifying whether duplicate
-     *       results must be eliminated from the query result or
-     *       whether they must be retained
+     *        results must be eliminated from the query result or
+     *        whether they must be retained
      * @return the modified query.
      */
     CriteriaQuery<T> distinct(boolean distinct);

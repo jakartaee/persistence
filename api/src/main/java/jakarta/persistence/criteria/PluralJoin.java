@@ -35,7 +35,7 @@ public interface PluralJoin<Z, C, E> extends Join<Z, E> {
      * Return the metamodel representation for the collection-valued 
      * attribute corresponding to the join.
      * @return metamodel collection-valued attribute corresponding
-     *        to the target of the join
+     *         to the target of the join
      */
     PluralAttribute<? super Z, C, E> getModel();
 }

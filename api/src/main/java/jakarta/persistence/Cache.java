@@ -59,12 +59,12 @@ public interface Cache {
      * of the {@code Cache} interface does not support the specified
      * class, the {@link PersistenceException} is thrown.
      * @param cls  the class of the object to be returned.
-     *            This is usually either the underlying class
-     *            implementing {@code Cache}, or an interface it
-     *            implements.
+     *             This is usually either the underlying class
+     *             implementing {@code Cache}, or an interface it
+     *             implements.
      * @return an instance of the specified type
      * @throws PersistenceException if the provider does not support
-     *        the given type
+     *         the given type
      * @since 2.1
      */
     <T> T unwrap(Class<T> cls);

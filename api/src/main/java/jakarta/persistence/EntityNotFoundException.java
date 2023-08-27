@@ -60,8 +60,7 @@ public class EntityNotFoundException extends PersistenceException {
 	 * Constructs a new {@code EntityNotFoundException} exception with the
 	 * specified detail message.
 	 * 
-	 * @param message
-	 *            the detail message.
+	 * @param message the detail message.
 	 */
 	public EntityNotFoundException(String message) {
 		super(message);
@@ -71,8 +70,7 @@ public class EntityNotFoundException extends PersistenceException {
 	 * Constructs a new {@code EntityNotFoundException} exception with the
 	 * specified detail message.
 	 *
-	 * @param message
-	 *            the detail message.
+	 * @param message the detail message.
 	 */
 	public EntityNotFoundException(String message, Exception cause) {
 		super(message, cause);

@@ -47,8 +47,7 @@ public class EntityExistsException extends PersistenceException {
      * Constructs a new {@code EntityExistsException} exception with the
      * specified detail message.
      * 
-     * @param message
-     *           the detail message.
+     * @param message the detail message.
      */
     public EntityExistsException(String message) {
         super(message);
@@ -58,10 +57,8 @@ public class EntityExistsException extends PersistenceException {
      * Constructs a new {@code EntityExistsException} exception with the
      * specified detail message and cause.
      * 
-     * @param message
-     *           the detail message.
-     * @param cause
-     *           the cause.
+     * @param message the detail message.
+     * @param cause the cause.
      */
     public EntityExistsException(String message, Throwable cause) {
         super(message, cause);
@@ -71,8 +68,7 @@ public class EntityExistsException extends PersistenceException {
      * Constructs a new {@code EntityExistsException} exception with the
      * specified cause.
      * 
-     * @param cause
-     *           the cause.
+     * @param cause the cause.
      */
     public EntityExistsException(Throwable cause) {
         super(cause);

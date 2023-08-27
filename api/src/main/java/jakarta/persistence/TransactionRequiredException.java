@@ -45,8 +45,7 @@ public class TransactionRequiredException extends PersistenceException {
 	 * Constructs a new {@code TransactionRequiredException} exception with
 	 * the specified detail message.
 	 * 
-	 * @param message
-	 *            the detail message.
+	 * @param message the detail message.
 	 */
 	public TransactionRequiredException(String message) {
 		super(message);
@@ -56,8 +55,7 @@ public class TransactionRequiredException extends PersistenceException {
 	 * Constructs a new {@code TransactionRequiredException} exception with
 	 * the specified detail message.
 	 *
-	 * @param message
-	 *            the detail message.
+	 * @param message the detail message.
 	 */
 	public TransactionRequiredException(String message, Exception cause) {
 		super(message, cause);

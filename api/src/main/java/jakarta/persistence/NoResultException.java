@@ -41,8 +41,7 @@ public class NoResultException extends PersistenceException {
 	 * Constructs a new {@code NoResultException} exception with the
 	 * specified detail message.
 	 * 
-	 * @param message
-	 *            the detail message.
+	 * @param message the detail message.
 	 */
 	public NoResultException(String message) {
 		super(message);

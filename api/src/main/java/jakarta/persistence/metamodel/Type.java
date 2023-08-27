@@ -17,8 +17,8 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type {@code Type} represent persistent object 
- * or attribute types.
+ * An instance of the type {@code Type} represents a persistent
+ * object or attribute type.
  *
  * @param <X>  The type of the represented object or attribute
  *

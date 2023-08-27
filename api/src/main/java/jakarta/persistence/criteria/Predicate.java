@@ -44,7 +44,7 @@ public interface Predicate extends Expression<Boolean> {
      * predicate by applying {@link Predicate#not()}
      * or by calling {@link CriteriaBuilder#not}.
      * @return boolean indicating if the predicate is 
-     *                a negated predicate
+     *                 a negated predicate
      */
     boolean isNegated();
 

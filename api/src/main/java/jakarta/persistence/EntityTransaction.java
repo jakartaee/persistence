@@ -43,7 +43,7 @@ public interface EntityTransaction {
       * Roll back the current resource transaction. 
       * @throws IllegalStateException if {@link #isActive()} is false
       * @throws PersistenceException if an unexpected error 
-      *        condition is encountered
+      *         condition is encountered
       */
      void rollback();
 
@@ -59,7 +59,7 @@ public interface EntityTransaction {
       * Determine whether the current resource transaction has been 
       * marked for rollback.
       * @return boolean indicating whether the transaction has been
-      *        marked for rollback
+      *         marked for rollback
       * @throws IllegalStateException if {@link #isActive()} is false
       */
      boolean getRollbackOnly();
@@ -68,7 +68,7 @@ public interface EntityTransaction {
       * Indicate whether a resource transaction is in progress.
       * @return boolean indicating whether transaction is in progress
       * @throws PersistenceException if an unexpected error 
-      *        condition is encountered
+      *         condition is encountered
       */
      boolean isActive();
 }

@@ -48,8 +48,7 @@ public class OptimisticLockException extends PersistenceException {
 	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified detail message.
 	 * 
-	 * @param message
-	 *            the detail message.
+	 * @param message the detail message.
 	 */
 	public OptimisticLockException(String message) {
 		super(message);
@@ -59,10 +58,8 @@ public class OptimisticLockException extends PersistenceException {
 	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified detail message and cause.
 	 * 
-	 * @param message
-	 *            the detail message.
-	 * @param cause
-	 *            the cause.
+	 * @param message the detail message.
+	 * @param cause the cause.
 	 */
 	public OptimisticLockException(String message, Throwable cause) {
 		super(message, cause);
@@ -72,8 +69,7 @@ public class OptimisticLockException extends PersistenceException {
 	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified cause.
 	 * 
-	 * @param cause
-	 *            the cause.
+	 * @param cause the cause.
 	 */
 	public OptimisticLockException(Throwable cause) {
 		super(cause);
@@ -83,8 +79,7 @@ public class OptimisticLockException extends PersistenceException {
 	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified entity.
 	 * 
-	 * @param entity
-	 *            the entity.
+	 * @param entity the entity.
 	 */
 	public OptimisticLockException(Object entity) {
 		this.entity = entity;
@@ -94,12 +89,9 @@ public class OptimisticLockException extends PersistenceException {
 	 * Constructs a new {@code OptimisticLockException} exception with the
 	 * specified detail message, cause, and entity.
 	 * 
-	 * @param message
-	 *            the detail message.
-	 * @param cause
-	 *            the cause.
-	 * @param entity
-	 *            the entity.
+	 * @param message the detail message.
+	 * @param cause  the cause.
+	 * @param entity the entity.
 	 */
 	public OptimisticLockException(String message, Throwable cause, Object entity) {
 		super(message, cause);

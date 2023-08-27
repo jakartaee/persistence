@@ -208,7 +208,7 @@ public class PersistenceConfiguration {
      * {@link #createEntityManagerFactory()}.
      *
      * @param name the name of the persistence unit, which may be used by
-     *            the persistence provider for logging and error reporting
+     *             the persistence provider for logging and error reporting
      */
     public PersistenceConfiguration(String name) {
         Objects.requireNonNull(name, "Persistence unit name should not be null");

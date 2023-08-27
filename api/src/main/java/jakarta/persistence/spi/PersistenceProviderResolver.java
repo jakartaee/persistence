@@ -39,7 +39,7 @@ public interface PersistenceProviderResolver {
      * runtime environment.
      *
      * @return list of the persistence providers available 
-     *        in the environment
+     *         in the environment
      */
     List<PersistenceProvider> getPersistenceProviders();
 
