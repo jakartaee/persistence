@@ -25,20 +25,27 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies a many-valued association with one-to-many multiplicity.
- * 
- * <p> If the collection is defined using generics to specify the element type,
- * the associated target entity type need not be specified; otherwise the target
- * entity class must be specified. If the relationship is bidirectional, the
- * {@link #mappedBy} element must be used to specify the relationship field or
- * property of the entity that is the owner of the relationship.
  *
- * <p> The {@code OneToMany} annotation may be used within an embeddable class
- * contained within an entity class to specify a relationship to a collection
- * of entities. If the relationship is bidirectional, the {@link #mappedBy}
- * element must be used to specify the relationship field or property of the
- * entity that is the owner of the relationship.
+ * <p>If the collection is defined using generics to specify the element
+ * type, the associated target entity type need not be specified; otherwise
+ * the target entity class must be specified. If the relationship is
+ * bidirectional, the {@link #mappedBy} element must be used to specify
+ * the relationship field or property of the entity that is the owner of
+ * the relationship.
  *
- * <p> When the collection is a {@link java.util.Map}, the {@link #cascade}
+ * <p>A {@code OneToMany} association usually maps a foreign key column
+ * or columns in the table of the associated entity. This mapping may
+ * be specified using the {@link JoinColumn} annotation. Alternatively,
+ * a unidirectional {@code OneToMany} association is sometimes mapped
+ * to a join table using the {@link JoinTable} annotation.
+ *
+ * <p>The {@code OneToMany} annotation may be used within an embeddable
+ * class contained within an entity class to specify a relationship to a
+ * collection of entities. If the relationship is bidirectional, the
+ * {@link #mappedBy} element must be used to specify the relationship
+ * field or property of the entity that is the owner of the relationship.
+ *
+ * <p>When the collection is a {@link java.util.Map}, the {@link #cascade}
  * element and the {@link #orphanRemoval} element apply to the map value.
  *
  *

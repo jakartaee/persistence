@@ -14,7 +14,6 @@
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
-
 package jakarta.persistence;
 
 import java.lang.annotation.Target;
@@ -24,18 +23,22 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Designates a class whose mapping information is applied to
- * the entities that inherit it. A mapped superclass has no
- * separate table defined for it.
+ * Declares a class which is not itself an entity, but whose
+ * mappings are inherited by the entities which extend it.
  *
- * <p> A class designated with the {@code MappedSuperclass}
- * annotation can be mapped in the same way as an entity except
- * that the mappings will apply only to its subclasses since no
- * table exists for the mapped superclass itself. When applied
- * to the subclasses the inherited mappings will apply in the
- * context of the subclass tables. Mapping information may be
- * overridden in such subclasses by using the {@link AttributeOverride}
- * and {@link AssociationOverride} annotations or corresponding
+ * <p>A mapped superclass is not a persistent type, and is
+ * not mapped to a database table.
+ *
+ * <p>The persistent fields and properties of a mapped
+ * superclass are declared and mapped using the same mapping
+ * annotations used to map {@linkplain Entity entity classes}.
+ * However, these mappings are interpreted in the context of
+ * each entity class which inherits the mapped superclass,
+ * since the mapped superclass itself has no table to map.
+ *
+ * <p>Mapping information may be overridden in each such
+ * subclass using the {@link AttributeOverride} and
+ * {@link AssociationOverride} annotations or corresponding
  * XML elements.
  *
  * <p>Example: Concrete class as a mapped superclass

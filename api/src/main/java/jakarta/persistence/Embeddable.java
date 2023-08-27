@@ -23,13 +23,32 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a class whose instances are stored as an intrinsic 
- * part of an owning entity and share the identity of the entity. 
- * Each of the persistent properties or fields of the embedded 
- * object is mapped to the database table for the entity. 
+ * Declares a class whose instances are stored as an intrinsic
+ * part of an owning entity, sharing the identity of the entity.
+ * A single embeddable class may be used as the type of multiple
+ * persistent fields or properties, across several entities,
+ * and so distinct instances of an embeddable class might have
+ * owning entities of completely unrelated entity types.
  *
- * <p> Note that the {@link Transient} annotation may be used to 
- * designate the non-persistent state of an embeddable class.
+ * <p>An embeddable class does not have its own table. Instead,
+ * the state of an instance is stored in the table or tables
+ * mapped by the owning entity.
+ *
+ * <p>The persistent fields and properties of an embeddable
+ * class are mapped using the same mapping annotations used to
+ * map {@linkplain Entity entity classes}, and may themselves
+ * hold instances of embeddable types. An embeddable class may
+ * even declare an association from its owning entity to another
+ * entity.
+ *
+ * <p>However, an embeddable class may not have a field or
+ * property annotated {@link Id} or {@link EmbeddedId}.
+ *
+ * <p>Fields or properties of an embeddable class are persistent
+ * by default. The {@link Transient} annotation or the Java
+ * {@code transient} keyword must be used to explicitly declare
+ * any field or property of an embeddable class which is
+ * <em>not</em> persistent.
  *
  * <p>Example 1:
  * <pre>

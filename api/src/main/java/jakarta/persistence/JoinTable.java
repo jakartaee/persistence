@@ -32,7 +32,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * unidirectional many-to-one relationships, and one-to-one
  * associations (both bidirectional and unidirectional).
  *
- *<p>When a join table is used in mapping a relationship with an
+ * <p>When a join table is used in mapping a relationship with an
  * embeddable class on the owning side of the relationship, the
  * containing entity rather than the embeddable class is considered
  * the owner of the relationship.
@@ -61,7 +61,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({METHOD, FIELD}) 
 @Retention(RUNTIME)
-
 public @interface JoinTable {
 
     /**

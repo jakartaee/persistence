@@ -27,6 +27,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * entity or mapped superclass. This annotation may be applied 
  * to an entity class or mapped superclass.
  *
+ * <p>The specified entity listener classes may have callback
+ * methods annotated {@link PrePersist}, {@link PreUpdate},
+ * {@link PreRemove}, {@link PostPersist}, {@link PostUpdate},
+ * and/or {@link PostRemove}.
+ *
  * @since 1.0
  */
 @Target({TYPE}) 

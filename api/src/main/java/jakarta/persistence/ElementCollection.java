@@ -27,6 +27,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * or {@linkplain Embeddable embeddable class}. Must be specified if the
  * collection is to be mapped by means of a collection table.
  *
+ * <p>The {@link CollectionTable} annotation specifies a mapping to a
+ * database table.
+ *
  * <p>Example:
  * <pre>
  *    &#064;Entity public class Person {
@@ -38,6 +41,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         ...
  *    } 
  * </pre>
+ *
+ * @see CollectionTable
  *
  * @since 2.0
  */

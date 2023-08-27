@@ -24,20 +24,22 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a many-valued association with many-to-many multiplicity. 
+ * Specifies a many-valued association with many-to-many multiplicity,
+ * mapping to an intermediate table called the <em>join table</em>.
  *
- * <p> Every many-to-many association has two sides, the owning side
+ * <p>Every many-to-many association has two sides, the owning side
  * and the non-owning, or inverse, side. The join table is specified
  * on the owning side. If the association is bidirectional, either
- * side may be designated as the owning side. If the relationship is
- * bidirectional, the non-owning side must use the {@link #mappedBy}
- * element of the {@code ManyToMany} annotation to specify the
- * relationship field or property of the owning side.
+ * side may be designated as the owning side, and the non-owning side
+ * must use the {@link #mappedBy} element of the {@code ManyToMany}
+ * annotation to specify the relationship field or property of the
+ * owning side.
  *
- * <p> The join table for the relationship, if not defaulted, is
- * specified on the owning side.
+ * <p>The join table for the relationship, if not defaulted, is
+ * specified on the owning side. The {@link JoinTable} annotation
+ * specifies a mapping to a database table.
  *
- * <p> The {@code ManyToMany} annotation may be used within an
+ * <p>The {@code ManyToMany} annotation may be used within an
  * embeddable class contained within an entity class to specify a
  * relationship to a collection of entities. If the relationship is
  * bidirectional and the entity containing the embeddable class is

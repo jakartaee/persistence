@@ -31,6 +31,11 @@ public enum InheritanceType {
      * <p>Subclasses are stored together with the root
      * class, and each entity instance is stored as a
      * single table row.
+     *
+     * <p>The concrete subclass represented by a row
+     * is determined by the value held by a
+     * {@linkplain DiscriminatorColumn discriminator
+     * column}.
      */
     SINGLE_TABLE, 
 
@@ -40,6 +45,8 @@ public enum InheritanceType {
      * <p>Each concrete class in the hierarchy has its
      * own table, and each entity instance is stored as
      * a single table row.
+     *
+     * <p>No discriminator column is necessary.
      */
     TABLE_PER_CLASS, 
 

@@ -26,15 +26,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a single-valued association to another entity class that
  * has many-to-one multiplicity. It is not usually necessary to specify
- * the target entity explicitly since it can usually be inferred from the
- * type of the object being referenced.
+ * the target entity explicitly since it can usually be inferred from
+ * the type of the object being referenced.
  *
  * <p>If the relationship is bidirectional, the non-owning
  * {@link OneToMany} entity side must use the {@link OneToMany#mappedBy
  * mappedBy} element to specify the relationship field or property of the
  * entity that is the owner of the relationship.
  *
- * <p> The {@code ManyToOne} annotation may be used within an embeddable
+ * <p>A {@code ManyToOne} association usually maps a foreign key column
+ * or columns. This mapping may be specified using the {@link JoinColumn}
+ * annotation. Alternatively, an optional {@code OneToOne} association is
+ * sometimes mapped to a join table using the {@link JoinTable} annotation.
+ *
+ * <p>The {@code ManyToOne} annotation may be used within an embeddable
  * class to specify a relationship from the embeddable class to an entity
  * class. If the relationship is bidirectional, the non-owning
  * {@link OneToMany} entity side must use the {@code mappedBy} element of
@@ -79,7 +84,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({METHOD, FIELD}) 
 @Retention(RUNTIME)
-
 public @interface ManyToOne {
 
     /** 
