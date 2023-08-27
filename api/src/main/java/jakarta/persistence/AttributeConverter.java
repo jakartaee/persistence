@@ -16,15 +16,37 @@
 package jakarta.persistence;
 
 /**
- * A class that implements this interface can be used to convert 
- * entity attribute state into database column representation 
- * and back again.
+ * Interface implemented by custom attribute <em>converters</em>. A
+ * converter is a class whose methods convert between:
+ * <ul>
+ * <li>the <em>target type</em> of the converter, an arbitrary Java
+ *     type which may be used as the type of a persistent field or
+ *     property, and
+ * <li>a {@linkplain Basic basic type} used as an intermediate step
+ *     in mapping to the database representation.
+ * </ul>
  *
- * <p>Note that the types {@code X} and {@code Y} may be the same
- * Java type.
+ * <p>A converted field or property is considered {@link Basic}, since,
+ * with the aid of the converter, its values can be represented as
+ * instances of a basic type.
  *
- * @param <X>  the type of the entity attribute
- * @param <Y>  the type of the database column
+ * <p>A converter class must be annotated {@link Converter} or declared
+ * as a converter in the object/relational mapping descriptor. The value
+ * of {@link Converter#autoApply autoApply} determines if the converter
+ * is automatically applied to persistent fields and properties of the
+ * target type. The {@link Convert} annotation may be used to apply a
+ * converter which is declared {@code autoApply=false}, to explicitly
+ * {@linkplain Convert#disableConversion disable conversion}, or to
+ * resolve ambiguities when multiple converters would otherwise apply.
+ *
+ * <p>Note that the target type {@code X} and the converted basic type
+ * {@code Y} may be the same Java type.
+ *
+ * @param <X> the target type, that is, the type of the entity attribute
+ * @param <Y> a basic type representing the type of the database column
+ *
+ * @see Converter
+ * @see Convert#converter
  */
 public interface AttributeConverter<X,Y> {
 

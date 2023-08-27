@@ -21,37 +21,46 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies that the annotated class is a converter and defines its
- * scope. A converter class must be annotated with the {@code Converter}
- * annotation or defined in the object/relational mapping descriptor as
- * a converter.
+ * Declares that the annotated class is a converter and specifies
+ * whether the converter is {@linkplain #autoApply automatically
+ * applied}.
+ *
+ * <p>Every converter class must implement {@link AttributeConverter}
+ * and must be annotated with the {@code Converter} annotation or
+ * declared as a converter in the object/relational mapping descriptor.
+ * The target type for a converter is determined by the actual type
+ * argument of the first type parameter of {@code AttributeConverter}.
  *
  * <p>If {@link #autoApply autoApply = true}, the persistence provider
- * must automatically apply the converter to all mapped attributes of
- * the specified target type for all entities in the persistence unit
- * except for attributes for which conversion is overridden by means
- * of the {@link Convert} annotation (or XML equivalent).
+ * must automatically apply the converter to every mapped attribute of
+ * the specified target type belonging to any entity in the persistence
+ * unit, except for attributes for which conversion is overridden by
+ * means of the {@link Convert} annotation (or XML equivalent). The
+ * {@link Convert} annotation may be used to override or disable
+ * auto-apply conversion on a per-attribute basis.
+ * <ul>
+ * <li>In determining whether a converter applies to an attribute,
+ *     the provider must treat primitive types and wrapper types as
+ *     equivalent.
+ * <li>A converter never applies to {@linkplain Id id attributes},
+ *     {@linkplain Version version attributes}, relationship attributes,
+ *     or to attributes explicitly annotated {@link Enumerated} or
+ *     {@link Temporal} (or designated as such via XML).
+ * <li>A converter never applies to any attribute annotated
+ *     {@link Convert#disableConversion @Convert(disableConversion=true)},
+ *     or to an attribute for which the {@link Convert} annotation
+ *     explicitly specifies a different {@linkplain Convert#converter
+ *     converter}.
+ * </ul>
  *
- * <p>In determining whether a converter is applicable to an attribute,
- * the provider must treat primitive types and wrapper types as
- * equivalent.
- *
- * <p>Note that id attributes, version attributes, relationship
- * attributes, and attributes explicitly annotated {@link Enumerated}
- * or {@link Temporal} (or designated as such via XML) are not
- * converted.
- *
- * <p>Note that if {@code autoApply = true}, the {@link Convert}
- * annotation may be used to override or disable auto-apply conversion
- * on a per-attribute basis.
- *
- * <p>If {@code autoApply = false}, only those attributes of the target
- * type for which the {@link Convert} annotation (or corresponding XML
- * element) has been specified will be converted.
+ * <p>If {@code autoApply = false}, the converter applies only to
+ * attributes of the target type for which conversion is explicitly
+ * enabled via the {@link Convert} annotation (or corresponding XML
+ * element).
  *
  * <p>If there is more than one converter defined for the same target
- * type, the {@link Convert} annotation should be used to explicitly
- * specify which converter to use.
+ * type, {@link Convert#converter} must be used to explicitly specify
+ * which converter applies.
  *
  * @see AttributeConverter
  * @see Convert
@@ -60,5 +69,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({TYPE}) @Retention(RUNTIME)
 public @interface Converter {
+     /**
+      * Specifies whether the annotated converter should be
+      * automatically applied to attributes of the target
+      * type.
+      */
      boolean autoApply() default false;
 }
