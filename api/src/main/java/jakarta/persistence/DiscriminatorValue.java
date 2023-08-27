@@ -30,8 +30,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p> If the {@code DiscriminatorValue} annotation is not specified,
  * and a discriminator column is used, a provider-specific function
- * will be used to generate a value representing the entity type. If
- * the {@link DiscriminatorType} is {@link DiscriminatorType#STRING
+ * is used to generate a value representing the entity type. If the
+ * {@link DiscriminatorType} is {@link DiscriminatorType#STRING
  * STRING}, the discriminator value default is the entity name.
  *
  * <p>The inheritance strategy and the discriminator column are only
@@ -69,8 +69,8 @@ public @interface DiscriminatorValue {
      *
      * <p> If the {@code DiscriminatorValue} annotation is not specified
      * and a discriminator column is used, a provider-specific function
-     * will be used to generate a value representing the entity type. If
-     * the {@link DiscriminatorType} is {@link DiscriminatorType#STRING
+     * is used to generate a value representing the entity type. If the
+     * {@link DiscriminatorType} is {@link DiscriminatorType#STRING
      * STRING}, the discriminator value default is the entity name.
      */
     String value();

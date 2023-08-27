@@ -157,7 +157,7 @@ public @interface TableGenerator {
      * (Optional) Indexes for the table. These are only used if
      * table generation is in effect. Note that it is not necessary
      * to specify an index for a primary key, as the primary key
-     * index will be created automatically.
+     * index is created automatically.
      *
      * @since 2.1 
      */

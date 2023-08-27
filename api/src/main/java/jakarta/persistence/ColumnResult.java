@@ -69,8 +69,8 @@ public @interface ColumnResult {
 
     /** 
      * (Optional) The Java type to which the column type is to be mapped.
-     * If the {@code type} element is not specified, the default JDBC
-     * type mapping for the column will be used.
+     * If the {@code type} element is not specified, the default JDBC type
+     * mapping for the column is used.
      * @since 2.1
      */
     Class<?> type() default void.class;

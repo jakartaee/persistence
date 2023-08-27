@@ -147,7 +147,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
     Subquery<T> having(List<Predicate> restrictions);
 
     /**
-     * Specify whether duplicate query results will be eliminated.
+     * Specify whether duplicate query results are eliminated.
      * A true value will cause duplicates to be eliminated.
      * A false value will cause duplicates to be retained.
      * If distinct has not been specified, duplicate results must

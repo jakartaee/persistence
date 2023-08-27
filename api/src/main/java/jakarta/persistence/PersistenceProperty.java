@@ -27,7 +27,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  * <p> Vendor specific properties may be included in the set of 
  * properties, and are passed to the persistence provider by the 
  * container when the entity manager is created. Properties that 
- * are not recognized by a vendor will be ignored.
+ * are not recognized by a vendor are ignored.
  *
  * @since 1.0
  */

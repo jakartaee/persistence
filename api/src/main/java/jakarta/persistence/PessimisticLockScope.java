@@ -50,10 +50,10 @@ public enum PessimisticLockScope implements FindOption, RefreshOption, LockOptio
     /**
      * In addition to the locking behavior specified for {@link #NORMAL},
      * element collections and relationships owned by the entity that
-     * are contained in join tables will be locked if the property
+     * are contained in join tables are locked if the property
      * {@code jakarta.persistence.lock.scope} is specified with a value
      * of {@code PessimisticLockScope#EXTENDED}. The state of entities
-     * referenced by such relationships will not be locked (unless those
+     * referenced by such relationships is not locked (unless those
      * entities are explicitly locked). Locking such a relationship or
      * element collection generally locks only the rows in the join table
      * or collection table for that relationship or collection. This means

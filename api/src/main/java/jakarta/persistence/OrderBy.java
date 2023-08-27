@@ -50,13 +50,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * an embedded attribute.  The value of each identifier used with the dot
  * notation is the name of the respective embedded field or property.
  *
- * <p> The {@code OrderBy} annotation may be applied to an element
+ * <p>The {@code OrderBy} annotation may be applied to an element
  * collection. When {@code OrderBy} is applied to an element collection
- * of basic type, the ordering will be by value of the basic objects and
- * the property or field name is not used. When specifying an ordering
- * over an element collection of embeddable type, the dot notation must
- * be used to specify the attribute or attributes that determine the
- * ordering.
+ * of basic type, the ordering is by value of the basic objects and the
+ * property or field name is not used. When specifying an ordering over
+ * an element collection of embeddable type, the dot notation must be
+ * used to specify the attribute or attributes that determine the ordering.
  *
  * <p> The {@code OrderBy} annotation is not used when an order column is
  * specified using {@link OrderColumn}.

@@ -204,7 +204,7 @@ public @interface MapKeyJoinColumn {
      * (Optional) Used to specify or control the generation of a
      * foreign key constraint when table generation is in effect.
      * If this element is not specified, a default foreign key
-     * strategy will be selected by the persistence provider.
+     * strategy is selected by the persistence provider.
      *
      * @since 2.1
      */

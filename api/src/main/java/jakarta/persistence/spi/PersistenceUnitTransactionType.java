@@ -17,9 +17,9 @@
 package jakarta.persistence.spi;
 
 /**
- * Specifies whether entity managers created by the {@link
- * jakarta.persistence.EntityManagerFactory} will be JTA or
- * resource-local entity managers.
+ * Specifies whether entity managers created by the
+ * {@link jakarta.persistence.EntityManagerFactory}
+ * are JTA or resource-local entity managers.
  *
  * @since 1.0
  *
@@ -29,9 +29,9 @@ package jakarta.persistence.spi;
 @Deprecated(since = "3.2", forRemoval = true)
 public enum PersistenceUnitTransactionType {
 
-    /** JTA entity managers will be created. */
+    /** JTA entity managers are created. */
     JTA,
 	
-    /** Resource-local entity managers will be created. */
+    /** Resource-local entity managers are created. */
     RESOURCE_LOCAL
 }

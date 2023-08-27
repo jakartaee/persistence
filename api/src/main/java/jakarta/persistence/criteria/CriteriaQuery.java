@@ -302,7 +302,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
     CriteriaQuery<T> orderBy(List<Order> o);
 
     /**
-     * Specify whether duplicate query results will be eliminated.
+     * Specify whether duplicate query results are eliminated.
      * A true value will cause duplicates to be eliminated.
      * A false value will cause duplicates to be retained.
      * If distinct has not been specified, duplicate results must

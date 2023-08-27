@@ -111,8 +111,8 @@ public interface PersistenceUnitInfo {
     /**
      * Returns the URL for the jar file or directory that is the
      * root of the persistence unit. (If the persistence unit is
-     * rooted in the WEB-INF/classes directory, this will be the 
-     * URL of that directory.)
+     * rooted in the WEB-INF/classes directory, this is the URL
+     * of that directory.)
      * The URL will either be a file: URL referring to a jar file 
      * or referring to a directory that contains an exploded jar
      * file, or some other URL from which an InputStream in jar
@@ -193,11 +193,11 @@ public interface PersistenceUnitInfo {
     ClassLoader getClassLoader();
 
     /**
-     * Add a transformer supplied by the provider that will be called
-     * for every new class definition or class redefinition that gets
+     * Add a transformer supplied by the provider that is called for
+     * every new class definition or class redefinition that gets
      * loaded by the loader returned by the
-     * {@link PersistenceUnitInfo#getClassLoader} method. The transformer
-     * has no effect on the result returned by the
+     * {@link PersistenceUnitInfo#getClassLoader} method. The
+     * transformer has no effect on the result returned by the
      * {@link PersistenceUnitInfo#getNewTempClassLoader} method.
      * Classes are only transformed once within the same classloading
      * scope, regardless of how many persistence units they may be 
@@ -213,10 +213,10 @@ public interface PersistenceUnitInfo {
      * URLs. The scope and classpath of this loader is exactly the
      * same as that of the loader returned by {@link
      * PersistenceUnitInfo#getClassLoader}. None of the classes loaded
-     * by this class loader will be visible to application
-     * components. The provider may only use this {@code ClassLoader}
-     * within the scope of the {@link
-     * PersistenceProvider#createContainerEntityManagerFactory} call.
+     * by this class loader are visible to application components. The
+     * provider may only use this {@code ClassLoader} within the scope
+     * of the {@link PersistenceProvider#createContainerEntityManagerFactory}
+     * call.
      * @return temporary {@code ClassLoader} with same visibility as
      * current loader
      */

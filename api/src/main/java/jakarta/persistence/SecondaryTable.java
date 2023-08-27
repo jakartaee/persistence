@@ -90,14 +90,13 @@ public @interface SecondaryTable {
 
     /**
      * (Optional) Used to specify or control the generation of a
-     * foreign key constraint for the columns corresponding to
-     * the {@link #pkJoinColumns} element when table generation
-     * is in effect. If both this element and the {@code #foreignKey}
+     * foreign key constraint for the columns corresponding to the
+     * {@link #pkJoinColumns} element when table generation is in
+     * effect. If both this element and the {@code #foreignKey}
      * element of any of the {@link #pkJoinColumns} elements are
      * specified, the behavior is undefined. If no foreign key
      * annotation element is specified in either location, a default
-     * foreign key strategy will be selected by the persistence
-     * provider.
+     * foreign key strategy is selected by the persistence provider.
      *
      * @since 2.1
      */

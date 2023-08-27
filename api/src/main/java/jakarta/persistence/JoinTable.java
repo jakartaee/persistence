@@ -111,7 +111,7 @@ public @interface JoinTable {
      * element of any of the {@link #joinColumns} elements are
      * specified, the behavior is undefined. If no foreign key
      * annotation element is specified in either location, a
-     * default foreign key strategy will be selected by the
+     * default foreign key strategy is selected by the
      * persistence provider.
      *
      * @since 2.1
@@ -126,8 +126,7 @@ public @interface JoinTable {
      * element of any of the {@link #inverseJoinColumns} elements
      * are specified, the behavior is undefined. If no foreign key
      * annotation element is specified in either location, a default
-     * foreign key strategy will be selected by the persistence
-     * provider.
+     * foreign key strategy is selected by the persistence provider.
      *
      * @since 2.1
      */

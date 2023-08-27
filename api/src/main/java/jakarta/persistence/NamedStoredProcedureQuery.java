@@ -46,14 +46,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * names one or more result set mappings, as defined by the
  * {@link SqlResultSetMapping} annotation.
  *
- * <p>If there are multiple result sets, it is assumed that they will be
+ * <p>If there are multiple result sets, it is assumed that they are
  * mapped using the same mechanism &#8212; e.g., either all via a set of
  * result class mappings or all via a set of result set mappings. The
  * order of the specification of these mappings must be the same as the
- * order in which the result sets will be returned by the stored
- * procedure invocation. If the stored procedure returns one or more
- * result sets and no {@link #resultClasses} or {@link #resultSetMappings}
- * are specified, any result set will be returned as a list of type
+ * order in which the result sets are returned by the stored procedure
+ * invocation. If the stored procedure returns one or more result sets
+ * and no {@link #resultClasses} or {@link #resultSetMappings} are
+ * specified, any result set is returned as a list of type
  * {@code Object[]}. The combining of different strategies for the mapping
  * of stored procedure result sets is undefined.
  *

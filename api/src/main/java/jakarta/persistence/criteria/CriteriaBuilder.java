@@ -86,7 +86,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create a selection item corresponding to a constructor.
-     * This method is used to specify a constructor that will be
+     * This method is used to specify a constructor that is
      * applied to the results of the query execution. If the
      * constructor is for an entity class, the resulting entities
      * will be in the new state after the query is executed.

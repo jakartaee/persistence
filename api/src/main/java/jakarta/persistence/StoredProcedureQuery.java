@@ -73,7 +73,7 @@ import java.util.List;
  * update counts should be exhausted before calling {@link #getResultList}
  * to retrieve the result set. Alternatively, the {@code REF_CURSOR}
  * result set can be retrieved through {@link #getOutputParameterValue}.
- * Result set mappings will be applied to results corresponding to
+ * Result set mappings are applied to results corresponding to
  * {@code REF_CURSOR} parameters in the order the {@code REF_CURSOR}
  * parameters were registered with the query.</li>
  * <li> In the simplest case, where results are returned only via
@@ -367,7 +367,7 @@ public interface StoredProcedureQuery extends Query {
      * Retrieve the list of results from the next result set.
      * The provider will call {@code execute} on the query
      * if needed.
-     * A {@code REF_CURSOR} result set, if any, will be retrieved
+     * A {@code REF_CURSOR} result set, if any, is retrieved
      * in the order the {@code REF_CURSOR} parameter was 
      * registered with the query.
      * @return a list of the results or null is the next item is not 
@@ -385,7 +385,7 @@ public interface StoredProcedureQuery extends Query {
      * Retrieve a single result from the next result set.
      * The provider will call {@code execute} on the query
      * if needed.
-     * A {@code REF_CURSOR} result set, if any, will be retrieved
+     * A {@code REF_CURSOR} result set, if any, is retrieved
      * in the order the {@code REF_CURSOR} parameter was 
      * registered with the query.
      * @return the result or null if the next item is not a result set
@@ -405,7 +405,7 @@ public interface StoredProcedureQuery extends Query {
      * Retrieve a single result from the next result set.
      * The provider will call {@code execute} on the query
      * if needed.
-     * A {@code REF_CURSOR} result set, if any, will be retrieved
+     * A {@code REF_CURSOR} result set, if any, is retrieved
      * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
      * @return the result or null if the next item is not a result set

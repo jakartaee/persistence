@@ -21,9 +21,9 @@ import java.lang.annotation.Target;
 import static jakarta.persistence.ConstraintMode.CONSTRAINT;
 
 /**
- * Used to specify the handling of foreign key constraints when schema
- * generation is in effect. If this annotation is not specified, a
- * default foreign key strategy will be selected by the persistence
+ * Specifies the handling of foreign key constraints when schema
+ * generation is in effect. If this annotation is not specified,
+ * a default foreign key strategy is selected by the persistence
  * provider.
  *
  * <p>The {@link ConstraintMode} value is used to specify whether

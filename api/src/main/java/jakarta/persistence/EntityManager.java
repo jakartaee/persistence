@@ -76,7 +76,8 @@ import jakarta.persistence.criteria.CriteriaDelete;
  *     active persistence context.
  * <li>A <em>removed</em> entity is an instance with a persistent
  *     identity, and associated with a persistence context, that
- *     will be removed from the database upon transaction commit.
+ *     is scheduled for removal from the database upon transaction
+ *     commit.
  * </ul>
  *
  * <p>The {@code EntityManager} API is used to perform operations
@@ -279,7 +280,7 @@ public interface EntityManager extends AutoCloseable {
      * the lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock. If these checks
-     * fail, the {@link OptimisticLockException} will be thrown.
+     * fail, the {@link OptimisticLockException} is thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
@@ -335,16 +336,15 @@ public interface EntityManager extends AutoCloseable {
      * the lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock.  If these checks
-     * fail, the {@code OptimisticLockException} will be thrown.
+     * fail, the {@code OptimisticLockException} is thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@code PessimisticLockException} is thrown if the
      *     database locking failure causes transaction-level
      *     rollback
-     * <li>the {@code LockTimeoutException} will be thrown if the
-     *     database locking failure causes only statement-level
-     *     rollback
+     * <li>the {@code LockTimeoutException} is thrown if the database
+     *     locking failure causes only statement-level rollback
      * </ul>
      * <p>If a vendor-specific {@linkplain FindOption option} is not
      * recognized, it is silently ignored.
@@ -391,8 +391,8 @@ public interface EntityManager extends AutoCloseable {
      * <p> If the entity is found within the persistence context and
      * the lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
-     * version checks when obtaining the database lock.  If these checks
-     * fail, the {@code OptimisticLockException} will be thrown.
+     * version checks when obtaining the database lock. If these checks
+     * fail, the {@code OptimisticLockException} is thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
@@ -602,7 +602,7 @@ public interface EntityManager extends AutoCloseable {
      * contains a version attribute, the persistence provider must
      * also perform optimistic version checks when obtaining the
      * database lock. If these checks fail, the
-     * {@code OptimisticLockException} will be thrown.
+     * {@link OptimisticLockException} is thrown.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
@@ -1028,7 +1028,7 @@ public interface EntityManager extends AutoCloseable {
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
      * <p>If the stored procedure returns one or more result sets, any
-     * result set will be returned as a list of type {@code Object[]}.
+     * result set is returned as a list of type {@code Object[]}.
      * @param name name assigned to the stored procedure query in
      *        metadata
      * @return the new stored procedure query instance
@@ -1044,7 +1044,7 @@ public interface EntityManager extends AutoCloseable {
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
      * <p>If the stored procedure returns one or more result sets, any
-     * result set will be returned as a list of type {@code Object[]}.
+     * result set is returned as a list of type {@code Object[]}.
      * @param procedureName name of the stored procedure in the database
      * @return the new stored procedure query instance
      * @throws IllegalArgumentException if a stored procedure of the
@@ -1060,8 +1060,8 @@ public interface EntityManager extends AutoCloseable {
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
      * <p>The {@code resultClass} arguments must be specified in the
-     * order in which the result sets will be returned by the stored
-     * procedure invocation.
+     * order in which the result sets is returned by the stored procedure
+     * invocation.
      * @param procedureName name of the stored procedure in the database
      * @param resultClasses classes to which the result sets
      *        produced by the stored procedure are to be mapped
@@ -1080,7 +1080,7 @@ public interface EntityManager extends AutoCloseable {
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
      * <p>The {@code resultSetMapping} arguments must be specified in
-     * the order in which the result sets will be returned by the stored
+     * the order in which the result sets is returned by the stored
      * procedure invocation.
      * @param procedureName name of the stored procedure in the
      *        database

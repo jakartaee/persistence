@@ -18,6 +18,8 @@ package jakarta.persistence;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+import java.util.Map;
+
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -42,10 +44,10 @@ public @interface NamedAttributeNode {
     /**
      * (Optional) If the attribute references a managed type that has
      * its own AttributeNodes, this element is used to refer to that
-     * NamedSubgraph definition.  
+     * {@link NamedSubgraph} definition.
      * If the target type has inheritance, multiple subgraphs can
-     * be specified.  These additional subgraphs are intended to add
-     * subclass-specific attributes.  Superclass subgraph entries will
+     * be specified. These additional subgraphs are intended to add
+     * subclass-specific attributes. Superclass subgraph entries will
      * be merged into subclass subgraphs.  
      *
      * <p> The value of this element is the name of the subgraph as
@@ -58,18 +60,17 @@ public @interface NamedAttributeNode {
    /**
     * (Optional) If the attribute references a Map type, this element
     * can be used to specify a subgraph for the Key in the case of an
-    * Entity key type.  A keySubgraph can not be specified without the
-    * Map attribute also being specified.  If the target type has
-    * inheritance, multiple subgraphs can be specified.  These
-    * additional subgraphs are intended to add subclass-specific
-    * attributes.  Superclass subgraph entries will be merged into
-    * subclass subgraphs.  
+    * Entity key type. A {@code keySubgraph} can not be specified
+    * without the {@code Map} attribute also being specified. If the
+    * target type has inheritance, multiple subgraphs can be specified.
+    * These additional subgraphs are intended to add subclass-specific
+    * attributes. Superclass subgraph entries are merged into subclass
+    * subgraphs.
     * 
     * <p> The value of this element is the name of the key subgraph as
     * specified by the {@code name} element of the corresponding
-    * {@code NamedSubgraph} element.  If multiple key subgraphs
-    * are specified due to inheritance, they are referenced by this
-    * name.
+    * {@link NamedSubgraph} element. If multiple key subgraphs are
+    * specified due to inheritance, they are referenced by this name.
     */
     String keySubgraph() default "";
 }
