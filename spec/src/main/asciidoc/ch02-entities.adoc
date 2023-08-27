@@ -1114,7 +1114,7 @@ public class MedicalHistory {
 }
 ----
 
-=== Basic Type
+=== Basic Type [[a486]]
 
 A basic type is any Java primitive type, wrapper of the primitive types, java.lang.String,
 java.math.BigInteger, java.math.BigDecimal, java.util.Date, java.util.Calendar,

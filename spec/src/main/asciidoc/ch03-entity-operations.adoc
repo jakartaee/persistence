@@ -3901,23 +3901,29 @@ and _description_ attributes) are also fetched.
 
 === Type Conversion of Basic Attributes [[a2999]]
 
-The attribute conversion facility
-allows the developer to specify methods to convert between the entity
-attribute representation and the database representation for attributes
-of basic types. Converters can be used to convert basic attributes
-defined by entity classes, mapped superclasses, or embeddable
-classes.footnote:[We plan to provide a
-facility for more complex attribute conversions in a future release of
-this specification.]
+The attribute conversion facility allows the developer to define custom
+attribute converters. A _converter_ is a class whose methods convert
+between:
 
-An attribute converter must implement the
-_jakarta.persistence.AttributeConverter_ interface. A converter
-implementation class must be annotated with the _Converter_ annotation
-or defined in the XML descriptor as a converter. If the value of the
-_autoApply_ element of the _Converter_ annotation is _true_, the
-converter will be applied to all attributes of the target type,
-including to basic attribute values that are contained within other,
-more complex attribute types. See <<a13903>>.
+- the _target type_ of the converter, an arbitrary Java type which may be
+  used as the type of a persistent field or property, and
+- a basic type (see <<a486>>) used as an intermediate step in mapping to
+  the database representation.
+
+A converter can be used to convert attributes defined by entity classes,
+mapped superclasses, or embeddable classes.footnote:[We plan to provide a
+facility for more complex attribute conversions in a future release of
+this specification.] A converted attribute is considered a basic attribute,
+since, with the aid of the converter, its values can be represented as
+instances of a basic type.
+
+Every attribute converter class must implement the interface
+_jakarta.persistence.AttributeConverter_ and must be annotated with the
+_Converter_ annotation or declared as a converter in the XML descriptor.
+If the value of the _autoApply_ element of the _Converter_ annotation is
+_true_, the converter is automatically applied to all attributes of the
+target type, including to basic attribute values that are contained within
+other, more complex attribute types. See <<a13903>>.
 
 [source,java]
 ----

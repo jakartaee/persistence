@@ -995,17 +995,24 @@ public BigDecimal getCost() {
 
 ==== Convert Annotation [[a14398]]
 
-The _Convert_ annotation is applied directly
-to an attribute of an entity, mapped superclass, or embeddable class to
-specify conversion of a Basic attribute or to override the use of a
-converter that has been specified as _autoApply=true_. When persistent
-properties are used, the _Convert_ annotation is applied to the getter
-method. It is not necessary to use the _Basic_ annotation or
-corresponding XML element to specify the basic type
+The _Convert_ annotation specifies how the values of a field or property
+are converted to a basic type, enabling a converter which was defined
+_autoApply=false_, overriding the use of a converter which was defined
+_autoApply=true_ (see <<a13903>>), or overriding the use of a converter
+specified by a field or property of an embedded type or inherited mapped
+superclass.
 
-The _Convert_ annotation may be applied to an
-entity that extends a mapped superclass to specify or override the
-conversion mapping for an inherited basic attribute.
+When persistent properties are used, the _Convert_ annotation is applied
+to the getter method.
+
+It is not necessary to use the _Basic_ annotation or corresponding XML
+element to specify the converted basic type. Nor is it usually necessary
+to explicitly specify the converter class, except to disambiguate cases
+where multiple converters would otherwise apply.
+
+The _Convert_ annotation may be applied to an entity that extends a
+mapped superclass to specify or override the conversion mapping for
+an inherited basic attribute.
 
 [source,java]
 ----
@@ -1019,8 +1026,8 @@ public @interface Convert {
 }
 ----
 
-<<a14410>> lists the annotation elements that may be specified
-for the _Convert_ annotation.
+<<a14410>> lists the annotation elements that may be specified for the
+_Convert_ annotation.
 
 .Convert Annotation Elements
 [#a14410,options="header"]
@@ -1035,7 +1042,7 @@ for the _Convert_ annotation.
 |String
 |attributeName
 |(Optional) The name of the attribute to
-convert. Must be specified unless the Convert annotation is applied to
+convert. Must be specified unless the _Convert_ annotation is applied to
 an attribute of basic type or to an element collection of basic type.
 Must not be specified otherwise.
 |The basic
@@ -1044,62 +1051,76 @@ is applied
 
 |boolean
 |disableConversion
-|(Optional) Whether conversion of the
-attribute is to be disabled.
+|(Optional) Whether conversion of the attribute is to be disabled.
 |false
 |===
 
-The _converter_ element is used to specify
-the converter that is to be applied. If an autoApply converter is
-applicable to the given field or property, the converter specified by
-the _converter_ element will be applied instead.
+The _converter_ element specifies the converter that is applied. Even if
+an automatically-applied converter would otherwise be applicable to the
+annotated field or property, the converter specified by the _converter_
+element must be applied instead.
 
-The _disableConversion_ element specifies
-that any applicable autoApply converter must not be applied.
+The _disableConversion_ element specifies that any automatically-applied
+converter that would otherwise be applicable to the given field or property
+must not be applied.
 
-The behavior is undefined if neither the
-_converter_ element nor the _disableConversion_ element has been
-specified.
+If neither the _converter_ element nor the _disableConversion_ element is
+specified, and there is exactly one converter for the type of the annotated
+field or property, that converter is applied, even if it is not an
+automatically-applied converter.
 
-The _Convert_ annotation should not be used
-to specify conversion of the following: Id attributes (including the
-attributes of embedded ids and derived identities), version attributes,
-relationship attributes, and attributes explicitly annotated (or
-designated via XML) as _Enumerated_ or _Temporal_. Applications that
-specify such conversions will not be portable.
+If multiple converters are applicable to the annotated field or property,
+and the _converter_ element is not specified, the behavior is undefined.
 
-The _Convert_ annotation may be applied to a
-basic attribute or to an element collection of basic type (in which case
-the converter is applied to the elements of the collection). In these
-cases, the _attributeName_ element must not be specified.
+The _Convert_ annotation should not be used to specify conversion of
+id attributes, (including the attributes of embedded ids and derived
+identities), of version attributes, of relationship attributes, or of
+attributes explicitly annotated (or designated via XML) as _Enumerated_
+or _Temporal_. Applications that depend on such conversions are not
+portable.
 
-The _Convert_ annotation may be applied to an
-embedded attribute or to a map collection attribute whose key or value
-is of embeddable type (in which case the converter is applied to the
-specified attribute of the embeddable instances contained in the
-collection). In these cases, the _attributeName_ element must be
-specified.
+The _Convert_ annotation may be applied to:
 
-To override conversion mappings at multiple
-levels of embedding, a dot (_"."_) notation form must be used in the
-_attributeName_ element to indicate an attribute within an embedded
-attribute. The value of each identifier used with the dot notation is
-the name of the respective embedded field or property.
+- a basic attribute, or
+- a collection attribute (that is, an _ElementCollection_) of any
+  type other than _Map_, in which case the converter is applied to
+  the elements of the collection.
 
-When the _Convert_ annotation is applied to a
-map containing instances of embeddable classes, the _attributeName_
-element must be specified, and _"key."_ or _"value."_ must be used to
-prefix the name of the attribute that is to be converted in order to
-specify it as part of the map key or map value.
+In these cases, the _attributeName_ element must not be specified.
 
-When the _Convert_ annotation is applied to a
-map to specify conversion of a map key of basic type, _"key"_ must be
-used as the value of the _attributeName_ element to specify that it is
-the map key that is to be converted.
+Alternatively, the _Convert_ annotation may be applied to:
 
-The _Convert_ annotation may be applied to an
-entity class that extends a mapped superclass to specify or override a
-conversion mapping for an inherited basic or embedded attribute.
+- an embedded attribute,
+- a collection attribute (that is, an _ElementCollection_) whose
+  element type is an embeddable type, in which case the converter
+  is applied to the specified attribute of the embeddable instances
+  contained in the collection,
+- a map collection attribute (that is, an _ElementCollection_ of
+  type _Map_), in which case the converter is applied to the keys or
+  values of the map, or to the specified attribute of the embeddable
+  instances contained in the map, or
+- an entity class which extends a mapped superclass, to enable or
+  override conversion of an inherited basic or embedded attribute.
+
+In these cases, the _attributeName_ element must be specified.
+
+To override conversion mappings at multiple levels of embedding, a dot
+(_"."_) notation form must be used in the _attributeName_ element to
+indicate an attribute within an embedded attribute. The value of each
+identifier used with the dot notation is the name of the respective
+embedded field or property.
+
+The dot notation may also be used with map entries:
+
+- When the _Convert_ annotation is applied to a map to specify conversion
+  of a map key or value of basic type, _"key"_ or _"value"_, respectively,
+  must be used as the value of the _attributeName_ element to specify that
+  it is the map key or value that is converted.
+
+- When the _Convert_ annotation is applied to a map whose key or value type
+  is an embeddable type, the _attributeName_ element must be specified, and
+  _"key."_ or _"value."_ (respectively) must be used to prefix the name of
+  the attribute of the key or value type that is converted.
 
 *Example 1:* Convert a basic attribute
 
