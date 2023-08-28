@@ -23,12 +23,24 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares a class whose instances are stored as an intrinsic
+ * Declares a type whose instances are stored as an intrinsic
  * part of an owning entity, sharing the identity of the entity.
- * A single embeddable class may be used as the type of multiple
+ * A single embeddable type may be used as the type of multiple
  * persistent fields or properties, across several entities,
- * and so distinct instances of an embeddable class might have
+ * and so distinct instances of an embeddable type might have
  * owning entities of completely unrelated entity types.
+ *
+ * <p>The annotated type must:
+ * <ul>
+ * <li>be a non-{@code abstract}, non-{@code final} top-level
+ *     class or static inner class, or a Java record type,
+ * <li>have a {@code public} or {@code protected} constructor
+ *     with no parameters, unless it is a record type, and
+ * <li>have no {@code final} methods or persistent instance
+ *     variables.
+ * </ul>
+ * <p>An enum or interface may not be designated as an embeddable
+ * type.
  *
  * <p>An embeddable class does not have its own table. Instead,
  * the state of an instance is stored in the table or tables

@@ -23,8 +23,15 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares that the annotated class is an entity. This annotation is
- * applied to the entity class.
+ * Declares that the annotated class is an entity. The annotated entity
+ * class must:
+ * <ul>
+ * <li>be a non-{@code final} top-level class or static inner class,
+ * <li>have a {@code public} or {@code protected} constructor with no
+ *     parameters, and
+ * <li>have no {@code final} methods or persistent instance variables.
+ * </ul>
+ * <p>An enum, record, or interface may not be designated as an entity.
  *
  * <p>An entity has a primary table, mapped using the {@link Table}
  * annotation, and may have one or more secondary tables, mapped using
