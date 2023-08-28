@@ -24,7 +24,7 @@
     <groupId>jakarta.persistence</groupId>
     <artifactId>persistence-spec</artifactId>
     <packaging>pom</packaging>
-    <version>3.2-SNAPSHOT</version>
+    <version>3.2-DRAFT01</version>
     <name>Jakarta Persistence Specification</name>
 
     <properties>
