@@ -1085,6 +1085,22 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
+     * Create an instance of {@link TypedQuery} for executing a
+     * named query written in the Jakarta Persistence query
+     * language or in native SQL.
+     * @param reference a reference to the query defined in metadata
+     * @return the new query instance
+     * @throws IllegalArgumentException if a query has not been
+     *         defined, or if the query string is found to be
+     *         invalid, or if the query result is found to not be
+     *         assignable to the specified type
+     * @see EntityManagerFactory#getNamedQueries(Class)
+     * @see NamedQuery
+     * @see NamedNativeQuery
+     */
+    <T> TypedQuery<T> createQuery(TypedQueryReference<T> reference);
+
+    /**
      * Create an instance of {@link Query} for executing a native
      * SQL statement, e.g., for update or delete.
      *
