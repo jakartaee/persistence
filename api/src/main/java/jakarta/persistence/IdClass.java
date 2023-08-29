@@ -22,24 +22,39 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a composite primary key class that is mapped to 
- * multiple fields or properties of the annotated entity.
+ * Specifies a composite primary key type whose fields or
+ * properties map to the {@linkplain Id identifier} fields
+ * or properties of the annotated entity class.
+ *
+ * <p>The specified primary key type must:
+ * <ul>
+ * <li>be a non-{@code abstract} regular Java class, or a
+ *     Java record type,
+ * <li>have a {@code public} or {@code protected} constructor
+ *     with no parameters, unless it is a record type, and
+ * <li>implement {@link #equals} and {@link #hashCode}, defining
+ *     value equality consistently with equality of the mapped
+ *     primary key of the database table.
+ * </ul>
  *
  * <p>The primary key fields of the entity must be annotated
- * {@link Id}, and the specified primary key class must have
+ * {@link Id}, and the specified primary key type must have
  * fields or properties with matching names and types. The
- * mapping of fields or properties of the entity to fields or
- * properties of the primary key class is implicit.
+ * mapping of fields or properties of the entity to fields
+ * or properties of the primary key class is implicit. The
+ * primary key type does not itself need to be annotated.
  *
  * <p>Example:
  * <pre>
- *   &#064;IdClass(com.acme.EmployeePK.class)
+ *   &#064;IdClass(EmployeePK.class)
  *   &#064;Entity
  *   public class Employee {
  *      &#064;Id String empName;
  *      &#064;Id Date birthDay;
  *      ...
  *   }
+ *
+ *   public record EmployeePK(String empName, Date birthDay) {}
  * </pre>
  *
  * @see EmbeddedId

@@ -23,35 +23,48 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Applied to a persistent field or property of an entity class
- * or mapped superclass to denote a composite primary key that
- * is an embeddable class. The embeddable class must be annotated
- * as {@link Embeddable}.
+ * Specifies that the annotated persistent field or property
+ * of an entity class or mapped superclass is the composite
+ * primary key of the entity. The type of the annotated field
+ * or property must be an {@linkplain Embeddable embeddable}
+ * type, and must be explicitly annotated {@link Embeddable}.
  *
- * <p>There must be only one {@code EmbeddedId} annotation and
- * no {@link Id} annotation when the {@link EmbeddedId} annotation
- * is used.
+ * <p>If a field or property of an entity class is annotated
+ * {@code EmbeddedId}, then no other field or property of the
+ * entity may be annotated {@link Id} or {@code EmbeddedId},
+ * and the entity class must not declare an {@link IdClass}.
+ *
+ * <p>The embedded primary key type must implement
+ * {@link #equals} and {@link #hashCode}, defining value
+ * equality consistently with equality of the mapped primary
+ * key of the database table.
  *
  * <p>The {@link AttributeOverride} annotation may be used to
  * override the column mappings declared within the embeddable
  * class.
  * 
  * <p>The {@link MapsId} annotation may be used in conjunction
- * with the {@code EmbeddedId} annotation to specify a derived
+ * with the {@code EmbeddedId} annotation to declare a derived
  * primary key.
  *
  * <p>If the entity has a derived primary key, the
- * {@link AttributeOverride} annotation may only be used to override
- * those attributes of the embedded id that do not correspond to the
- * relationship to the parent entity.
+ * {@link AttributeOverride} annotation may only be used to
+ * override those attributes of the embedded id that do not
+ * correspond to the relationship to the parent entity.
  *
- * <p>Relationship mappings defined within an embedded id class are
- * not supported.
+ * <p>Relationship mappings defined within an embedded primary
+ * key type are not supported.
  *
  * <p>Example 1:
  * <pre>
- *    &#064;EmbeddedId
- *    protected EmployeePK empPK;
+ *    &#064;Entity
+ *    public class Employee {
+ *       &#064;EmbeddedId
+ *       protected EmployeePK empPK;
+ *       ...
+ *    }
+ *
+ *    public record EmployeePK(String empName, Date birthDay) {}
  * </pre>
  *
  * <p>Example 2:
@@ -81,5 +94,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
-
 public @interface EmbeddedId {}
