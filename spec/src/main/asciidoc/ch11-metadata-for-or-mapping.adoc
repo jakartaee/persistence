@@ -1914,23 +1914,21 @@ the provider must not generate a foreign key constraint.
 
 ==== GeneratedValue Annotation [[a14790]]
 
-The _GeneratedValue_ annotation provides for
-the specification of generation strategies for the values of primary
-keys. The _GeneratedValue_ annotation may be applied to a primary key
-property or field of an entity or mapped superclass in conjunction with
-the _Id_ annotation.footnote:[Portable
-applications should not use the _GeneratedValue_ annotation on other
-persistent fields or properties.] The use of the
-_GeneratedValue_ annotation is only required to be supported for simple
-primary keys. Use of the _GeneratedValue_ annotation is not supported
-for derived primary keys.
+The _GeneratedValue_ annotation specifies a generation strategy for the
+values of primary keys. The _GeneratedValue_ annotation may be applied
+to a primary key property or field of an entity or mapped superclass in
+conjunction with the _Id_ annotation.footnote:[Portable applications
+should not use the _GeneratedValue_ annotation on other persistent
+fields or properties.] The persistence provider is only required to
+support the use of the _GeneratedValue_ annotation for simple primary
+keys. Use of the _GeneratedValue_ annotation for derived primary keys
+is not supported.
 
-<<a14806>> lists the annotation elements that
-may be specified for the _GeneratedValue_ annotation and their default
-values.
+<<a14806>> lists the annotation elements that may be specified for the
+_GeneratedValue_ annotation and their default values.
 
-The types of primary key generation are
-defined by the _GenerationType_ enum:
+The types of primary key generation are defined by the _GenerationType_
+enum:
 
 [source,java]
 ----
@@ -1952,8 +1950,8 @@ A _TABLE_, _SEQUENCE_, or _IDENTITY_ generator may be used to generate
 values for a primary key property or field of type _java.lang.Long_,
 _java.lang.Integer_, _long_, or _int_.
 
-The _UUID_ value indicates that the persistence provider should
-assign an RFC 4122 Universally Unique IDentifier.
+The _UUID_ value indicates that the persistence provider should assign
+an RFC 4122 Universally Unique IDentifier.
 
 A _UUID_ generator may be used to generate values for a primary key
 property or field of type _java.util.UUID_ or _java.lang.String_.
@@ -1971,14 +1969,19 @@ or it may attempt to create one. A vendor may provide documentation on
 how to create such resources in the event that it does not support
 schema generation or cannot create the schema resource at runtime.
 
-This specification does not define the exact
-behavior of these strategies.
+This specification does not define the exact behavior of these strategies.
 
 However, if the persistence provider stores a value generated according
 to the _UUID_ strategy in a column of type _VARCHAR_ or equivalent, the
 value must be stored in its canonical representation, unless the
 application explicitly indicates that some other representation is
 preferred.
+
+The _name_ member specifies the name of a generator to use, and defaults
+to the entity name of the entity in which the _GeneratedValue_ annotation
+occurs. If the _name_ is not specified, and if there is no generator with
+the defaulted name, then the persistence provider supplies a default id
+generator, of a type compatible with the value of the _strategy_ member.
 
 [source,java]
 ----
@@ -1997,17 +2000,16 @@ public @interface GeneratedValue {
 
 |GenerationType
 |strategy
-|(Optional) The primary key generation
-strategy that the persistence provider must use to generate the
-annotated entity primary key.
+|(Optional) The primary key generation strategy that the persistence
+provider must use to generate the annotated entity primary key.
 |GenerationType.AUTO
 
 |String
 |generator
-|(Optional) The name of the primary key
-generator to use as specified in the SequenceGenerator or TableGenerator
-annotation.
-|Default primary key generator supplied by persistence provider.
+|(Optional) The name of the primary key generator to use as specified
+in the _SequenceGenerator_ or _TableGenerator_ annotation which
+declares the generator.
+|The entity name of the entity in which the annotation occurs.
 |===
 
 *Example 1:*
@@ -4925,16 +4927,15 @@ public @interface SequenceGenerator {
 
 |String
 |name
-|(Required) A unique generator name that can
-be referenced by one or more classes to be the generator for primary key
-values.
-|
+|(Optional) A unique generator name that can be referenced by one or more
+classes to be the generator for primary key values.
+|See text above
 
 |String
 |sequenceName
-|(Optional) The name of the database sequence
-object from which to obtain primary key values.
-|A provider- chosen value
+|(Optional) The name of the database sequence object from which to obtain
+primary key values.
+|A provider-chosen sequence name
 
 |String
 |catalog
@@ -5144,15 +5145,14 @@ public @interface TableGenerator {
 
 |String
 |name
-|(Required) A unique generator name that can be referenced by one or more classes
-to be the generator for primary key values.
-|
+|(Optional) A unique generator name that can be referenced by one or more
+classes to be the generator for primary key values.
+|See text above
 
 |String
 |table
-|(Optional) Name of table that stores the
-generated primary key values.
-|Name is chosen by persistence provider
+|(Optional) Name of table that stores the generated primary key values.
+|A provider-chosen table name
 
 |String
 |catalog
