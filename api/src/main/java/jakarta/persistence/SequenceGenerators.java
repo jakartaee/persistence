@@ -17,6 +17,7 @@ package jakarta.persistence;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PACKAGE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -29,7 +30,7 @@ import java.lang.annotation.Target;
  * @see SequenceGenerator
  * @since 2.2
  */
-@Target({TYPE, METHOD, FIELD}) 
+@Target({TYPE, METHOD, FIELD, PACKAGE})
 @Retention(RUNTIME)
 public @interface SequenceGenerators {
 

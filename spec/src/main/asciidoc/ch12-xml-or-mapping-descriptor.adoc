@@ -3046,7 +3046,7 @@ object/relational mapping schema for use with the persistence API.
     <xsd:annotation>
       <xsd:documentation>
 
-        @Target({TYPE, METHOD, FIELD}) @Retention(RUNTIME)
+        @Target({TYPE, METHOD, FIELD, PACKAGE}) @Retention(RUNTIME)
         public @interface SequenceGenerator {
           String name() default "";
           String sequenceName() default "";
@@ -3155,7 +3155,7 @@ object/relational mapping schema for use with the persistence API.
     <xsd:annotation>
       <xsd:documentation>
 
-        @Target({TYPE, METHOD, FIELD}) @Retention(RUNTIME)
+        @Target({TYPE, METHOD, FIELD, PACKAGE}) @Retention(RUNTIME)
         public @interface TableGenerator {
           String name() default "";
           String table() default "";
