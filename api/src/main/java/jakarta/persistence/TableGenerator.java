@@ -22,6 +22,7 @@ import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PACKAGE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -40,6 +41,16 @@ import java.lang.annotation.Repeatable;
  * occurs on an entity class or primary key attribute of an
  * entity class, then the name defaults to the name of the
  * entity.
+ *
+ * <p>If no name is explicitly specified, and the annotation occurs
+ * on a package descriptor, then the annotation defines a recipe for
+ * producing a default generator when a {@link GeneratedValue}
+ * annotation of any program element in the annotated package has
+ * {@link GeneratedValue#strategy strategy=TABLE} and a defaulted
+ * {@linkplain GeneratedValue#generator generator name}. The name of
+ * this default generator is the defaulted generator name, and its
+ * other properties are determined by the members of the package
+ * {@code TableGenerator} annotation.
  *
  * <p>Example 1:
  * <pre>
@@ -80,7 +91,7 @@ import java.lang.annotation.Repeatable;
  * @since 1.0
  */
 @Repeatable(TableGenerators.class)
-@Target({TYPE, METHOD, FIELD}) 
+@Target({TYPE, METHOD, FIELD, PACKAGE})
 @Retention(RUNTIME)
 public @interface TableGenerator {
 

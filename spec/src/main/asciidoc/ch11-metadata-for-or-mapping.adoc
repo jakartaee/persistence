@@ -4900,13 +4900,21 @@ and the annotation occurs on an entity class or primary key attribute of
 an entity class, then the name defaults to the name of the entity.
 Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
 
-<<a16179>> lists the annotation elements
-that may be specified for the _SequenceGenerator_ annotation and their
-default values.
+If no name is explicitly specified by the _SequenceGenerator_ annotation,
+and the annotation occurs on a package descriptor, then the annotation
+defines a recipe for producing a default generator when a _GeneratedValue_
+annotation of any program element in the annotated package has
+_strategy=SEQUENCE_ and a defaulted _generator_ name. The name of this
+default generator is the defaulted generator name, and its other properties
+are determined by the members of the package-level _SequenceGenerator_
+annotation.
+
+<<a16179>> lists the annotation elements that may be specified for the
+_SequenceGenerator_ annotation and their default values.
 
 [source,java]
 ----
-@Target({TYPE, METHOD, FIELD})
+@Target({TYPE, METHOD, FIELD, PACKAGE})
 @Retention(RUNTIME)
 @Repeatable(SequenceGenerators.class)
 public @interface SequenceGenerator {
@@ -4979,7 +4987,7 @@ to specify multiple sequence generators.
 
 [source,java]
 ----
-@Target({TYPE, METHOD, FIELD})
+@Target({TYPE, METHOD, FIELD, PACKAGE})
 @Retention(RUNTIME)
 public @interface SequenceGenerators {
     SequenceGenerator[] value();
@@ -5107,9 +5115,17 @@ and the annotation occurs on an entity class or primary key attribute
 of an entity class, then the name defaults to the name of the entity.
 Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
 
-<<a162771>> lists the annotation elements that
-may be specified for the _TableGenerator_ annotation and their default
-values.
+If no name is explicitly specified by the _TableGenerator_ annotation,
+and the annotation occurs on a package descriptor, then the annotation
+defines a recipe for producing a default generator when a _GeneratedValue_
+annotation of any program element in the annotated package has
+_strategy=TABLE_ and a defaulted _generator_ name. The name of this
+default generator is the defaulted generator name, and its other properties
+are determined by the members of the package-level _TableGenerator_
+annotation.
+
+<<a162771>> lists the annotation elements that may be specified for the
+_TableGenerator_ annotation and their default values.
 
 The _table_ element specifies the name of the
 table that is used by the persistence provider to store generated
@@ -5119,7 +5135,7 @@ primary key values are normally positive integers.
 
 [source,java]
 ----
-@Target({TYPE, METHOD, FIELD})
+@Target({TYPE, METHOD, FIELD, PACKAGE})
 @Retention(RUNTIME)
 @Repeatable(TableGenerators.class)
 public @interface TableGenerator {
@@ -5265,7 +5281,7 @@ specify multiple table generators.
 
 [source,java]
 ----
-@Target({TYPE, METHOD, FIELD})
+@Target({TYPE, METHOD, FIELD, PACKAGE})
 @Retention(RUNTIME)
 public @interface TableGenerators {
     TableGenerator[] value();
