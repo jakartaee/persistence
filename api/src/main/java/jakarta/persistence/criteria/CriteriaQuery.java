@@ -118,7 +118,12 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * @throws IllegalArgumentException if a selection item is
      *         not valid or if more than one selection item has
      *         the same assigned alias
+     *
+     * @deprecated Since this method is not typesafe, the use of
+     * {@link CriteriaBuilder#array} or {@link CriteriaBuilder#tuple}
+     * with {@link #select} is strongly preferred.
      */
+    @Deprecated(since = "3.2")
     CriteriaQuery<T> multiselect(Selection<?>... selections);
 
 
@@ -177,7 +182,12 @@ public interface CriteriaQuery<T> extends AbstractQuery<T> {
      * @throws IllegalArgumentException if a selection item is
      *         not valid or if more than one selection item has
      *         the same assigned alias
+     *
+     * @deprecated Since this method is not typesafe, the use of
+     * {@link CriteriaBuilder#array} or {@link CriteriaBuilder#tuple}
+     * with {@link #select} is strongly preferred.
      */
+    @Deprecated(since = "3.2")
     CriteriaQuery<T> multiselect(List<Selection<?>> selectionList);
 
     /**
