@@ -41,7 +41,7 @@ Added constants for managed types, named queries, named graphs and named result 
 
 Added _LocalDateTime_ and _Instant_ to supported _Version_ types
 
-Added _where()_, _having()_, _and()_, and _or()_ overloads accepting _List<Predicate>_ to _CriteriaQuery_ and _CriteriaBuilder_
+Added _where()_, _having()_, _and()_, _or()_, _array()_, _tuple()_ overloads accepting _List_ to _CriteriaQuery_ and _CriteriaBuilder_
 
 Added _equalTo()_ and _notEqualTo()_ to _Expression_
 

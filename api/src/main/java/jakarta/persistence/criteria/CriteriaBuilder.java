@@ -108,13 +108,33 @@ public interface CriteriaBuilder {
     CompoundSelection<Tuple> tuple(Selection<?>... selections);
 
     /**
+     * Create a tuple-valued selection item.
+     * @param selections  list of selection items
+     * @return tuple-valued compound selection
+     * @throws IllegalArgumentException if an argument is a
+     *         tuple- or array-valued selection item
+     * @since 3.2
+     */
+    CompoundSelection<Tuple> tuple(List<Selection<?>> selections);
+
+    /**
      * Create an array-valued selection item.
      * @param selections  selection items
      * @return array-valued compound selection
-     * @throws IllegalArgumentException if an argument is a 
+     * @throws IllegalArgumentException if an argument is a
      *         tuple- or array-valued selection item
      */
     CompoundSelection<Object[]> array(Selection<?>... selections);
+
+    /**
+     * Create an array-valued selection item.
+     * @param selections  list of selection items
+     * @return array-valued compound selection
+     * @throws IllegalArgumentException if an argument is a
+     *         tuple- or array-valued selection item
+     * @since 3.2
+     */
+    CompoundSelection<Object[]> array(List<Selection<?>> selections);
 
 
     //ordering:
