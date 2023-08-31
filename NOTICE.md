@@ -1,4 +1,4 @@
-[//]: # " Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved. "
+[//]: # " Copyright (c) 2019, 2023 Oracle and/or its affiliates. All rights reserved. "
 [//]: # "  "
 [//]: # " This program and the accompanying materials are made available under the "
 [//]: # " terms of the Eclipse Distribution License v. 1.0, which is available at "
@@ -8,14 +8,13 @@
 
 # Notices for Jakarta Persistence
 
-This content is produced and maintained by the Jakarta Persistence
-project.
+This content is produced and maintained by the Jakarta Persistence project.
 
 * Project home: https://projects.eclipse.org/projects/ee4j.jpa
 
 ## Trademarks
 
- Jakarta Persistence is a trademark of the Eclipse Foundation.
+Jakarta Persistence is a trademark of the Eclipse Foundation.
 
 ## Copyright
 
@@ -27,8 +26,8 @@ source code repository logs.
 
 This program and the accompanying materials are made available under the terms
 of the Eclipse Public License v. 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License v. 1.0
-which is available at http://www.eclipse.org/org/documents/edl-v10.php.
+https://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License v1.0
+which is available at https://www.eclipse.org/org/documents/edl-v10.php.
 
 SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
@@ -36,7 +35,7 @@ SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 The project maintains the following source code repositories:
 
-* https://github.com/eclipse-ee4j/jpa-api
+* https://github.com/jakartaee/persistence
 
 ## Third-party Content
 

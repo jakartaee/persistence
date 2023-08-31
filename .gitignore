@@ -2,3 +2,10 @@
 target/
 *.iml
 /.idea/
+/www/_site/
+/www/CONTRIBUTING.md
+/www/latest/
+/www/latest-nightly
+www/.sass-cache
+www/.jekyll-cache
+www/.jekyll-metadata

@@ -1,0 +1,110 @@
+<!-- nav -->
+<aside id="main-sidebar">
+    <ul id="leftnav" class="ul-left-nav fa-ul hidden-print">
+
+        <li class="separator">
+            <a class="separator" href="#">Downloads</a>
+        </li>
+
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.officialhome }}">Official releases</a>
+        </li>
+
+        <li class="separator">
+            <a class="separator" href="#">Latest stable .NEXT</a>
+        </li>
+
+        {% if site.links.stablejavadocs %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.stablejavadocs }}">APIs</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.stablehtml %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.stablehtml }}">Specification draft (html)</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.stablepdf %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.stablepdf }}">Specification draft (pdf)</a>
+        </li>
+        {% endif %}
+
+        <li class="separator">
+            <a class="separator" href="#">Latest nightly</a>
+        </li>
+
+        {% if site.links.nightlyjavadocs %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.nightlyjavadocs }}">APIs</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.nightlyhtml %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.nightlyhtml }}">Specification draft (html)</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.nightlypdf %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.nightlypdf }}">Specification draft (pdf)</a>
+        </li>
+        {% endif %}
+
+        <li class="separator">
+            <a class="separator" href="#">Project Resources</a>
+        </li>
+
+        {% if site.links.source %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.source }}">Sources</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.hide_issuetracker != true %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.github.issues_url }}">Issue Tracker</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.discussions %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.discussions }}">Discussions</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.mailinglist %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.mailinglist }}">Mailing list</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.minutes %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.minutes }}">Meeting Minutes</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.contrib %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.contrib }}">Contributing</a>
+        </li>
+        {% endif %}
+    </ul>
+</aside>

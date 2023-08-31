@@ -1,0 +1,25 @@
+github: [metadata]
+remote_theme: jakartaee/jekyll-theme-jakarta-ee
+#theme: jekyll-theme-jakarta-ee
+
+title: [Jakarta Persistence]
+description: [Specification Project]
+
+links:
+  officialhome: https://jakarta.ee/specifications/persistence/
+  source: https://github.com/jakartaee/persistence
+  javadocs: latest/api/
+  stablejavadocs: latest/api
+  stablehtml: latest/draft.html
+  stablepdf: latest/draft.pdf
+  nightlyjavadocs: latest-nightly/api
+  nightlyhtml: latest-nightly/nightly.html
+  nightlypdf: latest-nightly/nightly.pdf
+#  download: https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/
+  discussions: https://github.com/jakartaee/persistence/discussions
+  mailinglist: https://accounts.eclipse.org/mailing-list/jpa-dev
+  #faq: FAQ
+  contrib: CONTRIBUTING
+
+include:
+  - CONTRIBUTING.md
