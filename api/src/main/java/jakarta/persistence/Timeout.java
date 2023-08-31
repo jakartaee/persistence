@@ -33,7 +33,7 @@ public class Timeout implements FindOption, RefreshOption, LockOption {
      * Specify a timeout in seconds.
      * (Abbreviation of {@link #seconds(int)}.)
      */
-    public Timeout s(int seconds) {
+    public static Timeout s(int seconds) {
         return new Timeout(seconds*1_000);
     }
 
@@ -41,21 +41,21 @@ public class Timeout implements FindOption, RefreshOption, LockOption {
      * Specify a timeout in milliseconds.
      * (Abbreviation of {@link #milliseconds(int)}.)
      */
-    public Timeout ms(int milliseconds) {
+    public static Timeout ms(int milliseconds) {
         return new Timeout(milliseconds);
     }
 
     /**
      * Specify a timeout in seconds.
      */
-    public Timeout seconds(int seconds) {
+    public static Timeout seconds(int seconds) {
         return new Timeout(seconds*1_000);
     }
 
     /**
      * Specify a timeout in milliseconds.
      */
-    public Timeout milliseconds(int milliseconds) {
+    public static Timeout milliseconds(int milliseconds) {
         return new Timeout(milliseconds);
     }
 
