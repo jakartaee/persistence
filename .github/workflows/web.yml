@@ -1,0 +1,95 @@
+#
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+name: Update web site
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '20'
+          cache: maven
+      - name: Add static content
+        run: |
+          export VERSION=`curl https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/maven-metadata.xml | grep -o -m 1 "<release>.*</release" | cut -f 2 -d ">" | cut -f 1 -d "<"`
+          echo Getting javadoc for version: $VERSION
+          rm -rf ./www/latest/api || true
+          wget -q -O jakarta.persistence-api-javadoc.zip https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/$VERSION/jakarta.persistence-api-$VERSION-javadoc.jar
+          mkdir -p ./www/latest/api
+          unzip -q -d ./www/latest/api jakarta.persistence-api-javadoc.zip -x "META-INF/*"
+          export SPEC_VERSION=`curl https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/persistence-spec/maven-metadata.xml | grep -o -m 1 "<release>.*</release" | cut -f 2 -d ">" | cut -f 1 -d "<"`
+          echo Getting spec version: $SPEC_VERSION
+          wget -q -O persistence-spec.zip https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/persistence-spec/$SPEC_VERSION/persistence-spec-$SPEC_VERSION.zip
+          unzip -q -d ./www/latest/ persistence-spec.zip
+          mv ./www/latest/persistence-spec/*.html ./www/latest/draft.html
+          mv ./www/latest/persistence-spec/*.pdf ./www/latest/draft.pdf
+          mv ./www/latest/persistence-spec/images ./www/latest/
+          rm -rf ./www/latest/persistence-spec || true
+          echo Building nightly javadoc
+          mvn -B -U -C -V -f api/pom.xml package -Poss-release -Dcopyright.ignoreyear=true
+          rm -rf ./www/latest-nightly/api || true
+          mkdir -p ./www/latest-nightly/api
+          unzip -q -d ./www/latest-nightly/api "./api/target/jakarta.persistence-api-*javadoc.jar" -x "META-INF/*"
+          echo Building nightly specification
+          mvn -B -U -C -V -f spec/pom.xml package -Dstatus=DRAFT
+          mv ./spec/target/generated-docs/images ./www/latest-nightly/
+          mv ./spec/target/generated-docs/*.html ./www/latest-nightly/nightly.html
+          mv ./spec/target/generated-docs/*.pdf ./www/latest-nightly/nightly.pdf
+          cp -Rfv CONTRIBUTING.md ./www/
+          echo Fixing version in the readme
+          sed -i "s/STG_VER/$VERSION/g" ./www/README.md
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./www/
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
