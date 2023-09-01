@@ -13,6 +13,7 @@
 // Contributors:
 //     Gavin King      - 4.0
 //     Gavin King      - 3.2
+//     Christian Beikov - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -21,6 +22,9 @@ package jakarta.persistence.criteria;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
@@ -906,6 +910,69 @@ public interface CriteriaBuilder {
     <T> Expression<T> literal(T value);
 
     /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 3.2
+     */
+    <T extends Number> NumberExpression<T> literal(T value);
+
+    /**
+     * Create a boolean expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 3.2
+     */
+    BooleanExpression literal(Boolean value);
+
+    /**
+     * Create a string expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 3.2
+     */
+    StringExpression literal(String value);
+
+    /**
+     * Create a local date expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 3.2
+     */
+    LocalDateExpression literal(LocalDate value);
+
+    /**
+     * Create a local datetime expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 3.2
+     */
+    LocalDateTimeExpression literal(LocalDateTime value);
+
+    /**
+     * Create a local time expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 3.2
+     */
+    LocalTimeExpression literal(LocalTime value);
+
+    /**
+     * Create a comparable expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 3.2
+     */
+    <T extends Comparable<T>> ComparableExpression<T> literal(T value);
+
+    /**
      * Create an expression for a null literal with the given type.
      * @param resultClass  type of the null literal
      * @return null expression literal
@@ -969,7 +1036,7 @@ public interface CriteriaBuilder {
      * @return size expression
      */ 
     <C extends Collection<?>> Expression<Integer> size(C collection);
-	
+
     /**
      * Create a predicate that tests whether an element is
      * a member of a collection.
