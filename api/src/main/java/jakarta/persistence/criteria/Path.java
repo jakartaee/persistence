@@ -11,15 +11,26 @@
  */
 
 // Contributors:
+//     Christian Beikov - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
 package jakarta.persistence.criteria;
 
+import jakarta.persistence.metamodel.BooleanSingularAttribute;
+import jakarta.persistence.metamodel.CollectionAttribute;
+import jakarta.persistence.metamodel.ComparableSingularAttribute;
+import jakarta.persistence.metamodel.ListAttribute;
+import jakarta.persistence.metamodel.LocalDateSingularAttribute;
+import jakarta.persistence.metamodel.LocalDateTimeSingularAttribute;
+import jakarta.persistence.metamodel.LocalTimeSingularAttribute;
+import jakarta.persistence.metamodel.NumberSingularAttribute;
 import jakarta.persistence.metamodel.PluralAttribute;
+import jakarta.persistence.metamodel.SetAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.Bindable;
 import jakarta.persistence.metamodel.MapAttribute;
+import jakarta.persistence.metamodel.StringSingularAttribute;
 
 /**
  * Represents a simple or compound attribute path from a 
@@ -53,7 +64,97 @@ public interface Path<X> extends Expression<X> {
     <Y> Path<Y> get(SingularAttribute<? super X, Y> attribute);
 
     /**
-     * Create a path corresponding to the referenced 
+     *  Create a path corresponding to the referenced
+     *  single-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    BooleanPath get(BooleanSingularAttribute<? super X> attribute);
+
+    /**
+     *  Create a path corresponding to the referenced
+     *  single-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    <Y extends Comparable<? super Y>> ComparablePath<Y> get(ComparableSingularAttribute<? super X, Y> attribute);
+
+    /**
+     *  Create a path corresponding to the referenced
+     *  single-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    LocalDatePath get(LocalDateSingularAttribute<? super X> attribute);
+
+    /**
+     *  Create a path corresponding to the referenced
+     *  single-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    LocalDateTimePath get(LocalDateTimeSingularAttribute<? super X> attribute);
+
+    /**
+     *  Create a path corresponding to the referenced
+     *  single-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    LocalTimePath get(LocalTimeSingularAttribute<? super X> attribute);
+
+    /**
+     *  Create a path corresponding to the referenced
+     *  single-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    <Y extends Number> NumberPath<Y> get(NumberSingularAttribute<? super X, Y> attribute);
+
+    /**
+     *  Create a path corresponding to the referenced
+     *  single-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    StringPath get(StringSingularAttribute<? super X> attribute);
+
+    /**
+     *  Create an expression corresponding to the referenced
+     *  collection-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    <E> CollectionExpression<java.util.Collection<E>, E> get(CollectionAttribute<? super X, E> attribute);
+
+    /**
+     *  Create an expression corresponding to the referenced
+     *  list-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    <E> CollectionExpression<java.util.List<E>, E> get(ListAttribute<? super X, E> attribute);
+
+    /**
+     *  Create an expression corresponding to the referenced
+     *  set-valued attribute.
+     *  @param attribute single-valued attribute
+     *  @return path corresponding to the referenced attribute
+     *  @since 3.2
+     */
+    <E> CollectionExpression<java.util.Set<E>, E> get(SetAttribute<? super X, E> attribute);
+
+    /**
+     * Create a path corresponding to the referenced
      * collection-valued attribute.
      * @param collection collection-valued attribute
      * @return expression corresponding to the referenced attribute
@@ -61,7 +162,7 @@ public interface Path<X> extends Expression<X> {
     <E, C extends java.util.Collection<E>> Expression<C> get(PluralAttribute<? super X, C, E> collection);
 
     /**
-     * Create a path corresponding to the referenced 
+     * Create a path corresponding to the referenced
      * map-valued attribute.
      * @param map map-valued attribute
      * @return expression corresponding to the referenced attribute
@@ -80,7 +181,7 @@ public interface Path<X> extends Expression<X> {
     /**
      * Create a path corresponding to the referenced attribute.
      * 
-     * <p> Note: Applications using the string-based API may need to 
+     * <p> Note: Applications using the string-based API may need to
      * specify the type resulting from the {@link #get} operation in
      * order to avoid the use of {@code Path} variables.
      *

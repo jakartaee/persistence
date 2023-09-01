@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Christian Beikov - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -26,7 +27,7 @@ import java.util.List;
  *
  * @since 2.0
  */
-public interface Predicate extends Expression<Boolean> {
+public interface Predicate extends Expression<Boolean>, BooleanExpression {
 
         enum BooleanOperator {
               AND, OR

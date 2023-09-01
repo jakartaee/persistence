@@ -12,6 +12,7 @@
 
 // Contributors:
 //     Gavin King      - 3.2
+//     Christian Beikov - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -239,6 +240,42 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the correlated joins of the subquery
      */
     Set<Join<?, ?>> getCorrelatedJoins();
+
+    //subqueries:
+
+    /**
+     * Create a predicate testing the existence of this subquery result.
+     * @return exists predicate
+     * @see CriteriaBuilder#exists(Subquery)
+     * @since 3.2
+     */
+    Predicate exists();
+
+    /**
+     * Create an all expression over this subquery results.
+     * @return all expression
+     * @see CriteriaBuilder#all(Subquery)
+     * @since 3.2
+     */
+    Expression<T> all();
+
+    /**
+     * Create a some expression over this subquery results.
+     * This expression is equivalent to an <code>any</code> expression.
+     * @return some expression
+     * @see CriteriaBuilder#some(Subquery)
+     * @since 3.2
+     */
+    Expression<T> some();
+
+    /**
+     * Create an any expression over this subquery results.
+     * This expression is equivalent to a <code>some</code> expression.
+     * @return any expression
+     * @see CriteriaBuilder#any(Subquery)
+     * @since 3.2
+     */
+    Expression<T> any();
 
 }
 
