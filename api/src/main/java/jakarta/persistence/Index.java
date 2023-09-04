@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * the following simple BNF:
  * 
  * <pre>
- *    column_List ::= index_column [,index_column]*
+ *    column_list ::= index_column [,index_column]*
  *    index_column ::= column_name [ASC | DESC]
  * </pre>
  * 
