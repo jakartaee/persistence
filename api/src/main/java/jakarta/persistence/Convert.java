@@ -235,7 +235,7 @@ public @interface Convert {
    *     whose key type is an embeddable type is annotated
    *     {@code @Convert(attributeName="key.jobType")}, the
    *     converter is applied to the field or property named
-   *     {@code jobType} if the map key class.
+   *     {@code jobType} of the map key class.
    * </ul>
    *
    * <p>When {@code Convert} directly annotates the converted
