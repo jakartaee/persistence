@@ -22,15 +22,15 @@ public class TransformerException extends Exception {
     private static final long serialVersionUID = 7484555485977030491L;
 
     /**
-     * Constructs a new <code>TransformerException</code> exception
-     * with <code>null</code> as its detail message.
+     * Constructs a new {@code TransformerException} exception
+     * with {@code null} as its detail message.
      */
     public TransformerException() {
         super();
     }
 
     /**
-     * Constructs a new <code>TransformerException</code> exception
+     * Constructs a new {@code TransformerException} exception
      * with the specified detail message.
      *
      * @param message the detail message.
@@ -40,7 +40,7 @@ public class TransformerException extends Exception {
     }
 
     /**
-     * Constructs a new <code>TransformerException</code> exception
+     * Constructs a new {@code TransformerException} exception
      * with the specified detail message and cause.
      *
      * @param message the detail message.
@@ -51,7 +51,7 @@ public class TransformerException extends Exception {
     }
 
     /**
-     * Constructs a new <code>TransformerException</code> exception
+     * Constructs a new {@code TransformerException} exception
      * with the specified cause.
      *
      * @param cause the cause.

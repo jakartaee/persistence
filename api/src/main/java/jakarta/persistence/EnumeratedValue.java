@@ -37,9 +37,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The annotated field must not be null, and must hold a
  * distinct value for each value of the enum type.
  *
+ * <p>Example:
  * <pre>
- *   Example:
- *
  *   enum Status {
  *       OPEN(0), CLOSED(1), CANCELLED(-1);
  *

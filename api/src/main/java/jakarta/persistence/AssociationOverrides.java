@@ -26,10 +26,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Used to override mappings of multiple relationship properties or fields.
  *
+ * <p>Example:
  * <pre>
- *    
- *    Example:
- *
  *    &#064;MappedSuperclass
  *    public class Employee {
  *    
@@ -70,7 +68,7 @@ public @interface AssociationOverrides {
 
     /** 
      *(Required) The association override mappings that are to be 
-     * applied to the relationship field or property .
+     * applied to the relationship field or property.
      */
     AssociationOverride[] value();
 }

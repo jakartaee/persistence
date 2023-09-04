@@ -21,7 +21,7 @@ import jakarta.persistence.metamodel.EntityType;
 import java.util.Set;
 
 /**
- * The <code>CommonAbstractCriteria</code> interface defines functionality 
+ * The {@code CommonAbstractCriteria} interface defines functionality
  * that is common to both top-level criteria queries and subqueries as 
  * well as to update and delete criteria operations.
  * It is not intended to be used directly in query construction.

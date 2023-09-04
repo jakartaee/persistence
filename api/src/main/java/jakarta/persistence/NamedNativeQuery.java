@@ -25,11 +25,10 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a named native SQL query and, optionally, the mapping of
- * the result of the native SQL query.
- * Query names are scoped to the persistence unit.
- * The <code>NamedNativeQuery</code> annotation can be applied to an 
- * entity or mapped superclass.
+ * Declares a named native SQL query and, optionally, the mapping
+ * of the result of the native SQL query. Query names are scoped
+ * to the persistence unit. The {@code NamedNativeQuery} annotation
+ * can be applied to an entity or mapped superclass.
  *
  * @see SqlResultSetMapping
  *

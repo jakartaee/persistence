@@ -31,50 +31,53 @@ import jakarta.persistence.Tuple;
  * Used to construct criteria queries, compound selections, 
  * expressions, predicates, orderings.
  *
- * <p> Note that <code>Predicate</code> is used instead of <code>Expression&#060;Boolean&#062;</code> 
- * in this API in order to work around the fact that Java 
- * generics are not compatible with varags.
+ * <p> Note that {@link Predicate} is used instead of
+ * <code>Expression&#060;Boolean&#062;</code> in this API in
+ * order to work around the fact that Java generics are not
+ * compatible with varags.
  *
  * @since 2.0
  */
 public interface CriteriaBuilder {
 
     /**
-     *  Create a <code>CriteriaQuery</code> object.
-     *  @return criteria query object
+     * Create a {@link CriteriaQuery} object.
+     * @return criteria query object
      */
     CriteriaQuery<Object> createQuery();
 
     /**
-     *  Create a <code>CriteriaQuery</code> object with the specified result 
-     *  type.
-     *  @param resultClass  type of the query result
-     *  @return criteria query object
+     * Create a {@link CriteriaQuery} object with the given
+     * result type.
+     * @param resultClass  type of the query result
+     * @return criteria query object
      */
     <T> CriteriaQuery<T> createQuery(Class<T> resultClass);
 
     /**
-     *  Create a <code>CriteriaQuery</code> object that returns a tuple of 
-     *  objects as its result.
-     *  @return criteria query object
+     * Create a {@link CriteriaQuery} object that returns a
+     * tuple of objects as its result.
+     * @return criteria query object
      */
     CriteriaQuery<Tuple> createTupleQuery();
 
     // methods to construct queries for bulk updates and deletes:
 
     /**
-     *  Create a <code>CriteriaUpdate</code> query object to perform a bulk update operation.
-     *  @param targetEntity  target type for update operation
-     *  @return the query object
-     *  @since 2.1
+     * Create a {@link CriteriaUpdate} query object to perform a
+     * bulk update operation.
+     * @param targetEntity  target type for update operation
+     * @return the query object
+     * @since 2.1
      */
     <T> CriteriaUpdate<T> createCriteriaUpdate(Class<T> targetEntity);
 
     /**
-     *  Create a <code>CriteriaDelete</code> query object to perform a bulk delete operation.
-     *  @param targetEntity  target type for delete operation
-     *  @return the query object
-     *  @since 2.1
+     * Create a {@link CriteriaDelete} query object to perform a
+     * bulk delete operation.
+     * @param targetEntity  target type for delete operation
+     * @return the query object
+     * @since 2.1
      */
     <T> CriteriaDelete<T> createCriteriaDelete(Class<T> targetEntity);
 
@@ -83,7 +86,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create a selection item corresponding to a constructor.
-     * This method is used to specify a constructor that will be
+     * This method is used to specify a constructor that is
      * applied to the results of the query execution. If the
      * constructor is for an entity class, the resulting entities
      * will be in the new state after the query is executed.
@@ -252,7 +255,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create a some expression over the subquery results.
-     * This expression is equivalent to an <code>any</code> expression.
+     * This expression is equivalent to an {@code any} expression.
      * @param subquery  subquery
      * @return some expression
      */
@@ -260,7 +263,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create an any expression over the subquery results. 
-     * This expression is equivalent to a <code>some</code> expression.
+     * This expression is equivalent to a {@code some} expression.
      * @param subquery  subquery
      * @return any expression
      */
@@ -908,17 +911,17 @@ public interface CriteriaBuilder {
     //collection operations:
 	
     /**
-     *  Create a predicate that tests whether a collection is empty.
-     *  @param collection expression
-     *  @return is-empty predicate
+     * Create a predicate that tests whether a collection is empty.
+     * @param collection expression
+     * @return is-empty predicate
      */
     <C extends Collection<?>> Predicate isEmpty(Expression<C> collection);
 
     /**
-     *  Create a predicate that tests whether a collection is
-     *  not empty.
-     *  @param collection expression
-     *  @return is-not-empty predicate
+     * Create a predicate that tests whether a collection is
+     * not empty.
+     * @param collection expression
+     * @return is-not-empty predicate
      */
     <C extends Collection<?>> Predicate isNotEmpty(Expression<C> collection);
 
@@ -937,42 +940,42 @@ public interface CriteriaBuilder {
     <C extends Collection<?>> Expression<Integer> size(C collection);
 	
     /**
-     *  Create a predicate that tests whether an element is
-     *  a member of a collection.
-     *  If the collection is empty, the predicate will be false.
-     *  @param elem element expression
-     *  @param collection expression
-     *  @return is-member predicate
+     * Create a predicate that tests whether an element is
+     * a member of a collection.
+     * If the collection is empty, the predicate will be false.
+     * @param elem element expression
+     * @param collection expression
+     * @return is-member predicate
      */
     <E, C extends Collection<E>> Predicate isMember(Expression<E> elem, Expression<C> collection);
 
     /**
-     *  Create a predicate that tests whether an element is
-     *  a member of a collection.
-     *  If the collection is empty, the predicate will be false.
-     *  @param elem element
-     *  @param collection expression
-     *  @return is-member predicate
+     * Create a predicate that tests whether an element is
+     * a member of a collection.
+     * If the collection is empty, the predicate will be false.
+     * @param elem element
+     * @param collection expression
+     * @return is-member predicate
      */
     <E, C extends Collection<E>> Predicate isMember(E elem, Expression<C> collection);
 
     /**
-     *  Create a predicate that tests whether an element is
-     *  not a member of a collection.
-     *  If the collection is empty, the predicate will be true.
-     *  @param elem element expression
-     *  @param collection expression
-     *  @return is-not-member predicate
+     * Create a predicate that tests whether an element is
+     * not a member of a collection.
+     * If the collection is empty, the predicate will be true.
+     * @param elem element expression
+     * @param collection expression
+     * @return is-not-member predicate
      */
     <E, C extends Collection<E>> Predicate isNotMember(Expression<E> elem, Expression<C> collection);
 	
     /**
-     *  Create a predicate that tests whether an element is
-     *  not a member of a collection.
-     *  If the collection is empty, the predicate will be true.
-     *  @param elem element
-     *  @param collection expression
-     *  @return is-not-member predicate
+     * Create a predicate that tests whether an element is
+     * not a member of a collection.
+     * If the collection is empty, the predicate will be true.
+     * @param elem element
+     * @param collection expression
+     * @return is-not-member predicate
      */
     <E, C extends Collection<E>> Predicate isNotMember(E elem, Expression<C> collection);
 
@@ -1114,86 +1117,86 @@ public interface CriteriaBuilder {
     Predicate notLike(Expression<String> x, String pattern, char escapeChar);
 
     /**
-     *  Create an expression for string concatenation.
-     *  If the given list of expressions is empty, returns
-     *  an expression equivalent to {@code literal("")}.
-     *  @param expressions  string expressions
-     *  @return expression corresponding to concatenation
+     * Create an expression for string concatenation.
+     * If the given list of expressions is empty, returns
+     * an expression equivalent to {@code literal("")}.
+     * @param expressions  string expressions
+     * @return expression corresponding to concatenation
      */
     Expression<String> concat(List<Expression<String>> expressions);
 
     /**
-     *  Create an expression for string concatenation.
-     *  @param x  string expression
-     *  @param y  string expression
-     *  @return expression corresponding to concatenation
+     * Create an expression for string concatenation.
+     * @param x  string expression
+     * @param y  string expression
+     * @return expression corresponding to concatenation
      */
     Expression<String> concat(Expression<String> x, Expression<String> y);
 	
     /**
-     *  Create an expression for string concatenation.
-     *  @param x  string expression
-     *  @param y  string 
-     *  @return expression corresponding to concatenation
+     * Create an expression for string concatenation.
+     * @param x  string expression
+     * @param y  string 
+     * @return expression corresponding to concatenation
      */
     Expression<String> concat(Expression<String> x, String y);
 
     /**
-     *  Create an expression for string concatenation.
-     *  @param x  string 
-     *  @param y  string expression
-     *  @return expression corresponding to concatenation
+     * Create an expression for string concatenation.
+     * @param x  string 
+     * @param y  string expression
+     * @return expression corresponding to concatenation
      */
     Expression<String> concat(String x, Expression<String> y);
 	
     /**
-     *  Create an expression for substring extraction.
-     *  Extracts a substring starting at the specified position
-     *  through to end of the string.
-     *  First position is 1.
-     *  @param x  string expression
-     *  @param from  start position expression 
-     *  @return expression corresponding to substring extraction
+     * Create an expression for substring extraction.
+     * Extracts a substring starting at the specified position
+     * through to end of the string.
+     * First position is 1.
+     * @param x  string expression
+     * @param from  start position expression 
+     * @return expression corresponding to substring extraction
      */
     Expression<String> substring(Expression<String> x, Expression<Integer> from);
 	
     /**
-     *  Create an expression for substring extraction.
-     *  Extracts a substring starting at the specified position
-     *  through to end of the string.
-     *  First position is 1.
-     *  @param x  string expression
-     *  @param from  start position 
-     *  @return expression corresponding to substring extraction
+     * Create an expression for substring extraction.
+     * Extracts a substring starting at the specified position
+     * through to end of the string.
+     * First position is 1.
+     * @param x  string expression
+     * @param from  start position 
+     * @return expression corresponding to substring extraction
      */
     Expression<String> substring(Expression<String> x, int from);
 
     /**
-     *  Create an expression for substring extraction.
-     *  Extracts a substring of given length starting at the
-     *  specified position.
-     *  First position is 1.
-     *  @param x  string expression
-     *  @param from  start position expression 
-     *  @param len  length expression
-     *  @return expression corresponding to substring extraction
+     * Create an expression for substring extraction.
+     * Extracts a substring of given length starting at the
+     * specified position.
+     * First position is 1.
+     * @param x  string expression
+     * @param from  start position expression 
+     * @param len  length expression
+     * @return expression corresponding to substring extraction
      */
     Expression<String> substring(Expression<String> x, Expression<Integer> from, Expression<Integer> len);
 	
     /**
-     *  Create an expression for substring extraction.
-     *  Extracts a substring of given length starting at the
-     *  specified position.
-     *  First position is 1.
-     *  @param x  string expression
-     *  @param from  start position 
-     *  @param len  length
-     *  @return expression corresponding to substring extraction
+     * Create an expression for substring extraction.
+     * Extracts a substring of given length starting at the
+     * specified position.
+     * First position is 1.
+     * @param x  string expression
+     * @param from  start position 
+     * @param len  length
+     * @return expression corresponding to substring extraction
      */
     Expression<String> substring(Expression<String> x, int from, int len);
 	
     /**
-     *  Used to specify how strings are trimmed.
+     * Used to specify how strings are trimmed.
      */
     enum Trimspec {
 
@@ -1425,38 +1428,38 @@ public interface CriteriaBuilder {
     // Date/time/timestamp functions:
 
     /**
-     *  Create expression to return current date.
-     *  @return expression for current date
+     * Create expression to return current date.
+     * @return expression for current date
      */
     Expression<java.sql.Date> currentDate();
 
     /**
-     *  Create expression to return current timestamp.
-     *  @return expression for current timestamp
+     * Create expression to return current timestamp.
+     * @return expression for current timestamp
      */	
     Expression<java.sql.Timestamp> currentTimestamp();
 
     /**
-     *  Create expression to return current time.
-     *  @return expression for current time
+     * Create expression to return current time.
+     * @return expression for current time
      */	
     Expression<java.sql.Time> currentTime();
 
     /**
-     *  Create expression to return current local date.
-     *  @return expression for current date
+     * Create expression to return current local date.
+     * @return expression for current date
      */
     Expression<java.time.LocalDate> localDate();
 
     /**
-     *  Create expression to return current local datetime.
-     *  @return expression for current timestamp
+     * Create expression to return current local datetime.
+     * @return expression for current timestamp
      */
     Expression<java.time.LocalDateTime> localDateTime();
 
     /**
-     *  Create expression to return current local time.
-     *  @return expression for current time
+     * Create expression to return current local time.
+     * @return expression for current time
      */
     Expression<java.time.LocalTime> localTime();
 
@@ -1474,7 +1477,7 @@ public interface CriteriaBuilder {
     //in builders:
 	
     /**
-     *  Interface used to build in predicates.
+     * Interface used to build in predicates.
      */
     interface In<T> extends Predicate {
 
@@ -1486,25 +1489,25 @@ public interface CriteriaBuilder {
          Expression<T> getExpression();
 	
          /**
-          *  Add to list of values to be tested against.
-          *  @param value value
-          *  @return in predicate
+          * Add to list of values to be tested against.
+          * @param value value
+          * @return in predicate
           */
          In<T> value(T value);
 
          /**
-          *  Add to list of values to be tested against.
-          *  @param value expression
-          *  @return in predicate
+          * Add to list of values to be tested against.
+          * @param value expression
+          * @return in predicate
           */
          In<T> value(Expression<? extends T> value);
      }
 	
     /**
-     *  Create predicate to test whether given expression
-     *  is contained in a list of values.
-     *  @param  expression to be tested against list of values
-     *  @return  in predicate
+     * Create predicate to test whether given expression
+     * is contained in a list of values.
+     * @param  expression to be tested against list of values
+     * @return  in predicate
      */
     <T> In<T> in(Expression<? extends T> expression);
 	
@@ -1555,8 +1558,8 @@ public interface CriteriaBuilder {
     // coalesce builder:
 
     /**
-     *  Interface used to build coalesce expressions.  
-     *   
+     * Interface used to build coalesce expressions.  
+     *  
      * A coalesce expression is equivalent to a case expression
      * that returns null if all its arguments evaluate to null,
      * and the value of its first non-null argument otherwise.
@@ -1588,9 +1591,9 @@ public interface CriteriaBuilder {
     //case builders:
 
     /**
-     *  Interface used to build simple case expressions.
-     *  Case conditions are evaluated in the order in which
-     *  they are specified.
+     * Interface used to build simple case expressions.
+     * Case conditions are evaluated in the order in which
+     * they are specified.
      */
     interface SimpleCase<C,R> extends Expression<R> {
 
@@ -1649,17 +1652,17 @@ public interface CriteriaBuilder {
 	}
 	
     /**
-     *  Create a simple case expression.
-     *  @param expression  to be tested against the case conditions
-     *  @return simple case expression
+     * Create a simple case expression.
+     * @param expression  to be tested against the case conditions
+     * @return simple case expression
      */
     <C, R> SimpleCase<C,R> selectCase(Expression<? extends C> expression);
 
 
     /**
-     *  Interface used to build general case expressions.
-     *  Case conditions are evaluated in the order in which
-     *  they are specified.
+     * Interface used to build general case expressions.
+     * Case conditions are evaluated in the order in which
+     * they are specified.
      */
     interface Case<R> extends Expression<R> {
 
@@ -1695,8 +1698,8 @@ public interface CriteriaBuilder {
 	}
 	
     /**
-     *  Create a general case expression.
-     *  @return general case expression
+     * Create a general case expression.
+     * @return general case expression
      */
     <R> Case<R> selectCase();
 
@@ -1715,66 +1718,66 @@ Expression<?>... args);
     // methods for downcasting:
 
     /**
-     *  Downcast Join object to the specified type.
-     *  @param join  Join object
-     *  @param type type to be downcast to
-     *  @return  Join object of the specified type
-     *  @since 2.1
+     * Downcast Join object to the specified type.
+     * @param join  Join object
+     * @param type type to be downcast to
+     * @return  Join object of the specified type
+     * @since 2.1
      */
     <X, T, V extends T> Join<X, V> treat(Join<X, T> join, Class<V> type);
 
     /**
-     *  Downcast CollectionJoin object to the specified type.
-     *  @param join  CollectionJoin object
-     *  @param type type to be downcast to
-     *  @return  CollectionJoin object of the specified type
-     *  @since 2.1
+     * Downcast CollectionJoin object to the specified type.
+     * @param join  CollectionJoin object
+     * @param type type to be downcast to
+     * @return  CollectionJoin object of the specified type
+     * @since 2.1
      */
     <X, T, E extends T> CollectionJoin<X, E> treat(CollectionJoin<X, T> join, Class<E> type);
 
     /**
-     *  Downcast SetJoin object to the specified type.
-     *  @param join  SetJoin object
-     *  @param type type to be downcast to
-     *  @return  SetJoin object of the specified type
-     *  @since 2.1
+     * Downcast SetJoin object to the specified type.
+     * @param join  SetJoin object
+     * @param type type to be downcast to
+     * @return  SetJoin object of the specified type
+     * @since 2.1
      */
     <X, T, E extends T> SetJoin<X, E> treat(SetJoin<X, T> join, Class<E> type);
 
     /**
-     *  Downcast ListJoin object to the specified type.
-     *  @param join  ListJoin object
-     *  @param type type to be downcast to
-     *  @return  ListJoin object of the specified type
-     *  @since 2.1
+     * Downcast ListJoin object to the specified type.
+     * @param join  ListJoin object
+     * @param type type to be downcast to
+     * @return  ListJoin object of the specified type
+     * @since 2.1
      */
     <X, T, E extends T> ListJoin<X, E> treat(ListJoin<X, T> join, Class<E> type);
 
     /**
-     *  Downcast MapJoin object to the specified type.
-     *  @param join  MapJoin object
-     *  @param type type to be downcast to
-     *  @return  MapJoin object of the specified type
-     *  @since 2.1
+     * Downcast MapJoin object to the specified type.
+     * @param join  MapJoin object
+     * @param type type to be downcast to
+     * @return  MapJoin object of the specified type
+     * @since 2.1
      */
     <X, K, T, V extends T> MapJoin<X, K, V> treat(MapJoin<X, K, T> join, Class<V> type);
 
 
     /**
-     *  Downcast Path object to the specified type.
-     *  @param path  path
-     *  @param type type to be downcast to
-     *  @return  Path object of the specified type
-     *  @since 2.1
+     * Downcast Path object to the specified type.
+     * @param path  path
+     * @param type type to be downcast to
+     * @return  Path object of the specified type
+     * @since 2.1
      */
     <X, T extends X> Path<T> treat(Path<X> path, Class<T> type);
 
     /**
-     *  Downcast Root object to the specified type.
-     *  @param root  root
-     *  @param type type to be downcast to
-     *  @return  Root object of the specified type
-     *  @since 2.1
+     * Downcast Root object to the specified type.
+     * @param root  root
+     * @param type type to be downcast to
+     * @return  Root object of the specified type
+     * @since 2.1
      */
     <X, T extends X> Root<T> treat(Root<X> root, Class<T> type);
 

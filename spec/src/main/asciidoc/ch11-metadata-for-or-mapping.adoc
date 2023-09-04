@@ -2141,7 +2141,7 @@ The syntax of the _columnList_ element is a
 _column_list_, as follows:
 
 ----
-column::= index_column [,index_column]*
+column_list::= index_column [,index_column]*
 index_column::= column_name [ASC | DESC]
 ----
 

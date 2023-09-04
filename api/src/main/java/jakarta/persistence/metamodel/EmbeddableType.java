@@ -17,11 +17,12 @@
 package jakarta.persistence.metamodel;
 
 /**
- *  Instances of the type <code>EmbeddableType</code> represent embeddable types.
+ * An instance of {@code EmbeddableType} represents an
+ * {@linkplain jakarta.persistence.Embeddable embeddable}
+ * type.
  *
- *  @param <X> The represented type.
+ * @param <X> The represented embeddable type.
  *
- *  @since 2.0
- *
+ * @since 2.0
  */
 public interface EmbeddableType<X> extends ManagedType<X> {}

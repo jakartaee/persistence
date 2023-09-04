@@ -24,9 +24,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies multiple secondary tables for an entity.
  *
+ * <p>Example 1: Multiple secondary tables assuming primary key
+ * columns are named the same in all tables.
  * <pre>
- *    Example 1: Multiple secondary tables assuming primary key columns are named the same in all tables.
- *
  *    &#064;Entity
  *    &#064;Table(name="EMPLOYEE")
  *    &#064;SecondaryTables({
@@ -34,10 +34,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *        &#064;SecondaryTable(name="EMP_HIST")
  *    })
  *    public class Employee { ... }
- *    
+ * </pre>
  *
- *    Example 2: Multiple secondary tables with differently named primary key columns. 
- *
+ * <p>Example 2: Multiple secondary tables with differently named
+ * primary key columns.
+ * <pre>
  *    &#064;Entity
  *    &#064;Table(name="EMPLOYEE")
  *    &#064;SecondaryTables({
@@ -56,6 +57,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public @interface SecondaryTables {
 
-    /** (Required) The secondary tables for an entity. */
+    /**
+     * (Required) The secondary tables for an entity.
+     */
     SecondaryTable[] value();
 }

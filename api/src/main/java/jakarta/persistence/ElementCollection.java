@@ -23,14 +23,15 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a collection of instances of a basic type or embeddable
- * class. 
- * Must be specified if the collection is to be mapped by
- * means of a collection table.
- * 
- * <pre>
- *    Example:
+ * Declares a collection of instances of a {@linkplain Basic basic type}
+ * or {@linkplain Embeddable embeddable class}. Must be specified if the
+ * collection is to be mapped by means of a collection table.
  *
+ * <p>The {@link CollectionTable} annotation specifies a mapping to a
+ * database table.
+ *
+ * <p>Example:
+ * <pre>
  *    &#064;Entity public class Person {
  *       &#064;Id protected String ssn;
  *       protected String name;
@@ -39,30 +40,38 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *       protected Set&#060;String&#062; nickNames = new HashSet();
  *         ...
  *    } 
- *  </pre>
+ * </pre>
+ *
+ * @see CollectionTable
  *
  * @since 2.0
  */
-@Target( { METHOD, FIELD })
+@Target({ METHOD, FIELD })
 @Retention(RUNTIME)
 public @interface ElementCollection {
 
     /**
      * (Optional) The basic or embeddable class that is the element
-     * type of the collection.  This element is optional only if the
+     * type of the collection. This element is optional only if the
      * collection field or property is defined using Java generics,
-     * and must be specified otherwise.  It defaults to the
-     * paramterized type of the collection when defined using
+     * and must be specified otherwise. It defaults to the
+     * parameterized type of the collection when defined using
      * generics.
      */
     Class<?> targetClass() default void.class;
     
     /**
-     *  (Optional) Whether the collection should be lazily loaded or must be
-     *  eagerly fetched.  The EAGER strategy is a requirement on
-     *  the persistence provider runtime that the collection elements
-     *  must be eagerly fetched.  The LAZY strategy is a hint to the
-     *  persistence provider runtime.
+     * (Optional) Whether the collection should be lazily loaded
+     * or must be eagerly fetched.
+     * <ul>
+     * <li>The {@link FetchType#EAGER EAGER} strategy is a
+     *     requirement on the persistence provider runtime
+     *     that the associated entity must be eagerly fetched.
+     * <li>The {@link FetchType#LAZY LAZY} strategy is a hint
+     *     to the persistence provider runtime.
+     * </ul>
+     *
+     * <p>If not specified, defaults to {@code LAZY}.
      */
     FetchType fetch() default FetchType.LAZY;
 }

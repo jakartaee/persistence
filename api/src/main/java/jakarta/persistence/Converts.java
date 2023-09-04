@@ -23,7 +23,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to group <code>Convert</code> annotations.  Multiple converters
+ * Used to group {@link Convert} annotations.  Multiple converters
  * must not be applied to the same basic attribute.
  *
  * @see Convert
@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface Converts {
 
   /**
-   * The <code>Convert</code> mappings that are to be applied.
+   * The {@link Convert} mappings that are to be applied.
    *
    */
   Convert[] value();

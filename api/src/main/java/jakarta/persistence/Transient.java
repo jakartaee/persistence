@@ -23,13 +23,12 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies that the property or field is not persistent. It is used
- * to annotate a property or field of an entity class, mapped
- * superclass, or embeddable class.
+ * Specifies that the annotated property or field is not
+ * persistent. May annotate a property or field of an
+ * entity class, mapped superclass, or embeddable class.
  *
+ * <p>Example:
  * <pre>
- *    Example:
- *
  *    &#064;Entity
  *    public class Employee {
  *        &#064;Id int id;

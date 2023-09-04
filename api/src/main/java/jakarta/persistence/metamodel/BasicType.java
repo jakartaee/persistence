@@ -17,10 +17,13 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>BasicType</code> represent basic types (including
- * temporal and enumerated types).
+ * An instance of {@code BasicType} represents a
+ * {@linkplain jakarta.persistence.Basic basic type}
+ * (possibly an {@linkplain jakarta.persistence.Enumerated
+ * enumerated}, {@linkplain jakarta.persistence.Lob LOB}, or
+ * {@linkplain jakarta.persistence.Temporal temporal} type).
  *
- * @param <X> The type of the represented basic type
+ * @param <X> The represented basic type
  *
  * @since 2.0
  */

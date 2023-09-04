@@ -20,8 +20,8 @@ import jakarta.persistence.spi.PersistenceUnitInfo;
 
 /**
  * Specifies how the provider must use a second-level cache for the
- * persistence unit.  Corresponds to the value of the <code>persistence.xml</code>
- * <code>shared-cache-mode</code> element, and returned as the result of
+ * persistence unit. Corresponds to the value of the {@code persistence.xml}
+ * {@code shared-cache-mode} element, and returned as the result of
  * {@link PersistenceUnitInfo#getSharedCacheMode()}.
  * 
  * @since 2.0
@@ -39,15 +39,16 @@ public enum SharedCacheMode {
     NONE, 
 
     /**
-     * Caching is enabled for all entities for <code>Cacheable(true)</code>
-     * is specified.  All other entities are not cached.
+     * Caching is enabled for all entities for which
+     * {@link Cacheable Cacheable(true)} is specified. All other
+     * entities are not cached.
      */
     ENABLE_SELECTIVE, 
 
     /**
      * Caching is enabled for all entities except those for which
-     * <code>Cacheable(false)</code> is specified.  Entities for which
-     * <code>Cacheable(false)</code> is specified are not cached.
+     * {@link Cacheable Cacheable(false)} is specified. Entities
+     * for which {@code Cacheable(false)} is specified are not cached.
      */
     DISABLE_SELECTIVE, 
 

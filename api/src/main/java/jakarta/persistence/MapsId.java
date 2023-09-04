@@ -23,19 +23,19 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Designates a <code>ManyToOne</code> or
- * <code>OneToOne</code> relationship attribute that provides the
- * mapping for an {@link EmbeddedId} primary key, an attribute within
- * an <code>EmbeddedId</code> primary key, or a simple primary key of
- * the parent entity. The <code>value</code> element specifies the
- * attribute within a composite key to which the relationship
- * attribute corresponds. If the entity's primary key is of the same
- * Java type as the primary key of the entity referenced by the
- * relationship, the value attribute is not specified.
- * 
- * <pre>
- *    Example:
+ * Designates a {@link ManyToOne} or {@link OneToOne} relationship
+ * attribute that provides the mapping for an {@link EmbeddedId}
+ * primary key, an attribute within an {@code EmbeddedId} primary
+ * key, or a simple primary key of the parent entity.
  *
+ * <p>The {@link #value} element specifies the attribute within a
+ * composite key to which the relationship attribute corresponds.
+ * If the primary key of the entity is of the same Java type as
+ * the primary key of the entity referenced by the relationship,
+ * the {@code value} attribute is not specified.
+ *
+ * <p>Example:
+ * <pre>
  *    // parent entity has simple primary key
  *
  *    &#064;Entity
@@ -69,9 +69,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface MapsId {
 
     /**
-     * (Optional) The name of the attribute within the composite key
-     * to which the relationship attribute corresponds.  If not
-     * supplied, the relationship maps the entity's primary
-     * key.
+     * (Optional) The name of the attribute within the composite
+     * key to which the relationship attribute corresponds. If
+     * not explicitly specified, the relationship maps the primary
+     * key of the entity.
      */
    String value() default ""; }

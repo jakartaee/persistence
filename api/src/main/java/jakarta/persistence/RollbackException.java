@@ -16,8 +16,8 @@
 
 package jakarta.persistence;
 /**
- * Thrown by the persistence provider when 
- * {@link EntityTransaction#commit() EntityTransaction.commit()} fails.
+ * Thrown by the persistence provider when
+ * {@link EntityTransaction#commit()} fails.
  *
  * @see EntityTransaction#commit()
  *
@@ -26,15 +26,15 @@ package jakarta.persistence;
 public class RollbackException extends PersistenceException {
 	
         /** 
-         * Constructs a new <code>RollbackException</code> exception 
-         * with <code>null</code> as its detail message.
+         * Constructs a new {@code RollbackException} exception 
+         * with {@code null} as its detail message.
          */
 	public RollbackException() {
 		super();
 	}
 
         /** 
-         * Constructs a new <code>RollbackException</code> exception 
+         * Constructs a new {@code RollbackException} exception 
          * with the specified detail message.
          * @param   message   the detail message.
          */
@@ -43,7 +43,7 @@ public class RollbackException extends PersistenceException {
 	}
 
         /** 
-         * Constructs a new <code>RollbackException</code> exception 
+         * Constructs a new {@code RollbackException} exception 
          * with the specified detail message and cause.
          * @param   message   the detail message.
          * @param   cause     the cause.
@@ -53,7 +53,7 @@ public class RollbackException extends PersistenceException {
 	}
 	
         /** 
-         * Constructs a new <code>RollbackException</code> exception 
+         * Constructs a new {@code RollbackException} exception 
          * with the specified cause.
          * @param   cause     the cause.
          */

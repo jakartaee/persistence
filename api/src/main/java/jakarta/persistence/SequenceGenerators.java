@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to group <code>SequenceGenerator</code> annotations.
+ * Used to group {@link SequenceGenerator} annotations.
  *
  * @see SequenceGenerator
  * @since 2.2

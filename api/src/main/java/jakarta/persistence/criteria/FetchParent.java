@@ -31,45 +31,45 @@ import jakarta.persistence.metamodel.SingularAttribute;
 public interface FetchParent<Z, X> {
 
     /**
-     *  Return the fetch joins that have been made from this type.
-     *  Returns empty set if no fetch joins have been made from
-     *  this type.
-     *  Modifications to the set do not affect the query.
-     *  @return fetch joins made from this type
+     * Return the fetch joins that have been made from this type.
+     * Returns empty set if no fetch joins have been made from
+     * this type.
+     * Modifications to the set do not affect the query.
+     * @return fetch joins made from this type
      */
     java.util.Set<Fetch<X, ?>> getFetches();
 
     /**
-     *  Create a fetch join to the specified single-valued attribute 
-     *  using an inner join.
-     *  @param attribute  target of the join
-     *  @return the resulting fetch join
+     * Create a fetch join to the specified single-valued attribute 
+     * using an inner join.
+     * @param attribute  target of the join
+     * @return the resulting fetch join
      */	
     <Y> Fetch<X, Y> fetch(SingularAttribute<? super X, Y> attribute);
 
     /**
-     *  Create a fetch join to the specified single-valued attribute 
-     *  using the given join type.
-     *  @param attribute  target of the join
-     *  @param jt  join type
-     *  @return the resulting fetch join
+     * Create a fetch join to the specified single-valued attribute 
+     * using the given join type.
+     * @param attribute  target of the join
+     * @param jt  join type
+     * @return the resulting fetch join
      */	
     <Y> Fetch<X, Y> fetch(SingularAttribute<? super X, Y> attribute, JoinType jt);
 
     /**
-     *  Create a fetch join to the specified collection-valued 
-     *  attribute using an inner join. 
-     *  @param attribute  target of the join
-     *  @return the resulting join
+     * Create a fetch join to the specified collection-valued 
+     * attribute using an inner join. 
+     * @param attribute  target of the join
+     * @return the resulting join
      */
     <Y> Fetch<X, Y> fetch(PluralAttribute<? super X, ?, Y> attribute);
 	
     /**
-     *  Create a fetch join to the specified collection-valued 
-     *  attribute using the given join type.
-     *  @param attribute  target of the join
-     *  @param jt  join type
-     *  @return the resulting join
+     * Create a fetch join to the specified collection-valued 
+     * attribute using the given join type.
+     * @param attribute  target of the join
+     * @param jt  join type
+     * @return the resulting join
      */
     <Y> Fetch<X, Y> fetch(PluralAttribute<? super X, ?, Y> attribute, JoinType jt);
 	
@@ -77,26 +77,26 @@ public interface FetchParent<Z, X> {
     //String-based:
 	
     /**
-     *  Create a fetch join to the specified attribute using an 
-     *  inner join.
-     *  @param attributeName  name of the attribute for the
-     *         target of the join
-     *  @return the resulting fetch join
-     *  @throws IllegalArgumentException if attribute of the given
-     *          name does not exist
+     * Create a fetch join to the specified attribute using an 
+     * inner join.
+     * @param attributeName  name of the attribute for the
+     *        target of the join
+     * @return the resulting fetch join
+     * @throws IllegalArgumentException if attribute of the given
+     *         name does not exist
      */	
     @SuppressWarnings("hiding")
     <X, Y> Fetch<X, Y> fetch(String attributeName);
 
     /**
-     *  Create a fetch join to the specified attribute using 
-     *  the given join type.
-     *  @param attributeName  name of the attribute for the
-     *               target of the join
-     *  @param jt  join type
-     *  @return the resulting fetch join
-     *  @throws IllegalArgumentException if attribute of the given
-     *          name does not exist
+     * Create a fetch join to the specified attribute using 
+     * the given join type.
+     * @param attributeName  name of the attribute for the
+     *              target of the join
+     * @param jt  join type
+     * @return the resulting fetch join
+     * @throws IllegalArgumentException if attribute of the given
+     *         name does not exist
      */	
     @SuppressWarnings("hiding")
     <X, Y> Fetch<X, Y> fetch(String attributeName, JoinType jt);

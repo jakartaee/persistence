@@ -29,5 +29,5 @@ public enum ConstraintMode {
 	NO_CONSTRAINT,
 
     /** Use the provider-defined default behavior. */
-        PROVIDER_DEFAULT
+    PROVIDER_DEFAULT
 }

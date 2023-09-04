@@ -16,14 +16,14 @@
 package jakarta.persistence;
 
 /**
- * This type represents the root of an entity graph that will be used
- * as a template to define the attribute nodes and boundaries of a
- * graph of entities and entity relationships. The root must be an
- * entity type.
+ * This type represents the root of an entity graph that will be
+ * used as a template to define the attribute nodes and boundaries
+ * of a graph of entities and entity relationships. The root must
+ * be an entity type.
  * <p>
- * The methods to add subgraphs implicitly create the
- * corresponding attribute nodes as well; such attribute nodes
- * should not be redundantly specified.
+ * The methods to add subgraphs implicitly create the corresponding
+ * attribute nodes as well; such attribute nodes should not be
+ * redundantly specified.
  *
  * @param <T> The type of the root entity.
  *
@@ -31,24 +31,31 @@ package jakarta.persistence;
  * @see Subgraph
  * @see NamedEntityGraph
  *
+ * @see EntityManager#createEntityGraph(Class)
+ * @see EntityManager#createEntityGraph(String)
+ * @see EntityManager#getEntityGraph(String)
+ * @see EntityManagerFactory#addNamedEntityGraph(String, EntityGraph)
+ * @see EntityManager#find(EntityGraph, Object, FindOption...)
+ *
  * @since 2.1
  */
 public interface EntityGraph<T> extends Graph<T> {
 
     /**
-     * Return the name of a named EntityGraph (an entity graph
-     * defined by means of the <code>NamedEntityGraph</code>
+     * Return the name of a named {@code EntityGraph} (an entity
+     * graph defined by means of the {@link NamedEntityGraph}
      * annotation, XML descriptor element, or added by means of the
-     * <code>addNamedEntityGraph</code> method).  Returns null if the
-     * EntityGraph is not a named EntityGraph.
+     * {@link EntityManagerFactory#addNamedEntityGraph} method).
+     * Returns null if the {@code EntityGraph} is not a named
+     * {@code EntityGraph}.
      */
     String getName();
 
     /**
      * Add additional attributes to this entity graph that
-     * correspond to attributes of subclasses of this EntityGraph's
-     * entity type.  Subclass subgraphs will automatically include the
-     * specified attributes of superclass subgraphs.
+     * correspond to attributes of subclasses of the entity type of
+     * this {@code EntityGraph}. Subclass subgraphs automatically
+     * include the specified attributes of superclass subgraphs.
      *
      * @param type  entity subclass
      * @return subgraph for the subclass
@@ -60,9 +67,9 @@ public interface EntityGraph<T> extends Graph<T> {
 
     /**
      * Add additional attributes to this entity graph that
-     * correspond to attributes of subclasses of this EntityGraph's
-     * entity type.  Subclass subgraphs will automatically include the
-     * specified attributes of superclass subgraphs.
+     * correspond to attributes of subclasses of the entity type of
+     * this {@code EntityGraph}. Subclass subgraphs automatically
+     * include the specified attributes of superclass subgraphs.
      *
      * @param type  entity subclass
      * @return subgraph for the subclass

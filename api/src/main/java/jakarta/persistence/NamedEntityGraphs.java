@@ -22,7 +22,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to group <code>NamedEntityGraph</code> annotations.  
+ * Used to group {@link NamedEntityGraph} annotations.
  *
  * @see NamedEntityGraph
  * @since 2.1

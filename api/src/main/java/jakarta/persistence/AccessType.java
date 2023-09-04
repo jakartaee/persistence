@@ -27,9 +27,14 @@ package jakarta.persistence;
  */
 public enum AccessType {
 
-    /** Field-based access is used. */
+    /**
+     * Field-based access is used.
+     */
     FIELD,
 
-    /** Property-based access is used. */
+    /**
+     * Property-based access is used, that is, state is accessed
+     * via getter and setter methods.
+     */
     PROPERTY
 }

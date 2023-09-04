@@ -23,19 +23,18 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies the enum type for a map key whose basic type is an enumerated type.
- * 
- * The <code>MapKeyEnumerated</code> annotation can be applied to an 
- * element collection or relationship of type <code>java.util.Map</code>, in 
- * conjunction with the <code>ElementCollection</code>, <code>OneToMany</code>, or 
- * <code>ManyToMany</code> annotation.
- * If the enumerated type is not specified or the <code>MapKeyEnumerated</code>
- * annotation is not used, the enumerated type is assumed to be
- * <code>ORDINAL</code>.
+ * Specifies the enum type for a map key whose basic type is an enumerated
+ * type.
  *
+ * <p>The {@code MapKeyEnumerated} annotation can be applied to an element
+ * collection or relationship of type {@link java.util.Map}, in conjunction
+ * with the {@link ElementCollection}, {@link OneToMany}, or {@link ManyToMany}
+ * annotation. If the enumerated type is not specified or the
+ * {@code MapKeyEnumerated} annotation is not used, the enumerated type is
+ * assumed to be {@link EnumType#ORDINAL ORDINAL}.
+ *
+ * <p>Example:
  * <pre>
- *   Example:
- *
  *   public enum ProjectStatus {COMPLETE, DELAYED, CANCELLED, IN_PROGRESS}
  *
  *   public enum SalaryRate {JUNIOR, SENIOR, MANAGER, EXECUTIVE}
@@ -60,6 +59,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD}) @Retention(RUNTIME)
 public @interface MapKeyEnumerated {
     
-    /** (Optional) The type used in mapping a map key enum type. */
+    /**
+     * (Optional) The type used in mapping a map key enum type.
+     */
     EnumType value() default EnumType.ORDINAL;
 }

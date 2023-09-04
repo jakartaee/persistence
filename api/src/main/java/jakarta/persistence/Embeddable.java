@@ -23,26 +23,56 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a class whose instances are stored as an intrinsic 
- * part of an owning entity and share the identity of the entity. 
- * Each of the persistent properties or fields of the embedded 
- * object is mapped to the database table for the entity. 
+ * Declares a type whose instances are stored as an intrinsic
+ * part of an owning entity, sharing the identity of the entity.
+ * A single embeddable type may be used as the type of multiple
+ * persistent fields or properties, across several entities,
+ * and so distinct instances of an embeddable type might have
+ * owning entities of completely unrelated entity types.
  *
- * <p> Note that the {@link Transient} annotation may be used to 
- * designate the non-persistent state of an embeddable class.
+ * <p>The annotated type must:
+ * <ul>
+ * <li>be a non-{@code abstract}, non-{@code final} top-level
+ *     class or static inner class, or a Java record type,
+ * <li>have a {@code public} or {@code protected} constructor
+ *     with no parameters, unless it is a record type, and
+ * <li>have no {@code final} methods or persistent instance
+ *     variables.
+ * </ul>
+ * <p>An enum or interface may not be designated as an embeddable
+ * type.
  *
+ * <p>An embeddable class does not have its own table. Instead,
+ * the state of an instance is stored in the table or tables
+ * mapped by the owning entity.
+ *
+ * <p>The persistent fields and properties of an embeddable
+ * class are mapped using the same mapping annotations used to
+ * map {@linkplain Entity entity classes}, and may themselves
+ * hold instances of embeddable types. An embeddable class may
+ * even declare an association from its owning entity to another
+ * entity.
+ *
+ * <p>However, an embeddable class may not have a field or
+ * property annotated {@link Id} or {@link EmbeddedId}.
+ *
+ * <p>Fields or properties of an embeddable class are persistent
+ * by default. The {@link Transient} annotation or the Java
+ * {@code transient} keyword must be used to explicitly declare
+ * any field or property of an embeddable class which is
+ * <em>not</em> persistent.
+ *
+ * <p>Example 1:
  * <pre>
- *
- *    Example 1:
- *
- *    &#064;Embeddable public class EmploymentPeriod { 
+ *    &#064;Embeddable public class EmploymentPeriod {
  *       &#064;Temporal(DATE) java.util.Date startDate;
  *       &#064;Temporal(DATE) java.util.Date endDate;
  *      ... 
  *    }
+ * </pre>
  *
- *    Example 2:
- *
+ * <p>Example 2:
+ * <pre>
  *    &#064;Embeddable public class PhoneNumber {
  *        protected String areaCode;
  *        protected String localNumber;
@@ -54,9 +84,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *        &#064;Id protected String name;
  *         ...
  *     }
+ * </pre>
  *
- *    Example 3:
- *
+ * <p>Example 3:
+ * <pre>
  *    &#064;Embeddable public class Address {
  *       protected String street;
  *       protected String city;
@@ -68,9 +99,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *       protected String zip;
  *       protected String plusFour;
  *     }
-
-
  * </pre>
+ *
+ * @see Embedded
+ * @see EmbeddedId
  *
  * @since 1.0
  */

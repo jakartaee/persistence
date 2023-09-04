@@ -26,35 +26,32 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to override the mapping of a <code>Basic</code> (whether
- * explicit or default) property or field or <code>Id</code> property or
- * field.
+ * Used to override the mapping of a {@code Basic} (whether explicit
+ * or default) property or field or {@code Id} property or field.
  *
- * <p> May be applied to an entity that extends a mapped superclass or
- * to an embedded field or property to override a basic mapping or id
- * mapping defined by the mapped superclass or embeddable class (or
- * embeddable class of one of its attributes).
+ * <p> May be applied to an entity that extends a mapped superclass
+ * or to an embedded field or property to override a basic mapping or
+ * id mapping defined by the mapped superclass or embeddable class
+ * (or embeddable class of one of its attributes).
 
- * <p> May be applied to an element collection containing instances of
- * an embeddable class or to a map collection whose key and/or value
- * is an embeddable class. When <code>AttributeOverride</code> is
- * applied to a map, "<code>key.</code>" or "<code>value.</code>" must
- * be used to prefix the name of the attribute that is being
- * overridden in order to specify it as part of the map key or map
- * value.
+ * <p> May be applied to an element collection containing instances
+ * of an embeddable class or to a map collection whose key and/or
+ * value is an embeddable class. When {@code AttributeOverride} is
+ * applied to a map, "{@code key.}" or "{@code value.}" must be used
+ * to prefix the name of the attribute that is being overridden in
+ * order to specify it as part of the map key or map value.
  *
- * <p> To override mappings at multiple levels of embedding, a dot (".")
- * notation form must be used in the <code>name</code> element to indicate an
- * attribute within an embedded attribute.  The value of each identifier
- * used with the dot notation is the name of the respective embedded
- * field or property.
+ * <p> To override mappings at multiple levels of embedding, a dot
+ * ({@code .}) notation form must be used in the {@code name} element
+ * to indicate an attribute within an embedded attribute. The value
+ * of each identifier used with the dot notation is the name of the
+ * respective embedded field or property.
  *
- * <p> If <code>AttributeOverride</code> is not specified, the column
- * is mapped the same as in the original mapping.
+ * <p> If {@code AttributeOverride} is not specified, the column is
+ * mapped the same as in the original mapping.
  *
+ * <p>Example 1:
  * <pre>
- *    Example 1:
- *
  *    &#064;MappedSuperclass
  *    public class Employee {
  *        &#064;Id protected Integer id;
@@ -74,10 +71,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *        public Float getHourlyWage() { ... }
  *        public void setHourlyWage(Float wage) { ... }
  *    }
- * 
+ * </pre>
  *
- *    Example 2:
- *
+ * <p>Example 2:
+ * <pre>
  *    &#064;Embeddable public class Address {
  *        protected String street;
  *        protected String city;
@@ -102,10 +99,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *        &#064;Embedded protected Address address;
  *        ...
  *    }
+ * </pre>
  *
- *
- *    Example 3:
- *
+ * <p>Example 3:
+ * <pre>
  *    &#064;Entity public class PropertyRecord {
  *        &#064;EmbeddedId PropertyOwner owner;
  *        &#064;AttributeOverrides({
@@ -125,7 +122,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *        Integer size;
  *        BigDecimal tax;
  *    }
- *
  * </pre>
  *
  * @see Embedded

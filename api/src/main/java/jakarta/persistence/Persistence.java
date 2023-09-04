@@ -27,48 +27,46 @@ import jakarta.persistence.spi.PersistenceProviderResolverHolder;
 import jakarta.persistence.spi.LoadState;
 
 /**
- * Bootstrap class that is used to obtain an {@link EntityManagerFactory}
- * in Java SE environments.  It may also be used to cause schema
+ * Bootstrap class used to obtain an {@link EntityManagerFactory}
+ * in Java SE environments. It may also be used to cause schema
  * generation to occur.
  * 
- * <p> The <code>Persistence</code> class is available in a Jakarta EE
+ * <p>The {@code Persistence} class is available in a Jakarta EE
  * container environment as well; however, support for the Java SE
  * bootstrapping APIs is not required in container environments.
  * 
- * <p> The <code>Persistence</code> class is used to obtain a {@link
- * PersistenceUtil PersistenceUtil} instance in both
- * Jakarta EE and Java SE environments.
+ * <p>The {@code Persistence} class is used to obtain a {@link
+ * PersistenceUtil PersistenceUtil} instance in both Jakarta EE
+ * and Java SE environments.
  *
  * @since 1.0
  */
 public class Persistence {
     
     /**
-     * Create and return an EntityManagerFactory for the named
+     * Create and return an {@link EntityManagerFactory} for the named
      * persistence unit.
      * 
-     * @param persistenceUnitName
-     *            the name of the persistence unit
-     * @return the factory that creates EntityManagers configured according to
-     *         the specified persistence unit
+     * @param persistenceUnitName the name of the persistence unit
+     * @return the factory that creates {@link EntityManager}s configured
+     *         according to the specified persistence unit
      */
     public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName) {
         return createEntityManagerFactory(persistenceUnitName, null);
     }
 
     /**
-     * Create and return an EntityManagerFactory for the named persistence unit
-     * using the given properties.
+     * Create and return an {@link EntityManagerFactory} for the named
+     * persistence unit, using the given properties.
      * 
-     * @param persistenceUnitName
-     *            the name of the persistence unit
-     * @param properties
-     *            Additional properties to use when creating the factory. 
-     *            These properties may include properties to control
-     *            schema generation.  The values of these properties override 
-     *            any values that may have been configured elsewhere.
-     * @return the factory that creates EntityManagers configured according to
-     *         the specified persistence unit.
+     * @param persistenceUnitName the name of the persistence unit
+     * @param properties additional properties to use when creating the
+     *                   factory. These properties may include properties
+     *                   to control schema generation. The values of these
+     *                   properties override any values that may have been
+     *                   configured elsewhere.
+     * @return the factory that creates {@link EntityManager}s configured
+     *        according to the specified persistence unit
      */
     public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName, Map<?,?> properties) {
 
@@ -90,13 +88,12 @@ public class Persistence {
     }
 
     /**
-     * Create and return an EntityManagerFactory for the named persistence unit
-     * using the given properties.
+     * Create and return an {@link EntityManagerFactory} for the named
+     * persistence unit, using the given properties.
      *
-     * @param configuration
-     *            configuration of the persistence unit
-     * @return the factory that creates EntityManagers configured according to
-     *         the specified persistence unit.
+     * @param configuration configuration of the persistence unit
+     * @return the factory that creates {@link EntityManager}s configured
+     *         according to the specified persistence unit
      *
      * @since 3.2
      */
@@ -121,17 +118,17 @@ public class Persistence {
 
 
     /**
-     * Create database schemas and/or tables and/or create DDL
-     * scripts as determined by the supplied properties.
+     * Create database schemas and/or tables and/or create DDL scripts
+     * as determined by the supplied properties.
      * <p>
      * Called when schema generation is to occur as a separate phase
      * from creation of the entity manager factory.
      * <p>
      * @param persistenceUnitName the name of the persistence unit
-     * @param map properties for schema generation;  these may
-     *             also contain provider-specific properties.  The
-     *             value of these properties override any values that
-     *             may have been configured elsewhere.
+     * @param map properties for schema generation; these may also
+     *            contain provider-specific properties. The values
+     *            of these properties override any values that may
+     *            have been configured elsewhere.
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
      *         generation otherwise fails.
@@ -153,8 +150,8 @@ public class Persistence {
     
 
     /**
-     * Return the PersistenceUtil instance
-     * @return PersistenceUtil instance
+     * Return the {@link PersistenceUtil} instance
+     * @return {@link PersistenceUtil} instance
      * @since 2.0
      */
     public static PersistenceUtil getPersistenceUtil() {
@@ -163,7 +160,7 @@ public class Persistence {
 
     
     /**
-     * Implementation of PersistenceUtil interface
+     * Implementation of the {@link PersistenceUtil} interface
      * @since 2.0
      */
     private static class PersistenceUtilImpl implements PersistenceUtil {

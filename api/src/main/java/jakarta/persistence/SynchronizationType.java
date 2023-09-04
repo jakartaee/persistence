@@ -17,17 +17,23 @@ package jakarta.persistence;
 
 /**
  * Specifies whether the persistence context is always automatically 
- * synchronized with the current transaction or whether the persistence context
- * must be explicitly joined to the current transaction by means of the
- * {@link EntityManager#joinTransaction} method.
+ * synchronized with the current transaction or whether the persistence
+ * context must be explicitly joined to the current transaction by means
+ * of the {@link EntityManager#joinTransaction()} method.
  *
  * @since 2.1
  */
 public enum SynchronizationType {
 
-    /** Persistence context is automatically synchronized with the current transaction */
+    /**
+     * Persistence context is automatically synchronized with the current
+     * transaction
+     */
     SYNCHRONIZED,
 
-    /** Persistence context must be explicitly joined to the current transaction */
+    /**
+     * Persistence context must be explicitly joined to the current
+     * transaction
+     */
     UNSYNCHRONIZED,
 }

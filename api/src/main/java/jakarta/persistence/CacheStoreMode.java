@@ -17,10 +17,21 @@
 package jakarta.persistence;
 
 /**
- * Used as the value of the
- * <code>jakarta.persistence.cache.storeMode</code> property to specify
- * the behavior when data is read from the database and when data is
- * committed into the database.
+ * Specifies how the {@link EntityManager} interacts with the
+ * second-level cache when data is read from the database and
+ * when data is written to the database.
+ * <ul>
+ * <li>{@link #USE} indicates that data may be written to the
+ *     second-level cache.
+ * <li>{@link #BYPASS} indicates that data may not be written
+ *     to the second-level cache.
+ * <li>{@link #REFRESH} indicates that data must be written
+ *     to the second-level cache, even when the data is already
+ *     cached.
+ * </ul>
+ *
+ * <p>Enumerates legal values of the property
+ * {@code jakarta.persistence.cache.storeMode}.
  *
  * @see EntityManager#setCacheStoreMode(CacheStoreMode)
  * @see Query#setCacheStoreMode(CacheStoreMode)
@@ -30,10 +41,10 @@ package jakarta.persistence;
 public enum CacheStoreMode implements FindOption, RefreshOption {
 
     /**
-     * Insert entity data into cache when read from database
-     * and insert/update entity data when committed into database: 
-     * this is the default behavior. Does not force refresh
-     * of already cached items when reading from database.
+     * Insert entity data into cache when read from database and
+     * insert/update entity data when written to the database:
+     * this is the default behavior. Does not force refresh of
+     * already cached items when reading from database.
      */
     USE,
 
@@ -43,9 +54,9 @@ public enum CacheStoreMode implements FindOption, RefreshOption {
     BYPASS,
 
     /**
-     * Insert/update entity data into cache when read 
-     * from database and when committed into database. 
-     * Forces refresh of cache for items read from database.
+     * Insert/update entity data held in the cache when read from
+     * the database and when written to the database. Force refresh
+     * of cache for items read from database.
      */
     REFRESH
 }

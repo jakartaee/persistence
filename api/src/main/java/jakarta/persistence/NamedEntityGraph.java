@@ -40,7 +40,7 @@ public @interface NamedEntityGraph {
 
     /**
      * (Optional) A list of attributes of the entity that are included in
-     *  this graph.
+     * this graph.
      */
     NamedAttributeNode[] attributeNodes() default {};
 

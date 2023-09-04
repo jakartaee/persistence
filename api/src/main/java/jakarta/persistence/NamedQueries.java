@@ -22,9 +22,10 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies multiple named Jakarta Persistence query language queries.
+ * Declares multiple named Jakarta Persistence query language queries.
  * Query names are scoped to the persistence unit.
- * The <code>NamedQueries</code> annotation can be applied to an entity or mapped superclass.
+ * The {@code NamedQueries} annotation can be applied to an entity or
+ * mapped superclass.
  *
  * @see NamedQuery
  * 
@@ -34,6 +35,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME) 
 public @interface NamedQueries { 
 
-    /** (Required) An array of <code>NamedQuery</code> annotations. */
+    /**
+     * (Required) An array of {@link NamedQuery} annotations.
+     * */
      NamedQuery [] value (); 
 }

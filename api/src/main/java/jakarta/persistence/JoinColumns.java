@@ -24,16 +24,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 
 /**
- * Specifies the mapping for composite foreign keys. This annotation 
- * groups <code>JoinColumn</code> annotations for the same relationship.
+ * Specifies the mapping for composite foreign keys. This annotation groups
+ * {@link JoinColumn} annotations for the same relationship.
  *
- * <p> When the <code>JoinColumns</code> annotation is used, 
- * both the <code>name</code> and the <code>referencedColumnName</code> elements 
- * must be specified in each such <code>JoinColumn</code> annotation.
+ * <p>Each {@link JoinColumn} annotation must explicit specify both
+ * {@link JoinColumn#name name} and {@link JoinColumn#referencedColumnName
+ * referencedColumnName}.
  *
+ * <p>Example:
  * <pre>
- *
- *    Example:
  *    &#064;ManyToOne
  *    &#064;JoinColumns({
  *        &#064;JoinColumn(name="ADDR_ID", referencedColumnName="ID"),
@@ -57,15 +56,15 @@ public @interface JoinColumns {
     JoinColumn[] value();
 
     /**
-     *  (Optional) Used to specify or control the generation of a
-     *  foreign key constraint when table generation is in effect. 
-     *  If both this element and the <code>foreignKey</code> element 
-     *  of any of the <code>JoinColumn</code> elements are specified, 
-     *  the behavior is undefined.  If no foreign key annotation element
-     *  is specified in either location, the persistence provider's
-     *  default foreign key strategy will apply.
+     * (Optional) Used to specify or control the generation of a
+     * foreign key constraint when table generation is in effect.
+     * If both this element and the {@code foreignKey} element of
+     * any of the {@link JoinColumn} elements are specified, the
+     * behavior is undefined. If no foreign key annotation element
+     * is specified in either location, a default foreign key
+     * strategy is selected by the persistence provider.
      *
-     *  @since 2.1
+     * @since 2.1
      */
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 }

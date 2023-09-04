@@ -17,7 +17,7 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>PluralAttribute</code> represent 
+ * Instances of the type {@code PluralAttribute} represent 
  * persistent collection-valued attributes.
  *
  * @param <X> The type the represented collection belongs to

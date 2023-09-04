@@ -21,21 +21,21 @@ import java.lang.annotation.Target;
 
 /**
  * Used in schema generation to specify creation of an index.
- * <p>
- * Note that it is not necessary to specify an index for a primary key,
- * as the primary key index will be created automatically.
  *
- * <p> 
- * The syntax of the <code>columnList</code> element is a 
- * <code>column_list</code>, as follows:
+ * <p>The syntax of the {@code columnList} element is given by
+ * the following simple BNF:
  * 
  * <pre>
- *    column::= index_column [,index_column]*
- *    index_column::= column_name [ASC | DESC]
+ *    column_list ::= index_column [,index_column]*
+ *    index_column ::= column_name [ASC | DESC]
  * </pre>
  * 
- * <p> If <code>ASC</code> or <code>DESC</code> is not specified, 
- * <code>ASC</code> (ascending order) is assumed.
+ * <p>If neither {@code ASC} nor {@code DESC} is not specified,
+ * {@code ASC}, that is, ascending order, is assumed.
+ *
+ * <p>Note that it is not necessary to specify an index for a
+ * primary key, as the primary key has a unique constraint with
+ * an index created automatically.
  *
  * @see Table
  * @see SecondaryTable
@@ -57,8 +57,8 @@ public @interface Index {
     String name() default "";
 
     /**
-     * (Required) The names of the columns included in the index,
-     * in order.
+     * (Required) The columns included in the index, in order,
+     * following the BNF rule {@code column_list} given above.
      */
     String columnList();
 

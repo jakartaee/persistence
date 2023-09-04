@@ -18,31 +18,51 @@ package jakarta.persistence;
 
 /**
  * Defines the set of cascadable operations that are propagated 
- * to the associated entity.
- * The value <code>cascade=ALL</code> is equivalent to 
- * <code>cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH}</code>.
+ * to the associated entity. The value {@link #ALL cascade=ALL}
+ * is equivalent to
+ * {@code cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH}}.
+ *
+ * @see ManyToOne#cascade
+ * @see OneToOne#cascade
+ * @see OneToMany#cascade
+ * @see ManyToMany#cascade
  *
  * @since 1.0
  */
 public enum CascadeType { 
 
-    /** Cascade all operations */
+    /**
+     * Cascade all operations
+     */
     ALL, 
 
-    /** Cascade persist operation */
+    /**
+     * Cascade the {@linkplain EntityManager#persist persist}
+     * operation
+     */
     PERSIST, 
 
-    /** Cascade merge operation */
+    /**
+     * Cascade the {@linkplain EntityManager#merge merge}
+     * operation
+     */
     MERGE, 
 
-    /** Cascade remove operation */
+    /**
+     * Cascade the {@linkplain EntityManager#remove remove}
+     * operation
+     */
     REMOVE,
 
-    /** Cascade refresh operation */
+    /**
+     * Cascade the {@linkplain EntityManager#refresh refresh}
+     * operation
+     */
     REFRESH,
 
     /**
-     * Cascade detach operation
+     * Cascade the {@linkplain EntityManager#detach detach}
+     * operation
      *
      * @since 2.0
      * 

@@ -17,8 +17,8 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type <code>SetAttribute</code> represent
- * persistent <code>java.util.Set</code>-valued attributes.
+ * Instances of the type {@code SetAttribute} represent
+ * persistent {@link java.util.Set}-valued attributes.
  *
  * @param <X> The type the represented Set belongs to
  * @param <E> The element type of the represented Set

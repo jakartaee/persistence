@@ -17,9 +17,9 @@
 package jakarta.persistence;
 
 /**
- * Specifies whether a transaction-scoped or extended 
- * persistence context is to be used in {@link PersistenceContext}. 
- * If not specified, a transaction-scoped persistence context is used.
+ * Specifies whether a transaction-scoped or extended persistence
+ * context is to be used in {@link PersistenceContext}. If not
+ * specified, a transaction-scoped persistence context is used.
  *
  * @since 1.0
  */

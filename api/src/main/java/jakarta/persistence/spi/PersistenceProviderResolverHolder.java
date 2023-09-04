@@ -33,12 +33,14 @@ import java.util.logging.Logger;
 
 
 /**
- * Holds the global {@link PersistenceProviderResolver}
- * instance. If no <code>PersistenceProviderResolver</code> is set by the
- * environment, the default <code>PersistenceProviderResolver</code> is used.
- * Enable "jakarta.persistence.spi" logger to show diagnostic information. 
+ * Holds the global {@link PersistenceProviderResolver} instance.
+ * If no {@code PersistenceProviderResolver} is set by the environment,
+ * the default {@code PersistenceProviderResolver} is used.
+ *
+ * <p>Enable {@code "jakarta.persistence.spi"} logger to show diagnostic
+ * information.
  * 
- * Implementations must be thread-safe.
+ * <p>Implementations must be thread-safe.
  * 
  * @since 2.0
  */
@@ -71,7 +73,7 @@ public class PersistenceProviderResolverHolder {
     /**
      * Default provider resolver class to use when none is explicitly set.
      * 
-     * Uses service loading mechanism as described in the Jakarta Persistence
+     * <p>Uses service loading mechanism as described in the Jakarta Persistence
      * specification. A ServiceLoader.load() call is made with the current context
      * classloader to find the service provider files on the classpath.
      */
@@ -145,7 +147,8 @@ public class PersistenceProviderResolverHolder {
         }
 
         /**
-         * Wraps <code>Thread.currentThread().getContextClassLoader()</code> into a doPrivileged block if security manager is present
+         * Wraps {@code Thread.currentThread().getContextClassLoader()} into a
+         * doPrivileged block if security manager is present
          */
         private static ClassLoader getContextClassLoader() {
             if (System.getSecurityManager() == null) {

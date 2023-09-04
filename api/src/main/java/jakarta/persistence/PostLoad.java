@@ -23,14 +23,12 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a callback method for the corresponding 
- * lifecycle event. This annotation may be applied to methods 
- * of an entity class, a mapped superclass, or a callback 
- * listener class.
+ * Specifies a callback method for the corresponding lifecycle event.
+ * This annotation may be applied to methods of an entity class, a
+ * mapped superclass, or a callback listener class.
  *
  * @since 1.0
  */
 @Target({METHOD}) 
 @Retention(RUNTIME)
-
 public @interface PostLoad {}

@@ -24,13 +24,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 
 /**
- * Supports composite map keys that reference entities.  
- * <p> The <code>MapKeyJoinColumns</code> annotation groups
- * <code>MapKeyJoinColumn</code> annotations.  When the
- * <code>MapKeyJoinColumns</code> annotation is used, both the
- * <code>name</code> and the <code>referencedColumnName</code>
+ * Supports composite map keys that reference entities.
+ *
+ * <p> The {@code MapKeyJoinColumns} annotation groups
+ * {@link MapKeyJoinColumn} annotations. When the
+ * {@code MapKeyJoinColumns} annotation is used, both the
+ * {@code name} and the {@code referencedColumnName}
  * elements must be specified in each of the grouped
- * <code>MapKeyJoinColumn</code> annotations.
+ * {@code MapKeyJoinColumn} annotations.
  * 
  * @see MapKeyJoinColumn
  * @see ForeignKey
@@ -41,22 +42,22 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 @Retention(RUNTIME)
 public @interface MapKeyJoinColumns {
 	/**
-	 * (Required) The map key join columns that are used to map to the entity
-	 * that is the map key.
+	 * (Required) The map key join columns that are used to map to
+	 * the entity that is the map key.
 	 */
 	MapKeyJoinColumn[] value();
 
         /**
-         *  (Optional) Used to specify or control the generation of a
-         *  foreign key constraint when table generation is in effect.
-         *  If both this element and the <code>foreignKey</code>
-         *  element of any of the <code>MapKeyJoinColumn</code>
-         *  elements are specified, the behavior is undefined.  If no
-         *  foreign key annotation element is specified in either
-         *  location, the persistence provider's default foreign key
-         *  strategy will apply.
+         * (Optional) Used to specify or control the generation of a
+         * foreign key constraint when table generation is in effect.
+         * If both this element and the {@code foreignKey} element of
+		 * any of the {@link MapKeyJoinColumn} elements are specified,
+		 * the behavior is undefined. If no {@code foreignKey}
+		 * annotation element is specified in either location, a
+		 * default foreign key strategy is selected by the
+		 * persistence provider.
          *
-         *  @since 2.1
+         * @since 2.1
          */
         ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 }

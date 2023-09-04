@@ -27,72 +27,59 @@ import java.util.List;
  * Stored procedure query execution may be controlled in accordance with 
  * the following:
  * <ul>
- * <li>The <code>setParameter</code> methods are used to set the values of 
- * all required <code>IN</code> and <code>INOUT</code> parameters.  
- * It is not required to set the values of stored procedure parameters 
- * for which default values have been defined by the stored procedure.</li>
- * <li>
- * When <code>getResultList</code> and <code>getSingleResult</code> are
- * called on a <code>StoredProcedureQuery</code> object, the provider 
- * will call <code>execute</code> on an unexecuted stored procedure 
- * query before processing <code>getResultList</code> or
- * <code>getSingleResult</code>.</li>
- * <li>
- * When <code>executeUpdate</code> is called on a 
- * <code>StoredProcedureQuery</code> object, the provider will call 
- * <code>execute</code> on an unexecuted stored procedure query
- *  followed by <code>getUpdateCount</code>.  The results of 
- * <code>executeUpdate</code> will be those of <code>getUpdateCount</code>.</li>
- * <li>
- * The <code>execute</code> method supports both the simple case where 
- * scalar results are passed back only via <code>INOUT</code> and 
- * <code>OUT</code> parameters as well as the most general case 
- * (multiple result sets and/or update counts, possibly also in 
- * combination with output parameter values).</li>
- * <li>
- * The <code>execute</code> method returns true if the first result is a 
- * result set, and false if it is an update count or there are no results 
- * other than through <code>INOUT</code> and <code>OUT</code> parameters, 
+ * <li>The {@link #setParameter} methods are used to set the values of
+ * all required {@code IN} and {@code INOUT} parameters. It is not
+ * required to set the values of stored procedure parameters for which
+ * default values have been defined by the stored procedure.</li>
+ * <li> When {@link #getResultList} and {@link #getSingleResult} are
+ * called on a {@code StoredProcedureQuery} object, the provider calls
+ * {@link #execute} on an unexecuted stored procedure query before
+ * processing {@code getResultList} or {@code getSingleResult}.</li>
+ * <li> When {@link #executeUpdate} is called on a
+ * {@code StoredProcedureQuery} object, the provider will call
+ * {@link #execute} on an unexecuted stored procedure query, followed
+ * by {@link #getUpdateCount}. The results of {@code executeUpdate} will
+ * be those of {@code getUpdateCount}.</li>
+ * <li> The {@link #execute} method supports both the simple case where
+ * scalar results are passed back only via {@code INOUT} and {@code OUT}
+ * parameters as well as the most general case (multiple result sets
+ * and/or update counts, possibly also in combination with output
+ * parameter values).</li>
+ * <li> The {@code execute} method returns true if the first result is
+ * a result set, and false if it is an update count or there are no
+ * results other than through {@code INOUT} and {@code OUT} parameters,
  * if any.</li>
- * <li>
- * If the <code>execute</code> method returns true, the pending result set 
- * can be obtained by calling <code>getResultList</code> or
- * <code>getSingleResult</code>.</li>
- * <li>
- * The <code>hasMoreResults</code> method can then be used to test 
- * for further results.</li>
- * <li>
- * If <code>execute</code> or <code>hasMoreResults</code> returns false, 
- * the <code>getUpdateCount</code> method can be called to obtain the 
- * pending result if it is an update count.  The <code>getUpdateCount</code>
- * method will return either the update count (zero or greater) or -1 
- * if there is no update count (i.e., either the next result is a result set 
- * or there is no next update count).</li>
- * <li>
- * For portability, results that correspond to JDBC result sets and 
- * update counts need to be processed before the values of any 
- * <code>INOUT</code> or <code>OUT</code> parameters are extracted.</li>
- * <li>
- * After results returned through <code>getResultList</code> and 
- * <code>getUpdateCount</code> have been exhausted, results returned through 
- * <code>INOUT</code> and <code>OUT</code> parameters can be retrieved.</li>
- * <li>
- * The <code>getOutputParameterValue</code> methods are used to retrieve 
- * the values passed back from the procedure through <code>INOUT</code> 
- * and <code>OUT</code> parameters.</li>
- * <li>
- * When using <code>REF_CURSOR</code> parameters for result sets the
- * update counts should be exhausted before calling <code>getResultList</code>
- * to retrieve the result set.  Alternatively, the <code>REF_CURSOR</code>
- * result set can be retrieved through <code>getOutputParameterValue</code>.
- * Result set mappings will be applied to results corresponding to
- * <code>REF_CURSOR</code> parameters in the order the <code>REF_CURSOR</code>
+ * <li> If the {@code execute} method returns true, the pending result
+ * set can be obtained by calling {@link #getResultList} or
+ * {@link #getSingleResult}.</li>
+ * <li> The {@link #hasMoreResults} method can then be used to test for
+ * further results.</li>
+ * <li> If {@code execute} or {@code hasMoreResults} returns false, the
+ * {@link #getUpdateCount} method can be called to obtain the pending
+ * result if it is an update count. The {@code getUpdateCount} method
+ * will return either the update count (zero or greater) or -1 if there
+ * is no update count (i.e., either the next result is a result set or
+ * there is no next update count).</li>
+ * <li> For portability, results that correspond to JDBC result sets
+ * and update counts need to be processed before the values of any
+ * {@code INOUT} or {@code OUT} parameters are extracted.</li>
+ * <li> After results returned through {@link #getResultList} and
+ * {@link #getUpdateCount} have been exhausted, results returned through
+ * {@code INOUT} and {@code OUT} parameters can be retrieved.</li>
+ * <li> The {@link #getOutputParameterValue} methods are used to
+ * retrieve the values passed back from the procedure through
+ * {@code INOUT} and {@code OUT} parameters.</li>
+ * <li> When using {@code REF_CURSOR} parameters for result sets the
+ * update counts should be exhausted before calling {@link #getResultList}
+ * to retrieve the result set. Alternatively, the {@code REF_CURSOR}
+ * result set can be retrieved through {@link #getOutputParameterValue}.
+ * Result set mappings are applied to results corresponding to
+ * {@code REF_CURSOR} parameters in the order the {@code REF_CURSOR}
  * parameters were registered with the query.</li>
- * <li>
- * In the simplest case, where results are returned only via 
- * <code>INOUT</code> and <code>OUT</code> parameters, <code>execute</code>
- * can be followed immediately by calls to 
- * <code>getOutputParameterValue</code>.</li>
+ * <li> In the simplest case, where results are returned only via
+ * {@code INOUT} and {@code OUT} parameters, {@code execute} can be
+ * followed immediately by calls to {@link #getOutputParameterValue}.
+ * </li>
  * </ul>
  *
  * @see Query
@@ -119,7 +106,7 @@ public interface StoredProcedureQuery extends Query {
     StoredProcedureQuery setHint(String hintName, Object value);
 
     /**
-     * Bind the value of a <code>Parameter</code> object.
+     * Bind the value of a {@code Parameter} object.
      * @param param  parameter object
      * @param value  parameter value
      * @return the same query instance
@@ -130,7 +117,7 @@ public interface StoredProcedureQuery extends Query {
                                           T value);
 
     /**
-     * Bind an instance of <code>java.util.Calendar</code> to a <code>Parameter</code> object.
+     * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
      * @param param parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -146,7 +133,7 @@ public interface StoredProcedureQuery extends Query {
                                       TemporalType temporalType);
 
     /**
-     * Bind an instance of <code>java.util.Date</code> to a <code>Parameter</code> object.
+     * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
      * @param param parameter object
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -173,7 +160,7 @@ public interface StoredProcedureQuery extends Query {
     StoredProcedureQuery setParameter(String name, Object value);
 
     /**
-     * Bind an instance of <code>java.util.Calendar</code> to a named parameter.
+     * Bind an instance of {@code java.util.Calendar} to a named parameter.
      * @param name  parameter name
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -190,7 +177,7 @@ public interface StoredProcedureQuery extends Query {
                                       TemporalType temporalType);
 
     /**
-     * Bind an instance of <code>java.util.Date</code> to a named parameter.
+     * Bind an instance of {@code java.util.Date} to a named parameter.
      * @param name  parameter name
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -218,7 +205,7 @@ public interface StoredProcedureQuery extends Query {
     StoredProcedureQuery setParameter(int position, Object value);
 
     /**
-     * Bind an instance of <code>java.util.Calendar</code> to a positional
+     * Bind an instance of {@code java.util.Calendar} to a positional
      * parameter.
      * @param position  position
      * @param value  parameter value
@@ -236,7 +223,7 @@ public interface StoredProcedureQuery extends Query {
                                       TemporalType temporalType);
 
     /**
-     * Bind an instance of <code>java.util.Date</code> to a positional parameter.
+     * Bind an instance of {@code java.util.Date} to a positional parameter.
      * @param position  position
      * @param value  parameter value
      * @param temporalType  temporal type
@@ -305,7 +292,7 @@ public interface StoredProcedureQuery extends Query {
     /**
      * Register a named parameter.
      * @param parameterName  name of the parameter as registered or
-     *             specified in metadata
+     *            specified in metadata
      * @param type  type of the parameter
      * @param mode  parameter mode 
      * @return the same query instance
@@ -316,31 +303,31 @@ public interface StoredProcedureQuery extends Query {
 	  ParameterMode mode);
 
     /**
-     *  Retrieve a value passed back from the procedure
-     *  through an INOUT or OUT parameter.
-     *  For portability, all results corresponding to result sets
-     *  and update counts must be retrieved before the values of 
-     *  output parameters.
-     *  @param position  parameter position
-     *  @return the result that is passed back through the parameter
-     *  @throws IllegalArgumentException if the position does
-     *          not correspond to a parameter of the query or is
-     *          not an INOUT or OUT parameter
+     * Retrieve a value passed back from the procedure
+     * through an INOUT or OUT parameter.
+     * For portability, all results corresponding to result sets
+     * and update counts must be retrieved before the values of 
+     * output parameters.
+     * @param position  parameter position
+     * @return the result that is passed back through the parameter
+     * @throws IllegalArgumentException if the position does
+     *         not correspond to a parameter of the query or is
+     *         not an INOUT or OUT parameter
      */
     Object getOutputParameterValue(int position);
 
     /**
-     *  Retrieve a value passed back from the procedure
-     *  through an INOUT or OUT parameter.
-     *  For portability, all results corresponding to result sets
-     *  and update counts must be retrieved before the values of 
-     *  output parameters.
-     *  @param parameterName  name of the parameter as registered or
-     *              specified in metadata
-     *  @return the result that is passed back through the parameter
-     *  @throws IllegalArgumentException if the parameter name does
-     *          not correspond to a parameter of the query or is
-     *          not an INOUT or OUT parameter
+     * Retrieve a value passed back from the procedure
+     * through an INOUT or OUT parameter.
+     * For portability, all results corresponding to result sets
+     * and update counts must be retrieved before the values of 
+     * output parameters.
+     * @param parameterName  name of the parameter as registered or
+     *        specified in metadata
+     * @return the result that is passed back through the parameter
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or is
+     *         not an INOUT or OUT parameter
      */
     Object getOutputParameterValue(String parameterName);
 
@@ -353,35 +340,35 @@ public interface StoredProcedureQuery extends Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction 
-     *         is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     boolean execute();
 
     /**
      * Return the update count of -1 if there is no pending result or
      * if the first result is not an update count.  The provider will
-     * call <code>execute</code> on the query if needed.
+     * call {@code execute} on the query if needed.
      * @return the update count or -1 if there is no pending result
      * or if the next result is not an update count.
      * @throws TransactionRequiredException if there is 
      *         no transaction or the persistence context has not
      *         been joined to the transaction
      * @throws QueryTimeoutException if the statement execution 
-     *         exceeds the query timeout value set and only 
+     *         exceeds the query timeout value set and only
      *         the statement is rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction 
-     *         is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     int executeUpdate();
 
     /**
      * Retrieve the list of results from the next result set.
-     * The provider will call <code>execute</code> on the query
+     * The provider will call {@code execute} on the query
      * if needed.
-     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
-     * in the order the <code>REF_CURSOR</code> parameter was 
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was 
      * registered with the query.
      * @return a list of the results or null is the next item is not 
      * a result set
@@ -389,17 +376,17 @@ public interface StoredProcedureQuery extends Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction 
-     *         is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     List getResultList();
 
     /**
      * Retrieve a single result from the next result set.
-     * The provider will call <code>execute</code> on the query
+     * The provider will call {@code execute} on the query
      * if needed.
-     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
-     * in the order the <code>REF_CURSOR</code> parameter was 
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was 
      * registered with the query.
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
@@ -409,17 +396,17 @@ public interface StoredProcedureQuery extends Query {
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction 
-     *         is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     Object getSingleResult();
 
     /**
      * Retrieve a single result from the next result set.
-     * The provider will call <code>execute</code> on the query
+     * The provider will call {@code execute} on the query
      * if needed.
-     * A <code>REF_CURSOR</code> result set, if any, will be retrieved
-     * in the order the <code>REF_CURSOR</code> parameter was
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set
@@ -437,27 +424,27 @@ public interface StoredProcedureQuery extends Query {
      * Return true if the next result corresponds to a result set,
      * and false if it is an update count or if there are no results
      * other than through INOUT and OUT parameters, if any.
-     * @return  true if next result corresponds to result set
+     * @return true if next result corresponds to result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction 
-     *         is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     boolean hasMoreResults();
 
     /**
      * Return the update count or  -1 if there is no pending result
      * or if the next result is not an update count.
-     * @return  update count or -1 if there is no pending result or if
-     *          the next result is not an update count
+     * @return update count or -1 if there is no pending result or if
+     *         the next result is not an update count
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
      * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction 
-     *         is rolled back 
+     *         the query timeout value set and the transaction
+     *         is rolled back
      */
     int getUpdateCount();
 

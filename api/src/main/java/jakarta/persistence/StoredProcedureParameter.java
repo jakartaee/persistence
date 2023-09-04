@@ -20,8 +20,8 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a parameter of a named stored procedure query.  All
- * parameters of a named stored procedure query must be specified.
+ * Declares a parameter of a named stored procedure query. All
+ * parameters of a named stored procedure query must be declared.
  *
  * @see NamedStoredProcedureQuery
  * @see ParameterMode 
@@ -33,16 +33,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface StoredProcedureParameter { 
 
     /** 
-     *  The name of the parameter as defined by the stored procedure in the database.
-     *  If a name is not specified, it is assumed that the stored procedure uses
-     *  positional parameters.
+     * The name of the parameter as defined by the stored procedure
+     * in the database. If a name is not specified, it is assumed
+     * that the stored procedure uses positional parameters.
      */
     String name() default "";
 
     /**
-     *  Specifies whether the parameter is an IN, INOUT, OUT, or REF_CURSOR parameter.
-     *  REF_CURSOR parameters are used by some databases to return result sets from
-     *  a stored procedure.
+     * Specifies whether the parameter is an IN, INOUT, OUT, or
+     * REF_CURSOR parameter. REF_CURSOR parameters are used by some
+     * databases to return result sets from a stored procedure.
      */
     ParameterMode mode() default ParameterMode.IN;
 

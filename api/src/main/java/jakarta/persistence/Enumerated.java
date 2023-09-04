@@ -40,8 +40,8 @@ import static jakarta.persistence.EnumType.ORDINAL;
  * may be {@linkplain #value explicitly specified} by this annotation.
  *
  * <p>If a persistent field or property of enum type has no explicit
- * {@code Enumerated} annotation, and if no converter is applied to the
- * field or property:
+ * {@code Enumerated} annotation, and if no converter is applied to
+ * the field or property:
  * <ul>
  * <li>if the enum type has a final field of type {@link String}
  *     annotated {@link EnumeratedValue}, the enumerated type is
@@ -50,9 +50,8 @@ import static jakarta.persistence.EnumType.ORDINAL;
  *     {@link EnumType#ORDINAL}.
  * </ul>
  *
+ * <p>Example:
  * <pre>
- *   Example:
- *
  *   public enum EmployeeStatus {FULL_TIME, PART_TIME, CONTRACT}
  *
  *   public enum SalaryRate {JUNIOR, SENIOR, MANAGER, EXECUTIVE}
@@ -76,6 +75,8 @@ import static jakarta.persistence.EnumType.ORDINAL;
 @Retention(RUNTIME)
 public @interface Enumerated {
 
-    /** (Optional) The type used in mapping an enum type. */
+    /**
+     * (Optional) The type used in mapping an enum type.
+     */
     EnumType value() default ORDINAL;
 }

@@ -20,7 +20,7 @@ import jakarta.persistence.TupleElement;
 import java.util.List;
 
 /**
- * The <code>Selection</code> interface defines an item that is to be
+ * The {@code Selection} interface defines an item that is to be
  * returned in a query result.
  *
  * @param <X> the type of the selection item

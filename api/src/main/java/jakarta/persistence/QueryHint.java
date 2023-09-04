@@ -21,10 +21,11 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to supply a query property or hint to the {@link NamedQuery} or {@link
- * NamedNativeQuery} annotation.
+ * Used to supply a query property or hint to the {@link NamedQuery}
+ * or {@link NamedNativeQuery} annotation.
  *
- * <p> Vendor-specific hints that are not recognized by a provider are ignored.
+ * <p>Vendor-specific hints that are not recognized by a provider are
+ * ignored.
  *
  * @since 1.0
  */

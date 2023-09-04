@@ -24,27 +24,25 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies the version field or property of an entity class that
- * serves as its optimistic lock value.  The version is used to ensure
- * integrity when performing the merge operation and for optimistic
- * concurrency control.
+ * is used to detect optimistic lock failures. The version is used
+ * to ensure integrity when performing the merge operation and for
+ * optimistic concurrency control.
  *
- * <p> Only a single <code>Version</code> property or field 
- * should be used per class; applications that use more than one 
- * <code>Version</code> property or field will not be portable. 
+ * <p>There should be no more than one {@code Version} property or
+ * field per class; entities with more than one {@code Version}
+ * property or field are not portable.
  * 
- * <p> The <code>Version</code> property should be mapped to 
- * the primary table for the entity class; applications that 
- * map the <code>Version</code> property to a table other than 
- * the primary table will not be portable.
+ * <p> The {@code Version} property should be mapped to the primary
+ * table for the entity class; entities that map the {@code Version}
+ * property to a table other than the primary table are not portable.
  * 
- * <p> The following types are supported for version properties: 
- * <code>int</code>, <code>Integer</code>, <code>short</code>, 
- * <code>Short</code>, <code>long</code>, <code>Long</code>, 
- * <code>java.sql.Timestamp</code>.
+ * <p>The version property should have one of the following types:
+ * {@code int}, {@link Integer}, {@code short}, {@link Short},
+ * {@code long}, {@link Long}, {@code java.sql.Timestamp},
+ * {@link java.time.Instant}, {@link java.time.LocalDateTime}.
  *
+ * <p>Example:
  * <pre>
- *    Example:
- *
  *    &#064;Version
  *    &#064;Column(name="OPTLOCK")
  *    protected int getVersionNum() { return versionNum; }

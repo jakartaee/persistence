@@ -24,29 +24,32 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies the mapped column for a persistent property or field.
- * If no <code>Column</code> annotation is specified, the default values apply.
+ * Specifies the column mapped by the annotated persistent property
+ * or field.
  *
- * <blockquote><pre>
- *    Example 1:
+ * <p>If no {@code Column} annotation is explicitly specified, the
+ * default values apply.
  *
+ * <p>Example 1:
+ * <pre>
  *    &#064;Column(name="DESC", nullable=false, length=512)
  *    public String getDescription() { return description; }
+ * </pre>
  *
- *    Example 2:
- *
+ * <p>Example 2:
+ * <pre>
  *    &#064;Column(name="DESC",
  *            columnDefinition="CLOB NOT NULL",
  *            table="EMP_DETAIL")
  *    &#064;Lob
  *    public String getDescription() { return description; }
+ * </pre>
  *
- *    Example 3:
- *
+ * <p>Example 3:
+ * <pre>
  *    &#064;Column(name="ORDER_COST", updatable=false, precision=12, scale=2)
  *    public BigDecimal getCost() { return cost; }
- *
- * </pre></blockquote>
+ * </pre>
  *
  *
  * @since 1.0
@@ -56,18 +59,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface Column {
 
     /**
-     * (Optional) The name of the column. Defaults to 
-     * the property or field name.
+     * (Optional) The name of the column. Defaults to the property
+     * or field name.
      */
     String name() default "";
 
     /**
-     * (Optional) Whether the column is a unique key.  This is a 
-     * shortcut for the <code>UniqueConstraint</code> annotation at the table 
-     * level and is useful for when the unique key constraint 
-     * corresponds to only a single column. This constraint applies 
-     * in addition to any constraint entailed by primary key mapping and 
-     * to constraints specified at the table level.
+     * (Optional) Whether the column is a unique key. This is a
+     * shortcut for the {@link UniqueConstraint} annotation at
+     * the table level and is useful for when the unique key
+     * constraint corresponds to only a single column. This
+     * constraint applies in addition to any constraint entailed
+     * by the primary key mapping and to constraints specified at
+     * the table level.
      */
     boolean unique() default false;
 
@@ -89,17 +93,17 @@ public @interface Column {
     boolean updatable() default true;
 
     /**
-     * (Optional) The SQL fragment that is used when 
-     * generating the DDL for the column.
-     * <p> Defaults to the generated SQL to create a
-     * column of the inferred type.
+     * (Optional) The SQL fragment that is used when generating
+     * the DDL for the column.
+     * <p> Defaults to the generated SQL to create a column of
+     * the inferred type.
      */
     String columnDefinition() default "";
 
     /**
      * (Optional) A SQL fragment appended to the generated DDL
-     * which declares this column. May not be used in
-     * conjunction with {@link #columnDefinition()}.
+     * which declares this column. May not be used in conjunction
+     * with {@link #columnDefinition()}.
      *
      * @since 3.2
      */
@@ -112,14 +116,15 @@ public @interface Column {
     String table() default "";
 
     /**
-     * (Optional) The column length. (Applies only if a
-     * string-valued column is used.)
+     * (Optional) The column length.
+     * (Applies only if a string-valued column is used.)
      */
     int length() default 255;
 
     /**
      * (Optional) The precision for a decimal (exact numeric) 
-     * column. (Applies only if a decimal column is used.)
+     * column.
+     * (Applies only if a decimal column is used.)
      * Value must be set by developer if used when generating 
      * the DDL for the column.
      */

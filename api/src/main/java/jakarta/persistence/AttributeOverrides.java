@@ -27,10 +27,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Used to override mappings of multiple properties or fields.
  *
+ * <p>Example:
  * <pre>
- *
- *    Example:
- *
  *    &#064;Embedded
  *    &#064;AttributeOverrides({
  *            &#064;AttributeOverride(name="startDate",
@@ -39,7 +37,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *                               column=&#064;Column(name="EMP_END"))
  *    })
  *    public EmploymentPeriod getEmploymentPeriod() { ... }
- *
  * </pre>
  *
  *
@@ -52,6 +49,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public @interface AttributeOverrides {
 
-    /** (Required) One or more field or property mapping overrides. */
+    /**
+     * (Required) One or more field or property mapping overrides.
+     */
     AttributeOverride[] value();
 }

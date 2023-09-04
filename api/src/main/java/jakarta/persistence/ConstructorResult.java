@@ -25,19 +25,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link NamedNativeQuery} annotation to map the SELECT clause
  * of a SQL query to a constructor.
  *
- * <p>Applies a constructor for the target class, passing in as arguments
- * values from the specified columns. All columns corresponding to
- * arguments of the intended constructor must be specified using the
- * <code>columns</code> element of the <code>ConstructorResult</code>
- * annotation in the same order as that of the argument list of the
- * constructor. Any entities returned as constructor results will be
- * in either the new or detached state, depending on whether a primary
- * key is retrieved for the constructed object.
- * 
+ * <p>Applies a constructor for the target class, passing in as
+ * arguments values from the specified columns. All columns
+ * corresponding to arguments of the intended constructor must
+ * be specified using the {@link #columns} element of the
+ * {@code ConstructorResult} annotation in the same order as that
+ * of the argument list of the constructor. Any entities returned
+ * as constructor results will be in either the new or detached
+ * state, depending on whether a primary key is retrieved for
+ * the constructed object.
+ *
+ * <p>Example:
  * <pre>
- *
- * Example:
- *
  *   Query q = em.createNativeQuery(
  *      "SELECT c.id, c.name, COUNT(o) as orderCount, AVG(o.price) AS avgOrder " +
  *      "FROM Customer c, Orders o " +
@@ -59,7 +58,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *          )
  *       }
  *      )
- *
  * </pre>
  *
  * @see SqlResultSetMapping

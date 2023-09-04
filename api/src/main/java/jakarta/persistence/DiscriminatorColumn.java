@@ -24,21 +24,21 @@ import static jakarta.persistence.DiscriminatorType.STRING;
 
 /**
  * Specifies the discriminator column for the 
- * <code>SINGLE_TABLE</code> and 
- * <code>JOINED</code> {@link Inheritance} mapping strategies.
+ * {@link InheritanceType#SINGLE_TABLE SINGLE_TABLE} and
+ * {@link InheritanceType#JOINED JOINED} {@linkplain Inheritance
+ * inheritance mapping strategies}.
  * 
- * <p> The strategy and the discriminator column are only 
- * specified in the root of an entity class hierarchy or
- * subhierarchy in which a different inheritance strategy is applied
+ * <p>The mapping strategy and discriminator column are only specified
+ * for the root of an entity class hierarchy or subhierarchy in which
+ * a different inheritance strategy is applied.
  * 
- * <p> If the <code>DiscriminatorColumn</code> annotation is missing, 
- * and a discriminator column is required, the name of the 
- * discriminator column defaults to <code>"DTYPE"</code> and the discriminator 
- * type to {@link DiscriminatorType#STRING DiscriminatorType.STRING}.
+ * <p>If the {@link DiscriminatorColumn} annotation is missing, and a
+ * discriminator column is required, the name of the discriminator
+ * column defaults to {@code "DTYPE"} and the discriminator type to
+ * {@link DiscriminatorType#STRING}.
  *
+ * <p>Example:
  * <pre>
- *     Example:
- *
  *     &#064;Entity
  *     &#064;Table(name="CUST")
  *     &#064;Inheritance(strategy=SINGLE_TABLE)
@@ -50,6 +50,7 @@ import static jakarta.persistence.DiscriminatorType.STRING;
  * </pre>
  *
  * @see DiscriminatorValue
+ * @see DiscriminatorType
  *
  * @since 1.0
  */

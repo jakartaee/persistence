@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The <code>Subquery</code> interface defines functionality that is 
+ * The {@code Subquery} interface defines functionality that is
  * specific to subqueries.
  *
- * A subquery has an expression as its selection item.
+ * <p>A subquery has an expression as its selection item.
  *
  * @param <T> the type of the selection item.
  *
@@ -48,7 +48,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * to the specified boolean expression.
      * Replaces the previously added restriction(s), if any.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
@@ -61,7 +61,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
@@ -74,7 +74,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  a list of zero or more restriction predicates
      * @return the modified query
      * @since 3.2
@@ -88,7 +88,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no grouping expressions are specified, any previously 
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param grouping  zero or more grouping expressions
      * @return the modified subquery
      */
@@ -101,7 +101,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no grouping expressions are specified, any previously 
      * added grouping expressions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param grouping  list of zero or more grouping expressions
      * @return the modified subquery
      */
@@ -111,7 +111,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Specify a restriction over the groups of the subquery.
      * Replaces the previous having restriction(s), if any.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
@@ -125,7 +125,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
@@ -139,7 +139,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * If no restrictions are specified, any previously added
      * restrictions are simply removed.
      * This method only overrides the return type of the
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param restrictions  a list of zero or more restriction predicates
      * @return the modified query
      * @since 3.2
@@ -147,13 +147,13 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
     Subquery<T> having(List<Predicate> restrictions);
 
     /**
-     * Specify whether duplicate query results will be eliminated.
+     * Specify whether duplicate query results are eliminated.
      * A true value will cause duplicates to be eliminated.
      * A false value will cause duplicates to be retained.
      * If distinct has not been specified, duplicate results must
      * be retained.
      * This method only overrides the return type of the 
-     * corresponding <code>AbstractQuery</code> method.
+     * corresponding {@code AbstractQuery} method.
      * @param distinct  boolean value specifying whether duplicate
      *        results must be eliminated from the subquery result or
      *        whether they must be retained
@@ -232,11 +232,11 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
     Expression<T> getSelection();
 
     /**
-     *  Return the correlated joins of the subquery.
-     *  Returns empty set if the subquery has no correlated
-     *  joins.
-     *  Modifications to the set do not affect the query.
-     *  @return the correlated joins of the subquery
+     * Return the correlated joins of the subquery.
+     * Returns empty set if the subquery has no correlated
+     * joins.
+     * Modifications to the set do not affect the query.
+     * @return the correlated joins of the subquery
      */
     Set<Join<?, ?>> getCorrelatedJoins();
 

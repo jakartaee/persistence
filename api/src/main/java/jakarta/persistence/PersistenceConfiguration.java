@@ -218,7 +218,7 @@ public class PersistenceConfiguration {
     /**
      * Create a new {@link EntityManagerFactory} based on this configuration.
      * @throws PersistenceException if required configuration is missing or
-     *                              if the factory could not be created
+     *                             if the factory could not be created
      */
     public EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(this);
@@ -343,12 +343,12 @@ public class PersistenceConfiguration {
      * The {@linkplain PersistenceUnitTransactionType transaction type}.
      * <ul>
      * <li>If {@link PersistenceUnitTransactionType#JTA}, a JTA data
-     *     source must be provided via {@link #jtaDataSource()},
-     *     or by the container.
+     *    source must be provided via {@link #jtaDataSource()},
+     *    or by the container.
      * <li>If {@link PersistenceUnitTransactionType#RESOURCE_LOCAL},
-     *     database connection properties may be specified via
-     *     {@link #properties()}, or a non-JTA datasource may be
-     *     provided via {@link #nonJtaDataSource()}.
+     *    database connection properties may be specified via
+     *    {@link #properties()}, or a non-JTA datasource may be
+     *    provided via {@link #nonJtaDataSource()}.
      * </ul>
      * @return the transaction type
      */

@@ -23,14 +23,20 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a callback method for the corresponding 
- * lifecycle event. This annotation may be applied to methods 
- * of an entity class, a mapped superclass, or a callback 
- * listener class.
+ * Specifies a callback method for the corresponding lifecycle event.
+ * This annotation may be applied to methods of an entity class, a
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>A generated primary key value is available when this callback
+ * occurs only for {@link GenerationType#UUID UUID},
+ * {@link GenerationType#TABLE TABLE}, or
+ * {@link GenerationType#SEQUENCE SEQUENCE}
+ * primary key generation. For {@link GenerationType#IDENTITY IDENTITY}
+ * primary key generation, the generated primary key is not available
+ * when this callback occurs.
  *
  * @since 1.0
  */
 @Target({METHOD}) 
 @Retention(RUNTIME)
-
 public @interface PrePersist {}

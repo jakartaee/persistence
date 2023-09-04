@@ -25,8 +25,8 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.*;
 
 /**
- * Expresses a dependency on a container-managed {@link EntityManager} and its
- * associated persistence context.
+ * Expresses a dependency on a container-managed {@link EntityManager} and
+ * its associated persistence context.
  *
  * @since 1.0
  */
@@ -37,23 +37,23 @@ import static java.lang.annotation.RetentionPolicy.*;
 public @interface PersistenceContext {
 
     /**
-     * (Optional) The name by which the entity manager is to be accessed in the 
-     * environment referencing context; not needed when dependency 
+     * (Optional) The name by which the entity manager is to be accessed
+     * in the environment referencing context; not needed when dependency
      * injection is used.
      */
     String name() default "";
 
     /**
      * (Optional) The name of the persistence unit as defined in the
-     * <code>persistence.xml</code> file. If the <code>unitName</code> element is
-     * specified, the persistence unit for the entity manager that is
+     * {@code persistence.xml} file. If the {@code unitName} element
+     * is specified, the persistence unit for the entity manager that is
      * accessible in JNDI must have the same name.
      */
     String unitName() default "";
 
     /**
-     * (Optional) Specifies whether a transaction-scoped persistence context 
-     * or an extended persistence context is to be used.
+     * (Optional) Specifies whether a transaction-scoped persistence
+     * context or an extended persistence context is to be used.
      */
     PersistenceContextType type() default PersistenceContextType.TRANSACTION;
 
@@ -61,17 +61,17 @@ public @interface PersistenceContext {
      * (Optional) Specifies whether the persistence context is always
      * automatically synchronized with the current transaction or whether
      * the persistence context must be explicitly joined to the current
-     * transaction by means of the EntityManager 
-     * {@link EntityManager#joinTransaction joinTransaction} method.
+     * transaction by means of the {@link EntityManager#joinTransaction}
+     * method.
      * @since 2.1
      */
     SynchronizationType synchronization() default SynchronizationType.SYNCHRONIZED;
 
     /**
-     * (Optional) Properties for the container or persistence
-     * provider.  Vendor specific properties may be included in this
-     * set of properties.  Properties that are not recognized by
-     * a vendor are ignored.  
+     * (Optional) Properties for the container or persistence provider.
+     * Vendor specific properties may be included in this set of
+     * properties. Properties that are not recognized by a vendor are
+     * ignored.
      */ 
     PersistenceProperty[] properties() default {};
 }
