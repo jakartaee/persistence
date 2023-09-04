@@ -54,7 +54,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>a {@linkplain OneToOne one-to-one} association usually maps
  *     to a unique foreign key relationship (sometimes using a shared
  *     primary key),
- * <li>a {@linkplain ManyToOne many-to-many} association usually maps
+ * <li>a {@linkplain OneToMany one-to-many} association usually maps
  *     to a foreign key column or columns in one of the tables mapped
  *     by the <em>associated entity</em>, and
  * <li>a {@linkplain ManyToMany many-to-many} association usually maps
