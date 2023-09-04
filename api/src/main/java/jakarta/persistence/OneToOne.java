@@ -47,7 +47,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * containing the embeddable class is on the owning side of the 
  * relationship, the non-owning side must use the {@link #mappedBy} 
  * element of the {@code OneToOne} annotation to specify the relationship 
- * field or property of the embeddable class. The dot {@code .} notation
+ * field or property of the embeddable class. The dot ({@code .}) notation
  * syntax must be used in the {@link #mappedBy} element to indicate the
  * relationship attribute within the embedded attribute. The value of
  * each identifier used with the dot notation is the name of the

@@ -51,27 +51,31 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface MapKeyColumn {
 
     /**
-     * (Optional) The name of the map key column. The table in which it is found
-     * depends upon the context. If the map key is for an element collection,
-     * the map key column is in the collection table for the map value. If the
-     * map key is for a ManyToMany entity relationship or for a OneToMany entity
-     * relationship using a join table, the map key column is in a join table.
-     * If the map key is for a OneToMany entity relationship using a foreign key
-     * mapping strategy, the map key column is in the table of the entity that
-     * is the value of the map.
+     * (Optional) The name of the map key column. The table in which
+     * it is found depends upon the context.
+     * <ul>
+     * <li>If the map key is for an element collection, the map key
+     *     column is in the collection table for the map value.
+     * <li>If the map key is for a {@link ManyToMany} entity
+     *     relationship or for a {@link OneToMany} entity relationship
+     *     using a join table, the map key column is in a join table.
+     * <li>If the map key is for a {@code OneToMany} entity relationship
+     *     using a foreign key mapping strategy, the map key column is
+     *     in the table of the entity that is the value of the map.
+     * </ul>
      * <p> Defaults to the concatenation of the following: the name of
-     * the referencing relationship field or property; "_"; "{@code KEY}".
+     * the referencing relationship field or property; "{@code _}";
+     * "{@code KEY}".
      */
     String name() default "";
 
     /**
      * (Optional) Whether the column is a unique key. This is a
-     * shortcut for the {@code UniqueConstraint} annotation
-     * at the table level and is useful for when the unique key
-     * constraint corresponds to only a single column. This
-     * constraint applies in addition to any constraint entailed
-     * by primary key mapping and to constraints specified at the
-     * table level.
+     * shortcut for the {@link UniqueConstraint} annotation at the
+     * table level and is useful for when the unique key constraint
+     * corresponds to only a single column. This constraint applies
+     * in addition to any constraint entailed by primary key mapping
+     * and to constraints specified at the table level.
      */
     boolean unique() default false;
 

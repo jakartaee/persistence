@@ -72,7 +72,7 @@ public @interface OrderColumn {
     /**
      * (Optional) The name of the ordering column.
      * Defaults to the concatenation of the name of the
-     * referencing property or field; {@code _}; {@code ORDER}.
+     * referencing property or field; "{@code _}"; "{@code ORDER}".
      */
     String name() default "";
 

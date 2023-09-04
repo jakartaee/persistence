@@ -80,11 +80,11 @@ public @interface JoinColumn {
      * <p>Default (only applies if a single join column is used):
      * The concatenation of the following: the name of the referencing
      * relationship property or field of the referencing entity or
-     * embeddable class; {@code _}; the name of the referenced primary
+     * embeddable class; "{@code _}"; the name of the referenced primary
      * key column. If there is no such referencing relationship property
      * or field in the entity, or if the join is for an element collection,
      * the join column name is formed as the concatenation of the following:
-     * the name of the entity; {@code _}; the name of the referenced primary
+     * the name of the entity; "{@code _}"; the name of the referenced primary
      * key column.
      */
     String name() default "";

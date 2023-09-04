@@ -126,7 +126,7 @@ public @interface CollectionTable {
      * which reference the primary table of the entity. The default
      * only applies if a single join column is used. The default is
      * the same as for {@link JoinColumn} (i.e., the concatenation of
-     * the following: the name of the entity; {@code _}; the name of
+     * the following: the name of the entity; "{@code _}"; the name of
      * the referenced primary key column.) However, if there is more
      * than one join column, a {@link JoinColumn} annotation must be
      * specified for each join column using the {@link JoinColumns}

@@ -48,7 +48,7 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * relationship mapping from an embeddable class, the {@link #name}
  * element specifies the referencing relationship field or property
  * within the embeddable class. To override mappings at multiple
- * levels of embedding, a dot {@code .} notation syntax must be used
+ * levels of embedding, a dot ({@code .}) notation syntax must be used
  * in the {@code name} element to indicate an attribute within an
  * embedded attribute. The value of each identifier used with the dot
  * notation is the name of the respective embedded field or property.

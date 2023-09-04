@@ -71,7 +71,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * In these cases, the {@link #attributeName} must be specified.
  *
  * <p>To override conversion mappings at multiple levels of embedding,
- * a dot {@code .} notation form must be used in the {@link #attributeName}
+ * a dot ({@code .}) notation form must be used in the {@link #attributeName}
  * element to indicate an attribute within an embedded attribute. The
  * value of each identifier used with the dot notation is the name of
  * the respective embedded field or property.

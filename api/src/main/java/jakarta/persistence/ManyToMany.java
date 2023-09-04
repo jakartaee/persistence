@@ -46,7 +46,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the owner of the relationship, the non-owning side must use the
  * {@link #mappedBy} element of the {@code ManyToMany} annotation to
  * specify the relationship field or property of the embeddable class.
- * The dot {@code .} notation syntax must be used in the
+ * The dot ({@code .}) notation syntax must be used in the
  * {@code mappedBy} element to indicate the relationship attribute
  * within the embedded attribute. The value of each identifier used
  * with the dot notation is the name of the respective embedded field
