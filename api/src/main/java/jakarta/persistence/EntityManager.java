@@ -134,6 +134,18 @@ import jakarta.persistence.criteria.CriteriaDelete;
  * calling {@link #setCacheRetrieveMode(CacheRetrieveMode)} and
  * {@link #setCacheStoreMode(CacheStoreMode)}.
  *
+ * <p>Some operations accept one or more built-in and vendor-specific
+ * options:
+ * <ul>
+ * <li>{@link #find(Class, Object, FindOption...)} and 
+ *     {@link #find(EntityGraph, Object, FindOption...)} accept
+ *     {@link FindOption}s,
+ * <li>{@link #refresh(Object, RefreshOption...)} accepts
+ *     {@link RefreshOption}s, and
+ * <li>{@link #lock(Object, LockModeType, LockOption...)} accepts
+ *     {@link LockOption}s.
+ * </ul>
+ *
  * @see Query
  * @see TypedQuery
  * @see CriteriaQuery
