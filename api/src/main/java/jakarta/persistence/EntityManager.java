@@ -20,6 +20,7 @@ package jakarta.persistence;
 
 import java.util.Map;
 import java.util.List;
+
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -158,13 +159,21 @@ import jakarta.persistence.criteria.CriteriaDelete;
 public interface EntityManager extends AutoCloseable {
 
     /**
-     * Make an instance managed and persistent.
-     * @param entity  entity instance
-     * @throws EntityExistsException if the entity already exists.
-     * (If the entity already exists, the {@code EntityExistsException}
+     * Make a new entity instance managed and persistent, resulting in
+     * its insertion in the database when the persistence context is
+     * synchronized with the database, or make a removed entity managed,
+     * undoing the effect of a previous call to {@link #remove(Object)}.
+     * This operation cascades to every entity related by an association
+     * marked {@link CascadeType#PERSIST cascade=PERSIST}. If the given
+     * entity instance is already managed, that is, if it already belongs
+     * to this persistence context, and has not been marked for removal,
+     * it is itself ignored, but the operation still cascades.
+     * @param entity  a new, managed, or removed entity instance
+     * @throws EntityExistsException if the given entity is detached
+     * (if the entity is detached, the {@code EntityExistsException}
      * may be thrown when the persist operation is invoked, or the
      * {@code EntityExistsException} or another {@code PersistenceException}
-     * may be thrown at flush or commit time.)
+     * may be thrown at flush or commit time)
      * @throws IllegalArgumentException if the given instance is not an
      *         entity
      * @throws TransactionRequiredException if there is no transaction
@@ -174,12 +183,23 @@ public interface EntityManager extends AutoCloseable {
     void persist(Object entity);
     
     /**
-     * Merge the state of the given entity into the current persistence
-     * context.
-     * @param entity  entity instance
+     * Merge the state of the given new or detached entity instance
+     * into the current persistence context, resulting in, respectively,
+     * an insert or possible update when the persistence context is
+     * synchronized with the database. Return a managed instance with
+     * the same persistent state as the given entity instance, but a
+     * distinct Java object identity. If the given entity is detached,
+     * the returned entity has the same persistent identity. This
+     * operation cascades to every entity related by an association
+     * marked {@link CascadeType#MERGE cascade=MERGE}. If the given
+     * entity instance is managed, that is, if it belongs to this
+     * persistence context, and has not been marked for removal, it is
+     * itself ignored, but the operation still cascades, and it is
+     * returned directly.
+     * @param entity  a new, managed, or detached entity instance
      * @return the managed instance that the state was merged to
-     * @throws IllegalArgumentException if instance is not an entity or
-     *         is a removed entity
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or is a removed entity
      * @throws TransactionRequiredException if there is no transaction
      *         when invoked on a container-managed entity manager of
      *         that is of type {@link PersistenceContextType#TRANSACTION}
@@ -187,10 +207,16 @@ public interface EntityManager extends AutoCloseable {
     <T> T merge(T entity);
 
     /**
-     * Remove the entity instance.
-     * @param entity  entity instance
-     * @throws IllegalArgumentException if the instance is not an
-     *         entity or is a detached entity
+     * Mark a managed entity instance as removed, resulting in its deletion
+     * from the database when the persistence context is synchronized with
+     * the database. This operation cascades to every entity related by an
+     * association marked {@link CascadeType#REMOVE cascade=REMOVE}. If the
+     * given entity instance is already removed, it is ignored. If the
+     * given entity is new, it is itself ignored, but the operation still
+     * cascades.
+     * @param entity  a managed, new, or removed entity instance
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or is a detached entity
      * @throws TransactionRequiredException if invoked on a
      *         container-managed entity manager of type
      *         {@link PersistenceContextType#TRANSACTION} and there is
@@ -524,9 +550,8 @@ public interface EntityManager extends AutoCloseable {
     FlushModeType getFlushMode();
 
     /**
-     * Lock an entity instance that is contained in the persistence
-     * context with the specified {@linkplain LockModeType lock mode
-     * type}.
+     * Lock an entity instance belonging to the persistence context,
+     * obtaining the specified {@linkplain LockModeType lock mode}.
      * <p>If a pessimistic lock mode type is specified and the entity
      * contains a version attribute, the persistence provider must 
      * also perform optimistic version checks when obtaining the 
@@ -540,7 +565,7 @@ public interface EntityManager extends AutoCloseable {
      * <li>the {@link LockTimeoutException} is thrown if the database
      *     locking failure causes only statement-level rollback
      * </ul>
-     * @param entity  entity instance
+     * @param entity  a managed entity instance
      * @param lockMode  lock mode
      * @throws IllegalArgumentException if the instance is not an
      *         entity or is a detached entity
@@ -561,9 +586,9 @@ public interface EntityManager extends AutoCloseable {
     void lock(Object entity, LockModeType lockMode);
 
     /**
-     * Lock an entity instance that is contained in the persistence
-     * context with the specified {@linkplain LockModeType lock mode
-     * type}, using the specified properties.
+     * Lock an entity instance belonging to the persistence context,
+     * obtaining the specified {@linkplain LockModeType lock mode},
+     * using the specified properties.
      * <p>If a pessimistic lock mode type is specified and the entity
      * contains a version attribute, the persistence provider must 
      * also perform optimistic version checks when obtaining the 
@@ -583,7 +608,7 @@ public interface EntityManager extends AutoCloseable {
      * timeout hint. Depending on the database in use and the locking
      * mechanisms used by the provider, the hint may or may not be
      * observed.
-     * @param entity  entity instance
+     * @param entity  a managed entity instance
      * @param lockMode  lock mode
      * @param properties  standard and vendor-specific properties
      *        and hints
@@ -607,9 +632,9 @@ public interface EntityManager extends AutoCloseable {
               Map<String, Object> properties);
 
     /**
-     * Lock an entity instance that is contained in the persistence
-     * context with the specified lock mode type, using the specified
-     * {@linkplain LockOption options}.
+     * Lock an entity instance belonging to the persistence context,
+     * obtaining the specified {@linkplain LockModeType lock mode},
+     * using the specified {@linkplain LockOption options}.
      * <p>If a pessimistic lock mode type is specified and the entity
      * contains a version attribute, the persistence provider must
      * also perform optimistic version checks when obtaining the
@@ -629,7 +654,7 @@ public interface EntityManager extends AutoCloseable {
      * {@linkplain Timeout timeout option}. Depending on the database
      * in use and the locking mechanisms used by the provider, the
      * option may or may not be observed.
-     * @param entity  entity instance
+     * @param entity  a managed entity instance
      * @param lockMode  lock mode
      * @param options  standard and vendor-specific options
      * @throws IllegalArgumentException if the instance is not an
@@ -653,9 +678,11 @@ public interface EntityManager extends AutoCloseable {
               LockOption... options);
 
     /**
-     * Refresh the state of the instance from the database,
-     * overwriting unflushed changes made to the entity, if any.
-     * @param entity  entity instance
+     * Refresh the state of the given managed entity instance from
+     * the database, overwriting unflushed changes made to the entity,
+     * if any. This operation cascades to every entity related by an
+     * association marked {@link CascadeType#REFRESH cascade=REFRESH}.
+     * @param entity  a managed entity instance
      * @throws IllegalArgumentException if the instance is not
      *         an entity or the entity is not managed
      * @throws TransactionRequiredException if there is no
@@ -668,12 +695,14 @@ public interface EntityManager extends AutoCloseable {
     void refresh(Object entity);
 
     /**
-     * Refresh the state of the instance from the database, using 
-     * the specified properties, and overwriting unflushed changes
-     * made to the entity, if any.
+     * Refresh the state of the given managed entity instance from
+     * the database, using the specified properties, and overwriting
+     * unflushed changes made to the entity, if any. This operation
+     * cascades to every entity related by an association marked
+     * {@link CascadeType#REFRESH cascade=REFRESH}.
      * <p>If a vendor-specific property or hint is not recognized,
      * it is silently ignored. 
-     * @param entity  entity instance
+     * @param entity  a managed entity instance
      * @param properties  standard and vendor-specific properties 
      *        and hints
      * @throws IllegalArgumentException if the instance is not 
@@ -690,10 +719,11 @@ public interface EntityManager extends AutoCloseable {
                  Map<String, Object> properties);
 
     /**
-     * Refresh the state of the instance from the database,
-     * overwriting unflushed changes made to the entity, if any,
-     * and lock it with respect to given {@linkplain LockModeType
-     * lock mode type}.
+     * Refresh the state of the given managed entity instance from
+     * the database, overwriting unflushed changes made to the entity,
+     * if any, and obtain the given {@linkplain LockModeType lock mode}.
+     * This operation cascades to every entity related by an association
+     * marked {@link CascadeType#REFRESH cascade=REFRESH}.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
@@ -702,7 +732,7 @@ public interface EntityManager extends AutoCloseable {
      * <li>the {@link LockTimeoutException} is thrown if the database
      *     locking failure causes only statement-level rollback.
      * </ul>
-     * @param entity  entity instance
+     * @param entity  a managed entity instance
      * @param lockMode  lock mode
      * @throws IllegalArgumentException if the instance is not an entity
      *         or if the entity is not managed
@@ -727,10 +757,12 @@ public interface EntityManager extends AutoCloseable {
     void refresh(Object entity, LockModeType lockMode);
 
     /**
-     * Refresh the state of the instance from the database,
-     * overwriting unflushed changes made to the entity, if any,
-     * and lock it with respect to given {@linkplain LockModeType
-     * lock mode type}, using the specified properties.
+     * Refresh the state of the given managed entity instance from
+     * the database, overwriting unflushed changes made to the entity,
+     * if any, and obtain the given {@linkplain LockModeType lock mode},
+     * using the specified properties. This operation cascades to every
+     * entity related by an association marked {@link CascadeType#REFRESH
+     * cascade=REFRESH}.
      * <p>If the lock mode type is pessimistic and the entity instance
      * is found but cannot be locked:
      * <ul>
@@ -745,7 +777,7 @@ public interface EntityManager extends AutoCloseable {
      * timeout hint. Depending on the database in use and the locking
      * mechanisms used by the provider, the hint may or may not be
      * observed.
-     * @param entity  entity instance
+     * @param entity  a managed entity instance
      * @param lockMode  lock mode
      * @param properties  standard and vendor-specific properties
      *        and hints
@@ -773,11 +805,13 @@ public interface EntityManager extends AutoCloseable {
                  Map<String, Object> properties);
 
     /**
-     * Refresh the state of the given entity instance from the
+     * Refresh the state of the given managed entity instance from the
      * database, using the specified {@linkplain RefreshOption options},
      * overwriting changes made to the entity, if any. If the supplied
-     * options include a {@link LockModeType}, lock the given entity with
-     * respect to the specified lock type.
+     * options include a {@link LockModeType}, lock the given entity,
+     * obtaining the given lock mode. This operation cascades to every
+     * entity related by an association marked {@link CascadeType#REFRESH
+     * cascade=REFRESH}.
      * <p>If the lock mode type is pessimistic and the entity instance is
      * found but cannot be locked:
      * <ul>
@@ -792,7 +826,7 @@ public interface EntityManager extends AutoCloseable {
      * {@linkplain Timeout timeout option}. Depending on the database in
      * use and the locking mechanisms used by the provider, the hint may
      * or may not be observed.
-     * @param entity  entity instance
+     * @param entity  a managed entity instance
      * @param options  standard and vendor-specific options
      * @throws IllegalArgumentException if the instance is not an entity
      *         or if the entity is not managed
@@ -820,17 +854,21 @@ public interface EntityManager extends AutoCloseable {
     /**
      * Clear the persistence context, causing all managed entities to
      * become detached. Changes made to entities that have not already
-     * been flushed to the database will not be made persistent.
+     * been flushed to the database will never be made persistent.
      */
     void clear();
 
     /**
-     * Remove the given entity from the persistence context, causing
-     * a managed entity to become detached. Unflushed changes made to
-     * the entity, if any, (including removal of the entity), will not
-     * be synchronized to the database. Entities which previously
-     * referenced the detached entity will continue to reference it.
-     * @param entity  entity instance
+     * Evict the given managed or removed entity from the persistence
+     * context, causing the entity to become immediately detached.
+     * Unflushed changes made to the entity, if any, including deletion
+     * of the entity, will never be synchronized to the database.
+     * Managed entities which reference the given entity continue to
+     * reference it. This operation cascades to every entity related by
+     * an association marked {@link CascadeType#DETACH cascade=DETACH}.
+     * If the given entity instance is new or detached, that is, if it
+     * is not associated with this persistence context, it is ignored.
+     * @param entity  a managed or removed entity instance
      * @throws IllegalArgumentException if the instance is not an 
      *         entity
      * @since 2.0
@@ -848,15 +886,15 @@ public interface EntityManager extends AutoCloseable {
     boolean contains(Object entity);
 
     /**
-     * Get the current lock mode held by this persistence context
-     * on the given entity instance.
-     * @param entity  entity instance
-     * @return lock mode
-     * @throws TransactionRequiredException if there is no 
+     * Get the current {@linkplain LockModeType lock mode} held by
+     * this persistence context on the given managed entity instance.
+     * @param entity  a managed entity instance
+     * @return the lock mode currently held
+     * @throws TransactionRequiredException if there is no active
      *         transaction or if the entity manager has not been
      *         joined to the current transaction
-     * @throws IllegalArgumentException if the instance is not a
-     *         managed entity and a transaction is active
+     * @throws IllegalArgumentException if a transaction is active
+     *         but the given instance is not a managed entity
      * @since 2.0
      */
     LockModeType getLockMode(Object entity);
@@ -893,19 +931,20 @@ public interface EntityManager extends AutoCloseable {
      * Set an entity manager property or hint. 
      * If a vendor-specific property or hint is not recognized, it is
      * silently ignored. 
-     * @param propertyName name of property or hint
-     * @param value  value for property or hint
-     * @throws IllegalArgumentException if the second argument is 
-     *         not valid for the implementation
+     * @param propertyName name of the property or hint
+     * @param value  value for the property or hint
+     * @throws IllegalArgumentException if the property or hint name
+     *         is recognized by the implementation, but the second
+     *         argument is not valid value
      * @since 2.0
      */
     void setProperty(String propertyName, Object value);
 
     /**
-     * Get the properties and hints and associated values that are in
-     * effect for the entity manager. Changing the contents of the map
-     * does not change the configuration in effect.
-     * @return map of properties and hints in effect for entity manager
+     * The properties and hints and their associated values which are
+     * in effect for this entity manager. Modifying the contents of
+     * the returned map does not change the configuration in effect.
+     * @return a map of properties and hints currently in effect
      * @since 2.0
      */
     Map<String, Object> getProperties();
@@ -1131,14 +1170,14 @@ public interface EntityManager extends AutoCloseable {
     boolean isJoinedToTransaction();
 
     /**
-     * Return an object of the specified type to allow access
-     * to a provider-specific API. If the provider implementation
+     * Return an object of the specified type to allow access to
+     * a provider-specific API. If the provider implementation
      * of {@code EntityManager} does not support the given type,
      * the {@link PersistenceException} is thrown.
      * @param cls  the class of the object to be returned.
-     *            This is usually either the underlying class
-     *            implementing {@code EntityManager} or an
-     *            interface it implements.
+     *             This is usually either the underlying class
+     *             implementing {@code EntityManager} or an
+     *             interface it implements.
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not 
      *         support the given type
@@ -1152,7 +1191,7 @@ public interface EntityManager extends AutoCloseable {
      * method is implementation-specific.
      * <p>The {@code unwrap} method is to be preferred for new
      * applications.
-     * @return underlying provider object for EntityManager
+     * @return the underlying provider object
      */
     Object getDelegate();
 
@@ -1190,7 +1229,8 @@ public interface EntityManager extends AutoCloseable {
     EntityTransaction getTransaction();
 
     /**
-     * Return the entity manager factory for the entity manager.
+     * The {@linkplain EntityManagerFactory entity manager factory}
+     * which created this entity manager.
      * @return the {@link EntityManagerFactory}
      * @throws IllegalStateException if the entity manager has 
      *         been closed
@@ -1199,9 +1239,9 @@ public interface EntityManager extends AutoCloseable {
     EntityManagerFactory getEntityManagerFactory();
 
     /**
-     * Return an instance of {@link CriteriaBuilder} which may be
+     * Obtain an instance of {@link CriteriaBuilder} which may be
      * used to construct {@link CriteriaQuery} objects.
-     * @return CriteriaBuilder instance
+     * @return an instance of {@link CriteriaBuilder}
      * @throws IllegalStateException if the entity manager has
      *         been closed
      * @see EntityManagerFactory#getCriteriaBuilder()
@@ -1210,9 +1250,10 @@ public interface EntityManager extends AutoCloseable {
     CriteriaBuilder getCriteriaBuilder();
 
     /**
-     * Return an instance of the {@link Metamodel} interface for
-     * access to the metamodel of the persistence unit.
-     * @return Metamodel instance
+     * Obtain an instance of the {@link Metamodel} interface which
+     * provides access to metamodel objects describing the managed
+     * types belonging to the persistence unit.
+     * @return an instance of {@link Metamodel}
      * @throws IllegalStateException if the entity manager has
      *         been closed
      * @since 2.0
@@ -1220,7 +1261,7 @@ public interface EntityManager extends AutoCloseable {
     Metamodel getMetamodel();
 
     /**
-     * Return a mutable {@link EntityGraph}, allowing dynamic
+     * Create a new mutable {@link EntityGraph}, allowing dynamic
      * definition of an entity graph.
      * @param rootType class of entity graph
      * @return entity graph
@@ -1229,9 +1270,9 @@ public interface EntityManager extends AutoCloseable {
     <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
 
     /**
-     * Return a mutable copy of the named {@link EntityGraph}.
-     * If there is no entity graph with the given name, null
-     * is returned.
+     * Obtain a mutable copy of a named {@link EntityGraph}, or
+     * return null if there is no entity graph with the given
+     * name.
      * @param graphName name of an entity graph
      * @return entity graph
      * @since 2.1
@@ -1239,9 +1280,8 @@ public interface EntityManager extends AutoCloseable {
     EntityGraph<?> createEntityGraph(String graphName);
 
     /**
-     * Return a named {@link EntityGraph}. The returned
-     * instance of {@code EntityGraph} should be considered
-     * immutable.
+     * Obtain a named {@link EntityGraph}. The returned instance
+     * of {@code EntityGraph} should be considered immutable.
      * @param graphName  name of an existing entity graph
      * @return named entity graph
      * @throws IllegalArgumentException if there is no entity
@@ -1251,8 +1291,8 @@ public interface EntityManager extends AutoCloseable {
     EntityGraph<?> getEntityGraph(String graphName);
 
     /**
-     * Return all named {@link EntityGraph}s that have been
-     * defined for the given entity class type.
+     * Return all named {@link EntityGraph}s that are defined for
+     * the given entity class type.
      * @param entityClass  entity class
      * @return list of all entity graphs defined for the entity
      * @throws IllegalArgumentException if the class is not an entity
