@@ -212,7 +212,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
-    public String getName();
+    String getName();
 
     /**
      * Get the properties and associated values that are in effect
