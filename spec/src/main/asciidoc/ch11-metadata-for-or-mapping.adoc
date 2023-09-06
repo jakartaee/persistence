@@ -28,7 +28,7 @@ XML metadata may be used as an alternative to
 these annotations, or to override or augment annotations, as described
 in <<a16944>>.
 
-==== Access Annotation
+==== Access Annotation [[a13941]]
 
 The _Access_ annotation is used to specify an
 access type to be applied to an entity class, mapped superclass, or
@@ -40,11 +40,6 @@ embeddable class, or to a specific attribute of such a class.
 @Retention(RUNTIME)
 public @interface Access {
     AccessType value();
-}
-
-public enum AccessType {
-    FIELD,
-    PROPERTY
 }
 ----
 
