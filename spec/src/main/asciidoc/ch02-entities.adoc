@@ -174,7 +174,7 @@ _byte[]_, _Byte[]_, _char[]_, _Character[]_, _java.time.LocalDate_,
 _java.time.LocalTime_, _java.time.LocalDateTime_,
 _java.time.OffsetTime_, _java.time.OffsetDateTime_,
 _java.time.Instant_, _java.time.Year_,
-and user-defined types that implement the _Serializable_ interface _)_;
+and user-defined types that implement the _Serializable_ interface);
 enums; entity types; collections of entity types; embeddable classes
 (see <<a487>>); collections of basic and embeddable types (see <<a494>>).
 
@@ -379,45 +379,59 @@ contexts of differing access types within the same persistence unit.
 
 === Primary Keys and Entity Identity [[a132]]
 
-Every entity must have a primary key.
+Every entity must have a primary key. The primary key must be declared by:
 
-The primary key must be defined on the entity
-class that is the root of the entity hierarchy or on a mapped superclass
-that is a (direct or indirect) superclass of all entity classes in the
-entity hierarchy. The primary key must be defined exactly once in an
-entity hierarchy.
+- the entity class that is the root of the entity hierarchy, or
+- a mapped superclass that is a (direct or indirect) superclass of all
+  entity classes in the entity hierarchy.
 
-* A primary key corresponds to one or more
-fields or properties (“attributes”) of the entity class.
-* A simple (i.e., non-composite) primary key
-must correspond to a single persistent field or property of the entity
-class. The _Id_ annotation or _id_ XML element must be used to denote a
-simple primary key. See <<a14827>>.
-* A composite primary key must correspond to
-either a single persistent field or property or to a set of such fields
-or properties as described below. A primary key class must be defined to
-represent a composite primary key. Composite primary keys typically
-arise when mapping from legacy databases when the database key is
-comprised of several columns. The _EmbeddedId_ or _IdClass_ annotation
-is used to denote a composite primary key. See <<a14687>> and <<a14836>>.
+A primary key must be defined exactly once in each entity hierarchy.
 
-A simple primary key or a field or property of a composite primary key
-should be one of the following types: any Java primitive type;
-any primitive wrapper type; _java.lang.String_; _java.util.UUID_;
-_java.util.Date_; _java.sql.Date_; _java.math.BigDecimal_;
-_java.math.BigInteger_.footnote:[In general, however,
-approximate numeric types (e.g., floating point types) should never be
-used in primary keys.] If the primary key is a
-composite primary key derived from the primary key of another entity,
-the primary key may contain an attribute whose type is that of the
-primary key of the referenced entity as described in <<a149>>.
-Entities whose primary keys use types other than these will
-not be portable. If generated primary keys are used, only integral types
-will be portable. If _java.util.Date_ is used as a primary key field or
-property, the temporal type should be specified as _DATE_.
+- A primary key comprises one or more fields or properties (“attributes”)
+  of the entity class.
+- A _simple primary key_ is a single persistent field or property of the
+  entity class whose type is one of the legal simple primary key types
+  listed below. The _Id_ annotation or _id_ XML element must be used to
+  identify the simple primary key. See <<a14827>>.
+- A _composite primary key_ must correspond to either a single persistent
+  field or property, or to a set of fields or properties, as described
+  below.footnote:[Composite primary keys often arise when mapping a legacy
+  database with primary keys comprising multiple columns.] A _primary key
+  class_ must be defined to represent the composite primary key.
+  * When the composite primary key corresponds to a single field or
+    property of the entity, the _EmbeddedId_ annotation identifies the
+    primary key, and the type of the annotated field or property is the
+    primary key class. See <<a14687>>.
+  * Otherwise, when the composite primary key corresponds to multiple
+    fields or properties, the _Id_ annotation identifies the fields and
+    properties which comprise the composite key, and the _IdClass_
+    annotation is used to specify the primary key class. See <<a14836>>.
 
-The following rules apply for composite
-primary keys:
+A simple primary key or field or property belonging to a composite primary
+key should have one of the following types:
+
+- any Java primitive type, or _java.lang_ wrapper for a primitive type,
+  footnote:[In general, however, approximate numeric types (e.g.,
+  floating point types) should never be used in primary keys.]
+- _java.lang.String_,
+- _java.util.UUID_,
+- _java.time.LocalDate_, _java.util.Date_, or _java.sql.Date_,
+- _BigDecimal_ or _BigInteger_ from _java.math_.
+
+If a primary key field or property has type _java.util.Date_, the temporal
+type should be specified as _DATE_. See <<a16361>>.
+
+If the primary key is a composite primary key derived from the primary
+key of another entity, the primary key may contain an attribute whose
+type is that of the primary key of the referenced entity. See <<a149>>.
+
+An entity with a primary key involving any type other than the types
+listed above is not portable. If the primary key is generated, and its
+type is not _java.util.UUID_, _java.lang.String_, _java.lang.Long_,
+_java.lang.Integer_, _long_, or _int_, the entity is not portable.
+See <<a14790>>.
+
+The following rules apply to composite primary keys:
 
 - The primary key class may be a non-abstract regular Java class with a
 no-arg constructor. The no-arg constructor must be public or protected.
@@ -1116,12 +1130,20 @@ public class MedicalHistory {
 
 === Basic Type [[a486]]
 
-A basic type is any Java primitive type, wrapper of the primitive types, java.lang.String,
-java.math.BigInteger, java.math.BigDecimal, java.util.Date, java.util.Calendar,
-java.sql.Date, java.sql.Time, java.sql.Timestamp, java.time.LocalDate, java.time.LocalTime,
-java.time.LocalDateTime, java.time.OffsetTime, java.time.OffsetDateTime,
-java.time.Instant, java.time.Year, byte[], Byte[], char[], Character[], any enum type,
-any other type that implements Serializable.
+The following Java types are considered _basic types_:
+
+- any Java primitive type, or _java.lang_ wrapper class for a primitive type,
+- _java.lang.String_,
+- _java.util.UUID_,
+- _BigInteger_ or _BigDecimal_ from _java.math_,
+- _LocalDate_, _LocalTime_, _LocalDateTime_,
+  _OffsetTime_, _OffsetDateTime_,
+  _Instant_, or _Year_ from _java.time_,
+- _Date_ or _Calendar_ from _java.util_,
+- _Date_, _Time_, or _Timestamp_ from _java.sql_,
+- _byte[]_ or _Byte[]_, _char[]_ or _Character[]_,
+- any Java `enum` type,
+- any other type which implements `java.io.Serializable`.
 
 Persistence for basic types is defined in <<a14205>> and <<a14719>>.
 
@@ -1269,31 +1291,21 @@ specify the value type for the map. Default mappings are described in
 
 === Mapping Defaults for Non-Relationship Fields or Properties [[a511]]
 
-If a persistent field or property other than
-a relationship property is _not_ annotated with one of the mapping
-annotations defined in <<a13915>> (or equivalent mapping information is not
-specified in the XML descriptor), the following default mapping rules
-are applied in order:
+If a persistent field or property other than a relationship property is
+_not_ annotated with one of the mapping annotations defined in <<a13915>>
+(and no equivalent mapping information is specified in any XML descriptor),
+the following default mapping rules are applied in order:
 
-* If the type is a class that is annotated with
-the _Embeddable_ annotation, it is mapped in the same way as if the
-field or property were annotated with the _Embedded_ annotation. See
-<<a14634>> and <<a14672>>.
-* If the type of the field or property is one of the following, it is
-mapped in the same way as it would if it were annotated as _Basic_:
-Java primitive types, wrappers of the primitive types,
-_java.lang.String_, _java.math.BigInteger_, _java.math.BigDecimal_,
-_java.util.UUID_, _java.util.Date_, _java.util.Calendar_,
-_java.sql.Date_, _java.sql.Time_, _java.sql.Timestamp_,
-_java.time.LocalDate_, _java.time.LocalTime_,
-_java.time.LocalDateTime_, _java.time.OffsetTime_,
-_java.time.OffsetDateTime_, _java.time.Instant_, _java.time.Year_
-_byte[]_, _Byte[]_, _char[]_, _Character[]_, enums,
-any other type that implements _Serializable_.
-See <<a14205>>, <<a14719>>, <<a15087>>, and <<a16361>>.
+- If the type of the field or property is a class annotated with the
+  _Embeddable_ annotation, the field or property is mapped as if it were
+  annotated with the _Embedded_ annotation. See <<a14634>> and <<a14672>>.
+- Otherwise, if the type of the field or property is one of the one of
+  the basic types listed in <<a486>>, it is mapped in the same way as if
+  it were annotated as _Basic_. See <<a14205>>, <<a14719>>, <<a15087>>,
+  and <<a16361>>.
 
-It is an error if no annotation is present
-and none of the above rules apply.
+It is an error if no annotation is present and neither of the above rules
+apply.
 
 === Entity Relationships [[a516]]
 
