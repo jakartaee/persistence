@@ -4,91 +4,130 @@
 
 == Entities
 
-An entity is a lightweight persistent domain object.
+An entity is a lightweight persistent domain object.footnote:[An entity
+instance is a local object inaccessible to remote processes. If instances
+of an entity are to be passed by value as detached objects (e.g., via a
+remote interface), the entity class must be serializable.] Entities support
+inheritance, polymorphic associations, and polymorphic queries.
 
-The primary programming artifact is the
-entity class. An entity class may make use of auxiliary classes that
-serve as helper classes or that are used to represent the state of the
-entity.
+The primary programming artifact is the _entity class_. An entity class
+may make use of auxiliary classes that serve as helper classes or that
+are used to represent the state of the entity.
 
-This chapter describes requirements on entity
-classes and instances.
+This chapter describes requirements on entity classes and instances.
 
 === The Entity Class [[a18]]
 
-The entity class must be annotated with the
-_Entity_ annotation or denoted in the XML descriptor as an entity.
+The entity class must be annotated with the _Entity_ annotation or
+declared as an entity in the XML descriptor.
 
-The entity class must have a no-arg
-constructor. The entity class may have other constructors as well. The
-no-arg constructor must be public or protected.
+- The entity class must be a top-level class or a static inner class.
+  An enum, record, or interface may not be designated as an entity.
 
-The entity class must be a top-level class or a static inner class.
-An enum, record, or interface may not be designated as an entity.
+- The entity class must have a public or protected constructor with no
+  parameters, which is called by the persistence provider runtime to
+  instantiate the entity.footnote:[The term "persistence provider runtime"
+  refers to the runtime environment of the persistence implementation. In
+  a JakartaEE environment, this might be the Jakarta EE container itself,
+  or a third-party persistence provider implementation integrated with the
+  container.] The entity class may have additional constructors for use by
+  the application.
 
-The entity class must not be final. No
-methods or persistent instance variables of the entity class may be
-final.
+- The entity class must be non-final. Every method and persistent
+  instance variable of the entity class must be non-final.
 
-If an entity instance is to be passed by
-value as a detached object (e.g., through a remote interface), the
-entity class must implement the _Serializable_ interface.
+An entity might be an abstract class, or it might be a concrete class.
+An entity may extend a non-entity class, or it may extend another entity
+class. A non-entity class may extend an entity class.
 
-Entities support inheritance, polymorphic
-associations, and polymorphic queries.
+The persistent state of an entity is represented by instance variables,
+which may correspond to JavaBeans properties. An instance variable may
+be directly accessed only within the methods of the entity, by the
+entity instance itself. An instance variable of an entity must _not_ be
+directly accessed by a client of the entity. The state of the entity is
+available to clients only through the methods of the entity—that is,
+via accessor (getter/setter) methods, or via other business methods.
 
-Both abstract and concrete classes can be
-entities. Entities may extend non-entity classes as well as entity
-classes, and non-entity classes may extend entity classes.
+=== Persistent Fields and Properties [[a19]]
 
-The persistent state of an entity is
-represented by instance variables, which may correspond to JavaBeans
-properties. An instance variable must be directly accessed only from
-within the methods of the entity by the entity instance itself. Instance
-variables must not be accessed by clients of the entity. The state of
-the entity is available to clients only through the entity's
-methods—i.e., accessor methods (getter/setter methods) or other business
-methods.
+The persistent state of an entity is accessed by the persistence provider
+runtime via either:
 
-=== Persistent Fields and Properties
+- _property access_ using JavaBeans-style property accessors, or
+- _field access_, that is, direct access to instance variables.
 
-The persistent state of an entity is accessed
-by the persistence provider runtimefootnote:[The term "persistence
-provider runtime" refers to the runtime environment of the persistence
-implementation. In Jakarta EE environments, this may be the Jakarta EE
-container or a third-party persistence provider implementation
-integrated with it.] either via
-JavaBeans style property accessors (“property access”) or via instance
-variables (“field access”). Whether persistent properties or persistent
-fields or a combination of the two is used for the provider's access to
-a given class or entity hierarchy is determined as described in <<a113>>.
+The instance variables of a class must have private, protected, or package
+visibility, independent of whether field access or property access is used.
+When property access is used, the property accessor methods must be public
+or protected.
 
-Terminology Note: The persistent fields and
-properties of an entity class are generically referred to in this
-document as the “attributes” of the class.
+The placement of object/relational mapping annotations depends on whether
+property access or field access is used:
 
-The instance variables of a class must be
-private, protected, or package visibility independent of whether field
-access or property access is used. When property access is used, the
-property accessor methods must be public or protected.
+- When field access is used, mapping annotations must be placed on instance
+  variables, and the persistence provider runtime accesses instance variables
+  directly. Every non-_transient_ instance variable not annotated with the
+  _Transient_ annotation is persistent.
 
-It is required that the entity class follow
-the method signature conventions for JavaBeans read/write properties (as
-defined by the JavaBeans Introspector class) for persistent properties
-when property access is used.
+- When property-based access is used, mapping annotations must be placed on
+  getter methodsfootnote:[These annotations must not be applied to the setter
+  methods.], and the persistence provider runtime accesses persistent state
+  via the property accessor methods. Every property not annotated with the
+  _Transient_ annotation is persistent.
 
-In this case, for every persistent
-property _property_ of type _T_ of the entity, there is a getter method,
-_getProperty_, and setter method _setProperty_. For boolean
-properties, _isProperty_ may be used as an alternative name for the
-getter method.footnote:[Specifically, if get
-_X_ is the name of the getter method and set _X_ is the name of the
-setter method, where _X_ is a string, the name of the persistent
-property is defined by the result of
-java.beans.Introspector.decapitalize(_X_).]
+Mapping annotations must not be applied to fields or properties marked
+_transient_ or _Transient_, since those fields and properties are not
+persistent.
 
-For single-valued persistent properties,
-these method signatures are:
+Whether property access, field access, or a mix of the two options is used
+by the provider to access the state of a given entity class or entity hierarchy
+is determined by the rules defined in <<a113>>.
+
+[NOTE]
+Terminology Note: The persistent fields and properties of an entity class
+are generically referred to in this document as “attributes” of the class.
+
+Collection-valued persistent fields and properties must be defined in
+terms of one of the following collection-valued interfaces, regardless
+of whether the entity class otherwise adheres to the JavaBeans method
+conventions noted below, and of whether field or property access is used:
+_java.util.Collection_, _java.util.Set_, _java.util.List_ footnote:[Portable
+applications should not expect the order of a list to be maintained across
+persistence contexts unless the _OrderColumn_ or _OrderBy_ annotation is
+used and modifications to the list observe the specified ordering.],
+_java.util.Map_.
+
+Use of the generic variants of these collection types is strongly encouraged,
+for example, _Set<Order>_ is preferred to the raw type _Set_.
+
+[NOTE]
+Terminology Note: The terms “collection” and “collection-valued” are used
+in this specification to denote any of the above types, unless further
+qualified. In cases where a _java.util.Collection_ type (or one of its
+subtypes) is to be distinguished, the type is identified as such. The
+terms “map” and “map collection” are used to denote to a collection of
+type _java.util.Map_.
+
+A collection implementation type such as _HashSet_ or _ArrayList_ may be
+used by the application to initialize a collection-valued field or property
+before the entity is made persistent. Once the entity becomes managed
+(or detached), subsequent access to the collection must be through the
+interface type.
+
+==== Property Access
+
+When property access is used, persistent properties of the entity class
+must follow the method signature conventions for JavaBeans read/write
+properties, as defined by the JavaBeans _Introspector_ class. For every
+persistent property _property_ of type _T_ of the entity, there must be
+a getter method, _getProperty_, and setter method _setProperty_. For
+boolean properties, _isProperty_ may be used as an alternative name for
+the getter method.footnote:[Specifically, if _getX_ is the name of the
+getter method and _setX_ is the name of the setter method, where _X_ is
+any string, the name of the persistent property is obtained by calling
+_java.beans.Introspector.decapitalize(X)_.]
+
+For single-valued persistent properties, these method signatures are:
 
 [source,java]
 ----
@@ -97,68 +136,40 @@ T getProperty()
 void setProperty(T t)
 ----
 
-Collection-valued persistent fields and
-properties must be defined in terms of one of the following
-collection-valued interfaces regardless of whether the entity class
-otherwise adheres to the JavaBeans method conventions noted above and
-whether field or property access is used: _java.util.Collection_,
-_java.util.Set_, _java.util.List_ footnote:[Portable applications
-should not expect the order of a list to be maintained across
-persistence contexts unless the _OrderColumn_ construct is used or
-unless the _OrderBy_ construct is used and the modifications to the list
-observe the specified ordering.],
-_java.util.Map_. The collection implementation type may be used by the
-application to initialize fields or properties before the entity is made
-persistent. Once the entity becomes managed (or detached), subsequent
-access must be through the interface type.
+For collection-valued persistent properties, the type _T_ in the method
+signatures above must be one of the collection interface types listed
+above in <<a19>>.
 
-Terminology Note: The terms “collection” and
-“collection-valued” are used in this specification to denote any of the
-above types unless further qualified. In cases where a
-_java.util.Collection_ type (or one of its subtypes) is to be
-distinguished, the type is identified as such. The terms “map” and “map
-collection” are used to apply to a collection of type _java.util.Map_
-when a collection of type _java.util.Map_ needs to be distinguished as
-such.
+In addition to returning and setting the persistent state of the entity
+instance, a property accessor method may contain additional logic, for
+example, logic to perform validation. The persistence provider runtime
+triggers execution of this logic when property-based access is used.
 
-For collection-valued persistent properties,
-type _T_ must be one of these collection interface types in the method
-signatures above. Use of the generic variants of these collection types
-is encouraged (for example, _Set<Order>_).
+Therefore, caution should be exercised in adding business logic to
+accessor methods when property access is used. The order in which the
+persistence provider runtime calls these methods when loading or storing
+persistent state is not defined. Logic contained in such methods should
+therefore not rely on any specific invocation order.
 
-In addition to returning and setting the
-persistent state of the instance, property accessor methods may contain
-other business logic as well, for example, to perform validation. The
-persistence provider runtime executes this logic when property-based
-access is used.
-
-Caution should be exercised in adding
-business logic to the accessor methods when property access is used. The
-order in which the persistence provider runtime calls these methods when
-loading or storing persistent state is not defined. Logic contained in
-such methods therefore should not rely upon a specific invocation order.
-
-If property access is used and lazy
-fetching is specified, portable applications should not directly access
-the entity state underlying the property methods of managed instances
-until after it has been fetched by the persistence
-provider.footnote:[Lazy fetching is a
-hint to the persistence provider and can be specified by means of the
+If property access is used and lazy fetching is specified, portable
+applications should not directly access the entity state underlying the
+property methods of managed instances until after it has been fetched by
+the persistence provider.footnote:[Lazy fetching is a hint to the
+persistence provider and can be specified by means of the
 _Basic_, _OneToOne_, _OneToMany_, _ManyToOne_, _ManyToMany_, and
 _ElementCollection_ annotations and their XML equivalents. See <<a13915>>.]
 
-If a persistence context is joined to a
-transaction, runtime exceptions thrown by property accessor methods
-cause the current transaction to be marked for rollback; exceptions
-thrown by such methods when used by the persistence runtime to load or
-store persistent state cause the persistence runtime to mark the current
-transaction for rollback and to throw a _PersistenceException_ that
-wraps the application exception.
+If a persistence context is joined to a transaction, runtime exceptions
+thrown by property accessor methods cause the current transaction to be
+marked for rollback; any exception thrown by such methods when called by
+the persistence runtime to load or store persistent state causes the
+persistence runtime to mark the current transaction for rollback and to
+throw a _PersistenceException_ wrapping the application exception.
 
-Entity subclasses may override the property
-accessor methods. However, portable applications must not override the
-object/relational mapping metadata that applies to the persistent fields
-or properties of entity superclasses.
+An entity subclass may override a property accessor method inherited
+from a superclass. However, portable applications must not override
+the object/relational mapping metadata applied to the persistent fields
+and properties of entity superclasses.
 
 The persistent fields or properties of an entity may be of the following
 types: Java primitive types, _java.lang.String_, other Java serializable
@@ -178,9 +189,9 @@ and user-defined types that implement the _Serializable_ interface);
 enums; entity types; collections of entity types; embeddable classes
 (see <<a487>>); collections of basic and embeddable types (see <<a494>>).
 
-Object/relational mapping metadata may be
-specified to customize the object/relational mapping and the loading and
-storing of the entity state and relationships. See <<a13915>>.
+Object/relational mapping metadata may be specified to customize the
+object/relational mapping and the loading and storing of the entity state
+and relationships. See <<a13915>>.
 
 ==== Example
 
@@ -252,134 +263,163 @@ public class Customer implements Serializable {
 
 === Access Type [[a113]]
 
+_AccessType_ enumerates the two possible ways the persistence runtime
+might access the state of an entity class:
+
+[source,java]
+----
+public enum AccessType {
+    FIELD,
+    PROPERTY
+}
+----
+
+The _AccessType_ for a persistent attribute depends on the placement of
+object/relational mapping annotations in the entity class, and may be
+explicitly overridden via use of the _Access_ annotation defined in
+<<a13941>>.
+
 ==== Default Access Type
 
-By default, a single access type (field or
-property access) applies to an entity hierarchy. The default access type
-of an entity hierarchy is determined by the placement of mapping
-annotations on the attributes of the entity classes and mapped
-superclasses of the entity hierarchy that do not explicitly specify an
-access type. An access type is explicitly specified by means of the
-_Access_ annotationfootnote:[The use of XML as an
-alternative and the interaction between Java language annotations and
-XML elements in defining default and explicit access types is described
-in <<a16944>>.], as described in <<a122>>.
+By default, a single access type (_FIELD_ or _PROPERTY_) is inferred for
+an entity hierarchy. The default access type of an entity hierarchy is
+determined by the placement of mapping annotations on the attributes of
+the entity classes and mapped superclasses of the entity hierarchy which
+do not explicitly specify an access type.
 
-When annotations are used to define a default
-access type, the placement of the mapping annotations on either the
-persistent fields or persistent properties of the entity class specifies
-the access type as being either field- or property-based access
-respectively.
+- If mapping annotations are placed on instance variables, _FIELD_ access
+  is inferred.
+- If mapping annotations are placed on getter methods, _PROPERTY_ access
+  is inferred.
 
-When field-based access is used, the
-object/relational mapping annotations for the entity class annotate the
-instance variables, and the persistence provider runtime accesses
-instance variables directly. All non- _transient_ instance variables
-that are not annotated with the _Transient_ annotation are persistent.
+An access type may be explicitly specified by means of the _Access_
+annotationfootnote:[The use of XML as an alternative and the interaction
+between Java language annotations and XML elements in defining default
+and explicit access types is described in <<a16944>>.], as described
+below in <<a122>>.
 
-When property-based access is used, the
-object/relational mapping annotations for the entity class annotate the
-getter property accessorsfootnote:[These annotations must
-not be applied to the setter methods.], and the persistence
-provider runtime accesses persistent state via the property accessor
-methods. All properties not annotated with the _Transient_ annotation
-are persistent.
+Every class in an entity hierarchy whose access type is defaulted in this
+way must be consistent in its placement of mapping annotations on either
+fields or properties, such that a single, consistent default access type
+applies within the hierarchy. Any embeddable class used by an entity within
+the hierarchy has the same access type as the default access type of the
+hierarchy unless the _Access_ annotation is specified, as defined below.
 
-Mapping annotations must not be applied to
-fields or properties that are _transient_ or _Transient_.
-
-All such classes in the entity hierarchy
-whose access type is defaulted in this way must be consistent in their
-placement of annotations on either fields or properties, such that a
-single, consistent default access type applies within the hierarchy. Any
-embeddable classes used by such classes will have the same access type
-as the default access type of the hierarchy unless the _Access_
-annotation is specified as defined below.
-
-It is an error if a default access type
-cannot be determined and an access type is not explicitly specified by
-means of annotations or the XML descriptor. The behavior of applications
-that mix the placement of annotations on fields and properties within an
-entity hierarchy without explicitly specifying the _Access_ annotation
-is undefined.
+It is an error if a default access type cannot be determined and an access
+type is not explicitly specified by the _Access_ annotation or the XML
+descriptor. The behavior of applications which mix the placement of mapping
+annotations on fields and properties within an entity hierarchy without
+explicitly specifying the _Access_ annotation is undefined.
 
 ==== Explicit Access Type [[a122]]
 
-An access type for an individual entity
-class, mapped superclass, or embeddable class can be specified for that
-class independent of the default for the entity hierarchy by means of
-the _Access_ annotation applied to the class. This explicit access type
-specification does not affect the access type of other entity classes or
-mapped superclasses in the entity hierarchy. The following rules apply:
+The access type of an individual entity class, mapped superclass, or
+embeddable class may be specified for that class, independent of the
+default for the entity hierarchy to which it belongs, by annotating the
+class with the _Access_ annotation.
 
-* When _Access(FIELD)_ is applied to an entity
-class, mapped superclass, or embeddable class, mapping annotations may
-be placed on the instance variables of that class, and the persistence
-provider runtime accesses persistent state via the instance variables
-defined by the class. All non-transient instance variables that are not
-annotated with the _Transient_ annotation are persistent. When
-_Access(FIELD)_ is applied to such a class, it is possible to
-selectively designate individual attributes within the class for
-property access. To specify a persistent property for access by the
-persistence provider runtime, that property must be designated
-_Access(PROPERTY)_.footnote:[It is permitted (but
-redundant) to place Access(FIELD) on a persistent field whose class has
-field access type or Access(PROPERTY) on a persistent property whose
-class has property access type. It is not permitted to specify a field
-as Access(PROPERTY) or a property as Access(FIELD). Note that
-Access(PROPERTY) must not be placed on the setter methods.] The behavior is undefined if
-mapping annotations are placed on any properties defined by the class
-for which _Access(PROPERTY)_ is not specified. Persistent state
-inherited from superclasses is accessed in accordance with the access
-types of those superclasses.
-* When _Access(PROPERTY)_ is applied to an
-entity class, mapped superclass, or embeddable class, mapping
-annotations may be placed on the properties of that class, and the
-persistence provider runtime accesses persistent state via the
-properties defined by that class. All properties that are not annotated
-with the _Transient_ annotation are persistent. When _Access(PROPERTY)_
-is applied to such a class, it is possible to selectively designate
-individual attributes within the class for instance variable access. To
-specify a persistent instance variable for access by the persistence
-provider runtime, that instance variable must be designated
-_Access(FIELD)_. The behavior is undefined if mapping annotations are
-placed on any instance variables defined by the class for which
-_Access(FIELD)_ is not specified. Persistent state inherited from
-superclasses is accessed in accordance with the access types of those
-superclasses.
+- When _Access(FIELD)_ is applied to an entity class, mapped superclass,
+  or embeddable class, mapping annotations may be placed on the instance
+  variables of that class, and the persistence provider runtime accesses
+  persistent state via direct access to the instance variables declared
+  by the class. Every non-_transient_ instance variable not annotated
+  with the _Transient_ annotation is persistent.
 
-Note that when access types are combined
-within a class, the _Transient_ annotation should be used to avoid
-duplicate persistent mappings.
+- When _Access(PROPERTY)_ is applied to an entity class, mapped superclass,
+  or embeddable class, mapping annotations may be placed on the properties
+  of that class, and the persistence provider runtime accesses persistent
+  state via the properties declared by that class. Every property not
+  annotated with the _Transient_ annotation is persistent.
+
+The explicit access type may be overridden at the attribute level.
+footnote:[It is permitted (but redundant) to place _Access(FIELD)_ on a
+field whose class has field access or _Access(PROPERTY)_ on a property
+whose class has property access. It is not permitted to annotate a field
+as _Access(PROPERTY)_ or a property as _Access(FIELD)_.]
+
+- When _Access(FIELD)_ is specified at the class level, an individual
+  attribute within the class may be selectively designated for property
+  access by annotating a property _Access(PROPERTY)_.footnote:[Note that
+  _Access(PROPERTY)_ must not be placed on a setter method.] If a mapping
+  annotation is placed on a property which is not annotated
+  _Access(PROPERTY)_, the behavior is undefined.
+
+- When _Access(PROPERTY)_ is specified at the class level, an individual
+  attribute within the class may be selectively designated for field
+  access by annotating an instance variable _Access(FIELD)_. If a mapping
+  annotation is placed on a field which is not annotated _Access(FIELD)_,
+  the behavior is undefined.
+
+When access types are combined within a class, the _Transient_ annotation
+should be used to avoid duplicate persistent mappings. For example:
+
+[source,java]
+----
+@Entity @Access(PROPERTY)
+public class Customer {
+    private Long id;
+
+    @Access(FIELD) // use field access for name
+    private String name;
+
+    @Id
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Transient // suppress duplicated name attribute
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    ...
+}
+----
+
+The _Access_ annotation does not affect the access type of other entity
+classes or mapped superclasses in the entity hierarchy. In particular,
+persistent state inherited from a superclass is always accessed according
+to the access type of that superclass.
 
 ==== Access Type of an Embeddable Class
 
-The access type of an embeddable class is
-determined by the access type of the entity class, mapped superclass, or
-embeddable class in which it is embedded (including as a member of an
-element collection) independent of whether the access type of the
-containing class has been explicitly specified or defaulted. A different
-access type for an embeddable class can be specified for that embeddable
-class by means of the _Access_ annotation as described above.
+The access type of an embeddable class is determined by the access type of
+the entity class, mapped superclass, or embeddable class in which it is
+embedded (including as a member of an element collection) independent of
+whether the access type of the containing class is explicitly specified or
+defaulted. A different access type for an embeddable class can be specified
+for that embeddable class by means of the _Access_ annotation as described
+above in <<a122>>.
 
 ==== Defaulted Access Types of Embeddable Classes and Mapped Superclasses
 
-Care must be exercised when defining an
-embeddable class or mapped superclass which is used both in a context of
-field access and in a context of property access and whose access type
-is not explicitly specified by means of the _Access_ annotation or XML
-mapping file.
+Care must be taken when implementing an embeddable class or mapped superclass
+which is used both in a context of field access and in a context of property
+access, and whose access type is not explicitly specified by means of the
+_Access_ annotation or XML mapping file.
 
-Such classes should be defined so that the
-number, names, and types of the resulting persistent attributes are
-identical, independent of the access type in use. The behavior of such
-classes whose attributes are not independent of access type is otherwise
-undefined with regard to use with the metamodel API if they occur in
-contexts of differing access types within the same persistence unit.
+Such a class should be implemented so that the number, names, and types of
+its persistent attributes are independent of the access type in use. The
+behavior of an embeddable class or mapped superclass whose attributes are
+_not_ independent of access type is undefined with regard to use with the
+metamodel API if the class occurs in contexts of differing access types
+within the same persistence unit.
 
 === Primary Keys and Entity Identity [[a132]]
 
-Every entity must have a primary key. The primary key must be declared by:
+Every entity must have a primary key. The value of its primary key uniquely
+identifies an entity instance within a persistence context and to operations
+of the _EntityManager_, as described in <<a1060>>.
+
+The primary key must be declared by:
 
 - the entity class that is the root of the entity hierarchy, or
 - a mapped superclass that is a (direct or indirect) superclass of all
@@ -431,50 +471,48 @@ type is not _java.util.UUID_, _java.lang.String_, _java.lang.Long_,
 _java.lang.Integer_, _long_, or _int_, the entity is not portable.
 See <<a14790>>.
 
+The application must not change the value of the primary key of an entity
+instance after the instance is made persistentfootnote:[This includes not
+changing the value of a mutable type that is primary key or an attribute of
+a composite primary key.]. If the application does change the value of a
+primary key of an entity instance after the entity instance is made
+persistent, the behavior is undefined.footnote:[The implementation may, but
+is not required to, throw an exception. Portable applications must not rely
+on any such specific behavior.]
+
+==== Composite primary keys
+
 The following rules apply to composite primary keys:
 
 - The primary key class may be a non-abstract regular Java class with a
-no-arg constructor. The no-arg constructor must be public or protected.
-Alternatively, the primary key class may be any Java record type, in
-which case it need not have a no-arg constructor.
+  public or protected constructor with no parameters. Alternatively, the
+  primary key class may be any Java record type, in which case it need not
+  have a constructor with no parameters.
 
-- The access type (field- or property-based
-access) of a primary key class is determined by the access type of the
-entity for which it is the primary key unless the primary key is a
-embedded id and a different access type is specified. See Section <<a113>>.
+- The access type (_FIELD_ or _PROPERTY_) of a primary key class is
+  determined by the access type of the entity for which it is the primary
+  key, unless the primary key is an embedded id and an explicit access type
+  is specified using the _Access_ annotation. See <<a113>>.
 
-- If property-based access is used, the
-properties of the primary key class must be public or protected.
+- If property-based access is used, the properties of the primary key class
+  must be public or protected.
 
-- The primary key class must define _equals_
-and _hashCode_ methods. The semantics of value equality for these
-methods must be consistent with the database equality for the database
-types to which the key is mapped.
+- The primary key class must define _equals_ and _hashCode_ methods. The
+  semantics of value equality for these methods must be consistent with the
+  database equality for the database types to which the key is mapped.
 
-- A composite primary key must either be
-represented and mapped as an embeddable class (see <<a14687>>) or must be
-represented as an id class and mapped to multiple fields or properties
-of the entity class (see <<a14836>>).
+- A composite primary key must either be represented and mapped as an
+  embeddable class (see <<a14687>>) or it must be represented as an id
+  class and mapped to multiple fields or properties of the entity class
+  (see <<a14836>>).
 
-- If the composite primary key class is
-represented as an id class, the names of primary key fields or
-properties in the primary key class and those of the entity class to
-which the id class is mapped must correspond and their types must be the
-same.
+- If the composite primary key class is represented as an id class, the
+  names of primary key fields or properties of the primary key class and
+  those of the entity class to which the id class is mapped must correspond
+  and their types must be the same.
 
-- A primary key that corresponds to a derived
-identity must conform to the rules of <<a149>>.
-
-The value of its primary key uniquely
-identifies an entity instance within a persistence context and to
-_EntityManager_ operations as described in
-<<a1060>>. The application must
-not change the value of the primary keyfootnote:[This includes not
-changing the value of a mutable type that is primary key or an attribute
-of a composite primary key.]. The
-behavior is undefined if this occurs.footnote:[The implementation
-may, but is not required to, throw an exception. Portable applications
-must not rely on any such specific behavior.]
+- A primary key which corresponds to a derived identity must conform to the
+  rules specified below in <<a149>>.
 
 ==== Primary Keys Corresponding to Derived Identities [[a149]]
 
