@@ -516,114 +516,128 @@ The following rules apply to composite primary keys:
 
 ==== Primary Keys Corresponding to Derived Identities [[a149]]
 
-The identity of an entity may be derived from
-the identity of another entity (the “parent” entity) when the former
-entity (the “dependent” entity) is the owner of a many-to-one or
-one-to-one relationship to the parent entity and a foreign key maps the
-relationship from dependent to parent.
+The identity of an entity is said to be partially _derived_ from the
+identity of a second entity when the _child_ or _dependent_ first entity
+is the owner of a many-to-one or one-to-one relationship which targets
+the _parent_ second entity and the foreign key referencing the parent
+entity forms part of the primary key of the dependent entity.
 
-If a many-to-one or one-to-one entity
-relationship corresponds to a primary key attribute, the entity
-containing this relationship cannot be persisted without the
-relationship having been assigned an entity since the identity of the
-entity containing the relationship is derived from the referenced
-entity.footnote:[If the application
-does not set the primary key attribute corresponding to the
-relationship, the value of that attribute may not be available until
-after the entity has been flushed to the database.]
+A derived identity might be represented as a simple primary key or as a
+composite primary key, as described in <<a155>> below. The dependent
+entity class has a composite primary key if
 
-Derived identities may be captured by means
-of simple primary keys or by means of composite primary keys as
-described in <<a155>> below.
+- it declares one or more primary key attributes in addition to those
+  corresponding to the primary key of the parent, or
+- the parent itself has a composite primary key
 
-If the dependent entity class has primary key
-attributes in addition to those corresponding to the parent's primary
-key or if the parent has a composite primary key, an embedded id or id
-class must be used to specify the primary key of the dependent entity.
-It is not necessary that parent entity and dependent entity both use
-embedded ids or both use id classes to represent composite primary keys
-when the parent has a composite key.
+and then an embedded id or id class must be used to represent the primary
+key of the dependent entity. In the case that the parent has a composite
+key, it is _not_ required that parent entity and dependent entity both use
+embedded ids, nor that both use id classes.
 
-A dependent entity may have more than one
-parent entity.
+A _ManyToOne_ or _OneToOne_ relationship which maps a primary key column
+or columns may be declared using either:
+
+- the _Id_ annotation, when no other _Id_ or _EmbeddedId_ attribute maps
+  the same primary key column or columns, or
+- the _MapsId_ annotation, if some other attribute or attributes annotated
+  _Id_ or _EmbeddedId_ also map the primary key column or columns.
+
+If a _ManyToOne_ or _OneToOne_ relationship declared by a dependent
+entity is annotated _Id_ or _MapsId_, an instance of the entity cannot be
+made persistent until the relationship has been assigned a reference to an
+instance of the parent entity, since the identity of the dependent entity
+declaring the relationship is derived from the referenced parent entity.
+footnote:[If the application does not set a primary key attribute mapped
+to the same column or columns as the relationship, the value of that
+attribute might not be available until after the entity has been flushed
+to the database.]
+
+A dependent entity may have more than one parent entity.
 
 ===== Specification of Derived Identities [[a155]]
 
-If the dependent entity uses an id class to
-represent its primary key, one of the two following rules must be
-observed:
+If a dependent entity uses an id class to represent its primary key,
+one of the two following rules must be observed:
 
-* The names of the attributes of the id class
-and the _Id_ attributes of the dependent entity class must correspond as
-follows:
+- The names and types of the attributes of the id class and the _Id_
+  attributes of the dependent entity class must correspond as follows:
 
-** The _Id_ attribute in the entity class and
-the corresponding attribute in the id class must have the same name.
+* The _Id_ attribute of the dependent entity class and the corresponding
+  attribute in the id class must have the same name.
 
-** If an _Id_ attribute in the entity class is
-of basic type, the corresponding attribute in the id class must have the
-same type.
+* If an _Id_ attribute of the dependent entity class is of basic type,
+  the corresponding attribute in the id class must have the same type.
 
-** If an _Id_ attribute in the entity is a
-many-to-one or one-to-one relationship to a parent entity, the
-corresponding attribute in the id class must be of the same Java type as
-the id class or embedded id of the parent entity (if the parent entity
-has a composite primary key) or the type of the _Id_ attribute of the
-parent entity (if the parent entity has a simple primary key).
+* If an _Id_ attribute of the entity is a _ManyToOne_ or _OneToOne_
+  relationship to the parent entity, the corresponding attribute in the
+  id class must be of the same Java type as the id class or embedded id
+  of the parent entity (if the parent entity has a composite primary key)
+  or the type of the _Id_ attribute of the parent entity (if the parent
+  entity has a simple primary key).
 
-* If the dependent entity has a single
-primary key attribute (i.e., the relationship attribute), the id class
-specified by the dependent entity must be the same as the primary key
-class of the parent entity. The _Id_ annotation is applied to the
-relationship to the parent entity.footnote:[Note that it is
-correct to observe the first rule as an alternative in this case.]
+- Alternatively, if the dependent entity declares a single primary key
+  attribute, that is, a _OneToOne_ relationship attribute annotated _Id_,
+  then the id class specified by the dependent entity must be the same as
+  the primary key class of the parent entity.
 
-If the dependent entity uses an
-embedded id to represent its primary key, the attribute in the embedded
-id corresponding to the relationship attribute must be of the same type
-as the primary key of the parent entity and must be designated by the
-_MapsId_ annotation applied to the relationship attribute. The _value_
-element of the _MapsId_ annotation must be used to specify the name of
-the attribute within the embedded id to which the relationship attribute
-corresponds. If the embedded id of the dependent entity is of the same
-Java type as the primary key of the parent entity, the relationship
-attribute maps both the relationship to the parent and the primary key
-of the dependent entity, and in this case the _MapsId_ annotation is
-specified without the _value_ element.footnote:[Note that the
-parent's primary key might be represented as either an embedded id or as
-an id class.]
+If a dependent entity uses an embedded id to represent its primary key,
+the relationship attribute which targets the parent entity must be annotated
+_MapsId_.
 
-If the dependent entity has a single primary
-key attribute (i.e, the relationship attribute or an attribute that
-corresponds to the relationship attribute) and the primary key of the
-parent entity is a simple primary key, the primary key of the dependent
-entity is a simple primary key of the same type as that of the parent
-entity (and neither _EmbeddedId_ nor _IdClass_ is specified). In this
-case, either (1) the relationship attribute is annotated _Id_, or (2) a
-separate _Id_ attribute is specified and the relationship attribute is
-annotated _MapsId_ (and the _value_ element of the _MapsId_ annotation
-is not specified).
+- If the embedded id of the dependent entity is of the same Java type as
+  the primary key of the parent entity, then the relationship attribute maps
+  both the relationship to the parent and the primary key of the dependent
+  entity, the relationship attribute must be a _OneToOne_ association, and
+  the _MapsId_ annotation must leave the _value_ element unspecified.
+  footnote:[The primary key of the parent might be represented as an embedded
+  id or as an id class.]
+
+- Otherwise, the _value_ element of the _MapsId_ annotation must specify
+  the name of the attribute within the embedded id to which the relationship
+  attribute corresponds and this attribute of the embedded id must be of the
+  same type as the primary key of the parent entity.
+
+An attribute of an embedded id which corresponds to a relationship targeting
+a parent entity is treated by the provider as “read only”—that is, any direct
+mutation of the attribute is not propagated to the database.
+
+If a dependent entity has a single primary key attribute annotated _Id_,
+and the primary key of the parent entity is a simple primary key, then
+the primary key of the dependent entity is a simple primary key of the
+same Java type as that of the parent entity, the relationship attribute
+must be a _OneToOne_ association targeting the parent entity, and either:
+
+1. the primary key attribute annotated _Id_ is the relationship attribute
+   itself, or
+2. the primary key attribute annotated _Id_ has the same type as the simple
+   primary key of the parent entity, the relationship attribute is annotated
+   _MapsId_, and the _value_ element of the _MapsId_ annotation is left
+   unspecified.
+
+Neither _EmbeddedId_ nor _IdClass_ is specified for the dependent entity.
 
 ===== Mapping of Derived Identities
 
-A primary key attribute that is derived from
-the identity of a parent entity is mapped by the corresponding
-relationship attribute. The default mapping for this relationship is as
-specified in <<a538>>. In the case where a default mapping does not apply or
-where a default mapping is to be overridden, the _JoinColumn_ or
-_JoinColumns_ annotation is used on the relationship attribute.
+A dependent entity has derived primary key attributes, and might also have
+additional primary key attributes which are not derived from any parent
+entity.
 
-If the dependent entity uses an embedded id
-to represent its primary key, the _AttributeOverride_ annotation may be
-used to override the default mapping of embedded id attributes that do
-not correspond to the relationship attributes mapping the derived
-identity. The embedded id attributes that correspond to the relationship
-are treated by the provider as “read only”—that is, any updates to them
-on the part of the application are not propagated to the database.
+- Any primary key attribute of a dependent entity which is derived from the
+  identity of a parent entity is mapped by annotations of the corresponding
+  _ManyToOne_ or _OneToOne_ relationship attribute. The default mapping for
+  this relationship is specified in <<a538>>. The default mapping may be
+  overridden by annotating the relationship attribute with the _JoinColumn_
+  or _JoinColumns_ annotation.
 
-If the dependent uses an id class, the
-_Column_ annotation may be used to override the default mapping of _Id_
-attributes that are not relationship attributes.
+- If the dependent entity uses an id class, the _Column_ annotation may be
+  used to override the default mapping of _Id_ attributes which are _not_
+  derived from any parent entity.
+
+- If the dependent entity uses an embedded id to represent its primary key,
+  the _AttributeOverride_ annotation applied to the _EmbeddedId_ attribute
+  may be used to override the default mapping of embedded id attributes which
+  are _not_ derived from any parent entity.
 
 ===== Examples of Derived Identities
 
