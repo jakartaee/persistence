@@ -975,13 +975,13 @@ public interface EntityManager extends AutoCloseable {
      * Create an instance of {@link TypedQuery} for executing a
      * criteria query, which may be a union or intersection of
      * top-level queries.
-     * @param criteriaQuery  a criteria query object
+     * @param selectQuery  a criteria query object
      * @return the new query instance
      * @throws IllegalArgumentException if the criteria query is
      *         found to be invalid
      * @since 3.2
      */
-    <T> TypedQuery<T> createQuery(CriteriaSelect<T> criteriaQuery);
+    <T> TypedQuery<T> createQuery(CriteriaSelect<T> selectQuery);
 
     /**
      * Create an instance of {@link Query} for executing a criteria
