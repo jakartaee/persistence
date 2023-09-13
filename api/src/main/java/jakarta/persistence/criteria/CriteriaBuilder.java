@@ -1807,7 +1807,7 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaQuery<T> union(CriteriaQuery<? extends T> left, CriteriaQuery<? extends T> right);
+    <T> CriteriaSelect<T> union(CriteriaSelect<? extends T> left, CriteriaSelect<? extends T> right);
 
     /**
      * Create a query which is the union of the given queries,
@@ -1816,7 +1816,7 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaQuery<T> unionAll(CriteriaQuery<? extends T> left, CriteriaQuery<? extends T> right);
+    <T> CriteriaSelect<T> unionAll(CriteriaSelect<? extends T> left, CriteriaSelect<? extends T> right);
 
     /**
      * Create a query which is the intersection of the given queries.
@@ -1824,7 +1824,7 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaQuery<T> intersect(CriteriaQuery<? super T> left, CriteriaQuery<? super T> right);
+    <T> CriteriaSelect<T> intersect(CriteriaSelect<? super T> left, CriteriaSelect<? super T> right);
 
     /**
      * Create a query which is the intersection of the given queries,
@@ -1833,7 +1833,7 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaQuery<T> intersectAll(CriteriaQuery<? super T> left, CriteriaQuery<? super T> right);
+    <T> CriteriaSelect<T> intersectAll(CriteriaSelect<? super T> left, CriteriaSelect<? super T> right);
 
     /**
      * Create a query by (setwise) subtraction of the second query
@@ -1843,7 +1843,7 @@ Expression<?>... args);
      *         results of the first query
      * @since 3.2
      */
-    <T> CriteriaQuery<T> except(CriteriaQuery<T> left, CriteriaQuery<?> right);
+    <T> CriteriaSelect<T> except(CriteriaSelect<T> left, CriteriaSelect<?> right);
 
     /**
      * Create a query by (setwise) subtraction of the second query
@@ -1853,7 +1853,7 @@ Expression<?>... args);
      *         results of the first query
      * @since 3.2
      */
-    <T> CriteriaQuery<T> exceptAll(CriteriaQuery<T> left, CriteriaQuery<?> right);
+    <T> CriteriaSelect<T> exceptAll(CriteriaSelect<T> left, CriteriaSelect<?> right);
 }
 
 

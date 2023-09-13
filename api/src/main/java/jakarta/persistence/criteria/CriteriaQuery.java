@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @since 2.0
  */
-public interface CriteriaQuery<T> extends AbstractQuery<T> {
+public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
 	
     /**
      * Specify the item that is to be returned in the query result.

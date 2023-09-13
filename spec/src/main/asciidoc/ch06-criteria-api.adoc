@@ -1875,6 +1875,59 @@ Expression<?>... args);
      */
     <X, T extends X> Root<T> treat(Root<X> root, Class<T> type);
 
+    /**
+     * Create a query which is the union of the given queries.
+     * @return a new criteria query which returns the union of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaSelect<T> union(CriteriaSelect<? extends T> left, CriteriaSelect<? extends T> right);
+
+    /**
+     * Create a query which is the union of the given queries,
+     * without elimination of duplicate results.
+     * @return a new criteria query which returns the union of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaSelect<T> unionAll(CriteriaSelect<? extends T> left, CriteriaSelect<? extends T> right);
+
+    /**
+     * Create a query which is the intersection of the given queries.
+     * @return a new criteria query which returns the intersection of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaSelect<T> intersect(CriteriaSelect<? super T> left, CriteriaSelect<? super T> right);
+
+    /**
+     * Create a query which is the intersection of the given queries,
+     * without elimination of duplicate results.
+     * @return a new criteria query which returns the intersection of
+     *         the results of the given queries
+     * @since 3.2
+     */
+    <T> CriteriaSelect<T> intersectAll(CriteriaSelect<? super T> left, CriteriaSelect<? super T> right);
+
+    /**
+     * Create a query by (setwise) subtraction of the second query
+     * from the first query.
+     * @return a new criteria query which returns the result of
+     *         subtracting the results of the second query from the
+     *         results of the first query
+     * @since 3.2
+     */
+    <T> CriteriaSelect<T> except(CriteriaSelect<T> left, CriteriaSelect<?> right);
+
+    /**
+     * Create a query by (setwise) subtraction of the second query
+     * from the first query, without elimination of duplicate results.
+     * @return a new criteria query which returns the result of
+     *         subtracting the results of the second query from the
+     *         results of the first query
+     * @since 3.2
+     */
+    <T> CriteriaSelect<T> exceptAll(CriteriaSelect<T> left, CriteriaSelect<?> right);
 }
 ----
 
