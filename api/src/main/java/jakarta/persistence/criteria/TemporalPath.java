@@ -16,22 +16,16 @@
 
 package jakarta.persistence.criteria;
 
-import java.time.LocalTime;
+import java.time.temporal.Temporal;
 
 /**
- * Type for boolean query expressions.
+ * Represents a simple or compound attribute path from a
+ * bound type or collection, and is a "primitive" expression
+ * of a temporal type.
  *
  * @since 3.2
  */
 @SuppressWarnings("hiding")
-public interface LocalTimeExpression extends ComparableExpression<LocalTime> {
+public interface TemporalPath<T extends Temporal & Comparable<? super T>> extends Path<T>, TemporalExpression<T> {
 
-	/**
-	 * Create an expression that returns the value of a
-	 * field extracted from this time.
-	 * @param field a temporal field type
-	 * @return expression for the value of the extracted field
-	 * @see CriteriaBuilder#extract(TemporalField, Expression)
-	 */
-	<N extends Number> NumberExpression<N> extract(LocalDateTimeField<N> field);
 }

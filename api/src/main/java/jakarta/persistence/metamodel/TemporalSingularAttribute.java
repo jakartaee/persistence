@@ -16,16 +16,17 @@
 
 package jakarta.persistence.metamodel;
 
-import java.time.LocalTime;
+import java.time.temporal.Temporal;
 
 /**
- * Instances of the type {@linkplain LocalTimeSingularAttribute} represents persistent
- * single-valued properties or fields of local time type.
+ * Instances of the type {@linkplain TemporalSingularAttribute} represents persistent
+ * single-valued properties or fields of a temporal type.
  *
  * @param <X> The type containing the represented attribute
+ * @param <T> The type of the represented attribute
  *
  * @since 3.2
  */
-public interface LocalTimeSingularAttribute<X>
-		extends ComparableSingularAttribute<X, LocalTime> {
+public interface TemporalSingularAttribute<X, T extends Temporal & Comparable<? super T>>
+		extends ComparableSingularAttribute<X, T> {
 }

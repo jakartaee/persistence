@@ -943,7 +943,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 3.2
      */
-    LocalDateExpression literal(LocalDate value);
+    TemporalExpression<LocalDate> literal(LocalDate value);
 
     /**
      * Create a local datetime expression for a literal.
@@ -952,7 +952,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 3.2
      */
-    LocalDateTimeExpression literal(LocalDateTime value);
+    TemporalExpression<LocalDateTime> literal(LocalDateTime value);
 
     /**
      * Create a local time expression for a literal.
@@ -961,7 +961,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 3.2
      */
-    LocalTimeExpression literal(LocalTime value);
+    TemporalExpression<LocalTime> literal(LocalTime value);
 
     /**
      * Create a comparable expression for a literal.

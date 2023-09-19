@@ -17,13 +17,12 @@
 
 package jakarta.persistence.criteria;
 
+import java.time.temporal.Temporal;
+
 import jakarta.persistence.metamodel.BooleanSingularAttribute;
 import jakarta.persistence.metamodel.CollectionAttribute;
 import jakarta.persistence.metamodel.ComparableSingularAttribute;
 import jakarta.persistence.metamodel.ListAttribute;
-import jakarta.persistence.metamodel.LocalDateSingularAttribute;
-import jakarta.persistence.metamodel.LocalDateTimeSingularAttribute;
-import jakarta.persistence.metamodel.LocalTimeSingularAttribute;
 import jakarta.persistence.metamodel.NumberSingularAttribute;
 import jakarta.persistence.metamodel.PluralAttribute;
 import jakarta.persistence.metamodel.SetAttribute;
@@ -31,6 +30,7 @@ import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.Bindable;
 import jakarta.persistence.metamodel.MapAttribute;
 import jakarta.persistence.metamodel.StringSingularAttribute;
+import jakarta.persistence.metamodel.TemporalSingularAttribute;
 
 /**
  * Represents a simple or compound attribute path from a 
@@ -88,25 +88,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 3.2
      */
-    LocalDatePath get(LocalDateSingularAttribute<? super X> attribute);
-
-    /**
-     *  Create a path corresponding to the referenced
-     *  single-valued attribute.
-     *  @param attribute single-valued attribute
-     *  @return path corresponding to the referenced attribute
-     *  @since 3.2
-     */
-    LocalDateTimePath get(LocalDateTimeSingularAttribute<? super X> attribute);
-
-    /**
-     *  Create a path corresponding to the referenced
-     *  single-valued attribute.
-     *  @param attribute single-valued attribute
-     *  @return path corresponding to the referenced attribute
-     *  @since 3.2
-     */
-    LocalTimePath get(LocalTimeSingularAttribute<? super X> attribute);
+    <Y extends Temporal & Comparable<? super Y>> TemporalPath<Y> get(TemporalSingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
