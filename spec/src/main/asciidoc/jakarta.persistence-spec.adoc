@@ -3,6 +3,7 @@
 //
 
 = Jakarta Persistence
+:pdf-theme: ../../theme/jakartaee-theme.yml
 :authors: Jakarta Persistence Team, https://projects.eclipse.org/projects/ee4j.jpa
 :email: https://dev.eclipse.org/mailman/listinfo/jpa-dev
 :version-label!:
