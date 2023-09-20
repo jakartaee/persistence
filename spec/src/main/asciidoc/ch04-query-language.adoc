@@ -1351,7 +1351,7 @@ The operators are listed below in order of decreasing precedence.
 ** +, - addition and subtraction
 * String concatenation (_||_)
 * Comparison operators: _=_, _>_, _>=_, _<_
-, _pass:[<=]_, _<>_ (not equal), _[NOT]_ _BETWEEN_, _[NOT]_ _LIKE_, _[NOT]_
+, _\<=_, _<>_ (not equal), _[NOT]_ _BETWEEN_, _[NOT]_ _LIKE_, _[NOT]_
 _IN_, _IS_ _[NOT]_ _NULL_, _IS_ _[NOT]_ _EMPTY_, _[NOT]_ _MEMBER_
 _[OF]_, _[NOT]_ _EXISTS_
 * Logical operators:
@@ -1421,7 +1421,7 @@ comparison operations apply. See <<a5676>>.
 
 Examples:
 
-- `p.age BETWEEN 15 and 19` is equivalent to `p.age >= 15 AND p.age pass:[<=] 19`
+- `p.age BETWEEN 15 and 19` is equivalent to `p.age >= 15 AND p.age \<= 19`
 - `p.age NOT BETWEEN 15 and 19` is equivalent to `p.age < 15 OR p.age > 19`
 
 
@@ -1668,7 +1668,7 @@ unknown if neither true nor false. The keyword SOME is synonymous with
 ANY.
 
 The comparison operators used with ALL or ANY
-conditional expressions are =, <, pass:[<=], >, >=, <>. The result of the
+conditional expressions are =, <, \<=, >, >=, <>. The result of the
 subquery must be like that of the other argument to the comparison
 operator in type. See <<a5735>>.
 
