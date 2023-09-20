@@ -10,50 +10,50 @@ the persistence provider for deployment and bootstrapping.
 === Jakarta EE Deployment [[a12802]]
 
 Each persistence unit deployed into a Jakarta EE
-container consists of a single _persistence.xml_ file, any number of
+container consists of a single `persistence.xml` file, any number of
 mapping files, and any number of class files.
 
 At deployment time the container is
 responsible for scanning the locations specified in <<a12236>> and
-discovering the _persistence.xml_ files and processing them.
+discovering the `persistence.xml` files and processing them.
 
-When the container finds a _persistence.xml_
+When the container finds a `persistence.xml`
 file, it must process the persistence unit definitions that it contains.
-The container must validate the _persistence.xml_ file against the
-__persistence_3_0.xsd__ or __persistence_2_2.xsd__ schema in accordance with
-the version specified by the _persistence.xml_ file and report any validation errors.
-Provider or data source information not specified in the _persistence.xml_ file
+The container must validate the `persistence.xml` file against the
+`persistence_3_0.xsd` or `persistence_2_2.xsd` schema in accordance with
+the version specified by the `persistence.xml` file and report any validation errors.
+Provider or data source information not specified in the `persistence.xml` file
 must be provided at deployment time or defaulted by the container. The
 container may optionally add any container-specific properties to be
 passed to the provider when creating the entity manager factory for the
 persistence unit.
 
 Once the container has read the persistence
-metadata, it determines the _jakarta.persistence.spi.PersistenceProvider_
+metadata, it determines the `jakarta.persistence.spi.PersistenceProvider`
 implementation class for each deployed named persistence unit. The
-container then creates an instance of the _PersistenceProvider_
+container then creates an instance of the `PersistenceProvider`
 implementation class for each deployed named persistence unit and
-invokes the _createContainerEntityManagerFactory_ method on that
+invokes the `createContainerEntityManagerFactory` method on that
 instance.
 
 * The container must implement the
-_PersistenceUnitInfo_ interface described in <<a13160>> and pass the
-metadata—in the form of a _PersistenceUnitInfo_ instance—to the
+`PersistenceUnitInfo` interface described in <<a13160>> and pass the
+metadata—in the form of a `PersistenceUnitInfo` instance—to the
 persistence provider as part of this call.
 * If a Bean Validation provider exists in the
-container environment and the _validation-mode_ _NONE_ is not specified,
-a _ValidatorFactory_ instance must be made available by the container.
-The container is responsible for passing this _ValidatorFactory_
+container environment and the `validation-mode` `NONE` is not specified,
+a `ValidatorFactory` instance must be made available by the container.
+The container is responsible for passing this `ValidatorFactory`
 instance via the map that is passed as an argument to the
-_createContainerEntityManagerFactory_ call. The map key used must be the
-standard property name _jakarta.persistence.validation.factory_.
-* If CDI is enabled, a _BeanManager_ instance
+`createContainerEntityManagerFactory` call. The map key used must be the
+standard property name `jakarta.persistence.validation.factory`.
+* If CDI is enabled, a `BeanManager` instance
 must be made available by the container. The container is responsible
-for passing this _BeanManager_ instance via the map that is passed as an
-argument to the _createContainerEntityManagerFactory_ call. The map key
-used must be the standard property name _jakarta.persistence.bean.manager_.
+for passing this `BeanManager` instance via the map that is passed as an
+argument to the `createContainerEntityManagerFactory` call. The map key
+used must be the standard property name `jakarta.persistence.bean.manager`.
 
-The _EntityManagerFactory_ instance obtained
+The `EntityManagerFactory` instance obtained
 as a result will be used by the container to create container-managed
 entity managers. Only one EntityManagerFactory is permitted to be
 created for each deployed persistence unit configuration. Any number of
@@ -65,15 +65,15 @@ any of its parent class loaders until after the entity manager factory
 for the persistence unit has been created.
 
 When a persistence unit is redeployed, the
-container should call the _close_ method on the previous
-_EntityManagerFactory_ instance and call the
-_createContainerEntityManagerFactory_ method again, with the required
-_PersistenceUnitInfo_ metadata, to achieve the redeployment.
+container should call the `close` method on the previous
+`EntityManagerFactory` instance and call the
+`createContainerEntityManagerFactory` method again, with the required
+`PersistenceUnitInfo` metadata, to achieve the redeployment.
 
 === Bootstrapping in Java SE Environments
 
 In Java SE environments, the
-_Persistence.createEntityManagerFactory_ method is used by the
+`Persistence.createEntityManagerFactory` method is used by the
 application to create an entity manager factoryfootnote:[Use of these Java SE
 bootstrapping APIs may be supported in Jakarta EE containers; however,
 support for such use is not required.].
@@ -84,19 +84,19 @@ supplying a service provider configuration file as defined by the Java
 SE platform.
 
 The provider configuration file serves to
-export the provider implementation class to the _Persistence_ bootstrap
+export the provider implementation class to the `Persistence` bootstrap
 class, positioning the provider as a candidate for backing named
 persistence units. The provider supplies the provider configuration file
 by creating a text file named
-_jakarta.persistence.spi.PersistenceProvider_ and placing it in the
-_META-INF/services_ directory of one of its JAR files. The contents of
+`jakarta.persistence.spi.PersistenceProvider` and placing it in the
+`META-INF/services` directory of one of its JAR files. The contents of
 the file should be the name of the provider implementation class of the
-_jakarta.persistence.spi.PersistenceProvider_ interface.
+`jakarta.persistence.spi.PersistenceProvider` interface.
 
 *Example:*
 
 A persistence vendor called ACME persistence
-products ships a JAR called _acme.jar_ that contains its persistence
+products ships a JAR called `acme.jar` that contains its persistence
 provider implementation. The JAR includes the provider configuration
 file.
 
@@ -108,91 +108,91 @@ acme.jar
 ----
 
 The contents of the
-_META-INF/services/jakarta.persistence.spi.PersistenceProvider_ file is
+`META-INF/services/jakarta.persistence.spi.PersistenceProvider` file is
 nothing more than the name of the implementation class:
-_com.acme.PersistenceProvider_.
+`com.acme.PersistenceProvider`.
 
 Persistence provider jars may be installed or
 made available in the same ways as other service providers, e.g. as
 extensions or added to the application classpath.
 
-The _Persistence_ bootstrap class must locate
-all of the persistence providers using the _PersistenceProviderResolver_
+The `Persistence` bootstrap class must locate
+all of the persistence providers using the `PersistenceProviderResolver`
 mechanism described in <<a12837>> and call
-_createEntityManagerFactory_ on them in turn until an appropriate
-backing provider returns an _EntityManagerFactory_ instance. A provider
+`createEntityManagerFactory` on them in turn until an appropriate
+backing provider returns an `EntityManagerFactory` instance. A provider
 may deem itself as appropriate for the persistence unit if any of the
 following are true:
 
 * Its implementation class has been specified
-in the _provider_ element for that persistence unit in the
-_persistence.xml_ file and has not been overridden by a different
-_jakarta.persistence.provider_ property value included in the Map passed
-to the _createEntityManagerFactory_ method.
-* The _jakarta.persistence.provider_ property was
-included in the Map passed to _createEntityManagerFactory_ and the value
+in the `provider` element for that persistence unit in the
+`persistence.xml` file and has not been overridden by a different
+`jakarta.persistence.provider` property value included in the Map passed
+to the `createEntityManagerFactory` method.
+* The `jakarta.persistence.provider` property was
+included in the Map passed to `createEntityManagerFactory` and the value
 of the property is the provider's implementation class.
 * No provider was specified for the persistence
-unit in either the _persistence.xml_ or the property map.
+unit in either the `persistence.xml` or the property map.
 
 If a provider does not qualify as the
-provider for the named persistence unit, it must return _null_ when
-_createEntityManagerFactory_ is invoked on it.
+provider for the named persistence unit, it must return `null` when
+`createEntityManagerFactory` is invoked on it.
 
 ==== Schema Generation [[a12803]]
 
 In Java SE environments, the
-_Persistence.generateSchema_ method may be used by the application to
+`Persistence.generateSchema` method may be used by the application to
 cause schema generation to occur as a separate phase from entity manager
 factory creation.
 
-In this case, the _Persistence_ bootstrap
+In this case, the `Persistence` bootstrap
 class must locate all of the persistence providers using the
-_PersistenceProviderResolver_ mechanism described in <<a12837>>
-and call _generateSchema_ on them in turn until an
-appropriate backing provider returns _true_. A provider may deem itself
+`PersistenceProviderResolver` mechanism described in <<a12837>>
+and call `generateSchema` on them in turn until an
+appropriate backing provider returns `true`. A provider may deem itself
 as appropriate for the persistence unit if any of the following are
 true:
 
 * Its implementation class has been specified
-in the _provider_ element for that persistence unit in the
-_persistence.xml_ file and has not been overridden by a different
-_jakarta.persistence.provider_ property value included in the Map passed
-to the _generateSchema_ method.
-* The _jakarta.persistence.provider_ property was
-included in the Map passed to _generateSchema_ and the value of the
+in the `provider` element for that persistence unit in the
+`persistence.xml` file and has not been overridden by a different
+`jakarta.persistence.provider` property value included in the Map passed
+to the `generateSchema` method.
+* The `jakarta.persistence.provider` property was
+included in the Map passed to `generateSchema` and the value of the
 property is the provider's implementation class.
 * No provider was specified for the persistence
-unit in either the _persistence.xml_ or the property map.
+unit in either the `persistence.xml` or the property map.
 
 If a provider does not qualify as the
-provider for the named persistence unit, it must return _false_ when
-_generateSchema_ is invoked on it.
+provider for the named persistence unit, it must return `false` when
+`generateSchema` is invoked on it.
 
 === Determining the Available Persistence Providers [[a12837]]
 
-The _PersistenceProviderResolver_ and
-_PersistenceProviderResolverHolder_ mechanism supports the dynamic
+The `PersistenceProviderResolver` and
+`PersistenceProviderResolverHolder` mechanism supports the dynamic
 discovery of persistence providers.footnote:[In dynamic
 environments (e.g., OSGi-based environments, containers based on dynamic
 kernels, etc.), the list of persistence providers may change.]
 
-The _PersistenceProviderResolver_ instance is
+The `PersistenceProviderResolver` instance is
 responsible for returning the list of providers available in the
 environment.
 
-The _PersistenceProviderResolverHolder_ class
-holds the _PersistenceProviderResolver_ instance that is in use. The
-implementation of _PersistenceProviderResolverHolder_ must be
+The `PersistenceProviderResolverHolder` class
+holds the `PersistenceProviderResolver` instance that is in use. The
+implementation of `PersistenceProviderResolverHolder` must be
 threadsafe, but no guarantee is made against multiple threads setting
 the resolver.
 
 The container is allowed to implement
-and set a specific _PersistenceProviderResolver_ provided that it
-respects the _PersistenceProviderResolver_ contract. The
-_PersistenceProviderResolver_ instance to be used is set by the
+and set a specific `PersistenceProviderResolver` provided that it
+respects the `PersistenceProviderResolver` contract. The
+`PersistenceProviderResolver` instance to be used is set by the
 container using the
-_PersistenceProviderResolverHolder.setPersistenceProviderResolver_
+`PersistenceProviderResolverHolder.setPersistenceProviderResolver`
 method.footnote:[If a custom
 PersistenceProviderResolver is needed in a JavaSE environment, it must
 be set before Persistence.createEntityManagerFactory is called. Note,
@@ -200,47 +200,47 @@ however, that the setPersistenceProviderResolver method is not intended
 for general use, but rather is aimed at containers maintaining a dynamic
 environment.]
 
-If no _PersistenceProviderResolver_ is set,
-the _PersistenceProviderResolverHolder_ must return a
-_PersistenceProviderResolver_ that returns the providers whose
+If no `PersistenceProviderResolver` is set,
+the `PersistenceProviderResolverHolder` must return a
+`PersistenceProviderResolver` that returns the providers whose
 persistence provider jars have been installed or made available as
 service providers or extensions. This default
-_PersistenceProviderResolver_ instance does not guarantee the order in
+`PersistenceProviderResolver` instance does not guarantee the order in
 which persistence providers are returned.
 
-A _PersistenceProviderResolver_ must be threadsafe.
+A `PersistenceProviderResolver` must be threadsafe.
 
 The
-_PersistenceProviderResolver.getPersistenceProviders()_ method must be
+`PersistenceProviderResolver.getPersistenceProviders()` method must be
 used to determine the list of available persistence providers.
 
 The results of calling the
-_PersistenceProviderResolverHolder.getPersistenceProviderResolver_ and
-the _PersistenceProviderResolver.getPersistenceProviders_ methods must
+`PersistenceProviderResolverHolder.getPersistenceProviderResolver` and
+the `PersistenceProviderResolver.getPersistenceProviders` methods must
 not be cached. In particular, the following methods must use the
-_PersistenceProviderResolver_ instance returned by the
-_PersistenceProviderResolverHolder.getPersistenceProviderResolver_
+`PersistenceProviderResolver` instance returned by the
+`PersistenceProviderResolverHolder.getPersistenceProviderResolver`
 method to determine the list of available providers:
 
 
-* _Persistence.createEntityManagerFactory(String)_
-* _Persistence.createEntityManagerFactory(String, Map)_
-* _PersistenceUtil.isLoaded(Object)_
-* _PersistenceUtil.isLoaded(Object, String)_
+* `Persistence.createEntityManagerFactory(String)`
+* `Persistence.createEntityManagerFactory(String, Map)`
+* `PersistenceUtil.isLoaded(Object)`
+* `PersistenceUtil.isLoaded(Object, String)`
 
 These methods must not cache the list of
-providers and must not cache the _PersistenceProviderResolver_ instance.
+providers and must not cache the `PersistenceProviderResolver` instance.
 
 [NOTE]
 ====
 Note that the
-_PersistenceProviderResolver.getPersistenceProviders()_ method can
+`PersistenceProviderResolver.getPersistenceProviders()` method can
 potentially be called many times. It is therefore recommended that the
 implementation of this method make use of caching.
 ====
 
 Note that only a single
-_PersistenceProviderResolver_ instance can be defined in a given
+`PersistenceProviderResolver` instance can be defined in a given
 classloader hierarchy at a given time.
 
 ==== PersistenceProviderResolver interface
@@ -345,19 +345,19 @@ application deployment or when the entity manager factory is created as
 part of the application deployment and initialization process.
 
 * In Jakarta EE environments, the container may
-call the _PersistenceProvider_ _generateSchema_ method separately from
+call the `PersistenceProvider` `generateSchema` method separately from
 and/or prior to the creation of the entity manager factory for the
 persistence unit, or the container may pass additional information to
-the _createContainerEntityManagerFactory_ call to cause schema
+the `createContainerEntityManagerFactory` call to cause schema
 generation to happen as part of the entity manager factory creation and
 application initialization process. The information passed to these
 methods controls whether the generation occurs directly in the target
 database, whether DDL scripts for schema generation are created, or
 both.
 * In Java SE environments, the application may
-call the _Persistence_ _generateSchema_ method separately from and/or
+call the `Persistence` `generateSchema` method separately from and/or
 prior to the creation of the entity manager factory or may pass
-information to the _createEntityManagerFactory_ method to cause schema
+information to the `createEntityManagerFactory` method to cause schema
 generation to occur as part of the entity manager factory creation.
 
 The application may provide DDL scripts to be
@@ -373,11 +373,11 @@ determined by the object/relational metadata of the persistence unit.
 
 The following standard properties are defined
 for configuring the schema generation process. In Jakarta EE environments
-these properties are passed by the container in the _Map_ argument to
-either the _PersistenceProvider_ _generateSchema_ method or the
-_createContainerEntityManagerFactory_ method. In Java SE environments,
-they are passed in the _Map_ argument to either the _Persistence_
-_generateSchema_ method or _createEntityManagerFactory_ method.
+these properties are passed by the container in the `Map` argument to
+either the `PersistenceProvider` `generateSchema` method or the
+`createContainerEntityManagerFactory` method. In Java SE environments,
+they are passed in the `Map` argument to either the `Persistence`
+`generateSchema` method or `createEntityManagerFactory` method.
 
 In Jakarta EE environments, any strings
 corresponding to file URLs for script sources or targets must specify
@@ -385,28 +385,28 @@ absolute paths (not relative). In Jakarta EE environments, all source and
 target file locations must be accessible to the application server
 deploying the persistence unit
 
-_jakarta.persistence.schema-generation.database.action_ ::
-The _jakarta.persistence.schema-generation.database.action_ property specifies
+`jakarta.persistence.schema-generation.database.action` ::
+The `jakarta.persistence.schema-generation.database.action` property specifies
 the action to be taken by the persistence provider with regard to the
 database artifacts. The values for this property are _"none"_,
 _"create"_, _"drop-and-create"_, _"drop"_, _"validate"_. If the
-_jakarta.persistence.schema-generation.database.action_ property is not
+`jakarta.persistence.schema-generation.database.action` property is not
 specified, no schema generation actions must be taken on the database.
-_jakarta.persistence.schema-generation.scripts.action_ ::
-The _jakarta.persistence.schema-generation.scripts.action_ property specifies
+`jakarta.persistence.schema-generation.scripts.action` ::
+The `jakarta.persistence.schema-generation.scripts.action` property specifies
 which scripts are to be generated by the persistence provider. The
 values for this property are _"none"_, _"create"_, _"drop-and-create"_
 , _"drop"_. A script will only be generated if the script target is
 specified. If this property is not specified, no scripts will be
 generated.
-_jakarta.persistence.schema-generation.create-source_ ::
-The _jakarta.persistence.schema-generation.create-source_ property specifies
+`jakarta.persistence.schema-generation.create-source` ::
+The `jakarta.persistence.schema-generation.create-source` property specifies
 whether the creation of database artifacts is to occur on the basis of
 the object/relational mapping metadata, DDL script, or a combination of
 the two. The values for this property are _"metadata"_, _"script"_,
 _"metadata-then-script"_, _"script-then-metadata"_. If this property
 is not specified, and a script is specified by the
-_jakarta.persistence.schema-generation.create-script-source_ property, the
+`jakarta.persistence.schema-generation.create-script-source` property, the
 script (only) will be used for schema generation; otherwise if this
 property is not specified, schema generation will occur on the basis of
 the object/relational mapping metadata (only). The
@@ -415,14 +415,14 @@ that a combination of metadata and script is to be used and the order in
 which this use is to occur. If either of these values is specified and
 the resulting database actions are not disjoint, the results are
 undefined and schema generation may fail.
-_jakarta.persistence.schema-generation.drop-source_ ::
-The _jakarta.persistence.schema-generation.drop-source_ property specifies
+`jakarta.persistence.schema-generation.drop-source` ::
+The `jakarta.persistence.schema-generation.drop-source` property specifies
 whether the dropping of database artifacts is to occur on the basis of
 the object/relational mapping metadata, DDL script, or a combination of
 the two. The values for this property are _"metadata"_, _"script"_,
 _"metadata-then-script"_, _"script-then-metadata"_. If this property
 is not specified, and a script is specified by the
-_jakarta.persistence.schema-generation.drop-script-source_ property, the
+`jakarta.persistence.schema-generation.drop-script-source` property, the
 script (only) will be used for the dropping of database artifacts;
 otherwise if this property is not specified, the dropping of database
 artifacts will occur on the basis of the object/relational mapping
@@ -432,12 +432,12 @@ and script is to be used and the order in which this use is to occur. If
 either of these values is specified and the resulting database actions
 are not disjoint, the results are undefined and the dropping of database
 artifacts may fail.
-_jakarta.persistence.schema-generation.create-database-schemas_ ::
+`jakarta.persistence.schema-generation.create-database-schemas` ::
 In Jakarta EE environments, it is anticipated
 that the Jakarta EE platform provider may wish to control the creation of
 database schemas rather than delegate this task to the persistence
 provider. The
-_jakarta.persistence.schema-generation.create-database-schemas_ property
+`jakarta.persistence.schema-generation.create-database-schemas` property
 specifies whether the persistence provider is to create the database
 schema(s) in addition to creating database objects such as tables,
 sequences, constraints, etc. The value of this boolean property should
@@ -446,39 +446,39 @@ database or to generate DDL that contains “CREATE SCHEMA” commands. If
 this property is not supplied, the provider should not attempt to create
 database schemas. This property may also be specified in Java SE
 environments.
-_jakarta.persistence.schema-generation.scripts.create-target_, +
-_jakarta.persistence.schema-generation.scripts.drop-target_ ::
+`jakarta.persistence.schema-generation.scripts.create-target`, +
+`jakarta.persistence.schema-generation.scripts.drop-target` ::
 If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. +
-The _jakarta.persistence.schema-generation.scripts.create-target_ property
-specifies a _java.IO.Writer_ configured for use by the persistence
+The `jakarta.persistence.schema-generation.scripts.create-target` property
+specifies a `java.io.Writer` configured for use by the persistence
 provider for output of the DDL script or a string specifying the file
 URL for the DDL script. This property should only be specified if
 scripts are to be generated. +
-The _jakarta.persistence.schema-generation.scripts.drop-target_ property
-specifies a _java.IO.Writer_ configured for use by the persistence
+The `jakarta.persistence.schema-generation.scripts.drop-target` property
+specifies a `java.io.Writer` configured for use by the persistence
 provider for output of the DDL script or a string specifying the file
 URL for the DDL script. This property should only be specified if
 scripts are to be generated.
-_jakarta.persistence.database-product-name_, ::
-_jakarta.persistence.database-major-version_, ::
-_jakarta.persistence.database-minor-version_ ::
+`jakarta.persistence.database-product-name`, ::
+`jakarta.persistence.database-major-version`, ::
+`jakarta.persistence.database-minor-version` ::
 If scripts are to be generated by the
 persistence provider and a connection to the target database is not
-supplied, the _jakarta.persistence.database-product-name_ property must be
+supplied, the `jakarta.persistence.database-product-name` property must be
 specified. The value of this property should be the value returned for
-the target database by the JDBC _DatabaseMetaData_ method
-_getDatabaseProductName_. If sufficient database version information is
+the target database by the JDBC `DatabaseMetaData` method
+`getDatabaseProductName`. If sufficient database version information is
 not included in the result of this method, the
-_jakarta.persistence.database-major-version_ and
-_jakarta.persistence.database-minor-version_ properties should be
+`jakarta.persistence.database-major-version` and
+`jakarta.persistence.database-minor-version` properties should be
 specified as needed. These should contain the values returned by the
-JDBC _getDatabaseMajorVersion_ and _getDatabaseMinorVersion_ methods
+JDBC `getDatabaseMajorVersion` and `getDatabaseMinorVersion` methods
 respectively.
-_jakarta.persistence.schema-generation.create-script-source_, +
-_jakarta.persistence.schema-generation.drop-script-source_ ::
-The _jakarta.persistence.schema-generation.create-script-source_ and
-_jakarta.persistence.schema-generation.drop-script-source_ properties are
+`jakarta.persistence.schema-generation.create-script-source`, +
+`jakarta.persistence.schema-generation.drop-script-source` ::
+The `jakarta.persistence.schema-generation.create-script-source` and
+`jakarta.persistence.schema-generation.drop-script-source` properties are
 used for script execution. In Jakarta EE container environments, it is
 generally expected that the container will be responsible for executing
 DDL scripts, although the container is permitted to delegate this task
@@ -486,15 +486,15 @@ to the persistence provider. If DDL scripts are to be used in Java SE
 environments or if the Jakarta EE container delegates the execution of
 scripts to the persistence provider, these properties must be specified. +
 The
-_jakarta.persistence.schema-generation.create-script-source_ property
-specifies a _java.IO.Reader_ configured for reading of the DDL script or
+`jakarta.persistence.schema-generation.create-script-source` property
+specifies a `java.io.Reader` configured for reading of the DDL script or
 a string designating a file URL for the DDL script. +
 The
-_jakarta.persistence.schema-generation.drop-script-source_ property
-specifies a _java.IO.Reader_ configured for reading of the DDL script or
+`jakarta.persistence.schema-generation.drop-script-source` property
+specifies a `java.io.Reader` configured for reading of the DDL script or
 a string designating a file URL for the DDL script.
-_jakarta.persistence.schema-generation.connection_ ::
-The _jakarta.persistence.schema-generation.connection_ property specifies the
+`jakarta.persistence.schema-generation.connection` ::
+The `jakarta.persistence.schema-generation.connection` property specifies the
 JDBC connection to be used for schema generation. This is intended for
 use in Jakarta EE environments, where the platform provider may want to
 control the database privileges that are available to the persistence
@@ -511,10 +511,10 @@ Data loading, by means of the use of SQL
 scripts, may occur as part of the schema generation process after the
 creation of the database artifacts or independently of schema
 generation. The specification of the
-_jakarta.persistence.sql-load-script-source_ controls whether data loading
+`jakarta.persistence.sql-load-script-source` controls whether data loading
 will occur.
 
-_jakarta.persistence.sql-load-script-source_ ::
+`jakarta.persistence.sql-load-script-source` ::
 In Jakarta EE container environments, it is
 generally expected that the container will be responsible for executing
 data load scripts, although the container is permitted to delegate this
@@ -522,26 +522,26 @@ task to the persistence provider. If a load script is to be used in Java
 SE environments or if the Jakarta EE container delegates the execution of
 the load script to the persistence provider, this property must be
 specified. + The
-_jakarta.persistence.sql-load-script-source_ property specifies a
-_java.IO.Reader_ configured for reading of the SQL load script for
+`jakarta.persistence.sql-load-script-source` property specifies a
+`java.io.Reader` configured for reading of the SQL load script for
 database initialization or a string designating a file URL for the
 script.
 
 === Responsibilities of the Persistence Provider
 
 The persistence provider must implement the
-_PersistenceProvider_ SPI.
+`PersistenceProvider` SPI.
 
 In Jakarta EE environments, the persistence
 provider must process the metadata that is passed to it at the time
-_createContainerEntityManagerFactory_ method is called and create an
-instance of _EntityManagerFactory_ using the _PersistenceUnitInfo_
+`createContainerEntityManagerFactory` method is called and create an
+instance of `EntityManagerFactory` using the `PersistenceUnitInfo`
 metadata for the factory. The factory is then returned to the container.
 
 In Java SE environments, the persistence
-provider must validate the _persistence.xml_ file against the
-_persistence_ schema that corresponds to the version specified by the
-_persistence.xml_ file and report any validation errors.
+provider must validate the `persistence.xml` file against the
+`persistence` schema that corresponds to the version specified by the
+`persistence.xml` file and report any validation errors.
 
 The persistence provider processes the
 metadata annotations on the managed classes of the persistence unit.
@@ -558,32 +558,32 @@ mapping files against the object/relational mapping schema version
 specified by the object/relational mapping file and report any
 validation errors. The object relational mapping file must specify the
 object/relational mapping schema that it is written against by
-indicating the _version_ element.
+indicating the `version` element.
 
 In Java SE environments, the application can
-pass the _ValidatorFactory_ instance via the map that is passed as an
-argument to the _Persistence.createEntityManagerFactory_ call. The map
+pass the `ValidatorFactory` instance via the map that is passed as an
+argument to the `Persistence.createEntityManagerFactory` call. The map
 key used must be the standard property name
-_jakarta.persistence.validation.factory_. If no _ValidatorFactory_
+`jakarta.persistence.validation.factory`. If no `ValidatorFactory`
 instance is provided by the application, and if a Bean Validation
 provider is present in the classpath, the persistence provider must
-instantiate the _ValidatorFactory_ using the default bootstrapping
+instantiate the `ValidatorFactory` using the default bootstrapping
 approach as defined by the Bean Validation specification
 <<a19498>>, namely
-_Validation.buildDefaultValidatorFactory()_.
+`Validation.buildDefaultValidatorFactory()`.
 
 ==== jakarta.persistence.spi.PersistenceProvider
 
 The interface
-_jakarta.persistence.spi.PersistenceProvider_ must be implemented by the
+`jakarta.persistence.spi.PersistenceProvider` must be implemented by the
 persistence provider.
 
 It is invoked by the container in Jakarta EE
-environments and by the _jakarta.persistence.Persistence_ class in Java SE
-environments. The _jakarta.persistence.spi.PersistenceProvider_
+environments and by the `jakarta.persistence.Persistence` class in Java SE
+environments. The `jakarta.persistence.spi.PersistenceProvider`
 implementation is not intended to be used by the application.
 
-The _PersistenceProvider_ implementation
+The `PersistenceProvider` implementation
 class must have a public no-arg constructor.
 
 [source,java]
@@ -712,13 +712,13 @@ public interface PersistenceProvider {
 ----
 
 The properties used in the
-_createEntityManagerFactory_ method in Java SE environments are
+`createEntityManagerFactory` method in Java SE environments are
 described further in <<a13443>> below.
 
 ==== jakarta.persistence.spi.ProviderUtil
 
-The _ProviderUtil_ interface is invoked by
-the _PersistenceUtil_ implementation to determine the load status of an
+The `ProviderUtil` interface is invoked by
+the `PersistenceUtil` implementation to determine the load status of an
 entity or entity attribute. It is not intended to be invoked by the
 application.
 
@@ -1037,7 +1037,7 @@ public interface PersistenceUnitInfo {
 ----
 
 The enum
-_jakarta.persistence.spi.PersistenceUnitTransactionType_ defines whether
+`jakarta.persistence.spi.PersistenceUnitTransactionType` defines whether
 the entity managers created by the factory will be JTA or resource-local
 entity managers.
 
@@ -1064,10 +1064,10 @@ public enum PersistenceUnitTransactionType {
 }
 ----
 
-The enum _jakarta.persistence.SharedCacheMode_
-defines the use of caching. The _persistence.xml_ _shared-cache-mode_
-element has no default value. The _getSharedCacheMode_ method must
-return _UNSPECIFIED_ if the _shared-cache-mode_ element has not been
+The enum `jakarta.persistence.SharedCacheMode`
+defines the use of caching. The `persistence.xml` `shared-cache-mode`
+element has no default value. The `getSharedCacheMode` method must
+return `UNSPECIFIED` if the `shared-cache-mode` element has not been
 specified for the persistence unit.
 
 [source,java]
@@ -1117,7 +1117,7 @@ public enum SharedCacheMode {
 }
 ----
 
-The enum _jakarta.persistence.ValidationMode_
+The enum `jakarta.persistence.ValidationMode`
 defines the validation mode.
 
 [source,java]
@@ -1157,7 +1157,7 @@ public enum ValidationMode {
 
 ==== jakarta.persistence.spi.ClassTransformer Interface
 
-The _jakarta.persistence.spi.ClassTransformer_
+The `jakarta.persistence.spi.ClassTransformer`
 interface is implemented by a persistence provider that wants to
 transform entities and managed classes at class load time or at class
 redefinition time. Implementation of this interface by a persistence
@@ -1214,15 +1214,15 @@ public interface ClassTransformer {
 
 === jakarta.persistence.Persistence Class [[a13443]]
 
-The _Persistence_ class is used to obtain an _EntityManagerFactory_ instance
+The `Persistence` class is used to obtain an `EntityManagerFactory` instance
 in Java SE environments. It may also be used for schema generation—i.e., to
 create database schemas and/or tables and/or to create DDL scripts.
 
-The _Persistence_ class is also available in a Jakarta EE container environment;
+The `Persistence` class is also available in a Jakarta EE container environment;
 however, support for the Java SE bootstrapping APIs is not required in container
 environments.
 
-The _Persistence_ class is used to obtain a _PersistenceUtil_ instance in both
+The `Persistence` class is used to obtain a `PersistenceUtil` instance in both
 Jakarta EE and Java SE environments.
 
 [source,java]
@@ -1377,106 +1377,106 @@ public class Persistence {
 }
 ----
 
-The _properties_ argument passed to the
-_createEntityManagerFactory_ method is used to specify both standard and
+The `properties` argument passed to the
+`createEntityManagerFactory` method is used to specify both standard and
 vendor-specific properties and hints intended for use in creating the
 entity manager factory.
 
 The following properties correspond to the
-elements and properties in the _persistence.xml_ file. When any of these
+elements and properties in the `persistence.xml` file. When any of these
 properties are specified in the Map parameter passed to the
-_createEntityManagerFactory_ method, their values override the values of
-the corresponding elements and properties in the _persistence.xml_ file
+`createEntityManagerFactory` method, their values override the values of
+the corresponding elements and properties in the `persistence.xml` file
 for the named persistence unit. They also override any defaults that the
 persistence provider might have applied.
 
-* _jakarta.persistence.lock.timeout_ — integer
+* `jakarta.persistence.lock.timeout` — integer
 value in milliseconds for pessimistic lock timeout or string
 corresponding to integer value. This corresponds to the property of the
-same name in the _persistence.xml_, and is a hint only. See <<a2132>>.
-* _jakarta.persistence.query.timeout_ — integer
+same name in the `persistence.xml`, and is a hint only. See <<a2132>>.
+* `jakarta.persistence.query.timeout` — integer
 value in milliseconds for query timeout or string corresponding to
 integer value. This corresponds to the property of the same name in the
-_persistence.xml_, and is a hint only. See <<a4391>>.
-* _jakarta.persistence.provider_ — string
-corresponding to the _provider_ element in the pe _rsistence.xml_. See
+`persistence.xml`, and is a hint only. See <<a4391>>.
+* `jakarta.persistence.provider` — string
+corresponding to the `provider` element in the pe `rsistence.xml`. See
 <<a12300>>.
-* _jakarta.persistence.transactionType_ — string
-corresponding to the _transaction-type_ attribute in the
-_persistence.xml_. See <<a12296>>.
-* _jakarta.persistence.jtaDataSource_ — string
-corresponding to the _jta-data-source_ element in the _persistence.xml_.
+* `jakarta.persistence.transactionType` — string
+corresponding to the `transaction-type` attribute in the
+`persistence.xml`. See <<a12296>>.
+* `jakarta.persistence.jtaDataSource` — string
+corresponding to the `jta-data-source` element in the `persistence.xml`.
 See <<a12302>>.
-* _jakarta.persistence.nonJtaDataSource_ —
-string corresponding to the _non-jta-data-source_ element in the
-_persistence.xml_. See <<a12302>>.
-* _jakarta.persistence.sharedCache.mode_
-— string corresponding to the _shared-cache-mode_ element in the
-_persistence.xml_. See <<a12380>>.
-* _jakarta.persistence.validation.mode_ — string
-corresponding to the _validation-mode_ element in the _persistence.xml_
-. The value is " _auto_ ", " _callback_ ", or " _none_ ". See
+* `jakarta.persistence.nonJtaDataSource` —
+string corresponding to the `non-jta-data-source` element in the
+`persistence.xml`. See <<a12302>>.
+* `jakarta.persistence.sharedCache.mode`
+— string corresponding to the `shared-cache-mode` element in the
+`persistence.xml`. See <<a12380>>.
+* `jakarta.persistence.validation.mode` — string
+corresponding to the `validation-mode` element in the `persistence.xml`
+. The value is " `auto` ", " `callback` ", or " `none` ". See
 <<a12382>> and <<a2374>>.
-* _jakarta.persistence.validation.group.pre-persist_ — string corresponding
-to the _jakarta.persistence.validation.group.pre-persist_ property in the
-_persistence.xml_. See <<a12384>> and <<a2380>>.
-* _jakarta.persistence.validation.group.pre-update_ — string corresponding
-to the _jakarta.persistence.validation.group.pre-update_ property in the
-_persistence.xml_. See <<a12384>> and <<a2380>>.
-* _jakarta.persistence.validation.group.pre-remove_ — string corresponding
-to the _jakarta.persistence.validation.group.pre-remove_ property in the
-_persistence.xml_. See <<a12384>> and <<a2380>>.
-* _jakarta.persistence.schema-generation.create-script-source_ — string
+* `jakarta.persistence.validation.group.pre-persist` — string corresponding
+to the `jakarta.persistence.validation.group.pre-persist` property in the
+`persistence.xml`. See <<a12384>> and <<a2380>>.
+* `jakarta.persistence.validation.group.pre-update` — string corresponding
+to the `jakarta.persistence.validation.group.pre-update` property in the
+`persistence.xml`. See <<a12384>> and <<a2380>>.
+* `jakarta.persistence.validation.group.pre-remove` — string corresponding
+to the `jakarta.persistence.validation.group.pre-remove` property in the
+`persistence.xml`. See <<a12384>> and <<a2380>>.
+* `jakarta.persistence.schema-generation.create-script-source` — string
 corresponding to the
-_jakarta.persistence.schema-generation.create-script-source_ property in
-the _persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.schema-generation.drop-script-source_ — string
+`jakarta.persistence.schema-generation.create-script-source` property in
+the `persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.schema-generation.drop-script-source` — string
 corresponding to the
-_jakarta.persistence.schema-generation.drop-script-source_ property in
-the _persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.sql-load-script-source_ —
-string corresponding to the _jakarta.persistence.sql-load-script-source_
-property in the _persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.schema-generation.database.action_ — string
+`jakarta.persistence.schema-generation.drop-script-source` property in
+the `persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.sql-load-script-source` —
+string corresponding to the `jakarta.persistence.sql-load-script-source`
+property in the `persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.schema-generation.database.action` — string
 corresponding to the
-_jakarta.persistence.schema-generation.database.action_ property in the
-_persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.schema-generation.scripts.action_ — string
+`jakarta.persistence.schema-generation.database.action` property in the
+`persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.schema-generation.scripts.action` — string
 corresponding to the
-_jakarta.persistence.schema-generation.scripts.action_ property in the
-_persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.schema-generation.create-source_ — string
-corresponding to the _jakarta.persistence.schema-generation.create-source_
-property in the _persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.schema-generation.drop-source_ — string corresponding
-to the _jakarta.persistence.schema-generation.drop-source_ property in
-the _persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.schema-generation.scripts.create-target_ —string
+`jakarta.persistence.schema-generation.scripts.action` property in the
+`persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.schema-generation.create-source` — string
+corresponding to the `jakarta.persistence.schema-generation.create-source`
+property in the `persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.schema-generation.drop-source` — string corresponding
+to the `jakarta.persistence.schema-generation.drop-source` property in
+the `persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.schema-generation.scripts.create-target` —string
 corresponding to the
-_jakarta.persistence.schema-generation.scripts.create-target_ property in
-the _persistence.xml_. See <<a12384>>.
-* _jakarta.persistence.schema-generation.scripts.drop-target_ — string
+`jakarta.persistence.schema-generation.scripts.create-target` property in
+the `persistence.xml`. See <<a12384>>.
+* `jakarta.persistence.schema-generation.scripts.drop-target` — string
 corresponding to the
-_jakarta.persistence.schema-generation.scripts.drop-target_ property in
-the _persistence.xml_. See <<a12384>>.
+`jakarta.persistence.schema-generation.scripts.drop-target` property in
+the `persistence.xml`. See <<a12384>>.
 
 The following additional standard properties
 are defined by this specification for the configuration of the entity
 manager factory:
 
-* _jakarta.persistence.jdbc.driver_ — value is
+* `jakarta.persistence.jdbc.driver` — value is
 the fully qualified name of the driver class.
-* _jakarta.persistence.jdbc.url_ — string
+* `jakarta.persistence.jdbc.url` — string
 corresponding to the driver-specific URL.
-* _jakarta.persistence.jdbc.user_ — value is the
+* `jakarta.persistence.jdbc.user` — value is the
 username used by database connection.
-* _jakarta.persistence.jdbc.password_ — value is
+* `jakarta.persistence.jdbc.password` — value is
 the password for database connection validation.
-* _jakarta.persistence.dataSource_ — value is
-instance of _javax.sql.DataSource_ to be used for the specified
+* `jakarta.persistence.dataSource` — value is
+instance of `javax.sql.DataSource` to be used for the specified
 persistence unit.
-* _jakarta.persistence.validation.factory_ —
-value is instance of _jakarta.validation.ValidatorFactory_.
+* `jakarta.persistence.validation.factory` —
+value is instance of `jakarta.validation.ValidatorFactory`.
 
 Any number of vendor-specific properties may
 also be included in the map. If a persistence provider does not
@@ -1484,30 +1484,30 @@ recognize a property (other than a property defined by this
 specification), the provider must ignore it.
 
 Vendors should use vendor namespaces for
-properties (e.g., _com.acme.persistence.logging_). Entries that make
-use of the namespace _jakarta.persistence_ and its subnamespaces must not
+properties (e.g., `com.acme.persistence.logging`). Entries that make
+use of the namespace `jakarta.persistence` and its subnamespaces must not
 be used for vendor-specific information. The namespace
-_jakarta.persistence_ is reserved for use by this specification.
+`jakarta.persistence` is reserved for use by this specification.
 
 === jakarta.persistence.PersistenceConfiguration Class [[a13444]]
 
-The _PersistenceConfiguration_ class is used to programmatically define and
-configure a persistence unit and create an _EntityManagerFactory_ instance
-directly. Thus, _PersistenceConfiguration_ is an alternative to XML-based
-configuration using _persistence.xml_, and so the configuration options
+The `PersistenceConfiguration` class is used to programmatically define and
+configure a persistence unit and create an `EntityManagerFactory` instance
+directly. Thus, `PersistenceConfiguration` is an alternative to XML-based
+configuration using `persistence.xml`, and so the configuration options
 available via this API reflect the similarly-named elements of
-_persistence.xml_. See <<a12237>>.
+`persistence.xml`. See <<a12237>>.
 
 A programmatically-configured persistence unit is considered a Java SE
 persistence unit, even when this API is used within the Jakarta EE
 environment.footnote:[Persistence units defined programmatically using the
-_PersistenceConfiguration_ class do not support JNDI lookup or injection via
-the _PersistenceContext_ or _PersistenceUnit_ annotations.]
+`PersistenceConfiguration` class do not support JNDI lookup or injection via
+the `PersistenceContext` or `PersistenceUnit` annotations.]
 
-A persistence provider may define a subclass of _PersistenceConfiguration_
+A persistence provider may define a subclass of `PersistenceConfiguration`
 with vendor-specific configuration options. A provider must support
-configuration via any instance of _PersistenceConfiguration_ or of any
-subclass of _PersistenceConfiguration_. If a subclass defines configuration
+configuration via any instance of `PersistenceConfiguration` or of any
+subclass of `PersistenceConfiguration`. If a subclass defines configuration
 options the provider does not recognize, it should ignore those options.
 
 === PersistenceUtil Interface
@@ -1562,45 +1562,45 @@ public interface PersistenceUtil {
 ==== Contracts for Determining the Load State of an Entity or Entity Attribute [[a13592]]
 
 The implementation of the
-_PersistenceUtil.isLoaded(Object)_ method must determine the list of
+`PersistenceUtil.isLoaded(Object)` method must determine the list of
 persistence providers available in the runtime
 environmentfootnote:[The determining of
 the persistence providers that are available is discussed in <<a12837>>.] and call the
-_ProviderUtil.isLoaded(Object)_ method on each of them until either:
+`ProviderUtil.isLoaded(Object)` method on each of them until either:
 
-* one provider returns _LoadState.LOADED_. In
-this case _PersistenceUtil.isLoaded_ returns _true_.
-* one provider returns _LoadState.NOT_LOADED_.
-In this case _PersistenceUtil.isLoaded_ returns _false_.
-* all providers return _LoadState.UNKNOWN_. In
-this case _PersistenceUtil.isLoaded_ returns _true_.
+* one provider returns `LoadState.LOADED`. In
+this case `PersistenceUtil.isLoaded` returns `true`.
+* one provider returns `LoadState.NOT_LOADED`.
+In this case `PersistenceUtil.isLoaded` returns `false`.
+* all providers return `LoadState.UNKNOWN`. In
+this case `PersistenceUtil.isLoaded` returns `true`.
 
-If the _PersistenceUtil_ implementation
+If the `PersistenceUtil` implementation
 determines that only a single provider is available in the environment,
 it is permitted to use provider-specific methods to determine the result
-of _isLoaded(Object)_ as long as the semantics defined in <<a2019>> are observed.
+of `isLoaded(Object)` as long as the semantics defined in <<a2019>> are observed.
 
 The implementation of the
 _PersistenceUtil.isLoaded(Object,String)_ method must determine the list
 of persistence providers available in the environment and call the
-_ProviderUtil.isLoadedWithoutReference_ method on each of them until
+`ProviderUtil.isLoadedWithoutReference` method on each of them until
 either:
 
-* one provider returns _LoadState.LOADED_. In
-this case _PersistenceUtil.isLoaded_ returns _true_.
-* one provider returns _LoadState.NOT_LOADED_.
-In this case _PersistenceUtil.isLoaded_ returns _false_.
-* all providers return _LoadState.UNKNOWN_. In
-this case, the _PersistenceUtil.isLoaded_ method then calls
-_ProviderUtil.isLoadedWithReference_ on each of the providers until:
-** one provider returns _LoadState.LOADED_. In
-this case _PersistenceUtil.isLoaded_ return _true_.
-** one provider returns _LoadState.NOT_LOADED_.
-In this case, _PersistenceUtil.isLoaded_ returns _false_.
-** all providers return _LoadState.UNKNOWN_. In
-this case, _PersistenceUtil.isLoaded_ returns _true_.
+* one provider returns `LoadState.LOADED`. In
+this case `PersistenceUtil.isLoaded` returns `true`.
+* one provider returns `LoadState.NOT_LOADED`.
+In this case `PersistenceUtil.isLoaded` returns `false`.
+* all providers return `LoadState.UNKNOWN`. In
+this case, the `PersistenceUtil.isLoaded` method then calls
+`ProviderUtil.isLoadedWithReference` on each of the providers until:
+** one provider returns `LoadState.LOADED`. In
+this case `PersistenceUtil.isLoaded` return `true`.
+** one provider returns `LoadState.NOT_LOADED`.
+In this case, `PersistenceUtil.isLoaded` returns `false`.
+** all providers return `LoadState.UNKNOWN`. In
+this case, `PersistenceUtil.isLoaded` returns `true`.
 
-If the _PersistenceUtil_ implementation
+If the `PersistenceUtil` implementation
 determines that only a single provider is available in the environment,
 it is permitted to use provider specific methods to determine the result
 of _isLoaded(Object, String)_ as long as the semantics defined in

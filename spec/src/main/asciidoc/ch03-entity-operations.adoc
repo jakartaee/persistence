@@ -5,8 +5,8 @@
 == Entity Operations [[a1060]]
 
 This chapter describes the use of the
-_EntityManager_ API to manage the entity instance lifecycle and the use
-of the _Query_ API to retrieve and query entities and their persistent
+`EntityManager` API to manage the entity instance lifecycle and the use
+of the `Query` API to retrieve and query entities and their persistent
 state.
 
 === EntityManager [[a1062]]
@@ -15,19 +15,19 @@ An EntityManager instance is associated with
 a persistence context. A persistence context is a set of entity
 instances in which for any persistent entity identity there is a unique
 entity instance. Within the persistence context, the entity instances
-and their lifecycle are managed. The _EntityManager_ interface defines
+and their lifecycle are managed. The `EntityManager` interface defines
 the methods that are used to interact with the persistence context. The
-_EntityManager_ API is used to create and remove persistent entity
+`EntityManager` API is used to create and remove persistent entity
 instances, to find persistent entities by primary key, and to query over
 persistent entities.
 
 The set of entities that can be managed by a
-given _EntityManager_ instance is defined by a persistence unit. A
+given `EntityManager` instance is defined by a persistence unit. A
 persistence unit defines the set of all classes that are related or
 grouped by the application, and which must be colocated in their mapping
 to a single database.
 
-<<a1062>> defines the _EntityManager_ interface. The entity
+<<a1062>> defines the `EntityManager` interface. The entity
 instance lifecycle is described in <<a1929>>. The
 relationships between entity managers and persistence contexts are
 described in <<a2027>> and in further detail in <<a11431>>.
@@ -38,8 +38,8 @@ entities. <<a2366>> describes support for automatic use of Bean Validation.
 entity graphs to control the path and boundaries of find and query
 operations. <<a2397>> describes mechanisms for defining conversions between entity
 and database representations for attributes of basic types. <<a3061>> describes mechanisms for
-portable second-level cache configuration. The _Query_, _TypedQuery_,
-_StoredProcedureQuery_, and related interfaces are described in <<a3125>>. <<a4639>> provides a
+portable second-level cache configuration. The `Query`, `TypedQuery`,
+`StoredProcedureQuery`, and related interfaces are described in <<a3125>>. <<a4639>> provides a
 summary of exceptions. The Jakarta Persistence query language is defined in <<a4665>> and the APIs for
 the construction of Criteria queries in <<a6925>>. The definition of
 persistence units is described in <<a12229>>.
@@ -1260,60 +1260,60 @@ support other result types. Applications that specify other result types
 (e.g., Tuple.class) will not be portable.
 ====
 
-The _persist_, _merge_, _remove_, and
-_refresh_ methods must be invoked within a transaction context when an
+The `persist`, `merge`, `remove`, and
+`refresh` methods must be invoked within a transaction context when an
 entity manager with a transaction-scoped persistence context is used. If
 there is no transaction context, the
-_jakarta.persistence.TransactionRequiredException_ is thrown.
+`jakarta.persistence.TransactionRequiredException` is thrown.
 
 Methods that specify a lock mode other than
-_LockModeType.NONE_ must be invoked within a transaction. If there is no
+`LockModeType.NONE` must be invoked within a transaction. If there is no
 transaction or if the entity manager has not been joined to the
-transaction, the _jakarta.persistence.TransactionRequiredException_ is
+transaction, the `jakarta.persistence.TransactionRequiredException` is
 thrown.
 
-The _find_ method (provided it is invoked
-without a lock or invoked with _LockModeType.NONE_) and the
-_getReference_ method are not required to be invoked within a
+The `find` method (provided it is invoked
+without a lock or invoked with `LockModeType.NONE`) and the
+`getReference` method are not required to be invoked within a
 transaction. If an entity manager with transaction-scoped persistence
 context is in use, the resulting entities will be detached; if an entity
 manager with an extended persistence context is used, they will be
 managed. See <<a2027>> for entity manager use outside a
 transaction.
 
-The _Query_, _TypedQuery_,
-_StoredProcedureQuery_, _CriteriaBuilder_, _Metamodel_, and
-_EntityTransaction_ objects obtained from an entity manager are valid
+The `Query`, `TypedQuery`,
+`StoredProcedureQuery`, `CriteriaBuilder`, `Metamodel`, and
+`EntityTransaction` objects obtained from an entity manager are valid
 while that entity manager is open.
 
-If the argument to the _createQuery_ method
-is not a valid Jakarta Persistence query string or a valid _CriteriaQuery_
-object, the _IllegalArgumentException_ may be thrown or the query
-execution will fail and a _PersistenceException_ will be thrown. If the
+If the argument to the `createQuery` method
+is not a valid Jakarta Persistence query string or a valid `CriteriaQuery`
+object, the `IllegalArgumentException` may be thrown or the query
+execution will fail and a `PersistenceException` will be thrown. If the
 result class specification of a Jakarta Persistence query language query is
 incompatible with the result of the query, the
-_IllegalArgumentException_ may be thrown when the _createQuery_ method
-is invoked or the query execution will fail and a _PersistenceException_
+`IllegalArgumentException` may be thrown when the `createQuery` method
+is invoked or the query execution will fail and a `PersistenceException`
 will be thrown when the query is executed. If a native query is not a
 valid query for the database in use or if the result set specification
 is incompatible with the result of the query, the query execution will
-fail and a _PersistenceException_ will be thrown when the query is
-executed. The _PersistenceException_ should wrap the underlying database
+fail and a `PersistenceException` will be thrown when the query is
+executed. The `PersistenceException` should wrap the underlying database
 exception when possible.
 
 Runtime exceptions thrown by the methods of
-the _EntityManager_ interface other than the _LockTimeoutException_ will
+the `EntityManager` interface other than the `LockTimeoutException` will
 cause the current transaction to be marked for rollback if the
 persistence context is joined to that transaction.
 
-The methods _close_, _isOpen_,
-_joinTransaction_, and _getTransaction_ are used to manage
+The methods `close`, `isOpen`,
+`joinTransaction`, and `getTransaction` are used to manage
 application-managed entity managers and their lifecycle. See <<a11465>>.
 
-The _EntityManager_ interface and other
+The `EntityManager` interface and other
 interfaces defined by this specification contain methods that take
 properties and/or hints as arguments. This specification distinguishes
-between _properties_ and _hints_ as follows:
+between `properties` and `hints` as follows:
 
 * A property defined by this specification must
 be observed by the provider unless otherwise explicitly stated.
@@ -1344,7 +1344,7 @@ public class OrderEntryBean implements OrderEntry {
 
 === Entity Instance's Life Cycle [[a1929]]
 
-This section describes the _EntityManager_
+This section describes the `EntityManager`
 operations for managing an entity instance's lifecycle. An entity
 instance can be characterized as being new, managed, detached, or
 removed.
@@ -1362,7 +1362,7 @@ a persistent identity, associated with a persistence context, that will
 be removed from the database upon transaction commit.
 
 The following subsections describe the effect
-of lifecycle operations upon entities. Use of the _cascade_ annotation
+of lifecycle operations upon entities. Use of the `cascade` annotation
 element may be used to propagate the effect of an operation to
 associated entities. The cascade functionality is most typically used in
 parent-child relationships.
@@ -1370,18 +1370,18 @@ parent-child relationships.
 ==== Entity Instance Creation
 
 Entity instances are created by means of the
-_new_ operation. An entity instance, when first created by _new_ is not
+`new` operation. An entity instance, when first created by `new` is not
 yet persistent. An instance becomes persistent by means of the
-_EntityManager_ API.
+`EntityManager` API.
 
 ==== Persisting an Entity Instance
 
 A new entity instance becomes both managed
-and persistent by invoking the _persist_ method on it or by cascading
+and persistent by invoking the `persist` method on it or by cascading
 the persist operation.
 
 The semantics of the persist operation,
-applied to an entity _X_ are as follows:
+applied to an entity `X` are as follows:
 
 * If X is a new entity, it becomes managed. The
 entity X will be entered into the database at or before transaction
@@ -1389,23 +1389,23 @@ commit or as a result of the flush operation.
 * If X is a preexisting managed entity, it is
 ignored by the persist operation. However, the persist operation is
 cascaded to entities referenced by X, if the relationships from X to
-these other entities are annotated with the _cascade=PERSIST_ or
-_cascade=ALL_ annotation element value or specified with the equivalent
+these other entities are annotated with the `cascade=PERSIST` or
+`cascade=ALL` annotation element value or specified with the equivalent
 XML descriptor element.
 * If X is a removed entity, it becomes managed.
 * If X is a detached object, the
-_EntityExistsException_ may be thrown when the persist operation is
-invoked, or the _EntityExistsException_ or another
-_PersistenceException_ _may_ be thrown at flush or commit time.
+`EntityExistsException` may be thrown when the persist operation is
+invoked, or the `EntityExistsException` or another
+`PersistenceException` `may` be thrown at flush or commit time.
 * For all entities Y referenced by a
 relationship from X, if the relationship to Y has been annotated with
-the _cascade_ element value _cascade=PERSIST_ or _cascade=ALL_, the
+the `cascade` element value `cascade=PERSIST` or `cascade=ALL`, the
 persist operation is applied to Y.
 
 ==== Removal [[a1946]]
 
 A managed entity instance becomes removed by
-invoking the _remove_ method on it or by cascading the remove operation.
+invoking the `remove` method on it or by cascading the remove operation.
 
 The semantics of the remove operation,
 applied to an entity X are as follows:
@@ -1413,15 +1413,15 @@ applied to an entity X are as follows:
 * If X is a new entity, it is ignored by the
 remove operation. However, the remove operation is cascaded to entities
 referenced by X, if the relationship from X to these other entities is
-annotated with the _cascade=REMOVE_ or _cascade=ALL_ annotation element
+annotated with the `cascade=REMOVE` or `cascade=ALL` annotation element
 value.
 * If X is a managed entity, the remove
 operation causes it to become removed. The remove operation is cascaded
 to entities referenced by X, if the relationships from X to these other
-entities is annotated with the _cascade=REMOVE_ or _cascade=ALL_
+entities is annotated with the `cascade=REMOVE` or `cascade=ALL`
 annotation element value.
 * If X is a detached entity, an
-_IllegalArgumentException_ will be thrown by the remove operation (or
+`IllegalArgumentException` will be thrown by the remove operation (or
 the transaction commit will fail).
 * If X is a removed entity, it is ignored by the remove operation.
 * A removed entity X will be removed from the
@@ -1436,11 +1436,11 @@ which the remove operation was called.
 
 In general, a persistence context will be
 synchronized to the database as described below. However, a persistence
-context of type _SynchronizationType.UNSYNCHRONIZED_ or an
+context of type `SynchronizationType.UNSYNCHRONIZED` or an
 application-managed persistence context that has been created outside
 the scope of the current transaction will only be synchronized to the
 database if it has been joined to the current transaction by the
-application's use of the _EntityManager_ _joinTransaction_ method.
+application's use of the `EntityManager` `joinTransaction` method.
 
 The state of persistent entities is
 synchronized to the database at transaction commit. This synchronization
@@ -1455,9 +1455,9 @@ example. modifications to persistent attributes of type char[\] and
 byte[\].].
 
 Synchronization to the database does not
-involve a refresh of any managed entities unless the _refresh_ operation
+involve a refresh of any managed entities unless the `refresh` operation
 is explicitly invoked on those entities or cascaded to them as a result
-of the specification of the _cascade=REFRESH_ or _cascade=ALL_
+of the specification of the `cascade=REFRESH` or `cascade=ALL`
 annotation element value.
 
 Bidirectional relationships between
@@ -1483,31 +1483,31 @@ when they are synchronized to the database.
 The persistence provider runtime is permitted
 to perform synchronization to the database at other times as well when a
 transaction is active and the persistence context is joined to the
-transaction. The _flush_ method can be used by the application to force
+transaction. The `flush` method can be used by the application to force
 synchronization. It applies to entities associated with the persistence
-context. The _setFlushMode_ methods of the _EntityManager_, _Query_,
-_TypedQuery_, and _StoredProcedureQuery_ interfaces can be used to
-control synchronization semantics. The effect of _FlushModeType.AUTO_ is
-defined in <<a4374>>. If _FlushModeType.COMMIT_ is specified, flushing will occur at
+context. The `setFlushMode` methods of the `EntityManager`, `Query`,
+`TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
+control synchronization semantics. The effect of `FlushModeType.AUTO` is
+defined in <<a4374>>. If `FlushModeType.COMMIT` is specified, flushing will occur at
 transaction commit; the persistence provider is permitted, but not
 required, to perform to flush at other times. If there is no transaction
 active or if the persistence context has not been joined to the current
 transaction, the persistence provider must not flush to the database.
 
 The semantics of the flush operation, applied
-to an entity _X_ are as follows:
+to an entity `X` are as follows:
 
 * If X is a managed entity, it is synchronized
 to the database.
 ** For all entities Y referenced by a
 relationship from X, if the relationship to Y has been annotated with
-the _cascade_ element value _cascade=PERSIST_ or _cascade=ALL_, the
+the `cascade` element value `cascade=PERSIST` or `cascade=ALL`, the
 persist operation is applied to Y.
 ** For any entity Y referenced by a relationship
 from X, where the relationship to Y has not been annotated with the
-_cascade_ element value _cascade=PERSIST_ or _cascade=ALL_:
+`cascade` element value `cascade=PERSIST` or `cascade=ALL`:
 *** If Y is new or removed, an
-_IllegalStateException_ will be thrown by the flush operation (and the
+`IllegalStateException` will be thrown by the flush operation (and the
 transaction marked for rollback) or the transaction commit will fail.
 *** If Y is detached, the semantics depend upon
 the ownership of the relationship. If X owns the relationship, any
@@ -1519,7 +1519,7 @@ the database. No cascade options are relevant.
 ==== Refreshing an Entity Instance
 
 The state of a managed entity instance is
-refreshed from the database by invoking the _refresh_ method on it or by
+refreshed from the database by invoking the `refresh` method on it or by
 cascading the refresh operation.
 
 The semantics of the refresh operation,
@@ -1529,25 +1529,25 @@ applied to an entity X are as follows:
 refreshed from the database, overwriting changes made to the entity, if
 any. The refresh operation is cascaded to entities referenced by X if
 the relationship from X to these other entities is annotated with the
-_cascade=REFRESH_ or _cascade=ALL_ annotation element value.
+`cascade=REFRESH` or `cascade=ALL` annotation element value.
 * If X is a new, detached, or removed entity,
-the _IllegalArgumentException_ is thrown.
+the `IllegalArgumentException` is thrown.
 
 ==== Evicting an Entity Instance from the Persistence Context
 
 An entity instance is removed from the
-persistence context by invoking the _detach_ method on it or cascading
+persistence context by invoking the `detach` method on it or cascading
 the detach operation. Changes made to the entity, if any (including
 removal of the entity), will not be synchronized to the database after
 such eviction has taken place.
 
-Applications must use the _flush_ method
-prior to the _detach_ method to ensure portable semantics if changes
+Applications must use the `flush` method
+prior to the `detach` method to ensure portable semantics if changes
 have been made to the entity (including removal of the entity). Because
 the persistence provider may write to the database at times other than
-the explicit invocation of the _flush_ method, portable applications
+the explicit invocation of the `flush` method, portable applications
 must not assume that changes have not been written to the database if
-the _flush_ method has not been called prior to detach.
+the `flush` method has not been called prior to detach.
 
 The semantics of the detach operation,
 applied to an entity X are as follows:
@@ -1555,7 +1555,7 @@ applied to an entity X are as follows:
 * If X is a managed entity, the detach
 operation causes it to become detached. The detach operation is cascaded
 to entities referenced by X if the relationships from X to these other
-entities is annotated with the _cascade=DETACH_ or _cascade=ALL_
+entities is annotated with the `cascade=DETACH` or `cascade=ALL`
 annotation element value. Entities which previously referenced X will
 continue to reference X.
 * If X is a new or detached entity, it is
@@ -1563,7 +1563,7 @@ ignored by the detach operation.
 * If X is a removed entity, the detach
 operation causes it to become detached. The detach operation is cascaded
 to entities referenced by X if the relationships from X to these other
-entities is annotated with the _cascade=DETACH_ or _cascade=ALL_
+entities is annotated with the `cascade=DETACH` or `cascade=ALL`
 annotation element value. Entities which previously referenced X will
 continue to reference X. Portable applications should not pass removed
 entities that have been detached from the persistence context to further
@@ -1588,7 +1588,7 @@ The application may access the available
 state of available detached entity instances after the persistence
 context ends. The available state includes:
 
-* Any persistent field or property not marked _fetch=LAZY_
+* Any persistent field or property not marked `fetch=LAZY`
 * Any persistent field or property that was
 accessed by the application or fetched by means of an entity graph
 
@@ -1597,13 +1597,13 @@ association, the available state of an associated instance may only be
 safely accessed if the associated instance is available. The available
 instances include:
 
-* Any entity instance retrieved using _find()_.
+* Any entity instance retrieved using `find()`.
 * Any entity instances retrieved using a query or explicitly requested in a fetch join.
 * Any entity instance for which an instance
 variable holding non-primary-key persistent state was accessed by the
 application.
 * Any entity instance that can be reached from
-another available instance by navigating associations marked _fetch=EAGER_.
+another available instance by navigating associations marked `fetch=EAGER`.
 
 ===== Merging Detached Entity State
 
@@ -1618,23 +1618,23 @@ to an entity X are as follows:
 copied onto a pre-existing managed entity instance X' of the same
 identity or a new managed copy X' of X is created.
 * If X is a new entity instance, a new managed
-entity instance X' is created and the state of X is _copied_ into the
+entity instance X' is created and the state of X is `copied` into the
 new managed entity instance X'.
 * If X is a removed entity instance, an
-_IllegalArgumentException_ will be thrown by the merge operation (or the
+`IllegalArgumentException` will be thrown by the merge operation (or the
 transaction commit will fail).
 * If X is a managed entity, it is ignored by
 the merge operation, however, the merge operation is cascaded to
 entities referenced by relationships from X if these relationships have
-been annotated with the _cascade_ element value _cascade=MERGE_ or
-_cascade=ALL_ annotation.
+been annotated with the `cascade` element value `cascade=MERGE` or
+`cascade=ALL` annotation.
 * For all entities Y referenced by
-relationships from X having the _cascade_ element value _cascade=MERGE_
-or _cascade=ALL_, Y is merged recursively as Y'. For all such Y
+relationships from X having the `cascade` element value `cascade=MERGE`
+or `cascade=ALL`, Y is merged recursively as Y'. For all such Y
 referenced by X, X' is set to reference Y'. (Note that if X is managed
 then X is the same object as X'.)
 * If X is an entity merged to X', with a
-reference to another entity Y, where _cascade=MERGE_ or _cascade=ALL_ is
+reference to another entity Y, where `cascade=MERGE` or `cascade=ALL` is
 not specified, then navigation of the same association from X' yields a
 reference to a managed object Y' with the same persistent identity as Y.
 
@@ -1642,9 +1642,9 @@ The persistence provider must not merge
 fields marked LAZY that have not been fetched: it must ignore such
 fields when merging.
 
-Any _Version_ columns used by the entity must
+Any `Version` columns used by the entity must
 be checked by the persistence runtime implementation during the merge
-operation and/or at flush or commit time. In the absence of _Version_
+operation and/or at flush or commit time. In the absence of `Version`
 columns there is no additional version checking done by the persistence
 provider runtime during the merge operation.
 
@@ -1672,41 +1672,41 @@ to insure that an instance is managed in only a single persistence
 context. The behavior is undefined if the same Java instance is made
 managed in more than one persistence context.
 
-The _contains()_ method can be used to
+The `contains()` method can be used to
 determine whether an entity instance is managed in the current
 persistence context.
 
-The _contains_ method returns true:
+The `contains` method returns true:
 
 * If the entity has been retrieved from the
-database or has been returned by _getReference_, and has not been
+database or has been returned by `getReference`, and has not been
 removed or detached.
 * If the entity instance is new, and the
-_persist_ method has been called on the entity or the persist operation
+`persist` method has been called on the entity or the persist operation
 has been cascaded to it.
 
-The _contains_ method returns false:
+The `contains` method returns false:
 
 * If the instance is detached.
-* If the _remove_ method has been called on the
+* If the `remove` method has been called on the
 entity, or the remove operation has been cascaded to it.
-* If the instance is new, and the _persist_
+* If the instance is new, and the `persist`
 method has not been called on the entity or the persist operation has
 not been cascaded to it.
 
 Note that the effect of the cascading of
 persist, merge, remove, or detach is immediately visible to the
-_contains_ method, whereas the actual insertion, modification, or
+`contains` method, whereas the actual insertion, modification, or
 deletion of the database representation for the entity may be deferred
 until the end of the transaction.
 
 ==== Load State [[a2019]]
 
 An entity is considered to be loaded if all
-attributes with _FetchType.EAGER_ —whether explictly specified or by
+attributes with `FetchType.EAGER` —whether explictly specified or by
 default—(including relationship and other collection-valued attributes)
 have been loaded from the database or assigned by the application.
-Attributes with _FetchType.LAZY_ may or may not have been loaded. The
+Attributes with `FetchType.LAZY` may or may not have been loaded. The
 available state of the entity instance and associated instances is as
 described in <<a1982>>.
 
@@ -1715,7 +1715,7 @@ considered to be loaded if the embeddable attribute was loaded from the
 database or assigned by the application, and, if the attribute
 references an embeddable instance (i.e., is not null), the embeddable
 instance state is known to be loaded (i.e., all attributes of the
-embeddable with _FetchType.EAGER_ have been loaded from the database or
+embeddable with `FetchType.EAGER` have been loaded from the database or
 assigned by the application).
 
 A collection-valued attribute is considered
@@ -1734,12 +1734,12 @@ A basic attribute is considered to be loaded
 if its state has been loaded from the database or assigned by the
 application.
 
-The _PersistenceUtil.isLoaded_ methods can be
+The `PersistenceUtil.isLoaded` methods can be
 used to determine the load state of an entity and its attributes
 regardless of the persistence unit with which the entity is associated.
-The _PersistenceUtil.isLoaded_ methods return true if the above
+The `PersistenceUtil.isLoaded` methods return true if the above
 conditions hold, and false otherwise. If the persistence unit is known,
-the _PersistenceUnitUtil.isLoaded_ methods can be used instead. See <<a12177>>.
+the `PersistenceUnitUtil.isLoaded` methods can be used instead. See <<a12177>>.
 
 Persistence provider contracts for
 determining the load state of an entity or entity attribute are
@@ -1751,7 +1751,7 @@ The lifetime of a container-managed
 persistence context can either be scoped to a transaction
 (transaction-scoped persistence context), or have a lifetime scope that
 extends beyond that of a single transaction (extended persistence
-context). The enum _PersistenceContextType_ is used to define the
+context). The enum `PersistenceContextType` is used to define the
 persistence context lifetime scope for container-managed entity
 managers. The persistence context lifetime scope is defined when the
 EntityManager instance is created (whether explicitly, or in conjunction
@@ -1770,7 +1770,7 @@ public enum PersistenceContextType {
 By default, the lifetime of the persistence
 context of a container-managed entity manager corresponds to the scope
 of a transaction (i.e., it is of type
-_PersistenceContextType.TRANSACTION_).
+`PersistenceContextType.TRANSACTION`).
 
 When an extended persistence context is used,
 the extended persistence context exists from the time the EntityManager
@@ -1784,7 +1784,7 @@ transaction has committed. Those objects remain managed by the
 EntityManager, and they can be updated as managed objects between
 transactions.footnote:[Note that when a new
 transaction is begun, the managed objects in an extended persistence
-context are _not_ reloaded from the database.] Navigation from a managed object in
+context are `not` reloaded from the database.] Navigation from a managed object in
 an extended persistence context results in one or more other managed
 objects regardless of whether a transaction is active.
 
@@ -1806,10 +1806,10 @@ the application are described further in <<a11894>>.
 ==== Synchronization with the Current Transaction
 
 By default, a container-managed persistence
-context is of _SynchronizationType.SYNCHRONIZED_ and is automatically
+context is of `SynchronizationType.SYNCHRONIZED` and is automatically
 joined to the current transaction. A persistence context of
-_SynchronizationType.UNSYNCHRONIZED_ will not be enlisted in the current
-transaction, unless the _EntityManager_ _joinTransaction_ method is
+`SynchronizationType.UNSYNCHRONIZED` will not be enlisted in the current
+transaction, unless the `EntityManager` `joinTransaction` method is
 invoked.
 
 By default, an application-managed
@@ -1818,8 +1818,8 @@ that is created within the scope of an active transaction is
 automatically joined to that transaction. An application-managed JTA
 persistence context that is created outside the scope of a transaction
 or an application-managed persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ will not be joined to that
-transaction unless the _EntityManager_ _joinTransaction_ method is
+`SynchronizationType.UNSYNCHRONIZED` will not be joined to that
+transaction unless the `EntityManager` `joinTransaction` method is
 invoked.
 
 An application-managed persistence context
@@ -1875,7 +1875,7 @@ optimistic concurrency control. It assumes that the databases to which
 persistence units are mapped will be accessed by the implementation
 using read-committed isolation (or a vendor equivalent in which
 long-term read locks are not held), and that writes to the database will
-typically occur only when the _flush_ method has been invoked—whether
+typically occur only when the `flush` method has been invoked—whether
 explicitly by the application, or by the persistence provider runtime in
 accordance with the flush mode setting.
 
@@ -1911,13 +1911,13 @@ updated that data since the entity state was read. This insures that
 updates or deletes to that data are consistent with the current state of
 the database and that intervening updates are not lost. Transactions
 that would cause this constraint to be violated result in an
-_OptimisticLockException_ being thrown and the transaction marked for
+`OptimisticLockException` being thrown and the transaction marked for
 rollback.
 
 Portable applications that wish to enable
-optimistic locking for entities must specify _Version_ attributes for
+optimistic locking for entities must specify `Version` attributes for
 those entities—i.e., persistent properties or fields annotated with the
-_Version_ annotation or specified in the XML descriptor as version
+`Version` annotation or specified in the XML descriptor as version
 attributes. Applications are strongly encouraged to enable optimistic
 locking for all entities that may be concurrently accessed or that may
 be merged from a disconnected state. Failure to use optimistic locking
@@ -1928,12 +1928,12 @@ consistency.
 
 ==== Version Attributes [[a2059]]
 
-The _Version_ field or property is used by
+The `Version` field or property is used by
 the persistence provider to perform optimistic locking. It is accessed
 and/or set by the persistence provider in the course of performing
 lifecycle operations on the entity instance. An entity is automatically
 enabled for optimistic locking if it has a property or field mapped with
-a _Version_ mapping.
+a `Version` mapping.
 
 An entity may access the state of its version
 field or property or export a method for use by the application to
@@ -1952,11 +1952,11 @@ relationships maintained in join tables.]
 
 The persistence provider's implementation of
 the merge operation must examine the version attribute when an entity is
-being merged and throw an _OptimisticLockException_ if it is discovered
+being merged and throw an `OptimisticLockException` if it is discovered
 that the object being merged is a stale copy of the entity—i.e. that the
 entity has been updated since the entity became detached. Depending on
 the implementation strategy used, it is possible that this exception may
-not be thrown until _flush_ is called or commit time, whichever happens
+not be thrown until `flush` is called or commit time, whichever happens
 first.
 
 The persistence provider runtime is
@@ -1997,8 +1997,8 @@ transaction using the underlying resource) may successfully modify or
 delete that instance until the transaction holding the lock has ended.
 * if the pessimistic lock is an exclusive
 lockfootnote:[This is achieved by
-using a lock with LockModeType.PESSIMISTIC_WRITE or
-LockModeType.PESSIMISTIC_FORCE_INCREMENT as described in <<a2084>>.],
+using a lock with `LockModeType.PESSIMISTIC_WRITE` or
+`LockModeType.PESSIMISTIC_FORCE_INCREMENT` as described in <<a2084>>.],
 that same transaction may modify or delete
 that entity instance.
 
@@ -2018,12 +2018,12 @@ foreign key) will not be locked by default.
 
 Element collections and relationships owned
 by the entity that are contained in join tables will be locked if the
-_jakarta.persistence.lock.scope_ property is specified with a value of
-_PessimisticLockScope.EXTENDED_. The state of entities referenced by
+`jakarta.persistence.lock.scope` property is specified with a value of
+`PessimisticLockScope.EXTENDED`. The state of entities referenced by
 such relationships will not be locked (unless those entities are
 explicitly locked). This property may be passed as an argument to the
-methods of the _EntityManager_, _Query_, and _TypedQuery_ interfaces
-that allow lock modes to be specified or used with the _NamedQuery_
+methods of the `EntityManager`, `Query`, and `TypedQuery` interfaces
+that allow lock modes to be specified or used with the `NamedQuery`
 annotation.
 
 Locking such a relationship or element
@@ -2032,8 +2032,8 @@ table for that relationship or collection. This means that phantoms will
 be possible.
 
 The values of the
-_jakarta.persistence.lock.scope_ property are defined by the
-_PessimisticLockScope_ enum.
+`jakarta.persistence.lock.scope` property are defined by the
+`PessimisticLockScope` enum.
 
 [source,java]
 ----
@@ -2075,14 +2075,14 @@ read, whether “optimistically” (as described in <<a2100>>)
 or “pessimistically” (as described in <<a2113>>).
 
 Lock modes can be specified by means of the
-EntityManager _lock_ method, the methods of the _EntityManager_,
-_Query_, and _TypedQuery_ interfaces that allow lock modes to be
-specified, and the _NamedQuery_ annotation.
+EntityManager `lock` method, the methods of the `EntityManager`,
+`Query`, and `TypedQuery` interfaces that allow lock modes to be
+specified, and the `NamedQuery` annotation.
 
 Lock mode values are defined by the
-_LockModeType_ enum. Six distinct lock modes are defined. The lock mode
-type values _READ_ and _WRITE_ are synonyms of _OPTIMISTIC_ and
-_OPTIMISTIC_FORCE_INCREMENT_ respectively.footnote:[The lock mode type
+`LockModeType` enum. Six distinct lock modes are defined. The lock mode
+type values `READ` and `WRITE` are synonyms of `OPTIMISTIC` and
+`OPTIMISTIC_FORCE_INCREMENT` respectively.footnote:[The lock mode type
 NONE may be specified as a value of lock mode arguments and also
 provides a default value for annotations.] The
 latter are to be preferred for new applications.
@@ -2105,17 +2105,17 @@ public enum LockModeType {
 
 ===== OPTIMISTIC, OPTIMISTIC_FORCE_INCREMENT [[a2100]]
 
-The lock modes _OPTIMISTIC_ and
-_OPTIMISTIC_FORCE_INCREMENT_ are used for optimistic locking. The lock
-mode type values _READ_ and _WRITE_ are synonymous with _OPTIMISTIC_ and
-_OPTIMISTIC_FORCE_INCREMENT_ respectively.
+The lock modes `OPTIMISTIC` and
+`OPTIMISTIC_FORCE_INCREMENT` are used for optimistic locking. The lock
+mode type values `READ` and `WRITE` are synonymous with `OPTIMISTIC` and
+`OPTIMISTIC_FORCE_INCREMENT` respectively.
 
 The semantics of requesting locks of type
-_LockModeType.OPTIMISTIC_ and _LockModeType.OPTIMISTIC_FORCE_INCREMENT_
+`LockModeType.OPTIMISTIC` and `LockModeType.OPTIMISTIC_FORCE_INCREMENT`
 are the following.
 
-If transaction T1 calls _lock(entity,_
-_LockModeType.OPTIMISTIC)_ on a versioned object, the entity manager
+If transaction T1 calls `lock(entity, LockModeType.OPTIMISTIC)` on a
+versioned object, the entity manager
 must ensure that neither of the following phenomena can occur:
 
 * P1 (Dirty read): Transaction T1 modifies a
@@ -2139,68 +2139,65 @@ repeatable reads in a way that prevents the above phenomena is
 permissible.
 
 The persistence implementation is not
-required to support calling _lock(entity,_ _LockModeType.OPTIMISTIC)_ on
+required to support calling `lock(entity, LockModeType.OPTIMISTIC)` on
 a non-versioned object. When it cannot support such a lock call, it must
-throw the _PersistenceException_. When supported, whether for versioned
-or non-versioned objects, _LockModeType.OPTIMISTIC_ must always prevent
-the phenomena P1 and P2. Applications that call _lock(entity,
-LockModeType.OPTIMISTIC)_ on non-versioned objects will not be portable.
+throw the `PersistenceException`. When supported, whether for versioned
+or non-versioned objects, `LockModeType.OPTIMISTIC` must always prevent
+the phenomena P1 and P2. Applications that call `lock(entity,
+LockModeType.OPTIMISTIC)` on non-versioned objects will not be portable.
 
-If transaction T1 calls _lock(entity,_
-_LockModeType.OPTIMISTIC_FORCE_INCREMENT)_ on a versioned object, the
-entity manager must avoid the phenomena P1 and P2 (as with
-_LockModeType.OPTIMISTIC_) and must also force an update (increment) to
+If transaction T1 calls `lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)`
+on a versioned object, the entity manager must avoid the phenomena P1 and P2
+(as with `LockModeType.OPTIMISTIC`) and must also force an update (increment) to
 the entity's version column. A forced version update may be performed
 immediately, or may be deferred until a flush or commit. If an entity is
 removed before a deferred version update was to have been applied, the
 forced version update is omitted.
 
-The persistence implementation is not
-required to support calling _lock(entity,_
-_LockModeType.OPTIMISTIC_FORCE_INCREMENT)_ on a non-versioned object.
-When it cannot support such a lock call, it must throw the
-_PersistenceException_. When supported, whether for versioned or
-non-versioned objects, _LockModeType.OPTIMISTIC_FORCE_INCREMENT_ must
+The persistence implementation is not required to support calling
+`lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)` on a non-versioned
+object. When it cannot support such a lock call, it must throw the
+`PersistenceException`. When supported, whether for versioned or
+non-versioned objects, `LockModeType.OPTIMISTIC_FORCE_INCREMENT` must
 always prevent the phenomena P1 and P2. For non-versioned objects,
-whether or not _LockModeType.OPTIMISTIC_FORCE_INCREMENT_ has any
+whether or not `LockModeType.OPTIMISTIC_FORCE_INCREMENT` has any
 additional behavior is vendor-specific. Applications that call
-_lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)_ on non-versioned
+`lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)_ on non-versioned
 objects will not be portable.
 
 For versioned objects, it is permissible for
-an implementation to use _LockModeType.OPTIMISTIC_FORCE_INCREMENT_ where
-_LockModeType.OPTIMISTIC_ was requested, but not vice versa.
+an implementation to use `LockModeType.OPTIMISTIC_FORCE_INCREMENT` where
+`LockModeType.OPTIMISTIC` was requested, but not vice versa.
 
 If a versioned object is otherwise updated or
 removed, then the implementation must ensure that the requirements of
-_LockModeType.OPTIMISTIC_FORCE_INCREMENT_ are met, even if no explicit
-call to _EntityManager.lock_ was made.
+`LockModeType.OPTIMISTIC_FORCE_INCREMENT` are met, even if no explicit
+call to `EntityManager.lock` was made.
 
 For portability, an application should not
 depend on vendor-specific hints or configuration to ensure repeatable
 read for objects that are not updated or removed via any mechanism other
-than the use of version attributes and the EntityManager _lock_ method.
+than the use of version attributes and the EntityManager `lock` method.
 However, it should be noted that if an implementation has acquired
 up-front pessimistic locks on some database rows, then it is free to
-ignore _lock(entity, LockModeType.OPTIMISTIC)_ calls on the entity
+ignore `lock(entity, LockModeType.OPTIMISTIC)` calls on the entity
 objects representing those rows.
 
 ===== PESSIMISTIC_READ, PESSIMISTIC_WRITE, PESSIMISTIC_FORCE_INCREMENT [[a2113]]
 
-The lock modes _PESSIMISTIC_READ_,
-_PESSIMISTIC_WRITE_, and _PESSIMISTIC_FORCE_INCREMENT_ are used to
+The lock modes `PESSIMISTIC_READ`,
+`PESSIMISTIC_WRITE`, and `PESSIMISTIC_FORCE_INCREMENT` are used to
 immediately obtain long-term database locks.footnote:[Databases concurrency
 control mechanisms that provide comparable semantics, e.g., multiversion
 concurrency control, can be used by the provider.]
 
 The semantics of requesting locks of type
-_LockModeType.PESSIMISTIC_READ_, _LockModeType.PESSIMISTIC_WRITE_, and
-_LockModeType.PESSIMISTIC_FORCE_INCREMENT_ are the following.
+`LockModeType.PESSIMISTIC_READ`, `LockModeType.PESSIMISTIC_WRITE`, and
+`LockModeType.PESSIMISTIC_FORCE_INCREMENT` are the following.
 
-If transaction T1 calls _lock(entity,
-LockModeType.PESSIMISTIC_READ)_ or _lock(entity,
-LockModeType.PESSIMISTIC_WRITE)_ on an object, the entity manager must
-ensure that neither of the following phenomena can occur:
+If transaction T1 calls `lock(entity, LockModeType.PESSIMISTIC_READ)` or
+`lock(entity, LockModeType.PESSIMISTIC_WRITE)` on an object, the entity
+manager must ensure that neither of the following phenomena can occur:
 
 * P1 (Dirty read): Transaction T1 modifies a
 row. Another transaction T2 then reads that row and obtains the modified
@@ -2219,90 +2216,89 @@ repeatable reads as described above is permissible.
 
 [NOTE]
 ====
-A lock with _LockModeType.PESSIMISTIC_WRITE_
+A lock with `LockModeType.PESSIMISTIC_WRITE`
 can be obtained on an entity instance to force serialization among
 transactions attempting to update the entity data. A lock with
-_LockModeType.PESSIMISTIC_READ_ can be used to query data using
+`LockModeType.PESSIMISTIC_READ` can be used to query data using
 repeatable-read semantics without the need to reread the data at the end
 of the transaction to obtain a lock, and without blocking other
 transactions reading the data. A lock with
-_LockModeType.PESSIMISTIC_WRITE_ can be used when querying data and
+`LockModeType.PESSIMISTIC_WRITE` can be used when querying data and
 there is a high likelihood of deadlock or update failure among
 concurrent updating transactions.
 ====
 
 The persistence implementation must support
-calling _lock(entity, LockModeType.PESSIMISTIC_READ_) and _lock(entity,
-LockModeType.PESSIMISTIC_WRITE)_ on a non-versioned entity as well as on
+calling `lock(entity, LockModeType.PESSIMISTIC_READ)` and `lock(entity,
+LockModeType.PESSIMISTIC_WRITE)` on a non-versioned entity as well as on
 a versioned entity.
 
 It is permissible for an implementation to
-use _LockModeType.PESSIMISTIC_WRITE_ where
-_LockModeType.PESSIMISTIC_READ_ was requested, but not vice versa.
+use `LockModeType.PESSIMISTIC_WRITE` where
+`LockModeType.PESSIMISTIC_READ` was requested, but not vice versa.
 
 When the lock cannot be obtained, and the
 database locking failure results in transaction-level rollback, the
-provider must throw the _PessimisticLockException_ and ensure that the
+provider must throw the `PessimisticLockException` and ensure that the
 JTA transaction or EntityTransaction has been marked for rollback.
 
 When the lock cannot be obtained, and the
 database locking failure results in only statement-level rollback, the
-provider must throw the _LockTimeoutException_ (and must not mark the
+provider must throw the `LockTimeoutException` (and must not mark the
 transaction for rollback).
 
 When an application locks an entity with
-_LockModeType.PESSIMISTIC_READ_ and later updates that entity, the lock
+`LockModeType.PESSIMISTIC_READ` and later updates that entity, the lock
 must be converted to an exclusive lock when the entity is flushed to the
 database.footnote:[The persistence
 provider is not required to flush the entity to the database
 immediately.] If the lock conversion fails, and the
 database locking failure results in transaction-level rollback, the
-provider must throw the _PessimisticLockException_ and ensure that the
+provider must throw the `PessimisticLockException` and ensure that the
 JTA transaction or EntityTransaction has been marked for rollback. When
 the lock conversion fails, and the database locking failure results in
 only statement-level rollback, the provider must throw the
-_LockTimeoutException_ (and must not mark the transaction for
+`LockTimeoutException` (and must not mark the transaction for
 rollback).
 
-When _lock(entity,
-LockModeType.PESSIMISTIC_READ)_, _lock(entity,
-LockModeType.PESSIMISTIC_WRITE)_, or _lock(entity,
-LockModeType.PESSIMISTIC_FORCE_INCREMENT)_ is invoked on a versioned
+When `lock(entity, LockModeType.PESSIMISTIC_READ)`,
+`lock(entity, LockModeType.PESSIMISTIC_WRITE)`, or
+`lock(entity, LockModeType.PESSIMISTIC_FORCE_INCREMENT)`
+is invoked on a versioned
 entity that is already in the persistence context, the provider must
 also perform optimistic version checks when obtaining the lock. An
-_OptimisticLockException_ must be thrown if the version checks fail.
+`OptimisticLockException` must be thrown if the version checks fail.
 Depending on the implementation strategy used by the provider, it is
 possible that this exception may not be thrown until flush is called or
 commit time, whichever occurs first.
 
-If transaction T1 calls _lock(entity,
-LockModeType.PESSIMISTIC_FORCE_INCREMENT)_ on a versioned object, the
-entity manager must avoid the phenomenon P1 and P2 (as with
-_LockModeType.PESSIMISTIC_READ_ and _LockModeType.PESSIMISTIC_WRITE_)
+If transaction T1 calls
+`lock(entity, LockModeType.PESSIMISTIC_FORCE_INCREMENT)` on a versioned
+object, the entity manager must avoid the phenomenon P1 and P2 (as with
+`LockModeType.PESSIMISTIC_READ` and `LockModeType.PESSIMISTIC_WRITE`)
 and must also force an update (increment) to the entity's version
 column.
 
-The persistence implementation is not
-required to support calling _lock(entity,_
-_LockModeType.PESSIMISTIC_FORCE_INCREMENT)_ on a non-versioned object.
-When it cannot support such a lock call, it must throw the
-_PersistenceException_. When supported, whether for versioned or
-non-versioned objects, _LockModeType.PESSIMISTIC_FORCE_INCREMENT_ must
+The persistence implementation is not required to support calling
+`lock(entity, LockModeType.PESSIMISTIC_FORCE_INCREMENT)` on a non-versioned
+object. When it cannot support such a lock call, it must throw the
+`PersistenceException`. When supported, whether for versioned or
+non-versioned objects, `LockModeType.PESSIMISTIC_FORCE_INCREMENT` must
 always prevent the phenomena P1 and P2. For non-versioned objects,
-whether or not _LockModeType.PESSIMISTIC_FORCE_INCREMENT_ has any
+whether or not `LockModeType.PESSIMISTIC_FORCE_INCREMENT` has any
 additional behavior is vendor-specific. Applications that call
-_lock(entity, LockModeType.PESSIMISTIC_FORCE_INCREMENT)_ on
+`lock(entity, LockModeType.PESSIMISTIC_FORCE_INCREMENT)` on
 non-versioned objects will not be portable.
 
 For versioned objects, it is permissible for
-an implementation to use _LockModeType.PESSIMISTIC_FORCE_INCREMENT_
-where _LockModeType.PESSIMISTIC_READ_ or
-_LockModeType.PESSIMISTIC_WRITE_ was requested, but not vice versa.
+an implementation to use `LockModeType.PESSIMISTIC_FORCE_INCREMENT`
+where `LockModeType.PESSIMISTIC_READ` or
+`LockModeType.PESSIMISTIC_WRITE` was requested, but not vice versa.
 
 If a versioned object locked with
-_LockModeType.PESSIMISTIC_READ_ or _LockModeType.PESSIMISTIC_WRITE_ is
+`LockModeType.PESSIMISTIC_READ` or `LockModeType.PESSIMISTIC_WRITE` is
 updated, then the implementation must ensure that the requirements of
-_LockModeType.PESSIMISTIC_FORCE_INCREMENT_ are met.
+`LockModeType.PESSIMISTIC_FORCE_INCREMENT` are met.
 
 ===== Lock Mode Properties and Uses [[a2132]]
 
@@ -2315,8 +2311,8 @@ jakarta.persistence.lock.scope
 ----
 
 This property may be used with the methods of
-the _EntityManager_ interface that allow lock modes to be specified, the
-_Query_ and _TypedQuery_ _setLockMode_ methods, and the _NamedQuery_
+the `EntityManager` interface that allow lock modes to be specified, the
+`Query` and `TypedQuery` `setLockMode` methods, and the `NamedQuery`
 annotation. When specified, this property must be observed. The provider
 is permitted to lock more (but not fewer) rows than requested.
 
@@ -2329,20 +2325,20 @@ jakarta.persistence.lock.timeout // time in milliseconds
 ----
 
 This hint may be used with the methods of the
-_EntityManager_ interface that allow lock modes to be specified, the
-_Query.setLockMode_ method and the _NamedQuery_ annotation. It may also
-be passed as a property to the _Persistence.createEntityManagerFactory_
-method and used in the _properties_ element of the _persistence.xml_
+`EntityManager` interface that allow lock modes to be specified, the
+`Query.setLockMode` method and the `NamedQuery` annotation. It may also
+be passed as a property to the `Persistence.createEntityManagerFactory`
+method and used in the `properties` element of the `persistence.xml`
 file. See <<a1066>>, <<a4385>>, <<a12384>>, <<a13443>>,
 and <<a13711>>. When used in
-the _createEntityManagerFactory_ method, the _persistence.xml_ file, and
-the _NamedQuery_ annotation, the timeout hint serves as a default value
+the `createEntityManagerFactory` method, the `persistence.xml` file, and
+the `NamedQuery` annotation, the timeout hint serves as a default value
 which can be selectively overridden by use in the methods of the
-_EntityManager_, _Query_, and _TypedQuery_ interfaces as specified
+`EntityManager`, `Query`, and `TypedQuery` interfaces as specified
 above. When this hint is not specified, database timeout values are
 assumed to apply.
 
-A timeout value of _0_ is used to specify “no wait” locking.
+A timeout value of `0` is used to specify “no wait” locking.
 
 Portable applications should not rely on this
 hint. Depending on the database in use and the locking mechanisms used
@@ -2350,17 +2346,17 @@ by the persistence provider, the hint may or may not be observed.
 
 Vendors are permitted to support the use of
 additional, vendor-specific locking hints. Vendor-specific hints must
-not use the _jakarta.persistence_ namespace. Vendor-specific hints must be
+not use the `jakarta.persistence` namespace. Vendor-specific hints must be
 ignored if they are not understood.
 
 If the same property or hint is specified
 more than once, the following order of overriding applies, in order of
 decreasing precedence:
 
-* argument to method of _EntityManager_, _Query_, or _TypedQuery_ interface
-* specification to _NamedQuery_ (annotation or XML)
-* argument to _createEntityManagerFactory_ method
-* specification in _persistence.xml_
+* argument to method of `EntityManager`, `Query`, or `TypedQuery` interface
+* specification to `NamedQuery` (annotation or XML)
+* argument to `createEntityManagerFactory` method
+* specification in `persistence.xml`
 
 ==== OptimisticLockException
 
@@ -2368,30 +2364,30 @@ Provider implementations may defer writing to
 the database until the end of the transaction, when consistent with the
 lock mode and flush mode settings in effect. In this case, an optimistic
 lock check may not occur until commit time, and the
-_OptimisticLockException_ may be thrown in the “before completion” phase
-of the commit. If the _OptimisticLockException_ must be caught or
-handled by the application, the _flush_ method should be used by the
+`OptimisticLockException` may be thrown in the “before completion” phase
+of the commit. If the `OptimisticLockException` must be caught or
+handled by the application, the `flush` method should be used by the
 application to force the database writes to occur. This will allow the
 application to catch and handle optimistic lock exceptions.
 
-The _OptimisticLockException_ provides an API
+The `OptimisticLockException` provides an API
 to return the object that caused the exception to be thrown. The object
 reference is not guaranteed to be present every time the exception is
 thrown but should be provided whenever the persistence provider can
 supply it. Applications cannot rely upon this object being available.
 
-In some cases an _OptimisticLockException_
+In some cases an `OptimisticLockException`
 will be thrown and wrapped by another exception, such as a
-_RemoteException_, when VM boundaries are crossed. Entities that may be
-referenced in wrapped exceptions should implement _Serializable_ so that
+`RemoteException`, when VM boundaries are crossed. Entities that may be
+referenced in wrapped exceptions should implement `Serializable` so that
 marshalling will not fail.
 
-An _OptimisticLockException_ always causes
+An `OptimisticLockException` always causes
 the transaction to be marked for rollback.
 
 Refreshing objects or reloading objects in a
 new transaction context and then retrying the transaction is a potential
-response to an _OptimisticLockException_.
+response to an `OptimisticLockException`.
 
 === Entity Listeners and Callback Methods [[a2153]]
 
@@ -2411,10 +2407,10 @@ unit—can be specified by means of the XML descriptor.
 Lifecycle callback methods and entity
 listener classes are defined by means of metadata annotations or the XML
 descriptor. When annotations are used, one or more entity listener
-classes are denoted using the _EntityListeners_ annotation on the entity
+classes are denoted using the `EntityListeners` annotation on the entity
 class or mapped superclass. If multiple entity listeners are defined,
 the order in which they are invoked is determined by the order in which
-they are specified in the _EntityListeners_ annotation. The XML
+they are specified in the `EntityListeners` annotation. The XML
 descriptor may be used as an alternative to specify the invocation order
 of entity listeners or to override the order specified in metadata
 annotations.
@@ -2441,14 +2437,14 @@ enabledfootnote:[CDI is enabled by
 default in Jakarta EE. See the Jakarta EE specification
 <<a19499>>.]. An entity listener class that makes use
 of CDI injection may also define lifecycle callback methods annotated
-with the _PostConstruct_ and _PreDestroy_ annotations. These methods
+with the `PostConstruct` and `PreDestroy` annotations. These methods
 will be invoked after injection has taken place and before the entity
 listener instance is destroyed respectively.
 
 The persistence provider is responsible for
 using the CDI SPI to create instances of the entity listener class; to
-perform injection upon such instances; to invoke their _PostConstruct_
-and _PreDestroy_ methods, if any; and to dispose of the entity listener
+perform injection upon such instances; to invoke their `PostConstruct`
+and `PreDestroy` methods, if any; and to dispose of the entity listener
 instances.
 
 The persistence provider is only required to
@@ -2464,23 +2460,23 @@ In supporting injection into entity listeners, the persistence provider
 must behave as if it carries out the following steps involving the use
 of the CDI SPI. (See <<a19500>>).
 
-* Obtain a _BeanManager_ instance. (See <<a12802>>)
-* Create an _AnnotatedType_ instance for the entity listener class.
-* Create an _InjectionTarget_ instance for the annotated type.
-* Create a _CreationalContext_.
-* Instantiate the listener by calling the _InjectionTarget_ _produce_ method.
+* Obtain a `BeanManager` instance. (See <<a12802>>)
+* Create an `AnnotatedType` instance for the entity listener class.
+* Create an `InjectionTarget` instance for the annotated type.
+* Create a `CreationalContext`.
+* Instantiate the listener by calling the `InjectionTarget` `produce` method.
 * Inject the listener instance by calling the
-_InjectionTarget_ _inject_ method on the instance.
-* Invoke the _PostConstruct_ callback, if any,
-by calling the _InjectionTarget_ _postConstruct_ method on the instance.
+`InjectionTarget` `inject` method on the instance.
+* Invoke the `PostConstruct` callback, if any,
+by calling the `InjectionTarget` `postConstruct` method on the instance.
 
 When the listener instance is to be
 destroyed, the persistence provider must behave as if it carries out the
 following steps.
 
-* Call the _InjectionTarget_ _preDestroy_ method on the instance.
-* Call the _InjectionTarget_ _dispose_ method on the instance
-* Call the _CreationalContext_ _release_ method.
+* Call the `InjectionTarget` `preDestroy` method on the instance.
+* Call the `InjectionTarget` `dispose` method on the instance
+* Call the `CreationalContext` `release` method.
 
 Persistence providers may optimize the steps
 above, e.g. by avoiding calls to the actual CDI SPI and relying on
@@ -2498,8 +2494,8 @@ methods are invoked in the transaction and security contexts of the
 calling component at the time at which the callback method is invoked.
 footnote:[For example, if a
 transaction commit occurs as a result of the normal termination of a
-session bean business method with transaction attribute _RequiresNew_,
-the _PostPersist_ and _PostRemove_ callbacks are executed in the naming
+session bean business method with transaction attribute `RequiresNew`,
+the `PostPersist` and `PostRemove` callbacks are executed in the naming
 context, the transaction context, and the security context of that
 component.]
 
@@ -2530,24 +2526,24 @@ The signatures of the callback methods differ between these two cases:
 +
  void <METHOD>(S)
 +
-where _S_ is any supertype of the entity class or mapped superclass to
+where `S` is any supertype of the entity class or mapped superclass to
 which the entity listener is applied. At runtime, the argument to the
 entity listener callback method is the entity instance for which the
 callback method is being invoked.
 
 Callback methods can have public, private, protected, or package level
-access, but must not be _static_ or _final_.
+access, but must not be `static` or `final`.
 
 The following annotations designate lifecycle event callback methods of
 the corresponding types.
 
-* _PrePersist_
-* _PostPersist_
-* _PreRemove_
-* _PostRemove_
-* _PreUpdate_
-* _PostUpdate_
-* _PostLoad_
+* `PrePersist`
+* `PostPersist`
+* `PreRemove`
+* `PostRemove`
+* `PreUpdate`
+* `PostUpdate`
+* `PostLoad`
 
 The following rules apply to lifecycle callback methods:
 
@@ -2559,40 +2555,40 @@ The following rules apply to lifecycle callback methods:
 * A lifecycle callback method may modify the non-relationship state of
   the entity on which it is invoked.
 * In general, the lifecycle method of a portable application should not
-  invoke _EntityManager_ or query operations, access other entity
+  invoke `EntityManager` or query operations, access other entity
   instances, or modify relationships within the same persistence
   contextfootnote:[Note that this caution applies also to the actions of
   objects that might be injected into an entity listener].
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
-The _PrePersist_ and _PreRemove_ callback
+The `PrePersist` and `PreRemove` callback
 methods are invoked for a given entity before the respective
 EntityManager persist and remove operations for that entity are
 executed. For entities to which the merge operation has been applied and
-causes the creation of newly managed instances, the _PrePersist_
+causes the creation of newly managed instances, the `PrePersist`
 callback methods will be invoked for the managed instance after the
-entity state has been copied to it. These _PrePersist_ and _PreRemove_
+entity state has been copied to it. These `PrePersist` and `PreRemove`
 callbacks will also be invoked on all entities to which these operations
-are cascaded. The _PrePersist_ and _PreRemove_ methods will always be
+are cascaded. The `PrePersist` and `PreRemove` methods will always be
 invoked as part of the synchronous persist, merge, and remove operations.
-Primary key values generated using the _SEQUENCE_, _TABLE_, or _UUID_
-strategy are available in the _PrePersist_ method. Primary key values
-generated using the _IDENTITY_ strategy are not available in the
-_PrePersist_ method.
+Primary key values generated using the `SEQUENCE`, `TABLE`, or `UUID`
+strategy are available in the `PrePersist` method. Primary key values
+generated using the `IDENTITY` strategy are not available in the
+`PrePersist` method.
 
-The _PostPersist_ and _PostRemove_ callback
+The `PostPersist` and `PostRemove` callback
 methods are invoked for an entity after the entity has been made
 persistent or removed. These callbacks will also be invoked on all
-entities to which these operations are cascaded. The _PostPersist_ and
-_PostRemove_ methods will be invoked after the database insert and
+entities to which these operations are cascaded. The `PostPersist` and
+`PostRemove` methods will be invoked after the database insert and
 delete operations respectively. These database operations may occur
 directly after the persist, merge, or remove operations have been
 invoked or they may occur directly after a flush operation has occurred
 (which may be at the end of the transaction). Generated primary key
-values are always available in the _PostPersist_ method.
+values are always available in the `PostPersist` method.
 
-The _PreUpdate_ and _PostUpdate_ callbacks
+The `PreUpdate` and `PostUpdate` callbacks
 occur before and after the database update operations to entity data
 respectively. These database operations may occur at the time the entity
 state is updated or they may occur at the time state is flushed to the
@@ -2601,16 +2597,16 @@ database (which may be at the end of the transaction).
 [NOTE]
 ====
 Note that it is implementation-dependent as
-to whether _PreUpdate_ and _PostUpdate_ callbacks occur when an entity
+to whether `PreUpdate` and `PostUpdate` callbacks occur when an entity
 is persisted and subsequently modified in a single transaction or when
 an entity is modified and subsequently removed within a single
 transaction. Portable applications should not rely on such behavior.
 ====
 
-The _PostLoad_ method for an entity is
+The `PostLoad` method for an entity is
 invoked after the entity has been loaded into the current persistence
 context from the database or after the refresh operation has been
-applied to it. The _PostLoad_ method is invoked before a query result is
+applied to it. The `PostLoad` method is invoked before a query result is
 returned or accessed or before an association is traversed.
 
 It is implementation-dependent as to whether
@@ -2676,29 +2672,29 @@ methods is as follows.
 Default listeners, if any, are invoked first,
 in the order specified in the XML descriptor. Default listeners apply to
 all entities in the persistence unit, unless explicitly excluded by
-means of the _ExcludeDefaultListeners_ annotation or
-_exclude-default-listeners_ XML element.
+means of the `ExcludeDefaultListeners` annotation or
+`exclude-default-listeners` XML element.
 
 The lifecycle callback methods defined on the
 entity listener classes for an entity class or mapped superclass are
 invoked in the same order as the specification of the entity listener
-classes in the _EntityListeners_ annotation.
+classes in the `EntityListeners` annotation.
 
 If multiple classes in an inheritance
 hierarchy—entity classes and/or mapped superclasses—define entity
 listeners, the listeners defined for a superclass are invoked before the
 listeners defined for its subclasses in this order. The
-_ExcludeSuperclassListeners_ annotation or
-_exclude-superclass-listeners_ XML element may be applied to an entity
+`ExcludeSuperclassListeners` annotation or
+`exclude-superclass-listeners` XML element may be applied to an entity
 class or mapped superclass to exclude the invocation of the listeners
 defined by the entity listener classes for the superclasses of the
 entity or mapped superclass. The excluded listeners are excluded from
-the class to which the _ExcludeSuperclassListeners_ annotation or
+the class to which the `ExcludeSuperclassListeners` annotation or
 element has been specified and its subclassesfootnote:[Excluded listeners
 may be reintroduced on an entity class by listing them explicitly in the
-_EntityListeners_ annotation or XML _entity-listeners_ element.].
-The _ExcludeSuperclassListeners_ annotation (or
-_exclude-superclass-listeners_ XML element) does not cause default
+`EntityListeners` annotation or XML `entity-listeners` element.].
+The `ExcludeSuperclassListeners` annotation (or
+`exclude-superclass-listeners` XML element) does not cause default
 entity listeners to be excluded from invocation.
 
 If a lifecycle callback method for the
@@ -2771,16 +2767,16 @@ public class CatListener2 {
 }
 ----
 
-If a _PostPersist_ event occurs on an
-instance of _Cat_, the following methods are called in order:
+If a `PostPersist` event occurs on an
+instance of `Cat`, the following methods are called in order:
 
 . postPersistPetListenerMethod
 . postPersistCatListenerMethod
 . postPersistCatListener2Method
 . postPersistAnimal
 
-Assume that _SiameseCat_ is defined as a
-subclass of _Cat_:
+Assume that `SiameseCat` is defined as a
+subclass of `Cat`:
 
 [source,java]
 ----
@@ -2803,8 +2799,8 @@ public class SiameseCatListener {
 }
 ----
 
-If a _PostPersist_ event occurs on an
-instance of _SiameseCat_, the following methods are called in order:
+If a `PostPersist` event occurs on an
+instance of `SiameseCat`, the following methods are called in order:
 
 . postPersistPetListenerMethod
 . postPersistCatListenerMethod
@@ -2813,7 +2809,7 @@ instance of _SiameseCat_, the following methods are called in order:
 . postPersistAnimal
 . postPersistSiameseCat
 
-Assume the definition of _SiameseCat_ were instead:
+Assume the definition of `SiameseCat` were instead:
 
 [source,java]
 ----
@@ -2830,8 +2826,8 @@ public class SiameseCat extends Cat {
 ----
 
 In this case, the following methods would be
-called in order, where _postPersistAnimal_ is the _PostPersist_ method
-defined in the _SiameseCat_ class:
+called in order, where `postPersistAnimal` is the `PostPersist` method
+defined in the `SiameseCat` class:
 
 . postPersistPetListenerMethod
 . postPersistCatListenerMethod
@@ -2857,11 +2853,11 @@ lifecycle callback methods as specified in annotations.
 
 ===== Specification of Callback Listeners
 
-The _entity-listener_ XML descriptor element
+The `entity-listener` XML descriptor element
 is used to specify the lifecycle listener methods of an entity listener
 class. The lifecycle listener methods are specified by using the
-_pre-persist_, _post-persist_, _pre-remove_, _post-remove_,
-_pre-update_, _post-update_, and/or _post-load_ elements.
+`pre-persist`, `post-persist`, `pre-remove`, `post-remove`,
+`pre-update`, `post-update`, and/or `post-load` elements.
 
 An entity listener class can define multiple
 callback methods. However, at most one method of an entity listener
@@ -2873,12 +2869,12 @@ combination of annotations and XML descriptor elements is used.
 
 ===== Specification of the Binding of Entity Listener Classes to Entities
 
-The _entity-listeners_ subelement of the
-_persistence-unit-defaults_ element is used to specify the default
+The `entity-listeners` subelement of the
+`persistence-unit-defaults` element is used to specify the default
 entity listeners for the persistence unit.
 
-The _entity-listeners_ subelement of the
-_entity_ or _mapped-superclass_ element is used to specify the entity
+The `entity-listeners` subelement of the
+`entity` or `mapped-superclass` element is used to specify the entity
 listener classes for the respective entity or mapped superclass and its
 subclasses.
 
@@ -2887,11 +2883,11 @@ classes is additive. The entity listener classes bound to the
 superclasses of an entity or mapped superclass are applied to it as
 well.
 
-The _exclude-superclass-listeners_ element
+The `exclude-superclass-listeners` element
 specifies that the listener methods for superclasses are not to be
 invoked for an entity class (or mapped superclass) and its subclasses.
 
-The _exclude-default-listeners_ element
+The `exclude-default-listeners` element
 specifies that default entity listeners are not to be invoked for an
 entity class (or mapped superclass) and its subclasses.
 
@@ -2918,7 +2914,7 @@ the Bean Validation implementation upon the pre-persist, pre-update, and
 pre-remove entity lifecycle events described in <<a2202>>.
 
 Validation can also be achieved by the
-application calling the _validate_ method of a _Validator_ instance upon
+application calling the `validate` method of a `Validator` instance upon
 an instance of a managed class, as described in the Bean Validation
 specification <<a19498>>.
 
@@ -2928,7 +2924,7 @@ This specification supports the use of bean
 validation for the automatic validation of entities upon the
 pre-persist, pre-update, and pre-remove lifecycle validation events.
 These lifecycle validation events occur immediately after the point at
-which all the _PrePersist_, _PreUpdate_, and _PreRemove_ lifecycle
+which all the `PrePersist`, `PreUpdate`, and `PreRemove` lifecycle
 callback method invocations respectively have been completed, or
 immediately after the point at which such lifecycle callback methods
 would have been completed (in the event that such callback methods are
@@ -2945,39 +2941,39 @@ occurs. Portable applications should not rely on this behavior.
 
 ===== Enabling Automatic Validation [[a2374]]
 
-The _validation-mode_ element of the
-_persistence.xml_ file determines whether the automatic lifecycle event
-validation is in effect. The values of the _validation-mode_ element are
-_AUTO_, _CALLBACK_, _NONE_. The default validation mode is _AUTO_.
+The `validation-mode` element of the
+`persistence.xml` file determines whether the automatic lifecycle event
+validation is in effect. The values of the `validation-mode` element are
+`AUTO`, `CALLBACK`, `NONE`. The default validation mode is `AUTO`.
 
 If the application creates the entity manager
-factory using the _Persistence.createEntityManagerFactory_ method, the
+factory using the `Persistence.createEntityManagerFactory` method, the
 validation mode can be specified using the
-_jakarta.persistence.validation.mode_ map key, which will override the
-value specified (or defaulted) in the _persistence.xml_ file. The map
+`jakarta.persistence.validation.mode` map key, which will override the
+value specified (or defaulted) in the `persistence.xml` file. The map
 values for this key are _"auto"_, _"callback"_, _"none"_.
 
 If the auto validation mode is specified by
-the _validation-mode_ element or the _jakarta.persistence.validation.mode_
-property, or if neither the _validation-mode_ element nor the
-_jakarta.persistence.validation.mode_ property is specified, and a Bean
+the `validation-mode` element or the `jakarta.persistence.validation.mode`
+property, or if neither the `validation-mode` element nor the
+`jakarta.persistence.validation.mode` property is specified, and a Bean
 Validation provider is present in the environment, the persistence
 provider must perform the automatic validation of entities as described
 in <<a2380>>. If no Bean Validation provider is
 present in the environment, no lifecycle event validation takes place.
 
 If the callback validation mode is specified
-by the _validation-mode_ element or the
-_jakarta.persistence.validation.mode_ property, the persistence provider
+by the `validation-mode` element or the
+`jakarta.persistence.validation.mode` property, the persistence provider
 must perform the lifecycle event validation as described in <<a2380>>.
 It is an error if there is no Bean Validation
 provider present in the environment, and the provider must throw the
-_PersistenceException_ if the _jakarta.persistence.validation.mode_
+`PersistenceException` if the `jakarta.persistence.validation.mode`
 property value _"callback"_ has been passed to the
-_Persistence.createEntityManagerFactory_ method.
+`Persistence.createEntityManagerFactory` method.
 
 If the none validation mode is specified by
-the _validation-mode_ element or the _jakarta.persistence.validation.mode_
+the `validation-mode` element or the `jakarta.persistence.validation.mode`
 property, the persistence provider must not perform lifecycle event
 validation.
 
@@ -2985,20 +2981,20 @@ validation.
 
 For each event type, a list of groups is
 targeted for validation. By default, the default Bean Validation group
-(the group _Default_) will be validated upon the pre-persist and
+(the group `Default`) will be validated upon the pre-persist and
 pre-update lifecycle validation events, and no group will be validated
 upon the pre-remove event.
 
 This default validation behavior can be
 overridden by specifying the target groups using the following
-validation properties in the _persistence.xml_ file or by passing these
+validation properties in the `persistence.xml` file or by passing these
 properties in the configuration of the entity manager factory through
-the _createEntityManagerFactory_ method:
+the `createEntityManagerFactory` method:
 
 
-* _jakarta.persistence.validation.group.pre-persist_
-* _jakarta.persistence.validation.group.pre-update_
-* _jakarta.persistence.validation.group.pre-remove_
+* `jakarta.persistence.validation.group.pre-persist`
+* `jakarta.persistence.validation.group.pre-update`
+* `jakarta.persistence.validation.group.pre-remove`
 
 The value of a validation property must be a
 list of the targeted groups. A targeted group must be specified by its
@@ -3006,23 +3002,23 @@ fully qualified class name. Names must be separated by a comma.
 
 When one of the above events occurs for an
 entity, the persistence provider must validate that entity by obtaining
-a _Validator_ instance from the validator factory in use (see <<a2394>>) and
-invoking its _validate_ method with the targeted groups. If the list of
+a `Validator` instance from the validator factory in use (see <<a2394>>) and
+invoking its `validate` method with the targeted groups. If the list of
 targeted groups is empty, no validation is performed. If the set of
-_ConstraintViolation_ objects returned by the _validate_ method is not
+`ConstraintViolation` objects returned by the `validate` method is not
 empty, the persistence provider must throw the
-_jakarta.validation.ConstraintViolationException_ containing a reference
-to the returned set of _ConstraintViolation_ objects, and must mark the
+`jakarta.validation.ConstraintViolationException` containing a reference
+to the returned set of `ConstraintViolation` objects, and must mark the
 transaction for rollback if the persistence context is joined to the
 transaction.
 
 The validator instance that is used for
 automatic validation upon lifecycle events must use a
-_TraversableResolver_ that has the following behavior:
+`TraversableResolver` that has the following behavior:
 
 * Attributes that have not been loaded must not
 be loaded.
-* Validation cascade (_@Valid_) must not
+* Validation cascade (`@Valid`) must not
 occur for entity associations (single- or multi-valued).
 
 These requirements guarantee that no unloaded
@@ -3030,50 +3026,50 @@ attribute or association will be loaded by side effect and that no
 entity will be validated more than once during a given flush cycle.
 
 Embeddable attributes must be validated only
-if the _Valid_ annotation has been specified on them.
+if the `Valid` annotation has been specified on them.
 
 It is the responsibility of the persistence
 provider to pass an instance implementing the
-_jakarta.validation.TraversableResolver_ interface to the Bean Validation
+`jakarta.validation.TraversableResolver` interface to the Bean Validation
 provider by calling
-_ValidatorFactory.usingContext().traversableResolver(tr).getValidator()_ where _tr_ is the resolver having the behavior described above.
+`ValidatorFactory.usingContext().traversableResolver(tr).getValidator()` where `tr` is the resolver having the behavior described above.
 
 ==== Providing the ValidatorFactory [[a2394]]
 
-In Jakarta EE environments, a _ValidatorFactory_
+In Jakarta EE environments, a `ValidatorFactory`
 instance is made available by the Jakarta EE container. The container is
 responsible for passing this validator factory to the persistence
 provider via the map that is passed as an argument to the
-_createContainerEntityManagerFactory_ call. The map key used by the
+`createContainerEntityManagerFactory` call. The map key used by the
 container must be the standard property name
-_jakarta.persistence.validation.factory_.
+`jakarta.persistence.validation.factory`.
 
 In Java SE environments, the application can
-pass the _ValidatorFactory_ instance via the map that is passed as an
-argument to the _Persistence.createEntityManagerFactory_ call. The map
+pass the `ValidatorFactory` instance via the map that is passed as an
+argument to the `Persistence.createEntityManagerFactory` call. The map
 key used must be the standard property name
-_jakarta.persistence.validation.factory_. If no _ValidatorFactory_
+`jakarta.persistence.validation.factory`. If no `ValidatorFactory`
 instance is provided by the application, and if a Bean Validation
 provider is present in the classpath, the persistence provider must
-instantiate the _ValidatorFactory_ using the default bootstrapping
+instantiate the `ValidatorFactory` using the default bootstrapping
 approach defined by the Bean Validation specification
-<<a19498>>, namely _Validation.buildDefaultValidatorFactory()_.
+<<a19498>>, namely `Validation.buildDefaultValidatorFactory()`.
 
 === Entity Graphs [[a2397]]
 
 An entity graph is a template that captures
 the path and boundaries for an operation or query. It is defined in the
-form of metadata or an object created by the dynamic _EntityGraph_ API.
+form of metadata or an object created by the dynamic `EntityGraph` API.
 
 Entity graphs are used in the specification
-of “fetch plans” for query or _find_ operations.
+of “fetch plans” for query or `find` operations.
 
-The _EntityGraph_, _AttributeNode_, and
-_Subgraph_ interfaces are used to dynamically construct entity graphs.
+The `EntityGraph`, `AttributeNode`, and
+`Subgraph` interfaces are used to dynamically construct entity graphs.
 The annotations to statically define entity graphs, namely
-_NamedEntityGraph_, _NamedAttributeNode_, and _NamedSubgraph_, are
+`NamedEntityGraph`, `NamedAttributeNode`, and `NamedSubgraph`, are
 described in <<a13662>>.
-The _named-entity-graph_ XML element and its subelements may be used to
+The `named-entity-graph` XML element and its subelements may be used to
 override these annotations or to define additional named entity graphs.
 
 The semantics of entity graphs with regard to
@@ -3593,16 +3589,16 @@ public interface Subgraph<T> extends Graph<T> {
 
 ==== Use of Entity Graphs in find and query operations [[a2814]]
 
-An entity graph can be used with the _find_
-method or as a query hint to override or augment _FetchType_ semantics.
+An entity graph can be used with the `find`
+method or as a query hint to override or augment `FetchType` semantics.
 
 The standard properties
-_jakarta.persistence.fetchgraph_ and _jakarta.persistence.loadgraph_ are
-used to specify such graphs to queries and _find_ operations.
+`jakarta.persistence.fetchgraph` and `jakarta.persistence.loadgraph` are
+used to specify such graphs to queries and `find` operations.
 
 The default fetch graph for an entity or
 embeddable is defined to consist of the transitive closure of all of its
-attributes that are specified as _FetchType.EAGER_ (or defaulted as
+attributes that are specified as `FetchType.EAGER` (or defaulted as
 such).
 
 The persistence provider is permitted to
@@ -3612,11 +3608,11 @@ all state specified by the fetch or load graph.
 
 ===== Fetch Graph Semantics
 
-When the _jakarta.persistence.fetchgraph_
+When the `jakarta.persistence.fetchgraph`
 property is used to specify an entity graph, attributes that are
 specified by attribute nodes of the entity graph are treated as
-_FetchType.EAGER_ and attributes that are not specified are treated as
-_FetchType.LAZY_.
+`FetchType.EAGER` and attributes that are not specified are treated as
+`FetchType.LAZY`.
 
 The following rules apply, depending on
 attribute type. The rules of this section are applied recursively.
@@ -3688,7 +3684,7 @@ public class Phonenumber {
 }
 ----
 
-In the above example, only the _number_ attribute would be eagerly fetched.
+In the above example, only the `number` attribute would be eagerly fetched.
 
 [source,java]
 ----
@@ -3757,25 +3753,25 @@ public class Requirements {
 }
 ----
 
-In the above example, the _Employee_ entity's
-primary key will be fetched as well as the related _Project_ instances,
-whose default fetch graph (_id_, _name_, and _doc_ attributes) will
-be fetched. The related _Requirements_ object will be fetched according
+In the above example, the `Employee` entity's
+primary key will be fetched as well as the related `Project` instances,
+whose default fetch graph (`id`, `name`, and `doc` attributes) will
+be fetched. The related `Requirements` object will be fetched according
 to its default fetch graph.
 
-If the _approver_ attribute of _LargeProject_
-were _FetchType.EAGER_, and if any of the projects were instances of
-_LargeProject_, their _approver_ attributes would also be fetched.
-Since the type of the _approver_ attribute is _Employee_, the
-approver's default fetch graph (_id_, _name_, and _employeeNumber_
+If the `approver` attribute of `LargeProject`
+were `FetchType.EAGER`, and if any of the projects were instances of
+`LargeProject`, their `approver` attributes would also be fetched.
+Since the type of the `approver` attribute is `Employee`, the
+approver's default fetch graph (`id`, `name`, and `employeeNumber`
 attributes) would also be fetched.
 
 ===== Load Graph Semantics
 
-When the _jakarta.persistence.loadgraph_
+When the `jakarta.persistence.loadgraph`
 property is used to specify an entity graph, attributes that are
 specified by attribute nodes of the entity graph are treated as
-_FetchType.EAGER_ and attributes that are not specified are treated
+`FetchType.EAGER` and attributes that are not specified are treated
 according to their specified or default FetchType.
 
 The following rules apply. The rules of this
@@ -3836,7 +3832,7 @@ public class Phonenumber {
 }
 ----
 
-In the above example, the _number_ and _type_ attributes are fetched.
+In the above example, the `number` and `type` attributes are fetched.
 
 [source,java]
 ----
@@ -3906,15 +3902,15 @@ public class Requirements {
 ----
 
 In the above example, the default fetch graph
-(_id_, _name_, _employeeNumber_ attributes) of _Employee_ is fetched.
-The default fetch graphs of the related _Project_ instances (_id_,
-_name_, and _doc_ attributes) and their _Requirements_ instances (_id_
-and _description_ attributes) are also fetched.
+(`id`, `name`, `employeeNumber` attributes) of `Employee` is fetched.
+The default fetch graphs of the related `Project` instances (`id`,
+`name`, and `doc` attributes) and their `Requirements` instances (`id`
+and `description` attributes) are also fetched.
 
 === Type Conversion of Basic Attributes [[a2999]]
 
 The attribute conversion facility allows the developer to define custom
-attribute converters. A _converter_ is a class whose methods convert
+attribute converters. A `converter` is a class whose methods convert
 between:
 
 - the _target type_ of the converter, an arbitrary Java type which may be
@@ -3930,10 +3926,10 @@ since, with the aid of the converter, its values can be represented as
 instances of a basic type.
 
 Every attribute converter class must implement the interface
-_jakarta.persistence.AttributeConverter_ and must be annotated with the
-_Converter_ annotation or declared as a converter in the XML descriptor.
-If the value of the _autoApply_ element of the _Converter_ annotation is
-_true_, the converter is automatically applied to all attributes of the
+`jakarta.persistence.AttributeConverter` and must be annotated with the
+`Converter` annotation or declared as a converter in the XML descriptor.
+If the value of the `autoApply` element of the `Converter` annotation is
+`true`, the converter is automatically applied to all attributes of the
 target type, including to basic attribute values that are contained within
 other, more complex attribute types. See <<a13903>>.
 
@@ -3986,14 +3982,14 @@ enabledfootnote:[CDI is enabled by
 default in Jakarta EE. See the Jakarta EE specification
 <<a19499>>.]. An attribute converter class that makes
 use of CDI injection may also define lifecycle callback methods
-annotated with the _PostConstruct_ and _PreDestroy_ annotations. These
+annotated with the `PostConstruct` and `PreDestroy` annotations. These
 methods will be invoked after injection has taken place and before the
 attribute converter instance is destroyed respectively.
 
 The persistence provider is responsible for
 using the CDI SPI to create instances of the attribute converter class;
 to perform injection upon such instances; to invoke their
-_PostConstruct_ and _PreDestroy_ methods, if any; and to dispose of the
+`PostConstruct` and `PreDestroy` methods, if any; and to dispose of the
 attribute converter instances.
 
 The persistence provider is only required to
@@ -4010,22 +4006,22 @@ persistence provider must behave as if it carries out the following
 steps involving the use of the CDI SPI. (See
 <<a19500>>).
 
-* Obtain a _BeanManager_ instance. (See <<a12802>>.)
-* Create an _AnnotatedType_ instance for the attribute converter class.
-* Create an _InjectionTarget_ instance for the annotated type.
-* Create a _CreationalContext_.
-* Instantiate the listener by calling the _InjectionTarget_ _produce_ method.
-* Inject the listener instance by calling the _InjectionTarget_ _inject_ method on the instance.
-* Invoke the _PostConstruct_ callback, if any,
-by calling the _InjectionTarget_ _postConstruct_ method on the instance.
+* Obtain a `BeanManager` instance. (See <<a12802>>.)
+* Create an `AnnotatedType` instance for the attribute converter class.
+* Create an `InjectionTarget` instance for the annotated type.
+* Create a `CreationalContext`.
+* Instantiate the listener by calling the `InjectionTarget` `produce` method.
+* Inject the listener instance by calling the `InjectionTarget` `inject` method on the instance.
+* Invoke the `PostConstruct` callback, if any,
+by calling the `InjectionTarget` `postConstruct` method on the instance.
 
 When the listener instance is to be
 destroyed, the persistence provider must behave as if it carries out the
 following steps.
 
-* Call the _InjectionTarget_ _preDestroy_ method on the instance.
-* Call the _InjectionTarget_ _dispose_ method on the instance.
-* Call the _CreationalContext_ _release_ method.
+* Call the `InjectionTarget` `preDestroy` method on the instance.
+* Call the `InjectionTarget` `dispose` method on the instance.
+* Call the `CreationalContext` `release` method.
 
 Persistence providers may optimize the steps
 above, e.g. by avoiding calls to the actual CDI SPI and relying on
@@ -4040,24 +4036,24 @@ The conversion of all basic types is
 supported except for the following: Id attributes (including the
 attributes of embedded ids and derived identities), version attributes,
 relationship attributes, and attributes explicitly annotated as
-_Enumerated_ or _Temporal_ or designated as such in the XML descriptor.
+`Enumerated` or `Temporal` or designated as such in the XML descriptor.
 Auto-apply converters will not be applied to such attributes, and
 applications that apply converters to such attributes through use of the
-_Convert_ annotation will not be portable.
+`Convert` annotation will not be portable.
 
 Type conversion may be specified at the level
-of individual attributes by means of the _Convert_ annotation. The
-_Convert_ annotation may also be used to override or disable an
+of individual attributes by means of the `Convert` annotation. The
+`Convert` annotation may also be used to override or disable an
 auto-apply conversion. See <<a14398>>.
 
-The _Convert_ annotation may be applied
+The `Convert` annotation may be applied
 directly to an attribute of an entity, mapped superclass, or embeddable
 class to specify conversion of the attribute or to override the use of a
-converter that has been specified as _autoApply=true_. When persistent
-properties are used, the _Convert_ annotation is applied to the getter
+converter that has been specified as `autoApply=true`. When persistent
+properties are used, the `Convert` annotation is applied to the getter
 method.
 
-The _Convert_ annotation may be applied to an
+The `Convert` annotation may be applied to an
 entity that extends a mapped superclass to specify or override the
 conversion mapping for an inherited basic or embedded attribute.
 
@@ -4106,47 +4102,47 @@ specification-defined options.
 
 Whether the entities and entity-related state
 of a persistence unit will be cached is determined by the value of the
-_shared-cache-mode_ element of the _persistence.xml_ file.
+`shared-cache-mode` element of the `persistence.xml` file.
 
-The _shared-cache-mode_ element has five
-possible values: _ALL_, _NONE_, _ENABLE_SELECTIVE_,
-_DISABLE_SELECTIVE_, _UNSPECIFIED_.
+The `shared-cache-mode` element has five
+possible values: `ALL`, `NONE`, `ENABLE_SELECTIVE`,
+`DISABLE_SELECTIVE`, `UNSPECIFIED`.
 
-A value of _ALL_ causes all entities and
+A value of `ALL` causes all entities and
 entity-related state and data to be cached.
 
-A value of _NONE_ causes caching to be
+A value of `NONE` causes caching to be
 disabled for the persistence unit. Persistence providers must not cache
-if _NONE_ is specified.
+if `NONE` is specified.
 
-The values _ENABLE_SELECTIVE_ and
-_DISABLE_SELECTIVE_ are used in conjunction with the _Cacheable_
-annotation (or XML element). The _Cacheable_ annotation specifies
+The values `ENABLE_SELECTIVE` and
+`DISABLE_SELECTIVE` are used in conjunction with the `Cacheable`
+annotation (or XML element). The `Cacheable` annotation specifies
 whether an entity should be cached if such selective caching is enabled
-by the _persistence.xml_ _shared-cache-mode_ element. The _Cacheable_
+by the `persistence.xml` `shared-cache-mode` element. The `Cacheable`
 element is specified on the entity class. It applies to the given entity
 and its subclasses unless subsequently overridden by a subclass.
 
-* _Cacheable(false)_ means that the entity and
+* `Cacheable(false)` means that the entity and
 its state must not be cached by the provider.
-* A value of _ENABLE_SELECTIVE_ enables the
-cache and causes entities for which _Cacheable(true)_ (or its XML
+* A value of `ENABLE_SELECTIVE` enables the
+cache and causes entities for which `Cacheable(true)` (or its XML
 equivalent) is specified to be cached. Entities for which
-_Cacheable(true)_ is not specified or for which _Cacheable(false)_ is
+`Cacheable(true)` is not specified or for which `Cacheable(false)` is
 specified must not be cached.
-* A value of _DISABLE_SELECTIVE_ enables the
+* A value of `DISABLE_SELECTIVE` enables the
 cache and causes all entities to be cached except those for which
-_Cacheable(false)_ is specified. Entities for which _Cacheable(false)_
+`Cacheable(false)` is specified. Entities for which `Cacheable(false)`
 is specified must not be cached.
 
-If either the _shared-cache-mode_ element is
-not specified in the _persistence.xml_ file or the value of the
-_shared-cache-mode_ element is _UNSPECIFIED_, and the
-_jakarta.persistence.sharedCache.mode_ property is not specified, the
+If either the `shared-cache-mode` element is
+not specified in the `persistence.xml` file or the value of the
+`shared-cache-mode` element is `UNSPECIFIED`, and the
+`jakarta.persistence.sharedCache.mode` property is not specified, the
 behavior is not defined, and provider-specific defaults may apply. If
-the _shared-cache-mode_ element and the
-_jakarta.persistence.sharedCache.mode_ property are not specified, the
-semantics of the _Cacheable_ annotation (and XML equivalent) are
+the `shared-cache-mode` element and the
+`jakarta.persistence.sharedCache.mode` property are not specified, the
+semantics of the `Cacheable` annotation (and XML equivalent) are
 undefined.
 
 The persistence provider is not required to
@@ -4161,40 +4157,40 @@ is described in <<a12124>>.
 
 Cache retrieve mode and cache store mode
 properties may be specified at the level of the persistence context by
-means of the EntityManager _setProperty_ method. These properties may be
-specified for the _EntityManager_ _find_ and _refresh_ methods and the
-_Query_, _TypedQuery_, _and_ _StoredProcedureQuery_ _setHint_ methods.
+means of the EntityManager `setProperty` method. These properties may be
+specified for the `EntityManager` `find` and `refresh` methods and the
+`Query`, `TypedQuery`, `and` `StoredProcedureQuery` `setHint` methods.
 Cache retrieve mode and/or cache store mode properties specified for the
-_find_, _refresh_, and _Query_, _TypedQuery_, and
+`find`, `refresh`, and `Query`, `TypedQuery`, and
 _StoredProcedureQuery setHint_ methods override those specified for the
-persistence context for the specified _find_ and _refresh_ invocations,
+persistence context for the specified `find` and `refresh` invocations,
 and for the execution of the specified queries respectively.
 
-If caching is disabled by the _NONE_ value of
-the _shared-cache-mode_ element, cache retrieve mode and cache store
-mode properties must be ignored. Otherwise, if the _ENABLE_SELECTIVE_
-value is specified, but _Cacheable(true)_ is not specified for a
+If caching is disabled by the `NONE` value of
+the `shared-cache-mode` element, cache retrieve mode and cache store
+mode properties must be ignored. Otherwise, if the `ENABLE_SELECTIVE`
+value is specified, but `Cacheable(true)` is not specified for a
 particular entity, they are ignored for that entity; if the
-_DISABLE_SELECTIVE_ value is specified, they are ignored for any
-entities for which _Cacheable(false)_ is specified.
+`DISABLE_SELECTIVE` value is specified, they are ignored for any
+entities for which `Cacheable(false)` is specified.
 
 Cache retrieve mode and cache store mode
 properties must be observed when caching is enabled, regardless of
 whether caching is enabled due to the specification of the
-_shared-cache-mode_ element or enabled due to provider-specific options.
+`shared-cache-mode` element or enabled due to provider-specific options.
 Applications that make use of cache retrieve mode or cache store mode
-properties but which do not specify the _shared-cache-mode_ element will
+properties but which do not specify the `shared-cache-mode` element will
 not be portable.
 
 The cache retrieve mode and cache store mode
-properties are _jakarta.persistence.cache.retrieveMode_ and
-_jakarta.persistence.cache.storeMode_ respectively. These properties have
+properties are `jakarta.persistence.cache.retrieveMode` and
+`jakarta.persistence.cache.storeMode` respectively. These properties have
 the semantics defined below.
 
-The _retrieveMode_ property specifies the
-behavior when data is retrieved by the _find_ methods and by the
-execution of queries. The _retrieveMode_ property is ignored for the
-_refresh_ method, which always causes data to be retrieved from the
+The `retrieveMode` property specifies the
+behavior when data is retrieved by the `find` methods and by the
+execution of queries. The `retrieveMode` property is ignored for the
+`refresh` method, which always causes data to be retrieved from the
 database, not the cache.
 
 [source,java]
@@ -4225,7 +4221,7 @@ public enum CacheRetrieveMode {
 }
 ----
 
-The _storeMode_ property specifies the
+The `storeMode` property specifies the
 behavior when data is read from the database and when data is committed
 into the database.
 
@@ -4267,10 +4263,10 @@ public enum CacheStoreMode {
 
 === Query APIs [[a3125]]
 
-The _Query_ and _TypedQuery_ APIs are used
+The `Query` and `TypedQuery` APIs are used
 for the execution of both static queries and dynamic queries. These APIs
 also support parameter binding and pagination control. The
-_StoredProcedureQuery_ API is used for the execution of queries that
+`StoredProcedureQuery` API is used for the execution of queries that
 invoke stored procedures defined in the database.
 
 ==== Query Interface [[a3127]]
@@ -5768,38 +5764,38 @@ public interface StoredProcedureQuery extends Query {
 ==== Query Execution
 
 Jakarta Persistence query language, Criteria API, and native SQL
-select queries are executed using the methods _getResultList_,
-_getSingleResult_, and _getSingleResultOrNull_.
+select queries are executed using the methods `getResultList`,
+`getSingleResult`, and `getSingleResultOrNull`.
 Update and delete operations (update and delete “queries”) are
-executed using the _executeUpdate_ method.
+executed using the `executeUpdate` method.
 
-* For _TypedQuery_ instances, the query result
+* For `TypedQuery` instances, the query result
 type is determined in the case of criteria queries by the type of the
-query specified when the _CriteriaQuery_ object is created, as described
+query specified when the `CriteriaQuery` object is created, as described
 in <<a10621>>. In the case of Jakarta Persistence query language queries, the type of the
-result is determined by the _resultClass_ argument to the _createQuery_
-or _createNamedQuery_ method, and the select list of the query must
+result is determined by the `resultClass` argument to the `createQuery`
+or `createNamedQuery` method, and the select list of the query must
 contain only a single item which must be assignable to the specified
 type.
-* For _Query_ instances, the elements of a
+* For `Query` instances, the elements of a
 query result whose select list consists of more than one select
-expression are of type _Object[]_. If the select list consists of only
+expression are of type `Object[]`. If the select list consists of only
 one select expression, the elements of the query result are of type
-_Object_. When native SQL queries are used, the SQL result set mapping
+`Object`. When native SQL queries are used, the SQL result set mapping
 (see <<a4427>>), determines
 how many items (entities, scalar values, etc.) are returned. If multiple
 items are returned, the elements of the query result are of type
-_Object[]_. If only a single item is returned as a result of the SQL
+`Object[]`. If only a single item is returned as a result of the SQL
 result set mapping or if a result class is specified, the elements of
-the query result are of type _Object_.
+the query result are of type `Object`.
 
-Stored procedure queries can be executed using the _getResultList_,
-_getSingleResult_, _getSingleResultOrNull_, and _execute_ methods.
+Stored procedure queries can be executed using the `getResultList`,
+`getSingleResult`, `getSingleResultOrNull`, and `execute` methods.
 Stored procedures that perform only updates or deletes can be executed
-using the _executeUpdate_ method. Stored procedure query execution is
+using the `executeUpdate` method. Stored procedure query execution is
 described in detail in <<a4625>>.
 
-An _IllegalArgumentException_ is thrown if a
+An `IllegalArgumentException` is thrown if a
 parameter instance is specified that does not correspond to a parameter
 of the query, if a parameter name is specified that does not correspond
 to a named parameter of the query, if a positional value is specified
@@ -5809,26 +5805,26 @@ be thrown when the parameter is bound, or the execution of the query may
 fail. See <<a4397>>, <<a4401>>, and <<a4405>> for supported
 parameter usage.
 
-The effect of applying _setMaxResults_ or
-_setFirstResult_ to a query involving fetch joins over collections is
-undefined. The use of _setMaxResults_ and _setFirstResult_ is not
+The effect of applying `setMaxResults` or
+`setFirstResult` to a query involving fetch joins over collections is
+undefined. The use of `setMaxResults` and `setFirstResult` is not
 supported for stored procedure queries.
 
-_Query_ and _TypedQuery_ methods other than
-the _executeUpdate_ method are not required to be invoked within a
-transaction context, unless a lock mode other than _LockModeType.NONE_
-has been specified for the query. In particular, the _getResultList_,
-_getSingleResult_, and _getSingleResultOrNull_ methods are not required
+`Query` and `TypedQuery` methods other than
+the `executeUpdate` method are not required to be invoked within a
+transaction context, unless a lock mode other than `LockModeType.NONE`
+has been specified for the query. In particular, the `getResultList`,
+`getSingleResult`, and `getSingleResultOrNull` methods are not required
 to be invoked within a transaction context unless such a lock mode has
 been specified for the queryfootnote:[A lock mode is
-specified for a query by means of the _setLockMode_ method or by
-specifying the lock mode in the _NamedQuery_ annotation.]. If an entity manager with
+specified for a query by means of the `setLockMode` method or by
+specifying the lock mode in the `NamedQuery` annotation.]. If an entity manager with
 transaction-scoped persistence context is in use, the resulting entities
 will be detached; if an entity manager with an extended persistence
 context is used, they will be managed. See <<a11431>> for further
 discussion of entity manager use outside a transaction and persistence context types.
 
-Whether a _StoredProcedureQuery_ should be
+Whether a `StoredProcedureQuery` should be
 invoked in a transaction context should be determined by the
 transactional semantics and/or requirements of the stored procedure
 implementation and the database in use. In particular, problems may
@@ -5837,23 +5833,23 @@ is already in effect. The state of any entities returned by the stored
 procedure query invocation is determined as decribed above.
 
 Runtime exceptions other than the
-_NoResultException_, _NonUniqueResultException_,
-_QueryTimeoutException_, and _LockTimeoutException_ thrown by the
-methods of the _Query_, _TypedQuery_, and _StoredProcedureQuery_
+`NoResultException`, `NonUniqueResultException`,
+`QueryTimeoutException`, and `LockTimeoutException` thrown by the
+methods of the `Query`, `TypedQuery`, and `StoredProcedureQuery`
 interfaces other than those methods specified below cause the current
 transaction to be marked for rollback if the persistence context is
 joined to the transaction. On database platforms on which a query
 timeout causes transaction rollback, the persistence provider must throw
-the _PersistenceException_ instead of the _QueryTimeoutException_.
+the `PersistenceException` instead of the `QueryTimeoutException`.
 
 Runtime exceptions thrown by the following
-methods of the _Query_, _TypedQuery_, and _StoredProcedureQuery_
+methods of the `Query`, `TypedQuery`, and `StoredProcedureQuery`
 interfaces do not cause the current transaction to be marked for
-rollback: _getParameters_, _getParameter_, _getParameterValue_,
-_getOutputParameterValue_, _getLockMode_.
+rollback: `getParameters`, `getParameter`, `getParameterValue`,
+`getOutputParameterValue`, `getLockMode`.
 
 Runtime exceptions thrown by the methods of
-the _Tuple_, _TupleElement_, and _Parameter_ interfaces do not cause
+the `Tuple`, `TupleElement`, and `Parameter` interfaces do not cause
 the current transaction to be marked for rollback.
 
 ===== Example
@@ -5874,16 +5870,16 @@ The flush mode setting affects the result of
 a query as follows.
 
 When queries are executed within a
-transaction, if _FlushModeType.AUTO_ is set on the _Query_,
-_TypedQuery_, or _StoredProcedureQuery_ object, or if the flush mode
-setting for the persistence context is _AUTO_ (the default) and a flush
+transaction, if `FlushModeType.AUTO` is set on the `Query`,
+`TypedQuery`, or `StoredProcedureQuery` object, or if the flush mode
+setting for the persistence context is `AUTO` (the default) and a flush
 mode setting has not been specified for the query object, the
 persistence provider is responsible for ensuring that all updates to the
 state of all entities in the persistence context which could potentially
 affect the result of the query are visible to the processing of the
 query. The persistence provider implementation may achieve this by
 flushing those entities to the database or by some other means. If
-_FlushModeType.COMMIT_ is set, the effect of updates made to entities in
+`FlushModeType.COMMIT` is set, the effect of updates made to entities in
 the persistence context upon queries is unspecified.
 
 If the persistence context has not been
@@ -5914,17 +5910,17 @@ persistence provider must not flush to the database.
 
 ==== Queries and Lock Mode [[a4385]]
 
-The _setLockMode_ method of the
-_Query_ or _TypedQuery_ interface or the _lockMode_ element of the
-_NamedQuery_ annotation may be used to lock the results of a query. A
+The `setLockMode` method of the
+`Query` or `TypedQuery` interface or the `lockMode` element of the
+`NamedQuery` annotation may be used to lock the results of a query. A
 lock is obtained for each entity specified in the query result
 (including entities passed to constructors in the query SELECT
 clause).footnote:[Note that the
 setLockMode method may be called more than once (with different values)
 on a Query or TypedQuery object.]
 
-If the lock mode type is _PESSIMISTIC_READ_,
-_PESSIMISTIC_WRITE_, or _PESSIMISTIC_FORCE_INCREMENT_, and the query
+If the lock mode type is `PESSIMISTIC_READ`,
+`PESSIMISTIC_WRITE`, or `PESSIMISTIC_FORCE_INCREMENT`, and the query
 returns scalar data (e.g., the values of entity field or properties,
 including scalar data passed to constructors in the query SELECT
 clause), the underlying database rows will be
@@ -5935,22 +5931,22 @@ all database platforms.], but the version columns (if any) for any
 entities corresponding to such scalar data will not be updated unless
 the entities themselves are also otherwise retrieved and updated.
 
-If the lock mode type is _OPTIMISTIC_ or
-_OPTIMISTIC_FORCE_INCREMENT_, and the query returns scalar data, any
+If the lock mode type is `OPTIMISTIC` or
+`OPTIMISTIC_FORCE_INCREMENT`, and the query returns scalar data, any
 entities returned by the query will be locked, but no locking will occur
 for scalar data that does not correspond to the state of any entity
 instance in the query result.
 
-If a lock mode other than _NONE_ is specified
+If a lock mode other than `NONE` is specified
 for a query, the query must be executed within a transaction (and the
 persistence context must be joined to the transaction) or the
-_TransactionRequiredException_ will be thrown.
+`TransactionRequiredException` will be thrown.
 
 Locking is supported for Jakarta Persistence
-query language queries and criteria queries only. If the _setLockMode_
-or _getLockMode_ method is invoked on a query that is not a Jakarta
+query language queries and criteria queries only. If the `setLockMode`
+or `getLockMode` method is invoked on a query that is not a Jakarta
 Persistence query language select query or a criteria query, the
-_IllegalStateException_ may be thrown or the query execution will fail.
+`IllegalStateException` may be thrown or the query execution will fail.
 
 ==== Query Hints [[a4391]]
 
@@ -5958,16 +5954,16 @@ The following hint is defined by this specification for use in query configurati
 
  jakarta.persistence.query.timeout // time in milliseconds
 
-This hint may be used with the _Query_,
-_TypedQuery_, or _StoredProcedureQuery_ _setHint_ method or the
-_NamedQuery_, _NamedNativeQuery_, and _NamedStoredProcedureQuery_
+This hint may be used with the `Query`,
+`TypedQuery`, or `StoredProcedureQuery` `setHint` method or the
+`NamedQuery`, `NamedNativeQuery`, and `NamedStoredProcedureQuery`
 annotations. It may also be passed as a property to the
-_Persistence.createEntityManagerFactory_ method and used in the
-_properties_ element of the _persistence.xml_ file. See <<a3127>>,
+`Persistence.createEntityManagerFactory` method and used in the
+`properties` element of the `persistence.xml` file. See <<a3127>>,
 <<a12384>>, <<a13443>>, <<a13710>>. When used in
-the _createEntityManagerFactory_ method, the _persistence.xml_ file, and
-annotations, the _timeout_ hint serves as a default value which can be
-selectively overridden by use in the _setHint_ method.
+the `createEntityManagerFactory` method, the `persistence.xml` file, and
+annotations, the `timeout` hint serves as a default value which can be
+selectively overridden by use in the `setHint` method.
 
 Portable applications should not rely on this
 hint. Depending on the persistence provider and database in use, the
@@ -5975,29 +5971,29 @@ hint may or may not be observed.
 
 Vendors are permitted to support the use of
 additional, vendor-specific hints. Vendor-specific hints must not use
-the _jakarta.persistence_ namespace. Vendor-specific hints must be ignored
+the `jakarta.persistence` namespace. Vendor-specific hints must be ignored
 if they are not understood.
 
 ==== Parameter Objects [[a4397]]
 
-_Parameter_ objects can be used for criteria
+`Parameter` objects can be used for criteria
 queries and for Jakarta Persistence query language queries.
 
 Implementations may support the use of
-_Parameter_ objects for native queries, however support for _Parameter_
+`Parameter` objects for native queries, however support for `Parameter`
 objects with native queries is not required by this specification. The
-use of _Parameter_ objects for native queries will not be portable. The
+use of `Parameter` objects for native queries will not be portable. The
 mixing of parameter objects with named or positional parameters is invalid.
 
 Portable applications should not attempt to
-reuse a _Parameter_ object obtained from a _Query_ or _TypedQuery_
-instance in the context of a different _Query_ or _TypedQuery_ instance.
+reuse a `Parameter` object obtained from a `Query` or `TypedQuery`
+instance in the context of a different `Query` or `TypedQuery` instance.
 
 ==== Named Parameters [[a4401]]
 
 Named parameters can be used for Jakarta
 Persistence query language queries, for criteria queries (although use
-of _Parameter_ objects is to be preferred), and for stored procedure
+of `Parameter` objects is to be preferred), and for stored procedure
 queries that support named parameters.
 
 Named parameters follow the rules for
@@ -6007,8 +6003,8 @@ parameters is invalid.
 
 A named parameter of a Jakarta Persistence query
 language query is an identifier that is prefixed by the " _:_ " symbol.
-The parameter names passed to the _setParameter_ methods of the _Query_
-and _TypedQuery_ interfaces do not include this " _:_ " prefix.
+The parameter names passed to the `setParameter` methods of the `Query`
+and `TypedQuery` interfaces do not include this " _:_ " prefix.
 
 ==== Positional Parameters [[a4405]]
 
@@ -6016,7 +6012,7 @@ Only positional parameter binding and
 positional access to result items may be portably used for native
 queries, except for stored procedure queries for which named parameters
 have been defined. When binding the values of positional parameters, the
-numbering starts as “ _1_ ”. It is assumed that for native queries the
+numbering starts as “ `1` ”. It is assumed that for native queries the
 parameters themselves use the SQL syntax (i.e., “ _?_ ”, rather than “
 _?1_ ”).
 
@@ -6026,7 +6022,7 @@ The use of positional parameters is not supported for criteria queries.
 
 Named queries are static queries expressed in
 metadata or queries registered by means of the EntityManagerFactory
-_addNamedQuery_ method. Named queries can be defined in the Jakarta
+`addNamedQuery` method. Named queries can be defined in the Jakarta
 Persistence query language or in SQL. Query names are scoped to the
 persistence unit.
 
@@ -6063,8 +6059,8 @@ as well. The instances returned by a query include instances of the
 subclasses that satisfy the query conditions.
 
 For example, the following query returns the
-average salary of all employees, including subtypes of _Employee_, such
-as _Manager_ and _Exempt_.
+average salary of all employees, including subtypes of `Employee`, such
+as `Manager` and `Exempt`.
 
 [source,sql]
 ----
@@ -6119,7 +6115,7 @@ only the expected class of the entity result.
 
 The following example illustrates the case
 where a native SQL query is created dynamically using the
-_createNativeQuery_ method and the entity class that specifies the type
+`createNativeQuery` method and the entity class that specifies the type
 of the result is passed in as an argument.
 
 [source,java]
@@ -6132,15 +6128,15 @@ Query q = em.createNativeQuery(
 ----
 
 When executed, this query will return a
-collection of all _Order_ entities for items named “widget”.
+collection of all `Order` entities for items named “widget”.
 
-The _SqlResultSetMapping_ metadata
+The `SqlResultSetMapping` metadata
 annotation—which is designed to handle more complex cases—can be used as
 an alternative here. See <<a13797>> for the definition of the
-_SqlResultSetMapping_ metadata annotation and related annotations.
+`SqlResultSetMapping` metadata annotation and related annotations.
 
 For the query shown above, the
-_SqlResultSetMapping_ metadata for the query result type might be
+`SqlResultSetMapping` metadata for the query result type might be
 specified as follows:
 
 [source,java]
@@ -6164,10 +6160,10 @@ Query q = em.createNativeQuery(
 
 When multiple entities are returned by a SQL
 query or when the column names of the SQL result do not correspond to
-those of the object/relational mapping metadata, a _SqlResultSetMapping_
+those of the object/relational mapping metadata, a `SqlResultSetMapping`
 metadata definition must be provided to specify the entity mapping.
 
-The following query and _SqlResultSetMapping_
+The following query and `SqlResultSetMapping`
 metadata illustrates the return of multiple entity types. It assumes
 default metadata and column name defaults.
 
@@ -6193,14 +6189,14 @@ persistence provider runtime to map the JDBC results into the expected
 objects. This might arise, for example, when column aliases must be used
 in the SQL SELECT clause when the SQL result would otherwise contain
 multiple columns of the same name or when columns in the SQL result are
-the results of operators or functions. The _FieldResult_ annotation
-element within the _EntityResult_ annotation is used to specify the
+the results of operators or functions. The `FieldResult` annotation
+element within the `EntityResult` annotation is used to specify the
 mapping of such columns to entity attributes.
 
 The following example combining multiple
 entity types includes aliases in the SQL statement. This requires that
 the column names be explicitly mapped to the entity fields corresponding
-to those columns. The _FieldResult_ annotation is used for this purpose.
+to those columns. The `FieldResult` annotation is used for this purpose.
 
 [source,java]
 ----
@@ -6223,7 +6219,7 @@ Query q = em.createNativeQuery(
 ----
 
 When the returned entity type contains an
-embeddable class, the _FieldResult_ element must use a dot (“ _._ ”)
+embeddable class, the `FieldResult` element must use a dot (“ `.` ”)
 notation to indicate which column maps to which field or property of the
 contained embeddable.
 
@@ -6254,16 +6250,16 @@ Query q = em.createNativeQuery(
 
 When the returned entity type is the owner of
 a single-valued relationship and the foreign key is a composite foreign
-key (composed of multiple columns), a _FieldResult_ element should be
-used for each of the foreign key columns. The _FieldResult_ element must
-use the dot (“ _._ ”) notation form to indicate the column that maps to
+key (composed of multiple columns), a `FieldResult` element should be
+used for each of the foreign key columns. The `FieldResult` element must
+use the dot (“ `.` ”) notation form to indicate the column that maps to
 each property or field of the target entity primary key.
 
 If the target entity has a primary key of
-type _IdClass_, this specification takes the form of the name of the
-field or property for the relationship, followed by a dot (“ _._ ”),
+type `IdClass`, this specification takes the form of the name of the
+field or property for the relationship, followed by a dot (“ `.` ”),
 followed by the name of the field or property of the primary key in the
-target entity. The latter will be annotated with _Id_, as specified in
+target entity. The latter will be annotated with `Id`, as specified in
 <<a14836>>.
 
 Example:
@@ -6292,10 +6288,10 @@ Query q = em.createNativeQuery(
 ----
 
 If the target entity has a primary key of
-type _EmbeddedId_, this specification is composed of the name of the
-field or property for the relationship, followed by a dot (“ _._ ”),
+type `EmbeddedId`, this specification is composed of the name of the
+field or property for the relationship, followed by a dot (“ `.` ”),
 followed by the name or the field or property of the primary key (i.e.,
-the name of the field or property annotated as _EmbeddedId_), followed
+the name of the field or property annotated as `EmbeddedId`), followed
 by the name of the corresponding field or property of the embedded
 primary key class.
 
@@ -6323,8 +6319,8 @@ Query q = em.createNativeQuery(
 })
 ----
 
-The _FieldResult_ elements for the composite
-foreign key are combined to form the primary key _EmbeddedId_ class for
+The `FieldResult` elements for the composite
+foreign key are combined to form the primary key `EmbeddedId` class for
 the target entity. This may then be used to subsequently retrieve the
 entity if the relationship is to be eagerly loaded.
 
@@ -6342,9 +6338,9 @@ including with entity results.
 ====== Scalar Results
 
 Scalar results can be included in the query
-result by specifying the _ColumnResult_ annotation element of the
-_SqlResultSetMapping_ annotation. The intended type of the result can be
-specified using the _type_ element of the _ColumnResult_ annotation.
+result by specifying the `ColumnResult` annotation element of the
+`SqlResultSetMapping` annotation. The intended type of the result can be
+specified using the `type` element of the `ColumnResult` annotation.
 
 [source,java]
 ----
@@ -6375,12 +6371,12 @@ Query q = em.createNativeQuery(
 ====== Constructor Results
 
 The mapping to constructors is specified
-using the _ConstructorResult_ annotation element of the
-_SqlResultSetMapping_ annotation. The _targetClass_ element of the
-_ConstructorResult_ annotation specifies the class whose constructor
+using the `ConstructorResult` annotation element of the
+`SqlResultSetMapping` annotation. The `targetClass` element of the
+`ConstructorResult` annotation specifies the class whose constructor
 corresponds to the specified columns. All columns corresponding to
 arguments of the intended constructor must be specified using the
-_columns_ element of the _ConstructorResult_ annotation in the same
+`columns` element of the `ConstructorResult` annotation in the same
 order as that of the argument list of the constructor. Any entities
 returned as constructor results will be in either the new or the
 detached state, depending on whether a primary key is retrieved for the
@@ -6408,15 +6404,15 @@ Query q = em.createNativeQuery(
 
 ===== Combinations of Result Types
 
-When a _SqlResultSetMapping_ specifies more
-than one mapping type (i.e., more than one of _EntityResult_,
-_ConstructorResult_, _ColumnResult_), then for each row in the SQL
-result, the query execution will result in an _Object[]_ instance whose
+When a `SqlResultSetMapping` specifies more
+than one mapping type (i.e., more than one of `EntityResult`,
+`ConstructorResult`, `ColumnResult`), then for each row in the SQL
+result, the query execution will result in an `Object[]` instance whose
 elements are as follows, in order: any entity results (in the order in
-which they are defined in the _entities_ element); any instances of
+which they are defined in the `entities` element); any instances of
 classes corresponding to constructor results (in the order defined in
-the _classes_ element); and any instances corresponding to column
-results (in the order defined in the _columns_ element). If there are
+the `classes` element); and any instances corresponding to column
+results (in the order defined in the `columns` element). If there are
 any columns whose result mappings have not been specified, they are
 ignored.
 
@@ -6435,44 +6431,44 @@ queries may be used by portable applications.
 
 ==== Stored Procedures
 
-The _StoredProcedureQuery_ interface supports
+The `StoredProcedureQuery` interface supports
 the use of database stored procedures.
 
 Stored procedures can be specified either by
-means of the _NamedStoredProcedureQuery_ annotation or dynamically.
+means of the `NamedStoredProcedureQuery` annotation or dynamically.
 Annotations for the specification of stored procedures are described in
 <<a13759>>.
 
 ===== Named Stored Procedure Queries
 
 Unlike in the case of a named native query,
-the _NamedStoredProcedureQuery_ annotation names a stored procedure that
+the `NamedStoredProcedureQuery` annotation names a stored procedure that
 exists in the database rather than providing a stored procedure
-definition. The _NamedStoredProcedureQuery_ annotation specifies the
+definition. The `NamedStoredProcedureQuery` annotation specifies the
 types of all parameters to the stored procedure, their corresponding
 parameter modes (IN, OUT, INOUT, REF_CURSORfootnote:[Note that REF_CURSOR
 parameters are used by some databases to return result sets from stored
 procedures.]), and
 how result sets, if any, are to be mapped. The name that is assigned to
-the stored procedure in the _NamedStoredProcedureQuery_ annotation is
-passed as an argument to the _createNamedStoredProcedureQuery_ method to
-create an executable _StoredProcedureQuery_ object.
+the stored procedure in the `NamedStoredProcedureQuery` annotation is
+passed as an argument to the `createNamedStoredProcedureQuery` method to
+create an executable `StoredProcedureQuery` object.
 
 A stored procedure may return more than one
 result set. As with native queries, the mapping of result sets can be
-specified either in terms of a _resultClasses_ or as a
-_resultSetMappings_ annotation element. If there are multiple result
+specified either in terms of a `resultClasses` or as a
+`resultSetMappings` annotation element. If there are multiple result
 sets, it is assumed that they will be mapped using the same mechanism —
 e.g., all via a set of result class mappings or all via a set of result
 set mappings. The order of the specification of these mappings must be
 the same as the order in which the result sets will be returned by the
 stored procedure invocation. If the stored procedure returns one or more
-result sets and no _resultClasses_ or _resultSetMappings_ element has
+result sets and no `resultClasses` or `resultSetMappings` element has
 been specified, any result set will be returned as a list of type
-_Object[]_. The combining of different strategies for the mapping of
+`Object[]`. The combining of different strategies for the mapping of
 stored procedure result sets is undefined.
 
-_StoredProcedureParameter_ metadata needs to
+`StoredProcedureParameter` metadata needs to
 be provided for all parameters. Parameters must be specified in the
 order in which they occur in the parameter list of the stored procedure.
 If parameter names are used, the parameter name is used to bind the
@@ -6489,52 +6485,52 @@ dynamically.
 
 All parameters of a dynamically-specified
 stored procedure query must be registered using the
-_registerStoredProcedureParameter_ method of the _StoredProcedureQuery_
+`registerStoredProcedureParameter` method of the `StoredProcedureQuery`
 interface.
 
 Result set mapping information can be
-provided by means of the _createStoredProcedureQuery_ method.
+provided by means of the `createStoredProcedureQuery` method.
 
 ===== Stored Procedure Query Execution [[a4625]]
 
 Stored procedure query execution can be
 controlled as described below.
 
-The _setParameter_ methods are used to set
+The `setParameter` methods are used to set
 the values of all required IN and INOUT parameters. It is not required
 to set the values of stored procedure parameters for which default
 values have been defined by the stored procedure.
 
-When _getResultList_, _getSingleResult_, and _getSingleResultOrNull_
-are called on a _StoredProcedureQuery_ object, the persistence provider
-will call _execute_ on an unexecuted stored procedure query before
-processing _getResultList_, _getSingleResult_ or _getSingleResultOrNull_.
+When `getResultList`, `getSingleResult`, and `getSingleResultOrNull`
+are called on a `StoredProcedureQuery` object, the persistence provider
+will call `execute` on an unexecuted stored procedure query before
+processing `getResultList`, `getSingleResult` or `getSingleResultOrNull`.
 
-When _executeUpdate_ is called on a
-_StoredProcedureQuery_ object, the persistence provider will call
-_execute_ on an unexecuted stored procedure query followed by
-_getUpdateCount_. The results of _executeUpdate_ will be those of
-_getUpdateCount_.
+When `executeUpdate` is called on a
+`StoredProcedureQuery` object, the persistence provider will call
+`execute` on an unexecuted stored procedure query followed by
+`getUpdateCount`. The results of `executeUpdate` will be those of
+`getUpdateCount`.
 
-The _execute_ method supports both the simple
+The `execute` method supports both the simple
 case where scalar results are passed back only via INOUT and OUT
 parameters as well as the most general case (multiple result sets and/or
 update counts, possibly also in combination with output parameter
 values).
 
-The _execute_ method returns _true_ if the
-first result is a result set, and _false_ if it is an update count or
+The `execute` method returns `true` if the
+first result is a result set, and `false` if it is an update count or
 there are no results other than through INOUT and OUT parameters, if
 any.
 
-If the _execute_ method returns _true_, the pending result set can be
-obtained by calling _getResultList_, _getSingleResult_, or
-_getSingleResultOrNull_. The _hasMoreResults_ method can then be used to
+If the `execute` method returns `true`, the pending result set can be
+obtained by calling `getResultList`, `getSingleResult`, or
+`getSingleResultOrNull`. The `hasMoreResults` method can then be used to
 test for further results.
 
-If _execute_ or _hasMoreResults_ returns
-_false_, the _getUpdateCount_ method can be called to obtain the
-pending result if it is an update count. The _getUpdateCount_ method
+If `execute` or `hasMoreResults` returns
+`false`, the `getUpdateCount` method can be called to obtain the
+pending result if it is an update count. The `getUpdateCount` method
 will return either the update count (zero or greater) or -1 if there is
 no update count (i.e., either the next result is a result set or there
 is no next update count).
@@ -6544,24 +6540,24 @@ JDBC result sets and update counts need to be processed before the
 values of any INOUT or OUT parameters are extracted.
 
 After results returned through
-_getResultList_ and _getUpdateCount_ have been exhausted, results
+`getResultList` and `getUpdateCount` have been exhausted, results
 returned through INOUT and OUT parameters can be retrieved.
 
-The _getOutputParameterValue_ methods are
+The `getOutputParameterValue` methods are
 used to retrieve the values passed back from the procedure through INOUT
 and OUT parameters.
 
-When using _REF_CURSOR_ parameters for result
+When using `REF_CURSOR` parameters for result
 sets, the update counts should be exhausted before calling
-_getResultList_ to retrieve the result set. Alternatively, the
-_REF_CURSOR_ result set can be retrieved through
-_getOutputParameterValue_. Result set mappings will be applied to
-results corresponding to _REF_CURSOR_ parameters in the order the
-_REF_CURSOR_ parameters were registered with the query.
+`getResultList` to retrieve the result set. Alternatively, the
+`REF_CURSOR` result set can be retrieved through
+`getOutputParameterValue`. Result set mappings will be applied to
+results corresponding to `REF_CURSOR` parameters in the order the
+`REF_CURSOR` parameters were registered with the query.
 
 In the simplest case, where results are
-returned only via INOUT and OUT parameters, _execute_ can be followed
-immediately by calls to _getOutputParameterValue_.
+returned only via INOUT and OUT parameters, `execute` can be followed
+immediately by calls to `getOutputParameterValue`.
 
 === Summary of Exceptions [[a4639]]
 
@@ -6569,29 +6565,29 @@ The following is a summary of the exceptions defined by this specification:
 
 *PersistenceException*
 
-The _PersistenceException_ is thrown by the
+The `PersistenceException` is thrown by the
 persistence provider when a problem occurs. It may be thrown to report
 that the invoked operation could not complete because of an unexpected
 error (e.g., failure of the persistence provider to open a database
 connection).
 
 All other exceptions defined by this
-specification are subclasses of the _PersistenceException_. All
-instances of _PersistenceException_ except for instances of
-_NoResultException_, _NonUniqueResultException,_ _LockTimeoutException_
-, and _QueryTimeoutException_ will cause the current transaction, if one
+specification are subclasses of the `PersistenceException`. All
+instances of `PersistenceException` except for instances of
+`NoResultException`, `NonUniqueResultException`, `LockTimeoutException`
+, and `QueryTimeoutException` will cause the current transaction, if one
 is active and the persistence context has been joined to it, to be
 marked for rollback.
 
 *TransactionRequiredException*
 
-The _TransactionRequiredException_ is thrown
+The `TransactionRequiredException` is thrown
 by the persistence provider when a transaction is required but is not
 active.
 
 *OptimisticLockException*
 
-The _OptimisticLockException_ is thrown by
+The `OptimisticLockException` is thrown by
 the persistence provider when an optimistic locking conflict occurs.
 This exception may be thrown as part of an API call, at flush, or at
 commit time. The current transaction, if one is active, will be marked
@@ -6599,66 +6595,66 @@ for rollback.
 
 *PessimisticLockException*
 
-The _PessimisticLockException_ is thrown by
+The `PessimisticLockException` is thrown by
 the persistence provider when a pessimistic locking conflict occurs. The
 current transaction will be marked for rollback. Typically the
-_PessimisticLockException_ occurs because the database transaction has
+`PessimisticLockException` occurs because the database transaction has
 been rolled back due to deadlock or because the database uses
 transaction-level rollback when a pessimistic lock cannot be granted.
 
 *LockTimeoutException*
 
-The _LockTimeoutException_ is thrown by the
+The `LockTimeoutException` is thrown by the
 persistence provider when a pessimistic locking conflict occurs that
 does not result in transaction rollback. Typically this occurs because
 the database uses statement-level rollback when a pessimistic lock
-cannot be granted (and there is no deadlock). The _LockTimeoutException_
+cannot be granted (and there is no deadlock). The `LockTimeoutException`
 does not cause the current transaction to be marked for rollback.
 
 *RollbackException*
 
-The _RollbackException_ is thrown by the
-persistence provider when _EntityTransaction.commit_ fails. __
+The `RollbackException` is thrown by the
+persistence provider when `EntityTransaction.commit` fails.
 
 *EntityExistsException*
 
-The _EntityExistsException_ may thrown by the
-persistence provider when the _persist_ operation is invoked and the
-entity already exists. The _EntityExistsException_ may be thrown when
-the persist operation is invoked, or the _EntityExistsException_ or
-another _PersistenceException_ may be thrown at commit time. The current
+The `EntityExistsException` may thrown by the
+persistence provider when the `persist` operation is invoked and the
+entity already exists. The `EntityExistsException` may be thrown when
+the persist operation is invoked, or the `EntityExistsException` or
+another `PersistenceException` may be thrown at commit time. The current
 transaction, if one is active and the persistence context has been
 joined to it, will be marked for rollback.
 
 *EntityNotFoundException*
 
-The _EntityNotFoundException_ is thrown by
+The `EntityNotFoundException` is thrown by
 the persistence provider when an entity reference obtained by
-_getReference_ is accessed but the entity does not exist. It is thrown
-by the _refresh_ operation when the entity no longer exists in the
-database. It is also thrown by the _lock_ operation when pessimistic
+`getReference` is accessed but the entity does not exist. It is thrown
+by the `refresh` operation when the entity no longer exists in the
+database. It is also thrown by the `lock` operation when pessimistic
 locking is used and the entity no longer exists in the database. The
 current transaction, if one is active and the persistence context has
 been joined to it, will be marked for rollback.
 
 *NoResultException*
 
-The _NoResultException_ is thrown by the persistence provider when
-_Query.getSingleResult_ is invoked and there is no result to return.
+The `NoResultException` is thrown by the persistence provider when
+`Query.getSingleResult` is invoked and there is no result to return.
 This exception will not cause the current transaction, if one is
 active, to be marked for rollback.
 
 *NonUniqueResultException*
 
-The _NonUniqueResultException_ is thrown by the persistence provider
-when _Query.getSingleResult_ or _Query.getSingleResultOrNull_ is
+The `NonUniqueResultException` is thrown by the persistence provider
+when `Query.getSingleResult` or `Query.getSingleResultOrNull` is
 invoked and there is more than one result from the query. This
 exception will not cause the current transaction, if one is active,
 to be marked for rollback.
 
 *QueryTimeoutException*
 
-The _QueryTimeoutException_ is thrown by the
+The `QueryTimeoutException` is thrown by the
 persistence provider when a query times out and only the statement is
-rolled back. The _QueryTimeoutException_ does not cause the current
+rolled back. The `QueryTimeoutException` does not cause the current
 transaction, if one is active, to be marked for rollback.

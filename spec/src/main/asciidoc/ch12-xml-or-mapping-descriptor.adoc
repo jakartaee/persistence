@@ -12,37 +12,37 @@ language metadata annotations.
 
 The XML schema for the object
 relational/mapping descriptor is contained in <<a17175>>. The root element of this
-schema is the _entity-mappings_ element. The absence or present of the
-_xml-mapping-metadata-complete_ subelement contained in the
-_persistence-unit-defaults_ subelement of the _entity-mappings_ element
+schema is the `entity-mappings` element. The absence or present of the
+`xml-mapping-metadata-complete` subelement contained in the
+`persistence-unit-defaults` subelement of the `entity-mappings` element
 controls whether the XML object/relational mapping descriptor is used to
 selectively override annotation values or whether it serves as a
 complete alternative to Java language metadata annotations.
 
-If the _xml-mapping-metadata-complete_
+If the `xml-mapping-metadata-complete`
 subelement is specified, the complete set of mapping metadata for the
 persistence unit is contained in the XML mapping files for the
 persistence unit, and any persistence annotations on the classes are
 ignored.
 
-If _xml-mapping-metadata-complete_ is
+If `xml-mapping-metadata-complete` is
 specified and XML elements are omitted, the default values apply. These
 default values are the same as the corresponding defaults when
 annotations are used, except in the cases specified in <<a16953>> below. When the
-_xml-mapping-metadata-complete_ element is specified, any
-_metadata-complete_ attributes specified within the _entity_,
-_mapped-superclass_, and _embeddable_ elements are ignored.
+`xml-mapping-metadata-complete` element is specified, any
+`metadata-complete` attributes specified within the `entity`,
+`mapped-superclass`, and `embeddable` elements are ignored.
 
-If the _xml-mapping-metadata-complete_
+If the `xml-mapping-metadata-complete`
 subelement is not specified, the XML descriptor overrides the values set
 or defaulted by the use of annotations, as described below.
 
 The mapping files used by the application
 developer must conform to the XML schema defined in <<a17175>>
-or to the previous versions of the XML schema, __orm_3_0.xsd__ or
-__orm_2_2.xsd__,
+or to the previous versions of the XML schema, `orm_3_0.xsd` or
+`orm_2_2.xsd`,
 defined in a previous version of this specification <<a19493>>
-in accordance with the version specified by the _orm.xml_ file.
+in accordance with the version specified by the `orm.xml` file.
 
 The Jakarta Persistence persistence provider
 may support use of older versions of the object/relational mapping
@@ -55,173 +55,173 @@ in combination when multiple mapping files are used.
 This section defines the rules that apply
 when the XML descriptor is used to override annotations, and the rules
 pertaining to the interaction of XML elements specified as subelements
-of the _persistence-unit-defaults_, _entity-mappings_, _entity_,
-_mapped-superclass_, and _embeddable_ elements.
+of the `persistence-unit-defaults`, `entity-mappings`, `entity`,
+`mapped-superclass`, and `embeddable` elements.
 
 ==== persistence-unit-defaults Subelements
 
 ===== schema
 
-The _schema_ subelement applies to all
+The `schema` subelement applies to all
 entities, tables, secondary tables, join tables, collection tables,
 table generators, and sequence generators in the persistence unit.
 
-The _schema_ subelement is overridden by any
-_schema_ subelement of the _entity-mappings_ element; any _schema_
-element explicitly specified in the _Table_ or _SecondaryTable_
-annotation on an entity or any _schema_ attribute on any _table_ or
-_secondary-table_ subelement defined within an _entity_ element; any
-_schema_ element explicitly specified in a _TableGenerator_ annotation
-or _table-generator_ subelement; any _schema_ element explicitly
-specified in a _SequenceGenerator_ annotation or _sequence-generator_
-subelement; any _schema_ element explicitly specified in a _JoinTable_
-annotation or _join-table_ subelement; and any _schema_ element
-explicitly specified in a _CollectionTable_ annotation or
-_collection-table_ subelement.
+The `schema` subelement is overridden by any
+`schema` subelement of the `entity-mappings` element; any `schema`
+element explicitly specified in the `Table` or `SecondaryTable`
+annotation on an entity or any `schema` attribute on any `table` or
+`secondary-table` subelement defined within an `entity` element; any
+`schema` element explicitly specified in a `TableGenerator` annotation
+or `table-generator` subelement; any `schema` element explicitly
+specified in a `SequenceGenerator` annotation or `sequence-generator`
+subelement; any `schema` element explicitly specified in a `JoinTable`
+annotation or `join-table` subelement; and any `schema` element
+explicitly specified in a `CollectionTable` annotation or
+`collection-table` subelement.
 
 ===== catalog
 
-The _catalog_ subelement applies to all
+The `catalog` subelement applies to all
 entities, tables, secondary tables, join tables, collection tables,
 table generators, and sequence generators in the persistence unit.
 
-The _catalog_ subelement is overridden by any
-_catalog_ subelement of the _entity-mappings_ element; any _catalog_
-element explicitly specified in the _Table_ or _SecondaryTable_
-annotation on an entity or any _catalog_ attribute on any _table_ or
-_secondary-table_ subelement defined within an _entity_ XML element; any
-_catalog_ element explicitly specified in a _TableGenerator_ annotation
-or _table-generator_ subelement; any _catalog_ element explicitly
-specified in a _SequenceGenerator_ annotation or _sequence-generator_
-subelement; any _catalog_ element explicitly specified in a _JoinTable_
-annotation or _join-table_ subelement; and any _catalog_ element
-explicitly specified in a _CollectionTable_ annotation or
-_collection-table_ subelement.
+The `catalog` subelement is overridden by any
+`catalog` subelement of the `entity-mappings` element; any `catalog`
+element explicitly specified in the `Table` or `SecondaryTable`
+annotation on an entity or any `catalog` attribute on any `table` or
+`secondary-table` subelement defined within an `entity` XML element; any
+`catalog` element explicitly specified in a `TableGenerator` annotation
+or `table-generator` subelement; any `catalog` element explicitly
+specified in a `SequenceGenerator` annotation or `sequence-generator`
+subelement; any `catalog` element explicitly specified in a `JoinTable`
+annotation or `join-table` subelement; and any `catalog` element
+explicitly specified in a `CollectionTable` annotation or
+`collection-table` subelement.
 
 ===== delimited-identifiers
 
-The _delimited-identifiers_ subelement
+The `delimited-identifiers` subelement
 applies to the naming of database objects, as described in <<a988>>. It
 specifies that all database table-, schema-, and column-level
 identifiers in use for the persistence unit be treated as delimited
 identifiers.
 
-The _delimited-identifiers_ subelement cannot
+The `delimited-identifiers` subelement cannot
 be overridden in this release.
 
 ===== access
 
-The _access_ subelement applies to all
+The `access` subelement applies to all
 managed classes in the persistence unit.
 
-The _access_ subelement is overridden by the
+The `access` subelement is overridden by the
 use of any annotations specifying mapping information on the fields or
-properties of the entity class; by any _Access_ annotation on the entity
-class, mapped superclass, or embeddable class; by any _access_
-subelement of the _entity-mappings_ element; by any _Access_ annotation
+properties of the entity class; by any `Access` annotation on the entity
+class, mapped superclass, or embeddable class; by any `access`
+subelement of the `entity-mappings` element; by any `Access` annotation
 on a field or property of an entity class, mapped superclass, or
-embeddable class; by any _access_ attribute defined within an _entity_,
-_mapped-superclass_, or _embeddable_ XML element, or by any _access_
-attribute defined within an _id_, _embedded-id_, _version_, _basic_,
-_embedded_, _many-to-one_, _one-to-one_, _one-to-many_,
-_many-to-many_, or _element-collection_ element.
+embeddable class; by any `access` attribute defined within an `entity`,
+`mapped-superclass`, or `embeddable` XML element, or by any `access`
+attribute defined within an `id`, `embedded-id`, `version`, `basic`,
+`embedded`, `many-to-one`, `one-to-one`, `one-to-many`,
+`many-to-many`, or `element-collection` element.
 
 ===== cascade-persist
 
-The _cascade-persist_ subelement applies to
+The `cascade-persist` subelement applies to
 all relationships in the persistence unit.
 
 Specifying this subelement adds the cascade
 persist option to all relationships in addition to any settings
 specified in annotations or XML.
 
-The _cascade-persist_ subelement cannot be
+The `cascade-persist` subelement cannot be
 overridden in this release.
 
 [NOTE]
 ====
-The ability to override the _cascade-persist_
-of the _persistence-unit-defaults_ element will be added in a future
+The ability to override the `cascade-persist`
+of the `persistence-unit-defaults` element will be added in a future
 release of this specification.
 ====
 
 ===== entity-listeners
 
-The _entity-listeners_ subelement defines
+The `entity-listeners` subelement defines
 default entity listeners for the persistence unit. These entity
 listeners are called before any other entity listeners for an entity
 unless the entity listener order is overridden within a
-_mapped-superclass_ or _entity_ element, or the
-_ExcludeDefaultListeners_ annotation is present on the entity or mapped
-superclass or the _exclude-default-listeners_ subelement is specified
-within the corresponding _entity_ or _mapped-superclass_ XML element.
+`mapped-superclass` or `entity` element, or the
+`ExcludeDefaultListeners` annotation is present on the entity or mapped
+superclass or the `exclude-default-listeners` subelement is specified
+within the corresponding `entity` or `mapped-superclass` XML element.
 
 ==== Other Subelements of the entity-mappings element
 
 ===== package
 
-The _package_ subelement specifies the
+The `package` subelement specifies the
 package of the classes listed within the subelements and attributes of
-the same mapping file only. The _package_ subelement is overridden if
+the same mapping file only. The `package` subelement is overridden if
 the fully qualified class name is specified for a class and the two
 disagree.
 
 ===== schema
 
-The _schema_ subelement applies only to the
+The `schema` subelement applies only to the
 entities, tables, secondary tables, join tables, collection tables,
 table generators, and sequence generators listed within the same mapping
 file.
 
-The _schema_ subelement is overridden by any
-_schema_ element explicitly specified in the _Table_, _SecondaryTable_
-, _JoinTable_, or _CollectionTable_ annotation on an entity listed
-within the mapping file or any _schema_ attribute on any _table_ or
-_secondary-table_ subelement defined within the _entity_ element for
-such an entity, or by any _schema_ attribute on any _join-table_ or
-_collection-table_ subelement of an attribute defined within the
-_attributes_ subelement of the _entity_ element for such an entity, or
-by the _schema_ attribute of any _table-generator_ or
-_sequence-generator_ element within the mapping file.
+The `schema` subelement is overridden by any
+`schema` element explicitly specified in the `Table`, `SecondaryTable`
+, `JoinTable`, or `CollectionTable` annotation on an entity listed
+within the mapping file or any `schema` attribute on any `table` or
+`secondary-table` subelement defined within the `entity` element for
+such an entity, or by any `schema` attribute on any `join-table` or
+`collection-table` subelement of an attribute defined within the
+`attributes` subelement of the `entity` element for such an entity, or
+by the `schema` attribute of any `table-generator` or
+`sequence-generator` element within the mapping file.
 
 ===== catalog
 
-The _catalog_ subelement applies only to the
+The `catalog` subelement applies only to the
 entities, tables, secondary tables, join tables, collection tables,
 table generators, and sequence generators listed within the same mapping
 file.
 
-The _catalog_ subelement is overridden by any
-_catalog_ element explicitly specified in the _Table_, _SecondaryTable_
-, _JoinTable_, or _CollectionTable_ annotation on an entity listed
-within the mapping file or any _catalog_ attribute on any _table_ or
-_secondary-table_ subelement defined within the _entity_ element for
-such an entity, or by any _catalog_ attribute on any _join-table_ or
-_collection-table_ subelement of an attribute defined within the
-_attributes_ subelement of the _entity_ element for such an entity, or
-by the _catalog_ attribute of any _table-generator_ or
-_sequence-generator_ element within the mapping file.
+The `catalog` subelement is overridden by any
+`catalog` element explicitly specified in the `Table`, `SecondaryTable`
+, `JoinTable`, or `CollectionTable` annotation on an entity listed
+within the mapping file or any `catalog` attribute on any `table` or
+`secondary-table` subelement defined within the `entity` element for
+such an entity, or by any `catalog` attribute on any `join-table` or
+`collection-table` subelement of an attribute defined within the
+`attributes` subelement of the `entity` element for such an entity, or
+by the `catalog` attribute of any `table-generator` or
+`sequence-generator` element within the mapping file.
 
 ===== access
 
-The _access_ subelement applies to the
+The `access` subelement applies to the
 managed classes listed within the same mapping file.
 
-The _access_ subelement is overridden by the
+The `access` subelement is overridden by the
 use of any annotations specifying mapping information on the fields or
-properties of the entity class; by any _Access_ annotation on the entity
-class, mapped superclass, or embeddable class; by any _Access_
+properties of the entity class; by any `Access` annotation on the entity
+class, mapped superclass, or embeddable class; by any `Access`
 annotation on a field or property of an entity class, mapped superclass,
-or embeddable class; by any _access_ attribute defined within an
-_entity_, _mapped-superclass_, or _embeddable_ XML element, or by any
-_access_ attribute defined within an _id_, _embedded-id_, _version_,
-_basic_, _embedded_, _many-to-one_, _one-to-one_, _one-to-many_,
-_many-to-many_, or _element-collection_ element.
+or embeddable class; by any `access` attribute defined within an
+`entity`, `mapped-superclass`, or `embeddable` XML element, or by any
+`access` attribute defined within an `id`, `embedded-id`, `version`,
+`basic`, `embedded`, `many-to-one`, `one-to-one`, `one-to-many`,
+`many-to-many`, or `element-collection` element.
 
 ===== sequence-generator
 
 The generator defined by the
-_sequence-generator_ subelement applies to the persistence unit. It is
+`sequence-generator` subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 generators of the same name.
 
@@ -233,7 +233,7 @@ overrides that definition.
 ===== table-generator
 
 The generator defined by the
-_table-generator_ subelement applies to the persistence unit. It is
+`table-generator` subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 generators of the same name.
 
@@ -244,7 +244,7 @@ overrides that definition.
 
 ===== named-query
 
-The named query defined by the _named-query_
+The named query defined by the `named-query`
 subelement applies to the persistence unit. It is undefined if multiple
 mapping files for the persistence unit contain named queries of the same
 name.
@@ -257,7 +257,7 @@ overrides that definition.
 ===== named-native-query
 
 The named native query defined by the
-_named-native-query_ subelement applies to the persistence unit. It is
+`named-native-query` subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 named queries of the same name.
 
@@ -269,7 +269,7 @@ subelement overrides that definition.
 ===== named-stored-procedure-query
 
 The named stored procedure query defined by
-the _named-stored-procedure-query_ subelement applies to the persistence
+the `named-stored-procedure-query` subelement applies to the persistence
 unit. It is undefined if multiple mapping files for the persistence unit
 contain named stored procedure queries of the same name.
 
@@ -282,7 +282,7 @@ that definition.
 ===== sql-result-set-mapping
 
 The SQL result set mapping defined by the
-_sql-result-set-mapping_ subelement applies to the persistence unit. It
+`sql-result-set-mapping` subelement applies to the persistence unit. It
 is undefined if multiple mapping files for the persistence unit contain
 SQL result set mappings of the same name.
 
@@ -293,39 +293,39 @@ set mapping defined by this subelement overrides that definition.
 
 ===== entity
 
-The _entity_ subelement defines an entity of
+The `entity` subelement defines an entity of
 the persistence unit. It is undefined if multiple mapping files for the
 persistence unit contain entries for the same entity.
 
 The entity class may or may not have been
-annotated as _Entity_. The subelements and attributes of the _entity_
+annotated as `Entity`. The subelements and attributes of the `entity`
 element override as specified in <<a17017>>.
 
 ===== mapped-superclass
 
-The _mapped-superclass_ subelement defines a
+The `mapped-superclass` subelement defines a
 mapped superclass of the persistence unit. It is undefined if multiple
 mapping files for the persistence unit contain entries for the same
 mapped superclass.
 
 The mapped superclass may or may not have
-been annotated as _MappedSuperclass_. The subelements and attributes of
-the _mapped-superclass_ element override as specified in <<a17106>>.
+been annotated as `MappedSuperclass`. The subelements and attributes of
+the `mapped-superclass` element override as specified in <<a17106>>.
 
 ===== embeddable
 
-The _embeddable_ subelement defines an
+The `embeddable` subelement defines an
 embeddable class of the persistence unit. It is undefined if multiple
 mapping files for the persistence unit contain entries for the same
 embeddable class.
 
-The _embeddable_ class may or may not have
-been annotated as _Embeddable_. The subelements and attributes of the
-_embeddable_ element override as specified in <<a17150>>.
+The `embeddable` class may or may not have
+been annotated as `Embeddable`. The subelements and attributes of the
+`embeddable` element override as specified in <<a17150>>.
 
 ===== converter
 
-The converter defined by the _converter_
+The converter defined by the `converter`
 subelement applies to the persistence unit. It is undefined if multiple
 mapping files for the persistence unit contain converters for the same
 target type.
@@ -342,19 +342,19 @@ are subelements or attributes, unless otherwise specified below.
 
 ===== metadata-complete
 
-If the _metadata-complete_ attribute of the
-_entity_ element is specified as _true_, any annotations on the entity
+If the `metadata-complete` attribute of the
+`entity` element is specified as `true`, any annotations on the entity
 class (and its fields and properties) are ignored. When
-_metadata-complete_ is specified as _true_ and XML attributes or
-sub-elements of the _entity_ element are omitted, the default values for
+`metadata-complete` is specified as `true` and XML attributes or
+sub-elements of the `entity` element are omitted, the default values for
 those attributes and elements are applied.
 
 ===== access
 
-The _access_ attribute defines the access
-type for the entity. The _access_ attribute overrides any access type
-specified by the _persistence-unit-defaults_ element or
-_entity-mappings_ element for the given entity. The access type for a
+The `access` attribute defines the access
+type for the entity. The `access` attribute overrides any access type
+specified by the `persistence-unit-defaults` element or
+`entity-mappings` element for the given entity. The access type for a
 field or property of the entity may be overridden by specifying by
 overriding the mapping for that field or property using the appropriate
 XML subelement, as described in <<a17082>> below.
@@ -365,63 +365,63 @@ so may cause applications to break.
 
 ===== cacheable
 
-The _cacheable_ attribute defines whether the
+The `cacheable` attribute defines whether the
 entity should be cached or must not be cached when the
-_shared-cache-mode_ element of the _persistence.xml_ file is specified
-as _ENABLE_SELECTIVE_ or _DISABLE_SELECTIVE_. If the _Cacheable_
+`shared-cache-mode` element of the `persistence.xml` file is specified
+as `ENABLE_SELECTIVE` or `DISABLE_SELECTIVE`. If the `Cacheable`
 annotation was specified for the entity, its value is overridden by this
-attribute. The value of the _cacheable_ attribute is inherited by
+attribute. The value of the `cacheable` attribute is inherited by
 subclasses (unless otherwise overridden for a subclass by the
-_Cacheable_ annotation or _cacheable_ XML attribute).
+`Cacheable` annotation or `cacheable` XML attribute).
 
 ===== name
 
 The name attribute defines the entity name.
-The _name_ attribute overrides the value of the entity name defined by
-the _name_ element of the _Entity_ annotation (whether explicitly
+The `name` attribute overrides the value of the entity name defined by
+the `name` element of the `Entity` annotation (whether explicitly
 specified or defaulted). Caution must be exercised in overriding the
 entity name, as doing so may cause applications to break.
 
 ===== table
 
-The _table_ subelement overrides any _Table_
-annotation (including defaulted _Table_ values) on the entity. If a
-_table_ subelement is present, and attributes or subelements of that
-_table_ subelement are not explicitly specified, their default values
+The `table` subelement overrides any `Table`
+annotation (including defaulted `Table` values) on the entity. If a
+`table` subelement is present, and attributes or subelements of that
+`table` subelement are not explicitly specified, their default values
 are applied.
 
 ===== secondary-table
 
-The _secondary-table_ subelement overrides
-all _SecondaryTable_ and _SecondaryTables_ annotations (including
-defaulted _SecondaryTable_ values) on the entity. If a _secondary-table_
-subelement is present, and attributes or subelements of that _secondary_
-- _table_ subelement are not explicitly specified, their default values
+The `secondary-table` subelement overrides
+all `SecondaryTable` and `SecondaryTables` annotations (including
+defaulted `SecondaryTable` values) on the entity. If a `secondary-table`
+subelement is present, and attributes or subelements of that `secondary`
+- `table` subelement are not explicitly specified, their default values
 are applied.
 
 ===== primary-key-join-column
 
-The _primary-key-join-column_ subelement of
+The `primary-key-join-column` subelement of
 the entity element specifies a primary key column that is used to join
 the table of an entity subclass to the primary table for the entity when
-the joined strategy is used. The _primary-key-join-column_ subelement
-overrides all _PrimaryKeyJoinColumn_ and _PrimaryKeyJoinColumns_
-annotations (including defaulted _PrimaryKeyJoinColumn_ values) on the
-entity. If a _primary-key-join-column_ subelement is present, and
-attributes or subelements of that _primary-key-join-column_ subelement
+the joined strategy is used. The `primary-key-join-column` subelement
+overrides all `PrimaryKeyJoinColumn` and `PrimaryKeyJoinColumns`
+annotations (including defaulted `PrimaryKeyJoinColumn` values) on the
+entity. If a `primary-key-join-column` subelement is present, and
+attributes or subelements of that `primary-key-join-column` subelement
 are not explicitly specified, their default values are applied.
 
 ===== id-class
 
-The _id-class_ subelement overrides any
-_IdClass_ annotation specified on the entity.
+The `id-class` subelement overrides any
+`IdClass` annotation specified on the entity.
 
 ===== inheritance
 
-The _inheritance_ subelement overrides any
-_Inheritance_ annotation (including defaulted _Inheritance_ values) on
-the entity. If an _inheritance_ subelement is present, and the
-_strategy_ attribute is not explicitly specified, its default value is
+The `inheritance` subelement overrides any
+`Inheritance` annotation (including defaulted `Inheritance` values) on
+the entity. If an `inheritance` subelement is present, and the
+`strategy` attribute is not explicitly specified, its default value is
 applied.
 
 This element applies to the entity and its
@@ -435,16 +435,16 @@ hierarchy.
 
 ===== discriminator-value
 
-The _discriminator-value_ subelement
-overrides any _DiscriminatorValue_ annotations (including defaulted
-_DiscriminatorValue_ values) on the entity.
+The `discriminator-value` subelement
+overrides any `DiscriminatorValue` annotations (including defaulted
+`DiscriminatorValue` values) on the entity.
 
 ===== discriminator-column
 
-The _discriminator-column_ subelement
-overrides any _DiscriminatorColumn_ annotation (including defaulted
-_DiscriminatorColumn_ values) on the entity. If a _discriminator-column_
-subelement is present, and attributes of that _discriminator-column_
+The `discriminator-column` subelement
+overrides any `DiscriminatorColumn` annotation (including defaulted
+`DiscriminatorColumn` values) on the entity. If a `discriminator-column`
+subelement is present, and attributes of that `discriminator-column`
 subelement are not explicitly specified, their default values are
 applied.
 
@@ -455,80 +455,80 @@ or XML element).
 ===== sequence-generator
 
 The generator defined by the
-_sequence-generator_ subelement is added to any generators defined in
+`sequence-generator` subelement is added to any generators defined in
 annotations and any other generators defined in XML. If a generator of
 the same name is defined in annotations, the generator defined by this
-subelement overrides that definition. If a _sequence-generator_
+subelement overrides that definition. If a `sequence-generator`
 subelement is present, and attributes or subelements of that
-_sequence-generator_ subelement are not explicitly specified, their
+`sequence-generator` subelement are not explicitly specified, their
 default values are applied.
 
 The generator defined by the
-_sequence-generator_ subelement applies to the persistence unit. It is
+`sequence-generator` subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 generators of the same name.
 
 ===== table-generator
 
 The generator defined by the
-_table-generator_ subelement is added to any generators defined in
+`table-generator` subelement is added to any generators defined in
 annotations and any other generators defined in XML. If a generator of
 the same name is defined in annotations, the generator defined by this
-subelement overrides that definition. If a _table-generator_ subelement
-is present, and attributes or subelements of that _table-generator_
+subelement overrides that definition. If a `table-generator` subelement
+is present, and attributes or subelements of that `table-generator`
 subelement are not explicitly specified, their default values are
 applied.
 
 The generator defined by the
-_table-generator_ subelement applies to the persistence unit. It is
+`table-generator` subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 generators of the same name.
 
 ===== attribute-override
 
-The _attribute-override_ subelement is
-additive to any _AttributeOverride_ or _AttributeOverrides_ annotations
-on the entity. It overrides any _AttributeOverride_ elements for the
-same attribute name. If an _attribute-override_ subelement is present,
-and attributes or subelements of that _attribute-override_ subelement
+The `attribute-override` subelement is
+additive to any `AttributeOverride` or `AttributeOverrides` annotations
+on the entity. It overrides any `AttributeOverride` elements for the
+same attribute name. If an `attribute-override` subelement is present,
+and attributes or subelements of that `attribute-override` subelement
 are not explicitly specified, their default values are applied.
 
 ===== association-override
 
-The _association-override_ subelement is
-additive to any _AssociationOverride_ or _AssociationOverrides a_
-nnotations on the entity. It overrides any _AssociationOverride_
-elements for the same attribute name. If an _association-override_
+The `association-override` subelement is
+additive to any `AssociationOverride` or `AssociationOverrides`
+annotations on the entity. It overrides any `AssociationOverride`
+elements for the same attribute name. If an `association-override`
 subelement is present, and attributes or subelements of that
-_association-override_ subelement are not explicitly specified, their
+`association-override` subelement are not explicitly specified, their
 default values are applied.
 
 ===== convert
 
-The _convert_ subelement is additive to any
-_Convert_ or _Converts_ annotations on the entity. It overrides any
-_Convert_ annotation for the same attribute name. If a _convert_
-subelement is present, and attributes or subelements of that _convert_
+The `convert` subelement is additive to any
+`Convert` or `Converts` annotations on the entity. It overrides any
+`Convert` annotation for the same attribute name. If a `convert`
+subelement is present, and attributes or subelements of that `convert`
 subelement are not explicitly specified, their default values are
 applied.
 
 ===== named-entity-graph
 
-The _named-entity-graph_ subelement is
-additive to any _NamedEntityGraph_ annotations on the entity. It
-overrides any _NamedEntityGraph_ annotation with the same name.
+The `named-entity-graph` subelement is
+additive to any `NamedEntityGraph` annotations on the entity. It
+overrides any `NamedEntityGraph` annotation with the same name.
 
 ===== named-query
 
-The named query defined by the _named-query_
+The named query defined by the `named-query`
 subelement is added to any named queries defined in annotations, and any
 other named queries defined in XML. If a named query of the same name is
 defined in annotations, the named query defined by this subelement
-overrides that definition. If a _named-query_ subelement is present, and
-attributes or subelements of that _named-query_ subelement are not
+overrides that definition. If a `named-query` subelement is present, and
+attributes or subelements of that `named-query` subelement are not
 explicitly specified, their default values are applied.
 
-The named query defined by the _named-query_
+The named query defined by the `named-query`
 subelement applies to the persistence unit. It is undefined if multiple
 mapping files for the persistence unit contain named queries of the same
 name.
@@ -536,56 +536,56 @@ name.
 ===== named-native-query
 
 The named query defined by the
-_named-native-query_ subelement is added to any named queries defined in
+`named-native-query` subelement is added to any named queries defined in
 annotations, and any other named queries defined in XML. If a named
 query of the same name is defined in annotations, the named query
 defined by this subelement overrides that definition. If a
-_named-native-query_ subelement is present, and attributes or
-subelements of that _named-native-query_ subelement are not explicitly
+`named-native-query` subelement is present, and attributes or
+subelements of that `named-native-query` subelement are not explicitly
 specified, their default values are applied.
 
 The named native query defined by the
-_named-native-query_ subelement applies to the persistence unit. It is
+`named-native-query` subelement applies to the persistence unit. It is
 undefined if multiple mapping files for the persistence unit contain
 named queries of the same name.
 
 ===== named-stored-procedure-query
 
 The named stored procedure query defined by
-the _named-stored-procedure-query_ subelement is added to any named
+the `named-stored-procedure-query` subelement is added to any named
 stored procedure queries defined in annotations, and any other named
 stored procedure queries defined in XML. If a named stored procedure
 query of the same name is defined in annotations, the named stored
 procedure query defined by this subelement overrides that definition. If
-a _named-stored-procedure-query_ subelement is present, and attributes
-or subelements of that _named-stored-procedure-query_ subelement are not
+a `named-stored-procedure-query` subelement is present, and attributes
+or subelements of that `named-stored-procedure-query` subelement are not
 explicitly specified, their default values are applied.
 
 The named stored procedure query defined by
-the _named-stored-procedure-query_ subelement applies to the persistence
+the `named-stored-procedure-query` subelement applies to the persistence
 unit. It is undefined if multiple mapping files for the persistence unit
 contain named stored procedure queries of the same name.
 
 ===== sql-result-set-mapping
 
 The SQL result set mapping defined by the
-_sql-result-set-mapping_ is added to the SQL result set mappings defined
+`sql-result-set-mapping` is added to the SQL result set mappings defined
 in annotations, and any other SQL result set mappings defined in XML. If
 a SQL result set mapping of the same name is defined in annotations, the
 SQL result set mapping defined by this subelement overrides that
-definition. If a _sql-result-set-mapping_ subelement is present, and
-attributes or subelements of that _sql-result-set-mapping_ subelement
+definition. If a `sql-result-set-mapping` subelement is present, and
+attributes or subelements of that `sql-result-set-mapping` subelement
 are not explicitly specified, their default values are applied.
 
 The SQL result set mapping defined by the
-_sql-result-set-mapping_ subelement applies to the persistence unit. It
+`sql-result-set-mapping` subelement applies to the persistence unit. It
 is undefined if multiple mapping files for the persistence unit contain
 SQL result set mappings of the same name.
 
 ===== exclude-default-listeners
 
-The _exclude-default-listeners_ subelement
-applies whether or not the _ExcludeDefaultListeners_ annotation was
+The `exclude-default-listeners` subelement
+applies whether or not the `ExcludeDefaultListeners` annotation was
 specified on the entity.
 
 This element causes the default entity
@@ -593,8 +593,8 @@ listeners to be excluded for the entity and its subclasses.
 
 ===== exclude-superclass-listeners
 
-The _exclude-superclass-listeners_ subelement
-applies whether or not the _ExcludeSuperclassListeners_ annotation was
+The `exclude-superclass-listeners` subelement
+applies whether or not the `ExcludeSuperclassListeners` annotation was
 specified on the entity.
 
 This element causes any superclass listeners
@@ -602,8 +602,8 @@ to be excluded for the entity and its subclasses.
 
 ===== entity-listeners
 
-The _entity-listeners_ subelement overrides
-any _EntityListeners_ annotation on the entity.
+The `entity-listeners` subelement overrides
+any `EntityListeners` annotation on the entity.
 
 These listeners apply to the entity and its
 subclasses unless otherwise excluded.
@@ -615,94 +615,94 @@ callback methods defined by the corresponding annotations on the entity.
 
 ===== attributes [[a17082]]
 
-The _attributes_ element groups the mapping
+The `attributes` element groups the mapping
 subelements for the fields and properties of the entity. It may be
 sparsely populated to include only a subset of the fields and
-properties. If the value of _metadata-complete_ is _true_, the
+properties. If the value of `metadata-complete` is `true`, the
 remainder of the attributes will be defaulted according to the default
-rules. If _metadata-complete_ is not specified, or is _false_, the
+rules. If `metadata-complete` is not specified, or is `false`, the
 mappings for only those properties and fields that are explicitly
 specified will be overridden.
 
 ====== id
 
-The _id_ subelement overrides the mapping for
-the specified field or property. If an _id_ subelement is present, and
-attributes or subelements of that _id_ subelement are not explicitly
+The `id` subelement overrides the mapping for
+the specified field or property. If an `id` subelement is present, and
+attributes or subelements of that `id` subelement are not explicitly
 specified, their default values are applied.
 
 ====== embedded-id
 
-The _embedded-id_ subelement overrides the
-mapping for the specified field or property. If an _embedded-id_
+The `embedded-id` subelement overrides the
+mapping for the specified field or property. If an `embedded-id`
 subelement is present, and attributes or subelements of that
-_embedded-id_ subelement are not explicitly specified, their default
+`embedded-id` subelement are not explicitly specified, their default
 values are applied.
 
 ====== basic
 
-The _basic_ subelement overrides the mapping
-for the specified field or property. If a _basic_ subelement is present,
-and attributes or subelements of that _basic_ subelement are not
+The `basic` subelement overrides the mapping
+for the specified field or property. If a `basic` subelement is present,
+and attributes or subelements of that `basic` subelement are not
 explicitly specified, their default values are applied.
 
 ====== version
 
-The _version_ subelement overrides the
-mapping for the specified field or property. If a _version_ subelement
-is present, and attributes or subelements of that _version_ subelement
+The `version` subelement overrides the
+mapping for the specified field or property. If a `version` subelement
+is present, and attributes or subelements of that `version` subelement
 are not explicitly specified, their default values are applied.
 
 ====== many-to-one
 
-The _many-to-one_ subelement overrides the
-mapping for the specified field or property. If a _many-to-one_
+The `many-to-one` subelement overrides the
+mapping for the specified field or property. If a `many-to-one`
 subelement is present, and attributes or subelements of that
-_many-to-one_ subelement are not explicitly specified, their default
+`many-to-one` subelement are not explicitly specified, their default
 values are applied.
 
 ====== one-to-many
 
-The _one-to-many_ subelement overrides the
-mapping for the specified field or property. If a _one-to-many_
+The `one-to-many` subelement overrides the
+mapping for the specified field or property. If a `one-to-many`
 subelement is present, and attributes or subelements of that
-_one-to-many_ subelement are not explicitly specified, their default
+`one-to-many` subelement are not explicitly specified, their default
 values are applied.
 
 ====== one-to-one
 
-The _one-to-one_ subelement overrides the
-mapping for the specified field or property. If a _one-to-one_
+The `one-to-one` subelement overrides the
+mapping for the specified field or property. If a `one-to-one`
 subelement is present, and attributes or subelements of that
-_one-to-one_ subelement are not explicitly specified, their default
+`one-to-one` subelement are not explicitly specified, their default
 values are applied.
 
 ====== many-to-many
 
-The _many-to-many_ subelement overrides the
-mapping for the specified field or property. If a _many-to-many_
+The `many-to-many` subelement overrides the
+mapping for the specified field or property. If a `many-to-many`
 subelement is present, and attributes or subelements of that
-_many-to-many_ subelement are not explicitly specified, their default
+`many-to-many` subelement are not explicitly specified, their default
 values are applied.
 
 ====== element-collection
 
-The _element-collection_ subelement overrides
+The `element-collection` subelement overrides
 the mapping for the specified field or property. If an
-_element-collection_ subelement is present, and attributes or
-subelements of that _element-collection_ subelement are not explicitly
+`element-collection` subelement is present, and attributes or
+subelements of that `element-collection` subelement are not explicitly
 specified, their default values are applied.
 
 ====== embedded
 
-The _embedded_ subelement overrides the
-mapping for the specified field or property. If an _embedded_ subelement
-is present, and attributes or subelements of that _embedded_ subelement
+The `embedded` subelement overrides the
+mapping for the specified field or property. If an `embedded` subelement
+is present, and attributes or subelements of that `embedded` subelement
 are not explicitly specified, their default values are applied.
 
 ====== transient
 
-The _transient_ subelement overrides the
+The `transient` subelement overrides the
 mapping for the specified field or property.
 
 ==== mapped-superclass Subelements and Attributes [[a17106]]
@@ -713,19 +713,19 @@ below.
 
 ===== metadata-complete
 
-If the _metadata-complete_ attribute of the
-_mapped-superclass_ element is specified as _true_, any annotations on
+If the `metadata-complete` attribute of the
+`mapped-superclass` element is specified as `true`, any annotations on
 the mapped superclass (and its fields and properties) are ignored. When
-_metadata-complete_ is specified as _true_ and attributes or
-sub-elements of the _mapped-superclass_ element are omitted, the default
+`metadata-complete` is specified as `true` and attributes or
+sub-elements of the `mapped-superclass` element are omitted, the default
 values for those attributes and elements are applied.
 
 ===== access
 
-The _access_ attribute defines the access
-type for the mapped superclass. The _access_ attribute overrides any
-access type specified by the _persistence-unit-defaults_ element or
-_entity-mappings_ element for the given mapped superclass. The access
+The `access` attribute defines the access
+type for the mapped superclass. The `access` attribute overrides any
+access type specified by the `persistence-unit-defaults` element or
+`entity-mappings` element for the given mapped superclass. The access
 type for a field or property of the mapped superclass may be overridden
 by specifying by overriding the mapping for that field or property using
 the appropriate XML subelement, as described in <<a17126>> below.
@@ -736,13 +736,13 @@ so may cause applications to break.
 
 ===== id-class
 
-The _id-class_ subelement overrides any
-_IdClass_ annotation specified on the mapped superclass.
+The `id-class` subelement overrides any
+`IdClass` annotation specified on the mapped superclass.
 
 ===== exclude-default-listeners
 
-The _exclude-default-listeners_ subelement
-applies whether or not the _ExcludeDefaultListeners_ annotation was
+The `exclude-default-listeners` subelement
+applies whether or not the `ExcludeDefaultListeners` annotation was
 specified on the mapped superclass.
 
 This element causes the default entity
@@ -750,8 +750,8 @@ listeners to be excluded for the mapped superclass and its subclasses.
 
 ===== exclude-superclass-listeners
 
-The _exclude-superclass-listeners_ subelement
-applies whether or not the _ExcludeSuperclassListeners_ annotation was
+The `exclude-superclass-listeners` subelement
+applies whether or not the `ExcludeSuperclassListeners` annotation was
 specified on the mapped superclass.
 
 This element causes any superclass listeners
@@ -759,8 +759,8 @@ to be excluded for the mapped superclass and its subclasses.
 
 ===== entity-listeners
 
-The _entity-listeners_ subelement overrides
-any _EntityListeners_ annotation on the mapped superclass.
+The `entity-listeners` subelement overrides
+any `EntityListeners` annotation on the mapped superclass.
 
 These listeners apply to the mapped
 superclass and its subclasses unless otherwise excluded.
@@ -774,94 +774,94 @@ superclass.
 [[a17126]]
 ===== attributes
 
-The _attributes_ element groups the mapping
+The `attributes` element groups the mapping
 subelements for the fields and properties defined by the mapped
 superclass. It may be sparsely populated to include only a subset of the
-fields and properties. If the value of _metadata-complete_ is _true_,
+fields and properties. If the value of `metadata-complete` is `true`,
 the remainder of the attributes will be defaulted according to the
-default rules. If _metadata-complete_ is not specified, or is _false_,
+default rules. If `metadata-complete` is not specified, or is `false`,
 the mappings for only those properties and fields that are explicitly
 specified will be overridden.
 
 ====== id
 
-The _id_ subelement overrides the mapping for
-the specified field or property. If an _id_ subelement is present, and
-attributes or subelements of that _id_ subelement are not explicitly
+The `id` subelement overrides the mapping for
+the specified field or property. If an `id` subelement is present, and
+attributes or subelements of that `id` subelement are not explicitly
 specified, their default values are applied.
 
 ====== embedded-id
 
-The _embedded-id_ subelement overrides the
-mapping for the specified field or property. If an _embedded-id_
+The `embedded-id` subelement overrides the
+mapping for the specified field or property. If an `embedded-id`
 subelement is present, and attributes or subelements of that
-_embedded-id_ subelement are not explicitly specified, their default
+`embedded-id` subelement are not explicitly specified, their default
 values are applied.
 
 ====== basic
 
-The _basic_ subelement overrides the mapping
-for the specified field or property. If a _basic_ subelement is present,
-and attributes or subelements of that _basic_ subelement are not
+The `basic` subelement overrides the mapping
+for the specified field or property. If a `basic` subelement is present,
+and attributes or subelements of that `basic` subelement are not
 explicitly specified, their default values are applied.
 
 ====== version
 
-The _version_ subelement overrides the
-mapping for the specified field or property. If a _version_ subelement
-is present, and attributes or subelements of that _version_ subelement
+The `version` subelement overrides the
+mapping for the specified field or property. If a `version` subelement
+is present, and attributes or subelements of that `version` subelement
 are not explicitly specified, their default values are applied.
 
 ====== many-to-one
 
-The _many-to-one_ subelement overrides the
-mapping for the specified field or property. If a _many-to-one_
+The `many-to-one` subelement overrides the
+mapping for the specified field or property. If a `many-to-one`
 subelement is present, and attributes or subelements of that
-_many-to-one_ subelement are not explicitly specified, their default
+`many-to-one` subelement are not explicitly specified, their default
 values are applied.
 
 ====== one-to-many
 
-The _one-to-many_ subelement overrides the
-mapping for the specified field or property. If a _one-to-many_
+The `one-to-many` subelement overrides the
+mapping for the specified field or property. If a `one-to-many`
 subelement is present, and attributes or subelements of that
-_one-to-many_ subelement are not explicitly specified, their default
+`one-to-many` subelement are not explicitly specified, their default
 values are applied.
 
 ====== one-to-one
 
-The _one-to-one_ subelement overrides the
-mapping for the specified field or property. If a _one-to-one_
+The `one-to-one` subelement overrides the
+mapping for the specified field or property. If a `one-to-one`
 subelement is present, and attributes or subelements of that
-_one-to-one_ subelement are not explicitly specified, their default
+`one-to-one` subelement are not explicitly specified, their default
 values are applied.
 
 ====== many-to-many
 
-The _many-to-many_ subelement overrides the
-mapping for the specified field or property. If a _many-to-many_
+The `many-to-many` subelement overrides the
+mapping for the specified field or property. If a `many-to-many`
 subelement is present, and attributes or subelements of that
-_many-to-many_ subelement are not explicitly specified, their default
+`many-to-many` subelement are not explicitly specified, their default
 values are applied.
 
 ====== element-collection
 
-The _element-collection_ subelement overrides
+The `element-collection` subelement overrides
 the mapping for the specified field or property. If an
-_element-collection_ subelement is present, and attributes or
-subelements of that _element-collection_ subelement are not explicitly
+`element-collection` subelement is present, and attributes or
+subelements of that `element-collection` subelement are not explicitly
 specified, their default values are applied.
 
 ====== embedded
 
-The _embedded_ subelement overrides the
-mapping for the specified field or property. If an _embedded_ subelement
-is present, and attributes or subelements of that _embedded_ subelement
+The `embedded` subelement overrides the
+mapping for the specified field or property. If an `embedded` subelement
+is present, and attributes or subelements of that `embedded` subelement
 are not explicitly specified, their default values are applied.
 
 ====== transient
 
-The _transient_ subelement overrides the
+The `transient` subelement overrides the
 mapping for the specified field or property.
 
 ==== embeddable Subelements and Attributes [[a17150]]
@@ -871,19 +871,19 @@ they are subelements or attributes.
 
 ===== metadata-complete
 
-If the _metadata-complete_ attribute of the
-_embeddable_ element is specified as _true_, any annotations on the
+If the `metadata-complete` attribute of the
+`embeddable` element is specified as `true`, any annotations on the
 embeddable class (and its fields and properties) are ignored. When
-_metadata-complete_ is specified as _true_ and attributes and
-sub-elements of the _embeddable_ element are omitted, the default values
+`metadata-complete` is specified as `true` and attributes and
+sub-elements of the `embeddable` element are omitted, the default values
 for those attributes and elements are applied.
 
 ===== access
 
-The _access_ attribute defines the access
-type for the embeddable class. The _access_ attribute overrides any
-access type specified by the _persistence-unit-defaults_ element or
-_entity-mappings_ element for the given embeddable class. The access
+The `access` attribute defines the access
+type for the embeddable class. The `access` attribute overrides any
+access type specified by the `persistence-unit-defaults` element or
+`entity-mappings` element for the given embeddable class. The access
 type for a field or property of the embeddable class may be overridden
 by specifying by overriding the mapping for that field or property using
 the appropriate XML subelement, as described in <<a17157>> below.
@@ -894,72 +894,72 @@ so may cause applications to break.
 
 ===== attributes [[a17157]]
 
-The _attributes_ element groups the mapping
+The `attributes` element groups the mapping
 subelements for the fields and properties defined by the embeddable
 class. It may be sparsely populated to include only a subset of the
-fields and properties. If the value of _metadata-complete_ is _true_,
+fields and properties. If the value of `metadata-complete` is `true`,
 the remainder of the attributes will be defaulted according to the
-default rules. If _metadata-complete_ is not specified, or is _false_,
+default rules. If `metadata-complete` is not specified, or is `false`,
 the mappings for only those properties and fields that are explicitly
 specified will be overridden.
 
 ====== basic
 
-The _basic_ subelement overrides the mapping
-for the specified field or property. If a _basic_ subelement is present,
-and attributes or subelements of that _basic_ subelement are not
+The `basic` subelement overrides the mapping
+for the specified field or property. If a `basic` subelement is present,
+and attributes or subelements of that `basic` subelement are not
 explicitly specified, their default values are applied.
 
 ====== many-to-one
 
-The _many-to-one_ subelement overrides the
-mapping for the specified field or property. If a _many-to-one_
+The `many-to-one` subelement overrides the
+mapping for the specified field or property. If a `many-to-one`
 subelement is present, and attributes or subelements of that
-_many-to-one_ subelement are not explicitly specified, their default
+`many-to-one` subelement are not explicitly specified, their default
 values are applied.
 
 ====== one-to-many
 
-The _one-to-many_ subelement overrides the
-mapping for the specified field or property. If a _one-to-many_
+The `one-to-many` subelement overrides the
+mapping for the specified field or property. If a `one-to-many`
 subelement is present, and attributes or subelements of that
-_one-to-many_ subelement are not explicitly specified, their default
+`one-to-many` subelement are not explicitly specified, their default
 values are applied.
 
 ====== one-to-one
 
-The _one-to-one_ subelement overrides the
-mapping for the specified field or property. If a _one-to-one_
+The `one-to-one` subelement overrides the
+mapping for the specified field or property. If a `one-to-one`
 subelement is present, and attributes or subelements of that
-_one-to-one_ subelement are not explicitly specified, their default
+`one-to-one` subelement are not explicitly specified, their default
 values are applied.
 
 ====== many-to-many
 
-The _many-to-many_ subelement overrides the
-mapping for the specified field or property. If a _many-to-many_
+The `many-to-many` subelement overrides the
+mapping for the specified field or property. If a `many-to-many`
 subelement is present, and attributes or subelements of that
-_many-to-many_ subelement are not explicitly specified, their default
+`many-to-many` subelement are not explicitly specified, their default
 values are applied.
 
 ====== element-collection
 
-The _element-collection_ subelement overrides
+The `element-collection` subelement overrides
 the mapping for the specified field or property. If an
-_element-collection_ subelement is present, and attributes or
-subelements of that _element-collection_ subelement are not explicitly
+`element-collection` subelement is present, and attributes or
+subelements of that `element-collection` subelement are not explicitly
 specified, their default values are applied.
 
 ====== embedded
 
-The _embedded_ subelement overrides the
-mapping for the specified field or property. If an _embedded_ subelement
-is present, and attributes or subelements of that _embedded_ subelement
+The `embedded` subelement overrides the
+mapping for the specified field or property. If an `embedded` subelement
+is present, and attributes or subelements of that `embedded` subelement
 are not explicitly specified, their default values are applied.
 
 ====== transient
 
-The _transient_ subelement overrides the
+The `transient` subelement overrides the
 mapping for the specified field or property.
 
 === XML Schema [[a17175]]

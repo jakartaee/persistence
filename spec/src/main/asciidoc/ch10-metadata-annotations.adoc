@@ -10,15 +10,15 @@ define the metadata annotations introduced by this specification.
 The XML schema defined in chapter
 <<a16944>> provides an alternative to the use of metadata annotations.
 
-These annotations and types are in the package _jakarta.persistence_.
+These annotations and types are in the package `jakarta.persistence`.
 
 === Entity
 
-The _Entity_ annotation specifies that the
+The `Entity` annotation specifies that the
 class is an entity. This annotation is applied to the entity class.
 
-The _name_ annotation element specifies the
-entity name. If the _name_ element is not specified, the entity name
+The `name` annotation element specifies the
+entity name. If the `name` element is not specified, the entity name
 defaults to the unqualified name of the entity class. This name is used
 to refer to the entity in queries.
 
@@ -34,9 +34,9 @@ public @interface Entity {
 
 === Callback Annotations
 
-The _EntityListeners_ annotation specifies
+The `EntityListeners` annotation specifies
 the callback listener classes to be used for an entity or mapped
-superclass. The _EntityListeners_ annotation may be applied to an entity
+superclass. The `EntityListeners` annotation may be applied to an entity
 class or mapped superclass.
 
 [source,java]
@@ -112,38 +112,38 @@ public @interface PostLoad {}
 
 ==== NamedEntityGraph and NamedEntityGraphs Annotations
 
-The _NamedEntityGraph_ annotation is used to
+The `NamedEntityGraph` annotation is used to
 define a named entity graph. The entity graph may be retrieved by name
-using the _EntityManagerFactory_ interface. The entity graph may be used
-to specify the path and boundaries for _find_ operations or queries.
+using the `EntityManagerFactory` interface. The entity graph may be used
+to specify the path and boundaries for `find` operations or queries.
 
-The _NamedEntityGraph_ annotation must be
+The `NamedEntityGraph` annotation must be
 applied to the entity class that forms the root of the corresponding
 graph of entities.
 
-The _name_ element is used to refer to the
+The `name` element is used to refer to the
 entity graph. It defaults to the entity name of the root entity to which
 the annotation is applied. Entity graph names must be unique within the
 persistence unit.
 
-The _attributeNodes_ element lists attributes
+The `attributeNodes` element lists attributes
 of the annotated entity class that are to be included in the entity
 graph.
 
-The _includeAllAttributes_ element specifies
+The `includeAllAttributes` element specifies
 that all attributes of the annotated entity class are to be included in
-the entity graph. An _attributeNode_ element may still be used in
+the entity graph. An `attributeNode` element may still be used in
 conjunction with this element to specify a subgraph for the attribute.
 
-The _subgraphs_ element specifies a list of
+The `subgraphs` element specifies a list of
 subgraphs, further specifying attributes that are managed types. These
-subgraphs are referenced by name from _NamedAttributeNode_ definitions.
+subgraphs are referenced by name from `NamedAttributeNode` definitions.
 
-The _subclassSubgraphs_ element specifies a
+The `subclassSubgraphs` element specifies a
 list of subgraphs that add additional attributes for subclasses of the
 root entity to which the annotation is applied.
 
-The _NamedEntityGraphs_ annotation can be
+The `NamedEntityGraphs` annotation can be
 used to specify multiple named entity graphs for the entity to which it
 is applied.
 
@@ -169,28 +169,28 @@ public @interface NamedEntityGraphs {
 
 ==== NamedAttributeNode Annotation
 
-The _NamedAttributeNode_ annotation is used
+The `NamedAttributeNode` annotation is used
 to specify an attribute node of within an entity graph or subgraph.
 
-The _value_ element specifies the name of the
+The `value` element specifies the name of the
 corresponding attribute.
 
-The _subgraph_ element is used to refer to a
-_NamedSubgraph_ specification that further characterizes an attribute
+The `subgraph` element is used to refer to a
+`NamedSubgraph` specification that further characterizes an attribute
 node corresponding to a managed type (entity or embeddable). The value
-of the _subgraph_ element must correspond to the _name_ used for the
-subgraph in the _NamedSubgraph_ element. If the referenced attribute is
+of the `subgraph` element must correspond to the `name` used for the
+subgraph in the `NamedSubgraph` element. If the referenced attribute is
 an entity which has entity subclasses, there may be more than one
-_NamedSubgraph_ element with this name, and the _subgraph_ element is
+`NamedSubgraph` element with this name, and the `subgraph` element is
 considered to refer to all of these.
 
-The _keySubgraph_ element is used to refer to
-a _NamedSubgraph_ specification that further characterizes an attribute
+The `keySubgraph` element is used to refer to
+a `NamedSubgraph` specification that further characterizes an attribute
 node corresponding to the key of a Map-valued attribute. The value of
-the the _keySubgraph_ element must correspond to the _name_ used for the
-subgraph in the _NamedSubgraph_ element. If the referenced attribute is
+the the `keySubgraph` element must correspond to the `name` used for the
+subgraph in the `NamedSubgraph` element. If the referenced attribute is
 an entity which has entity subclasses, there may be more than one
-_NamedSubgraph_ element with this name, and the _keySubgraph_ element is
+`NamedSubgraph` element with this name, and the `keySubgraph` element is
 considered to refer to all of these.
 
 [source,java]
@@ -206,20 +206,20 @@ public @interface NamedAttributeNode {
 
 ==== NamedSubgraph Annotation
 
-The _NamedSubgraph_ annotation is used to
+The `NamedSubgraph` annotation is used to
 further define an attribute node. It is referenced by its name from the
-_subgraph_ or _keySubgraph_ element of a _NamedAttributeNode_ element.
+`subgraph` or `keySubgraph` element of a `NamedAttributeNode` element.
 
-The _name_ element is the name used to
-reference the subgraph from a _NamedAttributeNode_ definition. In the
+The `name` element is the name used to
+reference the subgraph from a `NamedAttributeNode` definition. In the
 case of entity inheritance, multiple subgraph elements have the same
 name.
 
-The _type_ element must be specified when the
+The `type` element must be specified when the
 subgraph corresponds to a subclass of the entity type corresponding to
 the referencing attribute node.
 
-The _attributeNodes_ element lists attributes
+The `attributeNodes` element lists attributes
 of the class that must be included. If the subgraph corresponds to a
 subclass of the class referenced by the corresponding attribute node,
 only subclass-specific attributes are listed.
@@ -239,27 +239,27 @@ public @interface NamedSubgraph {
 
 ==== NamedQuery Annotation [[a13711]]
 
-The _NamedQuery_ annotation is used to
+The `NamedQuery` annotation is used to
 specify a named query in the Jakarta Persistence query language.
 
-The _name_ element is used to refer to the
-query when using the _EntityManager_ methods that create query objects.
+The `name` element is used to refer to the
+query when using the `EntityManager` methods that create query objects.
 
-The _query_ element must specify a query
+The `query` element must specify a query
 string in the Jakarta Persistence query language.
 
-The _lockMode_ element specifies a lock mode
-for the results returned by the query. If a lock mode other than _NONE_
+The `lockMode` element specifies a lock mode
+for the results returned by the query. If a lock mode other than `NONE`
 is specified, the query must be executed within a transaction and the
 persistence context joined to the transaction.
 
-The _hints_ elements may be used to specify
+The `hints` elements may be used to specify
 query properties and hints. Properties defined by this specification
 must be observed by the provider; hints defined by this specification
 should be observed by the provider when possible. Vendor-specific hints
 that are not recognized by a provider must be ignored.
 
-The _NamedQuery_ and _NamedQueries_
+The `NamedQuery` and `NamedQueries`
 annotations can be applied to an entity or mapped superclass.
 
 [source,java]
@@ -290,29 +290,29 @@ public @interface NamedQueries {
 
 ==== NamedNativeQuery Annotation
 
-The _NamedNativeQuery_ annotation defines a named native SQL query.
+The `NamedNativeQuery` annotation defines a named native SQL query.
 
-The _name_ element specifies the name used to identify the query when
-calling methods of _EntityManager_ which create query objects.
+The `name` element specifies the name used to identify the query when
+calling methods of `EntityManager` which create query objects.
 
-The _query_ element specifies the query itself, written in the native SQL
+The `query` element specifies the query itself, written in the native SQL
 dialect of the database.
 
-The _resultClass_ element specifies the class of the query result.
+The `resultClass` element specifies the class of the query result.
 
-The _resultSetMapping_ element specifies the name of a
-_SqlResultSetMapping_ specification defined elsewhere in metadata.
-The named _SqlResultSetMapping_ is used to interpret the result set of
-the native SQL query. Alternatively, the elements _entities_, _classes_,
-and _columns_ may be used to specify a result set mapping. These elements
-may not be used in conjunction with _resultSetMapping_.
+The `resultSetMapping` element specifies the name of a
+`SqlResultSetMapping` specification defined elsewhere in metadata.
+The named `SqlResultSetMapping` is used to interpret the result set of
+the native SQL query. Alternatively, the elements `entities`, `classes`,
+and `columns` may be used to specify a result set mapping. These elements
+may not be used in conjunction with `resultSetMapping`.
 
-The _hints_ element may be used to specify query properties and hints.
+The `hints` element may be used to specify query properties and hints.
 Hints defined by this specification should be observed by the provider
 when possible. Vendor-specific hints which are not recognized by the
 provider must be ignored.
 
-The _NamedNativeQuery_ and _NamedNativeQueries_ annotations can be applied
+The `NamedNativeQuery` and `NamedNativeQueries` annotations can be applied
 to an entity or mapped superclass.
 
 [source,java]
@@ -340,25 +340,25 @@ public @interface NamedNativeQueries {
 
 ==== NamedStoredProcedureQuery Annotation [[a13759]]
 
-The _NamedStoredProcedureQuery_ annotation is
+The `NamedStoredProcedureQuery` annotation is
 used to specify a stored procedure, its parameters, and its result type.
 
-The _name_ element is the name that is passed
-as an argument to the _createNamedStoredProcedureQuery_ method to create
-an executable _StoredProcedureQuery_ object.
+The `name` element is the name that is passed
+as an argument to the `createNamedStoredProcedureQuery` method to create
+an executable `StoredProcedureQuery` object.
 
-The _procedureName_ element is the name of
+The `procedureName` element is the name of
 the stored procedure in the database.
 
 The parameters of the stored procedure are
-specified by the _parameters_ element. All parameters must be specified
+specified by the `parameters` element. All parameters must be specified
 in the order in which they occur in the parameter list of the stored
 procedure.
 
-The _resultClasses_ element refers to the
+The `resultClasses` element refers to the
 class (or classes) that are used to map the results. The
-_resultSetMappings_ element names one or more result set mappings, as
-defined by the _SqlResultSetMapping_ annotation.
+`resultSetMappings` element names one or more result set mappings, as
+defined by the `SqlResultSetMapping` annotation.
 
 If there are multiple result sets, it is
 assumed that they will be mapped using the same mechanism—e.g., either
@@ -366,18 +366,18 @@ all via a set of result class mappings or all via a set of result set
 mappings. The order of the specification of these mappings must be the
 same as the order in which the result sets will be returned by the
 stored procedure invocation. If the stored procedure returns one or more
-result sets and no _resultClasses_ or _resultSetMappings_ element is
-specified, any result set will be returned as a list of type _Object[]_
+result sets and no `resultClasses` or `resultSetMappings` element is
+specified, any result set will be returned as a list of type `Object[]`
 . The combining of different strategies for the mapping of stored
 procedure result sets is undefined.
 
-The _hints_ element may be used to specify
+The `hints` element may be used to specify
 query properties and hints. Properties defined by this specification
 must be observed by the provider. Vendor-specific hints that are not
 recognized by a provider must be ignored.
 
-The _NamedStoredProcedureQuery_ and
-_NamedStoredProcedureQueries_ annotations can be applied to an entity or
+The `NamedStoredProcedureQuery` and
+`NamedStoredProcedureQueries` annotations can be applied to an entity or
 mapped superclass.
 
 [source,java]
@@ -402,13 +402,13 @@ public @interface NamedStoredProcedureQueries {
 ----
 
 All parameters of a named stored procedure
-query must be specified using the _StoredProcedureParameter_ annotation.
-The _name_ element refers to the name of the parameter as defined by the
+query must be specified using the `StoredProcedureParameter` annotation.
+The `name` element refers to the name of the parameter as defined by the
 stored procedure in the database. If a parameter name is not specified,
 it is assumed that the stored procedure uses positional parameters. The
-_mode_ element specifies whether the parameter is an IN, INOUT, OUT, or
+`mode` element specifies whether the parameter is an IN, INOUT, OUT, or
 REF_CURSOR parameter. REF_CURSOR parameters are used by some databases
-to return result sets from stored procedures. The _type_ element refers
+to return result sets from stored procedures. The `type` element refers
 to the JDBC type for the parameter.
 
 [source,java]
@@ -431,7 +431,7 @@ public enum ParameterMode {
 
 ==== Annotations for SQL Result Set Mappings [[a13797]]
 
-The _SqlResultSetMapping_ annotation is used to specify the mapping of
+The `SqlResultSetMapping` annotation is used to specify the mapping of
 the result set of a native SQL query or stored procedure.
 
 [source,java]
@@ -453,10 +453,10 @@ public @interface SqlResultSetMappings {
 }
 ----
 
-The _name_ element is the name given to the result set mapping, and is
-used to identify it when calling methods of the _EntityManager_ which
-create instances of _Query_ and _StoredProcedureQuery_. The _entities_,
-_classes_, and _columns_ elements are used to specify the mapping of
+The `name` element is the name given to the result set mapping, and is
+used to identify it when calling methods of the `EntityManager` which
+create instances of `Query` and `StoredProcedureQuery`. The `entities`,
+`classes`, and `columns` elements are used to specify the mapping of
 result set columns to entities, to constructors, and to scalar values,
 respectively.
 
@@ -472,15 +472,15 @@ public @interface EntityResult {
 }
 ----
 
-The _entityClass_ element specifies the class of the result.
+The `entityClass` element specifies the class of the result.
 
-The _lockMode_ element specifies the _LockModeType_ obtained when the
+The `lockMode` element specifies the `LockModeType` obtained when the
 native SQL query is executed.
 
-The _fields_ element is used to map the columns specified in the SELECT
+The `fields` element is used to map the columns specified in the SELECT
 list of the query to the properties or fields of the entity class.
 
-The _discriminatorColumn_ element is used to specify the column name
+The `discriminatorColumn` element is used to specify the column name
 (or alias) of the column in the SELECT list that is used to determine
 the type of the entity instance.
 
@@ -494,10 +494,10 @@ public @interface FieldResult {
 }
 ----
 
-The _name_ element is the name of the persistent field or property of
+The `name` element is the name of the persistent field or property of
 the class.
 
-The _column_ element specifies the name of the corresponding column in
+The `column` element specifies the name of the corresponding column in
 the SELECT list—i.e., column alias, if applicable.
 
 [source,java]
@@ -510,10 +510,10 @@ public @interface ConstructorResult {
 }
 ----
 
-The _targetClass_ element specifies the class whose constructor is to
+The `targetClass` element specifies the class whose constructor is to
 be invoked.
 
-The _columns_ element specifies the mapping of columns in the SELECT
+The `columns` element specifies the mapping of columns in the SELECT
 list to the arguments of the intended constructor.
 
 [source,java]
@@ -526,10 +526,10 @@ public @interface ColumnResult {
 }
 ----
 
-The _name_ element specifies the name of the column in the SELECT list.
+The `name` element specifies the name of the column in the SELECT list.
 
-The _type_ element specifies the Java type to which the column type is
-to be mapped. If the _type_ element is not specified, the default JDBC
+The `type` element specifies the Java type to which the column type is
+to be mapped. If the `type` element is not specified, the default JDBC
 type mapping for the column will be used.
 
 === References to EntityManager and EntityManagerFactory
@@ -539,32 +539,32 @@ dependencies on entity managers and entity manager factories.
 
 ==== PersistenceContext Annotation
 
-The _PersistenceContext_ annotation is used
+The `PersistenceContext` annotation is used
 to express a dependency on a container-managed entity manager and its
 associated persistence context.
 
-The _name_ element refers to the name by
+The `name` element refers to the name by
 which the entity manager is to be accessed in the environment
 referencing context, and is not needed when dependency injection is
 used.
 
-The optional _unitName_ element refers to the
-name of the persistence unit. If the _unitName_ element is specified,
+The optional `unitName` element refers to the
+name of the persistence unit. If the `unitName` element is specified,
 the persistence unit for the entity manager that is accessible in JNDI
 must have the same name.
 
-The _type_ element specifies whether a
+The `type` element specifies whether a
 transaction-scoped or extended persistence context is to be used. If the
-_type_ element is not specified, a transaction-scoped persistence
+`type` element is not specified, a transaction-scoped persistence
 context is used.
 
-The _synchronizationType_ element specifies
+The `synchronizationType` element specifies
 whether the persistence context is always automatically synchronized
 with the current transaction or whether the persistence context must be
 explicitly joined to the current transaction by means of the
-EntityManager _joinTransaction_ method.
+EntityManager `joinTransaction` method.
 
-The optional _properties_ element may be used
+The optional `properties` element may be used
 to specify properties for the container or persistence provider.
 Properties defined by this specification must be observed by the
 provider. Vendor specific properties may be included in the set of
@@ -603,8 +603,8 @@ public @interface PersistenceProperty {
 }
 ----
 
-The _PersistenceContexts_ annotation declares
-one or more _PersistenceContext_ annotations. It is used to express a
+The `PersistenceContexts` annotation declares
+one or more `PersistenceContext` annotations. It is used to express a
 dependency on multiple persistence contextsfootnote:[A dependency on
 ultiple persistence contexts may be needed, for example, when multiple
 persistence units are used.].
@@ -620,18 +620,18 @@ public @interface PersistenceContexts {
 
 ==== PersistenceUnit Annotation [[a13887]]
 
-The _PersistenceUnit_ annotation is used to
+The `PersistenceUnit` annotation is used to
 express a dependency on an entity manager factory and its associated
 persistence unit.
 
-The _name_ element refers to the name by
+The `name` element refers to the name by
 which the entity manager factory is to be accessed in the environment
 referencing context, and is not needed when dependency injection is
 used.
 
-The optional _unitName_ element refers to the
-name of the persistence unit as defined in the _persistence.xml_ file.
-If the _unitName_ element is specified, the persistence unit for the
+The optional `unitName` element refers to the
+name of the persistence unit as defined in the `persistence.xml` file.
+If the `unitName` element is specified, the persistence unit for the
 entity manager factory that is accessible in JNDI must have the same
 name.
 
@@ -646,8 +646,8 @@ public @interface PersistenceUnit {
 }
 ----
 
-The _PersistenceUnits_ annotation declares
-one or more _PersistenceUnit_ annotations. It is used to express a
+The `PersistenceUnits` annotation declares
+one or more `PersistenceUnit` annotations. It is used to express a
 dependency on multiple persistence unitsfootnote:[Multiple persistence
 units may be needed, for example, when mapping to multiple databases.].
 
@@ -662,12 +662,12 @@ public @interface PersistenceUnits {
 
 === Annotations for Attribute Converter Classes [[a13903]]
 
-The _Converter_ annotation declares that the annotated class is a converter
+The `Converter` annotation declares that the annotated class is a converter
 and specifies whether the converter is applied automatically. Every converter
-class must implement _AttributeConverter_  and must be annotated with the
-_Converter_ annotation or declared as a converter in the XML descriptor. The
+class must implement `AttributeConverter`  and must be annotated with the
+`Converter` annotation or declared as a converter in the XML descriptor. The
 target type for a converter is determined by the actual type argument of the
-first type parameter of _AttributeConverter_.
+first type parameter of `AttributeConverter`.
 
 [source,java]
 ----
@@ -678,12 +678,12 @@ public @interface Converter {
 }
 ----
 
-If the _autoApply_ element is specified as _true_, the persistence provider
+If the `autoApply` element is specified as `true`, the persistence provider
 must automatically apply the converter to every mapped attribute of the
 specified target type belonging to any entity in the persistence unit, except
-for attributes for which conversion is overridden by means of the _Convert_
-annotation (or XML equivalent). The _Convert_ annotation is described in
-<<a14398>>. The _Convert_ annotation may be used to override or disable
+for attributes for which conversion is overridden by means of the `Convert`
+annotation (or XML equivalent). The `Convert` annotation is described in
+<<a14398>>. The `Convert` annotation may be used to override or disable
 auto-apply conversion on a per-attribute basis.
 
 In determining whether a converter applies to an attribute, the provider
@@ -691,16 +691,16 @@ must treat primitive types and wrapper types as equivalent.
 
 A converter never applies to id attributes, version attributes,
 relationship attributes, or to attributes explicitly annotated as
-_Enumerated_ or _Temporal_ (or designated as such via XML).
+`Enumerated` or `Temporal` (or designated as such via XML).
 
 A converter never applies to any attribute annotated
-_@Convert(disableConversion=true)_ or to an attribute for which the
-_Convert_ annotation explicitly specifies a different converter.
+`@Convert(disableConversion=true)` or to an attribute for which the
+`Convert` annotation explicitly specifies a different converter.
 
-If _autoApply_ is _false_, the converter applies only to attributes of the
-target type for which conversion is explicitly enabled via the _Convert_
+If `autoApply` is `false`, the converter applies only to attributes of the
+target type for which conversion is explicitly enabled via the `Convert`
 annotation (or corresponding XML element).
 
 If there is more than one converter defined for the same target type,
-the _Convert_ annotation must be used to explicitly specify which
+the `Convert` annotation must be used to explicitly specify which
 converter applies.

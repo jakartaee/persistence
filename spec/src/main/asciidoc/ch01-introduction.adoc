@@ -15,16 +15,16 @@ new features and enhancements after the specification has been moved
 to the Eclipse Foundation.
 
 The Jakarta Persistence 3.0 specification is the first release after
-moving the project to Eclipse Foundation. All APIs are moved from _javax.*_
-package to _jakarta.*_ package. All properties containing _javax_ as
-part of the name are renamed the way that _javax_ is replaced with _jakarta_.
+moving the project to Eclipse Foundation. All APIs are moved from `javax.*`
+package to `jakarta.*` package. All properties containing `javax` as
+part of the name are renamed the way that `javax` is replaced with `jakarta`.
 
 The Java Persistence 2.2 specification
 enhances the Jakarta Persistence API with support for repeating
 annotations; injection into attribute converters; support for mapping of
-the _java.time.LocalDate_, _java.time.LocalTime_, _java.time.LocalDateTime_,
-_java.time.OffsetTime_, and _java.time.OffsetDateTime_ types; and methods to
-retrieve the results of _Query_ and _TypedQuery_ as streams.
+the `java.time.LocalDate`, `java.time.LocalTime`, `java.time.LocalDateTime`,
+`java.time.OffsetTime`, and `java.time.OffsetDateTime` types; and methods to
+retrieve the results of `Query` and `TypedQuery` as streams.
 
 The Java Persistence 2.1 specification added
 support for schema generation, type conversion methods, use of entity
