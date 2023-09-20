@@ -11,93 +11,93 @@ This appendix lists the significant changes that have been made during the devel
 
 Added support for Java record types as embeddable classes
 
-Added support for _java.time.Instant_ and _java.time.Year_ and clarified JDBC mappings for basic types
+Added support for `java.time.Instant` and `java.time.Year` and clarified JDBC mappings for basic types
 
 Added `union`, `intersect`, `except`, `cast`, `left`, `right`, and `replace` for Jakarta Persistence QL and criteria queries
 
 Added `||` string concatenation operator to Jakarta Persistence QL
 
-Added _extract()_ to _CriteriaBuilder_
+Added `extract()` to `CriteriaBuilder`
 
-Added _subquery(EntityType)_ to _CommonAbstractCriteria_
+Added `subquery(EntityType)` to `CommonAbstractCriteria`
 
 Added support for specifying null precedence when ordering Jakarta Persistence QL and criteria queries
 
-Added _getSingleResultOrNull()_ to _Query_, _TypedQuery_, _StoredProcedureQuery_
+Added `getSingleResultOrNull()` to `Query`, `TypedQuery`, `StoredProcedureQuery`
 
-Added _entities()_, _classes()_ and _columns()_ to _NamedNativeQuery_
+Added `entities()`, `classes()` and `columns()` to `NamedNativeQuery`
 
-Added _lockMode()_ to _EntityResult_ with the default being `OPTIMISTIC`
+Added `lockMode()` to `EntityResult` with the default being `OPTIMISTIC`
 
-Added _getVersion()_, _isLoaded()_, _load()_, _isInstance()_ and _getClass()_ methods to _PersistenceUnitUtil_
+Added `getVersion()`, `isLoaded()`, `load()`, `isInstance()` and `getClass()` methods to `PersistenceUnitUtil`
 
-Added overload of _entity()_ accepting an entity name to _Metamodel_
+Added overload of `entity()` accepting an entity name to `Metamodel`
 
-Added _javax.annotation.processing.Generated_ to the list of defined annotations on _StaticMetamodel_
+Added `javax.annotation.processing.Generated` to the list of defined annotations on `StaticMetamodel`
 
-Added joins on __EntityType__s
+Added joins on ``EntityType``s
 
-Added constants for managed types, named queries, named graphs and named result set mappings to generated _StaticMetamodel_
+Added constants for managed types, named queries, named graphs and named result set mappings to generated `StaticMetamodel`
 
-Added _LocalDateTime_ and _Instant_ to supported _Version_ types
+Added `LocalDateTime` and `Instant` to supported `Version` types
 
-Added _where()_, _having()_, _and()_, _or()_, _array()_, _tuple()_ overloads accepting _List_ to _CriteriaQuery_ and _CriteriaBuilder_
+Added `where()`, `having()`, `and()`, `or()`, `array()`, `tuple()` overloads accepting `List` to `CriteriaQuery` and `CriteriaBuilder`
 
-Added _equalTo()_ and _notEqualTo()_ to _Expression_
+Added `equalTo()` and `notEqualTo()` to `Expression`
 
-Added _concat()_ overload accepting list of expressions to _CriteriaBuilder_
+Added `concat()` overload accepting list of expressions to `CriteriaBuilder`
 
-Added _Graph_ interface as parent of _EntityGraph_ and _Subgraph_ and moved common operations there
+Added `Graph` interface as parent of `EntityGraph` and `Subgraph` and moved common operations there
 
-Added _addAttributeNode()_, _removeAttributeNode()_, _addTreatedSubgraph()_, _addElementSubgraph()_, _addTreatedElementSubgraph()_,
-_addMapKeySubgraph()_, and _addTreatedMapKeySubgraph()_ methods to _Graph_
+Added `addAttributeNode()`, `removeAttributeNode()`, `addTreatedSubgraph()`, `addElementSubgraph()`, `addTreatedElementSubgraph()`,
+`addMapKeySubgraph()`, and `addTreatedMapKeySubgraph()` methods to `Graph`
 
-Added _find()_, _refresh()_, _lock()_ overloads to _EntityManager_ taking newly introduced __FindOption__s, __RefreshOption__s,
-and __LockOption__s respectively
+Added `find()`, `refresh()`, `lock()` overloads to `EntityManager` taking newly introduced ``FindOption``s, ``RefreshOption``s,
+and ``LockOption``s respectively
 
-Added _setCacheStoreMode()_, and _setCacheRetreiveMode()_ methods to _EntityManager_ and _Query_
+Added `setCacheStoreMode()`, and `setCacheRetreiveMode()` methods to `EntityManager` and `Query`
 
-Added _getReference_ overload to _EntityManager_
+Added `getReference` overload to `EntityManager`
 
-Added _runWithConnection()_ and _callWithConnection()_ to _EntityManager_
+Added `runWithConnection()` and `callWithConnection()` to `EntityManager`
 
-Added _runInTransaction()_ and _callInTransaction()_ to _EntityManagerFactory_
+Added `runInTransaction()` and `callInTransaction()` to `EntityManagerFactory`
 
-Added programmatic API to obtain _EntityManagerFactory_ using _PersistenceConfiguration_
+Added programmatic API to obtain `EntityManagerFactory` using `PersistenceConfiguration`
 
-Added constants for properties defined by the specification to the _PersistenceConfiguration_
+Added constants for properties defined by the specification to the `PersistenceConfiguration`
 
-Added _SchemaManager_ API
+Added `SchemaManager` API
 
 Added options member to elements which result in DDL generation
 
-Added _EnumeratedValue_ allowing custom mapping of fields of Java enums
+Added `EnumeratedValue` allowing custom mapping of fields of Java enums
 
-Added _comment_ and _check_ members to table and column annotations, along with _CheckConstraint_
+Added `comment` and `check` members to table and column annotations, along with `CheckConstraint`
 
-Made the _name_ member of _TableGenerator_ and _SequenceGenerator_ optional
+Made the `name` member of `TableGenerator` and `SequenceGenerator` optional
 
-Clarified the primary key types supported for each _GenerationType_
+Clarified the primary key types supported for each `GenerationType`
 
-Clarified availability of _SEQUENCE_, _TABLE_ and _UUID_ generated IDs on _PrePersist_
+Clarified availability of `SEQUENCE`, `TABLE` and `UUID` generated IDs on `PrePersist`
 
 Clarified semantics of numeric literals and added support for `bi` and `bd` suffixes
 
 Clarified rules around distinction of entity names and identification variables and case-sensitivity in Jakarta Persistence QL queries
 
-Clarified the semantics of __Bindable.ENTITY_TYPE__ in javadoc
+Clarified the semantics of `Bindable.ENTITY_TYPE` in javadoc
 
 Entity and embeddable classes may now be static inner classes
 
 Primary key classes are no longer required to be public and serializable
 
-Pulled _getParameters()_ up from _CriteriaQuery_ to _CommonAbstractCriteria_
+Pulled `getParameters()` up from `CriteriaQuery` to `CommonAbstractCriteria`
 
-Fixed wildcard types in _addSubgraph_ and _addAttributeNode_ in _Graph_
+Fixed wildcard types in `addSubgraph` and `addAttributeNode` in `Graph`
 
-Fixed lower type bounds to the _Path.get_ entity argument _X_
+Fixed lower type bounds to the `Path.get` entity argument `X`
 
-Fixed example code in the javadoc of _AttributeOverrides_
+Fixed example code in the javadoc of `AttributeOverrides`
 
 Partially fixed raw types warnings through the API
 
@@ -105,17 +105,17 @@ Improved AsciiDoc formatting and fixed typos through the specification document
 
 ==== Deprecations
 
-Deprecated usage of _Calendar_, _Date_, _Time_, _Timestamp_, _Temporal_, _MapKeyTemporal_ and _TemporalType_
-in new applications in favour of _java.time_ API
+Deprecated usage of `Calendar`, `Date`, `Time`, `Timestamp`, `Temporal`, `MapKeyTemporal` and `TemporalType`
+in new applications in favour of `java.time` API
 
 ==== Deprecations for removal
 
-Deprecated _addSubclassSubgraph()_ in _EntityGraph_ for removal; _addTreatedSubgraph()_ method should be used as direct replacement
+Deprecated `addSubclassSubgraph()` in `EntityGraph` for removal; `addTreatedSubgraph()` method should be used as direct replacement
 
-Deprecated _addSubgraph(Attribute, Class)_ and _addKeySubgraph()_ in _Graph_/_EntityGraph_/_SubGraph_ for removal; _addTreatedSubgraph(Attribute, Class)_
-and _addMapKeySubgraph()_ methods should be used as direct replacements
+Deprecated _addSubgraph(Attribute, Class)_ and `addKeySubgraph()` in `Graph`/`EntityGraph`/`SubGraph` for removal; `addTreatedSubgraph(Attribute, Class)`
+and `addMapKeySubgraph()` methods should be used as direct replacements
 
-Deprecated _jakarta.persistence.spi.PersistenceUnitTransactionType_ for removal; _jakarta.persistence.PersistenceUnitTransactionType_
+Deprecated `jakarta.persistence.spi.PersistenceUnitTransactionType` for removal; `jakarta.persistence.PersistenceUnitTransactionType`
 methods should be used as direct replacement
 
 === Jakarta Persistence 3.1
@@ -126,24 +126,24 @@ Fixed `ClassTransformer.transform` to throw Persistence API specific exception
 
 Added support for `java.util.UUID` and `GenerationType.UUID`
 
-Added _CEILING_, _EXP_, _FLOOR_, _LN_, _POWER_, _ROUND_, and _SIGN_
-numeric functions to Jakarta Persistence QL and _ceiling()_, _exp()_,
-_floor(), _ln()_, _power()_,  _round()_, and _sign()_ to Criteria API
+Added `CEILING`, `EXP`, `FLOOR`, `LN`, `POWER`, `ROUND`, and `SIGN`
+numeric functions to Jakarta Persistence QL and `ceiling()`, `exp()`,
+`floor()`, `ln()`, `power()`,  `round()`, and `sign()` to Criteria API
 
-Added _LOCAL DATE_, _LOCAL DATETIME_, and _LOCAL TIME_ functions to Jakarta Persistence QL and
-corresponding _localDate()_, _localDateTime()_, and _localTime()_ to Criteria API
+Added `LOCAL DATE`, `LOCAL DATETIME`, and `LOCAL TIME` functions to Jakarta Persistence QL and
+corresponding `localDate()`, `localDateTime()`, and `localTime()` to Criteria API
 
-Added _EXTRACT_ function to Jakarta Persistence QL
+Added `EXTRACT` function to Jakarta Persistence QL
 
-Added support for __Expression__s as conditions in _Criteria_ `CASE` expressions
+Added support for ``Expression``s as conditions in `Criteria` `CASE` expressions
 
 Clarified mixing types of query input parameters
 
-Added missing definition of _single_valued_embeddable_object_field_ in Jakarta Persistence QL BNF
+Added missing definition of `single_valued_embeddable_object_field` in Jakarta Persistence QL BNF
 
-Clarified definition of the _Basic_ type
+Clarified definition of the `Basic` type
 
-Clarified the order of parameters in the _LOCATE_ function
+Clarified the order of parameters in the `LOCATE` function
 
 Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting aliases
 
@@ -151,9 +151,9 @@ Clarified `SqlResultSetMapping` with multiple ``EntityResult``s and conflicting 
 
 Created document from Java Persistence 2.2 Final Release specification.
 
-The document was converted to _Asciidoc_ format.
+The document was converted to `Asciidoc` format.
 
-Packages of all API classes were changed to _jakarta.persistence_. These changes are reflected in the specification document.
+Packages of all API classes were changed to `jakarta.persistence`. These changes are reflected in the specification document.
 
 Schema namespaces were changed from http://xmlns.jcp.org/xml/ns/persistence and http://xmlns.jcp.org/xml/ns/persistence/orm
 to https://jakarta.ee/xml/ns/persistence and https://jakarta.ee/xml/ns/persistence/orm
@@ -165,42 +165,42 @@ References to schema versions lower than 2.2 were removed.
 Created document from Java Persistence 2.1
 Final Release specification.
 
-The following annotations have been marked _@Repeatable_:
+The following annotations have been marked `@Repeatable`:
 
-* AssociationOverride
-* AttributeOverride
-* Convert
-* JoinColumn
-* MapKeyJoinColumn
-* NamedEntityGraph
-* NamedNativeQuery
-* NamedQuery
-* NamedStoredProcedureQuery
-* PersistenceContext
-* PersistenceUnit
-* PrimaryKeyJoinColumn
-* SecondaryTable
-* SqlResultSetMapping
-* SequenceGenerator
-* TableGenerator
+* `AssociationOverride`
+* `AttributeOverride`
+* `Convert`
+* `JoinColumn`
+* `MapKeyJoinColumn`
+* `NamedEntityGraph`
+* `NamedNativeQuery`
+* `NamedQuery`
+* `NamedStoredProcedureQuery`
+* `PersistenceContext`
+* `PersistenceUnit`
+* `PrimaryKeyJoinColumn`
+* `SecondaryTable`
+* `SqlResultSetMapping`
+* `SequenceGenerator`
+* `TableGenerator`
 
-Added SequenceGenerators and TableGenerators annotations.
+Added `SequenceGenerators` and `TableGenerators` annotations.
 
 Added support for CDI injection into
-AttributeConverter classes.
+`AttributeConverter` classes.
 
 Added support for the mapping of the following java.time types:
 
-* java.time.LocalDate
-* java.time.LocalTime
-* java.time.LocalDateTime
-* java.time.OffsetTime
-* java.time.OffsetDateTime
+* `java.time.LocalDate`
+* `java.time.LocalTime`
+* `java.time.LocalDateTime`
+* `java.time.OffsetTime`
+* `java.time.OffsetDateTime`
 
-Added default Stream getResultStream() method
+Added default `Stream getResultStream()` method
 to Query interface.
 
-Added default Stream<X> getResultStream()
+Added default `Stream<X> getResultStream()`
 method to TypedQuery interface.
 
 Replaced reference to JAR file specification

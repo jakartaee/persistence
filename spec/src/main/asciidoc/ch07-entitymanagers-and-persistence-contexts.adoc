@@ -34,8 +34,8 @@ across the EntityManager references for the given persistence unit.
 Instead, each instance of creating an entity manager causes a new
 isolated persistence context to be created that is not accessible
 through other EntityManager references within the same transaction.
-These use cases are supported through the _createEntityManager_ methods
-of the _EntityManagerFactory_ interface. An entity manager that is used
+These use cases are supported through the `createEntityManager` methods
+of the `EntityManagerFactory` interface. An entity manager that is used
 by the application to create and destroy a persistence context in this
 manner is termed an _application-managed entity manager_. An
 application-managed entity manager's lifecycle is managed by the
@@ -81,18 +81,18 @@ direct lookup of the entity manager in the JNDI namespace. The container
 manages the persistence context lifecycle and the creation and the
 closing of the entity manager instance transparently to the application.
 
-The _PersistenceContext_ annotation is used
-for entity manager injection. The _type_ element specifies whether a
+The `PersistenceContext` annotation is used
+for entity manager injection. The `type` element specifies whether a
 transaction-scoped or extended persistence context is to be used, as
-described in <<a11791>>. The _synchronization_ element specifies whether
+described in <<a11791>>. The `synchronization` element specifies whether
 the persistence context is always automatically joined to the current
 transaction (the default) or is not joined to the current transaction
-unless the _joinTransaction_ method is invoked by the application. The
-_unitName_ element may optionally be specified to designate the
+unless the `joinTransaction` method is invoked by the application. The
+`unitName` element may optionally be specified to designate the
 persistence unit whose entity manager factory is used by the container.
 The semantics of the persistence context synchronization type are
 further described in <<a11797>>. Section <<a13887>> provides further
-information about the _unitName_ element.
+information about the `unitName` element.
 
 For example,
 
@@ -128,13 +128,13 @@ public class MySessionBean implements MyInterface {
 An application-managed entity manager is
 obtained by the application from an entity manager factory.
 
-The _EntityManagerFactory_ API used to obtain
+The `EntityManagerFactory` API used to obtain
 an application-managed entity manager is the same independent of whether
 this API is used in Jakarta EE or Java SE environments.
 
 === Obtaining an Entity Manager Factory
 
-The _EntityManagerFactory_ interface is used
+The `EntityManagerFactory` interface is used
 by the application to create an application-managed entity
 managerfootnote:[It may also be used
 internally by the Jakarta EE container. See <<a12100>>.].
@@ -151,13 +151,13 @@ when using multiple databases, since in a typical configuration a single
 entity manager only communicates with a single database. There is only
 one entity manager factory per persistence unit, however.]
 
-Methods of the _EntityManagerFactory_ interface are threadsafe.
+Methods of the `EntityManagerFactory` interface are threadsafe.
 
 ==== Obtaining an Entity Manager Factory in a Jakarta EE Container
 
 Within a Jakarta EE environment, an entity
-manager factory can be injected using the _PersistenceUnit_ annotation
-or obtained through JNDI lookup. The _unitName_ element may optionally
+manager factory can be injected using the `PersistenceUnit` annotation
+or obtained through JNDI lookup. The `unitName` element may optionally
 be specified to designate the persistence unit whose entity manager
 factory is used. (See <<a13887>>).
 
@@ -172,10 +172,10 @@ EntityManagerFactory emf;
 ==== Obtaining an Entity Manager Factory in a Java SE Environment
 
 Outside a Jakarta EE container environment, the
-_jakarta.persistence.Persistence_ class is the bootstrap class that
+`jakarta.persistence.Persistence` class is the bootstrap class that
 provides access to an entity manager factory. The application creates an
-entity manager factory by calling the _createEntityManagerFactory_
-method of the _jakarta.persistence.Persistence_ class, described in
+entity manager factory by calling the `createEntityManagerFactory`
+method of the `jakarta.persistence.Persistence` class, described in
 <<a13443>>.
 
 For example,
@@ -189,14 +189,14 @@ EntityManager em = emf.createEntityManager();
 
 ==== Obtaining an Entity Manager Factory for a programmatically-defined persistence unit
 
-The class _jakarta.persistence.PersistenceConfiguration_ described
+The class `jakarta.persistence.PersistenceConfiguration` described
 in <<a13444>> may be used to programmatically define and configure a
 persistence unit (see <<a12235>>), as an alternative to packaging a
-_persistence.xml_ file, mapping files, and classes inside an archive
+`persistence.xml` file, mapping files, and classes inside an archive
 as described in <<a12236>>.
 
-An _EntityManagerFactory_ may be obtained directly from the
-_PersistenceConfiguration_.
+An `EntityManagerFactory` may be obtained directly from the
+`PersistenceConfiguration`.
 
 For example,
 
@@ -217,19 +217,19 @@ EntityManagerFactory emf =
 
 === EntityManagerFactory Interface
 
-The _EntityManagerFactory_ interface is used
+The `EntityManagerFactory` interface is used
 by the application to obtain an application-managed entity manager. When
 the application has finished using the entity manager factory, and/or at
 application shutdown, the application should close the entity manager
 factory. Once an entity manager factory has been closed, all its entity
 managers are considered to be in the closed state.
 
-The _EntityManagerFactory_ interface provides
+The `EntityManagerFactory` interface provides
 access to information and services that are global to the persistence
 unit. This includes access to the second level cache that is maintained
-by the persistence provider and to the _PersistenceUnitUtil_ interface.
-The _Cache_ interface is described in <<a12124>>; the
-_PersistenceUnitUtil_ interface in <<a12177>>.
+by the persistence provider and to the `PersistenceUnitUtil` interface.
+The `Cache` interface is described in <<a12124>>; the
+`PersistenceUnitUtil` interface in <<a12177>>.
 
 [source,java]
 ----
@@ -512,26 +512,26 @@ public interface EntityManagerFactory extends AutoCloseable {
 ----
 
 Any number of vendor-specific properties may
-be included in the map passed to the _createEntityManager_ methods.
+be included in the map passed to the `createEntityManager` methods.
 Properties that are not recognized by a vendor must be ignored.
 
 Note that the policies of the installation
 environment may restrict some information from being made available
-through the _EntityManagerFactory_ _getProperties_ method (for example,
+through the `EntityManagerFactory` `getProperties` method (for example,
 JDBC user, password, URL).
 
 Vendors should use vendor namespaces for
-properties (e.g., _com.acme.persistence.logging_). Entries that make
-use of the namespace _jakarta.persistence_ and its subnamespaces must not
+properties (e.g., `com.acme.persistence.logging`). Entries that make
+use of the namespace `jakarta.persistence` and its subnamespaces must not
 be used for vendor-specific information. The namespace
-_jakarta.persistence_ is reserved for use by this specification.
+`jakarta.persistence` is reserved for use by this specification.
 
 === Controlling Transactions
 
 Depending on the transactional type of the
 entity manager, transactions involving EntityManager operations may be
 controlled either through JTA or through use of the resource-local
-_EntityTransaction_ API, which is mapped to a resource transaction over
+`EntityTransaction` API, which is mapped to a resource transaction over
 the resource that underlies the entities managed by the entity manager.
 
 An entity manager whose underlying
@@ -539,7 +539,7 @@ transactions are controlled through JTA is termed a _JTA entity manager_.
 
 An entity manager whose underlying
 transactions are controlled by the application through the
-_EntityTransaction_ API is termed a _resource-local entity manager_.
+`EntityTransaction` API is termed a _resource-local entity manager_.
 
 A container-managed entity manager must be a
 JTA entity manager. JTA entity managers are only specified for use in
@@ -570,7 +570,7 @@ underlying resource manager.
 ==== Resource-local EntityManagers
 
 An entity manager whose transactions are
-controlled by the application through the _EntityTransaction_ API is a
+controlled by the application through the `EntityTransaction` API is a
 resource-local entity manager. A resource-local entity manager
 transaction is mapped to a resource transaction over the resource by the
 persistence provider. Resource-local entity managers may use server or
@@ -579,17 +579,17 @@ presence of JTA transactions that may or may not be active.
 
 ==== The EntityTransaction Interface
 
-The _EntityTransaction_ interface is used to
+The `EntityTransaction` interface is used to
 control resource transactions on resource-local entity managers. The
-_EntityManager.getTransaction()_ method returns an instance of the
-_EntityTransaction_ interface.
+`EntityManager.getTransaction()` method returns an instance of the
+`EntityTransaction` interface.
 
 When a resource-local entity manager is used,
 and the persistence provider runtime throws an exception defined to
 cause transaction rollback, the persistence provider must mark the
 transaction for rollback.
 
-If the _EntityTransaction.commit_ operation
+If the `EntityTransaction.commit` operation
 fails, the persistence provider must roll back the transaction.
 
 [source,java]
@@ -690,9 +690,9 @@ public class PasswordChanger {
 
 === The runInTransaction and callInTransaction methods
 
-The _runInTransaction_ and _callInTransaction_ methods of the
-_EntityManagerFactory_ provide a shortcut for persistence context
-and transaction management with an application-managed _EntityManager_.
+The `runInTransaction` and `callInTransaction` methods of the
+`EntityManagerFactory` provide a shortcut for persistence context
+and transaction management with an application-managed `EntityManager`.
 
 [source,java]
 ----
@@ -707,40 +707,40 @@ entityManagerFactory.runInTransaction(entityManager -> {
 })
 ----
 
-The argument function passed to _runInTransaction_ or
-_callInTransaction_ must be called and passed a new instance of
-_EntityManager_. When the argument function returns or throws an
-exception, this _EntityManager_ must be closed before _runInTransaction_
-or _callInTransaction_ returns.
+The argument function passed to `runInTransaction` or
+`callInTransaction` must be called and passed a new instance of
+`EntityManager`. When the argument function returns or throws an
+exception, this `EntityManager` must be closed before `runInTransaction`
+or `callInTransaction` returns.
 
 The argument function is executed in the context of a transaction
-associated with this new _EntityManager_.
+associated with this new `EntityManager`.
 
 - If the transaction type of the persistence unit is JTA, and there
   is a JTA transaction already associated with the caller, then the
-  _EntityManager_ is associated with this current transaction. If the
+  `EntityManager` is associated with this current transaction. If the
   argument function throws an exception, the JTA transaction must be
   marked for rollback, and the exception must be rethrown by
-  _runInTransaction_ or _callInTransaction_.  Otherwise,
-  _callInTransaction_ must return the same value returned by the
+  `runInTransaction` or `callInTransaction`.  Otherwise,
+  `callInTransaction` must return the same value returned by the
   argument function.
 
 - Otherwise, if the transaction type of the persistence unit is
   resource-local, or if there is no JTA transaction already associated
-  with the caller, then the _EntityManager_ is associated with a new
+  with the caller, then the `EntityManager` is associated with a new
   transaction. If the argument function throws an exception, this
   transaction must be rolled back, and then the exception must be
-  rethrown by _runInTransaction_ or _callInTransaction_. If the argument
-  function returns, then _runInTransaction_ or _callInTransaction_ must
+  rethrown by `runInTransaction` or `callInTransaction`. If the argument
+  function returns, then `runInTransaction` or `callInTransaction` must
   attempt to commit the transaction. If the attempt to commit the
   transaction fails, the exception must be rethrown. Otherwise,
-  _callInTransaction_ must return the same value returned by the argument
+  `callInTransaction` must return the same value returned by the argument
   function.
 
 The application should not attempt to manage the lifecycle of the
-transaction or _EntityManager_ directly. If the application calls an
-operation of _EntityTransaction_ from within a call to _runInTransaction_
-or _callInTransaction_, the behavior is undefined.
+transaction or `EntityManager` directly. If the application calls an
+operation of `EntityTransaction` from within a call to `runInTransaction`
+or `callInTransaction`, the behavior is undefined.
 
 === Container-managed Persistence Contexts [[a11791]]
 
@@ -752,14 +752,14 @@ context is propagated with the JTA transaction.
 A container-managed persistence context may
 be defined to have either a lifetime that is scoped to a single
 transaction or an extended lifetime that spans multiple transactions,
-depending on the _PersistenceContextType_ that is specified when its
+depending on the `PersistenceContextType` that is specified when its
 entity manager is created. This specification refers to such persistence
 contexts as _transaction-scoped persistence contexts_ and _extended
 persistence contexts_ respectively.
 
 The lifetime of the persistence context is
-declared using the _PersistenceContext_ annotation or the
-_persistence-context-ref_ deployment descriptor element. By default, a
+declared using the `PersistenceContext` annotation or the
+`persistence-context-ref` deployment descriptor element. By default, a
 transaction-scoped persistence context is used.
 
 Sections <<a11805>> and <<a11810>> describe transaction-scoped and extended persistence contexts
@@ -774,62 +774,62 @@ context associated with a particular entity manager factory”.
 ==== Persistence Context Synchronization Type [[a11797]]
 
 By default, a container-managed persistence
-context is of type _SynchronizationType.SYNCHRONIZED_. Such a
+context is of type `SynchronizationType.SYNCHRONIZED`. Such a
 persistence context is automatically joined to the current JTA
 transaction, and updates made to the persistence context are propagated
 to the underlying resource manager.
 
 A container-managed persistence context may
-be specified to be of type _SynchronizationType.UNSYNCHRONIZED_. A
-persistence context of type _SynchronizationType.UNSYNCHRONIZED_ is not
+be specified to be of type `SynchronizationType.UNSYNCHRONIZED`. A
+persistence context of type `SynchronizationType.UNSYNCHRONIZED` is not
 enlisted in any JTA transaction unless explicitly joined to that
 transaction by the application. A persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ is enlisted in a JTA transaction
+`SynchronizationType.UNSYNCHRONIZED` is enlisted in a JTA transaction
 and registered for subsequent transaction notifications against that
-transaction by the invocation of the _EntityManager_ _joinTransaction_
+transaction by the invocation of the `EntityManager` `joinTransaction`
 method. The persistence context remains joined to the transaction until
 the transaction commits or rolls back. After the transaction commits or
 rolls back, the persistence context will not be joined to any subsequent
-transaction unless the _joinTransaction_ method is invoked in the scope
+transaction unless the `joinTransaction` method is invoked in the scope
 of that subsequent transaction.
 
 A persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ must not be flushed to the database
+`SynchronizationType.UNSYNCHRONIZED` must not be flushed to the database
 unless it is joined to a transaction. The application's use of queries
 with pessimistic locks, bulk update or delete queries, etc. result in
-the provider throwing the _TransactionRequiredException_. After the
+the provider throwing the `TransactionRequiredException`. After the
 persistence context has been joined to the JTA transaction, these
 operations are again allowed.
 
 The application is permitted to invoke the
 persist, merge, remove, and refresh entity lifecycle operations on an
-entity manager of type _SynchronizationType.UNSYNCHRONIZED_ independent
+entity manager of type `SynchronizationType.UNSYNCHRONIZED` independent
 of whether the persistence context is joined to the current transaction.
 After the persistence context has been joined to a transaction, changes
 in a persistence context can be flushed to the database either
-explicitly by the application or by the provider. If the _flush_ method
+explicitly by the application or by the provider. If the `flush` method
 is not explicitly invoked, the persistence provider may defer flushing
 until commit time depending on the operations invoked and the flush mode
 setting in effect.
 
 If an extended persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ has not been joined to the current
+`SynchronizationType.UNSYNCHRONIZED` has not been joined to the current
 JTA transaction, rollback of the JTA transaction will have no effect
 upon the persistence context. In general, it is recommended that a
 non-JTA datasource be specified for use by the persistence provider for
-a persistence context of type _SynchronizationType.UNSYNCHRONIZED_ that
+a persistence context of type `SynchronizationType.UNSYNCHRONIZED` that
 has not been joined to a JTA transaction in order to alleviate the risk
 of integrating uncommitted changes into the persistence context in the
 event that the transaction is later rolled back.
 
 If a persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ has been joined to the JTA
+`SynchronizationType.UNSYNCHRONIZED` has been joined to the JTA
 transaction, transaction rollback will cause the persistence context to
 be cleared and all pre-existing managed and removed instances to become
 detached. (See <<a2049>>.)
 
 When a JTA transaction exists, a persistence
-context of type _SynchronizationType.UNSYNCHRONIZED_ is propagated with
+context of type `SynchronizationType.UNSYNCHRONIZED` is propagated with
 that transaction according to the rules in <<a11820>> regardless of whether the persistence context has been
 joined to that transaction.
 
@@ -839,7 +839,7 @@ The application can obtain a
 container-managed entity manager with transaction-scoped persistence
 context by injection or direct lookup in the JNDI namespace. The
 persistence context type for the entity manager is defaulted or defined
-as _PersistenceContextType.TRANSACTION_.
+as `PersistenceContextType.TRANSACTION`.
 
 A new persistence context begins when the
 container-managed entity manager is invokedfootnote:[Specifically, when
@@ -869,16 +869,16 @@ A container-managed extended persistence
 context can only be initiated within the scope of a stateful session
 bean. It exists from the point at which the stateful session bean that
 declares a dependency on an entity manager of type
-_PersistenceContextType.EXTENDED_ is created, and is said to be _bound_
+`PersistenceContextType.EXTENDED` is created, and is said to be `bound`
 to the stateful session bean. The dependency on the extended persistence
-context is declared by means of the _PersistenceContext_ annotation or
-_persistence-context-ref_ deployment descriptor element. The association
+context is declared by means of the `PersistenceContext` annotation or
+`persistence-context-ref` deployment descriptor element. The association
 of the extended persistence context with the JTA transaction is
 independent of the synchronization type of the persistence context and
 whether the persistence context has been joined to the transaction.
 
 The persistence context is closed by the
-container when the _@Remove_ method of the stateful session bean
+container when the `@Remove` method of the stateful session bean
 completes (or the stateful session bean instance is otherwise
 destroyed).
 
@@ -911,7 +911,7 @@ the same persistence context.]).
 
 The persistence context is propagated across
 the entity manager instances as the JTA transaction is propagated. A
-persistence context of type _SynchronizationType.UNSYNCHRONIZED_ is
+persistence context of type `SynchronizationType.UNSYNCHRONIZED` is
 propagated with the JTA transaction regardless of whether it has been
 joined to the transaction.
 
@@ -931,10 +931,10 @@ context is not propagated.
 * If an entity manager is then invoked from
 within the component:
 ** Invocation of an entity manager defined with
-_PersistenceContextType.TRANSACTION_ will result in use of a new
+`PersistenceContextType.TRANSACTION` will result in use of a new
 persistence context (as described in <<a11805>>).
 ** Invocation of an entity manager defined with
-_PersistenceContextType.EXTENDED_ will result in the use of the existing
+`PersistenceContextType.EXTENDED` will result in the use of the existing
 extended persistence context bound to that component.
 ** If the entity manager is invoked within a JTA
 transaction, the persistence context will be associated with the JTA
@@ -946,11 +946,11 @@ transaction is propagated into that component:
 * If the component is a stateful session bean
 to which an extended persistence context has been bound and there is a
 different persistence context associated with the JTA transaction, an
-_EJBException_ is thrown by the container.
+`EJBException` is thrown by the container.
 * If there is a persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ associated with the JTA transaction
+`SynchronizationType.UNSYNCHRONIZED` associated with the JTA transaction
 and the target component specifies a persistence context of type
-_SynchronizationType.SYNCHRONIZED_, the _IllegalStateException_ is
+`SynchronizationType.SYNCHRONIZED`, the `IllegalStateException` is
 thrown by the container.
 * Otherwise, if there is a persistence context
 associated with the JTA transaction, that persistence context is
@@ -959,10 +959,10 @@ propagated and used.
 [NOTE]
 ====
 Note that a component with a persistence
-context of type _SynchronizationType.UNSYNCHRONIZED_ may be called by a
+context of type `SynchronizationType.UNSYNCHRONIZED` may be called by a
 component propagating either a persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ or a persistence context of type
-_SynchronizationType.SYNCHRONIZED_ into it.
+`SynchronizationType.UNSYNCHRONIZED` or a persistence context of type
+`SynchronizationType.SYNCHRONIZED` into it.
 ====
 
 ==== Examples
@@ -1043,16 +1043,16 @@ obtain and destroy persistence contexts.
 All such application-managed persistence
 contexts are extended in scope, and can span multiple transactions.
 
-The _EntityManagerFactory_ .
-_createEntityManager_ method and the _EntityManager_ _close_ and
-_isOpen_ methods are used to manage the lifecycle of an
+The `EntityManagerFactory` .
+`createEntityManager` method and the `EntityManager` `close` and
+`isOpen` methods are used to manage the lifecycle of an
 application-managed entity manager and its associated persistence
 context.
 
 The extended persistence context exists from
 the point at which the entity manager has been created using
-_EntityManagerFactory.createEntityManager_ until the entity manager is
-closed by means of _EntityManager.close_.
+`EntityManagerFactory.createEntityManager` until the entity manager is
+closed by means of `EntityManager.close`.
 
 An extended persistence context obtained from
 the application-managed entity manager is a stand-alone persistence
@@ -1060,37 +1060,37 @@ context—it is not propagated with the transaction.
 
 When a JTA application-managed entity manager
 is used, an application-managed persistence context may be specified to
-be of type _SynchronizationType.UNSYNCHRONIZED_. A persistence context
-of type _SynchronizationType.UNSYNCHRONIZED_ is not enlisted in any JTA
+be of type `SynchronizationType.UNSYNCHRONIZED`. A persistence context
+of type `SynchronizationType.UNSYNCHRONIZED` is not enlisted in any JTA
 transaction unless explicitly joined to that transaction by the
 application. A persistence context of type
-_SynchronizationType.UNSYNCHRONIZED_ is enlisted in a JTA transaction
+`SynchronizationType.UNSYNCHRONIZED` is enlisted in a JTA transaction
 and registered for subsequent transaction notifications against that
-transaction by the invocation of the _EntityManager_ _joinTransaction_
+transaction by the invocation of the `EntityManager` `joinTransaction`
 method. The persistence context remains joined to the transaction until
 the transaction commits or rolls back. After the transaction commits or
 rolls back, the persistence context will not be joined to any subsequent
-transaction unless the _joinTransaction_ method is invoked in the scope
+transaction unless the `joinTransaction` method is invoked in the scope
 of that subsequent transaction.
 
 When a JTA application-managed entity manager
 is used, if the entity manager is created outside the scope of the
 current JTA transaction, it is the responsibility of the application to
 join the entity manager to the transaction (if desired) by calling
-_EntityManager.joinTransaction_. If the entity manager is created
+`EntityManager.joinTransaction`. If the entity manager is created
 outside the scope of a JTA transaction, it is not joined to the
-transaction unless _EntityManager.joinTransaction_ is called.
+transaction unless `EntityManager.joinTransaction` is called.
 
-The _EntityManager.close_ method closes an
+The `EntityManager.close` method closes an
 entity manager to release its persistence context and other resources.
-After calling _close_, the application must not invoke any further
-methods on the _EntityManager_ instance except for _getTransaction_ and
-_isOpen_, or the _IllegalStateException_ will be thrown. If the _close_
+After calling `close`, the application must not invoke any further
+methods on the `EntityManager` instance except for `getTransaction` and
+`isOpen`, or the `IllegalStateException` will be thrown. If the `close`
 method is invoked when a transaction is active, the persistence context
 remains managed until the transaction completes.
 
-The _EntityManager.isOpen_ method indicates
-whether the entity manager is open. The _isOpen_ method returns true
+The `EntityManager.isOpen` method indicates
+whether the entity manager is open. The `isOpen` method returns true
 until the entity manager has been closed.
 
 ==== Examples
@@ -1296,11 +1296,11 @@ When application-managed persistence contexts
 are used, the container must instantiate the entity manager factory and
 expose it to the application via JNDI. The container might use internal
 APIs to create the entity manager factory, or it might use the
-_PersistenceProvider.createContainerEntityManagerFactory_ method.
+`PersistenceProvider.createContainerEntityManagerFactory` method.
 However, the container is required to support third-party persistence
 providers, and in this case the container must use the
-_PersistenceProvider.createContainerEntityManagerFactory_ method to
-create the entity manager factory and the _EntityManagerFactory.close_
+`PersistenceProvider.createContainerEntityManagerFactory` method to
+create the entity manager factory and the `EntityManagerFactory.close`
 method to destroy the entity manager factory prior to shutdown (if it
 has not been previously closed by the application).
 
@@ -1308,8 +1308,8 @@ has not been previously closed by the application).
 
 The container is responsible for managing the
 lifecycle of container-managed persistence contexts, for injecting
-_EntityManager_ references into web components and session bean and
-message-driven bean components, and for making _EntityManager_
+`EntityManager` references into web components and session bean and
+message-driven bean components, and for making `EntityManager`
 references available to direct lookups in JNDI.
 
 When operating with a third-party persistence
@@ -1344,36 +1344,36 @@ persistence context, if there is no EntityManager already associated
 with the JTA transaction:
 
 * The container creates a new entity manager by
-calling _EntityManagerFactory.createEntityManager_ when the first
+calling `EntityManagerFactory.createEntityManager` when the first
 invocation of an entity manager with
-_PersistenceContextType.TRANSACTION_ occurs within the scope of a
+`PersistenceContextType.TRANSACTION` occurs within the scope of a
 business method executing in the JTA transaction.
 * After the JTA transaction has completed
 (either by transaction commit or rollback), the container closes the
-entity manager by calling _EntityManager.close_.
+entity manager by calling `EntityManager.close`.
 footnote:[The container may
 choose to pool EntityManagers: it instead of creating and closing in
-each case, it may acquire one from its pool and call _clear()_ on it.]
+each case, it may acquire one from its pool and call `clear()` on it.]
 Note that the JTA transaction may rollback in a
 background thread (e.g., as a result of transaction timeout), in which
 case the container should arrange for the entity manager to be closed
-but the _EntityManager.close_ method should not be concurrently invoked
+but the `EntityManager.close` method should not be concurrently invoked
 while the application is in an EntityManager invocation.
 
 The container must throw the
-_TransactionRequiredException_ if a transaction-scoped persistence
-context is used and the _EntityManager_ _persist_, _remove_, _merge_,
-or _refresh_ method is invoked when no transaction is active.
+`TransactionRequiredException` if a transaction-scoped persistence
+context is used and the `EntityManager` `persist`, `remove`, `merge`,
+or `refresh` method is invoked when no transaction is active.
 
 For stateful session beans with extended
 persistence contexts:
 
 * The container creates an entity manager by
-calling _EntityManagerFactory.createEntityManager_ when a stateful
+calling `EntityManagerFactory.createEntityManager` when a stateful
 session bean is created that declares a dependency on an entity manager
-with _PersistenceContextType.EXTENDED_. (See <<a11810>>).
+with `PersistenceContextType.EXTENDED`. (See <<a11810>>).
 * The container closes the entity manager by
-calling _EntityManager.close_ after the stateful session bean and all
+calling `EntityManager.close` after the stateful session bean and all
 other stateful session beans that have inherited the same persistence
 context as the entity manager have been removed.
 * When a business method of the stateful
@@ -1381,32 +1381,32 @@ session bean is invoked, if the stateful session bean uses container
 managed transaction demarcation, and the entity manager is not already
 associated with the current JTA transaction, the container associates
 the entity manager with the current JTA transaction and, if the
-persistence context is of type _SynchronizationType.SYNCHRONIZED_, the
-container calls _EntityManager.joinTransaction_. If there is a
+persistence context is of type `SynchronizationType.SYNCHRONIZED`, the
+container calls `EntityManager.joinTransaction`. If there is a
 different persistence context already associated with the JTA
-transaction, the container throws the _EJBException_.
+transaction, the container throws the `EJBException`.
 * When a business method of the stateful
 session bean is invoked, if the stateful session bean uses bean managed
 transaction demarcation and a UserTransaction is begun within the
 method, the container associates the persistence context with the JTA
 transaction and, if the persistence context is of type
-_SynchronizationType.SYNCHRONIZED_, the container calls
-_EntityManager.joinTransaction_.
+`SynchronizationType.SYNCHRONIZED`, the container calls
+`EntityManager.joinTransaction`.
 
 The container must throw the
-_IllegalStateException_ if the application calls _EntityManager.close_
+`IllegalStateException` if the application calls `EntityManager.close`
 on a container-managed entity manager.
 
 When the container creates an entity manager,
 it may pass a map of properties to the persistence provider by using the
-_EntityManagerFactory.createEntityManager(Map map)_ method. If
-properties have been specified in the _PersistenceContext_ annotation or
-the _persistence-context-ref_ deployment descriptor element, this method
+`EntityManagerFactory.createEntityManager(Map map)` method. If
+properties have been specified in the `PersistenceContext` annotation or
+the `persistence-context-ref` deployment descriptor element, this method
 must be used and the map must include the specified properties.
 
 If the application invokes
-_EntityManager.unwrap(Class<T> cls)_, and the container cannot satisfy
-the request, the container must delegate the _unwrap_ invocation to the
+`EntityManager.unwrap(Class<T> cls)`, and the container cannot satisfy
+the request, the container must delegate the `unwrap` invocation to the
 provider's entity manager instance.
 
 ==== Provider Responsibilities
@@ -1417,22 +1417,22 @@ contexts. It provides entity managers to the container when requested
 and registers for transaction synchronization notifications.
 
 * When
-_EntityManagerFactory.createEntityManager_ is invoked, the provider must
+`EntityManagerFactory.createEntityManager` is invoked, the provider must
 create and return a new entity manager. If a JTA transaction is active
 and the persistence context is of type
-_SynchronizationType.SYNCHRONIZED_, the provider must register for
+`SynchronizationType.SYNCHRONIZED`, the provider must register for
 synchronization notifications against the JTA transaction.
-* When _EntityManager.joinTransaction_ is
+* When `EntityManager.joinTransaction` is
 invoked, the provider must register for synchronization notifications
-against the current JTA transaction if a previous _joinTransaction_
+against the current JTA transaction if a previous `joinTransaction`
 invocation for the transaction has not already been processed.
 * When the JTA transaction commits, if the
-persistence context is of type _SynchronizationType.SYNCHRONIZED_ or has
+persistence context is of type `SynchronizationType.SYNCHRONIZED` or has
 otherwise been joined to the transaction, the provider must flush all
 modified entity state to the database.
 * When the JTA transaction rolls back, the
 provider must detach all managed entities if the persistence context is
-of type _SynchronizationType.SYNCHRONIZED_ or has otherwise been joined
+of type `SynchronizationType.SYNCHRONIZED` or has otherwise been joined
 to the transaction. Note that the JTA transaction may rollback in a
 background thread (e.g., as a result of transaction timeout), in which
 case the provider should arrange for the managed entities to be detached
@@ -1441,19 +1441,19 @@ is in an EntityManager invocation.
 * When the provider throws an exception defined
 to cause transaction rollback, the provider must mark the transaction
 for rollback if the persistence context is of type
-_SynchronizationType.SYNCHRONIZED_ or has otherwise been joined to the
+`SynchronizationType.SYNCHRONIZED` or has otherwise been joined to the
 transaction.
-* When _EntityManager.close_ is invoked, the
+* When `EntityManager.close` is invoked, the
 provider should release all resources that it may have allocated after
 any outstanding transactions involving the entity manager have
 completed. If the entity manager was already in a closed state, the
-provider must throw the _IllegalStateException_.
-* When _EntityManager.clear_ is invoked, the
+provider must throw the `IllegalStateException`.
+* When `EntityManager.clear` is invoked, the
 provider must detach all managed entities.
 
 === Cache Interface [[a12124]]
 
-The _Cache_ interface provides basic
+The `Cache` interface provides basic
 functionality over the persistence provider's second level cache, if
 used.
 
@@ -1516,7 +1516,7 @@ public interface Cache {
 
 === PersistenceUnitUtil Interface [[a12177]]
 
-The _PersistenceUnitUtil_ interface provides
+The `PersistenceUnitUtil` interface provides
 access to utility methods that can be invoked on entities associated
 with the persistence unit. The behavior is undefined if these methods
 are invoked on an entity instance that is not associated with the
@@ -1691,24 +1691,24 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
 
 === SchemaManager Interface [[a12178]]
 
-The _SchemaManager_ interface allows programmatic control over schema
+The `SchemaManager` interface allows programmatic control over schema
 generation and cleanup at runtime. This differs from the functionality
 described in <<a12917>> which allows schema generation before or during
 the application deployment and initialization process. Similarly, the
-_generateSchema_ method described in <<a12803>> is intended to be called
-before the _EntityManagerFactory_ is available. By contrast, an instance
-of _SchemaManager_ is only available after an _EntityManagerFactory_ has
+`generateSchema` method described in <<a12803>> is intended to be called
+before the `EntityManagerFactory` is available. By contrast, an instance
+of `SchemaManager` is only available after an `EntityManagerFactory` has
 already been created.
 
-For example, _SchemaManager_ is especially useful in tests.
+For example, `SchemaManager` is especially useful in tests.
 
-The methods of _SchemaManager_ correspond to values of the property
-_jakarta.persistence.schema-generation.scripts.action_. The methods
-_create()_, _drop()_, and _validate()_ correspond to the actions
-_create_, _drop_, and _validate_. The method _truncate()_ has no
+The methods of `SchemaManager` correspond to values of the property
+`jakarta.persistence.schema-generation.scripts.action`. The methods
+`create()`, `drop()`, and `validate()` correspond to the actions
+`create`, `drop`, and `validate`. The method `truncate()` has no
 corresponding action.
 
-Thus, the behavior of the _SchemaManager_ may be controlled via the
+Thus, the behavior of the `SchemaManager` may be controlled via the
 properties defined in <<a12917>> and <<a12384>>.
 
 [source,java]

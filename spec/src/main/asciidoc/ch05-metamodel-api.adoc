@@ -10,12 +10,12 @@ managed classes of a persistence unit.
 
 === Metamodel API Interfaces
 
-The _jakarta.persistence.metamodel_ interfaces
-provide __ for dynamically accessing the metamodel of the persistent
+The `jakarta.persistence.metamodel` interfaces
+provide for dynamically accessing the metamodel of the persistent
 state and relationships of the managed classes of a persistence unit.
 
 The metamodel can be accessed through the
-_EntityManagerFactory_ or _EntityManager getMetamodel_ methods.
+`EntityManagerFactory` or `EntityManager.getMetamodel` methods.
 
 The metamodel API may be extended to cover
 object/relational mapping information in a future release of this
