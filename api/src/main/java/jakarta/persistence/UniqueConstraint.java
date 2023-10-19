@@ -25,15 +25,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * generated DDL for a primary or secondary table.
  *
  * <p>Example:
- * <pre>
- *    &#064;Entity
- *    &#064;Table(
- *        name="EMPLOYEE", 
- *        uniqueConstraints=
- *            &#064;UniqueConstraint(columnNames={"EMP_ID", "EMP_NAME"})
- *    )
- *    public class Employee { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Table(
+ *     name = "EMPLOYEE",
+ *     uniqueConstraints = @UniqueConstraint(columnNames = {"EMP_ID", "EMP_NAME"})
+ * )
+ * public class Employee { ... }
+ * }
  *
  * @since 1.0
  */

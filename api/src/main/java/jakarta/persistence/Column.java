@@ -31,26 +31,25 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * default values apply.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Column(name="DESC", nullable=false, length=512)
- *    public String getDescription() { return description; }
- * </pre>
+ * {@snippet :
+ * @Column(name = "DESC", nullable = false, length = 512)
+ * public String getDescription() { return description; }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Column(name="DESC",
- *            columnDefinition="CLOB NOT NULL",
- *            table="EMP_DETAIL")
- *    &#064;Lob
- *    public String getDescription() { return description; }
- * </pre>
+ * {@snippet :
+ * @Column(name = "DESC",
+ *         columnDefinition = "CLOB NOT NULL",
+ *         table = "EMP_DETAIL")
+ * @Lob
+ * public String getDescription() { return description; }
+ * }
  *
  * <p>Example 3:
- * <pre>
- *    &#064;Column(name="ORDER_COST", updatable=false, precision=12, scale=2)
- *    public BigDecimal getCost() { return cost; }
- * </pre>
- *
+ * {@snippet :
+ * @Column(name = "ORDER_COST", updatable = false, precision = 12, scale = 2)
+ * public BigDecimal getCost() { return cost; }
+ * }
  *
  * @since 1.0
  */ 

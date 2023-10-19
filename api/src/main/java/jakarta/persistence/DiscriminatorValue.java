@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -41,18 +41,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * concrete entity class in the hierarchy.
  *
  * <p>Example:
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="CUST")
- *    &#064;Inheritance(strategy=SINGLE_TABLE)
- *    &#064;DiscriminatorColumn(name="DISC", discriminatorType=STRING, length=20)
- *    &#064;DiscriminatorValue("CUSTOMER")
- *    public class Customer { ... }
+ * {@snippet :
+ * @Entity
+ * @Table(name = "CUST")
+ * @Inheritance(strategy = SINGLE_TABLE)
+ * @DiscriminatorColumn(name = "DISC", discriminatorType = STRING, length = 20)
+ * @DiscriminatorValue("CUSTOMER")
+ * public class Customer { ... }
  *
- *    &#064;Entity
- *    &#064;DiscriminatorValue("VCUSTOMER")
- *    public class ValuedCustomer extends Customer { ... }
- * </pre>
+ * @Entity
+ * @DiscriminatorValue("VCUSTOMER")
+ * public class ValuedCustomer extends Customer { ... }
+ * }
  *
  * @see DiscriminatorColumn
  *
@@ -60,7 +60,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({TYPE}) 
 @Retention(RUNTIME)
-
 public @interface DiscriminatorValue {
 
     /**

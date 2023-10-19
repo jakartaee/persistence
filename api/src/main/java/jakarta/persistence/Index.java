@@ -25,10 +25,10 @@ import java.lang.annotation.Target;
  * <p>The syntax of the {@code columnList} element is given by
  * the following simple BNF:
  * 
- * <pre>
- *    column_list ::= index_column [,index_column]*
- *    index_column ::= column_name [ASC | DESC]
- * </pre>
+ * {@snippet :
+ *     column_list ::= index_column [, index_column]*
+ *     index_column ::= column_name [ASC | DESC]
+ * }
  * 
  * <p>If neither {@code ASC} nor {@code DESC} is not specified,
  * {@code ASC}, that is, ascending order, is assumed.

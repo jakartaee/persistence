@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -31,10 +31,10 @@ package jakarta.persistence;
  * </ul>
  *
  * <p>Example:
- * <pre>
- *   &#064;Basic(fetch=LAZY)
- *   protected String getName() { return name; }
- * </pre>
+ * {@snippet :
+ * @Basic(fetch = LAZY)
+ * protected String getName() { return name; }
+ * }
  *
  * @see Basic
  * @see ElementCollection

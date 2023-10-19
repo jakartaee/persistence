@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -42,10 +42,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * be the name of the primary key property or field.
  *
  * <p>Example:
- * <pre>
- *   &#064;Id
- *   public Long getId() { return id; }
- * </pre>
+ * {@snippet :
+ * @Id
+ * public Long getId() { return id; }
+ * }
  *
  * @see Column
  * @see GeneratedValue

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -63,43 +63,51 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <em>not</em> persistent.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Embeddable public class EmploymentPeriod {
- *       &#064;Temporal(DATE) java.util.Date startDate;
- *       &#064;Temporal(DATE) java.util.Date endDate;
- *      ... 
- *    }
- * </pre>
+ * {@snippet :
+ * @Embeddable
+ * public class EmploymentPeriod {
+ *     @Temporal(DATE) java.util.Date startDate;
+ *     @Temporal(DATE) java.util.Date endDate;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Embeddable public class PhoneNumber {
- *        protected String areaCode;
- *        protected String localNumber;
- *        &#064;ManyToOne PhoneServiceProvider provider;
- *        ...
- *     }
+ * {@snippet :
+ * @Embeddable
+ * public class PhoneNumber {
+ *     protected String areaCode;
+ *     protected String localNumber;
+ *     @ManyToOne
+ *     protected PhoneServiceProvider provider;
+ *     ...
+ * }
  *
- *    &#064;Entity public class PhoneServiceProvider {
- *        &#064;Id protected String name;
- *         ...
- *     }
- * </pre>
+ * @Entity
+ * public class PhoneServiceProvider {
+ *     @Id
+ *     protected String name;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 3:
- * <pre>
- *    &#064;Embeddable public class Address {
- *       protected String street;
- *       protected String city;
- *       protected String state;
- *       &#064;Embedded protected Zipcode zipcode;
- *    }
+ * {@snippet :
+ * @Embeddable
+ * public class Address {
+ *     protected String street;
+ *     protected String city;
+ *     protected String state;
+ *     @Embedded
+ *     protected Zipcode zipcode;
+ * }
  *
- *    &#064;Embeddable public class Zipcode {
- *       protected String zip;
- *       protected String plusFour;
- *     }
- * </pre>
+ * @Embeddable
+ * public class Zipcode {
+ *     protected String zip;
+ *     protected String plusFour;
+ * }
+ * }
  *
  * @see Embedded
  * @see EmbeddedId

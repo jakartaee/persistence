@@ -32,7 +32,7 @@ import jakarta.persistence.Tuple;
  * expressions, predicates, orderings.
  *
  * <p> Note that {@link Predicate} is used instead of
- * <code>Expression&#060;Boolean&#062;</code> in this API in
+ * {@code Expression<Boolean>} in this API in
  * order to work around the fact that Java generics are not
  * compatible with varags.
  *
@@ -845,49 +845,49 @@ public interface CriteriaBuilder {
     /**
      * Typecast.  Returns same expression object.
      * @param number  numeric expression
-     * @return Expression&#060;Long&#062;
+     * @return {@literal Expression<Long>}
      */
     Expression<Long> toLong(Expression<? extends Number> number);
 
     /**
      * Typecast.  Returns same expression object.
      * @param number  numeric expression
-     * @return Expression&#060;Integer&#062;
+     * @return {@literal Expression<Integer>}
      */
     Expression<Integer> toInteger(Expression<? extends Number> number);
 
     /**
      * Typecast. Returns same expression object.
      * @param number  numeric expression
-     * @return Expression&#060;Float&#062;
+     * @return {@literal Expression<Float>}
      */
     Expression<Float> toFloat(Expression<? extends Number> number);
 
     /**
      * Typecast.  Returns same expression object.
      * @param number  numeric expression
-     * @return Expression&#060;Double&#062;
+     * @return {@literal Expression<Double>}
      */
     Expression<Double> toDouble(Expression<? extends Number> number);
 
     /**
      * Typecast.  Returns same expression object.
      * @param number  numeric expression
-     * @return Expression&#060;BigDecimal&#062;
+     * @return {@literal Expression<BigDecimal>}
      */
     Expression<BigDecimal> toBigDecimal(Expression<? extends Number> number);
 
     /**
      * Typecast.  Returns same expression object.
      * @param number  numeric expression
-     * @return Expression&#060;BigInteger&#062;
+     * @return {@literal Expression<BigInteger>}
      */
     Expression<BigInteger> toBigInteger(Expression<? extends Number> number);
 	
     /**
      * Typecast.  Returns same expression object.
      * @param character expression
-     * @return Expression&#060;String&#062;
+     * @return {@literal Expression<String>}
      */
     Expression<String> toString(Expression<Character> character);
 

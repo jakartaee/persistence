@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -28,18 +28,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * It is used to map composite foreign keys.
  *
  * <p>Example: {@code ValuedCustomer} subclass
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="VCUST")
- *    &#064;DiscriminatorValue("VCUST")
- *    &#064;PrimaryKeyJoinColumns({
- *        &#064;PrimaryKeyJoinColumn(name="CUST_ID", 
- *            referencedColumnName="ID"),
- *        &#064;PrimaryKeyJoinColumn(name="CUST_TYPE",
- *            referencedColumnName="TYPE")
- *    })
- *    public class ValuedCustomer extends Customer { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Table(name = "VCUST")
+ * @DiscriminatorValue("VCUST")
+ * @PrimaryKeyJoinColumns({
+ *     @PrimaryKeyJoinColumn(name = "CUST_ID",
+ *                           referencedColumnName = "ID"),
+ *     @PrimaryKeyJoinColumn(name = "CUST_TYPE",
+ *                           referencedColumnName = "TYPE")})
+ * public class ValuedCustomer extends Customer { ... }
+ * }
  *
  * @see ForeignKey
  *

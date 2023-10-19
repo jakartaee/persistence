@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -27,35 +27,38 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Used to override mappings of multiple relationship properties or fields.
  *
  * <p>Example:
- * <pre>
- *    &#064;MappedSuperclass
- *    public class Employee {
+ * {@snippet :
+ * @MappedSuperclass
+ * public class Employee {
  *    
- *        &#064;Id protected Integer id;
- *        &#064;Version protected Integer version;
- *        &#064;ManyToOne protected Address address;
- *        &#064;OneToOne protected Locker locker;
+ *     @Id
+ *     protected Integer id;
+ *     @Version
+ *     protected Integer version;
+ *     @ManyToOne
+ *     protected Address address;
+ *     @OneToOne
+ *     protected Locker locker;
  *    
- *        public Integer getId() { ... }
- *        public void setId(Integer id) { ... }
- *        public Address getAddress() { ... }
- *        public void setAddress(Address address) { ... }
- *        public Locker getLocker() { ... }
- *        public void setLocker(Locker locker) { ... }
- *        ...
- *    }
+ *     public Integer getId() { ... }
+ *     public void setId(Integer id) { ... }
+ *     public Address getAddress() { ... }
+ *     public void setAddress(Address address) { ... }
+ *     public Locker getLocker() { ... }
+ *     public void setLocker(Locker locker) { ... }
+ *     ...
+ * }
  *    
- *    &#064;Entity
- *    &#064;AssociationOverrides({
- *        &#064;AssociationOverride(
- *                   name="address", 
- *                   joinColumns=&#064;JoinColumn("ADDR_ID")),
- *        &#064;AttributeOverride(
- *                   name="locker", 
- *                   joinColumns=&#064;JoinColumn("LCKR_ID"))
- *        })
- *    public PartTimeEmployee { ... }
- * </pre>
+ * @Entity
+ * @AssociationOverrides({
+ *     @AssociationOverride(
+ *                name = "address",
+ *                joinColumns = @JoinColumn("ADDR_ID")),
+ *     @AttributeOverride(
+ *                name = "locker",
+ *                joinColumns = @JoinColumn("LCKR_ID"))})
+ * public PartTimeEmployee { ... }
+ * }
  *
  *@see AssociationOverride
  *

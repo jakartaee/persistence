@@ -53,50 +53,47 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * or property.
  *
  * <p>Example 1:
- * <pre>
- *    // In Customer class:
+ * {@snippet :
+ * // In Customer class:
  *
- *    &#064;ManyToMany
- *    &#064;JoinTable(name="CUST_PHONES")
- *    public Set&#060;PhoneNumber&#062; getPhones() { return phones; }
+ * @ManyToMany
+ * @JoinTable(name = "CUST_PHONES")
+ * public Set<PhoneNumber> getPhones() { return phones; }
  *
- *    // In PhoneNumber class:
+ * // In PhoneNumber class:
  *
- *    &#064;ManyToMany(mappedBy="phones")
- *    public Set&#060;Customer&#062; getCustomers() { return customers; }
- * </pre>
+ * @ManyToMany(mappedBy = "phones")
+ * public Set<Customer> getCustomers() { return customers; }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    // In Customer class:
+ * {@snippet :
+ * // In Customer class:
  *
- *    &#064;ManyToMany(targetEntity=com.acme.PhoneNumber.class)
- *    public Set getPhones() { return phones; }
+ * @ManyToMany(targetEntity = com.acme.PhoneNumber.class)
+ * public Set getPhones() { return phones; }
  *
- *    // In PhoneNumber class:
+ * // In PhoneNumber class:
  *
- *    &#064;ManyToMany(targetEntity=com.acme.Customer.class, mappedBy="phones")
- *    public Set getCustomers() { return customers; }
- * </pre>
+ * @ManyToMany(targetEntity = com.acme.Customer.class, mappedBy = "phones")
+ * public Set getCustomers() { return customers; }
+ * }
  *
  * <p>Example 3:
- * <pre>
- *    // In Customer class:
+ * {@snippet :
+ * // In Customer class:
  *
- *    &#064;ManyToMany
- *    &#064;JoinTable(name="CUST_PHONE",
- *        joinColumns=
- *            &#064;JoinColumn(name="CUST_ID", referencedColumnName="ID"),
- *        inverseJoinColumns=
- *            &#064;JoinColumn(name="PHONE_ID", referencedColumnName="ID")
- *        )
- *    public Set&#060;PhoneNumber&#062; getPhones() { return phones; }
+ * @ManyToMany
+ * @JoinTable(name = "CUST_PHONE",
+ *     joinColumns = @JoinColumn(name = "CUST_ID", referencedColumnName = "ID"),
+ *     inverseJoinColumns = @JoinColumn(name = "PHONE_ID", referencedColumnName = "ID"))
+ * public Set<PhoneNumber> getPhones() { return phones; }
  *
- *    // In PhoneNumberClass:
+ * // In PhoneNumberClass:
  *
- *    &#064;ManyToMany(mappedBy="phones")
- *    public Set&#060;Customer&#062; getCustomers() { return customers; }
- * </pre>
+ * @ManyToMany(mappedBy = "phones")
+ * public Set<Customer> getCustomers() { return customers; }
+ * }
  *
  * @see JoinTable
  *

@@ -50,43 +50,43 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *
  * <p>Example 1: One-to-Many association using generics
- * <pre>
- *    // In Customer class:
+ * {@snippet :
+ * // In Customer class:
  *
- *    &#064;OneToMany(cascade=ALL, mappedBy="customer")
- *    public Set&#060;Order&#062; getOrders() { return orders; }
+ * @OneToMany(cascade = ALL, mappedBy = "customer")
+ * public Set<Order> getOrders() { return orders; }
  *
- *    In Order class:
+ * // In Order class:
  *
- *    &#064;ManyToOne
- *    &#064;JoinColumn(name="CUST_ID", nullable=false)
- *    public Customer getCustomer() { return customer; }
- * </pre>
+ * @ManyToOne
+ * @JoinColumn(name = "CUST_ID", nullable = false)
+ * public Customer getCustomer() { return customer; }
+ * }
  *
  * <p>Example 2: One-to-Many association without using generics
- * <pre>
- *    // In Customer class:
+ * {@snippet :
+ * // In Customer class:
  *
- *    &#064;OneToMany(targetEntity=com.acme.Order.class, cascade=ALL,
- *                mappedBy="customer")
- *    public Set getOrders() { return orders; }
+ * @OneToMany(targetEntity = com.acme.Order.class, cascade = ALL,
+ *            mappedBy = "customer")
+ * public Set getOrders() { return orders; }
  *
- *    // In Order class:
+ * // In Order class:
  *
- *    &#064;ManyToOne
- *    &#064;JoinColumn(name="CUST_ID", nullable=false)
- *    public Customer getCustomer() { return customer; }
- * </pre>
+ * @ManyToOne
+ * @JoinColumn(name = "CUST_ID", nullable = false)
+ * public Customer getCustomer() { return customer; }
+ * }
  *
  * <p>Example 3: Unidirectional One-to-Many association using a foreign key mapping
- * <pre>
- *    // In Customer class:
+ * {@snippet :
+ * // In Customer class:
  *
- *    &#064;OneToMany(orphanRemoval=true)
- *    &#064;JoinColumn(name="CUST_ID") // join column is in table for Order
- *    public Set&#060;Order&#062; getOrders() {return orders;}
+ * @OneToMany(orphanRemoval = true)
+ * @JoinColumn(name = "CUST_ID") // join column is in table for Order
+ * public Set<Order> getOrders() { return orders; }
  *    
- * </pre>
+ * }
  *
  * @since 1.0
  */

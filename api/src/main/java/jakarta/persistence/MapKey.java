@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -35,48 +35,50 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * is specified and vice versa.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Entity
- *    public class Department {
- *        ...
- *        &#064;OneToMany(mappedBy="department")
- *        &#064;MapKey  // map key is primary key
- *        public Map&#060;Integer, Employee&#062; getEmployees() {... }
- *        ...
- *    }
+ * {@snippet :
+ * @Entity
+ * public class Department {
+ *     ...
+ *     @OneToMany(mappedBy = "department")
+ *     @MapKey  // map key is primary key
+ *     public Map<Integer, Employee> getEmployees() {... }
+ *     ...
+ * }
  *
- *    &#064;Entity
- *    public class Employee {
- *        ...
- *        &#064;Id Integer getEmpId() { ... }
- *        &#064;ManyToOne
- *        &#064;JoinColumn(name="dept_id")
- *        public Department getDepartment() { ... }
- *        ...
- *    }
- * </pre>
+ * @Entity
+ * public class Employee {
+ *     ...
+ *     @Id
+ *     Integer getEmpId() { ... }
+ *     @ManyToOne
+ *     @JoinColumn(name = "dept_id")
+ *     public Department getDepartment() { ... }
+ *     ...
+ * }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Entity
- *        public class Department {
- *        ...
- *        &#064;OneToMany(mappedBy="department")
- *        &#064;MapKey(name="name")
- *        public Map&#060;String, Employee&#062; getEmployees() {... }
- *        ...
- *    }
+ * {@snippet :
+ * @Entity
+ * public class Department {
+ *     ...
+ *     @OneToMany(mappedBy = "department")
+ *     @MapKey(name = "name")
+ *     public Map<String, Employee> getEmployees() {... }
+ *     ...
+ * }
  *
- *    &#064;Entity
- *        public class Employee {
- *        &#064;Id public Integer getEmpId() { ... }
- *        ...
- *        &#064;ManyToOne
- *        &#064;JoinColumn(name="dept_id")
- *        public Department getDepartment() { ... }
- *        ...
- *    }
- * </pre>
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     public Integer getEmpId() { ... }
+ *     ...
+ *     @ManyToOne
+ *     @JoinColumn(name = "dept_id")
+ *     public Department getDepartment() { ... }
+ *     ...
+ * }
+ * }
  *
  * @since 1.0
  */

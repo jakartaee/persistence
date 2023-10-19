@@ -48,18 +48,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * column value for the first element is {@code 0}.
  *
  * <p>Example:
- * <pre>
- *    &#064;Entity
- *    public class CreditCard {
+ * {@snippet :
+ * @Entity
+ * public class CreditCard {
  *
- *       &#064;Id long ccNumber;
+ *     @Id
+ *     long ccNumber;
  *
- *       &#064;OneToMany  // unidirectional
- *       &#064;OrderColumn
- *       List&#060;CardTransaction&#062; transactionHistory;
- *       ...
- *    }
- * </pre>
+ *     @OneToMany  // unidirectional
+ *     @OrderColumn
+ *     List<CardTransaction> transactionHistory;
+ *     ...
+ * }
+ * }
  *
  * @see OrderBy
  *

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -51,78 +51,94 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * mapped the same as in the original mapping.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;MappedSuperclass
- *    public class Employee {
- *        &#064;Id protected Integer id;
- *        &#064;Version protected Integer version;
- *        protected String address;
- *        public Integer getId() { ... }
- *        public void setId(Integer id) { ... }
- *        public String getAddress() { ... }
- *        public void setAddress(String address) { ... }
- *    }
+ * {@snippet :
+ * @MappedSuperclass
+ * public class Employee {
+ *     @Id
+ *     protected Integer id;
+ *     @Version
+ *     protected Integer version;
+ *     protected String address;
+ *     public Integer getId() { ... }
+ *     public void setId(Integer id) { ... }
+ *     public String getAddress() { ... }
+ *     public void setAddress(String address) { ... }
+ * }
  *
- *    &#064;Entity
- *    &#064;AttributeOverride(name="address", column=&#064;Column(name="ADDR"))
- *    public class PartTimeEmployee extends Employee {
- *        // address field mapping overridden to ADDR
- *        protected Float wage();
- *        public Float getHourlyWage() { ... }
- *        public void setHourlyWage(Float wage) { ... }
- *    }
- * </pre>
+ * @Entity
+ * @AttributeOverride(name = "address", column = @Column(name = "ADDR"))
+ * public class PartTimeEmployee extends Employee {
+ *     // address field mapping overridden to ADDR
+ *     protected Float wage();
+ *     public Float getHourlyWage() { ... }
+ *     public void setHourlyWage(Float wage) { ... }
+ * }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Embeddable public class Address {
- *        protected String street;
- *        protected String city;
- *        protected String state;
- *        &#064;Embedded protected Zipcode zipcode;
- *    }
+ * {@snippet :
+ * @Embeddable
+ * public class Address {
+ *     protected String street;
+ *     protected String city;
+ *     protected String state;
+ *     @Embedded
+ *     protected Zipcode zipcode;
+ * }
  *
- *    &#064;Embeddable public class Zipcode {
- *        protected String zip;
- *        protected String plusFour;
- *    }
+ * @Embeddable
+ * public class Zipcode {
+ *     protected String zip;
+ *     protected String plusFour;
+ * }
  *
- *    &#064;Entity public class Customer {
- *        &#064;Id protected Integer id;
- *        protected String name;
- *        &#064;AttributeOverrides({
- *            &#064;AttributeOverride(name="state",
- *                               column=&#064;Column(name="ADDR_STATE")),
- *            &#064;AttributeOverride(name="zipcode.zip",
- *                               column=&#064;Column(name="ADDR_ZIP"))
- *        })
- *        &#064;Embedded protected Address address;
- *        ...
- *    }
- * </pre>
+ * @Entity
+ * public class Customer {
+ *     @Id
+ *     protected Integer id;
+ *     protected String name;
+ *     @AttributeOverride(name = "state",
+ *                        column = @Column(name = "ADDR_STATE"))
+ *     @AttributeOverride(name = "zipcode.zip",
+ *                        column = @Column(name = "ADDR_ZIP"))
+ *     @Embedded
+ *     protected Address address;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 3:
- * <pre>
- *    &#064;Entity public class PropertyRecord {
- *        &#064;EmbeddedId PropertyOwner owner;
- *        &#064;AttributeOverrides({
- *            &#064;AttributeOverride(name="key.street", 
- *                               column=&#064;Column(name="STREET_NAME")),
- *            &#064;AttributeOverride(name="value.size", 
- *                               column=&#064;Column(name="SQUARE_FEET")),
- *            &#064;AttributeOverride(name="value.tax", 
- *                               column=&#064;Column(name="ASSESSMENT"))
- *        })
- *       &#064;ElementCollection
- *       Map&#060;Address, PropertyInfo&#062; parcels;
- *    }
+ * {@snippet :
+ * @Entity
+ * public class PropertyRecord {
+ *     @EmbeddedId
+ *     protected PropertyOwner owner;
+ *     @AttributeOverride(name = "key.street",
+ *                        column = @Column(name = "STREET_NAME"))
+ *     @AttributeOverride(name = "value.size",
+ *                        column = @Column(name = "SQUARE_FEET"))
+ *     @AttributeOverride(name = "value.tax",
+ *                        column = @Column(name = "ASSESSMENT"))
+ *     @ElementCollection
+ *     protected Map<Address, PropertyInfo> parcels;
+ * }
  *
- *    &#064;Embeddable public class PropertyInfo {
- *        Integer parcelNumber;
- *        Integer size;
- *        BigDecimal tax;
- *    }
- * </pre>
+ * @Embeddable
+ * public class Address {
+ *     protected String street;
+ *     protected String city;
+ *     protected String state;
+ *     @Embedded
+ *     protected Zipcode zipcode;
+ * }
+ *
+ * @Embeddable
+ * public class PropertyInfo {
+ *     Integer parcelNumber;
+ *     Integer size;
+ *     BigDecimal tax;
+ * }
+ * }
  *
  * @see Embedded
  * @see Embeddable

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -66,55 +66,56 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  *
  * <p>Example 1: Overriding the mapping of a relationship defined by a
  * mapped superclass
- * <pre>
- *    &#064;MappedSuperclass
- *    public class Employee {
- *        ...
- *        &#064;ManyToOne
- *        protected Address address;
- *        ...
- *    }
+ * {@snippet :
+ * @MappedSuperclass
+ * public class Employee {
+ *     ...
+ *     @ManyToOne
+ *     protected Address address;
+ *     ...
+ * }
  *    
- *    &#064;Entity 
- *        &#064;AssociationOverride(name="address", 
- *                             joinColumns=&#064;JoinColumn(name="ADDR_ID"))
- *        // address field mapping overridden to ADDR_ID foreign key
- *    public class PartTimeEmployee extends Employee {
- *        ...
- *    }
- * </pre>
+ * @Entity
+ * @AssociationOverride(name = "address",
+ *                      joinColumns = @JoinColumn(name = "ADDR_ID"))
+ * // address field mapping overridden to ADDR_ID foreign key
+ * public class PartTimeEmployee extends Employee {
+ *     ...
+ * }
+ * }
  *
  * <p>Example 2: Overriding the mapping for {@code phoneNumbers} defined
  * in the {@code ContactInfo} class
- * <pre>
- *    &#064;Entity
- *    public class Employee {
- *        &#064;Id int id;
- *        &#064;AssociationOverride(
- *          name="phoneNumbers",
- *          joinTable=&#064;JoinTable(
- *             name="EMPPHONES",
- *             joinColumns=&#064;JoinColumn(name="EMP"),
- *             inverseJoinColumns=&#064;JoinColumn(name="PHONE")
- *          )
- *        )
- *        &#064;Embedded ContactInfo contactInfo;
- *       ...
- *    }
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     @Id int id;
+ *     @AssociationOverride(
+ *         name = "phoneNumbers",
+ *         joinTable = @JoinTable(name = "EMPPHONES",
+ *                       joinColumns = @JoinColumn(name = "EMP"),
+ *                       inverseJoinColumns = @JoinColumn(name = "PHONE")))
+ *     @Embedded
+ *     ContactInfo contactInfo;
+ *     ...
+ * }
  * 
- *    &#064;Embeddable
- *    public class ContactInfo {
- *        &#064;ManyToOne Address address; // Unidirectional
- *        &#064;ManyToMany(targetEntity=PhoneNumber.class) List phoneNumbers;
- *    }
- * 
- *    &#064;Entity
- *    public class PhoneNumber {
- *        &#064;Id int number;
- *        &#064;ManyToMany(mappedBy="contactInfo.phoneNumbers")
- *        Collection&#060;Employee&#062; employees;
- *     }
- * </pre>
+ * @Embeddable
+ * public class ContactInfo {
+ *     @ManyToOne
+ *     Address address; // Unidirectional
+ *     @ManyToMany(targetEntity = PhoneNumber.class)
+ *     List phoneNumbers;
+ * }
+ *
+ * @Entity
+ * public class PhoneNumber {
+ *     @Id
+ *     int number;
+ *     @ManyToMany(mappedBy = "contactInfo.phoneNumbers")
+ *     Collection<Employee> employees;
+ * }
+ * }
  *
  * @see Embedded
  * @see Embeddable

@@ -31,19 +31,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * "{@code KEY}".
  *
  * <p>Example:
- * <pre>
- *    &#064;Entity
- *    public class Item {
- *       &#064;Id int id;
- *       ...
- *       &#064;ElementCollection
- *       &#064;MapKeyColumn(name="IMAGE_NAME")
- *       &#064;Column(name="IMAGE_FILENAME")
- *       &#064;CollectionTable(name="IMAGE_MAPPING")
- *       Map&#060;String, String&#062; images;  // map from image name to filename
- *       ...
- *    } 
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Item {
+ *     @Id
+ *     int id;
+ *     ...
+ *     @ElementCollection
+ *     @MapKeyColumn(name = "IMAGE_NAME")
+ *     @Column(name = "IMAGE_FILENAME")
+ *     @CollectionTable(name = "IMAGE_MAPPING")
+ *     Map<String, String> images;  // map from image name to filename
+ *     ...
+ * }
+ * }
  * @since 2.0
  */
 @Target( { METHOD, FIELD })

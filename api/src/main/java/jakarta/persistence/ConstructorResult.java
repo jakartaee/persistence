@@ -36,29 +36,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the constructed object.
  *
  * <p>Example:
- * <pre>
- *   Query q = em.createNativeQuery(
- *      "SELECT c.id, c.name, COUNT(o) as orderCount, AVG(o.price) AS avgOrder " +
- *      "FROM Customer c, Orders o " +
- *      "WHERE o.cid = c.id " +
- *      "GROUP BY c.id, c.name",
- *      "CustomerDetailsResult");
+ * {@snippet :
+ * Query q = em.createNativeQuery(
+ *     "SELECT c.id, c.name, " +
+ *         "COUNT(o) as orderCount, " +
+ *         "AVG(o.price) AS avgOrder " +
+ *       "FROM Customer c, Orders o " +
+ *       "WHERE o.cid = c.id " +
+ *       "GROUP BY c.id, c.name",
+ *     "CustomerDetailsResult");
  *
- *   &#064;SqlResultSetMapping(
- *       name="CustomerDetailsResult",
- *       classes={
- *          &#064;ConstructorResult(
- *               targetClass=com.acme.CustomerDetails.class,
- *                 columns={
- *                    &#064;ColumnResult(name="id"),
- *                    &#064;ColumnResult(name="name"),
- *                    &#064;ColumnResult(name="orderCount"),
- *                    &#064;ColumnResult(name="avgOrder", type=Double.class)
- *                    }
- *          )
- *       }
- *      )
- * </pre>
+ * @SqlResultSetMapping(
+ *     name = "CustomerDetailsResult",
+ *     classes = {
+ *         @ConstructorResult(
+ *             targetClass = com.acme.CustomerDetails.class,
+ *             columns = {
+ *                 @ColumnResult(name = "id"),
+ *                 @ColumnResult(name = "name"),
+ *                 @ColumnResult(name = "orderCount"),
+ *                 @ColumnResult(name = "avgOrder", type = Double.class)
+ *             })
+ *     })
+ * }
  *
  * @see SqlResultSetMapping
  * @see NamedNativeQuery

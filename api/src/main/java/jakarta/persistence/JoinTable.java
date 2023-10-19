@@ -44,15 +44,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * underscore.
  *
  * <p>Example:
- * <pre>
- *    &#064;JoinTable(
- *        name="CUST_PHONE",
- *        joinColumns=
- *            &#064;JoinColumn(name="CUST_ID", referencedColumnName="ID"),
- *        inverseJoinColumns=
- *            &#064;JoinColumn(name="PHONE_ID", referencedColumnName="ID")
- *    )
- * </pre>
+ * {@snippet :
+ * @JoinTable(
+ *     name = "CUST_PHONE",
+ *     joinColumns = @JoinColumn(name = "CUST_ID", referencedColumnName = "ID"),
+ *     inverseJoinColumns = @JoinColumn(name = "PHONE_ID", referencedColumnName = "ID"))
+ * }
  * 
  * @see JoinColumn
  * @see JoinColumns

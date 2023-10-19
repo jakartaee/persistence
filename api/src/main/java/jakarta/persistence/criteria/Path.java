@@ -84,23 +84,22 @@ public interface Path<X> extends Expression<X> {
      * specify the type resulting from the {@link #get} operation in
      * order to avoid the use of {@code Path} variables.
      *
-     * <pre>
-     *   For example:
-     *
-     *   CriteriaQuery&#060;Person&#062; q = cb.createQuery(Person.class);
-     *   Root&#060;Person&#062; p = q.from(Person.class);
-     *   q.select(p)
-     *    .where(cb.isMember("joe",
-     *                       p.&#060;Set&#060;String&#062;&#062;get("nicknames")));
-     *
-     *   rather than:
-     * 
-     *   CriteriaQuery&#060;Person&#062; q = cb.createQuery(Person.class);
-     *   Root&#060;Person&#062; p = q.from(Person.class);
-     *   Path&#060;Set&#060;String&#062;&#062; nicknames = p.get("nicknames");
-     *   q.select(p)
-     *    .where(cb.isMember("joe", nicknames));
-     * </pre>
+     * <p>For example:
+     * {@snippet :
+     * CriteriaQuery<Person> q = cb.createQuery(Person.class);
+     * Root<Person> p = q.from(Person.class);
+     * q.select(p)
+     *  .where(cb.isMember("joe",
+     *                     p.<Set<String>>get("nicknames")));
+     * }
+     * <p>rather than:
+     * {@snippet :
+     * CriteriaQuery<Person> q = cb.createQuery(Person.class);
+     * Root<Person> p = q.from(Person.class);
+     * Path<Set<String>> nicknames = p.get("nicknames");
+     * q.select(p)
+     *  .where(cb.isMember("joe", nicknames));
+     * }
      *
      * @param attributeName  name of the attribute
      * @return path corresponding to the referenced attribute

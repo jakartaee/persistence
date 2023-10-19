@@ -33,13 +33,13 @@ import static jakarta.persistence.ConstraintMode.CONSTRAINT;
  * should follow the SQL syntax used by the target database for
  * foreign key constraint creation. For example, it might be similar
  * to the following:
- * <pre>
- * FOREIGN KEY ( &#060;COLUMN expression&#062; {, &#060;COLUMN expression&#062;}... )
- * REFERENCES &#060;TABLE identifier&#062; [
- *     (&#060;COLUMN expression&#062; {, &#060;COLUMN expression&#062;}... ) ]
- * [ ON UPDATE &#060;referential action&#062; ]
- * [ ON DELETE &#060;referential action&#062; ]
- * </pre>
+ * {@snippet :
+ * FOREIGN KEY ( <COLUMN expression> {, <COLUMN expression>} ... )
+ *     REFERENCES <TABLE identifier> [
+ *         (<COLUMN expression> {, <COLUMN expression>} ... ) ]
+ *     [ ON UPDATE <referential action> ]
+ *     [ ON DELETE <referential action> ]
+ * }
  *
  * <p>When the {@link ConstraintMode} value is
  * {@link ConstraintMode#CONSTRAINT CONSTRAINT}, but the

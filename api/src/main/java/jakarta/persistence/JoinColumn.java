@@ -31,19 +31,19 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * a single join column is assumed and the default values apply.
  *
  * <p>Example:
- * <pre>
- *   &#064;ManyToOne
- *   &#064;JoinColumn(name="ADDR_ID")
- *   public Address getAddress() { return address; }
- * </pre>
+ * {@snippet :
+ * @ManyToOne
+ * @JoinColumn(name = "ADDR_ID")
+ * public Address getAddress() { return address; }
+ * }
  *
  * <p>Example: unidirectional one-to-many association using a foreign key mapping
- * <pre>
- *   // In Customer class
- *   &#064;OneToMany
- *   &#064;JoinColumn(name="CUST_ID") // join column is in table for Order
- *   public Set&#060;Order&#062; getOrders() {return orders;}
- * </pre>
+ * {@snippet :
+ * // In Customer class
+ * @OneToMany
+ * @JoinColumn(name = "CUST_ID") // join column is in the table for Order
+ * public Set<Order> getOrders() { return orders; }
+ * }
  *
  * @see ManyToOne
  * @see OneToMany

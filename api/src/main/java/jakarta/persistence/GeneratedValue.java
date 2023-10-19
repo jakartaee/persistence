@@ -35,20 +35,20 @@ import static jakarta.persistence.GenerationType.AUTO;
  * annotation for derived primary keys is not supported.
  *
  * <p>Example 1:
- * <pre>
- *     &#064;Id
- *     &#064;GeneratedValue(strategy=SEQUENCE, generator="CUST_SEQ")
- *     &#064;Column(name="CUST_ID")
- *     public Long getId() { return id; }
- * </pre>
+ * {@snippet :
+ * @Id
+ * @GeneratedValue(strategy = SEQUENCE, generator = "CUST_SEQ")
+ * @Column(name = "CUST_ID")
+ * public Long getId() { return id; }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *     &#064;Id
- *     &#064;GeneratedValue(strategy=TABLE, generator="CUST_GEN")
- *     &#064;Column(name="CUST_ID")
- *     Long id;
- * </pre>
+ * {@snippet :
+ * @Id
+ * @GeneratedValue(strategy = TABLE, generator = "CUST_GEN")
+ * @Column(name = "CUST_ID")
+ * Long id;
+ * }
  *
  * @see GenerationType
  * @see Id

@@ -33,18 +33,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * are undefined.
  *
  * <p>Example:
- * <pre>
- *   Query q = em.createNativeQuery(
- *       "SELECT o.id, o.quantity, o.item, i.id, i.name, i.description "+
- *           "FROM Order o, Item i " +
- *           "WHERE (o.quantity &gt; 25) AND (o.item = i.id)",
- *       "OrderItemResults");
- *   &#064;SqlResultSetMapping(name="OrderItemResults",
- *       entities={
- *           &#064;EntityResult(entityClass=com.acme.Order.class),
- *           &#064;EntityResult(entityClass=com.acme.Item.class)
- *   })
- * </pre>
+ * {@snippet :
+ * Query q = em.createNativeQuery(
+ *     "SELECT o.id, o.quantity, o.item, " +
+ *         "i.id, i.name, i.description " +
+ *       "FROM Order o, Item i " +
+ *       "WHERE (o.quantity > 25) AND (o.item = i.id)",
+ *     "OrderItemResults");
+ *
+ * @SqlResultSetMapping(
+ *     name = "OrderItemResults",
+ *     entities = {
+ *         @EntityResult(entityClass = com.acme.Order.class),
+ *         @EntityResult(entityClass = com.acme.Item.class)
+ *     }
+ * )
+ * }
  *
  * @see SqlResultSetMapping
  * @see NamedNativeQuery

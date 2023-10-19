@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -33,14 +33,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * defaulted by the embeddable class.
  *
  * <p>Example:
- * <pre>
- *   &#064;Embedded
- *   &#064;AttributeOverrides({
- *       &#064;AttributeOverride(name="startDate", column=&#064;Column("EMP_START")),
- *       &#064;AttributeOverride(name="endDate", column=&#064;Column("EMP_END"))
- *   })
- *   public EmploymentPeriod getEmploymentPeriod() { ... }
- * </pre>
+ * {@snippet :
+ * @Embedded
+ * @AttributeOverrides({
+ *     @AttributeOverride(name = "startDate", column = @Column("EMP_START")),
+ *     @AttributeOverride(name = "endDate", column = @Column("EMP_END"))})
+ * public EmploymentPeriod getEmploymentPeriod() { ... }
+ * }
  *
  * @see Embeddable
  * @see AttributeOverride

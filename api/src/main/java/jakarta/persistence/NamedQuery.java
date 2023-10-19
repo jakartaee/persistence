@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -33,23 +33,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> The following is an example of the definition of a named
  * query in the Jakarta Persistence query language:
  *
- * <pre>
- *    &#064;NamedQuery(
- *            name="findAllCustomersWithName",
- *            query="SELECT c FROM Customer c WHERE c.name LIKE :custName"
- *    )
- * </pre>
+ * {@snippet :
+ * @NamedQuery(
+ *     name = "findAllCustomersWithName",
+ *     query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+ * }
  *
  * <p> The following is an example of the use of a named query:
  *
- * <pre>
- *    &#064;PersistenceContext
- *    public EntityManager em;
- *    ...
- *    customers = em.createNamedQuery("findAllCustomersWithName")
- *            .setParameter("custName", "Smith")
- *            .getResultList();
- * </pre>
+ * {@snippet :
+ * @PersistenceContext
+ * public EntityManager em;
+ * ...
+ * customers = em.createNamedQuery("findAllCustomersWithName")
+ *               .setParameter("custName", "Smith")
+ *               .getResultList();
+ * }
  *
  * @since 1.0
  */

@@ -31,16 +31,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * database table.
  *
  * <p>Example:
- * <pre>
- *    &#064;Entity public class Person {
- *       &#064;Id protected String ssn;
- *       protected String name;
- *       ...
- *       &#064;ElementCollection  
- *       protected Set&#060;String&#062; nickNames = new HashSet();
- *         ...
- *    } 
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Person {
+ *     @Id
+ *     protected String ssn;
+ *     protected String name;
+ *     ...
+ *     @ElementCollection
+ *     protected Set<String> nickNames = new HashSet<>();
+ *     ...
+ * }
+ * }
  *
  * @see CollectionTable
  *

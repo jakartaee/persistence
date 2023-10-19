@@ -54,40 +54,43 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * values of the {@code CollectionTable} annotation elements apply.
  *
  * <p>Example:
- * <pre>
- *    &#064;Embeddable public class Address {
- *       protected String street;
- *       protected String city;
- *       protected String state;
- *       ... 
- *     }
+ * {@snippet :
+ * @Embeddable
+ * public class Address {
+ *     protected String street;
+ *     protected String city;
+ *     protected String state;
+ *     ...
+ * }
  *
- *    &#064;Entity public class Person {
- *       &#064;Id protected String ssn;
- *       protected String name;
- *       protected Address home;
- *       ...
- *       &#064;ElementCollection  // use default table (PERSON_NICKNAMES)
- *       &#064;Column(name="name", length=50)
- *       protected Set&#060;String&#062; nickNames = new HashSet();
- *       ...
- *    }
+ * @Entity
+ * public class Person {
+ *     @Id
+ *     protected String ssn;
+ *     protected String name;
+ *     protected Address home;
+ *     ...
+ *     @ElementCollection  // use default table (PERSON_NICKNAMES)
+ *     @Column(name = "name", length = 50)
+ *     protected Set<String> nickNames = new HashSet<>();
+ *     ...
+ * }
  *
- *    &#064;Entity public class WealthyPerson extends Person {
- *       &#064;ElementCollection
- *       &#064;CollectionTable(name="HOMES") // use default join column name
- *       &#064;AttributeOverrides({
- *          &#064;AttributeOverride(name="street", 
- *                             column=&#064;Column(name="HOME_STREET")),
- *          &#064;AttributeOverride(name="city", 
- *                             column=&#064;Column(name="HOME_CITY")),
- *          &#064;AttributeOverride(name="state", 
- *                             column=&#064;Column(name="HOME_STATE"))
- *        })
- *       protected Set&#060;Address&#062; vacationHomes = new HashSet();
- *       ...
- *    }
- * </pre>
+ * @Entity
+ * public class WealthyPerson extends Person {
+ *     @ElementCollection
+ *     @CollectionTable(name = "HOMES") // use default join column name
+ *     @AttributeOverrides({
+ *         @AttributeOverride(name = "street",
+ *                            column = @Column(name = "HOME_STREET")),
+ *         @AttributeOverride(name = "city",
+ *                            column = @Column(name = "HOME_CITY")),
+ *         @AttributeOverride(name="state",
+ *                            column = @Column(name = "HOME_STATE"))})
+ *     protected Set<Address> vacationHomes = new HashSet<>();
+ *     ...
+ * }
+ * }
  *
  * @see ElementCollection
  * @see AttributeOverride

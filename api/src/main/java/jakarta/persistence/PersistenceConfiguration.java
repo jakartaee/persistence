@@ -35,8 +35,8 @@ import java.util.Objects;
  * {@code Producer} may be used to make the {@link EntityManagerFactory}
  * available as a CDI managed bean.
  *
- * <pre>
- * &#064;Produces &#064;ApplicationScoped &#064;Documents
+ * {@snippet :
+ * @Produces @ApplicationScoped @Documents
  * EntityManagerFactory configure() {
  *     return new PersistenceConfiguration()
  *             .name("DocumentData")
@@ -44,23 +44,23 @@ import java.util.Objects;
  *             .managedClass(Document.class)
  *             .createEntityManagerFactory();
  * }
- * </pre>
+ * }
  *
  * <p>Similarly, if injection of an {@link EntityManager} is required,
  * a CDI {@code Producer} method/{@code Disposer} method pair may be
  * used to make the {@link EntityManager} available as a CDI managed
  * bean.
  *
- * <pre>
- * &#064;Produces &#064;TransactionScoped &#064;Documents
- * EntityManager create(&#064;Documents EntityManagerFactory factory) {
+ * {@snippet :
+ * @Produces @TransactionScoped @Documents
+ * EntityManager create(@Documents EntityManagerFactory factory) {
  *     return factory.createEntityManager();
  * }
  *
- * void close(&#064;Disposes &#064;Documents EntityManager entityManager) {
+ * void close(@Disposes @Documents EntityManager entityManager) {
  *     entityManager.close();
  * }
- * </pre>
+ * }
  *
  * <p>It is intended that persistence providers define subclasses of
  * this class with vendor-specific configuration options. A provider
