@@ -37,8 +37,9 @@ public interface TypedQuery<X> extends Query {
 	
     /**
      * Execute a SELECT query and return the query results as a typed
-     * {@link List}.
-     * @return a list of the results
+     * {@link List List&lt;X&gt;}.
+     * @return a list of the results, each of type {@link X}, or an
+     *         empty list if there are no results
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
@@ -60,13 +61,14 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Execute a SELECT query and return the query result as a typed
-     * {@link java.util.stream.Stream}.
+     * {@link java.util.stream.Stream Stream&lt;X&gt;}.
      *
-     * <p>By default, this method delegates to {@code getResultList().stream()},
-     * however, persistence provider may choose to override this method
-     * to provide additional capabilities.
+     * <p>By default, this method delegates to {@link List#stream()
+     * getResultList().stream()}, however, persistence provider may
+     * choose to override this method to provide additional capabilities.
      *
-     * @return a stream of the results
+     * @return a stream of the results, each of type {@link X}, or an
+     *         empty stream if there are no results
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
@@ -93,7 +95,7 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Execute a SELECT query that returns a single result.
-     * @return the result
+     * @return the result, of type {@link X}
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
@@ -117,7 +119,8 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Execute a SELECT query that returns a single untyped result.
-     * @return the result, or null if there is no result
+     * @return the result, of type {@link X}, or null if there is no
+     *         result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
