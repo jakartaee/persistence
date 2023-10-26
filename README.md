@@ -1,4 +1,4 @@
-[//]: # " Copyright (c) 2019, 2022 Oracle and/or its affiliates. All rights reserved. "
+[//]: # " Copyright (c) 2019, 2023 Oracle and/or its affiliates. All rights reserved. "
 [//]: # "  "
 [//]: # " This program and the accompanying materials are made available under the "
 [//]: # " terms of the Eclipse Distribution License v. 1.0, which is available at "
@@ -8,7 +8,7 @@
 
 # Jakarta Persistence project
 
-[![Build Status](https://github.com/eclipse-ee4j/jpa-api/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/eclipse-ee4j/jpa-api/actions/workflows/maven.yml?branch=master)
+[![Build Status](https://github.com/jakartaee/persistence/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/jakartaee/persistence/actions/workflows/maven.yml?branch=master)
 [![Jakarta Staging (Snapshots)](https://img.shields.io/nexus/s/https/jakarta.oss.sonatype.org/jakarta.persistence/jakarta.persistence-api.svg)](https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/)
 
 
