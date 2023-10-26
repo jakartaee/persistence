@@ -40,15 +40,15 @@
     </properties>
 
     <scm>
-        <connection>scm:git:git://github.com/eclipse-ee4j/jpa-api.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse-ee4j/jpa-api.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/jpa-api.git</url>
+        <connection>scm:git:git://github.com/jakartaee/persistence.git</connection>
+        <developerConnection>scm:git:git@github.com:jakartaee/persistence.git</developerConnection>
+        <url>https://github.com/jakartaee/persistence.git</url>
         <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
         <site>
-            <url>scm:git:git@github.com:eclipse-ee4j/jpa-api.git</url>
+            <url>scm:git:git@github.com:jakartaee/persistence.git</url>
         </site>
     </distributionManagement>
 

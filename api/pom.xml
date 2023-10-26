@@ -28,12 +28,12 @@
     <version>3.2.0-SNAPSHOT</version>
 
     <name>Jakarta Persistence API</name>
-    <url>https://github.com/eclipse-ee4j/jpa-api</url>
+    <url>https://github.com/jakartaee/persistence</url>
 
     <scm>
-        <connection>scm:git:git://github.com/eclipse-ee4j/jpa-api.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse-ee4j/jpa-api.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/jpa-api.git</url>
+        <connection>scm:git:git://github.com/jakartaee/persistence.git</connection>
+        <developerConnection>scm:git:git@github.com:jakartaee/persistence.git</developerConnection>
+        <url>https://github.com/jakartaee/persistence.git</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -65,7 +65,7 @@
 
     <issueManagement>
         <system>IssueTracker</system>
-        <url>https://github.com/eclipse-ee4j/jpa-api/issues</url>
+        <url>https://github.com/jakartaee/persistence/issues</url>
     </issueManagement>
 
     <mailingLists>
