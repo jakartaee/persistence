@@ -97,6 +97,8 @@
         <spec.new.spec.version>3.2</spec.new.spec.version>
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
+
+        <project.build.outputTimestamp>2023-10-28T00:00:00Z</project.build.outputTimestamp>
     </properties>
 
     <build>
