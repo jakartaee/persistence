@@ -58,6 +58,61 @@ public interface Graph<T> {
     <Y> AttributeNode<Y> addAttributeNode(Attribute<? super T, Y> attribute);
 
     /**
+     * Get an existing attribute node for the attribute with the given
+     * name.
+     *
+     * @param attributeName  name of the attribute
+     * @return the attribute node
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws java.util.NoSuchElementException if there is no existing
+     *         node for the attribute
+     *
+     * @since 3.2
+     */
+    <Y> AttributeNode<Y> getAttributeNode(String attributeName);
+
+    /**
+     * Get an existing attribute node for the given attribute.
+     *
+     * @param attribute  attribute
+     * @return the attribute node
+     * @throws java.util.NoSuchElementException if there is no existing
+     *         node for the attribute
+     *
+     * @since 3.2
+     */
+    <Y> AttributeNode<Y> getAttributeNode(Attribute<? super T, Y> attribute);
+
+    /**
+     * Get an existing attribute node for the attribute with the given
+     * name, or add an attribute node if there is no existing node.
+     *
+     * @param attributeName  name of the attribute
+     * @return the attribute node
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    <Y> AttributeNode<Y> getOrAddAttributeNode(String attributeName);
+
+    /**
+     * Get an existing attribute node for the given attribute, or add
+     * an attribute node if there is no existing node.
+     *
+     * @param attribute  attribute
+     * @return the attribute node
+     * @throws IllegalStateException if the EntityGraph has been
+     *         statically defined
+     *
+     * @since 3.2
+     */
+    <Y> AttributeNode<Y> getOrAddAttributeNode(Attribute<? super T, Y> attribute);
+
+    /**
      * Remove an attribute node from the entity graph.
      * When this graph is interpreted as a load graph, this operation
      * suppresses inclusion of an attribute mapped for eager fetching.
