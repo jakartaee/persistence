@@ -32,9 +32,10 @@ import java.util.List;
 public interface Graph<T> {
 
     /**
-     * Add an attribute nodes to the entity graph.
+     * Add an attribute node to the entity graph.
      *
      * @param attributeName  name of the attribute
+     * @return the added attribute node
      * @throws IllegalArgumentException if the attribute is not an
      *         attribute of this entity.
      * @throws IllegalStateException if the EntityGraph has been
@@ -42,18 +43,19 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    void addAttributeNode(String attributeName);
+    <Y> AttributeNode<Y> addAttributeNode(String attributeName);
 
     /**
      * Add an attribute node to the entity graph.
      *
      * @param attribute  attribute
+     * @return the added attribute node
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
      *
      * @since 3.2
      */
-    void addAttributeNode(Attribute<? super T, ?> attribute);
+    <Y> AttributeNode<Y> addAttributeNode(Attribute<? super T, Y> attribute);
 
     /**
      * Remove an attribute node from the entity graph.
