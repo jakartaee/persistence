@@ -42,11 +42,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link java.time.Instant}, {@link java.time.LocalDateTime}.
  *
  * <p>Example:
- * <pre>
- *    &#064;Version
- *    &#064;Column(name="OPTLOCK")
- *    protected int getVersionNum() { return versionNum; }
- * </pre>
+ * {@snippet :
+ * @Version
+ * @Column(name = "OPTLOCK")
+ * protected int getVersionNum() { return versionNum; }
+ * }
  *
  * @since 1.0
  */

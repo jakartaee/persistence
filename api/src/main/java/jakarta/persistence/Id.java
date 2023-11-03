@@ -42,10 +42,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * be the name of the primary key property or field.
  *
  * <p>Example:
- * <pre>
- *   &#064;Id
- *   public Long getId() { return id; }
- * </pre>
+ * {@snippet :
+ * @Id
+ * public Long getId() { return id; }
+ * }
  *
  * @see Column
  * @see GeneratedValue

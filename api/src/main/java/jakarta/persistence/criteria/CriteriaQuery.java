@@ -41,16 +41,16 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * specified. 
      *
      * <p>For example:
-     * <pre>
-     *    CriteriaQuery&#060;String&#062; q = cb.createQuery(String.class);
-     *    Root&#060;Order&#062; order = q.from(Order.class);
-     *    q.select(order.get("shippingAddress").&#060;String&#062;get("state"));
+     * {@snippet :
+     * CriteriaQuery<String> q = cb.createQuery(String.class);
+     * Root<Order> order = q.from(Order.class);
+     * q.select(order.get("shippingAddress").<String>get("state"));
      * 
-     *    CriteriaQuery&#060;Product&#062; q2 = cb.createQuery(Product.class);
-     *    q2.select(q2.from(Order.class)
-     *                .join("items")
-     *                .&#060;Item,Product&#062;join("product"));
-     * </pre>
+     * CriteriaQuery<Product> q2 = cb.createQuery(Product.class);
+     * q2.select(q2.from(Order.class)
+     *             .join("items")
+     *             .<Item, Product>join("product"));
+     * }
      *
      * @param selection  selection specifying the item that is
      *                   to be returned in the query result
@@ -75,30 +75,30 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * <p>The semantics of this method are as follows: 
      * <ul> 
      * <li> 
-     * If the type of the criteria query is {@code CriteriaQuery&#060;Tuple&#062;}
+     * If the type of the criteria query is {@code CriteriaQuery<Tuple>}
      * (i.e., a criteria query object created by either the {@code createTupleQuery}
      * method or by passing a {@link Tuple} class argument to the {@code createQuery}
      * method), a {@link Tuple} object corresponding to the arguments of the
      * {@code multiselect} method, in the specified order, will be instantiated and
      * returned for each row that results from the query execution.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;X&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<X>}
      * for some user-defined class X (i.e., a criteria query object created by
      * passing a X class argument to the {@code createQuery} method), the arguments
      * to the {@code multiselect} method will be passed to the X constructor and an
      * instance of type X will be returned for each row.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;X[]&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<X[]>}
      * for some class X, an instance of type {@code X[]} will be returned for each row.
      * The elements of the array will correspond to the arguments of the
      * {@code multiselect} method, in the specified order.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;Object&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<Object>}
      * or if the criteria query was created without specifying a type, and only a single
      * argument is passed to the {@code multiselect} method, an instance of type
      * {@code Object} will be returned for each row.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;Object&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<Object>}
      * or if the criteria query was created without specifying a type, and more than one
      * argument is passed to the {@code multiselect} method, an instance of type
      * {@code Object[]} will be instantiated and returned for each row.  The elements of
@@ -132,30 +132,30 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      *
      * <p> The semantics of this method are as follows:
      * <ul>
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;Tuple&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<Tuple>}
      * (i.e., a criteria query object created by either the {@code createTupleQuery}
      * method or by passing a {@link Tuple} class argument to the {@code createQuery}
      * method), a {@code Tuple} object corresponding to the elements of the list passed
      * to the {@code multiselect} method, in the specified order, will be instantiated
      * and returned for each row that results from the query execution.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;X&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<X>}
      * for some user-defined class X (i.e., a criteria query object created by passing
      * a X class argument to the {@code createQuery} method), the elements of the list
      * passed to the {@code multiselect} method will be passed to the X constructor
      * and an instance of type X will be returned for each row.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;X[]&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<X[]>}
      * for some class X, an instance of type {@code X[]} will be returned for
      * each row. The elements of the array will correspond to the elements of
      * the list passed to the {@code multiselect} method, in the specified order.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;Object&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<Object>}
      * or if the criteria query was created without specifying a type, and the list
      * passed to the {@code multiselect} method contains only a single element, an
      * instance of type {@code Object} will be returned for each row.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery&#060;Object&#062;}
+     * <li> If the type of the criteria query is {@code CriteriaQuery<Object>}
      * or if the criteria query was created without specifying a type, and the list
      * passed to the {@code multiselect} method contains more than one element, an
      * instance of type {@code Object[]} will be instantiated and returned for each row.

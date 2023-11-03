@@ -51,9 +51,9 @@ import java.lang.annotation.Repeatable;
  * {@code SequenceGenerator} annotation.
  *
  * <p>Example:
- * <pre>
- *   &#064;SequenceGenerator(name="EMP_SEQ", allocationSize=25)
- * </pre>
+ * {@snippet :
+ * @SequenceGenerator(name = "EMP_SEQ", allocationSize = 25)
+ * }
  *
  * @since 1.0
  */

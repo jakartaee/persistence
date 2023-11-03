@@ -56,35 +56,37 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * key type are not supported.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Entity
- *    public class Employee {
- *       &#064;EmbeddedId
- *       protected EmployeePK empPK;
- *       ...
- *    }
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     @EmbeddedId
+ *     protected EmployeePK empPK;
+ * ...
+ * }
  *
- *    public record EmployeePK(String empName, Date birthDay) {}
- * </pre>
+ * public record EmployeePK(String empName, Date birthDay) {}
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Embeddable
- *    public class DependentId {
- *       String name;
- *       EmployeeId empPK;   // corresponds to primary key type of Employee
- *    }
+ * {@snippet :
+ * @Embeddable
+ * public class DependentId {
+ *     String name;
+ *     EmployeeId empPK;   // corresponds to primary key type of Employee
+ * }
  *
- *    &#064;Entity
- *    public class Dependent {
- *       // default column name for "name" attribute is overridden
- *       &#064;AttributeOverride(name="name", &#064;Column(name="dep_name"))
- *       &#064;EmbeddedId DependentId id;
- *       ...
- *       &#064;MapsId("empPK")
- *       &#064;ManyToOne Employee emp;
- *    }
- * </pre>
+ * @Entity
+ * public class Dependent {
+ *     // default column name for "name" attribute is overridden
+ *     @AttributeOverride(name = "name", column = @Column(name = "dep_name"))
+ *     @EmbeddedId
+ *     DependentId id;
+ *     ...
+ *     @MapsId("empPK")
+ *     @ManyToOne
+ *     Employee emp;
+ * }
+ * }
  *
  * @see Embeddable
  * @see MapsId

@@ -40,18 +40,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * types it defaults to {@code BLOB}.
  *
  * <p>Example 1:
- * <pre>
- *   &#064;Lob &#064;Basic(fetch=LAZY)
- *   &#064;Column(name="REPORT")
- *   protected String report;
- * </pre>
+ * {@snippet :
+ * @Lob @Basic(fetch = LAZY)
+ * @Column(name = "REPORT")
+ * protected String report;
+ * }
  *
  * <p>Example 2:
- * <pre>
- *   &#064;Lob &#064;Basic(fetch=LAZY)
- *   &#064;Column(name="EMP_PIC", columnDefinition="BLOB NOT NULL")
- *   protected byte[] pic;
- * </pre>
+ * {@snippet :
+ * @Lob @Basic(fetch = LAZY)
+ * @Column(name = "EMP_PIC", columnDefinition = "BLOB NOT NULL")
+ * protected byte[] pic;
+ * }
  *
  * @see Basic
  * @see ElementCollection

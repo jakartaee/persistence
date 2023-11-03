@@ -51,34 +51,38 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * notation is the name of the respective embedded field or property.
  *
  * <p>Example 1:
- * <pre>
- *     &#064;ManyToOne(optional=false)
- *     &#064;JoinColumn(name="CUST_ID", nullable=false, updatable=false)
- *     public Customer getCustomer() { return customer; }
- * </pre>
+ * {@snippet :
+ * @ManyToOne(optional = false)
+ * @JoinColumn(name = "CUST_ID", nullable = false, updatable = false)
+ * public Customer getCustomer() { return customer; }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *     &#064;Entity
- *        public class Employee {
- *        &#064;Id int id;
- *        &#064;Embedded JobInfo jobInfo;
- *        ...
- *     }
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     int id;
+ *     @Embedded
+ *     JobInfo jobInfo;
+ *     ...
+ * }
  *
- *     &#064;Embeddable
- *        public class JobInfo {
- *        String jobDescription; 
- *        &#064;ManyToOne ProgramManager pm; // Bidirectional
- *     }
+ * @Embeddable
+ * public class JobInfo {
+ *     String jobDescription;
+ *     @ManyToOne
+ *     ProgramManager pm; // Bidirectional
+ * }
  *
- *     &#064;Entity
- *        public class ProgramManager {
- *        &#064;Id int id;
- *        &#064;OneToMany(mappedBy="jobInfo.pm")
- *        Collection&#060;Employee&#062; manages;
- *     }
- * </pre>
+ * @Entity
+ * public class ProgramManager {
+ *     @Id
+ *     int id;
+ *     @OneToMany(mappedBy = "jobInfo.pm")
+ *     Collection<Employee> manages;
+ * }
+ * }
  *
  * @since 1.0
  */

@@ -54,69 +54,75 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * respective embedded field or property.
  *
  * <p>Example 1: One-to-one association that maps a foreign key column
- * <pre>
- *    // On Customer class:
+ * {@snippet :
+ * // On Customer class:
  *
- *    &#064;OneToOne(optional=false)
- *    &#064;JoinColumn(
- *    	name="CUSTREC_ID", unique=true, nullable=false, updatable=false)
- *    public CustomerRecord getCustomerRecord() { return customerRecord; }
+ * @OneToOne(optional = false)
+ * @JoinColumn(name = "CUSTREC_ID", unique = true, nullable = false, updatable = false)
+ * public CustomerRecord getCustomerRecord() { return customerRecord; }
  *
- *    // On CustomerRecord class:
+ * // On CustomerRecord class:
  *
- *    &#064;OneToOne(optional=false, mappedBy="customerRecord")
- *    public Customer getCustomer() { return customer; }
- * </pre>
+ * @OneToOne(optional = false, mappedBy = "customerRecord")
+ * public Customer getCustomer() { return customer; }
+ * }
  *
  * <p>Example 2: One-to-one association that assumes both the source and
  * target share the same primary key values.
- * <pre>
- *    // On Employee class:
+ * {@snippet :
+ * // On Employee class:
  *
- *    &#064;Entity
- *    public class Employee {
- *    	&#064;Id Integer id;
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     Integer id;
  *    
- *    	&#064;OneToOne &#064;MapsId
- *    	EmployeeInfo info;
- *    	...
- *    }
+ *     @OneToOne
+ *     @MapsId
+ *     EmployeeInfo info;
+ *     ...
+ * }
  *
- *    // On EmployeeInfo class:
+ * // On EmployeeInfo class:
  *
- *    &#064;Entity
- *    public class EmployeeInfo {
- *    	&#064;Id Integer id;
- *    	...
- *    }
- * </pre>
+ * @Entity
+ * public class EmployeeInfo {
+ *     @Id
+ *     Integer id;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 3: One-to-one association from an embeddable class to another
  * entity.
- * <pre>
- *    &#064;Entity
- *    public class Employee {
- *       &#064;Id int id;
- *       &#064;Embedded LocationDetails location;
- *       ...
- *    }
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     int id;
+ *     @Embedded
+ *     LocationDetails location;
+ *     ...
+ * }
  *
- *    &#064;Embeddable
- *    public class LocationDetails {
- *       int officeNumber;
- *       &#064;OneToOne ParkingSpot parkingSpot;
- *       ...
- *    }
+ * @Embeddable
+ * public class LocationDetails {
+ *     int officeNumber;
+ *     @OneToOne
+ *     ParkingSpot parkingSpot;
+ *     ...
+ * }
  *
- *    &#064;Entity
- *    public class ParkingSpot {
- *       &#064;Id int id;
- *       String garage;
- *       &#064;OneToOne(mappedBy="location.parkingSpot") Employee assignedTo;
- *        ... 
- *    } 
- *
- * </pre>
+ * @Entity
+ * public class ParkingSpot {
+ *     @Id
+ *     int id;
+ *     String garage;
+ *     @OneToOne(mappedBy = "location.parkingSpot")
+ *     Employee assignedTo;
+ *     ...
+ * }
+ * }
  *
  * @since 1.0
  */

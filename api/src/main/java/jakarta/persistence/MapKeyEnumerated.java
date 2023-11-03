@@ -34,21 +34,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * assumed to be {@link EnumType#ORDINAL ORDINAL}.
  *
  * <p>Example:
- * <pre>
- *   public enum ProjectStatus {COMPLETE, DELAYED, CANCELLED, IN_PROGRESS}
+ * {@snippet :
+ * public enum ProjectStatus {COMPLETE, DELAYED, CANCELLED, IN_PROGRESS}
  *
- *   public enum SalaryRate {JUNIOR, SENIOR, MANAGER, EXECUTIVE}
+ * public enum SalaryRate {JUNIOR, SENIOR, MANAGER, EXECUTIVE}
  *
- *   &#064;Entity public class Employee {
- *       &#064;ManyToMany
- *       public Projects&#060;ProjectStatus, Project&#062; getProjects() {...}
+ * @Entity
+ * public class Employee {
+ *     @ManyToMany
+ *     public Projects<ProjectStatus, Project> getProjects() { ... }
  *       
- *       &#064;OneToMany
- *       &#064;MapKeyEnumerated(STRING)
- *       public Map&#060;SalaryRate, Employee&#062; getEmployees() {...}
- *       ...
- *   }
- * </pre>
+ *     @OneToMany
+ *     @MapKeyEnumerated(STRING)
+ *     public Map<SalaryRate, Employee> getEmployees() { ... }
+ *     ...
+ * }
+ * }
  *
  * @see ElementCollection
  * @see OneToMany

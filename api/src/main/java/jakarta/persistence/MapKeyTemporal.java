@@ -34,11 +34,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * or {@link ManyToMany} annotation.
  *
  * <p>Example:
- * <pre>
- *     &#064;OneToMany
- *     &#064;MapKeyTemporal(DATE)
- *     protected java.util.Map&#060;java.util.Date, Employee&#062; employees;
- * </pre>
+ * {@snippet :
+ * @OneToMany
+ * @MapKeyTemporal(DATE)
+ * protected Map<java.util.Date, Employee> employees;
+ * }
  *
  * @since 2.0
  *

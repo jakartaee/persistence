@@ -32,14 +32,13 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * referencedColumnName}.
  *
  * <p>Example:
- * <pre>
- *    &#064;ManyToOne
- *    &#064;JoinColumns({
- *        &#064;JoinColumn(name="ADDR_ID", referencedColumnName="ID"),
- *        &#064;JoinColumn(name="ADDR_ZIP", referencedColumnName="ZIP")
- *    })
- *    public Address getAddress() { return address; }
- * </pre>
+ * {@snippet :
+ * @ManyToOne
+ * @JoinColumns({
+ *     @JoinColumn(name = "ADDR_ID", referencedColumnName = "ID"),
+ *     @JoinColumn(name = "ADDR_ZIP", referencedColumnName = "ZIP")})
+ * public Address getAddress() { return address; }
+ * }
  *
  * @see JoinColumn
  * @see ForeignKey

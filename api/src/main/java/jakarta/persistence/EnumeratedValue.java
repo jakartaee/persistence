@@ -38,18 +38,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * distinct value for each value of the enum type.
  *
  * <p>Example:
- * <pre>
- *   enum Status {
- *       OPEN(0), CLOSED(1), CANCELLED(-1);
+ * {@snippet :
+ * enum Status {
+ *     OPEN(0), CLOSED(1), CANCELLED(-1);
  *
- *       &#064;EnumeratedValue
- *       final int intValue;
+ *     @EnumeratedValue
+ *     final int intValue;
  *
- *       Status(int intValue) {
- *           this.intValue = intValue;
- *       }
- *   }
- * </pre>
+ *     Status(int intValue) {
+ *         this.intValue = intValue;
+ *     }
+ * }
+ * }
  *
  * @see Enumerated
  * @see EnumType

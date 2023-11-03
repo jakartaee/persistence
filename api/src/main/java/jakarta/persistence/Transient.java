@@ -28,14 +28,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * entity class, mapped superclass, or embeddable class.
  *
  * <p>Example:
- * <pre>
- *    &#064;Entity
- *    public class Employee {
- *        &#064;Id int id;
- *        &#064;Transient User currentUser;
- *        ...
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     int id;
+ *     @Transient
+ *     User currentUser;
+ *     ...
+ * }
+ * }
  *
  * @since 1.0
  */

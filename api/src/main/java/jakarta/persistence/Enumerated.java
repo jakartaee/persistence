@@ -51,19 +51,20 @@ import static jakarta.persistence.EnumType.ORDINAL;
  * </ul>
  *
  * <p>Example:
- * <pre>
- *   public enum EmployeeStatus {FULL_TIME, PART_TIME, CONTRACT}
+ * {@snippet :
+ * public enum EmployeeStatus {FULL_TIME, PART_TIME, CONTRACT}
  *
- *   public enum SalaryRate {JUNIOR, SENIOR, MANAGER, EXECUTIVE}
+ * public enum SalaryRate {JUNIOR, SENIOR, MANAGER, EXECUTIVE}
  *
- *   &#064;Entity public class Employee {
- *       public EmployeeStatus getStatus() {...}
- *       ...
- *       &#064;Enumerated(STRING)
- *       public SalaryRate getPayScale() {...}
- *       ...
- *   }
- * </pre>
+ * @Entity
+ * public class Employee {
+ *     public EmployeeStatus getStatus() { ... }
+ *     ...
+ *     @Enumerated(STRING)
+ *     public SalaryRate getPayScale() { ... }
+ *     ...
+ * }
+ * }
  *
  * @see EnumeratedValue
  * @see Basic

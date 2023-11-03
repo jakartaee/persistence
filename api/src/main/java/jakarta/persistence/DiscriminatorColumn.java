@@ -38,16 +38,16 @@ import static jakarta.persistence.DiscriminatorType.STRING;
  * {@link DiscriminatorType#STRING}.
  *
  * <p>Example:
- * <pre>
- *     &#064;Entity
- *     &#064;Table(name="CUST")
- *     &#064;Inheritance(strategy=SINGLE_TABLE)
- *     &#064;DiscriminatorColumn(name="DISC", discriminatorType=STRING, length=20)
- *     public class Customer { ... }
+ * {@snippet :
+ * @Entity
+ * @Table(name = "CUST")
+ * @Inheritance(strategy = SINGLE_TABLE)
+ * @DiscriminatorColumn(name = "DISC", discriminatorType = STRING, length = 20)
+ * public class Customer { ... }
  *
- *     &#064;Entity
- *     public class ValuedCustomer extends Customer { ... }
- * </pre>
+ * @Entity
+ * public class ValuedCustomer extends Customer { ... }
+ * }
  *
  * @see DiscriminatorValue
  * @see DiscriminatorType

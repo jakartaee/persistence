@@ -31,10 +31,10 @@ package jakarta.persistence;
  * </ul>
  *
  * <p>Example:
- * <pre>
- *   &#064;Basic(fetch=LAZY)
- *   protected String getName() { return name; }
- * </pre>
+ * {@snippet :
+ * @Basic(fetch = LAZY)
+ * protected String getName() { return name; }
+ * }
  *
  * @see Basic
  * @see ElementCollection

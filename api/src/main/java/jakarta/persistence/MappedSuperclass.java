@@ -42,57 +42,60 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * XML elements.
  *
  * <p>Example: Concrete class as a mapped superclass
- * <pre>
- *    &#064;MappedSuperclass
- *    public class Employee {
+ * {@snippet :
+ * @MappedSuperclass
+ * public class Employee {
  *    
- *        &#064;Id protected Integer empId;
- *        &#064;Version protected Integer version;
- *        &#064;ManyToOne &#064;JoinColumn(name="ADDR")
- *        protected Address address;
+ *     @Id
+ *     protected Integer empId;
+ *     @Version
+ *     protected Integer version;
+ *     @ManyToOne
+ *     @JoinColumn(name = "ADDR")
+ *     protected Address address;
  *    
- *        public Integer getEmpId() { ... }
- *        public void setEmpId(Integer id) { ... }
- *        public Address getAddress() { ... }
- *        public void setAddress(Address addr) { ... }
- *    }
+ *     public Integer getEmpId() { ... }
+ *     public void setEmpId(Integer id) { ... }
+ *     public Address getAddress() { ... }
+ *     public void setAddress(Address addr) { ... }
+ * }
  *    
- *    // Default table is FTEMPLOYEE table
- *    &#064;Entity
- *    public class FTEmployee extends Employee {
+ * // Default table is FTEMPLOYEE table
+ * @Entity
+ * public class FTEmployee extends Employee {
  *    
- *        // Inherited empId field mapped to FTEMPLOYEE.EMPID
- *        // Inherited version field mapped to FTEMPLOYEE.VERSION
- *        // Inherited address field mapped to FTEMPLOYEE.ADDR fk
+ *     // Inherited empId field mapped to FTEMPLOYEE.EMPID
+ *     // Inherited version field mapped to FTEMPLOYEE.VERSION
+ *     // Inherited address field mapped to FTEMPLOYEE.ADDR fk
  *    
- *        // Defaults to FTEMPLOYEE.SALARY
- *        protected Integer salary;
+ *     // Defaults to FTEMPLOYEE.SALARY
+ *     protected Integer salary;
  *    
- *        public FTEmployee() {}
+ *     public FTEmployee() {}
  *    
- *        public Integer getSalary() { ... }
+ *     public Integer getSalary() { ... }
+ *     public void setSalary(Integer salary) { ... }
+ * }
  *    
- *        public void setSalary(Integer salary) { ... }
- *    }
+ * @Entity @Table(name = "PT_EMP")
+ * @AssociationOverride(
+ *     name = "address",
+ *     joinColumns = @JoinColumn(name = "ADDR_ID"))
+ * public class PartTimeEmployee extends Employee {
  *    
- *    &#064;Entity &#064;Table(name="PT_EMP")
- *    &#064;AssociationOverride(
- *        name="address", 
- *        joincolumns=&#064;JoinColumn(name="ADDR_ID"))
- *    public class PartTimeEmployee extends Employee {
+ *     // Inherited empId field mapped to PT_EMP.EMPID
+ *     // Inherited version field mapped to PT_EMP.VERSION
+ *     // address field mapping overridden to PT_EMP.ADDR_ID fk
+
+ *     @Column(name = "WAGE")
+ *     protected Float hourlyWage;
  *    
- *        // Inherited empId field mapped to PT_EMP.EMPID
- *        // Inherited version field mapped to PT_EMP.VERSION
- *        // address field mapping overridden to PT_EMP.ADDR_ID fk
- *        &#064;Column(name="WAGE")
- *        protected Float hourlyWage;
+ *     public PartTimeEmployee() {}
  *    
- *        public PartTimeEmployee() {}
- *    
- *        public Float getHourlyWage() { ... }
- *        public void setHourlyWage(Float wage) { ... }
- *    }
- * </pre>
+ *     public Float getHourlyWage() { ... }
+ *     public void setHourlyWage(Float wage) { ... }
+ * }
+ * }
  *
  * @see AttributeOverride 
  * @see AssociationOverride

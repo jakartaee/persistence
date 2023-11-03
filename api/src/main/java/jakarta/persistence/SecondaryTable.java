@@ -37,24 +37,24 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * key columns of the primary table.
  *
  * <p>Example 1: Single secondary table with a single primary key column.
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="CUSTOMER")
- *    &#064;SecondaryTable(name="CUST_DETAIL", 
- *        pkJoinColumns=&#064;PrimaryKeyJoinColumn(name="CUST_ID"))
- *    public class Customer { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Table(name = "CUSTOMER")
+ * @SecondaryTable(name = "CUST_DETAIL",
+ *                 pkJoinColumns = @PrimaryKeyJoinColumn(name = "CUST_ID"))
+ * public class Customer { ... }
+ * }
  *
  * <p>Example 2: Single secondary table with multiple primary key columns.
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="CUSTOMER")
- *    &#064;SecondaryTable(name="CUST_DETAIL",
- *        pkJoinColumns={
- *            &#064;PrimaryKeyJoinColumn(name="CUST_ID"),
- *            &#064;PrimaryKeyJoinColumn(name="CUST_TYPE")})
- *    public class Customer { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Table(name = "CUSTOMER")
+ * @SecondaryTable(name = "CUST_DETAIL",
+ *                 pkJoinColumns = {
+ *                     @PrimaryKeyJoinColumn(name = "CUST_ID"),
+ *                     @PrimaryKeyJoinColumn(name = "CUST_TYPE")})
+ * public class Customer { ... }
+ * }
  *
  * @since 1.0
  */

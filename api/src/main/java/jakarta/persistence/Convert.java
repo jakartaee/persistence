@@ -90,114 +90,116 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </ul>
  * 
  * <p>Example 1:  Convert a basic attribute
- * <pre>
- *    &#064;Converter
- *    public class BooleanToIntegerConverter 
- *       implements AttributeConverter&#060;Boolean, Integer&#062; {  ... }
+ * {@snippet :
+ * @Converter
+ * public class BooleanToIntegerConverter
+ *         implements AttributeConverter<Boolean, Integer> {  ... }
  *
- *    &#064;Entity
- *    public class Employee {
- *        &#064;Id long id;
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     long id;
  *
- *        &#064;Convert(converter=BooleanToIntegerConverter.class)
- *         boolean fullTime;
- *         ...
- *    }
- * </pre>
+ *     @Convert(converter = BooleanToIntegerConverter.class)
+ *     boolean fullTime;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 2: Auto-apply conversion of a basic attribute
- * <pre>
- *    &#064;Converter(autoApply=true)
- *    public class EmployeeDateConverter 
- *       implements AttributeConverter&#060;com.acme.EmployeeDate, java.sql.Date&#062; {  ... }
+ * {@snippet :
+ * @Converter(autoApply = true)
+ * public class EmployeeDateConverter
+ *         implements AttributeConverter<com.acme.EmployeeDate, java.sql.Date> {  ... }
  *
- *    &#064;Entity
- *    public class Employee {
- *        &#064;Id long id;
- *        ...
- *        // EmployeeDateConverter is applied automatically
- *        EmployeeDate startDate;
- *    }
- * </pre>
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     long id;
+ *     ...
+ *     // EmployeeDateConverter is applied automatically
+ *     EmployeeDate startDate;
+ * }
+ * }
  *
  * <p>Example 3: Disable conversion in the presence of an autoapply converter
- * <pre>
- *    &#064;Convert(disableConversion=true)
- *    EmployeeDate lastReview;
- * </pre>
+ * {@snippet :
+ * @Convert(disableConversion = true)
+ * EmployeeDate lastReview;
+ * }
  *
  * <p>Example 4: Apply a converter to an element collection of basic type
- * <pre>
- *    &#064;ElementCollection
- *    // applies to each element in the collection
- *    &#064;Convert(converter=NameConverter.class) 
- *    List&#060;String&#062; names;
- * </pre>
+ * {@snippet :
+ * @ElementCollection
+ * // applies to each element in the collection
+ * @Convert(converter = NameConverter.class)
+ * List<String> names;
+ * }
  *
  * <p>Example 5: Apply a converter to an element collection that is a map
  *               of basic values. The converter is applied to the map value.
- * <pre>
- *    &#064;ElementCollection
- *    &#064;Convert(converter=EmployeeNameConverter.class)
- *    Map&#060;String, String&#062; responsibilities;
- * </pre>
+ * {@snippet :
+ * @ElementCollection
+ * @Convert(converter = EmployeeNameConverter.class)
+ * Map<String, String> responsibilities;
+ * }
  *
  * <p>Example 6: Apply a converter to a map key of basic type
- * <pre>
- *    &#064;OneToMany
- *    &#064;Convert(converter=ResponsibilityCodeConverter.class, 
- *             attributeName="key")
- *    Map&#060;String, Employee&#062; responsibilities;
- * </pre>
+ * {@snippet :
+ * @OneToMany
+ * @Convert(converter = ResponsibilityCodeConverter.class,
+ *          attributeName = "key")
+ * Map<String, Employee> responsibilities;
+ * }
  *
  * <p>Example 7: Apply a converter to an embeddable attribute
- * <pre>
- *    &#064;Embedded
- *    &#064;Convert(converter=CountryConverter.class, 
- *             attributeName="country")
- *    Address address;
- * </pre>
+ * {@snippet :
+ * @Embedded
+ * @Convert(converter = CountryConverter.class,
+ *          attributeName = "country")
+ * Address address;
+ * }
  *
  * <p>Example 8:  Apply a converter to a nested embeddable attribute
- * <pre>
- *    &#064;Embedded
- *    &#064;Convert(converter=CityConverter.class, 
- *             attributeName="region.city")
- *    Address address;
- * </pre>
+ * {@snippet :
+ * @Embedded
+ * @Convert(converter = CityConverter.class,
+ *          attributeName = "region.city")
+ * Address address;
+ * }
  *
  * <p>Example 9: Apply a converter to a nested attribute of an embeddable
  *               that is a map key of an element collection
- * <pre>
- *    &#064;Entity public class PropertyRecord {
- *         ...
- *        &#064;Convert(attributeName="key.region.city", 
- *                 converter=CityConverter.class)
- *        &#064;ElementCollection
- *        Map&#060;Address, PropertyInfo&#062; parcels;
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity public class PropertyRecord {
+ *     ...
+ *     @Convert(attributeName = "key.region.city",
+ *              converter = CityConverter.class)
+ *     @ElementCollection
+ *     Map<Address, PropertyInfo> parcels;
+ * }
+ * }
  *
  * <p>Example 10: Apply a converter to an embeddable that is a map key for
  *                a relationship
- * <pre>
- *    &#064;OneToMany
- *    &#064;Convert(attributeName="key.jobType", 
- *             converter=ResponsibilityTypeConverter.class)
- *    Map&#060;Responsibility, Employee&#062; responsibilities;
- * </pre>
+ * {@snippet :
+ * @OneToMany
+ * @Convert(attributeName = "key.jobType",
+ *          converter = ResponsibilityTypeConverter.class)
+ * Map<Responsibility, Employee> responsibilities;
+ * }
  *
  * <p>Example 11: Override conversion mappings for attributes inherited from
  *                a mapped superclass
- * <pre>
- *    &#064;Entity
- *        &#064;Converts({
- *           &#064;Convert(attributeName="startDate", 
- *                    converter=DateConverter.class),
- *           &#064;Convert(attributeName="endDate", 
- *                    converter=DateConverter.class)})
- *    public class FullTimeEmployee extends GenericEmployee { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Converts({
+ *      @Convert(attributeName = "startDate",
+ *               converter = DateConverter.class),
+ *      @Convert(attributeName = "endDate",
+ *               converter = DateConverter.class)})
+ * public class FullTimeEmployee extends GenericEmployee { ... }
+ * }
  *
  * @see Converter
  * @see Converts

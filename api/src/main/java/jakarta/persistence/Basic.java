@@ -54,16 +54,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * be specified using the {@link Column} annotation.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Basic
- *    protected String name;
- * </pre>
+ * {@snippet :
+ * @Basic
+ * protected String name;
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Basic(fetch=LAZY)
- *    protected String getName() { return name; }
- * </pre>
+ * {@snippet :
+ * @Basic(fetch = LAZY)
+ * protected String getName() { return name; }
+ * }
  *
  * @since 1.0
  */

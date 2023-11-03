@@ -26,29 +26,27 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>Example 1: Multiple secondary tables assuming primary key
  * columns are named the same in all tables.
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="EMPLOYEE")
- *    &#064;SecondaryTables({
- *        &#064;SecondaryTable(name="EMP_DETAIL"),
- *        &#064;SecondaryTable(name="EMP_HIST")
- *    })
- *    public class Employee { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Table(name = "EMPLOYEE")
+ * @SecondaryTables({
+ *     @SecondaryTable(name = "EMP_DETAIL"),
+ *     @SecondaryTable(name = "EMP_HIST")})
+ * public class Employee { ... }
+ * }
  *
  * <p>Example 2: Multiple secondary tables with differently named
  * primary key columns.
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="EMPLOYEE")
- *    &#064;SecondaryTables({
- *        &#064;SecondaryTable(name="EMP_DETAIL", 
- *            pkJoinColumns=&#064;PrimaryKeyJoinColumn(name="EMPL_ID")),
- *        &#064;SecondaryTable(name="EMP_HIST", 
- *            pkJoinColumns=&#064;PrimaryKeyJoinColumn(name="EMPLOYEE_ID"))
- *    })
- *    public class Employee { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Table(name = "EMPLOYEE")
+ * @SecondaryTables({
+ *     @SecondaryTable(name = "EMP_DETAIL",
+ *                     pkJoinColumns = @PrimaryKeyJoinColumn(name = "EMPL_ID")),
+ *     @SecondaryTable(name = "EMP_HIST",
+ *                     pkJoinColumns = @PrimaryKeyJoinColumn(name = "EMPLOYEE_ID"))})
+ * public class Employee { ... }
+ * }
  *
  * @since 1.0
  */

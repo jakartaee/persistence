@@ -45,17 +45,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * primary key type does not itself need to be annotated.
  *
  * <p>Example:
- * <pre>
- *   &#064;IdClass(EmployeePK.class)
- *   &#064;Entity
- *   public class Employee {
- *      &#064;Id String empName;
- *      &#064;Id Date birthDay;
- *      ...
- *   }
+ * {@snippet :
+ * @IdClass(EmployeePK.class)
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     String empName;
+ *     @Id
+ *     Date birthDay;
+ *     ...
+ * }
  *
- *   public record EmployeePK(String empName, Date birthDay) {}
- * </pre>
+ * public record EmployeePK(String empName, Date birthDay) {}
+ * }
  *
  * @see EmbeddedId
  *

@@ -30,10 +30,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> The syntax of the {@code value} ordering element is an 
  * {@code orderby_list}, as follows:
  * 
- * <pre>
- *    orderby_list::= orderby_item [,orderby_item]*
- *    orderby_item::= [property_or_field_name] [ASC | DESC]
- * </pre>
+ * {@snippet :
+ *     orderby_list ::= orderby_item [, orderby_item]*
+ *     orderby_item ::= [property_or_field_name] [ASC | DESC]
+ * }
  * 
  * <p>If {@code ASC} or {@code DESC} is not specified, {@code ASC}
  * (ascending order) is assumed.
@@ -62,54 +62,55 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Entity
- *    public class Course {
- *       ...
- *       &#064;ManyToMany
- *       &#064;OrderBy("lastname ASC")
- *       public List&#060;Student&#062; getStudents() {...};
- *       ...
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Course {
+ *     ...
+ *     @ManyToMany
+ *     @OrderBy("lastname ASC")
+ *     public List<Student> getStudents() { ... }
+ *     ...
+ * }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Entity
- *    public class Student {
- *       ...
- *       &#064;ManyToMany(mappedBy="students")
- *       &#064;OrderBy // ordering by primary key is assumed
- *       public List&#060;Course&#062; getCourses() {...};
- *       ...
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Student {
+ *     ...
+ *     @ManyToMany(mappedBy = "students")
+ *     @OrderBy // ordering by primary key is assumed
+ *     public List<Course> getCourses() { ... }
+ *     ...
+ * }
+ * }
  *
  * <p>Example 3:
- * <pre>
- *    &#064;Entity 
- *    public class Person {
- *         ...
- *       &#064;ElementCollection
- *       &#064;OrderBy("zipcode.zip, zipcode.plusFour")
- *       public Set&#060;Address&#062; getResidences() {...};
- *       ...
- *    }
+ * {@snippet :
+ * @Entity 
+ * public class Person {
+ *     ...
+ *     @ElementCollection
+ *     @OrderBy("zipcode.zip, zipcode.plusFour")
+ *     public Set<Address> getResidences() { ... }
+ *     ...
+ * }
  *  
- *    &#064;Embeddable 
- *    public class Address {
- *       protected String street;
- *       protected String city;
- *       protected String state;
- *       &#064;Embedded protected Zipcode zipcode;
- *    }
+ * @Embeddable 
+ * public class Address {
+ *     protected String street;
+ *     protected String city;
+ *     protected String state;
+ *     @Embedded
+ *     protected Zipcode zipcode;
+ * }
  *
- *    &#064;Embeddable 
- *    public class Zipcode {
- *       protected String zip;
- *       protected String plusFour;
- *    }
- * </pre>
+ * @Embeddable 
+ * public class Zipcode {
+ *     protected String zip;
+ *     protected String plusFour;
+ * }
+ * }
  *
  * @see OrderColumn
  *
@@ -123,10 +124,10 @@ public @interface OrderBy {
    /**
     * An {@code orderby_list}. Specified as follows:
     *
-    * <pre>
+    * {@snippet :
     *    orderby_list::= orderby_item [,orderby_item]*
     *    orderby_item::= [property_or_field_name] [ASC | DESC]
-    * </pre>
+    * }
     *
     * <p> If {@code ASC} or {@code DESC} is not specified,
     * {@code ASC} (ascending order) is assumed.

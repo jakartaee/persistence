@@ -33,10 +33,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * is of such a temporal type.
  *
  * <p>Example:
- * <pre>
- *     &#064;Temporal(DATE)
- *     protected java.util.Date endDate;
- * </pre>
+ * {@snippet :
+ * @Temporal(DATE)
+ * protected java.util.Date endDate;
+ * }
  *
  * @since 1.0
  *

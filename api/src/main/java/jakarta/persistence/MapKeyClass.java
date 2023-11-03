@@ -36,56 +36,60 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * is specified and vice versa.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Entity
- *    public class Item {
- *       &#064;Id int id;
- *       ...
- *       &#064;ElementCollection(targetClass=String.class)
- *       &#064;MapKeyClass(String.class)
- *       Map images;  // map from image name to image filename
- *       ...
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Item {
+ *     @Id
+ *     int id;
+ *     ...
+ *     @ElementCollection(targetClass = String.class)
+ *     @MapKeyClass(String.class)
+ *     Map images;  // map from image name to image filename
+ *     ...
+ * }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    // MapKeyClass and target type of relationship can be defaulted
+ * {@snippet :
+ * // MapKeyClass and target type of relationship can be defaulted
  *
- *    &#064;Entity
- *    public class Item {
- *       &#064;Id int id;
- *       ...
- *       &#064;ElementCollection
- *       Map&#060;String, String&#062; images; 
- *        ...
- *     }
- * </pre>
+ * @Entity
+ * public class Item {
+ *     @Id
+ *     int id;
+ *     ...
+ *     @ElementCollection
+ *     Map<String, String> images;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 3:
- * <pre>
- *     &#064;Entity
- *     public class Company {
- *        &#064;Id int id;
- *        ...
- *        &#064;OneToMany(targetEntity=com.example.VicePresident.class)
- *        &#064;MapKeyClass(com.example.Division.class)
- *        Map organization;
- *     }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Company {
+ *     @Id
+ *     int id;
+ *     ...
+ *     @OneToMany(targetEntity = com.example.VicePresident.class)
+ *     @MapKeyClass(com.example.Division.class)
+ *     Map organization;
+ * }
+ * }
  *
  * <p>Example 4:
- * <pre>
- *     // MapKeyClass and target type of relationship are defaulted
+ * {@snippet :
+ * // MapKeyClass and target type of relationship are defaulted
  *
- *     &#064;Entity
- *     public class Company {
- *        &#064;Id int id;
- *        ...
- *        &#064;OneToMany
- *        Map&#060;Division, VicePresident&#062; organization;
- *     }
- * </pre>
+ * @Entity
+ * public class Company {
+ *     @Id
+ *     int id;
+ *     ...
+ *     @OneToMany
+ *     Map<Division, VicePresident> organization;
+ * }
+ * }
  *
  * @see ElementCollection 
  * @see OneToMany

@@ -26,25 +26,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * columns specified in the SELECT list of a SQL query to the properties
  * or fields of an entity class.
  *
- * <pre>
  *
- * Example:
- *   Query q = em.createNativeQuery(
- *       "SELECT o.id AS order_id, " +
- *           "o.quantity AS order_quantity, " +
- *           "o.item AS order_item, " +
- *         "FROM Order o, Item i " +
- *         "WHERE (order_quantity &gt; 25) AND (order_item = i.id)",
- *       "OrderResults");
+ * <p>Example:
+ * {@snippet :
+ * Query q = em.createNativeQuery(
+ *     "SELECT o.id AS order_id, " +
+ *         "o.quantity AS order_quantity, " +
+ *         "o.item AS order_item, " +
+ *       "FROM Order o, Item i " +
+ *       "WHERE (order_quantity > 25) AND (order_item = i.id)",
+ *     "OrderResults");
  *
- *   &#064;SqlResultSetMapping(name="OrderResults",
- *       entities={
- *           &#064;EntityResult(entityClass=com.acme.Order.class, fields={
- *               &#064;FieldResult(name="id", column="order_id"),
- *               &#064;FieldResult(name="quantity", column="order_quantity"),
- *               &#064;FieldResult(name="item", column="order_item")})
- *       })
- * </pre>
+ * @SqlResultSetMapping(
+ *     name = "OrderResults",
+ *     entities = {
+ *         @EntityResult(
+ *             entityClass = com.acme.Order.class,
+ *             fields = {
+ *                 @FieldResult(name = "id", column = "order_id"),
+ *                 @FieldResult(name = "quantity", column = "order_quantity"),
+ *                 @FieldResult(name = "item", column = "order_item")
+ *             })
+ *     })
+ * }
  *
  * @see EntityResult
  * @see SqlResultSetMapping

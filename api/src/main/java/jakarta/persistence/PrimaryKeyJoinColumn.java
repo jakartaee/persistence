@@ -44,19 +44,19 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * primary key columns of the primary table of the superclass.
  *
  * <p>Example: {@code Customer} and {@code ValuedCustomer} subclass
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="CUST")
- *    &#064;Inheritance(strategy=JOINED)
- *    &#064;DiscriminatorValue("CUST")
- *    public class Customer { ... }
+ * {@snippet :
+ * @Entity
+ * @Table(name = "CUST")
+ * @Inheritance(strategy = JOINED)
+ * @DiscriminatorValue("CUST")
+ * public class Customer { ... }
  *    
- *    &#064;Entity
- *    &#064;Table(name="VCUST")
- *    &#064;DiscriminatorValue("VCUST")
- *    &#064;PrimaryKeyJoinColumn(name="CUST_ID")
- *    public class ValuedCustomer extends Customer { ... }
- * </pre>
+ * @Entity
+ * @Table(name = "VCUST")
+ * @DiscriminatorValue("VCUST")
+ * @PrimaryKeyJoinColumn(name = "CUST_ID")
+ * public class ValuedCustomer extends Customer { ... }
+ * }
  *
  * @see SecondaryTable
  * @see Inheritance

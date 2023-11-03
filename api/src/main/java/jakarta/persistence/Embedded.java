@@ -33,14 +33,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * defaulted by the embeddable class.
  *
  * <p>Example:
- * <pre>
- *   &#064;Embedded
- *   &#064;AttributeOverrides({
- *       &#064;AttributeOverride(name="startDate", column=&#064;Column("EMP_START")),
- *       &#064;AttributeOverride(name="endDate", column=&#064;Column("EMP_END"))
- *   })
- *   public EmploymentPeriod getEmploymentPeriod() { ... }
- * </pre>
+ * {@snippet :
+ * @Embedded
+ * @AttributeOverrides({
+ *     @AttributeOverride(name = "startDate", column = @Column("EMP_START")),
+ *     @AttributeOverride(name = "endDate", column = @Column("EMP_END"))})
+ * public EmploymentPeriod getEmploymentPeriod() { ... }
+ * }
  *
  * @see Embeddable
  * @see AttributeOverride

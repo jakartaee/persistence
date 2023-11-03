@@ -31,11 +31,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the default values apply.
  *
  * <p>Example:
- * <pre>
- *    &#064;Entity
- *    &#064;Table(name="CUST", schema="RECORDS")
- *    public class Customer { ... }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * @Table(name = "CUST", schema = "RECORDS")
+ * public class Customer { ... }
+ * }
  *
  * @since 1.0
  */

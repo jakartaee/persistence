@@ -35,32 +35,35 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the {@code value} attribute is not specified.
  *
  * <p>Example:
- * <pre>
- *    // parent entity has simple primary key
+ * {@snippet :
+ * // parent entity has simple primary key
  *
- *    &#064;Entity
- *    public class Employee {
- *       &#064;Id long empId;
- *       String name;
- *       ...
- *    } 
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     long empId;
+ *     String name;
+ *     ...
+ * }
  *
- *    // dependent entity uses EmbeddedId for composite key
+ * // dependent entity uses EmbeddedId for composite key
  *
- *    &#064;Embeddable
- *    public class DependentId {
- *       String name;
- *       long empid;   // corresponds to primary key type of Employee
- *    }
+ * @Embeddable
+ * public class DependentId {
+ *     String name;
+ *     long empid;   // corresponds to primary key type of Employee
+ * }
  *
- *    &#064;Entity
- *    public class Dependent {
- *       &#064;EmbeddedId DependentId id;
- *        ...
- *       &#064;MapsId("empid")  //  maps the empid attribute of embedded id
- *       &#064;ManyToOne Employee emp;
- *    }
- * </pre>
+ * @Entity
+ * public class Dependent {
+ *     @EmbeddedId
+ *     DependentId id;
+ *     ...
+ *     @MapsId("empid")  //  maps the empid attribute of embedded id
+ *     @ManyToOne
+ *     Employee emp;
+ * }
+ * }
  *
  * @since 2.0
  */

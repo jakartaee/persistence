@@ -53,38 +53,40 @@ import java.lang.annotation.Repeatable;
  * {@code TableGenerator} annotation.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Entity public class Employee {
- *        ...
- *        &#064;TableGenerator(
- *            name="empGen", 
- *            table="ID_GEN",
- *            pkColumnName="GEN_KEY", 
- *            valueColumnName="GEN_VALUE", 
- *            pkColumnValue="EMP_ID", 
- *            allocationSize=1)
- *        &#064;Id
- *        &#064;GeneratedValue(strategy=TABLE, generator="empGen")
- *        int id;
- *        ...
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     ...
+ *     @TableGenerator(
+ *         name = "empGen",
+ *         table = "ID_GEN",
+ *         pkColumnName = "GEN_KEY",
+ *         valueColumnName = "GEN_VALUE",
+ *         pkColumnValue = "EMP_ID",
+ *         allocationSize = 1)
+ *     @Id
+ *     @GeneratedValue(strategy = TABLE, generator = "empGen")
+ *     int id;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Entity public class Address {
- *        ...
- *        &#064;TableGenerator(
- *            table="ID_GEN",
- *            pkColumnName="GEN_KEY", 
- *            valueColumnName="GEN_VALUE", 
- *            pkColumnValue="ADDR_ID")
- *        &#064;Id
- *        &#064;GeneratedValue(strategy=TABLE)
- *        int id;
- *        ...
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Address {
+ *     ...
+ *     @TableGenerator(
+ *         table = "ID_GEN",
+ *         pkColumnName = "GEN_KEY",
+ *         valueColumnName = "GEN_VALUE",
+ *         pkColumnValue = "ADDR_ID")
+ *     @Id
+ *     @GeneratedValue(strategy = TABLE)
+ *     int id;
+ *     ...
+ * }
+ * }
  *
  * @see GeneratedValue
  *

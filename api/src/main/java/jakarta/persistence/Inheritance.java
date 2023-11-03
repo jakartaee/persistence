@@ -32,14 +32,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * SINGLE_TABLE} mapping strategy is used.
  *
  * <p>Example:
- * <pre>
- *   &#064;Entity
- *   &#064;Inheritance(strategy=JOINED)
- *   public class Customer { ... }
+ * {@snippet :
+ * @Entity
+ * @Inheritance(strategy = JOINED)
+ * public class Customer { ... }
  *
- *   &#064;Entity
- *   public class ValuedCustomer extends Customer { ... }
- * </pre>
+ * @Entity
+ * public class ValuedCustomer extends Customer { ... }
+ * }
  *
  * @see InheritanceType
  *

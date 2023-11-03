@@ -32,60 +32,63 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * values apply.
  *
  * <p>Example 1:
- * <pre>
- *    &#064;Entity
- *    public class Company {
- *       &#064;Id int id;
- *       ...
- *       &#064;OneToMany   // unidirectional
- *       &#064;JoinTable(name="COMPANY_ORGANIZATION",
- *                  joinColumns=&#064;JoinColumn(name="COMPANY"),
- *                  inverseJoinColumns=&#064;JoinColumn(name="VICEPRESIDENT"))
- *       &#064;MapKeyJoinColumn(name="DIVISION")
- *       Map&#060;Division, VicePresident&#062; organization;
- *    }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Company {
+ *     @Id
+ *     int id;
+ *     ...
+ *     @OneToMany   // unidirectional
+ *     @JoinTable(name = "COMPANY_ORGANIZATION",
+ *                joinColumns = @JoinColumn(name = "COMPANY"),
+ *                inverseJoinColumns = @JoinColumn(name = "VICEPRESIDENT"))
+ *     @MapKeyJoinColumn(name = "DIVISION")
+ *     Map<Division, VicePresident> organization;
+ * }
+ * }
  *
  * <p>Example 2:
- * <pre>
- *    &#064;Entity
- *    public class VideoStore {
- *       &#064;Id int id;
- *       String name;
- *       Address location;
- *       ...
- *       &#064;ElementCollection
- *       &#064;CollectionTable(name="INVENTORY",
- *                        joinColumns=&#064;JoinColumn(name="STORE"))
- *       &#064;Column(name="COPIES_IN_STOCK")
- *       &#064;MapKeyJoinColumn(name="MOVIE", referencedColumnName="ID")
- *       Map&#060;Movie, Integer&#062; videoInventory;
- *       ...
- *     }
+ * {@snippet :
+ * @Entity
+ * public class VideoStore {
+ *     @Id
+ *     int id;
+ *     String name;
+ *     Address location;
+ *     ...
+ *     @ElementCollection
+ *     @CollectionTable(name = "INVENTORY",
+ *                      joinColumns = @JoinColumn(name = "STORE"))
+ *     @Column(name = "COPIES_IN_STOCK")
+ *     @MapKeyJoinColumn(name = "MOVIE", referencedColumnName = "ID")
+ *     Map<Movie, Integer> videoInventory;
+ *     ...
+ * }
  *
- *     &#064;Entity
- *     public class Movie {
- *        &#064;Id long id;
- *        String title;
- *        ...
- *     }
- * </pre>
+ * @Entity
+ * public class Movie {
+ *     @Id long id;
+ *     String title;
+ *     ...
+ * }
+ * }
  *
  * <p>Example 3:
- * <pre>
- *     &#064;Entity
- *     public class Student {
- *        &#064;Id int studentId;
- *        ...
- *        &#064;ManyToMany  // students and courses are also many-many
- *        &#064;JoinTable(name="ENROLLMENTS",
- *                   joinColumns=&#064;JoinColumn(name="STUDENT"),
- *                   inverseJoinColumns=&#064;JoinColumn(name="SEMESTER"))
- *        &#064;MapKeyJoinColumn(name="COURSE")
- *        Map&#060;Course, Semester&#062;  enrollment;
- *        ...
- *     }
- * </pre>
+ * {@snippet :
+ * @Entity
+ * public class Student {
+ *     @Id
+ *     int studentId;
+ *     ...
+ *     @ManyToMany  // students and courses are also many-many
+ *     @JoinTable(name = "ENROLLMENTS",
+ *                joinColumns = @JoinColumn(name = "STUDENT"),
+ *                inverseJoinColumns = @JoinColumn(name = "SEMESTER"))
+ *     @MapKeyJoinColumn(name = "COURSE")
+ *     Map<Course, Semester> enrollment;
+ *     ...
+ * }
+ * }
  *
  * @see ForeignKey
  *
