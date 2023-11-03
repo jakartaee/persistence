@@ -45,16 +45,48 @@ import jakarta.persistence.criteria.CriteriaDelete;
  * and is thus considered quite error-prone. It is much safer to use
  * the methods {@link EntityManagerFactory#runInTransaction} and
  * {@link EntityManagerFactory#callInTransaction}.
+ * {@snippet :
+ * entityManagerFactory.runInTransaction(entityManager -> {
+ *     // do work in a persistence context
+ *     ...
+ * });
+ * }
  *
  * <p>In the Jakarta EE environment, a container-managed
- * {@link EntityManagerFactory} may be obtained by dependency
- * injection, using {@link PersistenceContext}.
+ * {@link EntityManager} may be obtained by dependency injection,
+ * using {@link PersistenceContext}.
+ * {@snippet :
+ * // inject the container-managed entity manager
+ * @PersistenceContext(unitName="orderMgt")
+ * EntityManager entityManager;
+ * }
  *
  * <p>If the persistence unit has
  * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
  * resource local} transaction management, transactions must
  * be managed using the {@link EntityTransaction} obtained by
  * calling {@link #getTransaction()}.
+ *
+ * <p>A complete idiom for custom application management of
+ * the {@link EntityManager} and its associated resource-local
+ * {@link EntityTransaction} is as follows:
+ * {@snippet :
+ * EntityManager entityManager = entityManagerFactory.createEntityManager();
+ * EntityTransaction transaction = entityManager.getTransaction();
+ * try {
+ *     transaction.begin();
+ *     // do work
+ *     ...
+ *     transaction.commit();
+ * }
+ * catch (Exception e) {
+ *     if (transaction.isActive()) transaction.rollback();
+ *     throw e;
+ * }
+ * finally {
+ *     entityManager.close();
+ * }
+ * }
  *
  * <p>Each {@code EntityManager} instance is associated with a
  * distinct <em>persistence context</em>. A persistence context

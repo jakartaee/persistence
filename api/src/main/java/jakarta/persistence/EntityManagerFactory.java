@@ -59,9 +59,22 @@ import jakarta.persistence.criteria.CriteriaBuilder;
  *     {@link Persistence#createEntityManagerFactory(PersistenceConfiguration)}.
  * </ul>
  *
+ * <p>Usually, there is exactly one {@code EntityManagerFactory} for
+ * each persistence unit:
+ * {@snippet :
+ * // create a factory at initialization time
+ * static final EntityManagerFactory entityManagerFactory =
+ *         Persistence.createEntityManagerFactory("orderMgt");
+ * }
+ *
  * <p>Alternatively, in the Jakarta EE environment, a
  * container-managed {@code EntityManagerFactory} may be obtained
  * by dependency injection, using {@link PersistenceUnit}.
+ * {@snippet :
+ * // inject the container-managed factory
+ * @PersistenceUnit(unitName="orderMgt")
+ * EntityManagerFactory entityManagerFactory;
+ * }
  *
  * <p>An application-managed {@code EntityManager} may be created
  * via a call to {@link #createEntityManager()}. However, this
@@ -69,6 +82,10 @@ import jakarta.persistence.criteria.CriteriaBuilder;
  * management on the client, and is thus considered error-prone. It
  * is much safer to use the methods {@link #runInTransaction} and
  * {@link #callInTransaction} to obtain {@code EntityManager}s.
+ * Alternatively, in the Jakarta EE environment, a container-managed
+ * {@link EntityManager} may be obtained by dependency injection,
+ * using {@link PersistenceContext}, and the application need not
+ * interact with the {@code EntityManagerFactory} directly.
  *
  * <p>The {@code EntityManagerFactory} provides access to certain
  * other useful APIs:
@@ -90,10 +107,15 @@ import jakarta.persistence.criteria.CriteriaBuilder;
  * </ul>
  *
  * <p>When the application has finished using the entity manager
- * factory, and/or at application shutdown, the application should
- * {@linkplain #close} the entity manager factory. Once an
- * {@code EntityManagerFactory} has been closed, all its entity
- * managers are considered to be in the closed state.
+ * factory, or when the application terminates, the application
+ * should {@linkplain #close} the entity manager factory. If
+ * necessary, a {@link java.lang.ref.Cleaner} may be used:
+ * {@snippet :
+ * // factory should be destroyed before program terminates
+ * Cleaner.create().register(entityManagerFactory, entityManagerFactory::close);
+ * }
+ * Once an {@code EntityManagerFactory} has been closed, all its
+ * entity managers are considered to be in the closed state.
  *
  * @see EntityManager
  *
