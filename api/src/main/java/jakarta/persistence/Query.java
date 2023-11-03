@@ -39,7 +39,8 @@ public interface Query {
     /**
      * Execute a SELECT query and return the query results as an untyped
      * {@link List}.
-     * @return a list of the results
+     * @return a list of the results, or an empty list if there are
+     *         no results
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
@@ -68,7 +69,8 @@ public interface Query {
      * however persistence provider may choose to override this method
      * to provide additional capabilities.
      *
-     * @return a stream of the results
+     * @return a stream of the results, or an empty stream if there
+     *         are no results
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
