@@ -58,6 +58,30 @@ public interface Graph<T> {
     <Y> AttributeNode<Y> addAttributeNode(Attribute<? super T, Y> attribute);
 
     /**
+     * Determine if there is an existing attribute node for the attribute
+     * with the given name.
+     *
+     * @param attributeName  name of the attribute
+     * @return true if there is an existing attribute node
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity.
+     *
+     * @since 3.2
+     */
+    boolean hasAttributeNode(String attributeName);
+
+    /**
+     * Determine if there is an existing attribute node for the given
+     * attribute.
+     *
+     * @param attribute  attribute
+     * @return true if there is an existing attribute node
+     *
+     * @since 3.2
+     */
+    boolean hasAttributeNode(Attribute<? super T, ?> attribute);
+
+    /**
      * Get an existing attribute node for the attribute with the given
      * name.
      *
