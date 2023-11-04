@@ -32,10 +32,11 @@ import java.util.List;
 public interface Graph<T> {
 
     /**
-     * Add an attribute node to the entity graph.
+     * Get an existing attribute node for the attribute with the given
+     * name, or add a new attribute node if there is no existing node.
      *
      * @param attributeName  name of the attribute
-     * @return the added attribute node
+     * @return the attribute node
      * @throws IllegalArgumentException if the attribute is not an
      *         attribute of this entity.
      * @throws IllegalStateException if the EntityGraph has been
@@ -46,10 +47,11 @@ public interface Graph<T> {
     <Y> AttributeNode<Y> addAttributeNode(String attributeName);
 
     /**
-     * Add an attribute node to the entity graph.
+     * Get an existing attribute node for the given attribute, or add
+     * a new attribute node if there is no existing node.
      *
      * @param attribute  attribute
-     * @return the added attribute node
+     * @return the attribute node
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
      *
@@ -109,40 +111,16 @@ public interface Graph<T> {
     <Y> AttributeNode<Y> getAttributeNode(Attribute<? super T, Y> attribute);
 
     /**
-     * Get an existing attribute node for the attribute with the given
-     * name, or add an attribute node if there is no existing node.
-     *
-     * @param attributeName  name of the attribute
-     * @return the attribute node
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     *
-     * @since 3.2
-     */
-    <Y> AttributeNode<Y> getOrAddAttributeNode(String attributeName);
-
-    /**
-     * Get an existing attribute node for the given attribute, or add
-     * an attribute node if there is no existing node.
-     *
-     * @param attribute  attribute
-     * @return the attribute node
-     * @throws IllegalStateException if the EntityGraph has been
-     *         statically defined
-     *
-     * @since 3.2
-     */
-    <Y> AttributeNode<Y> getOrAddAttributeNode(Attribute<? super T, Y> attribute);
-
-    /**
      * Remove an attribute node from the entity graph.
      * When this graph is interpreted as a load graph, this operation
      * suppresses inclusion of an attribute mapped for eager fetching.
      * The effect of this call may be overridden by subsequent
      * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
+     * If there is no existing node for the given attribute name, this
+     * operation has no effect.
+     *
      * @param attributeName  name of the attribute
+     *
      * @since 3.2
      */
     void removeAttributeNode(String attributeName);
@@ -153,7 +131,11 @@ public interface Graph<T> {
      * suppresses inclusion of an attribute mapped for eager fetching.
      * The effect of this call may be overridden by subsequent
      * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
+     * If there is no existing node for the given attribute, this
+     * operation has no effect.
+     *
      * @param attribute  attribute
+     *
      * @since 3.2
      */
     void removeAttributeNode(Attribute<? super T, ?> attribute);
@@ -164,12 +146,16 @@ public interface Graph<T> {
      * suppresses inclusion of attributes mapped for eager fetching.
      * The effect of this call may be overridden by subsequent
      * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
+     *
      * @since 3.2
      */
     void removeAttributeNodes(Attribute.PersistentAttributeType nodeTypes);
 
     /**
      * Add one or more attribute nodes to the entity graph.
+     * If there is already an existing node for one of the given
+     * attribute names, that particular argument is ignored and
+     * has no effect.
      *
      * @param attributeName  name of the attribute     
      * @throws IllegalArgumentException if the attribute is not an 
@@ -181,9 +167,12 @@ public interface Graph<T> {
 
     /**
      * Add one or more attribute nodes to the entity graph.
-     * @param attribute  attribute
+     * If there is already an existing node for one of the given
+     * attributes, that particular argument is ignored and has no
+     * effect.
      *
-     * @throws IllegalStateException if this EntityGraph has been 
+     * @param attribute  attribute
+     * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
      */
     void addAttributeNodes(Attribute<? super T, ?>... attribute);
