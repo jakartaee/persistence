@@ -112,18 +112,16 @@ public @interface PostLoad {}
 
 ==== NamedEntityGraph and NamedEntityGraphs Annotations
 
-The `NamedEntityGraph` annotation is used to
-define a named entity graph. The entity graph may be retrieved by name
-using the `EntityManagerFactory` interface. The entity graph may be used
-to specify the path and boundaries for `find` operations or queries.
+The `NamedEntityGraph` annotation defines a named entity graph. The
+annotation must be applied to the root entity of the graph, and specifies
+the limits of the graph of associated attributes and entities fetched when
+an operation which retrieves an instance or instances of the root entity is
+executed.
 
-The `NamedEntityGraph` annotation must be
-applied to the entity class that forms the root of the corresponding
-graph of entities.
-
-The `name` element is used to refer to the
-entity graph. It defaults to the entity name of the root entity to which
-the annotation is applied. Entity graph names must be unique within the
+The `name` element assigns a name to the entity graph, and is used to
+identify the entity graph in calls to `EntityManager.getEntityGraph()`.
+If no name is explicitly specified, the name defaults to the entity name
+of the annotated root entity. Entity graph names must be unique within the
 persistence unit.
 
 The `attributeNodes` element lists attributes
