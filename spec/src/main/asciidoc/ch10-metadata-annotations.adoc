@@ -239,28 +239,35 @@ public @interface NamedSubgraph {
 
 ==== NamedQuery Annotation [[a13711]]
 
-The `NamedQuery` annotation is used to
-specify a named query in the Jakarta Persistence query language.
+The `NamedQuery` annotation declared a named query written in the Jakarta
+Persistence query language.
 
-The `name` element is used to refer to the
-query when using the `EntityManager` methods that create query objects.
+The `name` element assigns a name to the query, which is used to identify
+the query in calls to `EntityManager.createNamedQuery()`.
 
-The `query` element must specify a query
-string in the Jakarta Persistence query language.
+The `query` element must specify a query string itself, written in the
+Jakarta Persistence query language.
 
-The `lockMode` element specifies a lock mode
-for the results returned by the query. If a lock mode other than `NONE`
-is specified, the query must be executed within a transaction and the
-persistence context joined to the transaction.
+The `resultClass` element specifies the Java class of each query result.
+The query result class may be overridden by explicitly passing a `Class`
+object to `EntityManager.createNamedQuery(String, Class)`. If the
+`resultClass` element of a `NamedQuery` annotation is not specified, the
+persistence implementation is entitled to default the result class to
+`Object` or `Object[]`.
 
-The `hints` elements may be used to specify
-query properties and hints. Properties defined by this specification
-must be observed by the provider; hints defined by this specification
-should be observed by the provider when possible. Vendor-specific hints
-that are not recognized by a provider must be ignored.
+The `lockMode` element specifies a lock mode for the entity instances in
+results returned by the query. If a lock mode other than `NONE` is
+specified, the query may only be executed within a persistence context
+with an associated active transaction.
 
-The `NamedQuery` and `NamedQueries`
-annotations can be applied to an entity or mapped superclass.
+The `hints` elements may be used to specify query properties and hints.
+Properties defined by this specification must be observed by the provider;
+hints defined by this specification should be observed by the provider
+when possible. Vendor-specific hints that are not recognized by a provider
+must be ignored.
+
+The `NamedQuery` and `NamedQueries` annotations can be applied to an entity
+or mapped superclass.
 
 [source,java]
 ----
@@ -270,6 +277,7 @@ annotations can be applied to an entity or mapped superclass.
 public @interface NamedQuery {
     String name();
     String query();
+    Class<?> resultClass() default void.class;
     LockModeType lockMode() default NONE;
     QueryHint[] hints() default {};
 }
@@ -292,20 +300,26 @@ public @interface NamedQueries {
 
 The `NamedNativeQuery` annotation defines a named native SQL query.
 
-The `name` element specifies the name used to identify the query when
-calling methods of `EntityManager` which create query objects.
+The `name` element assigns a name to the query, which is used to identify
+the query in calls to `EntityManager.createNamedQuery()`.
 
-The `query` element specifies the query itself, written in the native SQL
-dialect of the database.
+The `query` element must specify the query string itself, written in the
+native SQL dialect of the database.
 
-The `resultClass` element specifies the class of the query result.
+The `resultClass` element specifies the class of each query result. If a
+result set mapping is specified, the specified result class must agree
+with the type inferred from the result set mapping. If a `resultClass` is
+not explicitly specified, then it is inferred from the result set mapping,
+if any, or defaults to `Object` or `Object[]`. The query result class may
+be overridden by explicitly passing a `Class` object to
+`EntityManager.createNamedQuery(String, Class)`.
 
-The `resultSetMapping` element specifies the name of a
-`SqlResultSetMapping` specification defined elsewhere in metadata.
-The named `SqlResultSetMapping` is used to interpret the result set of
-the native SQL query. Alternatively, the elements `entities`, `classes`,
-and `columns` may be used to specify a result set mapping. These elements
-may not be used in conjunction with `resultSetMapping`.
+The `resultSetMapping` element specifies the name of a `SqlResultSetMapping`
+specification defined elsewhere in metadata. The named `SqlResultSetMapping`
+is used to interpret the result set of the native SQL query. Alternatively,
+the elements `entities`, `classes`, and `columns` may be used to specify a
+result set mapping. These elements may not be used in conjunction with
+`resultSetMapping`.
 
 The `hints` element may be used to specify query properties and hints.
 Hints defined by this specification should be observed by the provider

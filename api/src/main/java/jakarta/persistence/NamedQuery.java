@@ -11,9 +11,10 @@
  */
 
 // Contributors:
+//     Gavin King       - 3.2
 //     Petros Splinakis - 2.2
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Linda DeMichiel  - 2.1
+//     Linda DeMichiel  - 2.0
 
 package jakarta.persistence;
 
@@ -25,30 +26,30 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Declares a static, named query in the Jakarta Persistence query
- * language. Query names are scoped to the persistence unit. The
- * {@code NamedQuery} annotation can be applied to an entity or
- * mapped superclass.
+ * Declares a named query written in the Jakarta Persistence
+ * query language. Query names are scoped to the persistence unit.
+ * A named query may be executed by calling
+ * {@link EntityManager#createNamedQuery(String, Class)}.
  *
  * <p> The following is an example of the definition of a named
- * query in the Jakarta Persistence query language:
- *
+ * query written in the Jakarta Persistence query language:
  * {@snippet :
  * @NamedQuery(
  *     name = "findAllCustomersWithName",
  *     query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")
  * }
  *
- * <p> The following is an example of the use of a named query:
- *
+ * <p> The named query may be executed like this:
  * {@snippet :
- * @PersistenceContext
- * public EntityManager em;
+ * @PersistenceContext EntityManager em;
  * ...
- * customers = em.createNamedQuery("findAllCustomersWithName")
+ * List<Customer> customers = em.createNamedQuery("findAllCustomersWithName", Customer.class)
  *               .setParameter("custName", "Smith")
  *               .getResultList();
  * }
+ *
+ * The {@code NamedQuery} annotation can be applied to an entity
+ * class or mapped superclass.
  *
  * @since 1.0
  */
@@ -58,8 +59,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedQuery {
 
     /** 
-     * (Required) The name used to refer to the query with the
-     * {@link EntityManager} methods that create query objects.
+     * (Required) The name used to identify the query in calls to
+     * {@link EntityManager#createNamedQuery}.
      */
     String name();
 
@@ -69,7 +70,17 @@ public @interface NamedQuery {
      */
     String query();
 
-    /** 
+    /**
+     * (Optional) The class of each query result. The result class
+     * may be overridden by explicitly passing a class object to
+     * {@link EntityManager#createNamedQuery(String, Class)}. If
+     * the result class of a named query is not specified, the
+     * persistence implementation is entitled to default the
+     * result class to {@code Object} or {@code Object[]}.
+     */
+    Class<?> resultClass() default void.class;
+
+    /**
      * (Optional) The lock mode type to use in query execution.
      * If a {@code lockMode} other than {@link LockModeType#NONE}
      * is specified, the query must be executed in a transaction
