@@ -5505,7 +5505,7 @@ these annotations are observed in the schema generation process.
 * `Column`
 * `DiscriminatorColumn`
 * `EmbeddedId`
-* _Enumerated, MapKeyEnumerated_
+* `Enumerated`, `MapKeyEnumerated`
 * `ForeignKey`
 * `GeneratedValue`
 * `Id`
@@ -5522,7 +5522,7 @@ these annotations are observed in the schema generation process.
 * `SequenceGenerator`
 * `Table`
 * `TableGenerator`
-* _Temporal, MapKeyTemporal_
+* `Temporal`, `MapKeyTemporal`
 * `UniqueConstraint`
 * `Version`
 

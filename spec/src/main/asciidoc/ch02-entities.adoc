@@ -1558,12 +1558,11 @@ The following mapping defaults apply:
 
 * Entity `Employee` is mapped to a table named `EMPLOYEE`.
 * Entity `Cubicle` is mapped to a table named `CUBICLE`.
-* Table `EMPLOYEE` contains a foreign key to
-table `CUBICLE`. The foreign key column is named `ASSIGNEDCUBICLE_` <PK
-of CUBICLE>, where <PK of CUBICLE> denotes the name of the primary key
-column of table `CUBICLE`. The foreign key column has the same type as
-the primary key of `CUBICLE`, and there is a unique key constraint on
-it.
+* Table `EMPLOYEE` contains a foreign key to table `CUBICLE`.
+The foreign key column is named `ASSIGNEDCUBICLE_<PK of CUBICLE>`,
+where `<PK of CUBICLE>` denotes the name of the primary key column
+of table `CUBICLE`. The foreign key column has the same type as the
+primary key of `CUBICLE`, and there is a unique key constraint on it.
 
 ==== Bidirectional ManyToOne / OneToMany Relationships
 
@@ -1635,10 +1634,10 @@ The following mapping defaults apply:
 
 * Entity `Employee` is mapped to a table named `EMPLOYEE`.
 * Entity `Department` is mapped to a table named `DEPARTMENT`.
-* Table `EMPLOYEE` contains a foreign key to
-table `DEPARTMENT`. The foreign key column is named `DEPARTMENT_` <PK
-of DEPARTMENT>, where <PK of DEPARTMENT> denotes the name of the primary
-key column of table `DEPARTMENT`. The foreign key column has the same
+* Table `EMPLOYEE` contains a foreign key to table `DEPARTMENT`.
+The foreign key column is named `DEPARTMENT_<PK of DEPARTMENT>`,
+where `<PK of DEPARTMENT>` denotes the name of the primary key
+column of table `DEPARTMENT`. The foreign key column has the same
 type as the primary key of `DEPARTMENT`.
 
 ==== Unidirectional Single-Valued Relationships
@@ -1703,11 +1702,11 @@ The following mapping defaults apply:
 
 * Entity `Employee` is mapped to a table named `EMPLOYEE`.
 * Entity `TravelProfile` is mapped to a table named `TRAVELPROFILE`.
-* Table `EMPLOYEE` contains a foreign key to
-table `TRAVELPROFILE`. The foreign key column is named `PROFILE_` <PK
-of TRAVELPROFILE>, where <PK of TRAVELPROFILE> denotes the name of the
-primary key column of table `TRAVELPROFILE`. The foreign key column has
-the same type as the primary key of `TRAVELPROFILE`, and there is a
+* Table `EMPLOYEE` contains a foreign key to table `TRAVELPROFILE`.
+The foreign key column is named `PROFILE_<PK of TRAVELPROFILE>`,
+where `<PK of TRAVELPROFILE>` denotes the name of the primary key
+column of table `TRAVELPROFILE`. The foreign key column has the
+same type as the primary key of `TRAVELPROFILE`, and there is a
 unique key constraint on it.
 
 ===== Unidirectional ManyToOne Relationships
@@ -1754,11 +1753,11 @@ The following mapping defaults apply:
 
 * Entity `Employee` is mapped to a table named `EMPLOYEE`.
 * Entity `Address` is mapped to a table named `ADDRESS`.
-* Table `EMPLOYEE` contains a foreign key to
-table `ADDRESS`. The foreign key column is named `ADDRESS_` <PK of
-ADDRESS>, where <PK of ADDRESS> denotes the name of the primary key
-column of table `ADDRESS`. The foreign key column has the same type as
-the primary key of `ADDRESS`.
+* Table `EMPLOYEE` contains a foreign key to table `ADDRESS`.
+The foreign key column is named `ADDRESS_<PK of ADDRESS>`,
+where `<PK of ADDRESS>` denotes the name of the primary key
+column of table `ADDRESS`. The foreign key column has the same
+type as the primary key of `ADDRESS`.
 
 ==== Bidirectional ManyToMany Relationships [[a708]]
 
@@ -1835,11 +1834,11 @@ The following mapping defaults apply:
 `PROJECT_EMPLOYEE` (owner name first). This join table has two foreign
 key columns. One foreign key column refers to table `PROJECT` and has
 the same type as the primary key of `PROJECT`. The name of this foreign
-key column is `PROJECTS_` <PK of PROJECT>, where <PK of PROJECT> denotes
+key column is `PROJECTS_<PK of PROJECT>`, where `<PK of PROJECT>` denotes
 the name of the primary key column of table `PROJECT`. The other
 foreign key column refers to table `EMPLOYEE` and has the same type as
 the primary key of `EMPLOYEE`. The name of this foreign key column is
-`EMPLOYEES_` <PK of EMPLOYEE>, where <PK of EMPLOYEE> denotes the name
+`EMPLOYEES_<PK of EMPLOYEE>`, where `<PK of EMPLOYEE>` denotes the name
 of the primary key column of table `EMPLOYEE`.
 
 ==== Unidirectional Multi-Valued Relationships [[a758]]
@@ -1913,11 +1912,11 @@ The following mapping defaults apply:
 `EMPLOYEE_ANNUALREVIEW` (owner name first). This join table has two
 foreign key columns. One foreign key column refers to table `EMPLOYEE`
 and has the same type as the primary key of `EMPLOYEE`. This foreign
-key column is named `EMPLOYEE_` <PK of EMPLOYEE>, where <PK of EMPLOYEE>
+key column is named `EMPLOYEE_<PK of EMPLOYEE>`, where `<PK of EMPLOYEE>`
 denotes the name of the primary key column of table `EMPLOYEE`. The
 other foreign key column refers to table `ANNUALREVIEW` and has the same
 type as the primary key of `ANNUALREVIEW`. This foreign key column is
-named `ANNUALREVIEWS_` <PK of ANNUALREVIEW>, where <PK of ANNUALREVIEW>
+named `ANNUALREVIEWS_<PK of ANNUALREVIEW>`, where `<PK of ANNUALREVIEW>`
 denotes the name of the primary key column of table `ANNUALREVIEW`.
 There is a unique key constraint on the foreign key that refers to table
 `ANNUALREVIEW`.
@@ -1980,12 +1979,12 @@ The following mapping defaults apply:
 `EMPLOYEE_PATENT` (owner name first). This join table has two foreign
 key columns. One foreign key column refers to table `EMPLOYEE` and has
 the same type as the primary key of `EMPLOYEE`. This foreign key column
-is named `EMPLOYEE_` <PK of EMPLOYEE>, where <PK of EMPLOYEE> denotes
+is named `EMPLOYEE_<PK of EMPLOYEE>`, where `<PK of EMPLOYEE>` denotes
 the name of the primary key column of table `EMPLOYEE`. The other
 foreign key column refers to table `PATENT` and has the same type as the
-primary key of `PATENT`. This foreign key column is named `PATENTS_`
-<PK of PATENT>, where <PK of PATENT> denotes the name of the primary key
-column of table `PATENT`.
+primary key of `PATENT`. This foreign key column is named
+`PATENTS_<PK of PATENT>`, where `<PK of PATENT>` denotes the name of the
+primary key column of table `PATENT`.
 
 === Inheritance [[a765]]
 
@@ -2373,52 +2372,52 @@ whose values correspond to names of database identifiers and for which
 the above rules apply, including when their use is nested within that of
 other annotations:
 
-* EntityResult(discriminatorColumn *element*)
-* FieldResult(column *element*)
-* ColumnResult(name *element*)
-* CollectionTable(name, catalog, schema *elements*)
-* Column(name, columnDefinition, table *elements*)
-* DiscriminatorColumn(name, columnDefinition *elements*)
-* ForeignKey(name, foreignKeyDefinition *elements*)
-* Index(name, columnList *elements*)
-* JoinColumn(name, referencedColumnName, columnDefinition, table *elements*)
-* JoinTable(name, catalog, schema *elements*)
-* MapKeyColumn(name, columnDefinition, table *elements*)
-* MapKeyJoinColumn(name, referencedColumnName, columnDefinition, table *elements*)
-* NamedStoredProcedureQuery(procedureName *element*)
-* OrderColumn(name, columnDefinition *elements*)
-* PrimaryKeyJoinColumn(name, referencedColumnName, columnDefinition *elements*)
-* SecondaryTable(name, catalog, schema *elements*)
-* SequenceGenerator(sequenceName, catalog, schema *elements*)
-* StoredProcedureParameter(name *element*)
-* Table(name, catalog, schema *elements*)
-* TableGenerator(table, catalog, schema, pkColumnName, valueColumnName *elements*)
-* UniqueConstraint(name, columnNames *elements*)
+* `EntityResult(discriminatorColumn *element*)`
+* `FieldResult(column *element*)`
+* `ColumnResult(name *element*)`
+* `CollectionTable(name, catalog, schema *elements*)`
+* `Column(name, columnDefinition, table *elements*)`
+* `DiscriminatorColumn(name, columnDefinition *elements*)`
+* `ForeignKey(name, foreignKeyDefinition *elements*)`
+* `Index(name, columnList *elements*)`
+* `JoinColumn(name, referencedColumnName, columnDefinition, table *elements*)`
+* `JoinTable(name, catalog, schema *elements*)`
+* `MapKeyColumn(name, columnDefinition, table *elements*)`
+* `MapKeyJoinColumn(name, referencedColumnName, columnDefinition, table *elements*)`
+* `NamedStoredProcedureQuery(procedureName *element*)`
+* `OrderColumn(name, columnDefinition *elements*)`
+* `PrimaryKeyJoinColumn(name, referencedColumnName, columnDefinition *elements*)`
+* `SecondaryTable(name, catalog, schema *elements*)`
+* `SequenceGenerator(sequenceName, catalog, schema *elements*)`
+* `StoredProcedureParameter(name *element*)`
+* `Table(name, catalog, schema *elements*)`
+* `TableGenerator(table, catalog, schema, pkColumnName, valueColumnName *elements*)`
+* `UniqueConstraint(name, columnNames *elements*)`
 
 The following XML elements and types contain
 elements or attributes whose values correspond to names of database
 identifiers and for which the above rules apply:
 
-* entity-mappings(schema, catalog *elements*)
-* persistence-unit-defaults(schema, catalog *elements*)
-* collection-table(name, catalog, schema *attributes*)
-* column(name, table, column-definition *attributes*)
-* column-result(name *attribute*)
-* discriminator-column(name, column-definition *attributes*)
-* entity-result(discriminator-column *attribute*)
-* field-result(column *attribute*)
-* foreign-key(name, foreign-key-definition *attributes*)
-* index(name *attribute*, column-list *element*)
-* join-column(name, referenced-column-name, column-definition, table *attributes*)
-* join-table(name, catalog, schema *attributes*)
-* map-key-column(name, column-definition, table *attributes*)
-* map-key-join-column(name, referenced-column-name, column-definition, table *attributes*)
-* named-stored-procedure-query(procedure-name *attribute*)
-* order-column(name, column-definition *attributes*)
-* primary-key-join-column(name, referenced-column-name, column-definition *attributes*)
-* secondary-table(name, catalog, schema *attributes*)
-* sequence-generator(sequence-name, catalog, schema *attributes*)
-* stored-procedure-parameter(name *attribute*)
-* table(name, catalog, schema *attributes*)
-* table-generator(table, catalog, schema, pk-column-name, value-column-name *attributes*)
-* unique-constraint(name *attribute*, column-name *element*)
+* `entity-mappings(schema, catalog *elements*)`
+* `persistence-unit-defaults(schema, catalog *elements*)`
+* `collection-table(name, catalog, schema *attributes*)`
+* `column(name, table, column-definition *attributes*)`
+* `column-result(name *attribute*)`
+* `discriminator-column(name, column-definition *attributes*)`
+* `entity-result(discriminator-column *attribute*)`
+* `field-result(column *attribute*)`
+* `foreign-key(name, foreign-key-definition *attributes*)`
+* `index(name *attribute*, column-list *element*)`
+* `join-column(name, referenced-column-name, column-definition, table *attributes*)`
+* `join-table(name, catalog, schema *attributes*)`
+* `map-key-column(name, column-definition, table *attributes*)`
+* `map-key-join-column(name, referenced-column-name, column-definition, table *attributes*)`
+* `named-stored-procedure-query(procedure-name *attribute*)`
+* `order-column(name, column-definition *attributes*)`
+* `primary-key-join-column(name, referenced-column-name, column-definition *attributes*)`
+* `secondary-table(name, catalog, schema *attributes*)`
+* `sequence-generator(sequence-name, catalog, schema *attributes*)`
+* `stored-procedure-parameter(name *attribute*)`
+* `table(name, catalog, schema *attributes*)`
+* `table-generator(table, catalog, schema, pk-column-name, value-column-name *attributes*)`
+* `unique-constraint(name *attribute*, column-name *element*)`
