@@ -346,6 +346,28 @@ public interface EntityManagerFactory extends AutoCloseable {
     <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
 
     /**
+     * A map keyed by {@linkplain NamedQuery#name query name}, containing
+     * {@linkplain TypedQueryReference references} to every named query whose
+     * result type is assignable to the given Java type.
+     * @param resultType any Java type, including {@code Object.class}
+     *                   meaning all queries
+     * @return a map keyed by query name
+     * @param <R> the specified upper bound on the query result types
+     */
+    <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
+
+    /**
+     * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
+     * every named {@linkplain EntityGraph entity graph} whose entity type is
+     * assignable to the given Java type.
+     * @param entityType any Java type, including {@code Object.class}
+     *                   meaning all entity graphs
+     * @return a map keyed by graph name
+     * @param <E> the specified upper bound on the entity graph types
+     */
+    <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
+
+    /**
      * Create a new application-managed {@link EntityManager} with an active
      * transaction, and execute the given function, passing the {@code EntityManager}
      * to the function.

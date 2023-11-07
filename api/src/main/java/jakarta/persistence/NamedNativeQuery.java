@@ -27,9 +27,54 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Declares a named native SQL query and, optionally, the mapping
  * of the result of the native SQL query. Query names are scoped
- * to the persistence unit. The {@code NamedNativeQuery} annotation
- * can be applied to an entity or mapped superclass.
+ * to the persistence unit. A named query may be executed by
+ * calling {@link EntityManager#createNamedQuery(String, Class)}.
  *
+ * <p> In simple cases, a {@link #resultClass} specifies how the
+ * native SQL query result set should be interpreted, for example:
+ * {@snippet :
+ * @NamedNativeQuery(
+ *         name = "findWidgets",
+ *         query = "SELECT o.id, o.quantity, o.item " +
+ *                 "FROM Order o, Item i " +
+ *                 "WHERE (o.item = i.id) AND (i.name = 'widget')",
+ *         resultClass = com.acme.Order.class
+ * )}
+ *
+ * <p>
+ * In more complicated cases, a {@linkplain SqlResultSetMapping
+ * result set mapping} is needed, which may be specified using
+ * either a separate annotation:
+ * {@snippet :
+ * @NamedNativeQuery(
+ *         name = "OrderItems",
+ *         query = "SELECT o.id, o.quantity, o.item, i.id, i.name, i.description " +
+ *                 "FROM Order o, Item i " +
+ *                 "WHERE (o.quantity > 25) AND (o.item = i.id)",
+ *         resultSetMapping = "OrderItemResults"
+ * )
+ * @SqlResultSetMapping(name="OrderItemResults", entities={
+ *     @EntityResult(entityClass=com.acme.Order.class),
+ *     @EntityResult(entityClass=com.acme.Item.class)
+ * })
+ * }
+ * or using the elements of this annotation:
+ * {@snippet :
+ * @NamedNativeQuery(
+ *         name = "OrderItems",
+ *         query = "SELECT o.id, o.quantity, o.item, i.id, i.name, i.description " +
+ *                 "FROM Order o, Item i " +
+ *                 "WHERE (o.quantity > 25) AND (o.item = i.id)",
+ *         resultSetMapping = "OrderItemResults");
+ *         entities={
+ *                 @EntityResult(entityClass=com.acme.Order.class),
+ *                 @EntityResult(entityClass=com.acme.Item.class)
+ *         }
+ * )
+ * }
+ *
+ * <p> The {@code NamedNativeQuery} annotation can be applied to
+ * an entity class or mapped superclass.
  * @see SqlResultSetMapping
  *
  * @since 1.0
@@ -40,13 +85,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedNativeQuery { 
 
     /**
-     * The name used to refer to the query with the {@link EntityManager} 
-     * methods that create query objects.
+     * The name used to identify the query in calls to
+     * {@link EntityManager#createNamedQuery}.
      */
     String name();
 
     /**
-     * The SQL query string.
+     * The native SQL query string.
      */
     String query();
 
@@ -57,12 +102,26 @@ public @interface NamedNativeQuery {
     QueryHint[] hints() default {};
 
     /**
-     * The class of the result.
+     * The class of each query result. If a {@link #resultSetMapping
+     * result set mapping} is specified, the specified result class
+     * must agree with the type inferred from the result set mapping.
+     * If a {@code resultClass} is not explicitly specified, then it
+     * is inferred from the result set mapping, if any, or defaults
+     * to {@code Object} or {@code Object[]}. The query result class
+     * may be overridden by explicitly passing a class object to
+     * {@link EntityManager#createNamedQuery(String, Class)}.
      */
     Class<?> resultClass() default void.class;
 
     /**
      * The name of a {@link SqlResultSetMapping}, as defined in metadata.
+     * The named result set mapping is used to interpret the result set
+     * of the native SQL query.
+     *
+     * <p>Alternatively, the elements {@link #entities}, {@link #classes},
+     * and {@link #columns} may be used to specify a result set mapping.
+     * These elements may not be used in conjunction with
+     * {@code resultSetMapping}.
      */
     String resultSetMapping() default "";
 

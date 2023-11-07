@@ -76,17 +76,21 @@ unit, a corresponding metamodel class is produced as follows:
 `X_` in package `p` is created.footnote:[We expect that the
 option of different packages will be provided in a future release of
 this specification.]
+
 * The name of the metamodel class is derived from the name of the
 managed class by appending "`_`" to the name of the managed class.
+
 * The metamodel class `X_` must be annotated with the
 `jakarta.persistence.StaticMetamodel` annotationfootnote:[If the class
 was generated, the `javax.annotation.processing.Generated` or `jakarta.annotation.Generated`
 annotation should be used to annotate the class. The use of any other annotations on static
 metamodel classes is undefined.].
+
 * If the managed class `X` extends another class `S`, where `S` is the
 most derived managed class (i.e., entity or mapped superclass) extended
 by `X`, then the metamodel class `X_` must extend the metamodel
 class `S_` created for `S`.
+
 * The metamodel class must contain a field declaration as follows:
 +
 [source,java]
@@ -108,6 +112,7 @@ where the field name `Y` is obtained by transforming each lowercase
 character in the attribute name `y` to uppercase, and inserting an
 underscore if the character following the transformed character
 is uppercase.
+
 * For every persistent non-collection-valued
 attribute `y` declared by class `X`, where the type of `y` is `Y`, the
 metamodel class must contain a declaration as follows:
@@ -117,6 +122,7 @@ metamodel class must contain a declaration as follows:
 public static volatile SingularAttribute<X, Y> y;
 ----
 +
+
 * For every persistent collection-valued
 attribute `z` declared by class `X`, where the element type of `z` is
 `Z`, the metamodel class must contain a declaration as follows:
@@ -149,6 +155,7 @@ public static volatile MapAttribute<X, K, Z> z;
 ----
 +
 where `K` is the type of the key of the map in class `X`
+
 * For every named query, named entity graph, or SQL result set
 mapping with name `"n"` declared by annotations of the class `X`,
 the metamodel class must contain a declaration as follows:
@@ -166,6 +173,26 @@ following the transformed character is uppercase, and then
 replacing each character which is not a legal Java identifier
 character with an underscore.
 
+* For every named query with name `"n"` and query result class
+`R` declared by annotations of the class `X`, the metamodel class
+must contain a declaration as follows:
++
+[source,java]
+----
+public static volatile TypedQueryReference<R> _n_;
+----
++
+
+* For every named entity graph with name `"n"` declared by
+annotations of the class `X`, the metamodel class must contain
+a declaration as follows:
++
+[source,java]
+----
+public static volatile EntityGraph<X> _n;
+----
++
+
 Import statements must be included for the
 needed `jakarta.persistence.metamodel` types as appropriate (e.g.,
 `jakarta.persistence.metamodel.SingularAttribute`,
@@ -173,7 +200,7 @@ needed `jakarta.persistence.metamodel` types as appropriate (e.g.,
 `jakarta.persistence.metamodel.SetAttribute`,
 `jakarta.persistence.metamodel.ListAttribute`,
 `jakarta.persistence.metamodel.MapAttribute`) and all classes `X`, `Y`,
-`Z`, and `K`.
+`Z`, `R`, and `K`.
 
 [NOTE]
 ====

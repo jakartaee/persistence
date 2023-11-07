@@ -23,7 +23,15 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to specify the path and boundaries for a find operation or query.
+ * Defines a named {@linkplain EntityGraph entity graph}. This annotation
+ * must be applied to the root entity of the graph, and specifies the
+ * limits of the graph of associated attributes and entities fetched when
+ * an operation which retrieves an instance or instances of the root entity
+ * is executed.
+ *
+ * <p> A reference to a named entity graph may be obtained by calling
+ * {@link EntityManager#getEntityGraph(String)}, and may be passed to
+ * {@link EntityManager#find(EntityGraph, Object, FindOption...)}.
  *
  * @since 2.1
  */
@@ -33,8 +41,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedEntityGraph {
 
     /**
-     * (Optional) The name of the entity graph.
-     * Defaults to the entity name of the root entity.
+     * (Optional) The name used to identify the entity graph in calls to
+     * {@link EntityManager#getEntityGraph(String)}. If no name is explicitly
+     * specified, the name defaults to the entity name of the annotated root
+     * entity. Entity graph names must be unique within the persistence unit.
      */
     String name() default "";
 
