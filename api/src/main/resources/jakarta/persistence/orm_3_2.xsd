@@ -545,6 +545,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:element name="check-constraint" type="orm:check-constraint"
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
@@ -559,7 +560,6 @@
     <xsd:attribute name="length" type="xsd:int"/>
     <xsd:attribute name="precision" type="xsd:int"/>
     <xsd:attribute name="scale" type="xsd:int"/>
-    <xsd:attribute name="comment" type="xsd:string"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1233,6 +1233,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:element name="foreign-key" type="orm:foreign-key"
                    minOccurs="0"/>
       <xsd:element name="check-constraint" type="orm:check-constraint"
@@ -1247,7 +1248,6 @@
     <xsd:attribute name="column-definition" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
     <xsd:attribute name="table" type="xsd:string"/>
-    <xsd:attribute name="comment" type="xsd:string"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1275,6 +1275,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:sequence>
         <xsd:element name="join-column" type="orm:join-column"
                      minOccurs="0" maxOccurs="unbounded"/>
@@ -1297,7 +1298,6 @@
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
     <xsd:attribute name="schema" type="xsd:string"/>
-    <xsd:attribute name="comment" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
@@ -2161,6 +2161,7 @@
      </xsd:annotation>
      <xsd:sequence>
        <xsd:sequence>
+         <xsd:element name="comment" type="xsd:string" minOccurs="0" />
          <xsd:element name="primary-key-join-column"
                       type="orm:primary-key-join-column"
                       minOccurs="0" maxOccurs="unbounded"/>
@@ -2180,7 +2181,6 @@
     <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
     <xsd:attribute name="schema" type="xsd:string"/>
-    <xsd:attribute name="comment" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
@@ -2290,6 +2290,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:element name="unique-constraint" type="orm:unique-constraint"
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="index" type="orm:index"
@@ -2300,7 +2301,6 @@
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
     <xsd:attribute name="schema" type="xsd:string"/>
-    <xsd:attribute name="comment" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
