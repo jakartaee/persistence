@@ -46,6 +46,6 @@ public enum ParameterMode {
      * <p>Some databases use REF_CURSOR parameters to return result
      * sets from stored procedures.
      */
-    REF_CURSOR,
+    REF_CURSOR
 
 }

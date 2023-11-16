@@ -100,6 +100,8 @@ Primary key classes are no longer required to be public and serializable
 
 Pulled `getParameters()` up from `CriteriaQuery` to `CommonAbstractCriteria`
 
+Updated object/relational mapping schema
+
 Fixed wildcard types in `addSubgraph` and `addAttributeNode` in `Graph`
 
 Fixed lower type bounds to the `Path.get` entity argument `X`

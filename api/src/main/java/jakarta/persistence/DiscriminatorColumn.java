@@ -56,7 +56,6 @@ import static jakarta.persistence.DiscriminatorType.STRING;
  */
 @Target({TYPE}) 
 @Retention(RUNTIME)
-
 public @interface DiscriminatorColumn {
 
     /**
