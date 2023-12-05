@@ -181,8 +181,10 @@ fully initialized for the type that it is mapped to.]
 of `java.util.Calendar` or of `java.util.Date` and its subclasses in the
 package `java.sql` is strongly discouraged. Newly-written programs should
 use date/time types from the package `java.time`.]
-`byte[]`, `Byte[]`, `char[]`, `Character[]`, `java.time.LocalDate`,
-`java.time.LocalTime`, `java.time.LocalDateTime`,
+`byte[]`, `Byte[]`, `char[]`, `Character[]`,footnote:[The use of `Byte[]`
+or of `Character[]` is discouraged. Newly-written programs should use
+`byte[]` or `char[]` instead.]
+`java.time.LocalDate`, `java.time.LocalTime`, `java.time.LocalDateTime`,
 `java.time.OffsetTime`, `java.time.OffsetDateTime`,
 `java.time.Instant`, `java.time.Year`,
 and user-defined types that implement the `Serializable` interface);
