@@ -35,7 +35,8 @@ a Java domain model to manage data held in a relational database.
 
 The Jakarta Persistence Specification incorporates work done over two decades
 by the EJB 3.0 expert group, the Java Persistence 2.0, 2.1, and 2.2 expert
-groups, and by the Jakarta Persistence project at the Eclipse Foundation.
+groups, under the aegis of the Java Community Process, and by the Jakarta
+Persistence project at the Eclipse Foundation.
 
 === Document Conventions
 

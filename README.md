@@ -11,9 +11,19 @@
 [![Build Status](https://github.com/jakartaee/persistence/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/jakartaee/persistence/actions/workflows/maven.yml?branch=master)
 [![Jakarta Staging (Snapshots)](https://img.shields.io/nexus/s/https/jakarta.oss.sonatype.org/jakarta.persistence/jakarta.persistence-api.svg)](https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/)
 
+[PDF]: https://jakartaee.github.io/persistence/latest/draft.pdf
+[HTML]: https://jakartaee.github.io/persistence/latest/draft.html
+[API]: https://jakartaee.github.io/persistence/latest/api/jakarta.persistence/module-summary.html
 
 Jakarta Persistence defines a standard for management of persistence
 and object/relational mapping in Java(R) environments.
+
+Latest information and milestone builds may be found at:
+
+<https://jakartaee.github.io/persistence/>
+
+In particular, the last drafts of the specification are available in
+[PDF][] and [HTML][] format, along with [Javadoc API documentation][API].
 
 
 ## License
@@ -39,5 +49,5 @@ the license text included in every source file.
 
 ## Contributing
 
-We use [contribution policy](CONTRIBUTING.md), which means we can only accept contributions under
+We have a [contribution policy](CONTRIBUTING.md), which means we can only accept contributions under
 the terms of [Eclipse Contributor Agreement](http://www.eclipse.org/legal/ECA.php).
