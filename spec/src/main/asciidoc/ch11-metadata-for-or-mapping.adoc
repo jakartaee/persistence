@@ -5898,7 +5898,7 @@ the constraint.
 
 === Examples of the Application of Annotations for Object/Relational Mapping
 
-==== Examples of Simple Mappings
+This example shows some simple mappings:
 
 [source,java]
 ----
@@ -6076,7 +6076,7 @@ public class DeliveryService {
 }
 ----
 
-==== A More Complex Example
+Next, we have a more complex example:
 
 [source,java]
 ----

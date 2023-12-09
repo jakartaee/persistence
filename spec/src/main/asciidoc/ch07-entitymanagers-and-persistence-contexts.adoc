@@ -656,8 +656,6 @@ public interface EntityTransaction {
 }
 ----
 
-==== Example
-
 The following example illustrates the
 creation of an entity manager factory in a Java SE environment, and its
 use in creating and using a resource-local entity manager.
@@ -965,9 +963,8 @@ component propagating either a persistence context of type
 `SynchronizationType.SYNCHRONIZED` into it.
 ====
 
-==== Examples
-
-===== Container-managed Transaction-scoped Persistence Context
+The following example shows a container-managed, transaction-scoped
+persistence context:
 
 [source,java]
 ----
@@ -997,7 +994,7 @@ public class ShoppingCartImpl implements ShoppingCart {
 }
 ----
 
-===== Container-managed Extended Persistence Context
+This example shows a container-managed extended persistence context:
 
 [source,java]
 ----
@@ -1093,9 +1090,8 @@ The `EntityManager.isOpen` method indicates
 whether the entity manager is open. The `isOpen` method returns true
 until the entity manager has been closed.
 
-==== Examples
-
-===== Application-managed Persistence Context used in Stateless Session Bean
+This example shows an application-managed persistence context used in
+a stateless session bean:
 
 [source,java]
 ----
@@ -1138,7 +1134,8 @@ public class ShoppingCartImpl implements ShoppingCart {
 }
 ----
 
-===== Application-managed Persistence Context used in Stateless Session Bean
+This examples shows an application-managed persistence context used in
+a stateless session bean:
 
 [source,java]
 ----
@@ -1196,7 +1193,8 @@ public class ShoppingCartImpl implements ShoppingCart {
 }
 ----
 
-===== Application-managed Persistence Context used in Stateful Session Bean
+This example shows an application-managed persistence context used in
+a stateful session bean:
 
 [source,java]
 ----
@@ -1245,7 +1243,8 @@ public class ShoppingCartImpl implements ShoppingCart {
 }
 ----
 
-===== Application-managed Persistence Context with Resource Transaction
+Finally, this example shows an application-managed persistence context
+used with a resource transaction:
 
 [source,java]
 ----

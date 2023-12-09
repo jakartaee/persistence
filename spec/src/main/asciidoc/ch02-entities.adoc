@@ -193,7 +193,7 @@ Object/relational mapping metadata may be specified to customize the
 object/relational mapping and the loading and storing of the entity state
 and relationships. See <<a13915>>.
 
-==== Example
+For example:
 
 [source,java]
 ----
@@ -640,6 +640,8 @@ entity.
   are _not_ derived from any parent entity.
 
 ===== Examples of Derived Identities
+
+The following examples illustrate the rules specified above.
 
 *Example 1:*
 
