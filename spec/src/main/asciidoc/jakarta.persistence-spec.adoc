@@ -26,8 +26,8 @@ endif::[]
 include::license-efsl.adoc[]
 
 // == Scope
-:sectnums!:
-include::scope.adoc[]
+// :sectnums!:
+// include::scope.adoc[]
 
 // == The Introduction
 :sectnums:
