@@ -314,10 +314,15 @@ the hierarchy has the same access type as the default access type of the
 hierarchy unless the `Access` annotation is specified, as defined below.
 
 It is an error if a default access type cannot be determined and an access
-type is not explicitly specified by the `Access` annotation or the XML
-descriptor. The behavior of applications which mix the placement of mapping
-annotations on fields and properties within an entity hierarchy without
-explicitly specifying the `Access` annotation is undefined.
+type is not explicitly specified by a class-level `Access` annotation or
+the XML descriptor. The behavior of applications which mix the placement
+of mapping annotations on fields and properties within an entity hierarchy
+without explicitly specifying the class-level `Access` annotation is
+undefined.footnote:[An `Access` annotation of a field or property getter
+is considered a "mapping annotation" for the purposes of this section.
+Therefore, an attribute-level `Access` annotation may not be used to
+selectively override the access type of an attribute of an entity class
+with a defaulted access type.]
 
 ==== Explicit Access Type [[a122]]
 
@@ -340,16 +345,11 @@ class with the `Access` annotation.
   annotated with the `Transient` annotation is persistent.
 
 The explicit access type may be overridden at the attribute level.
-footnote:[It is permitted (but redundant) to place `Access(FIELD)` on a
-field whose class has field access or `Access(PROPERTY)` on a property
-whose class has property access. It is not permitted to annotate a field
-as `Access(PROPERTY)` or a property as `Access(FIELD)`.]
 
 - When `Access(FIELD)` is specified at the class level, an individual
   attribute within the class may be selectively designated for property
-  access by annotating a property `Access(PROPERTY)`.footnote:[Note that
-  `Access(PROPERTY)` must not be placed on a setter method.] If a mapping
-  annotation is placed on a property which is not annotated
+  access by annotating a property getter `Access(PROPERTY)`. If a mapping
+  annotation is placed on a property getter which is not annotated
   `Access(PROPERTY)`, the behavior is undefined.
 
 - When `Access(PROPERTY)` is specified at the class level, an individual
@@ -357,6 +357,14 @@ as `Access(PROPERTY)` or a property as `Access(FIELD)`.]
   access by annotating an instance variable `Access(FIELD)`. If a mapping
   annotation is placed on a field which is not annotated `Access(FIELD)`,
   the behavior is undefined.
+
+It is permitted (but redundant) to place `Access(FIELD)` on a field whose
+class has field access or `Access(PROPERTY)` on a property whose class has
+property access. However, the persistence provider must report an error if:
+
+- `Access(PROPERTY)` annotates a field,
+- `Access(FIELD)` annotates a property getter, or
+- the `Access` annotation occurs on a property setter.
 
 When access types are combined within a class, the `Transient` annotation
 should be used to avoid duplicate persistent mappings. For example:
