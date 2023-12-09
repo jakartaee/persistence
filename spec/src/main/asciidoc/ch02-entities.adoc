@@ -114,6 +114,25 @@ before the entity is made persistent. Once the entity becomes managed
 (or detached), subsequent access to the collection must be through the
 interface type.
 
+==== Persistent Attribute Type
+
+The enumeration `jakarta.persistence.metamodel.Attribute.PersistentAttributeType`
+defines a classification of persistent entity attributes: `BASIC` for
+basic attributes, `EMBEDDED` for embedded attributes, `ELEMENT_COLLECTION`
+for element collections, and `MANY_TO_ONE`, `ONE_TO_ONE`, `ONE_TO_MANY`,
+and `MANY_TO_MANY` for associations of the indicated multiplicity.
+Each persistent attribute of an entity belongs to exactly one of the
+listed types.
+
+It is an error for an attribute of an entity to be annotated with
+mapping annotations indicating conflicting persistent attribute types.
+For example, an field may not be annotated `@Basic @Embedded`,
+`@ManyToOne @ElementCollection`, or `@OneToOne @ManyToMany`. The
+persistence provider must detect such contradictory combinations of
+mapping annotations and report the error.footnote:[A persistence
+provider is permitted--but not required--to accept the combinations
+`@Basic @ElementCollection` and `@Embedded @ElementCollection`.]
+
 ==== Property Access
 
 When property access is used, persistent properties of the entity class
