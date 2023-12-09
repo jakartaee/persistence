@@ -4,69 +4,55 @@
 
 == Introduction
 
-This document is the specification of the
-Jakarta API for the management of persistence and object/relational mapping
-with Jakarta EE and Java SE. The technical objective of this work is to
-provide an object/relational mapping facility for the Java application
-developer using a Java domain model to manage a relational database.
+This document is the specification of the Jakarta API for the management
+of persistence and object/relational mapping in the Jakarta EE and Java SE
+platforms. The technical objective of this work is to provide a standard
+object/relational mapping facility for the Java application developer using
+a Java domain model to manage data held in a relational database.
 
-The Jakarta Persistence 3.1 specification is the first release having
-new features and enhancements after the specification has been moved
-to the Eclipse Foundation.
+- The Jakarta Persistence 3.1 specification is the first release with new
+  features and enhancements after the specification was moved to the Eclipse
+  Foundation.
 
-The Jakarta Persistence 3.0 specification is the first release after
-moving the project to Eclipse Foundation. All APIs are moved from `javax.*`
-package to `jakarta.*` package. All properties containing `javax` as
-part of the name are renamed the way that `javax` is replaced with `jakarta`.
+- The Jakarta Persistence 3.0 specification was the first release after moving
+  the project to Eclipse Foundation. All APIs were moved from the package
+  `javax.pass:[*]` to the package `jakarta.pass:[*]`. Every property name
+  containing `javax` was renamed so that `javax` is replaced with `jakarta`.
 
-The Java Persistence 2.2 specification
-enhances the Jakarta Persistence API with support for repeating
-annotations; injection into attribute converters; support for mapping of
-the `java.time.LocalDate`, `java.time.LocalTime`, `java.time.LocalDateTime`,
-`java.time.OffsetTime`, and `java.time.OffsetDateTime` types; and methods to
-retrieve the results of `Query` and `TypedQuery` as streams.
+- The Java Persistence 2.2 specification enhanced the API with support for
+  repeating annotations; injection into attribute converters; support for
+  mapping the `LocalDate`, `LocalTime`, `LocalDateTime`, `OffsetTime`, and
+  `OffsetDateTime` types from `java.time`; and methods to retrieve the results
+  of `Query` and `TypedQuery` as streams.
 
-The Java Persistence 2.1 specification added
-support for schema generation, type conversion methods, use of entity
-graphs in queries and find operations, unsynchronized persistence
-contexts, stored procedure invocation, and injection into entity
-listener classes. It also includes enhancements to the Java Persistence
-query language, the Criteria API, and to the mapping of native queries.
+- The Java Persistence 2.1 specification added support for schema generation,
+  type conversion methods, use of entity graphs in queries and find operations,
+  unsynchronized persistence contexts, stored procedure invocation, and injection
+  into entity listener classes. It also included enhancements to the query language,
+  the Criteria API, and to the mapping of native queries.
 
-=== Expert Group
+=== Authorship
 
-The Jakarta Persistence Specification is based on
-Java Persistence (JPA) 2.2, whose work was conducted as part of JSR 338 under the
-Java Community Process Program. The specification is the result of the
-collaborative work of the members of the JSR 338 Expert Group: akquinet
-tech@Spree: Michael Bouschen; Ericsson: Nicolas Seyvet; IBM: Kevin
-Sutter, Pinaki Poddar; OW2: Florent Benoit; Oracle: Linda DeMichiel,
-Gordon Yorke, Michael Keith; Pramati Technologies: Deepak Anupalli; Red
-Hat, Inc.: Emmanuel Bernard, Steve Ebersole, Scott Marlow; SAP AG:
-Rainer Schweigkoffer; Sybase: Evan Ireland; Tmax Soft Inc.: Miju Byon;
-Versant: Christian von Kutzleben; VMware: Oliver Gierke; individual
-members: Matthew Adams; Adam Bien; Bernd Mueller; Werner Keil.
-
-The work of the JSR 338 Expert Group was
-conducted using the jpa-spec.java.net project.
+The Jakarta Persistence Specification incorporates work done over two decades
+by the EJB 3.0 expert group, the Java Persistence 2.0, 2.1, and 2.2 expert
+groups, and by the Jakarta Persistence project at the Eclipse Foundation.
 
 === Document Conventions
 
-The regular Times font is used for
-information that is prescriptive by this specification.
+Regular serif font is used for information that is prescriptive under this
+specification.
 
-_The italic Times font is used for paragraphs
-that contain descriptive information, such as notes describing typical
-use, or notes clarifying the text with prescriptive specification._
+_Italic serif font_ is used for paragraphs that contain descriptive information,
+such as notes describing typical use, or notes clarifying the text with
+prescriptive specification.
 
-A monospaced font is used for code examples and to specify the BNF of the
+`Monospaced font` is used for code examples and to specify the BNF of the
 Jakarta Persistence query language.
 
-This document is written in terms of the
-use of Java language metadata annotations. An XML descriptor (as
-specified in <<a16944>>) may be used as an alternative to
-annotations or to augment or override annotations. The elements of this
-descriptor mirror the annotations and have the same semantics. When
-semantic requirements are written in terms of annotations, it should be
-understood that the same semantics apply when the XML descriptor is used
-as an alternative.
+This document defines the semantics of a set of Java language annotations.
+An XML descriptor (as specified in <<a16944>>) may be used as an alternative
+to annotations or to augment or override annotations. The elements of this
+descriptor mirror the annotations and have identical semantics to the
+corresponding annotations. When semantic requirements are written in terms
+of annotations, it should be understood that the same semantics apply to the
+corresponding elements of the XML descriptor.
