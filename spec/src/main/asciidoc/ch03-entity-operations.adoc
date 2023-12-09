@@ -1324,7 +1324,7 @@ observed by the provider if possible, a hint may or may not always be
 observed. A portable application must not depend on the observance of a
 hint.
 
-==== Example of Use of EntityManager API
+For example:
 
 [source,java]
 ----
@@ -2614,7 +2614,7 @@ callback methods are invoked before or after the cascading of the
 lifecycle events to related entities. Applications should not depend on
 this ordering.
 
-==== Example
+For example:
 
 [source,java]
 ----
@@ -2716,7 +2716,7 @@ then invokes the next callback method, if any.
 The XML descriptor may be used to override
 the lifecycle callback method invocation order specified in annotations.
 
-==== Example
+For example:
 
 There are several entity classes and listeners for animals:
 
@@ -5852,7 +5852,7 @@ Runtime exceptions thrown by the methods of
 the `Tuple`, `TupleElement`, and `Parameter` interfaces do not cause
 the current transaction to be marked for rollback.
 
-===== Example
+For example:
 
 [source,java]
 ----

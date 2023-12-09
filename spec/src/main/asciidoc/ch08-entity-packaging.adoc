@@ -595,8 +595,6 @@ Vendors should define properties in vendor-specific namespaces, (e.g
 is reserved for use by this specification, and must not be used to
 define vendor-specific properties.
 
-===== Examples
-
 The following are sample contents of a `persistence.xml` file.
 
 *Example 1:*

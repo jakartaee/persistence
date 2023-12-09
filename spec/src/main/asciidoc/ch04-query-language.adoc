@@ -235,7 +235,7 @@ FROM Order AS o JOIN o.lineItems AS l
 WHERE l.shipped = FALSE
 ----
 
-.Abstract Persistence Schema of Several Entities with Defined in the Same Persistence Unit.
+.Abstract persistence schema of several entities defined in the same persistence unit.
 [[a4724]]
 image::images/Per-6.svg[Image]
 
@@ -2579,8 +2579,6 @@ The invocation of aggregate database
 functions, including user defined functions, is supported by means of
 the FUNCTION operator. See <<a5311>>.
 
-===== Examples
-
 The following query returns the average order quantity:
 
 [source,sql]
@@ -2941,13 +2939,9 @@ enums are required to be supported.
 Comparisons over instances of embeddable
 class or map entry types are not supported.
 
-=== Examples
-
 The following examples illustrate the syntax
 and semantics of the Jakarta Persistence query language. These examples are
 based on the example presented in <<a4713>>.
-
-==== Simple Queries
 
 Find all orders:
 
@@ -2973,8 +2967,6 @@ Find all states for which there are orders:
 SELECT DISTINCT o.shippingAddress.state
 FROM Order o
 ----
-
-==== Queries with Relationships
 
 Find all orders that have line items:
 
