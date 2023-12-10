@@ -4092,120 +4092,115 @@ thrown from a conversion method, the persistence provider must wrap the
 exception in a PersistenceException and, if the persistence context is
 joined to a transaction, mark the transaction for rollback.
 
-=== Caching [[a3061]]
+=== Second-Level Cache [[a3061]]
 
-This specification supports the use of a
-second-level cache by the persistence provider. The second-level cache,
-if used, underlies the persistence context, and is largely transparent
-to the application.
+A persistence provider may support the use of a _second-level cache_,
+that is, it might have a way to store data read in one persistence context
+for use in subsequent persistence contexts. A second-level cache might
+enhance performance, but tends to undermine the semantics of transaction
+processing, possibly exposing the application to stale data or similar
+anomalies.
 
-A second-level cache is typically used to
-enhance performance. Use of a cache, however, may have consequences in
-terms of the up-to-dateness of the data seen by the application,
-resulting in “stale reads”. A stale read is defined as the reading of
-entities or entity state that is older than the point at which the
-persistence context was started.
+Access to the second-level cache, if enabled, is mediated via the
+persistence context, and is largely transparent to the application.
+As an exception, the `Cache` interface described below in <<a12124>>
+allows the application to directly evict data from the second-level cache.
 
-This specification defines the following
-portable configuration options that can be used by the application
-developer to control caching behavior. Persistence providers may support
-additional provider-specific options, but must observe all
-specification-defined options.
+The persistence provider is not required to support use of a second-level
+cache.
 
-==== The shared-cache-mode Element [[a3065]]
+==== The Shared Cache Mode and Cacheable Annotation [[a3065]]
 
-Whether the entities and entity-related state
-of a persistence unit will be cached is determined by the value of the
-`shared-cache-mode` element of the `persistence.xml` file.
+Whether a given entity is eligible for storage in the second level cache
+is determined by:
 
-The `shared-cache-mode` element has five
-possible values: `ALL`, `NONE`, `ENABLE_SELECTIVE`,
-`DISABLE_SELECTIVE`, `UNSPECIFIED`.
+- the annotations of the entity class, and
+- the value specified for the `shared-cache-mode` element of the
+  `persistence.xml` file or by the configuration property
+  `jakarta.persistence.sharedCache.mode`.
 
-A value of `ALL` causes all entities and
-entity-related state and data to be cached.
+The value of the property `jakarta.persistence.sharedCache.mode` takes
+precedence over the value of the `shared-cache-mode` element.
 
-A value of `NONE` causes caching to be
-disabled for the persistence unit. Persistence providers must not cache
-if `NONE` is specified.
+The `shared-cache-mode` element takes one of five possible values,
+which are enumerated by `jakarta.persistence.SharedCacheMode`:
 
-The values `ENABLE_SELECTIVE` and
-`DISABLE_SELECTIVE` are used in conjunction with the `Cacheable`
-annotation (or XML element). The `Cacheable` annotation specifies
-whether an entity should be cached if such selective caching is enabled
-by the `persistence.xml` `shared-cache-mode` element. The `Cacheable`
-element is specified on the entity class. It applies to the given entity
-and its subclasses unless subsequently overridden by a subclass.
+- `ALL` specifies that every entity and all its state may be cached.
 
-* `Cacheable(false)` means that the entity and
-its state must not be cached by the provider.
-* A value of `ENABLE_SELECTIVE` enables the
-cache and causes entities for which `Cacheable(true)` (or its XML
-equivalent) is specified to be cached. Entities for which
-`Cacheable(true)` is not specified or for which `Cacheable(false)` is
-specified must not be cached.
-* A value of `DISABLE_SELECTIVE` enables the
-cache and causes all entities to be cached except those for which
-`Cacheable(false)` is specified. Entities for which `Cacheable(false)`
-is specified must not be cached.
+- `NONE` specifies that caching is disabled for the persistence unit,
+  and that the persistence provider must not cache any entity data.
 
-If either the `shared-cache-mode` element is
-not specified in the `persistence.xml` file or the value of the
-`shared-cache-mode` element is `UNSPECIFIED`, and the
-`jakarta.persistence.sharedCache.mode` property is not specified, the
-behavior is not defined, and provider-specific defaults may apply. If
-the `shared-cache-mode` element and the
-`jakarta.persistence.sharedCache.mode` property are not specified, the
-semantics of the `Cacheable` annotation (and XML equivalent) are
-undefined.
+- `ENABLE_SELECTIVE` specifies that an entity may be cached if the
+  entity class is explicitly annotated `@Cacheable` or `@Cacheable(true)`,
+  or if the equivalent setting is specified in XML.
 
-The persistence provider is not required to
-support use of a second-level cache. If the persistence provider does
-not support use of a second-level cache or a second-level cache is not
-installed, this element will be ignored and no caching will occur.
+- `DISABLE_SELECTIVE` specifies that an entity may be cached unless
+  the entity class is explicitly annotated `@Cacheable(false)`, or
+  unless the equivalent setting is specified in XML.
 
-Further control over the second-level cache
-is described in <<a12124>>.
+- `UNSPECIFIED` selects the provider-specific default behavior.
 
-==== Cache Retrieve Mode and Cache Store Mode Properties
+If neither the `shared-cache-mode` element nor the property
+`jakarta.persistence.sharedCache.mode` is specified, or if the specified
+value is `UNSPECIFIED`, the behavior is not defined, and provider-specific
+defaults may apply. In particular, the semantics of the `Cacheable`
+annotation (and XML equivalent) is undefined.
 
-Cache retrieve mode and cache store mode
-properties may be specified at the level of the persistence context by
-means of the EntityManager `setProperty` method. These properties may be
-specified for the `EntityManager` `find` and `refresh` methods and the
-`Query`, `TypedQuery`, `and` `StoredProcedureQuery` `setHint` methods.
-Cache retrieve mode and/or cache store mode properties specified for the
-`find`, `refresh`, and `Query`, `TypedQuery`, and
-_StoredProcedureQuery setHint_ methods override those specified for the
-persistence context for the specified `find` and `refresh` invocations,
-and for the execution of the specified queries respectively.
+If the persistence provider does not support use of a second-level cache,
+or if a second-level cache is not installed or not enabled, this setting
+may be ignored and no caching will occur.
 
-If caching is disabled by the `NONE` value of
-the `shared-cache-mode` element, cache retrieve mode and cache store
-mode properties must be ignored. Otherwise, if the `ENABLE_SELECTIVE`
-value is specified, but `Cacheable(true)` is not specified for a
-particular entity, they are ignored for that entity; if the
-`DISABLE_SELECTIVE` value is specified, they are ignored for any
-entities for which `Cacheable(false)` is specified.
+A persistence provider may support additional vendor-specific mechanisms
+for configuring the cache and marking entities eligible (or not) for
+storage in the second-level cache. However, if a second-level cache is
+supported, and enabled, the provider must respect the configuration options
+defined in this section, if specified by the application.
 
-Cache retrieve mode and cache store mode
-properties must be observed when caching is enabled, regardless of
-whether caching is enabled due to the specification of the
-`shared-cache-mode` element or enabled due to provider-specific options.
-Applications that make use of cache retrieve mode or cache store mode
-properties but which do not specify the `shared-cache-mode` element will
-not be portable.
+==== Cache Modes
 
-The cache retrieve mode and cache store mode
-properties are `jakarta.persistence.cache.retrieveMode` and
-`jakarta.persistence.cache.storeMode` respectively. These properties have
-the semantics defined below.
+The _cache retrieve mode_ and _cache store mode_ control how a given
+persistence context by interacts with the second-level cache.
 
-The `retrieveMode` property specifies the
-behavior when data is retrieved by the `find` methods and by the
-execution of queries. The `retrieveMode` property is ignored for the
-`refresh` method, which always causes data to be retrieved from the
-database, not the cache.
+- The cache retrieve mode may be set by calling `setCacheRetrieveMode()`
+  on `EntityManager` or `Query`.
+- The cache store mode may be set by calling `setCacheStoreMode()` on
+  `EntityManager` or `Query`.
+- A cache store mode or cache retrieve mode, or both, may be passed to
+  the `find()` method of `EntityManager` as a `FindOption`.
+- A cache store mode may be passed to the `refresh()` method of
+  `EntityManager` as a `RefreshOption`.
+
+A cache mode specified for a given `Query` instance applies only to
+executions of that query, but takes precedence over the current cache
+mode of the `EntityManager` to which the `Query` belongs. A cache mode
+passed to `find()` or `refresh()` applies only to the method invocation,
+and takes precedence over the current cache mode of the `EntityManager`.
+
+Alternatively, a cache mode may be specified using the property name
+`jakarta.persistence.cache.retrieveMode` or
+`jakarta.persistence.cache.storeMode` by:
+
+- calling the `setProperty()` method of `EntityManager`,
+- calling the `setHint()` method of `Query`, or
+- passing a map containing one of these properties to `find()` or `refresh()`.
+
+If second-level caching is not enabled (for example, if the
+`shared-cache-mode` element is set to `NONE`), cache modes must be
+ignored. Similarly, if a given entity is not eligible for storage in
+the second-level cache (for example, if the `shared-cache-mode` element
+is set to `ENABLE_SELECTIVE`, and the entity is not annotated `@Cacheable`),
+cache modes are ignored for operations applying to that entity.
+
+Cache modes must be respected when caching is enabled, regardless of
+whether caching is enabled via the configuration options defined by this
+specification or via provider-specific mechanisms.
+
+Applications which depend on the cache retrieve mode or cache store mode
+but which do not specify the `shared-cache-mode` element are not portable.
+
+
+`CacheRetrieveMode` enumerates the cache retrieve modes recognized by this
+specification. The semantics of each mode is defined by its Javadoc.
 
 [source,java]
 ----
@@ -4235,9 +4230,9 @@ public enum CacheRetrieveMode {
 }
 ----
 
-The `storeMode` property specifies the
-behavior when data is read from the database and when data is committed
-into the database.
+`CacheStoreMode` enumerates the cache store modes recognized by this
+specification. The semantics of each mode is defined by its Javadoc.
+
 
 [source,java]
 ----
@@ -4277,9 +4272,9 @@ public enum CacheStoreMode {
 
 ==== Cache Interface [[a12124]]
 
-The `Cache` interface provides basic
-functionality over the persistence provider's second level cache, if
-used.
+The `Cache` interface allows the application to request eviction of
+entity data from the second-level cache directly and immediately,
+outside the scope of any persistence context.
 
 [source,java]
 ----
