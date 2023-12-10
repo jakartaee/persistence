@@ -61,6 +61,17 @@ visibility, independent of whether field access or property access is used.
 When property access is used, the property accessor methods must be public
 or protected.
 
+The type of a persistent field or property of an entity class may be:
+
+- any basic type listed below in <<a486>>, including any Java `enum` type,
+- an entity type or a collection of some entity type, as specified in <<a516>>,
+- an embeddable class, as defined in <<a487>>, or
+- a collection of a basic type or embeddable type, as specified in <<a494>>.
+
+Object/relational mapping metadata may be specified to customize the
+object/relational mapping and the loading and storing of the entity state
+and relationships, as specified in <<a13915>>.
+
 The placement of object/relational mapping annotations depends on whether
 property access or field access is used:
 
@@ -189,28 +200,6 @@ An entity subclass may override a property accessor method inherited
 from a superclass. However, portable applications must not override
 the object/relational mapping metadata applied to the persistent fields
 and properties of entity superclasses.
-
-The persistent fields or properties of an entity may be of the following
-types: Java primitive types, `java.lang.String`, other Java serializable
-types (including wrappers of the primitive types, `java.math.BigInteger`,
-`java.math.BigDecimal`, `java.util.UUID`, `java.util.Date`,
-`java.util.Calendar`,footnote:[Note that an instance of `Calendar` must be
-fully initialized for the type that it is mapped to.]
-`java.sql.Date`, `java.sql.Time`, `java.sql.Timestamp`,footnote:[The use
-of `java.util.Calendar` or of `java.util.Date` and its subclasses in the
-package `java.sql` is strongly discouraged. Newly-written programs should
-use date/time types from the package `java.time`.]
-`byte[]`, `Byte[]`, `char[]`, `Character[]`, `java.time.LocalDate`,
-`java.time.LocalTime`, `java.time.LocalDateTime`,
-`java.time.OffsetTime`, `java.time.OffsetDateTime`,
-`java.time.Instant`, `java.time.Year`,
-and user-defined types that implement the `Serializable` interface);
-enums; entity types; collections of entity types; embeddable classes
-(see <<a487>>); collections of basic and embeddable types (see <<a494>>).
-
-Object/relational mapping metadata may be specified to customize the
-object/relational mapping and the loading and storing of the entity state
-and relationships. See <<a13915>>.
 
 For example:
 
@@ -1201,7 +1190,7 @@ public class MedicalHistory {
 }
 ----
 
-=== Basic Type [[a486]]
+=== Basic Types [[a486]]
 
 The following Java types are considered _basic types_:
 
@@ -1212,8 +1201,14 @@ The following Java types are considered _basic types_:
 - `LocalDate`, `LocalTime`, `LocalDateTime`,
   `OffsetTime`, `OffsetDateTime`,
   `Instant`, or `Year` from `java.time`,
-- `Date` or `Calendar` from `java.util`,
-- `Date`, `Time`, or `Timestamp` from `java.sql`,
+- `Date` or `Calendar` footnote:[Note that an instance of `Calendar` must be
+  fully initialized for the SQL type it maps.] from `java.util` footnote:[The
+  use of `java.util.Calendar` or of `java.util.Date` is strongly discouraged.
+  Newly-written programs should use the date/time types defined in the package
+  `java.time`.],
+- `Date`, `Time`, or `Timestamp` from `java.sql` footnote:[The use of date/time
+  types defined in the package `java.sql` is strongly discouraged. Newly-written
+  programs should use the date/time types defined in `java.time`.],
 - `byte[]` or `Byte[]`, `char[]` or `Character[]`,
 - any Java `enum` type,
 - any other type which implements `java.io.Serializable`.
