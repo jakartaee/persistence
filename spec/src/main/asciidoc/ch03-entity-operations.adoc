@@ -4,47 +4,61 @@
 
 == Entity Operations [[a1060]]
 
-This chapter describes the use of the
-`EntityManager` API to manage the entity instance lifecycle and the use
-of the `Query` API to retrieve and query entities and their persistent
-state.
+This chapter describes:
 
-=== EntityManager [[a1062]]
+- the use of the `EntityManager` and `Query` APIs to retrieve instances of
+  entity classes representing persistent state held in the database, and
+  of `EntityGraph` to control the limits of the object graph returned by
+  such operations,
+- the use of the `EntityManager` API to manage the lifecycle of entity
+  instances associated with a persistence context, and to control the
+  synchronization of state held in the persistence context with the
+  database,
+- the use of the second-level cache, and
+- entity listeners and lifeycle callbacks, attribute converters,
+  and integration with Bean Validation.
 
-An EntityManager instance is associated with
-a persistence context. A persistence context is a set of entity
-instances in which for any persistent entity identity there is a unique
-entity instance. Within the persistence context, the entity instances
-and their lifecycle are managed. The `EntityManager` interface defines
-the methods that are used to interact with the persistence context. The
-`EntityManager` API is used to create and remove persistent entity
-instances, to find persistent entities by primary key, and to query over
-persistent entities.
+=== Overview
 
-The set of entities that can be managed by a
-given `EntityManager` instance is defined by a persistence unit. A
-persistence unit defines the set of all classes that are related or
-grouped by the application, and which must be colocated in their mapping
-to a single database.
+Every instance of `EntityManager` has an associated _persistence context_.
+A persistence context is a set of entity instances in which for any given
+persistent entity identity there is a unique entity instance. Within the
+persistence context, the entity instances and their lifecycle are managed.
+The entity instance lifecycle is defined in <<a1929>>. The relationship
+between entity managers and persistence contexts is described in <<a2027>>,
+and again in further detail in <<a11431>>.
 
-<<a1062>> defines the `EntityManager` interface. The entity
-instance lifecycle is described in <<a1929>>. The
-relationships between entity managers and persistence contexts are
-described in <<a2027>> and in further detail in <<a11431>>.
-<<a2052>> describes mechanisms for concurrency control and locking.
-<<a2153>> describes entity listeners and lifecycle callback methods for
-entities. <<a2366>> describes support for automatic use of Bean Validation.
-<<a2397>> describes the use of
-entity graphs to control the path and boundaries of find and query
-operations. <<a2397>> describes mechanisms for defining conversions between entity
-and database representations for attributes of basic types. <<a3061>> describes mechanisms for
-portable second-level cache configuration. The `Query`, `TypedQuery`,
-`StoredProcedureQuery`, and related interfaces are described in <<a3125>>. <<a4639>> provides a
-summary of exceptions. The Jakarta Persistence query language is defined in <<a4665>> and the APIs for
-the construction of Criteria queries in <<a6925>>. The definition of
-persistence units is described in <<a12229>>.
+The `EntityManager` interface defines the methods used to interact with
+its persistence context. The `EntityManager` API is used to create and
+remove persistent entity instances, to find persistent entities by primary
+key, and to query over persistent entity types. <<a1066>> describes the
+`EntityManager` interface. <<a2052>> describes mechanisms for concurrency
+control and locking. <<a4639>> provides a summary of exceptions.
 
-==== EntityManager Interface [[a1066]]
+The `EntityManager` acts as a factory for instances of `Query`, which are
+used to control query execution. `Query`, `TypedQuery`, `StoredProcedureQuery`,
+and related interfaces are described in <<a3125>>. The Jakarta Persistence
+query language is defined in <<a4665>> and APIs for the construction of
+Criteria queries in <<a6925>>. <<a2397>> describes the use of entity graphs
+to control and limit the data fetched during find and query operations.
+
+Each `EntityManager` belongs to an `EntityManagerFactory` with an associated
+_persistence unit_. A persistence unit defines a set of related entities which
+map to a single database. Entities belonging to the same persistence unit may
+participate in associations. An `EntityManager` may only manage instances of
+entities belonging to its persistence unit. The definition of persistence
+units is described in <<a12229>>. An `EntityManagerFactory` might have an
+associated second-level cache. <<a3061>> describes mechanisms for portable
+configuration of the second-level cache.
+
+Jakarta Persistence features several mechanisms allowing user-written code
+to react to events occurring within the persistence context. <<a2153>>
+describes entity listeners and lifecycle callback methods for entities.
+<<a2366>> describes support for automatic use of Bean Validation. <<a2397>>
+describes mechanisms for defining conversions between entity and database
+representations for attributes of basic types.
+
+=== EntityManager Interface [[a1066]]
 
 [source,java]
 ----
