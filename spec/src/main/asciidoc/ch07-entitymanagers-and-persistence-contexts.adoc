@@ -1451,69 +1451,6 @@ provider must throw the `IllegalStateException`.
 * When `EntityManager.clear` is invoked, the
 provider must detach all managed entities.
 
-=== Cache Interface [[a12124]]
-
-The `Cache` interface provides basic
-functionality over the persistence provider's second level cache, if
-used.
-
-[source,java]
-----
-package jakarta.persistence;
-
-/**
- * Interface used to interact with the second-level cache.
- * If a cache is not in use, the methods of this interface have
- * no effect, except for <code>contains</code>, which returns false.
- *
- * @since 2.0
- */
-public interface Cache {
-
-    /**
-     * Whether the cache contains data for the given entity.
-     * @param cls  entity class
-     * @param primaryKey  primary key
-     * @return boolean indicating whether the entity is in the cache
-     */
-    public boolean contains(Class cls, Object primaryKey);
-
-    /**
-     * Remove the data for the given entity from the cache.
-     * @param cls  entity class
-     * @param primaryKey  primary key
-     */
-    public void evict(Class cls, Object primaryKey);
-
-    /**
-     * Remove the data for entities of the specified class (and its
-     * subclasses) from the cache.
-     * @param cls  entity class
-     */
-    public void evict(Class cls);
-
-    /**
-     * Clear the cache.
-     */
-    public void evictAll();
-
-    /**
-     * Return an object of the specified type to allow access to the
-     * provider-specific API.  If the provider's Cache
-     * implementation does not support the specified class, the
-     * PersistenceException is thrown.
-     * @param cls  the class of the object to be returned.  This is
-     * normally either the underlying Cache implementation
-     * class or an interface that it implements.
-     * @return an instance of the specified class
-     * @throws PersistenceException if the provider does not
-     * support the call
-     * @since 2.1
-     */
-    public <T> T unwrap(Class<T> cls);
-}
-----
-
 === PersistenceUnitUtil Interface [[a12177]]
 
 The `PersistenceUnitUtil` interface provides
