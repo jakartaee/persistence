@@ -290,7 +290,7 @@ explicitly overridden via use of the `Access` annotation defined in
 ==== Default Access Type
 
 By default, a single access type (`FIELD` or `PROPERTY`) is inferred for
-an entity hierarchy. The default access type of an entity hierarchy is
+an entity hierarchy. The _default access type_ of an entity hierarchy is
 determined by the placement of mapping annotations on the attributes of
 the entity classes and mapped superclasses of the entity hierarchy which
 do not explicitly specify an access type.
