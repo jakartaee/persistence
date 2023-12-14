@@ -271,8 +271,10 @@ public class Customer implements Serializable {
 
 === Access Type [[a113]]
 
-`AccessType` enumerates the two possible ways the persistence runtime
-might access the state of an entity class:
+An _access type_ determines how the persistence provider runtime reads
+and writes the persistent state of an entity from and to an instance of
+the entity class, as specified above in <<a19>>.
+`AccessType` enumerates the two possibilities:
 
 [source,java]
 ----
@@ -282,7 +284,7 @@ public enum AccessType {
 }
 ----
 
-The `AccessType` for a persistent attribute depends on the placement of
+The access type for a persistent attribute depends on the placement of
 object/relational mapping annotations in the entity class, and may be
 explicitly overridden via use of the `Access` annotation defined in
 <<a13941>>.
@@ -344,17 +346,22 @@ class with the `Access` annotation.
   state via the properties declared by that class. Every property not
   annotated with the `Transient` annotation is persistent.
 
-The explicit access type may be overridden at the attribute level.
+The explicit access type may be overridden at the attribute level. That
+is, a class which explicitly specifies an access type using the `Access`
+annotation may also have fields or properties annotated `Access`, and so
+the class may have a mix of access types.
 
 - When `Access(FIELD)` is specified at the class level, an individual
   attribute within the class may be selectively designated for property
-  access by annotating a property getter `Access(PROPERTY)`. If a mapping
-  annotation is placed on a property getter which is not annotated
-  `Access(PROPERTY)`, the behavior is undefined.
+  access by annotating a property getter `Access(PROPERTY)`. Mapping
+  annotations for this attribute must be placed on the getter. If a
+  mapping annotation is placed on a property getter which is not
+  annotated `Access(PROPERTY)`, the behavior is undefined.
 
 - When `Access(PROPERTY)` is specified at the class level, an individual
   attribute within the class may be selectively designated for field
-  access by annotating an instance variable `Access(FIELD)`. If a mapping
+  access by annotating an instance variable `Access(FIELD)`. Mapping
+  annotations for this attribute must be placed on the field. If a mapping
   annotation is placed on a field which is not annotated `Access(FIELD)`,
   the behavior is undefined.
 
