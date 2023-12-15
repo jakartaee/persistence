@@ -117,6 +117,8 @@ Improved AsciiDoc formatting and fixed typos through the specification document
 Deprecated usage of `Calendar`, `Date`, `Time`, `Timestamp`, `Temporal`, `MapKeyTemporal` and `TemporalType`
 in new applications in favour of `java.time` API
 
+Deprecated use of `Byte[]` and `Character[]` arrays types for basic attributes, in favor of primitive array types
+
 Deprecated `multiselect` methods in `CriteriaQuery`. The preference is to use `array` or `tuple` method defined in `CriteriaBuilder`
 
 ==== Deprecations for removal

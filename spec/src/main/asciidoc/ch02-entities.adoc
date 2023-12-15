@@ -1209,7 +1209,9 @@ The following Java types are considered _basic types_:
 - `Date`, `Time`, or `Timestamp` from `java.sql` footnote:[The use of date/time
   types defined in the package `java.sql` is strongly discouraged. Newly-written
   programs should use the date/time types defined in `java.time`.],
-- `byte[]` or `Byte[]`, `char[]` or `Character[]`,
+- `byte[]` or `Byte[]`, `char[]` or `Character[]`,footnote:[The use of `Byte[]`
+or of `Character[]` is discouraged. Newly-written programs should use
+`byte[]` or `char[]` instead.]
 - any Java `enum` type,
 - any other type which implements `java.io.Serializable`.
 
