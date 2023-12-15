@@ -367,11 +367,13 @@ the class may have a mix of access types.
 
 It is permitted (but redundant) to place `Access(FIELD)` on a field whose
 class has field access or `Access(PROPERTY)` on a property whose class has
-property access. However, the persistence provider must report an error if:
+property access. On the other hand, the behavior is undefined if:
 
 - `Access(PROPERTY)` annotates a field,
 - `Access(FIELD)` annotates a property getter, or
 - the `Access` annotation occurs on a property setter.
+
+Portable application should avoid such misplaced `@Access` annotations.
 
 When access types are combined within a class, the `Transient` annotation
 should be used to avoid duplicate persistent mappings. For example:
