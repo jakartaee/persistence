@@ -1207,6 +1207,37 @@ public class MedicalHistory {
 }
 ----
 
+=== Version Attributes [[a2060]]
+
+An entity might have a _version attribute_, a field or property used by
+the persistence provider to perform optimistic locking, as specified in
+<<a2059>>. The value if the version attribute is accessed and/or set by
+the persistence provider in the course of performing lifecycle operations
+involving the entity instance. The version attribute holds a version
+number or timestamp identifying the revision of the entity data held by
+an entity class instance.
+
+An entity may access the state of its version field or property or export
+a method for use by the application to access the version, but must not
+modify the version value.footnote:[Bulk update statements, however, are
+permitted to set the value of version attributes. See <<a5636>>.] With
+the exception noted in <<a5636>>, only the persistence provider is
+permitted to set or update the value of the entity version attribute.
+
+The version attribute must be of one of the following basic types:
+`int`, `Integer`, `short`, `Short`, `long`, `Long`, `LocalDateTime`,
+`Instant`, or `Timestamp`. A portable application must not declare
+a version attribute with any other type.
+
+An entity class should have at most one version attribute. A portable
+application must not define an entity class having more than one version
+attribute.
+
+The version attribute should be declared by the root entity class in an
+entity class hierarchy, or by one of its mapped superclasses. A portable
+application must not declare a version attribute in a subclass of the
+root class of an entity class hierarchy.
+
 === Basic Types [[a486]]
 
 The following Java types are considered _basic types_:

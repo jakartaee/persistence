@@ -1918,45 +1918,52 @@ described in <<a2113>>.
 
 ==== Optimistic Locking [[a2056]]
 
-Optimistic locking is a technique that is
-used to insure that updates to the database data corresponding to the
-state of an entity are made only when no intervening transaction has
-updated that data since the entity state was read. This insures that
-updates or deletes to that data are consistent with the current state of
-the database and that intervening updates are not lost. Transactions
-that would cause this constraint to be violated result in an
-`OptimisticLockException` being thrown and the transaction marked for
-rollback.
+_Optimistic locking_ is a system of concurrency control where each
+revision of an item of data is assigned a version number or timestamp.
+When the data is read and then updated within a given unit of work,
+the version or timestamp is:
 
-Portable applications that wish to enable
-optimistic locking for entities must specify `Version` attributes for
-those entities—i.e., persistent properties or fields annotated with the
-`Version` annotation or specified in the XML descriptor as version
-attributes. Applications are strongly encouraged to enable optimistic
-locking for all entities that may be concurrently accessed or that may
-be merged from a disconnected state. Failure to use optimistic locking
-may lead to inconsistent entity state, lost updates and other state
-irregularities. If optimistic locking is not defined as part of the
-entity state, the application must bear the burden of maintaining data
-consistency.
+1. read from the database when the data itself is read, and
+2. verified and then updated in the database when the data is updated.
 
-==== Version Attributes [[a2059]]
+Similarly, when the data is read and then deleted within a given unit
+of work, the version or timestamp is:
 
-The `Version` field or property is used by
-the persistence provider to perform optimistic locking. It is accessed
-and/or set by the persistence provider in the course of performing
-lifecycle operations on the entity instance. An entity is automatically
-enabled for optimistic locking if it has a property or field mapped with
-a `Version` mapping.
+1. read from the database when the data itself is read, and
+2. verified when the data is deleted.
 
-An entity may access the state of its version
-field or property or export a method for use by the application to
-access the version, but must not modify the version
-value.footnote:[Bulk update
-statements, however, are permitted to set the value of version
-attributes. See <<a5636>>.] With the exception noted in <<a5636>>, only
-the persistence provider is permitted to set or update the value of the
-version attribute in the object.
+An _optimistic lock failure_ occurs when verification fails, that is,
+if the version or timestamp held in the database changes between
+reading the data (step 1), and attempting to update or delete the data
+(step 2).
+
+Thus, the unit of work is prevented from updating the data and creating
+a new revision, or from deleting the data, unless the revision it
+previously obtained is still the current revision. Optimistic lock
+verification ensures that an update of a given item is successful only
+when no intervening transaction has already updated the item, preventing
+the loss of updates made by such intervening transactions.
+
+The persistence provider is required to perform optimistic locking
+automatically for every entity with a version attribute, as defined in
+<<a2060>>. A portable application which wishes to take advantage of
+automatic optimistic locking must specify a version attribute for each
+optimistically-locked entity using the `@Version` annotation defined in
+<<a16432>> or equivalent XML element.
+
+When an optimistic lock failure is detected, the persistence provider
+must throw an `OptimisticLockException` and mark the current transaction
+for rollback.
+
+Applications are strongly encouraged to enable optimistic locking for
+every entity which may be concurrently accessed or which may be merged
+from a detached state. Failure to make use of optimistic locking often
+leads to inconsistent entity state, lost updates, and other anomalies.
+If an entity does not have a version attribute, the application itself
+must bear the burden of maintaining data consistency during optimistic
+units of work.
+
+==== Version Attributes and Optimistic Locking [[a2059]]
 
 The version attribute is updated by the
 persistence provider runtime when the object is written to the database.

@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link java.util.Date};
  * {@link java.sql.Date};
  * {@link java.math.BigDecimal};
- * {@link java.math.BigInteger}.{@link String};
+ * {@link java.math.BigInteger}.
  *
  * <p>The mapped column for the primary key of the entity is assumed 
  * to be the primary key of the primary table. If no {@link Column}
@@ -50,6 +50,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see Column
  * @see GeneratedValue
  * @see EmbeddedId
+ * @see PersistenceUnitUtil#getIdentifier(Object)
  *
  * @since 1.0
  */
