@@ -65,6 +65,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * protected String getName() { return name; }
  * }
  *
+ * <p>The use of {@link java.util.Date}, {@link java.util.Calendar},
+ * {@code java.sql.Date}, {@code java.sql.Time}, {@code java.sql.Timestamp},
+ * {@code Character[]}, or {@code Byte[]} as the type of a basic attribute
+ * is now discouraged. Newly-written code should use the date/time types
+ * defined in the package {@code java.time}, or the primitive array types
+ * {@code char[]} and {@code byte[]}.
+ *
  * @since 1.0
  */
 @Target({METHOD, FIELD}) 
