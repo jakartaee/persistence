@@ -1955,6 +1955,10 @@ When an optimistic lock failure is detected, the persistence provider
 must throw an `OptimisticLockException` and mark the current transaction
 for rollback.
 
+A persistence provider might offer alternative implementations of
+optimistic locking, which do not depend on the entity having a version,
+but such functionality is not portable between providers.
+
 Applications are strongly encouraged to enable optimistic locking for
 every entity which may be concurrently accessed or which may be merged
 from a detached state. Failure to make use of optimistic locking often
