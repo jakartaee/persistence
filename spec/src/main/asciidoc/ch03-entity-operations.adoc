@@ -1945,9 +1945,9 @@ when no intervening transaction has already updated the item, preventing
 the loss of updates made by such intervening transactions.
 
 The persistence provider is required to perform optimistic locking
-automatically for every entity with a version attribute, as defined in
-<<a2060>>. A portable application which wishes to take advantage of
-automatic optimistic locking must specify a version attribute for each
+automatically for every entity with a version, as defined in <<a2060>>.
+A portable application which wishes to take advantage of automatic
+optimistic locking must specify a version field or property for each
 optimistically-locked entity using the `@Version` annotation defined in
 <<a16432>> or equivalent XML element.
 
@@ -1959,11 +1959,11 @@ Applications are strongly encouraged to enable optimistic locking for
 every entity which may be concurrently accessed or which may be merged
 from a detached state. Failure to make use of optimistic locking often
 leads to inconsistent entity state, lost updates, and other anomalies.
-If an entity does not have a version attribute, the application itself
-must bear the burden of maintaining data consistency during optimistic
-units of work.
+If an entity does not have a version, the application itself must bear
+the burden of maintaining data consistency during optimistic units of
+work.
 
-==== Version Attributes and Optimistic Locking [[a2059]]
+==== Entity Versions and Optimistic Locking [[a2059]]
 
 The version attribute is updated by the
 persistence provider runtime when the object is written to the database.
