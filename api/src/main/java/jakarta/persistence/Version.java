@@ -23,30 +23,50 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies the version field or property of an entity class that
- * is used to detect optimistic lock failures. The version is used
- * to ensure integrity when performing the merge operation and for
- * optimistic concurrency control.
+ * Declares the version field or property of an entity class, which
+ * is used to detect optimistic lock failures, ensuring the integrity
+ * of optimistic transactions. The version field or property holds a
+ * version number or timestamp identifying the revision of the entity
+ * data held by an entity class instance.
  *
- * <p>There should be no more than one {@code Version} property or
- * field per class; entities with more than one {@code Version}
- * property or field are not portable.
- * 
- * <p> The {@code Version} property should be mapped to the primary
- * table for the entity class; entities that map the {@code Version}
- * property to a table other than the primary table are not portable.
- * 
- * <p>The version property should have one of the following types:
- * {@code int}, {@link Integer}, {@code short}, {@link Short},
+ * <p>An {@linkplain OptimisticLockException optimistic lock failure}
+ * occurs when verification of the version or timestamp fails
+ * during an attempt to update the entity, that is, if the version
+ * or timestamp held in the database changes between reading the
+ * state of an entity instance and attempting to update or delete
+ * the state of the instance.
+ *
+ * <p>The version attribute must be of one of the following basic
+ * types: {@code int}, {@link Integer}, {@code short}, {@link Short},
  * {@code long}, {@link Long}, {@code java.sql.Timestamp},
  * {@link java.time.Instant}, {@link java.time.LocalDateTime}.
  *
- * <p>Example:
+ * <p>This field declares a version number:
+ *
  * {@snippet :
  * @Version
- * @Column(name = "OPTLOCK")
- * protected int getVersionNum() { return versionNum; }
+ * @Column(name = "REVISION")
+ * protected int version;
  * }
+ *
+ * <p>This field declares a revision timestamp:
+ *
+ * {@snippet :
+ * @Version
+ * @Column(name = "LAST_UPDATED")
+ * private Instant lastUpdated;
+ * }
+ *
+ * <p>An entity class should have at most one {@code Version} field
+ * or property. The version field or property should be declared by
+ * the root entity class in an entity class hierarchy, or by one of
+ * its mapped superclasses.
+ *
+ * <p>The {@code Version} field or property should be mapped to the
+ * primary table of the entity.
+ *
+ * @see LockModeType
+ * @see PersistenceUnitUtil#getVersion(Object)
  *
  * @since 1.0
  */

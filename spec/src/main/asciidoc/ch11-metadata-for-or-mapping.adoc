@@ -5454,27 +5454,14 @@ public class Employee { ... }
 
 ==== Version Annotation [[a16432]]
 
-The `Version` annotation specifies the
-version field or property of an entity class that serves as its
-optimistic lock value. The version is used to ensure integrity when
-performing the merge operation and for optimistic concurrency control.
+The `Version` annotation declares the version field or property of an
+entity class, as defined in <<a2060>>. The version is used to ensure
+integrity when performing the merge operation, and for optimistic
+concurrency control, as specified in <<a2059>>.
 
-Only a single `Version` property or field
-should be used per class; applications that use more than one `Version`
-property or field will not be portable.
-
-The `Version` property should be mapped to
-the primary table for the entity class; applications that map the
-`Version` property to a table other than the primary table will not be
-portable.
-
-In general, fields or properties that
-are specified with the `Version` annotation should not be updated by the
-application.footnote:[See, however,
-<<a5636>>.]
-
-The following types are supported for version properties:
-`int`, `Integer`, `short`, `Short`, `long`, `Long`, `LocalDateTime`, `Instant`, `Timestamp`.
+The `Version` field or property should be mapped to the primary table
+of the entity; an application which maps the `Version` property to a
+table other than the primary table is not portable.
 
 [source,java]
 ----

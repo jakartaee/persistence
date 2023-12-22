@@ -1619,7 +1619,7 @@ application.
 * Any entity instance that can be reached from
 another available instance by navigating associations marked `fetch=EAGER`.
 
-===== Merging Detached Entity State
+===== Merging Detached Entity State [[a1983]]
 
 The merge operation allows for the
 propagation of state from detached entities onto persistent entities
@@ -1918,76 +1918,108 @@ described in <<a2113>>.
 
 ==== Optimistic Locking [[a2056]]
 
-Optimistic locking is a technique that is
-used to insure that updates to the database data corresponding to the
-state of an entity are made only when no intervening transaction has
-updated that data since the entity state was read. This insures that
-updates or deletes to that data are consistent with the current state of
-the database and that intervening updates are not lost. Transactions
-that would cause this constraint to be violated result in an
-`OptimisticLockException` being thrown and the transaction marked for
-rollback.
+_Optimistic locking_ is a system of concurrency control where each
+revision of an item of data is assigned a version number or timestamp.
+When the data is read and then updated within a given unit of work,
+the version or timestamp is:
 
-Portable applications that wish to enable
-optimistic locking for entities must specify `Version` attributes for
-those entities—i.e., persistent properties or fields annotated with the
-`Version` annotation or specified in the XML descriptor as version
-attributes. Applications are strongly encouraged to enable optimistic
-locking for all entities that may be concurrently accessed or that may
-be merged from a disconnected state. Failure to use optimistic locking
-may lead to inconsistent entity state, lost updates and other state
-irregularities. If optimistic locking is not defined as part of the
-entity state, the application must bear the burden of maintaining data
-consistency.
+1. read from the database when the data itself is read, and
+2. verified and then updated in the database when the data is updated.
 
-==== Version Attributes [[a2059]]
+Similarly, when the data is read and then deleted within a given unit
+of work, the version or timestamp is:
 
-The `Version` field or property is used by
-the persistence provider to perform optimistic locking. It is accessed
-and/or set by the persistence provider in the course of performing
-lifecycle operations on the entity instance. An entity is automatically
-enabled for optimistic locking if it has a property or field mapped with
-a `Version` mapping.
+1. read from the database when the data itself is read, and
+2. verified when the data is deleted.
 
-An entity may access the state of its version
-field or property or export a method for use by the application to
-access the version, but must not modify the version
-value.footnote:[Bulk update
-statements, however, are permitted to set the value of version
-attributes. See <<a5636>>.] With the exception noted in <<a5636>>, only
-the persistence provider is permitted to set or update the value of the
-version attribute in the object.
+An _optimistic lock failure_ occurs when verification fails, that is,
+if the version or timestamp held in the database changes between
+reading the data (step 1), and attempting to update or delete the data
+(step 2).
 
-The version attribute is updated by the
-persistence provider runtime when the object is written to the database.
-All non-relationship fields and properties and all relationships owned
-by the entity are included in version checks.footnote:[This includes owned
-relationships maintained in join tables.]
+Thus, the unit of work is prevented from updating the data and creating
+a new revision, or from deleting the data, unless the revision it
+previously obtained is still the current revision. Optimistic lock
+verification ensures that an update of a given item is successful only
+when no intervening transaction has already updated the item, preventing
+the loss of updates made by such intervening transactions.
 
-The persistence provider's implementation of
-the merge operation must examine the version attribute when an entity is
-being merged and throw an `OptimisticLockException` if it is discovered
-that the object being merged is a stale copy of the entity—i.e. that the
-entity has been updated since the entity became detached. Depending on
-the implementation strategy used, it is possible that this exception may
-not be thrown until `flush` is called or commit time, whichever happens
-first.
+The persistence provider is required to perform optimistic locking
+automatically for every entity with a version, as defined in <<a2060>>.
+A portable application which wishes to take advantage of automatic
+optimistic locking must specify a version field or property for each
+optimistically-locked entity using the `@Version` annotation defined in
+<<a16432>> or equivalent XML element.
 
-The persistence provider runtime is
-required to use only the version attribute when performing optimistic
-lock checking. Persistence provider implementations may provide
-additional mechanisms beside version attributes to enable optimistic
-lock checking. However, support for such mechanisms is not required of
-an implementation of this specification.footnote:[Such additional
-mechanisms may be standardized by a future release of this
+When an optimistic lock failure is detected, the persistence provider
+must:
+
+- throw an `OptimisticLockException` and
+- mark the current transaction for rollback.
+
+A persistence provider might offer alternative implementations of
+optimistic locking, which do not depend on the entity having a version,
+but such functionality is not portable between providers.footnote:[Such
+alternative mechanisms might be standardized by a future release of this
 specification.]
 
-If only some entities contain version
-attributes, the persistence provider runtime is required to check those
-entities for which version attributes have been specified. The
-consistency of the object graph is not guaranteed, but the absence of
-version attributes on some of the entities will not stop operations from
-completing.
+[NOTE]
+====
+Applications are strongly encouraged to enable optimistic locking for
+every entity which may be concurrently accessed or which may be merged
+from a detached state. Failure to make use of optimistic locking often
+leads to inconsistent entity state, lost updates, and other anomalies.
+If an entity does not have a version, the application itself must bear
+the burden of maintaining data consistency during optimistic units of
+work.
+====
+
+For the purposes of versioning and optimistic locking, the state of a
+given entity is considered to include:
+
+- every persistent field or property which is not a relationship to
+  another entity, and
+- every relationship owned by the entity, as defined by <<a516>>.
+footnote:[This includes owned relationships maintained in join tables.]
+
+Unowned relationships are not considered part of the state of the entity.
+
+==== Entity Versions and Optimistic Locking [[a2059]]
+
+The entity version must be updated by the persistence provider each
+time the state of an entity instance is written to the database.
+footnote:[Typically, by incrementing the version number, or by replacing
+the previous timestamp with a timestamp representing the current time.]
+Furthermore, if the current persistence context contains a revision
+of the entity instance when the instance is written to the database,
+the persistence provider must verify that the revision held in the
+persistence context is identical to the revision held in the database
+by comparing the versions held in memory and in the database.
+footnote:[Ideally, version verification and update happen in a single
+atomic operation against the datastore, for example, in a single SQL
+update statement.] If the versions do not match, the persistence
+provider must thow an `OptimisticLockException`.
+
+The persistence provider must examine the version field or property of
+a detached entity instance when it is merged, as defined in <<a1983>>,
+and throw an `OptimisticLockException` if the instance being merged
+holds a stale revision of the state of the entity--that is, if the
+entity was updated since the entity instance became detached. The
+timing of this version check is provider-dependent:
+
+- the version check might occur synchronously with the call to `merge()`,
+  or
+- a provider might choose to delay the version check until a flush
+  operation occurs, as defined in <<a1955>>, or until the transaction
+  commits.
+
+If an update or merge operation involves entities with versions, and
+entities without versions, the persistence provider runtime is only
+required to perform optimistic lock verification for those entities
+which do have a version, and the consistency of the whole object graph
+is not guaranteed. The absence a version for some entity involved in
+the update or merge operation does not impede completion of the
+operation.
 
 ==== Pessimistic Locking [[a2066]]
 
