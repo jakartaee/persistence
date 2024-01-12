@@ -51,6 +51,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public BigDecimal getCost() { return cost; }
  * }
  *
+ * <p>
+ * Portable applications which make use of schema generation should
+ * explicitly specify the {@link #precision} and {@link #scale} of
+ * columns of type {@code numeric} or {@code decimal}.
+ *
  * @since 1.0
  */ 
 @Target({METHOD, FIELD}) 
@@ -96,6 +101,9 @@ public @interface Column {
      * the DDL for the column.
      * <p> Defaults to the generated SQL to create a column of
      * the inferred type.
+     * <p>
+     * The specified DDL must be written in the native SQL dialect
+     * of the target database, and is not portable across databases.
      */
     String columnDefinition() default "";
 
@@ -103,6 +111,9 @@ public @interface Column {
      * (Optional) A SQL fragment appended to the generated DDL
      * which declares this column. May not be used in conjunction
      * with {@link #columnDefinition()}.
+     * <p>
+     * The specified DDL must be written in the native SQL dialect
+     * of the target database, and is not portable across databases.
      *
      * @since 3.2
      */
@@ -116,24 +127,47 @@ public @interface Column {
 
     /**
      * (Optional) The column length.
-     * (Applies only if a string-valued column is used.)
+     * <p>
+     * Applies only to columns whose type is parameterized by length,
+     * for example, {@code varchar} or {@code varbinary} types.
      */
     int length() default 255;
 
     /**
-     * (Optional) The precision for a decimal (exact numeric) 
-     * column.
-     * (Applies only if a decimal column is used.)
-     * Value must be set by developer if used when generating 
-     * the DDL for the column.
+     * (Optional) The precision for a column of SQL type {@code decimal}
+     * or {@code numeric}, or of similar database-native type.
+     * <p>
+     * Applies only to columns of exact numeric type.
+     * <p>
+     * The default value {@code 0} indicates that a provider-determined
+     * precision should be inferred.
      */
     int precision() default 0;
 
     /**
-     * (Optional) The scale for a decimal (exact numeric) column. 
-     * (Applies only if a decimal column is used.)
+     * (Optional) The scale for a column of SQL type {@code decimal} or
+     * {@code numeric}, or of similar database-native type.
+     * <p>
+     * Applies only to columns of exact numeric type.
+     * <p>
+     * The default value {@code 0} indicates that a provider-determined
+     * scale should be inferred.
      */
     int scale() default 0;
+
+    /**
+     * (Optional) The number of decimal digits to use for storing
+     * fractional seconds in a SQL {@code time} or {@code timestamp}
+     * column.
+     * <p>
+     * Applies only to columns of time or timestamp type.
+     * <p>
+     * The default value {@code -1} indicates that fractional seconds
+     * should not be stored in a {@code time} column, or that the
+     * maximum number of digits supported by the database and JDBC
+     * driver should be stored in a {@code timestamp} column.
+     */
+    int secondPrecision() default -1;
 
     /**
      * (Optional) Check constraints to be applied to the column.
