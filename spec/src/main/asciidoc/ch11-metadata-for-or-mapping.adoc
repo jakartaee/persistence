@@ -934,8 +934,8 @@ is in primary table.
 
 |int
 |precision
-|(Optional) The precision of a `decimal` or `numeric` column,
- or similar database-native type.
+|(Optional) The precision of a column of SQL type `decimal` or
+ `numeric`, or of similar database-native type.
 
  Applies only to columns of exact numeric type.
 
@@ -945,8 +945,8 @@ is in primary table.
 
 |int
 |scale
-|(Optional) The scale of a `decimal` or `numeric` column, or
- similar database-native type.
+|(Optional) The scale of a column of SQL type `decimal` or
+ `numeric`, or of similar database-native type.
 
  Applies only to columns of exact numeric type.
 
@@ -3377,8 +3377,8 @@ is the value of the map.
 
 |int
 |precision
-|(Optional) The precision of a `decimal` or `numeric` column,
-or similar database-native type.
+|(Optional) The precision of a column of SQL type `decimal` or
+`numeric`, or of similar database-native type.
 
  Applies only to columns of exact numeric type.
 
@@ -3388,8 +3388,8 @@ or similar database-native type.
 
 |int
 |scale
-|(Optional) The scale of a `decimal` or `numeric` column, or
-similar database-native type.
+|(Optional) The scale of a column of SQL type `decimal` or
+`numeric`, or of similar database-native type.
 
  Applies only to columns of exact numeric type.
 
