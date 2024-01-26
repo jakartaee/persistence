@@ -1250,7 +1250,7 @@ part of a conditional expression except in an
 `empty_collection_comparison_expression`, in a
 `collection_member_expression`, or as an argument to the SIZE operator.
 
-==== Input Parameters
+==== Input Parameters [[a5065]]
 
 An input parameter allows a value in the Java program to be safely
 interpolated into the text of the parameterized query.
@@ -1269,9 +1269,10 @@ arithmetic operations involving the input parameter will result in an
 unknown value. See <<a5676>>.
 ====
 
-Every input parameter must be single-valued, unless the parameter occurs
-as the right hand side of an `IN` expressions (see <<a5107>>). Such input
-parameters may be collection-valued.
+An input parameter might be _single-valued_ or _collection-valued_.
+An input parameter which occurs directly to the right of the `IN` keyword
+in an `IN` predicate, as defined in <<a5107>>, is collection-valued. Every
+other input parameter is single-valued
 
 The API for the binding concrete arguments to query parameters is described
 in <<a3125>>.
@@ -1451,11 +1452,11 @@ The `state_valued_path_expression` must have
 a string, numeric, date, time, timestamp, or enum value.
 
 The literal and/or input parameter values
-must be `like` the same abstract schema type of the
-`state_valued_path_expression` in type. (See <<a5735>>).
+must be _like_ the abstract schema type of the
+`state_valued_path_expression` in type. (See <<a5735>>.)
 
-The results of the subquery must be `like`
-the same abstract schema type of the `state_valued_path_expression` in
+The results of the subquery must be _like_
+the abstract schema type of the `state_valued_path_expression` in
 type. Subqueries are discussed in <<a5196>>.
 
 Example 1:
@@ -1486,16 +1487,36 @@ is false for `UK` and true for `Peru`, and is equivalent to the expression
 NOT ((o.country = 'UK') OR (o.country = 'US') OR (o.country = 'France'))
 ----
 
-There must be at least one element in the
-comma separated list that defines the set of values for the `IN`
-expression.
+If an IN or NOT IN expression has a list of `in_item` expressions,
+there must be at least one item in the list.
+The value of such expressions is determined according to the
+following rules:
 
-If the value of a
-`state_valued_path_expression` or `in_item` in an IN or NOT IN expression
-is `NULL` or unknown, the value of the expression is unknown.
+- If the `state_valued_path_expression` in an IN or NOT IN expression
+  evaluates to `NULL` or unknown, then the whole IN or NOT IN
+  expression evaluates to `NULL` or unknown.
 
-Note that use of a collection-valued input
-parameter will mean that a static query cannot be precompiled.
+- Otherwise, if the `state_valued_path_expression` and at least one
+  `in_item` evaluate to the same value, the whole IN or NOT IN
+  expression evaluates to true.
+
+- Otherwise, if the value of a `state_valued_path_expression`
+  evaluates to a value distinct from the value of every `in_item`
+  expression, the whole IN or NOT IN expression evaluates to:
+
+  * false, if every `in_item` expression evaluates to a non-null
+    value, or
+  * `NULL` or unknown if at least one `in_item` expression evaluates
+    to null.
+
+The list of values may be parameterized by a collection-valued input parameter.
+footnote:[Note that use of a collection-valued input parameter might prevent
+precompilation of the query.] (See <<a5065>>.)
+
+[source, sql]
+----
+o.country NOT IN :countries
+----
 
 ==== Like Expressions
 
@@ -2910,8 +2931,8 @@ and NULL value.
 
 === Equality and Comparison Semantics [[a5735]]
 
-Only the values of `like` types are permitted
-to be compared. A type is `like` another type if they correspond to the
+Only the values of _like_ types are permitted
+to be compared. A type is _like_ another type if they correspond to the
 same Java language type, or if one is a primitive Java language type and
 the other is the wrapped Java class type equivalent (e.g., `int` and
 `Integer` are like types in this sense). There is one exception to this
