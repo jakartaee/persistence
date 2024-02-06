@@ -346,8 +346,11 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
-     * Set the query timeout.
-     * @param timeout the timeout, or null to indicate no timeout
+     * Set the query timeout, in milliseconds. This is a hint,
+     * and is an alternative to {@linkplain #setHint setting
+     * the hint} {@code jakarta.persistence.query.timeout}.
+     * @param timeout the timeout, in milliseconds, or null to
+     *                indicate no timeout
      * @return the same query instance
      * @since 3.2
      */
