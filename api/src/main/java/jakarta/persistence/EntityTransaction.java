@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -71,4 +72,18 @@ public interface EntityTransaction {
       *         condition is encountered
       */
      boolean isActive();
+
+     /**
+      * Set the transaction timeout, in seconds. This is a hint.
+      * @param timeout the timeout, in seconds, or null to indicate
+      *                that the database server should set the timeout
+      * @since 3.2
+      */
+     void setTimeout(Integer timeout);
+
+     /**
+      * The transaction timeout.
+      * @since 3.2
+      */
+     Integer getTimeout();
 }

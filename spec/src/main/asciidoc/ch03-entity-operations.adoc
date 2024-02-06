@@ -4908,6 +4908,23 @@ public interface Query {
     CacheStoreMode getCacheStoreMode();
 
     /**
+     * Set the query timeout, in milliseconds. This is a hint,
+     * and is an alternative to {@linkplain #setHint setting
+     * the hint} {@code jakarta.persistence.query.timeout}.
+     * @param timeout the timeout, in milliseconds, or null to
+     *                indicate no timeout
+     * @return the same query instance
+     * @since 3.2
+     */
+    Query setTimeout(Integer timeout);
+
+    /**
+     * The query timeout.
+     * @since 3.2
+     */
+    Integer getTimeout();
+
+    /**
      * Return an object of the specified type to allow access to
      * the provider-specific API.  If the provider's query
      * implementation does not support the specified class, the
@@ -5249,6 +5266,16 @@ public interface TypedQuery<X> extends Query {
      */
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
+    /**
+     * Set the query timeout, in milliseconds. This is a hint,
+     * and is an alternative to {@linkplain #setHint setting
+     * the hint} {@code jakarta.persistence.query.timeout}.
+     * @param timeout the timeout, in milliseconds, or null to
+     *                indicate no timeout
+     * @return the same query instance
+     * @since 3.2
+     */
+    TypedQuery<X> setTimeout(Integer timeout);
 }
 ----
 
@@ -5689,6 +5716,17 @@ public interface StoredProcedureQuery extends Query {
      * @since 3.2
      */
     StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
+     * Set the query timeout, in milliseconds. This is a hint,
+     * and is an alternative to {@linkplain #setHint setting
+     * the hint} {@code jakarta.persistence.query.timeout}.
+     * @param timeout the timeout, in milliseconds, or null to
+     *                indicate no timeout
+     * @return the same query instance
+     * @since 3.2
+     */
+    StoredProcedureQuery setTimeout(Integer timeout);
 
     /**
      * Register a positional parameter.
