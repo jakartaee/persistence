@@ -538,6 +538,7 @@
           int length() default 255;
           int precision() default 0; // decimal precision
           int scale() default 0; // decimal scale
+          int secondPrecision() default -1; //fractional second precision
           CheckConstraint[] check() default {};
           String comment() default "";
         }
@@ -560,6 +561,7 @@
     <xsd:attribute name="length" type="xsd:int"/>
     <xsd:attribute name="precision" type="xsd:int"/>
     <xsd:attribute name="scale" type="xsd:int"/>
+    <xsd:attribute name="second-precision" type="xsd:int"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
