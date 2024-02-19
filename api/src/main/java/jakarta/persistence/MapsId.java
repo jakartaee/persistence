@@ -34,10 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the primary key of the entity referenced by the relationship,
  * the {@code value} attribute is not specified.
  *
- * <p>Example:
+ * <p>In this example, the parent entity has simple primary key:
  * {@snippet :
- * // parent entity has simple primary key
- *
  * @Entity
  * public class Employee {
  *     @Id
@@ -45,13 +43,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     String name;
  *     ...
  * }
+ * }
  *
- * // dependent entity uses EmbeddedId for composite key
- *
+ * <p>And then the dependent entity uses {@link EmbeddedId} to
+ * declare its composite primary key:
+ * {@snippet :
  * @Embeddable
  * public class DependentId {
  *     String name;
- *     long empid;   // corresponds to primary key type of Employee
+ *     long empid;  // corresponds to primary key type of Employee
  * }
  *
  * @Entity
@@ -59,11 +59,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     @EmbeddedId
  *     DependentId id;
  *     ...
- *     @MapsId("empid")  //  maps the empid attribute of embedded id
+ *     @MapsId("empid")  // maps the empid attribute of embedded id
  *     @ManyToOne
  *     Employee emp;
  * }
  * }
+ *
+ * <p>
+ * If a {@link ManyToOne} or {@link OneToOne} relationship declared by a
+ * dependent entity is annotated {@link MapsId}, an instance of the entity
+ * cannot be made persistent until the relationship has been assigned a
+ * reference to an instance of the parent entity, since the identity of
+ * the dependent entity declaring the relationship is derived from the
+ * referenced parent entity.
  *
  * @since 2.0
  */
