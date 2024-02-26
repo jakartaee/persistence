@@ -208,14 +208,18 @@ use of a particular persistence provider.
 
 ===== qualifier [[a12310]]
 
-The _qualifier_ element specifies the fully-qualified class name of
-an annotation annotated _jakarta.inject.Qualifier_.
+The `qualifier` element specifies the fully-qualified class name of
+an annotation annotated `jakarta.inject.Qualifier`. This qualifier
+annotation may be used to disambiguate the persistence unit for the
+purposes of dependency injection.
 
 ===== scope [[a12311]]
 
-The _scope_ element specifies the fully-qualified class name of
-an annotation annotated _jakarta.inject.Scope_ or
-_jakarta.enterprise.context.NormalScope_.
+The `scope` element specifies the fully-qualified class name of an
+annotation annotated `jakarta.inject.Scope` or
+`jakarta.enterprise.context.NormalScope`. This scope annotation may
+be used to determine the scope of a persistence context for the
+purposes of dependency injection.
 
 ===== jta-data-source, non-jta-data-source [[a12302]]
 

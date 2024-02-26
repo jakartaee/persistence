@@ -132,29 +132,6 @@ The `EntityManagerFactory` API used to obtain
 an application-managed entity manager is the same independent of whether
 this API is used in Jakarta EE or Java SE environments.
 
-==== Obtaining an Entity Manager using CDI
-
-A container environment might feature built-in integration of
-Jakarta Persistence with the CDI bean manager, allowing injection
-of a container-managed entity manager using the annotation
-_jakarta.inject.Inject_. In the Jakarta EE environment, the
-container must feature built-integration of Jakarta Persistence
-with the CDI bean manager.
-
-For each persistence unit, a container which features such
-built-in integration must make available a bean with:
-
-- bean type _EntityManager_,
-- the qualifiers specified by _qualifier_ XML elements in
-  _persistence.xml_, or _jakarta.enterprise.inject.Default_,
-  if no qualifiers are explicitly specified,
-- the scope specified by the _scope_ XML element in
-  _persistence.xml_, or _jakarta.transaction.TransactionScoped_
-  if no scope is explicitly specified,
-- no interceptor bindings,
-- a bean implementation which satisfies the requirements of
-  this specification for a container-managed entity manager.
-
 === Obtaining an Entity Manager Factory
 
 The `EntityManagerFactory` interface is used
@@ -209,42 +186,6 @@ EntityManagerFactory emf =
     jakarta.persistence.Persistence.createEntityManagerFactory("Order");
 EntityManager em = emf.createEntityManager();
 ----
-
-==== Obtaining an Entity Manager Factory using CDI
-
-A container environment might feature built-in integration of
-Jakarta Persistence with the CDI bean manager, allowing
-injection of a container-managed entity manager factory using
-the annotation _jakarta.inject.Inject_. In the Jakarta EE
-environment, the container must feature built-integration of
-Jakarta Persistence with the CDI bean manager.
-
-For each persistence unit, a container which features such
-built-in integration must make available a bean with:
-
-- bean type _EntityManagerFactory_,
-- the qualifiers specified by _qualifier_ XML elements in
-_persistence.xml_, or _jakarta.enterprise.inject.Default_,
-if no qualifiers are explicitly specified,
-- scope _jakarta.enterprise.context.ApplicationScoped_,
-- bean name given by the name of the persistence unit,
-- no interceptor bindings,
-- a bean implementation which satisfies the requirements of
-this specification for a container-managed entity manager
-factory.
-
-Furthermore, the container must make available five beans with:
-
-- bean types _CriteriaBuilder_, _PersistenceUnitUtil_, _Cache_,
-_SchemaManager_, and _Metamodel_, respectively,
-- the qualifiers specified by _qualifier_ XML elements in
-_persistence.xml_, or _jakarta.enterprise.inject.Default_,
-if no qualifiers are explicitly specified,
-- scope _jakarta.enterprise.context.Dependent_,
-- no interceptor bindings,
-- a bean implementation which simply obtains the instance of
-the bean type by calling the appropriate getter method of
-the _EntityManagerFactory_ bean.
 
 ==== Obtaining an Entity Manager Factory for a programmatically-defined persistence unit
 
