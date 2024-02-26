@@ -128,21 +128,31 @@ public @interface MapKeyColumn {
 
     /**
      * (Optional) The column length.
-     * (Applies only if a string-valued column is used.)
+     * <p>
+     * Applies only to columns whose type is parameterized by length,
+     * for example, {@code varchar} or {@code varbinary} types.
      */
     int length() default 255;
 
     /**
-     * (Optional) The precision for a decimal (exact numeric) column.
-     * (Applies only if a decimal column is used.)
-     *
-     *<p> Default: 0. (The value must be set by the developer.)
+     * (Optional) The precision for a column of SQL type {@code decimal}
+     * or {@code numeric}, or of similar database-native type.
+     * <p>
+     * Applies only to columns of exact numeric type.
+     * <p>
+     * The default value {@code 0} indicates that a provider-determined
+     * precision should be inferred.
      */
     int precision() default 0; // decimal precision
 
     /**
-     * (Optional) The scale for a decimal (exact numeric) column.
-     * (Applies only if a decimal column is used.)
+     * (Optional) The scale for a column of SQL type {@code decimal} or
+     * {@code numeric}, or of similar database-native type.
+     * <p>
+     * Applies only to columns of exact numeric type.
+     * <p>
+     * The default value {@code 0} indicates that a provider-determined
+     * precision should be inferred.
      */
     int scale() default 0; // decimal scale
 }
