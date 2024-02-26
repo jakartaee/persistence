@@ -3239,7 +3239,7 @@ comparison_expression ::=
     enum_expression {= | <>} {enum_expression | all_or_any_expression} |
     datetime_expression comparison_operator
         {datetime_expression | all_or_any_expression} |
-    entity_expression {= | <>_} {entity_expression | all_or_any_expression} |
+    entity_expression {= | <>} {entity_expression | all_or_any_expression} |
     arithmetic_expression comparison_operator {arithmetic_expression | all_or_any_expression} |
     entity_type_expression {= | <>} entity_type_expression}
 comparison_operator ::= = | > | >= | < | <= | <>
@@ -3348,7 +3348,7 @@ function_arg ::=
     state_valued_path_expression |
     input_parameter |
     scalar_expression
-_case_expression ::=_
+case_expression ::=
     general_case_expression |
     simple_case_expression |
     coalesce_expression |
