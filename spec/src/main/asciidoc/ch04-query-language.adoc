@@ -1761,7 +1761,7 @@ WHERE goodCustomer.balanceOwed < (
     SELECT AVG(c.balanceOwed)/2.0 FROM Customer c)
 ----
 
-==== Scalar Expressions [[a5243]]
+=== Scalar Expressions [[a5243]]
 
 Numeric, string, datetime, case, and entity
 type expressions result in scalar values.
@@ -1782,7 +1782,7 @@ scalar_expression::=
     entity_type_expression
 ----
 
-===== Arithmetic Expressions
+==== Arithmetic Expressions
 
 The arithmetic operators are:
 
@@ -1794,12 +1794,12 @@ Arithmetic operations use numeric promotion.
 
 Arithmetic functions are described in <<a5284>>.
 
-===== String concatenation operator
+==== String concatenation operator
 
 The binary concatenation operator is ||.
 Its operands must be string expressions.
 
-===== Built-in String, Arithmetic, and Datetime Functional Expressions
+==== Built-in String, Arithmetic, and Datetime Functional Expressions
 
 The Jakarta Persistence query language includes
 the built-in functions described in <<a5264>>, <<a5284>>,
@@ -1812,7 +1812,7 @@ If the value of any argument to a functional
 expression is null or unknown, the value of the functional expression is
 unknown.
 
-====== String Functions [[a5264]]
+===== String Functions [[a5264]]
 
 ----
 functions_returning_strings ::=
@@ -1881,7 +1881,7 @@ result in queries that are not portable.]
 The LENGTH function returns the length of the
 string in characters as an integer.
 
-====== Arithmetic Functions [[a5284]]
+===== Arithmetic Functions [[a5284]]
 
 ----
 functions_returning_numerics ::=
@@ -1940,7 +1940,7 @@ WHERE c.name = 'Calculus'
 AND INDEX(w) = 0
 ----
 
-====== Datetime Functions [[a5304]]
+===== Datetime Functions [[a5304]]
 
 ----
 functions_returning_datetime :=
@@ -2018,7 +2018,7 @@ part to EXTRACT.
 FROM Course c WHERE c.year = EXTRACT(YEAR FROM LOCAL DATE)
 ----
 
-===== Typecasts
+==== Typecasts
 
 The CAST function converts an expression of one type to an expression
 of a different type.
@@ -2046,7 +2046,7 @@ select expression is:
 - `java.lang.Integer`, `java.lang.Long`, `java.lang.Float`, or `java.lang.Double`
   for a cast to INTEGER, LONG, FLOAT, or DOUBLE, respectively
 
-===== Invocation of Predefined and User-defined Database Functions [[a5311]]
+==== Invocation of Predefined and User-defined Database Functions [[a5311]]
 
 The invocation of functions other than the
 built-in functions of the Jakarta Persistence query language is supported
@@ -2085,7 +2085,7 @@ FROM Customer c
 WHERE FUNCTION('hasGoodCredit', c.balance, c.creditLimit)
 ----
 
-===== Case Expressions
+==== Case Expressions
 
 The following forms of case
 expressions are supported: general case expressions, simple case
@@ -2155,7 +2155,7 @@ SELECT e.name,
 FROM Employee e JOIN e.frequentFlierPlan f
 ----
 
-===== Entity Type Expressions [[a5381]]
+==== Entity Type Expressions [[a5381]]
 
 An entity type expression can be used to
 restrict query polymorphism. The TYPE operator returns the exact type of
@@ -2199,6 +2199,53 @@ SELECT TYPE(e)
 FROM Employee e
 WHERE TYPE(e) <> Exempt
 ----
+
+==== Numeric Expressions and Type Promotion [[a5574]]
+
+Every numeric expression in a query is assigned a Java numeric type
+according to the following rules:
+
+* An expression that corresponds to a persistent state field is of the
+  same type as that persistent state field.
+* An expression that corresponds to one of arithmetic functions described
+  in <<a5284>> is of the type defined by <<a5284>>.
+* An expression that corresponds to one of an aggregate functions described
+  in <<a5538>> is of the type defined by <<a5538>>.
+
+For a `CASE` expression, `COALESCE` expression, `NULLIF` expression, or
+arithmetic operator expression (`+`, `-`, `*`, `/`), the numeric type is
+determined by its operand types, and by the following rulesfootnote:[For
+a general or simple `CASE` expression, the operands are the scalar
+expressions in the `THEN` and `ELSE` clauses.].
+
+* If there is an operand of type `Double` or `double`, the expression
+  is of type `Double`;
+* otherwise, if there is an operand of type `Float` or `float`, the
+  expression is of type `Float`;
+* otherwise, if there is an operand of type `BigDecimal`, the expression
+  is of type `BigDecimal`;
+* otherwise, if there is an operand of type `BigInteger`, the expression
+  is of type `BigInteger`, unless the operator is `/` (division), in which
+  case the expression type is not defined here;
+* otherwise, if there is an operand of type `Long` or `long`, the
+  expression is of type `Long`, unless the operator is `/` (division),
+  in which case the expression type is not defined here;
+* otherwise, if there is an operand of integral type, the expression
+  is of type `Integer`, unless the operator is `/` (division), in which
+  case the expression type is not defined here.
+
+[NOTE]
+====
+Users should note that the semantics of the
+SQL division operation are not standard across databases. In particular,
+when both operands are of integral types, the result of the division
+operation will be an integral type in some databases, and an
+non-integral type in others. Portable applications should not assume a
+particular result type.
+====
+
+For numeric expressions occurring in the SELECT clause, these rules
+determine the Java object type returned in the query result list.
 
 === GROUP BY, HAVING [[a5410]]
 
@@ -2621,56 +2668,6 @@ SELECT COUNT(l)
 FROM Order o JOIN o.lineItems l JOIN o.customer c
 WHERE c.lastname = 'Smith' AND c.firstname = 'John' AND l.price IS NOT NULL
 ----
-
-==== Numeric Expressions in the SELECT Clause [[a5574]]
-
-The type of a numeric expression in the query
-result is determined as follows:
-
-* An operand that corresponds to a persistent
-state field is of the same type as that persistent state field.
-* An operand that corresponds to one of
-arithmetic functions described in <<a5284>> is of the type
-defined by <<a5284>>.
-* An operand that corresponds to one of an
-aggregate functions described in <<a5538>> is of the type defined by
-<<a5538>>.
-
-The result of a case expression, coalesce
-expression, nullif expression, or arithmetic expression (+, -, *, /) is
-determined by applying the following rule to its
-operandsfootnote:[In the case of a
-general or simple case expression, these are the scalar expressions of
-the THEN and ELSE clauses.].
-
-* If there is an operand of type Double or
-double, the result of the operation is of type Double;
-* otherwise, if there is an operand of type
-Float or float, the result of the operation is of type Float;
-* otherwise, if there is an operand of type
-BigDecimal, the result of the operation is of type BigDecimal;
-* otherwise, if there is an operand of type
-BigInteger, the result of the operation is of type BigInteger, unless
-the operator is / (division), in which case the numeric result type is
-not further defined;
-* otherwise, if there is an operand of type
-Long or long, the result of the operation is of type Long, unless the
-operator is / (division), in which case the numeric result type is not
-further defined;
-* otherwise, if there is an operand of integral
-type, the result of the operation is of type Integer, unless the
-operator is / (division), in which case the numeric result type is not
-further defined.
-
-[NOTE]
-====
-Users should note that the semantics of the
-SQL division operation are not standard across databases. In particular,
-when both operands are of integral types, the result of the division
-operation will be an integral type in some databases, and an
-non-integral type in others. Portable applications should not assume a
-particular result type.
-====
 
 === ORDER BY Clause [[a5587]]
 
