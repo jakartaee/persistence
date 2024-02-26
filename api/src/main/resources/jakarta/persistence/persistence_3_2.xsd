@@ -101,6 +101,32 @@
 
               <!-- **************************************************** -->
 
+              <xsd:element name="qualifier" type="xsd:string"
+                           minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                  <xsd:documentation>
+
+                    Qualifier annotation class used for dependency injection.
+
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+
+              <!-- **************************************************** -->
+
+              <xsd:element name="scope" type="xsd:string"
+                           minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>
+
+                    Scope annotation class used for dependency injection.
+
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+
+              <!-- **************************************************** -->
+
               <xsd:element name="jta-data-source" type="xsd:string" 
                            minOccurs="0">
                 <xsd:annotation>
