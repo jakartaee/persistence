@@ -118,6 +118,8 @@ Fixed lower type bounds to the `Path.get` entity argument `X`
 
 Fixed example code in the javadoc of `AttributeOverrides`
 
+Fixed `maxOccurs` of the version element in ORM schema to allow at most one element
+
 Partially fixed raw types warnings through the API
 
 Improved AsciiDoc formatting and fixed typos through the specification document
