@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2024 Contributors to the Eclipse Foundation
 //
 
 == XML Object/Relational Mapping Descriptor [[a16944]]
@@ -1497,6 +1497,7 @@ object/relational mapping schema for use with the Persistence API.
           int length() default 255;
           int precision() default 0; // decimal precision
           int scale() default 0; // decimal scale
+          int secondPrecision() default -1; //fractional second precision
           CheckConstraint[] check() default {};
           String comment() default "";
         }
@@ -1519,6 +1520,7 @@ object/relational mapping schema for use with the Persistence API.
     <xsd:attribute name="length" type="xsd:int"/>
     <xsd:attribute name="precision" type="xsd:int"/>
     <xsd:attribute name="scale" type="xsd:int"/>
+    <xsd:attribute name="second-precision" type="xsd:int"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -3404,5 +3406,4 @@ object/relational mapping schema for use with the Persistence API.
   </xsd:complexType>
 
 </xsd:schema>
-
 ----

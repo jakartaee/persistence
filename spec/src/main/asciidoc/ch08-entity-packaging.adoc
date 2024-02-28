@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2024 Contributors to the Eclipse Foundation
 //
 
 == Entity Packaging [[a12229]]
@@ -781,7 +781,7 @@ This section provides the XML schema for the `persistence.xml` file.
   xmlns:persistence="https://jakarta.ee/xml/ns/persistence"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
-  version="3.0">
+  version="3.2">
 
    <xsd:annotation>
      <xsd:documentation><![CDATA[
@@ -801,8 +801,8 @@ This section provides the XML schema for the `persistence.xml` file.
       <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
-          https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
-        version="3.0">
+          https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+        version="3.2">
           ...
       </persistence>
 
@@ -857,6 +857,32 @@ This section provides the XML schema for the `persistence.xml` file.
 
                     Provider class that supplies EntityManagers for this
                     persistence unit.
+
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+
+              <!-- **************************************************** -->
+
+              <xsd:element name="qualifier" type="xsd:string"
+                           minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                  <xsd:documentation>
+
+                    Qualifier annotation class used for dependency injection.
+
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+
+              <!-- **************************************************** -->
+
+              <xsd:element name="scope" type="xsd:string"
+                           minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>
+
+                    Scope annotation class used for dependency injection.
 
                   </xsd:documentation>
                 </xsd:annotation>
@@ -1014,6 +1040,20 @@ This section provides the XML schema for the `persistence.xml` file.
                 </xsd:complexType>
               </xsd:element>
 
+              <xsd:any namespace="##other" processContents="lax">
+                <xsd:annotation>
+                  <xsd:documentation>
+                    An extension point for integration related configuration, e.g. cdi:
+                    <!--
+                    <persistence-unit name="my-unit" xmlns:cdi="https://jakarta.ee/xml/ns/persistence-cdi">
+                      ...
+                      <cdi:scope>com.example.jpa.ACustomScope</cdi:scope>
+                      <cdi:qualifier>com.example.jpa.CustomQualifier</cdi:qualifier>
+                    </persistence-unit>
+                    -->
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:any>
             </xsd:sequence>
 
             <!-- **************************************************** -->
@@ -1046,7 +1086,7 @@ This section provides the XML schema for the `persistence.xml` file.
         </xsd:element>
       </xsd:sequence>
       <xsd:attribute name="version" type="persistence:versionType"
-                     fixed="3.0" use="required"/>
+                     fixed="3.2" use="required"/>
     </xsd:complexType>
   </xsd:element>
 
@@ -1103,4 +1143,5 @@ This section provides the XML schema for the `persistence.xml` file.
   </xsd:simpleType>
 
 </xsd:schema>
+
 ----
