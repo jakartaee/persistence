@@ -863,6 +863,25 @@ public interface PersistenceUnitInfo {
     public String getPersistenceProviderClassName();
 
     /**
+     * Returns the fully-qualified class name of an annotation annotated
+     * {@code Scope} or {@code NormalScope}. Corresponds to the {@code scope}
+     * element in {@code persistence.xml}.
+     * @return  the fully-qualified class name of the scope annotation,
+     *          or null if no scope was explicitly specified
+     */
+    public String getScopeAnnotationName();
+
+    /**
+     * Returns the fully-qualified class names of annotations annotated
+     * {@code Qualifier}. Corresponds to the {@code qualifier} element in
+     * {@code persistence.xml}.
+     * @return  the fully-qualified class names of the qualifier annotations,
+     *          or an empty list if no qualifier annotations were explicitly
+     *          specified
+     */
+    public List<String> getQualifierAnnotationNames();
+
+    /**
      * Returns the transaction type of the entity managers created by
      * the <code>EntityManagerFactory</code>. The transaction type corresponds to
      * the <code>transaction-type</code> attribute in the <code>persistence.xml</code> file.
@@ -1377,106 +1396,150 @@ public class Persistence {
 }
 ----
 
-The `properties` argument passed to the
-`createEntityManagerFactory` method is used to specify both standard and
-vendor-specific properties and hints intended for use in creating the
-entity manager factory.
+The `properties` argument passed to the `createEntityManagerFactory`
+method is used to specify both standard and vendor-specific properties
+and hints intended for use in creating the entity manager factory and
+controlling its behavior.
 
-The following properties correspond to the
-elements and properties in the `persistence.xml` file. When any of these
-properties are specified in the Map parameter passed to the
-`createEntityManagerFactory` method, their values override the values of
-the corresponding elements and properties in the `persistence.xml` file
-for the named persistence unit. They also override any defaults that the
-persistence provider might have applied.
+The following properties correspond to the elements and attributes in the
+`persistence.xml` file. When any of these properties are specified in the
+`Map` parameter passed to the `createEntityManagerFactory` method, their
+values override the values of the corresponding elements and attributes
+in the `persistence.xml` file for the named persistence unit. They also
+override any defaults that the persistence provider might have applied.
 
-* `jakarta.persistence.lock.timeout` — integer
-value in milliseconds for pessimistic lock timeout or string
-corresponding to integer value. This corresponds to the property of the
-same name in the `persistence.xml`, and is a hint only. See <<a2132>>.
-* `jakarta.persistence.query.timeout` — integer
-value in milliseconds for query timeout or string corresponding to
-integer value. This corresponds to the property of the same name in the
-`persistence.xml`, and is a hint only. See <<a4391>>.
-* `jakarta.persistence.provider` — string
-corresponding to the `provider` element in the pe `rsistence.xml`. See
-<<a12300>>.
-* `jakarta.persistence.transactionType` — string
-corresponding to the `transaction-type` attribute in the
-`persistence.xml`. See <<a12296>>.
-* `jakarta.persistence.jtaDataSource` — string
-corresponding to the `jta-data-source` element in the `persistence.xml`.
-See <<a12302>>.
-* `jakarta.persistence.nonJtaDataSource` —
-string corresponding to the `non-jta-data-source` element in the
-`persistence.xml`. See <<a12302>>.
-* `jakarta.persistence.sharedCache.mode`
-— string corresponding to the `shared-cache-mode` element in the
-`persistence.xml`. See <<a12380>>.
-* `jakarta.persistence.validation.mode` — string
-corresponding to the `validation-mode` element in the `persistence.xml`
-. The value is " `auto` ", " `callback` ", or " `none` ". See
-<<a12382>> and <<a2374>>.
-* `jakarta.persistence.validation.group.pre-persist` — string corresponding
-to the `jakarta.persistence.validation.group.pre-persist` property in the
-`persistence.xml`. See <<a12384>> and <<a2380>>.
-* `jakarta.persistence.validation.group.pre-update` — string corresponding
-to the `jakarta.persistence.validation.group.pre-update` property in the
-`persistence.xml`. See <<a12384>> and <<a2380>>.
-* `jakarta.persistence.validation.group.pre-remove` — string corresponding
-to the `jakarta.persistence.validation.group.pre-remove` property in the
-`persistence.xml`. See <<a12384>> and <<a2380>>.
-* `jakarta.persistence.schema-generation.create-script-source` — string
-corresponding to the
-`jakarta.persistence.schema-generation.create-script-source` property in
-the `persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.schema-generation.drop-script-source` — string
-corresponding to the
-`jakarta.persistence.schema-generation.drop-script-source` property in
-the `persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.sql-load-script-source` —
-string corresponding to the `jakarta.persistence.sql-load-script-source`
-property in the `persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.schema-generation.database.action` — string
-corresponding to the
-`jakarta.persistence.schema-generation.database.action` property in the
-`persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.schema-generation.scripts.action` — string
-corresponding to the
-`jakarta.persistence.schema-generation.scripts.action` property in the
-`persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.schema-generation.create-source` — string
-corresponding to the `jakarta.persistence.schema-generation.create-source`
-property in the `persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.schema-generation.drop-source` — string corresponding
-to the `jakarta.persistence.schema-generation.drop-source` property in
-the `persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.schema-generation.scripts.create-target` —string
-corresponding to the
-`jakarta.persistence.schema-generation.scripts.create-target` property in
-the `persistence.xml`. See <<a12384>>.
-* `jakarta.persistence.schema-generation.scripts.drop-target` — string
-corresponding to the
-`jakarta.persistence.schema-generation.scripts.drop-target` property in
-the `persistence.xml`. See <<a12384>>.
+[cols="40,10,25,~"]
+|===
+| Property | Type | Corresponding element in `persistence.xml` | Notes
 
-The following additional standard properties
-are defined by this specification for the configuration of the entity
-manager factory:
+| `jakarta.persistence.provider`
+| `String`
+| `provider`
+| See <<a12300>>.
+| `jakarta.persistence.qualifiers`
+| `String[]` | `qualifier`
+| See <<a12310>>.
+| `jakarta.persistence.scope`
+| `String`
+| `scope`
+| See <<a12310>>.
+| `jakarta.persistence.transactionType`
+| `String`
+| `transaction-type`
+| See <<a12296>>.
+| `jakarta.persistence.jtaDataSource`
+| `String`
+| `jta-data-source`
+| See <<a12302>>.
+| `jakarta.persistence.nonJtaDataSource`
+| `String`
+| `non-jta-data-source`
+| See <<a12302>>.
+| `jakarta.persistence.sharedCache.mode`
+| `String`
+| `shared-cache-mode`
+| See <<a12380>>.
+| `jakarta.persistence.validation.mode`
+| `String`
+| `validation-mode`
+| Legal values are " `auto` ", " `callback` ", or " `none` ".
+See <<a12382>> and <<a2374>>.
+|===
 
-* `jakarta.persistence.jdbc.driver` — value is
-the fully qualified name of the driver class.
-* `jakarta.persistence.jdbc.url` — string
-corresponding to the driver-specific URL.
-* `jakarta.persistence.jdbc.user` — value is the
-username used by database connection.
-* `jakarta.persistence.jdbc.password` — value is
-the password for database connection validation.
-* `jakarta.persistence.dataSource` — value is
-instance of `javax.sql.DataSource` to be used for the specified
+The following properties correspond to the  properties in the `persistence.xml`
+ile. When any of these properties are specified in the `Map` parameter passed
+to the `createEntityManagerFactory` method, their values override the values of
+the corresponding properties in the `persistence.xml` file for the named
+persistence unit. They also override any defaults that the persistence provider
+might have applied.
+
+[cols="35,10,35,~"]
+|===
+| Property | Type | Corresponding property in `persistence.xml` | Notes
+
+| `jakarta.persistence.lock.timeout`
+| `Integer` or `String`
+| `jakarta.persistence.lock.timeout`
+| Hint only.
+Value in milliseconds for pessimistic lock timeout.
+See <<a2132>>.
+| `jakarta.persistence.query.timeout`
+| `Integer` or `String`
+| `jakarta.persistence.query.timeout`
+| Hint only.
+Value in milliseconds for query timeout.
+See <<a4391>>.
+| `jakarta.persistence.validation.group.pre-persist`
+| `String`
+| `jakarta.persistence.validation.group.pre-persist`
+| See <<a12384>> and <<a2380>>.
+| `jakarta.persistence.validation.group.pre-update`
+| `String`
+| `jakarta.persistence.validation.group.pre-update`
+| See <<a12384>> and <<a2380>>.
+| `jakarta.persistence.validation.group.pre-remove`
+| `String`
+| `jakarta.persistence.validation.group.pre-remove`
+| See <<a12384>> and <<a2380>>.
+| `jakarta.persistence.schema-generation.create-script-source`
+| `String`
+| `jakarta.persistence.schema-generation.create-script-source`
+| See <<a12384>>.
+| `jakarta.persistence.schema-generation.drop-script-source`
+| `String`
+| `jakarta.persistence.schema-generation.drop-script-source`
+| See <<a12384>>.
+| `jakarta.persistence.sql-load-script-source`
+| `String`
+| `jakarta.persistence.sql-load-script-source`
+| See <<a12384>>.
+| `jakarta.persistence.schema-generation.database.action`
+| `String`
+| `jakarta.persistence.schema-generation.database.action`
+| See <<a12384>>.
+| `jakarta.persistence.schema-generation.scripts.action`
+| `String`
+| `jakarta.persistence.schema-generation.scripts.action`
+| See <<a12384>>.
+| `jakarta.persistence.schema-generation.create-source`
+| `String`
+| `jakarta.persistence.schema-generation.create-source`
+| See <<a12384>>.
+| `jakarta.persistence.schema-generation.drop-source`
+| `String`
+| `jakarta.persistence.schema-generation.drop-source`
+| See <<a12384>>.
+| `jakarta.persistence.schema-generation.scripts.create-target`
+| `String`
+| `jakarta.persistence.schema-generation.scripts.create-target`
+| See <<a12384>>.
+| `jakarta.persistence.schema-generation.scripts.drop-target`
+| `String`
+| `jakarta.persistence.schema-generation.scripts.drop-target`
+| See <<a12384>>.
+|===
+
+The following additional standard properties are defined by this specification
+for the configuration of the entity manager factory:
+
+[cols="40,~"]
+|===
+| Property | Value
+
+| `jakarta.persistence.jdbc.driver`
+| Fully qualified name of the driver class.
+| `jakarta.persistence.jdbc.url`
+| Driver-specific JDBC URL as a string.
+| `jakarta.persistence.jdbc.user`
+| Username for database connection.
+| `jakarta.persistence.jdbc.password`
+| Password for database connection authentication.
+| `jakarta.persistence.dataSource`
+| Instance of `javax.sql.DataSource` to be used for the specified
 persistence unit.
-* `jakarta.persistence.validation.factory` —
-value is instance of `jakarta.validation.ValidatorFactory`.
+| `jakarta.persistence.validation.factory`
+| Instance of `jakarta.validation.ValidatorFactory`.
+|===
 
 Any number of vendor-specific properties may
 also be included in the map. If a persistence provider does not

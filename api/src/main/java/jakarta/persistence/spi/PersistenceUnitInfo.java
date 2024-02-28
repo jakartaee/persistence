@@ -50,6 +50,25 @@ public interface PersistenceUnitInfo {
     String getPersistenceProviderClassName();
 
     /**
+     * Returns the fully-qualified class name of an annotation annotated
+     * {@code Scope} or {@code NormalScope}. Corresponds to the {@code scope}
+     * element in {@code persistence.xml}.
+     * @return  the fully-qualified class name of the scope annotation,
+     *          or null if no scope was explicitly specified
+     */
+    public String getScopeAnnotationName();
+
+    /**
+     * Returns the fully-qualified class names of annotations annotated
+     * {@code Qualifier}. Corresponds to the {@code qualifier} element in
+     * {@code persistence.xml}.
+     * @return  the fully-qualified class names of the qualifier annotations,
+     *          or an empty list if no qualifier annotations were explicitly
+     *          specified
+     */
+    public List<String> getQualifierAnnotationNames();
+
+    /**
      * Returns the transaction type of the entity managers created by
      * the {@link EntityManagerFactory}. The transaction type corresponds
      * to the {@code transaction-type} attribute in the {@code persistence.xml}
