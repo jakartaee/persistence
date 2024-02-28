@@ -77,7 +77,7 @@ Added options member to elements which result in DDL generation
 
 Added `EnumeratedValue` allowing custom mapping of fields of Java enums
 
-Added `comment` and `check` members to Table and Column annotations, along with `CheckConstraint`
+Added `comment` and `check` members to `@Table` and `@Column` annotations, along with `@CheckConstraint`
 
 Added `secondPrecision` to Column annotation and clarified semantics of Column members
 
