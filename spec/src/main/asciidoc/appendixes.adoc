@@ -92,7 +92,7 @@ Clarified the primary key types supported for each `GenerationType`
 
 Clarified availability of `SEQUENCE`, `TABLE` and `UUID` generated IDs on `PrePersist`
 
-Clarified semantics of numeric literals, numeric type promotions and added support for `bi` and `bd` suffixes
+Clarified semantics of numeric literals and numeric type promotions, and added support for `bi` and `bd` suffixes
 
 Clarified semantics of `Convert`/`Converter` annotations
 
