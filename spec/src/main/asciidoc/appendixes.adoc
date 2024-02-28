@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2024 Contributors to the Eclipse Foundation
 //
 
 [appendix]
@@ -77,7 +77,13 @@ Added options member to elements which result in DDL generation
 
 Added `EnumeratedValue` allowing custom mapping of fields of Java enums
 
-Added `comment` and `check` members to table and column annotations, along with `CheckConstraint`
+Added `comment` and `check` members to Table and Column annotations, along with `CheckConstraint`
+
+Added `secondPrecision` to Column annotation and clarified semantics of Column members
+
+Added factory-level access to named queries and named entity graphs
+
+Added integration points for dependency injection
 
 Made the `name` member of `TableGenerator` and `SequenceGenerator` optional and allow usage of these annotations
 at the java package level
@@ -86,7 +92,7 @@ Clarified the primary key types supported for each `GenerationType`
 
 Clarified availability of `SEQUENCE`, `TABLE` and `UUID` generated IDs on `PrePersist`
 
-Clarified semantics of numeric literals and added support for `bi` and `bd` suffixes
+Clarified semantics of numeric literals, numeric type promotions and added support for `bi` and `bd` suffixes
 
 Clarified semantics of `Convert`/`Converter` annotations
 
@@ -94,13 +100,15 @@ Clarified rules around distinction of entity names and identification variables 
 
 Clarified the semantics of `Bindable.ENTITY_TYPE` in javadoc
 
+Clarified the semantics of collection-valued query parameters
+
 Entity and embeddable classes may now be static inner classes
 
 Primary key classes are no longer required to be public and serializable
 
 Pulled `getParameters()` up from `CriteriaQuery` to `CommonAbstractCriteria`
 
-Updated object/relational mapping schema
+Updated persistence and object/relational mapping schemas
 
 Fixed wildcard types in `addSubgraph` and `addAttributeNode` in `Graph`
 
