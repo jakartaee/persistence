@@ -67,6 +67,8 @@ Added `runInTransaction()` and `callInTransaction()` to `EntityManagerFactory`
 
 Added `getName()` to `EntityManagerFactory`
 
+Added `setTimeout(Integer)` and `getTimeout()` to `EntityTransaction`
+
 Added programmatic API to obtain `EntityManagerFactory` using `PersistenceConfiguration`
 
 Added constants for properties defined by the specification to the `PersistenceConfiguration`
