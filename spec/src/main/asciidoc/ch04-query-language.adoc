@@ -1169,144 +1169,6 @@ footnote:[The implementation is
 not expected to perform such query operations involving such fields in
 memory rather than in the database.].
 
-==== Literals
-
-A string literal is enclosed in single
-quotes—for example: 'literal'. A string literal that includes a single
-quote is represented by two single quotes—for example: 'literal''s'.
-String literals in queries, like Java `String` literals, use unicode
-character encoding. The use of Java escape notation is not supported in
-query string literals.
-
-A numeric literal may be either:
-
-- a decimal Java integer (int or long) literal
-- a Java floating point (float or double) literal, or
-- a literal `BigInteger` or `BigDecimal`.
-
-A suffix `L`, `D`, or `F` may be used to indicate the specific numeric
-type, in accordance with the Java Language Specification. The suffix is
-not case-sensitive. The literal numeric value preceding the suffix must
-conform to the rules for Java numeric literals established by the Java
-Language Specification.
-
-A suffix `BI` or `BD` may be used to indicate a literal `BigInteger` or
-`BigDecimal`, respectively. The literal numeric value preceding the suffix
-must be an exact or approximate SQL numeric literal. For a `BigInteger`
-literal, the numeric value must be an exact integer literal.
-
-Just as in Java, when a numeric literal has no suffix:
-
-- an integer literal is interpreted as a Java int, and
-- a floating point literal is interpreted as a Java double.
-
-Support for hexadecimal and octal numeric literals is not required by
-this specification.
-
-Enum literals support the use of Java enum
-literal syntax. The fully qualified enum class name must be specified.
-
-The JDBC escape syntax may be used for the
-specification of date, time, and timestamp literals. For example:
-
-[source,sql]
-----
-SELECT o
-FROM Customer c JOIN c.orders o
-WHERE c.name = 'Smith'
-    AND o.submissionDate < {d '2008-12-31'}
-----
-
-The portability of this syntax for date,
-time, and timestamp literals is dependent upon the JDBC driver in use.
-Persistence providers are not required to translate from this syntax
-into the native syntax of the database or driver.
-
-The boolean literals are `TRUE` and `FALSE`.
-
-Entity type literals are specified by entity names—for example: `Customer`.
-
-Although reserved literals appear in upper case, they are case-insensitive.
-
-==== Identification Variables
-
-All identification variables used in the
-WHERE or HAVING clause of a SELECT or DELETE statement must be declared
-in the FROM clause, as described in <<a4765>>. The identification variables used in the
-WHERE clause of an UPDATE statement must be declared in the UPDATE
-clause.
-
-Identification variables are existentially
-quantified in the WHERE and HAVING clause.
-This means that an identification variable represents a member of a
-collection or an instance of an entity's abstract schema type. An
-identification variable never designates a collection in its entirety.
-
-==== Path Expressions
-
-It is illegal to use a
-`collection_valued_path_expression` within a WHERE or HAVING clause as
-part of a conditional expression except in an
-`empty_collection_comparison_expression`, in a
-`collection_member_expression`, or as an argument to the SIZE operator.
-
-==== Input Parameters [[a5065]]
-
-An input parameter allows a value in the Java program to be safely
-interpolated into the text of the parameterized query.
-
-In a given query, either positional or named parameters may be used.
-Positional and named parameters must not be mixed in a single query.
-
-The persistence provider is required to support input parameters which
-occur in the `WHERE` clause or `HAVING` clause of a query, or as the
-new value for an update item in the `SET` clause of an update statement.
-
-[NOTE]
-====
-Note that if an input parameter value is null, comparison operations or
-arithmetic operations involving the input parameter will result in an
-unknown value. See <<a5676>>.
-====
-
-An input parameter might be _single-valued_ or _collection-valued_.
-An input parameter which occurs directly to the right of the `IN` keyword
-in an `IN` predicate, as defined in <<a5107>>, is collection-valued. Every
-other input parameter is single-valued
-
-The API for the binding concrete arguments to query parameters is described
-in <<a3125>>.
-
-===== Positional Parameters
-
-The following rules apply to positional input parameters.
-
-* A positional parameter is designated by an integer, and prefixed with a
-  _?_ symbol (question mark) in the text of the query string.
-  For example: _?1_.
-* Input parameters are numbered starting from 1.
-* A given positional parameter may occur more than once in the query string.
-* The ordering of the use of parameters within the text of the query string
-  need not match the numbering of the positional parameters.
-
-===== Named Parameters
-
-A named parameter is denoted by an identifier, and prefixed by the _:_ symbol
-(colon) in the text of the query string. The identifier name must follow the
-usual rules for identifiers specified in <<a4760>>. Named parameters are
-case-sensitive.
-
-Example:
-
-[source,sql]
-----
-SELECT c
-FROM Customer c
-WHERE c.status = :stat
-----
-
-A given named parameter may occur more than once in the query string.
-
 ==== Conditional Expression Composition
 
 Conditional expressions are composed of other
@@ -1782,6 +1644,209 @@ WHERE goodCustomer.balanceOwed < (
     SELECT AVG(c.balanceOwed)/2.0 FROM Customer c)
 ----
 
+==== Null Values [[a5676]]
+
+When the target of a reference does not exist
+in the database, its value is regarded as `NULL`. SQL `NULL` semantics
+<<a19494>> defines the evaluation of
+conditional expressions containing `NULL` values.
+
+The following is a brief description of these semantics:
+
+* Comparison or arithmetic operations with a
+NULL value always yield an unknown value.
+* Two NULL values are not considered to be
+equal, the comparison yields an unknown value.
+* Comparison or arithmetic operations with an
+unknown value always yield an unknown value.
+* The IS NULL and IS NOT NULL operators convert
+a `NULL` state field or single-valued object field value into the
+respective TRUE or FALSE value.
+* Boolean operators use three valued logic,
+defined by <<a5686, Table 1>>, <<a5705, Table 2>>, and <<a5724, Table 3>>.
+
+[[a5686]]
+[options="header"]
+.Definition of the AND Operator
+|===
+|AND|T|F|U
+|T|T|F|U
+|F|F|F|F
+|U|U|F|U
+|===
+
+[[a5705]]
+[options="header"]
+.Definition of the OR Operator
+|===
+|OR|T|F|U
+|T|T|T|T
+|F|T|F|U
+|U|T|U|U
+|===
+
+[[a5724]]
+[options="header"]
+.Definition of the NOT Operator
+|===
+|NOT|
+|T|F
+|F|T
+|U|U
+|===
+
+[NOTE]
+====
+The Jakarta Persistence query language
+defines the empty string, '', as a string
+with 0 length, which is not equal to a NULL value. However, NULL values
+and empty strings may not always be distinguished when queries are
+mapped to some databases. Application developers should therefore not
+rely on the semantics of query comparisons involving the empty string
+and NULL value.
+====
+
+==== Equality and Comparison Semantics [[a5735]]
+
+Only the values of _like_ types are permitted
+to be compared. A type is _like_ another type if they correspond to the
+same Java language type, or if one is a primitive Java language type and
+the other is the wrapped Java class type equivalent (e.g., `int` and
+`Integer` are like types in this sense). There is one exception to this
+rule: it is valid to compare numeric values for which the rules of
+numeric promotion apply. Conditional expressions attempting to compare
+non-like type values are disallowed except for this numeric case.
+
+[NOTE]
+====
+Note that the arithmetic operators, the string concatenation operator,
+and comparison operators are permitted to be applied to state fields and
+input parameters of the wrapped Java class equivalents to the primitive
+numeric Java types.
+====
+
+Two entities of the same abstract schema type
+are equal if and only if they have the same primary key value.
+
+Only equality/inequality comparisons over
+enums are required to be supported.
+
+Comparisons over instances of embeddable
+class or map entry types are not supported.
+
+The following examples illustrate the syntax
+and semantics of the Jakarta Persistence query language. These examples are
+based on the example presented in <<a4713>>.
+
+Find all orders:
+
+[source,sql]
+----
+SELECT o
+FROM Order o
+----
+
+Find all orders that need to be shipped to California:
+
+[source,sql]
+----
+SELECT o
+FROM Order o
+WHERE o.shippingAddress.state = 'CA'
+----
+
+Find all states for which there are orders:
+
+[source,sql]
+----
+SELECT DISTINCT o.shippingAddress.state
+FROM Order o
+----
+
+Find all orders that have line items:
+
+[source,sql]
+----
+SELECT DISTINCT o
+FROM Order o JOIN o.lineItems l
+----
+
+Note that the result of this query does not
+include orders with no associated line items. This query can also be
+written as:
+
+[source,sql]
+----
+SELECT o
+FROM Order o
+WHERE o.lineItems IS NOT EMPTY
+----
+
+Find all orders that have no line items:
+
+[source,sql]
+----
+SELECT o
+FROM Order o
+WHERE o.lineItems IS EMPTY
+----
+
+Find all pending orders:
+
+[source,sql]
+----
+SELECT DISTINCT o
+FROM Order o JOIN o.lineItems l
+WHERE l.shipped = FALSE
+----
+
+Find all orders in which the shipping address
+differs from the billing address. This example assumes that the
+application developer uses two distinct `entity` types to designate
+shipping and billing addresses.
+
+[source,sql]
+----
+SELECT o
+FROM Order o
+WHERE
+    NOT (o.shippingAddress.state = o.billingAddress.state AND
+         o.shippingAddress.city = o.billingAddress.city AND
+         o.shippingAddress.street = o.billingAddress.street)
+----
+
+If the application developer uses a single
+`entity` type in two different relationships for both the shipping
+address and the billing address, the above expression can be simplified
+based on the equality rules defined in <<a5735>>. The
+query can then be written as:
+
+[source,sql]
+----
+SELECT o
+FROM Order o
+WHERE o.shippingAddress <> o.billingAddress
+----
+
+The query checks whether the same entity
+abstract schema type instance (identified by its primary key) is related
+to an order through two distinct relationships.
+
+===== Queries Using Input Parameters
+
+The following query finds the orders for a
+product whose name is designated by an input parameter:
+
+[source,sql]
+----
+SELECT DISTINCT o
+FROM Order o JOIN o.lineItems l
+WHERE l.product.name = ?1
+----
+
+For this query, the input parameter must be
+of the type of the state field name, i.e., a string.
+
 === Scalar Expressions [[a5243]]
 
 Numeric, string, datetime, case, and entity
@@ -1802,6 +1867,144 @@ scalar_expression::=
     case_expression |
     entity_type_expression
 ----
+
+==== Literals
+
+A string literal is enclosed in single
+quotes—for example: 'literal'. A string literal that includes a single
+quote is represented by two single quotes—for example: 'literal''s'.
+String literals in queries, like Java `String` literals, use unicode
+character encoding. The use of Java escape notation is not supported in
+query string literals.
+
+A numeric literal may be either:
+
+- a decimal Java integer (int or long) literal
+- a Java floating point (float or double) literal, or
+- a literal `BigInteger` or `BigDecimal`.
+
+A suffix `L`, `D`, or `F` may be used to indicate the specific numeric
+type, in accordance with the Java Language Specification. The suffix is
+not case-sensitive. The literal numeric value preceding the suffix must
+conform to the rules for Java numeric literals established by the Java
+Language Specification.
+
+A suffix `BI` or `BD` may be used to indicate a literal `BigInteger` or
+`BigDecimal`, respectively. The literal numeric value preceding the suffix
+must be an exact or approximate SQL numeric literal. For a `BigInteger`
+literal, the numeric value must be an exact integer literal.
+
+Just as in Java, when a numeric literal has no suffix:
+
+- an integer literal is interpreted as a Java int, and
+- a floating point literal is interpreted as a Java double.
+
+Support for hexadecimal and octal numeric literals is not required by
+this specification.
+
+Enum literals support the use of Java enum
+literal syntax. The fully qualified enum class name must be specified.
+
+The JDBC escape syntax may be used for the
+specification of date, time, and timestamp literals. For example:
+
+[source,sql]
+----
+SELECT o
+FROM Customer c JOIN c.orders o
+WHERE c.name = 'Smith'
+    AND o.submissionDate < {d '2008-12-31'}
+----
+
+The portability of this syntax for date,
+time, and timestamp literals is dependent upon the JDBC driver in use.
+Persistence providers are not required to translate from this syntax
+into the native syntax of the database or driver.
+
+The boolean literals are `TRUE` and `FALSE`.
+
+Entity type literals are specified by entity names—for example: `Customer`.
+
+Although reserved literals appear in upper case, they are case-insensitive.
+
+==== Identification Variables
+
+All identification variables used in the
+WHERE or HAVING clause of a SELECT or DELETE statement must be declared
+in the FROM clause, as described in <<a4765>>. The identification variables used in the
+WHERE clause of an UPDATE statement must be declared in the UPDATE
+clause.
+
+Identification variables are existentially
+quantified in the WHERE and HAVING clause.
+This means that an identification variable represents a member of a
+collection or an instance of an entity's abstract schema type. An
+identification variable never designates a collection in its entirety.
+
+==== Path Expressions
+
+It is illegal to use a
+`collection_valued_path_expression` within a WHERE or HAVING clause as
+part of a conditional expression except in an
+`empty_collection_comparison_expression`, in a
+`collection_member_expression`, or as an argument to the SIZE operator.
+
+==== Input Parameters [[a5065]]
+
+An input parameter allows a value in the Java program to be safely
+interpolated into the text of the parameterized query.
+
+In a given query, either positional or named parameters may be used.
+Positional and named parameters must not be mixed in a single query.
+
+The persistence provider is required to support input parameters which
+occur in the `WHERE` clause or `HAVING` clause of a query, or as the
+new value for an update item in the `SET` clause of an update statement.
+
+[NOTE]
+====
+Note that if an input parameter value is null, comparison operations or
+arithmetic operations involving the input parameter will result in an
+unknown value. See <<a5676>>.
+====
+
+An input parameter might be _single-valued_ or _collection-valued_.
+An input parameter which occurs directly to the right of the `IN` keyword
+in an `IN` predicate, as defined in <<a5107>>, is collection-valued. Every
+other input parameter is single-valued
+
+The API for the binding concrete arguments to query parameters is described
+in <<a3125>>.
+
+===== Positional Parameters
+
+The following rules apply to positional input parameters.
+
+* A positional parameter is designated by an integer, and prefixed with a
+_?_ symbol (question mark) in the text of the query string.
+For example: _?1_.
+* Input parameters are numbered starting from 1.
+* A given positional parameter may occur more than once in the query string.
+* The ordering of the use of parameters within the text of the query string
+need not match the numbering of the positional parameters.
+
+===== Named Parameters
+
+A named parameter is denoted by an identifier, and prefixed by the _:_ symbol
+(colon) in the text of the query string. The identifier name must follow the
+usual rules for identifiers specified in <<a4760>>. Named parameters are
+case-sensitive.
+
+Example:
+
+[source,sql]
+----
+SELECT c
+FROM Customer c
+WHERE c.status = :stat
+----
+
+A given named parameter may occur more than once in the query string.
 
 ==== Arithmetic Expressions
 
@@ -2866,209 +3069,6 @@ WHERE e.address.building = 14
     AND e.address.city = 'Santa Clara'
     AND e.project = 'Jakarta EE'
 ----
-
-=== Null Values [[a5676]]
-
-When the target of a reference does not exist
-in the database, its value is regarded as `NULL`. SQL `NULL` semantics
-<<a19494>> defines the evaluation of
-conditional expressions containing `NULL` values.
-
-The following is a brief description of these semantics:
-
-* Comparison or arithmetic operations with a
-NULL value always yield an unknown value.
-* Two NULL values are not considered to be
-equal, the comparison yields an unknown value.
-* Comparison or arithmetic operations with an
-unknown value always yield an unknown value.
-* The IS NULL and IS NOT NULL operators convert
-a `NULL` state field or single-valued object field value into the
-respective TRUE or FALSE value.
-* Boolean operators use three valued logic,
-defined by <<a5686, Table 1>>, <<a5705, Table 2>>, and <<a5724, Table 3>>.
-
-[[a5686]]
-[options="header"]
-.Definition of the AND Operator
-|===
-|AND|T|F|U
-|T|T|F|U
-|F|F|F|F
-|U|U|F|U
-|===
-
-[[a5705]]
-[options="header"]
-.Definition of the OR Operator
-|===
-|OR|T|F|U
-|T|T|T|T
-|F|T|F|U
-|U|T|U|U
-|===
-
-[[a5724]]
-[options="header"]
-.Definition of the NOT Operator
-|===
-|NOT|
-|T|F
-|F|T
-|U|U
-|===
-
-[NOTE]
-====
-The Jakarta Persistence query language
-defines the empty string, '', as a string
-with 0 length, which is not equal to a NULL value. However, NULL values
-and empty strings may not always be distinguished when queries are
-mapped to some databases. Application developers should therefore not
-rely on the semantics of query comparisons involving the empty string
-and NULL value.
-====
-
-=== Equality and Comparison Semantics [[a5735]]
-
-Only the values of _like_ types are permitted
-to be compared. A type is _like_ another type if they correspond to the
-same Java language type, or if one is a primitive Java language type and
-the other is the wrapped Java class type equivalent (e.g., `int` and
-`Integer` are like types in this sense). There is one exception to this
-rule: it is valid to compare numeric values for which the rules of
-numeric promotion apply. Conditional expressions attempting to compare
-non-like type values are disallowed except for this numeric case.
-
-[NOTE]
-====
-Note that the arithmetic operators, the string concatenation operator,
-and comparison operators are permitted to be applied to state fields and
-input parameters of the wrapped Java class equivalents to the primitive
-numeric Java types.
-====
-
-Two entities of the same abstract schema type
-are equal if and only if they have the same primary key value.
-
-Only equality/inequality comparisons over
-enums are required to be supported.
-
-Comparisons over instances of embeddable
-class or map entry types are not supported.
-
-The following examples illustrate the syntax
-and semantics of the Jakarta Persistence query language. These examples are
-based on the example presented in <<a4713>>.
-
-Find all orders:
-
-[source,sql]
-----
-SELECT o
-FROM Order o
-----
-
-Find all orders that need to be shipped to California:
-
-[source,sql]
-----
-SELECT o
-FROM Order o
-WHERE o.shippingAddress.state = 'CA'
-----
-
-Find all states for which there are orders:
-
-[source,sql]
-----
-SELECT DISTINCT o.shippingAddress.state
-FROM Order o
-----
-
-Find all orders that have line items:
-
-[source,sql]
-----
-SELECT DISTINCT o
-FROM Order o JOIN o.lineItems l
-----
-
-Note that the result of this query does not
-include orders with no associated line items. This query can also be
-written as:
-
-[source,sql]
-----
-SELECT o
-FROM Order o
-WHERE o.lineItems IS NOT EMPTY
-----
-
-Find all orders that have no line items:
-
-[source,sql]
-----
-SELECT o
-FROM Order o
-WHERE o.lineItems IS EMPTY
-----
-
-Find all pending orders:
-
-[source,sql]
-----
-SELECT DISTINCT o
-FROM Order o JOIN o.lineItems l
-WHERE l.shipped = FALSE
-----
-
-Find all orders in which the shipping address
-differs from the billing address. This example assumes that the
-application developer uses two distinct `entity` types to designate
-shipping and billing addresses.
-
-[source,sql]
-----
-SELECT o
-FROM Order o
-WHERE
-    NOT (o.shippingAddress.state = o.billingAddress.state AND
-         o.shippingAddress.city = o.billingAddress.city AND
-         o.shippingAddress.street = o.billingAddress.street)
-----
-
-If the application developer uses a single
-`entity` type in two different relationships for both the shipping
-address and the billing address, the above expression can be simplified
-based on the equality rules defined in <<a5735>>. The
-query can then be written as:
-
-[source,sql]
-----
-SELECT o
-FROM Order o
-WHERE o.shippingAddress <> o.billingAddress
-----
-
-The query checks whether the same entity
-abstract schema type instance (identified by its primary key) is related
-to an order through two distinct relationships.
-
-==== Queries Using Input Parameters
-
-The following query finds the orders for a
-product whose name is designated by an input parameter:
-
-[source,sql]
-----
-SELECT DISTINCT o
-FROM Order o JOIN o.lineItems l
-WHERE l.product.name = ?1
-----
-
-For this query, the input parameter must be
-of the type of the state field name, i.e., a string.
 
 === BNF
 
