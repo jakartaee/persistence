@@ -294,16 +294,19 @@ clause of a query. Each identification variable is assigned an
 abstract schema type. Each element of the domain may declare an
 identification variable.
 
-- If the domain has exactly one named entity abstract schema type and
-  no joins, then the named entity does not require an identification
-  variable.
+- If the domain has exactly one named entity abstract schema type
+  and no joins, then the named entity does not require an explicit
+  identification variable, and its identification variable defaults
+  to the _implicit identification variable,_ `this`.
 - Otherwise, every element of the FROM clause&mdash;that is, every
   named entity abstract schema types and every join&mdash;must
   declare an identification variable.
 
 ----
 from_clause ::=
-    FROM entity_name | identification_variable_declarations
+    FROM {this_implicit_variable | identification_variable_declarations}
+
+this_implicit_variable ::= entity_name
 
 identification_variable_declarations ::=
     identification_variable_declaration
@@ -382,12 +385,12 @@ releases of this specification.
 
 ==== Identification Variables [[a4765]]
 
-An identification
-variable is a valid identifier declared in the FROM clause of a query.
+An identification variable is a valid identifier declared in the FROM
+clause of a query.
 
-All identification variables must be declared
-in the FROM clause. Identification variables cannot be declared in other
-clauses.
+Every identification variable must be declared in the FROM clause,
+except for the implicit identification variable `this`. Identification
+variables are never declared in other clauses.
 
 An identification variable must not be a reserved identifier.
 
@@ -491,16 +494,9 @@ WHERE o1.quantity > o2.quantity AND
  o2.customer.firstname= 'John'
 ----
 
-If the query domain is a single entity type, the range variable
-declaration is optional. These queries are equivalent:
+If the query domain is a single entity abstract schema type, the range
+variable declaration is optional. These queries are equivalent:
 
-[source,sql]
-----
-SELECT ord.quantity
-FROM Order AS ord
-WHERE ord.customer.lastname = 'Smith'
-  AND ord.customer.firstname= 'John'
-----
 [source,sql]
 ----
 SELECT quantity
@@ -508,10 +504,25 @@ FROM Order
 WHERE customer.lastname = 'Smith'
   AND customer.firstname= 'John'
 ----
+[source,sql]
+----
+SELECT this.quantity
+FROM Order
+WHERE this.customer.lastname = 'Smith'
+  AND this.customer.firstname= 'John'
+----
+[source,sql]
+----
+SELECT ord.quantity
+FROM Order AS ord
+WHERE ord.customer.lastname = 'Smith'
+  AND ord.customer.firstname= 'John'
+----
 
-Otherwise, if the query domain has more than one element,
-each entity type listed in the FROM clause must specify
-be a range variable declaration.
+Otherwise, if the query domain has more than one element, each named
+entity abstract schema type listed in the FROM clause must be a range
+variable declaration, and the implicit identification variable is not
+implicitly assigned an abstract schema type.
 
 
 [[a4792]]
@@ -521,21 +532,15 @@ A path expression is a sequence of identifiers uniquely identifying
 a state field or association field of an element of the query domain.
 
 A path expression may begin with a reference to an identification
-variable, followed by the navigation operator (`.`).
-
-- If the query domain has a single element, then the identification
-  variable is optional, and every path expression which does not begin
-  with an identification variable is interpreted exactly as if it began
-  with an identification variable referring to the single element of
-  the domain.
-- Otherwise, every path expression must begin with an identification
-  variable.
+variable, followed by the navigation operator (`.`). If the first
+element of a path expression is not an identification variable, then
+the path expression is interpreted exactly as if it began with the
+implicit identification variable `this`.
 
 The remaining elements of the path expression are interpreted as
 references to state fields or association fields in the context of the
-abstract schema type assigned to the identification variable, or in the
-context of the single abstract schema type of the query domain, in the
-case where the path expression does not begin with an identification
+abstract schema type assigned to the identification variable&mdash;or
+to `this`, if the path expression does not begin with an identification
 variable.
 
 A reference to a state field or association field in a path expression
@@ -2498,12 +2503,25 @@ GROUP BY c
 ORDER BY itemCount
 ----
 
-If the query domain is a single entity type, the SELECT clause
-declaration is optional. A query with a missing SELECT clause
-is interpreted as if it had a SELECT clause with a single item
-containing an identification variable referencing the single
-element of the domain. These queries are equivalent:
+The SELECT clause is optional. A query with a missing SELECT clause
+is interpreted as if it had the following single-item SELECT clause:
+`select this`, where `this` is the implicit identification variable.
 
+Thus, the following queries are equivalent:
+
+[source,sql]
+----
+FROM Order
+WHERE customer.lastname = 'Smith'
+  AND customer.firstname= 'John'
+----
+[source,sql]
+----
+SELECT this
+FROM Order
+WHERE this.customer.lastname = 'Smith'
+  AND this.customer.firstname= 'John'
+----
 [source,sql]
 ----
 SELECT ord
@@ -2511,15 +2529,9 @@ FROM Order AS ord
 WHERE ord.customer.lastname = 'Smith'
   AND ord.customer.firstname= 'John'
 ----
-[source,sql]
-----
-FROM Order
-WHERE customer.lastname = 'Smith'
-  AND customer.firstname= 'John'
-----
 
-Otherwise, if the query domain has more than one element,
-the SELECT clause is required.
+If the implicit identification variable has not been assigned an
+abstract schema type, the SELECT clause is required.
 
 ==== Result Type of the SELECT Clause [[a5439]]
 
@@ -3175,7 +3187,8 @@ select_query ::= [select_clause] from_clause [where_clause] [groupby_clause]
 update_statement ::= update_clause [where_clause]
 delete_statement ::= delete_clause [where_clause]
 from_clause ::=
-    FROM entity_name | identification_variable_declarations
+    FROM {this_implicit_variable | identification_variable_declarations}
+this_implicit_variable ::= entity_name
 identification_variable_declarations ::=
     identification_variable_declaration
     {, {identification_variable_declaration | collection_member_declaration}}*
