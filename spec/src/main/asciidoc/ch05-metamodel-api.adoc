@@ -177,7 +177,7 @@ Applications that use non-canonical metamodel classes will not be
 portable.
 ====
 
-===== Example [[a6961]]
+===== Example Canonical Metamodel [[a6961]]
 
 Assume the `Order` entity below.
 
@@ -187,6 +187,11 @@ package com.example;
 
 import java.util.Set;
 import java.math.BigDecimal;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
 
 @Entity
 public class Order {
@@ -207,8 +212,7 @@ public class Order {
 }
 ----
 
-The corresponding canonical metamodel class,
-`Order`, is as follows:
+The corresponding canonical metamodel class, `Order_`, is as follows:
 
 [source,java]
 ----
@@ -220,12 +224,20 @@ import jakarta.persistence.metamodel.SetAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
 
 @StaticMetamodel(Order.class)
-public class Order {
+public class Order_ {
+	public static volatile EntityType<Order> class_;
+
     public static volatile SingularAttribute<Order, Integer> orderId;
     public static volatile SingularAttribute<Order, Customer> customer;
     public static volatile SetAttribute<Order, Item> lineItems;
     public static volatile SingularAttribute<Order, Address> shippingAddress;
     public static volatile SingularAttribute<Order, BigDecimal> totalCost;
+
+	public static final String LINE_ITEMS = "lineItems";
+	public static final String ORDER_ID = "orderId";
+	public static final String SHIPPING_ADDRESS = "shippingAddress";
+	public static final String TOTAL_COST = "totalCost";
+	public static final String CUSTOMER = "customer";
 }
 ----
 
