@@ -4,9 +4,255 @@
 
 == Metamodel API [[a6072]]
 
-This specification provides a set of
-interfaces for dynamically accessing the metamodel corresponding to the
-managed classes of a persistence unit.
+This specification provides a set of interfaces for dynamically accessing
+a metamodel representing the managed classes of a persistence unit.
+Instances of metamodel types may be obtained either:
+
+- via programmatic lookup using an instance of the interface
+  `jakarta.persistence.metamodel.Metamodel` obtained from the
+  `EntityManagerFactory` or `EntityManager` by calling
+  `getMetamodel()`, or
+- in a typesafe way, using _static metamodel classes_.
+
+A static metamodel class is a class with static members providing direct
+typesafe access to metamodel objects representing the persistent members
+of a given managed class.
+
+=== Static Metamodel Classes [[a6933]]
+
+A set of static metamodel classes corresponding to the managed classes of
+a persistence unit can be generated using an annotation processor or may
+be created by the application developer.
+
+In the typical case, an annotation processor is used to generate static
+metamodel classes corresponding to the entities, mapped superclasses,
+and embeddable classes in the persistence unit. A static metamodel class
+models the persistent state and relationships of the corresponding managed
+class. For portability, an annotation processor should generate a _canonical
+metamodel_ as specified in the next section.
+
+==== Canonical Metamodel
+
+This specification defines as follows a
+canonical metamodel and the structure of canonical metamodel classes.
+
+For every managed class in the persistence
+unit, a corresponding metamodel class is produced as follows:
+
+* For each managed class `X` in package `p`, a metamodel class
+`X_` in package `p` is created.footnote:[We expect that the
+option of different packages will be provided in a future release of
+this specification.]
+
+* The name of the metamodel class is derived from the name of the
+managed class by appending "`_`" to the name of the managed class.
+
+* The metamodel class `X_` must be annotated with the
+`jakarta.persistence.StaticMetamodel` annotationfootnote:[If the class
+was generated, the `javax.annotation.processing.Generated` or `jakarta.annotation.Generated`
+annotation should be used to annotate the class. The use of any other annotations on static
+metamodel classes is undefined.].
+
+* If the managed class `X` extends another class `S`, where `S` is the
+most derived managed class (i.e., entity or mapped superclass) extended
+by `X`, then the metamodel class `X_` must extend the metamodel
+class `S_` created for `S`.
+
+* The metamodel class must contain a field declaration as follows:
++
+[source,java]
+----
+public static volatile jakarta.persistence.metamodel.T<X> class_;
+----
++
+where `T` is `EntityType`, `EmbeddableType`, or `MappedSuperclassType`
+depending on whether `X` is an entity, embeddable, or mapped superclass.
+* For every persistent attribute `y` declared by class `X`, the
+metamodel class must contain a field declaration as follows:
++
+[source,java]
+----
+public static final String Y = "y";
+----
++
+where the field name `Y` is obtained by transforming each lowercase
+character in the attribute name `y` to uppercase, and inserting an
+underscore if the character following the transformed character
+is uppercase.
+
+* For every persistent non-collection-valued
+attribute `y` declared by class `X`, where the type of `y` is `Y`, the
+metamodel class must contain a declaration as follows:
++
+[source,java]
+----
+public static volatile SingularAttribute<X, Y> y;
+----
++
+
+* For every persistent collection-valued
+attribute `z` declared by class `X`, where the element type of `z` is
+`Z`, the metamodel class must contain a declaration as follows:
+** if the collection type of `z` is `java.util.Collection`, then
++
+[source,java]
+----
+public static volatile CollectionAttribute<X, Z> z;
+----
++
+** if the collection type of `z` is `java.util.Set`, then
++
+[source,java]
+----
+public static volatile SetAttribute<X, Z> z;
+----
++
+** if the collection type of `z` is `java.util.List`, then
++
+[source,java]
+----
+public static volatile ListAttribute<X, Z> z;
+----
++
+** if the collection type of `z` is `java.util.Map`, then
++
+[source,java]
+----
+public static volatile MapAttribute<X, K, Z> z;
+----
++
+where `K` is the type of the key of the map in class `X`
+
+* For every named query, named entity graph, or SQL result set
+mapping with name `"n"` declared by annotations of the class `X`,
+the metamodel class must contain a declaration as follows:
++
+[source,java]
+----
+public static final String T_N = "n";
+----
++
+where The prefix `T` is the string `QUERY`, `GRAPH`, or `MAPPING`,
+as appropriate, depending on the annotation type, and the suffix
+`N` is obtained by transforming each lowercase character in the
+name `n` to uppercase, inserting an underscore if the character
+following the transformed character is uppercase, and then
+replacing each character which is not a legal Java identifier
+character with an underscore.
+
+* For every named query with name `"n"` and query result class
+`R` declared by annotations of the class `X`, the metamodel class
+must contain a declaration as follows:
++
+[source,java]
+----
+public static volatile TypedQueryReference<R> _n_;
+----
++
+
+* For every named entity graph with name `"n"` declared by
+annotations of the class `X`, the metamodel class must contain
+a declaration as follows:
++
+[source,java]
+----
+public static volatile EntityGraph<X> _n;
+----
++
+
+Import statements must be included for the
+needed `jakarta.persistence.metamodel` types as appropriate (e.g.,
+`jakarta.persistence.metamodel.SingularAttribute`,
+`jakarta.persistence.metamodel.CollectionAttribute`,
+`jakarta.persistence.metamodel.SetAttribute`,
+`jakarta.persistence.metamodel.ListAttribute`,
+`jakarta.persistence.metamodel.MapAttribute`) and all classes `X`, `Y`,
+`Z`, `R`, and `K`.
+
+[NOTE]
+====
+Implementations of this specification are
+not required to support the use of non-canonical metamodel classes.
+Applications that use non-canonical metamodel classes will not be
+portable.
+====
+
+===== Example Canonical Metamodel [[a6961]]
+
+Assume the `Order` entity below.
+
+[source,java]
+----
+package com.example;
+
+import java.util.Set;
+import java.math.BigDecimal;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+
+@Entity
+public class Order {
+    @Id
+    Integer orderId;
+
+    @ManyToOne
+    Customer customer;
+
+    @OneToMany
+    Set<Item> lineItems;
+
+    Address shippingAddress;
+
+    BigDecimal totalCost;
+
+    // ...
+}
+----
+
+The corresponding canonical metamodel class, `Order_`, is as follows:
+
+[source,java]
+----
+package com.example;
+
+import java.math.BigDecimal;
+import jakarta.persistence.metamodel.SingularAttribute;
+import jakarta.persistence.metamodel.SetAttribute;
+import jakarta.persistence.metamodel.StaticMetamodel;
+
+@StaticMetamodel(Order.class)
+public class Order_ {
+	public static volatile EntityType<Order> class_;
+
+    public static volatile SingularAttribute<Order, Integer> orderId;
+    public static volatile SingularAttribute<Order, Customer> customer;
+    public static volatile SetAttribute<Order, Item> lineItems;
+    public static volatile SingularAttribute<Order, Address> shippingAddress;
+    public static volatile SingularAttribute<Order, BigDecimal> totalCost;
+
+	public static final String LINE_ITEMS = "lineItems";
+	public static final String ORDER_ID = "orderId";
+	public static final String SHIPPING_ADDRESS = "shippingAddress";
+	public static final String TOTAL_COST = "totalCost";
+	public static final String CUSTOMER = "customer";
+}
+----
+
+==== Bootstrapping the Static Metamodel
+
+When the entity manager factory for a persistence unit is created, it is
+the responsibility of the persistence provider to initialize the state of
+the static metamodel classes representing managed classes belonging to the
+persistence unit. Any generated metamodel classes must be accessible on the
+classpath.
+
+Persistence providers must support the use of canonical metamodel classes.
+Persistence providers may, but are not required to, support the use of
+non-canonical metamodel classes.
+
 
 === Metamodel API Interfaces
 
