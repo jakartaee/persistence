@@ -2163,14 +2163,14 @@ A class designated as a mapped superclass has
 no separate table defined for it. Its mapping information is applied to
 the entities that inherit from it.
 
-A class designated as a mapped superclass can
-be mapped in the same way as an entity except that the mappings will
-apply only to its subclasses since no table exists for the mapped
-superclass itself. When applied to the subclasses, the inherited
-mappings will apply in the context of the subclass tables. Mapping
-information can be overridden in such subclasses by using the
-`AttributeOverride` and `AssociationOverride` annotations or
-corresponding XML elements.
+The persistent attributes of a mapped superclass may be mapped in the same
+way as the attributes of an entity class. Such mappings apply only to the
+entity subclasses of the mapped superclass, since no table exists for the
+mapped superclass itself. When applied to a subclass, the inherited mappings
+are interpreted in the context of the tables mapped by subclass. Mapping
+information inherited from a mapped superclass can be overridden in such
+subclasses using the `AttributeOverride` and `AssociationOverride`
+annotations or corresponding XML elements.
 
 All other entity mapping defaults apply
 equally to a class designated as a mapped superclass.

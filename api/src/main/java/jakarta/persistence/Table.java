@@ -37,6 +37,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public class Customer { ... }
  * }
  *
+ * <p>This annotation may not be applied to a class annotated
+ * {@link MappedSuperclass} or {@link Embeddable}.
+ *
  * @since 1.0
  */
 @Target(TYPE) 

@@ -92,6 +92,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * }
  *
+ * <p>This annotation may not be applied to a persistent field or property
+ * not annotated {@link ElementCollection}.
+ *
  * @see ElementCollection
  * @see AttributeOverride
  * @see AssociationOverride
