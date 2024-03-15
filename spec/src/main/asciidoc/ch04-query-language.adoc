@@ -298,8 +298,8 @@ identification variable.
   and no joins, then the named entity does not require an explicit
   identification variable, and its identification variable defaults
   to the _implicit identification variable,_ `this`.
-- Otherwise, every element of the FROM clause&mdash;that is, every
-  named entity abstract schema types and every join&mdash;must
+- Otherwise, every element of the FROM clause--that is, every
+  named entity abstract schema types and every join--must
   declare an identification variable.
 
 ----
@@ -539,7 +539,7 @@ implicit identification variable `this`.
 
 The remaining elements of the path expression are interpreted as
 references to state fields or association fields in the context of the
-abstract schema type assigned to the identification variable&mdash;or
+abstract schema type assigned to the identification variable--or
 to `this`, if the path expression does not begin with an identification
 variable.
 
