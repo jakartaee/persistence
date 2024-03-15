@@ -71,13 +71,14 @@ metamodel class must contain a field declaration as follows:
 +
 [source,java]
 ----
-public static final String Y = "y";
+public static final String Y_ = "y";
 ----
 +
 where the field name `Y` is obtained by transforming each lowercase
-character in the attribute name `y` to uppercase, and inserting an
+character in the attribute name `y` to uppercase, inserting an
 underscore if the character following the transformed character
-is uppercase.
+is uppercase, and then replacing each character which is not
+a legal Java identifier character with an underscore.
 
 * For every persistent non-collection-valued
 attribute `y` declared by class `X`, where the type of `y` is `Y`, the
@@ -131,7 +132,7 @@ the metamodel class must contain a declaration as follows:
 public static final String T_N = "n";
 ----
 +
-where The prefix `T` is the string `QUERY`, `GRAPH`, or `MAPPING`,
+where the prefix `T` is the string `QUERY`, `GRAPH`, or `MAPPING`,
 as appropriate, depending on the annotation type, and the suffix
 `N` is obtained by transforming each lowercase character in the
 name `n` to uppercase, inserting an underscore if the character
@@ -148,6 +149,8 @@ must contain a declaration as follows:
 public static volatile TypedQueryReference<R> _n_;
 ----
 +
+where `n` is the name `"n"` with not a legal Java identifier characters
+replaced with an underscore.
 
 * For every named entity graph with name `"n"` declared by
 annotations of the class `X`, the metamodel class must contain
@@ -158,6 +161,8 @@ a declaration as follows:
 public static volatile EntityGraph<X> _n;
 ----
 +
+where `n` is the name `"n"` with not a legal Java identifier characters
+replaced with an underscore.
 
 Import statements must be included for the
 needed `jakarta.persistence.metamodel` types as appropriate (e.g.,
@@ -224,7 +229,7 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 
 @StaticMetamodel(Order.class)
 public class Order_ {
-	public static volatile EntityType<Order> class_;
+    public static volatile EntityType<Order> class_;
 
     public static volatile SingularAttribute<Order, Integer> orderId;
     public static volatile SingularAttribute<Order, Customer> customer;
@@ -232,11 +237,11 @@ public class Order_ {
     public static volatile SingularAttribute<Order, Address> shippingAddress;
     public static volatile SingularAttribute<Order, BigDecimal> totalCost;
 
-	public static final String LINE_ITEMS = "lineItems";
-	public static final String ORDER_ID = "orderId";
-	public static final String SHIPPING_ADDRESS = "shippingAddress";
-	public static final String TOTAL_COST = "totalCost";
-	public static final String CUSTOMER = "customer";
+    public static final String LINE_ITEMS_ = "lineItems";
+    public static final String ORDER_ID_ = "orderId";
+    public static final String SHIPPING_ADDRESS_ = "shippingAddress";
+    public static final String TOTAL_COST_ = "totalCost";
+    public static final String CUSTOMER_ = "customer";
 }
 ----
 
