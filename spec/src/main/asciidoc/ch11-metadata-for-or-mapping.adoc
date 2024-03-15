@@ -717,6 +717,9 @@ If the `CollectionTable` annotation is
 missing, the default values of the `CollectionTable` annotation elements
 apply.
 
+This annotation may not be applied to a persistent field or property not
+annotated `@ElementCollection`.
+
 <<a14269>> lists the annotation elements that
 may be specified for the `CollectionTable` annotation and their default
 values.
@@ -2578,6 +2581,9 @@ When a join table is used in mapping a
 relationship with an embeddable class on the owning side of the
 relationship, the containing entity rather than the embeddable class is
 considered the owner of the relationship.
+
+This annotation may not be applied to a persistent field or property
+not annotated `@ManyToOne`, `@OneToOne`, `@ManyToMany`, or `@OneToMany`.
 
 [source,java]
 ----
@@ -4774,6 +4780,9 @@ effect. If both this element and the `foreignKey` element of any of the
 `foreignKey` annotation element is specified in either location, the
 persistence provider's default foreign key strategy will apply.
 
+This annotation may not be applied to a class annotated `@MappedSuperclass`
+or `@Embeddable`.
+
 [source,java]
 ----
 @Target({TYPE})
@@ -5079,6 +5088,9 @@ for the `Table` annotation and their default values.
 If no `Table` annotation is specified for an
 entity class, the default values defined in
 <<a16232>> apply.
+
+This annotation may not be applied to a class annotated `@MappedSuperclass`
+or `@Embeddable`.
 
 [source,java]
 ----

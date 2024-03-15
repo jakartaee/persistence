@@ -50,7 +50,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     joinColumns = @JoinColumn(name = "CUST_ID", referencedColumnName = "ID"),
  *     inverseJoinColumns = @JoinColumn(name = "PHONE_ID", referencedColumnName = "ID"))
  * }
- * 
+ *
+ * <p>This annotation may not be applied to a persistent field or property
+ * not annotated {@link ManyToOne}, {@link OneToOne}, {@link ManyToMany},
+ * or {@link OneToMany}.
+ *
  * @see JoinColumn
  * @see JoinColumns
  *
