@@ -108,12 +108,11 @@ used to order the results that are returned by the query.
 In BNF syntax, a select query is defined by:
 
 ----
-select_query ::= select_clause from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
+select_query ::= [select_clause]? from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
 ----
 
-A select statement must always have a SELECT
-and a FROM clause. The square brackets [] indicate that the other
-clauses are optional.
+Every select statement has a FROM clause. The square brackets `[]` in the
+BNF indicate that the other clauses are optional.
 
 ===== Set Operators in Select Statements
 
@@ -202,7 +201,7 @@ entity's or embeddable's abstract schema type determine navigability.
 Using the association fields and their values, a query can select
 related entities and use their abstract schema types in the query.
 
-==== Naming
+==== Naming [[naming]]
 
 Entities are designated in query strings by
 their entity names. The entity name is defined by the `name` element of
@@ -283,20 +282,35 @@ navigation is provided by the association fields `lineItems` and
 
 === The FROM Clause and Navigational Declarations
 
-The FROM clause of a query defines the domain
-of the query by declaring identification
-variables. An identification variable is an identifier declared in the
-FROM clause of a query. The domain of the
-query may be constrained by path expressions. (See <<a4792>>.)
+The FROM clause of a query defines the _domain_ of the query:
 
-Identification variables designate instances
-of a particular abstract schema type. The FROM clause can contain
-multiple identification variable declarations separated by a comma (`,`).
+- one or more named entity abstract schema types, as specified below
+  in <<a4766>>, together with
+- zero or more joined associations and collections, as specified
+  below in <<joins>>.
+
+An _identification variable_ is an identifier declared in the FROM
+clause of a query. Each identification variable is assigned an
+abstract schema type. Each element of the domain may declare an
+identification variable.
+
+- If the domain has exactly one named entity abstract schema type
+  and no joins, then the named entity does not require an explicit
+  identification variable, and its identification variable defaults
+  to the _implicit identification variable,_ `this`.
+- Otherwise, every element of the FROM clause&mdash;that is, every
+  named entity abstract schema types and every join&mdash;must
+  declare an identification variable.
 
 ----
 from_clause ::=
-    FROM identification_variable_declaration
-        {, {identification_variable_declaration | collection_member_declaration}}*
+    FROM {this_implicit_variable | identification_variable_declarations}
+
+this_implicit_variable ::= entity_name
+
+identification_variable_declarations ::=
+    identification_variable_declaration
+    {, {identification_variable_declaration | collection_member_declaration}}*
 
 identification_variable_declaration ::= range_variable_declaration {join | fetch_join}*
 
@@ -319,9 +333,9 @@ join_association_path_expression ::=
     TREAT(join_collection_valued_path_expression AS subtype) |
     TREAT(join_single_valued_path_expression AS subtype)
 
-join_collection_valued_path_expression ::= identification_variable.{single_valued_embeddable_object_field.}*collection_valued_field
+join_collection_valued_path_expression ::= [identification_variable.]{single_valued_embeddable_object_field.}*collection_valued_field
 
-join_single_valued_path_expression ::= identification_variable.{single_valued_embeddable_object_field.}*single_valued_object_field
+join_single_valued_path_expression ::= [identification_variable.]{single_valued_embeddable_object_field.}*single_valued_object_field
 
 join_condition ::= ON conditional_expression
 
@@ -363,7 +377,7 @@ result variables (see <<a5438>>).
 
 [NOTE]
 ====
-It is recommended that SQL key words other
+It is recommended that SQL keywords other
 than those listed above not be used as identification variables in
 queries because they may be used as reserved identifiers in future
 releases of this specification.
@@ -371,12 +385,12 @@ releases of this specification.
 
 ==== Identification Variables [[a4765]]
 
-An identification
-variable is a valid identifier declared in the FROM clause of a query.
+An identification variable is a valid identifier declared in the FROM
+clause of a query.
 
-All identification variables must be declared
-in the FROM clause. Identification variables cannot be declared in other
-clauses.
+Every identification variable must be declared in the FROM clause,
+except for the implicit identification variable `this`. Identification
+variables are never declared in other clauses.
 
 An identification variable must not be a reserved identifier.
 
@@ -439,15 +453,21 @@ variable of the same name.
 
 ==== Range Variable Declarations [[a4766]]
 
-The syntax for declaring an
-identification variable as a range variable is similar to that of SQL;
-optionally, it uses the AS keyword. A range variable designates an
-entity abstract schema type.footnote:[A range variable must
-not designate an embeddable class abstract schema type.]
+A range variable declaration introduces a query domain element ranging
+over a given named entity abstract schema type, with an associated
+identification variable.
+
+The syntax for declaring an identification variable as a range variable
+is similar to that of SQL; optionally, it may use the AS keyword. A
+range variable declaration designates an entity abstract schema type by
+its entity name, as defined above in <<naming>>.footnote:[A range variable
+never designates an embeddable class abstract schema type.]
 
 ----
 range_variable_declaration ::= entity_name [AS] identification_variable
 ----
+
+The entity name in a range variable declaration is case-sensitive.
 
 Range variable declarations allow the
 developer to designate a “root” for objects which may not be reachable
@@ -474,22 +494,64 @@ WHERE o1.quantity > o2.quantity AND
  o2.customer.firstname= 'John'
 ----
 
-The entity name in a range variable declaration is case-sensitive.
+If the query domain is a single entity abstract schema type, the range
+variable declaration is optional. These queries are equivalent:
+
+[source,sql]
+----
+SELECT quantity
+FROM Order
+WHERE customer.lastname = 'Smith'
+  AND customer.firstname= 'John'
+----
+[source,sql]
+----
+SELECT this.quantity
+FROM Order
+WHERE this.customer.lastname = 'Smith'
+  AND this.customer.firstname= 'John'
+----
+[source,sql]
+----
+SELECT ord.quantity
+FROM Order AS ord
+WHERE ord.customer.lastname = 'Smith'
+  AND ord.customer.firstname= 'John'
+----
+
+Otherwise, if the query domain has more than one element, each named
+entity abstract schema type listed in the FROM clause must be a range
+variable declaration, and the implicit identification variable is not
+implicitly assigned an abstract schema type.
+
 
 [[a4792]]
 ==== Path Expressions
 
-An identification variable followed by the
-navigation operator (`.`) and a state field or association field is a
-path expression. The type of the path expression is the type computed as
+A path expression is a sequence of identifiers uniquely identifying
+a state field or association field of an element of the query domain.
+
+A path expression may begin with a reference to an identification
+variable, followed by the navigation operator (`.`). If the first
+element of a path expression is not an identification variable, then
+the path expression is interpreted exactly as if it began with the
+implicit identification variable `this`.
+
+The remaining elements of the path expression are interpreted as
+references to state fields or association fields in the context of the
+abstract schema type assigned to the identification variable&mdash;or
+to `this`, if the path expression does not begin with an identification
+variable.
+
+A reference to a state field or association field in a path expression
+is case-sensitive.
+
+The type of the path expression is the type computed as
 the result of navigation; that is, the type of the state field or
 association field to which the expression navigates. The type of a path
 expression that navigates to an association field may be specified as a
 subtype of the declared type of the association field by means of the
 TREAT operator. See <<a4965>>.
-
-A reference to a state field or association field in a path expression is
-case-sensitive.
 
 An identification variable qualified
 by the KEY, VALUE, or ENTRY operator is a path expression. The KEY,
@@ -646,7 +708,7 @@ single_valued_path_expression ::=
     state_field_path_expression |
     single_valued_object_path_expression
 
-state_field_path_expression ::= general_subpath.state_field
+state_field_path_expression ::= [general_subpath.]state_field
 
 state_valued_path_expression ::= state_field_path_expression | general_identification_variable
 
@@ -699,7 +761,7 @@ A `collection_valued_path_expression` may only occur in:
 
 See <<a5139>>, <<a5150>>, and <<a5284>>.
 
-==== Joins
+==== Joins [[joins]]
 
 JPQL defines the following varieties of join:
 
@@ -757,10 +819,10 @@ join_association_path_expression ::=
     TREAT(join_single_valued_path_expression AS subtype)
 
 join_collection_valued_path_expression ::=
-    identification_variable.{single_valued_embeddable_object_field.}*collection_valued_field
+    [identification_variable.]{single_valued_embeddable_object_field.}*collection_valued_field
 
 join_single_valued_path_expression ::=
-    identification_variable.{single_valued_embeddable_object_field.}*single_valued_object_field
+    [identification_variable.]{single_valued_embeddable_object_field.}*single_valued_object_field
 
 join_condition ::= ON conditional_expression
 ----
@@ -2546,13 +2608,16 @@ HAVING COUNT(o) >= 5
 
 === SELECT Clause [[a5438]]
 
-The SELECT clause denotes the query result.
-More than one value may be returned from the SELECT clause of a query.
+The SELECT clause specifies the query result, as a list of items to
+be returned by the query.
 
-The SELECT clause can contain one or more of
-the following elements: an identification variable that ranges over an
-abstract schema type, a single-valued path expression, a scalar
-expression, an aggregate expression, a constructor expression.
+The SELECT clause can contain one or more of the following elements:
+
+- an identification variable that ranges over an abstract schema type,
+- a single-valued path expression,
+- a scalar expression,
+- an aggregate expression,
+- a constructor expression.
 
 The SELECT clause has the following syntax:
 
@@ -2641,6 +2706,35 @@ GROUP BY c
 ORDER BY itemCount
 ----
 
+The SELECT clause is optional. A query with a missing SELECT clause
+is interpreted as if it had the following single-item SELECT clause:
+`select this`, where `this` is the implicit identification variable.
+
+Thus, the following queries are equivalent:
+
+[source,sql]
+----
+FROM Order
+WHERE customer.lastname = 'Smith'
+  AND customer.firstname= 'John'
+----
+[source,sql]
+----
+SELECT this
+FROM Order
+WHERE this.customer.lastname = 'Smith'
+  AND this.customer.firstname= 'John'
+----
+[source,sql]
+----
+SELECT ord
+FROM Order AS ord
+WHERE ord.customer.lastname = 'Smith'
+  AND ord.customer.firstname= 'John'
+----
+
+If the implicit identification variable has not been assigned an
+abstract schema type, the SELECT clause is required.
 
 ==== Result Type of the SELECT Clause [[a5439]]
 
@@ -3088,13 +3182,16 @@ select_statement ::= union
 union ::= intersection | union {UNION [ALL] | EXCEPT [ALL]} intersection
 intersection ::= query_expression | intersection INTERSECT [ALL] query_expression
 query_expression ::= select_query | (union)
-select_query ::= select_clause from_clause [where_clause] [groupby_clause]
+select_query ::= [select_clause] from_clause [where_clause] [groupby_clause]
     [having_clause] [orderby_clause]
 update_statement ::= update_clause [where_clause]
 delete_statement ::= delete_clause [where_clause]
 from_clause ::=
-    FROM  identification_variable_declaration
-        {, {identification_variable_declaration | collection_member_declaration}}*
+    FROM {this_implicit_variable | identification_variable_declarations}
+this_implicit_variable ::= entity_name
+identification_variable_declarations ::=
+    identification_variable_declaration
+    {, {identification_variable_declaration | collection_member_declaration}}*
 identification_variable_declaration ::= range_variable_declaration {join | fetch_join}*
 range_variable_declaration ::= entity_name [AS] identification_variable
 join ::= range_join | path_join
@@ -3110,9 +3207,9 @@ join_association_path_expression ::=
     TREAT(join_collection_valued_path_expression AS subtype) |
     TREAT(join_single_valued_path_expression AS subtype)
 join_collection_valued_path_expression ::=
-    identification_variable.{single_valued_embeddable_object_field.}* collection_valued_field
+    [identification_variable.]{single_valued_embeddable_object_field.}* collection_valued_field
 join_single_valued_path_expression ::=
-    identification_variable.{single_valued_embeddable_object_field.}* single_valued_object_field
+    [identification_variable.]{single_valued_embeddable_object_field.}* single_valued_object_field
 collection_member_declaration ::=
     IN (collection_valued_path_expression) [AS] identification_variable
 qualified_identification_variable ::=
@@ -3134,7 +3231,7 @@ simple_subpath ::=
     general_identification_variable |
     general_identification_variable{.single_valued_object_field}*
 treated_subpath ::= TREAT(general_subpath AS subtype)
-state_field_path_expression ::= general_subpath.state_field
+state_field_path_expression ::= [general_subpath.]state_field
 state_valued_path_expression ::=
     state_field_path_expression | general_identification_variable
 single_valued_object_path_expression ::=
