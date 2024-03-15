@@ -161,7 +161,7 @@ a declaration as follows:
 public static volatile EntityGraph<X> _n;
 ----
 +
-where `n` is the name `"n"` with not a legal Java identifier characters
+where `n` is the name `"n"` with every character which is not a legal Java identifier character
 replaced with an underscore.
 
 Import statements must be included for the
