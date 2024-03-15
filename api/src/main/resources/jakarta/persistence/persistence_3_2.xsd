@@ -277,7 +277,8 @@
                 </xsd:complexType>
               </xsd:element>
 
-              <xsd:any namespace="##other" processContents="lax">
+              <xsd:any namespace="##other" processContents="lax"
+                       minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                   <xsd:documentation>
                     An extension point for integration related configuration, e.g. cdi:
