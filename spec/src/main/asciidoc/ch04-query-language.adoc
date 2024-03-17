@@ -2691,9 +2691,13 @@ queries.] The
 SELECT clause must not use the OBJECT operator to qualify path
 expressions.
 
-A `result_variable` may be used to
-name a `select_item` in the query result.footnote:[This can be used, for
-example, to refer to a select expression in the ORDER BY clause.]
+A `result_variable` assigns a name to a `select_item` in the query result.
+The `result variable` must be a valid identifier, as defined in <<a4760>>,
+must not be a reserved identifier, and must not collide with any
+identification variable declared in the FROM clause. A result variable may
+be used to refer to an element of the select clause from an item in the
+ORDER BY clause, as specified in <<a5587>>. Like identification variables,
+result variables are case-insensitive.
 
 Example:
 
@@ -2997,32 +3001,34 @@ The syntax of the ORDER BY clause is
 ----
 orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
 orderby_item ::=
-    {state_field_path_expression | general_identification_variable | result_variable}
+    {state_field_path_expression | general_identification_variable | result_variable | scalar_expression}
         [ASC | DESC]
         [NULLS {FIRST | LAST}]
 ----
 
-An orderby_item must be one of the following:
+An `orderby_item` must be one of the following:
 
-. A `state_field_path_expression` that
-evaluates to an orderable state field of an entity or embeddable class
-abstract schema type designated in the SELECT clause by one of the
-following:
-* a `general_identification_variable`
-* a `single_valued_object_path_expression`
-. A `state_field_path_expression` that
-evaluates to the same state field of the same entity or embeddable
-abstract schema type as a `state_field_path_expression` in the SELECT
-clause
-. A `general_identification_variable` that
-evaluates to the same map field of the same entity or embeddable
-abstract schema type as a `general_identification_variable` in the SELECT
-clause
-. A `result_variable` that refers to an
-orderable item in the SELECT clause for which the same `result_variable`
-has been specified. This may be the result of an `aggregate_expression`
-, a `scalar_expression`, or a `state_field_path_expression` in the
-SELECT clause.
+1. A `state_field_path_expression` evaluating to an orderable state field
+   of an entity or embeddable class abstract schema type designated in the
+   SELECT clause by either:
+   - a `general_identification_variable`, or
+   - a `single_valued_object_path_expression`.
+2. A `state_field_path_expression` evaluating to the same state field of
+   the same entity or embeddable abstract schema type as a
+   `state_field_path_expression` in the SELECT clause.
+3. A `general_identification_variable` evaluating to the same map field of
+   the same entity or embeddable abstract schema type as a
+   `general_identification_variable` in the SELECT clause.
+4. A reference to a `result_variable` declared by an orderable item in the
+   SELECT clause. The orderable item must be an `aggregate_expression`, a
+   `scalar_expression`, or a `state_field_path_expression`.
+5. Any `scalar_expression` involving only ``state_field_path_expression``s
+   which would be allowed according to items 1 or 2 above.
+
+Depending on the database, arbitrary scalar expressions may not be allowed
+in the ORDER BY clause. Therefore, applications which require portability
+between databases should not depend on the use of a scalar expression in
+ORDER BY if it is only permitted by item 5.
 
 For example, the four queries below are legal.
 
@@ -3048,6 +3054,16 @@ FROM Customer c JOIN c.orders o JOIN c.address a
 WHERE a.state = 'CA'
 GROUP BY a.zipcode
 ORDER BY q DESC
+----
+
+The following query is legal, but might not be supported on every database.
+
+[source,sql]
+----
+SELECT c, o
+FROM Customer c JOIN c.orders o JOIN c.address a
+WHERE a.state = 'CA'
+ORDER BY UPPER(c.lastname), UPPER(c.firstname)
 ----
 
 The following two queries are _not_ legal
@@ -3273,11 +3289,9 @@ groupby_item ::= single_valued_path_expression | identification_variable
 having_clause ::= HAVING conditional_expression
 orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
 orderby_item ::=
-    state_field_path_expression |
-    general_identification_variable |
-    result_variable
-    [ASC | DESC]
-    [NULLS {FIRST | LAST}]
+    {state_field_path_expression | general_identification_variable | result_variable | scalar_expression}
+        [ASC | DESC]
+        [NULLS {FIRST | LAST}]
 subquery ::= simple_select_clause subquery_from_clause [where_clause]
     [groupby_clause] [having_clause]
 subquery_from_clause ::=
