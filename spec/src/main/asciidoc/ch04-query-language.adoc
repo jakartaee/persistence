@@ -2993,10 +2993,8 @@ WHERE c.lastname = 'Smith' AND c.firstname = 'John' AND l.price IS NOT NULL
 
 === ORDER BY Clause [[a5587]]
 
-The ORDER BY clause allows the objects or
-values that are returned by the query to be ordered.
-
-The syntax of the ORDER BY clause is
+The ORDER BY clause specifies how the results of a query should be sorted.
+The syntax of the ORDER BY clause is:
 
 ----
 orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
@@ -3006,7 +3004,8 @@ orderby_item ::=
         [NULLS {FIRST | LAST}]
 ----
 
-An `orderby_item` must be one of the following:
+The ORDER BY clause specifies a list of items. Each `orderby_item` must be
+one of the following:
 
 1. A `state_field_path_expression` evaluating to an orderable state field
    of an entity or embeddable class abstract schema type designated in the
@@ -3083,25 +3082,34 @@ WHERE c.lastname = 'Smith' AND c.firstname = 'John'
 ORDER BY o.quantity
 ----
 
-If more than one `orderby_item` is specified,
-the left-to-right sequence of the `orderby_item` elements determines the
-precedence, whereby the leftmost `orderby_item` has highest precedence.
+The keyword ASC specifies that ascending ordering is used for the associated
+`orderby_item`; the keyword DESC specifies that descending ordering is used.
+If neither keyword is explicitly specified, ascending ordering is the default.
 
-The keyword ASC specifies that ascending
-ordering be used for the associated `orderby_item`; the keyword DESC
-specifies that descending ordering be used. Ascending ordering is the
-default.
+The interpretation of ascending or descending order is determined by the
+database, but, in general:
+
+- ascending order for numeric values means smaller values first, while
+  descending order means larger values first, and
+- strings are sorted lexicographically, using a database-dependent collation.
 
 The keyword NULLS specifies the ordering of null values, either FIRST or LAST.
 
-If NULLS is not specified, SQL rules for the ordering of null values
-apply: that is, all null values must appear before all non-null values
-in the ordering or all null values must appear after all non-null values
-in the ordering, but it is not specified which.
+- FIRST means that results are sorted so that all null values occur before
+  all non-null values.
+- LAST means that results are sorted so that all null values occur after
+  all non-null values.
 
-The ordering of the query result is preserved
-in the result of the query execution method if the ORDER BY clause is
-used.
+If NULLS is not specified, the database determines whether null values occur
+first or last.
+
+Items occurring earlier in the ORDER BY clause take precedence. That is,
+an item occurring later in the ORDER BY clause is only used to resolve
+"ties" between results which cannot be unambiguously ordered using only
+earlier items.
+
+The order of query results must be preserved in the result list or stream
+returned by a query execution method when an ORDER BY clause is specified.
 
 === Bulk Update and Delete Operations [[a5636]]
 
