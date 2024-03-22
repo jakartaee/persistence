@@ -140,7 +140,7 @@ public enum LockModeType implements FindOption, RefreshOption {
 
     /**
      * Synonymous with {@link #OPTIMISTIC_FORCE_INCREMENT}.
-     * {@code OPTIMISTIC_FORCE_IMCREMENT} is preferred for
+     * {@code OPTIMISTIC_FORCE_INCREMENT} is preferred for
      * new applications.
      *
      */
