@@ -2691,9 +2691,13 @@ queries.] The
 SELECT clause must not use the OBJECT operator to qualify path
 expressions.
 
-A `result_variable` may be used to
-name a `select_item` in the query result.footnote:[This can be used, for
-example, to refer to a select expression in the ORDER BY clause.]
+A `result_variable` assigns a name to a `select_item` in the query result.
+The `result variable` must be a valid identifier, as defined in <<a4760>>,
+must not be a reserved identifier, and must not collide with any
+identification variable declared in the FROM clause. A result variable may
+be used to refer to an element of the select clause from an item in the
+ORDER BY clause, as specified in <<a5587>>. Like identification variables,
+result variables are case-insensitive.
 
 Example:
 
@@ -2989,40 +2993,41 @@ WHERE c.lastname = 'Smith' AND c.firstname = 'John' AND l.price IS NOT NULL
 
 === ORDER BY Clause [[a5587]]
 
-The ORDER BY clause allows the objects or
-values that are returned by the query to be ordered.
-
-The syntax of the ORDER BY clause is
+The ORDER BY clause specifies how the results of a query should be sorted.
+The syntax of the ORDER BY clause is:
 
 ----
 orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
 orderby_item ::=
-    {state_field_path_expression | general_identification_variable | result_variable}
+    {state_field_path_expression | general_identification_variable | result_variable | scalar_expression}
         [ASC | DESC]
         [NULLS {FIRST | LAST}]
 ----
 
-An orderby_item must be one of the following:
+The ORDER BY clause specifies a list of items. Each `orderby_item` must be
+one of the following:
 
-. A `state_field_path_expression` that
-evaluates to an orderable state field of an entity or embeddable class
-abstract schema type designated in the SELECT clause by one of the
-following:
-* a `general_identification_variable`
-* a `single_valued_object_path_expression`
-. A `state_field_path_expression` that
-evaluates to the same state field of the same entity or embeddable
-abstract schema type as a `state_field_path_expression` in the SELECT
-clause
-. A `general_identification_variable` that
-evaluates to the same map field of the same entity or embeddable
-abstract schema type as a `general_identification_variable` in the SELECT
-clause
-. A `result_variable` that refers to an
-orderable item in the SELECT clause for which the same `result_variable`
-has been specified. This may be the result of an `aggregate_expression`
-, a `scalar_expression`, or a `state_field_path_expression` in the
-SELECT clause.
+1. A `state_field_path_expression` evaluating to an orderable state field
+   of an entity or embeddable class abstract schema type designated in the
+   SELECT clause by either:
+   - a `general_identification_variable`, or
+   - a `single_valued_object_path_expression`.
+2. A `state_field_path_expression` evaluating to the same state field of
+   the same entity or embeddable abstract schema type as a
+   `state_field_path_expression` in the SELECT clause.
+3. A `general_identification_variable` evaluating to the same map field of
+   the same entity or embeddable abstract schema type as a
+   `general_identification_variable` in the SELECT clause.
+4. A reference to a `result_variable` declared by an orderable item in the
+   SELECT clause. The orderable item must be an `aggregate_expression`, a
+   `scalar_expression`, or a `state_field_path_expression`.
+5. Any `scalar_expression` involving only ``state_field_path_expression``s
+   which would be allowed according to items 1 or 2 above.
+
+Depending on the database, arbitrary scalar expressions may not be allowed
+in the ORDER BY clause. Therefore, applications which require portability
+between databases should not depend on the use of a scalar expression in
+ORDER BY if it is only permitted by item 5.
 
 For example, the four queries below are legal.
 
@@ -3050,6 +3055,16 @@ GROUP BY a.zipcode
 ORDER BY q DESC
 ----
 
+The following query is legal, but might not be supported on every database.
+
+[source,sql]
+----
+SELECT c, o
+FROM Customer c JOIN c.orders o JOIN c.address a
+WHERE a.state = 'CA'
+ORDER BY UPPER(c.lastname), UPPER(c.firstname)
+----
+
 The following two queries are _not_ legal
 because the `orderby_item` is not reflected in the SELECT clause of the
 query.
@@ -3067,25 +3082,34 @@ WHERE c.lastname = 'Smith' AND c.firstname = 'John'
 ORDER BY o.quantity
 ----
 
-If more than one `orderby_item` is specified,
-the left-to-right sequence of the `orderby_item` elements determines the
-precedence, whereby the leftmost `orderby_item` has highest precedence.
+The keyword ASC specifies that ascending ordering is used for the associated
+`orderby_item`; the keyword DESC specifies that descending ordering is used.
+If neither keyword is explicitly specified, ascending ordering is the default.
 
-The keyword ASC specifies that ascending
-ordering be used for the associated `orderby_item`; the keyword DESC
-specifies that descending ordering be used. Ascending ordering is the
-default.
+The interpretation of ascending or descending order is determined by the
+database, but, in general:
+
+- ascending order for numeric values means smaller values first, while
+  descending order means larger values first, and
+- strings are sorted lexicographically, using a database-dependent collation.
 
 The keyword NULLS specifies the ordering of null values, either FIRST or LAST.
 
-If NULLS is not specified, SQL rules for the ordering of null values
-apply: that is, all null values must appear before all non-null values
-in the ordering or all null values must appear after all non-null values
-in the ordering, but it is not specified which.
+- FIRST means that results are sorted so that all null values occur before
+  all non-null values.
+- LAST means that results are sorted so that all null values occur after
+  all non-null values.
 
-The ordering of the query result is preserved
-in the result of the query execution method if the ORDER BY clause is
-used.
+If NULLS is not specified, the database determines whether null values occur
+first or last.
+
+Items occurring earlier in the ORDER BY clause take precedence. That is,
+an item occurring later in the ORDER BY clause is only used to resolve
+"ties" between results which cannot be unambiguously ordered using only
+earlier items.
+
+The order of query results must be preserved in the result list or stream
+returned by a query execution method when an ORDER BY clause is specified.
 
 === Bulk Update and Delete Operations [[a5636]]
 
@@ -3273,11 +3297,9 @@ groupby_item ::= single_valued_path_expression | identification_variable
 having_clause ::= HAVING conditional_expression
 orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
 orderby_item ::=
-    state_field_path_expression |
-    general_identification_variable |
-    result_variable
-    [ASC | DESC]
-    [NULLS {FIRST | LAST}]
+    {state_field_path_expression | general_identification_variable | result_variable | scalar_expression}
+        [ASC | DESC]
+        [NULLS {FIRST | LAST}]
 subquery ::= simple_select_clause subquery_from_clause [where_clause]
     [groupby_clause] [having_clause]
 subquery_from_clause ::=
