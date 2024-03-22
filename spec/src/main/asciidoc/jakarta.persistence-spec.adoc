@@ -83,4 +83,8 @@ include::related-documents.adoc[]
 
 // == Appendixes
 :sectnums:
-include::appendixes.adoc[]
+include::appA-revision-history.adoc[]
+include::appB-persistence.adoc[]
+include::appC-criteria.adoc[]
+include::appD-metamodel.adoc[]
+include::appE-spi.adoc[]
