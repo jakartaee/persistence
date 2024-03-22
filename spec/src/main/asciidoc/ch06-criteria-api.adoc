@@ -21,6 +21,8 @@ form of metamodel objects over which the Criteria API operates. The
 semantics of criteria queries are designed to reflect those of Jakarta
 Persistence query language queries.
 
+The complete criteria query API may be found in <<Criteria API Interfaces>>.
+
 The syntax of the Criteria API is designed to
 allow the construction of an object-based query “graph”, whose nodes
 correspond to the semantic query elements.
@@ -32,8 +34,7 @@ entities and embeddable types that constitute the query domain, play a
 role analogous to that of the identification variables of the Jakarta
 Persistence query language.
 
-These concepts are further described in the sections that follow. The
-`jakarta.persistence.criteria` interfaces are presented in <<a6997>>.
+These concepts are further described in the sections that follow.
 Sections <<a10608>> through <<a11413>> describe the construction and
 modification of criteria query objects. Additional requirements on the
 persistence provider are described in <<a11427>>.
@@ -41,8 +42,6 @@ persistence provider are described in <<a11427>>.
 The metamodel on which criteria queries are based was already presented
 in <<a6072>>. The static metamodel classes which are used to construct
 strongly-typed criteria queries are described in <<a6933>>.
-
-The complete criteria query API may be found in <<Criteria API Interfaces>>.
 
 === Criteria Query API Usage [[a10608]]
 

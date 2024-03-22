@@ -921,20 +921,19 @@ that enables the effect of “repeatable read” semantics for the items
 read, whether “optimistically” (as described in <<a2100>>)
 or “pessimistically” (as described in <<a2113>>).
 
-Lock modes can be specified by means of the
-EntityManager `lock` method, the methods of the `EntityManager`,
-`Query`, and `TypedQuery` interfaces that allow lock modes to be
-specified, and the `NamedQuery` annotation.
+A lock mode may be explicitly specified as an argument to the
+`lock()` method of `EntityManager` or to any other method of
+`EntityManager`, `Query`, and `TypedQuery` which accepts a lock
+mode, or via the `NamedQuery` annotation.
 
-Lock mode values are defined by the
-`LockModeType` enum. Six distinct lock modes are defined. The lock mode
-type values `READ` and `WRITE` are synonyms of `OPTIMISTIC` and
-`OPTIMISTIC_FORCE_INCREMENT` respectively.footnote:[The lock mode type
-NONE may be specified as a value of lock mode arguments and also
-provides a default value for annotations.] The
-latter are to be preferred for new applications.
+Lock mode values are defined by the `LockModeType` enum which may
+be found in <<_lockmodetype_>>. Six distinct lock modes are defined.
+footnote:[The lock mode type NONE may be specified as a method
+argument and also provides a default value for annotations.]
+The lock mode type values `READ` and `WRITE` are synonyms for
+`OPTIMISTIC` and `OPTIMISTIC_FORCE_INCREMENT` respectively.
+The latter are to be preferred for new applications.
 
-This enum may be found in <<_lockmodetype_>>.
 
 ===== OPTIMISTIC, OPTIMISTIC_FORCE_INCREMENT [[a2100]]
 
@@ -1898,18 +1897,18 @@ form of metadata or an object created by the dynamic `EntityGraph` API.
 Entity graphs are used in the specification
 of “fetch plans” for query or `find` operations.
 
-The `EntityGraph`, `AttributeNode`, and
-`Subgraph` interfaces are used to dynamically construct entity graphs.
-The annotations to statically define entity graphs, namely
-`NamedEntityGraph`, `NamedAttributeNode`, and `NamedSubgraph`, are
-described in <<a13662>>.
-The `named-entity-graph` XML element and its subelements may be used to
-override these annotations or to define additional named entity graphs.
+The `EntityGraph`, `AttributeNode`, and `Subgraph` interfaces found in
+<<Persistence API Interfaces>> are used to dynamically construct entity
+graphs.
+
+The annotations `NamedEntityGraph`, `NamedAttributeNode`, and
+`NamedSubgraph` described in <<a13662>> are used to statically define
+entity graphs. The `named-entity-graph` XML element and its subelements
+may be used to override these annotations or to define additional named
+entity graphs.
 
 The semantics of entity graphs with regard to
 find and query operations are described in <<a2814>>.
-
-These interfaces may be found in <<Persistence API Interfaces>>.
 
 ==== Use of Entity Graphs in find and query operations [[a2814]]
 
@@ -2493,11 +2492,9 @@ include::../../../../api/src/main/java/jakarta/persistence/CacheStoreMode.java[l
 
 ==== Cache Interface [[a12124]]
 
-The `Cache` interface allows the application to request eviction of
-entity data from the second-level cache directly and immediately,
-outside the scope of any persistence context.
-
-This interface may be found in <<_cache_>>.
+The `Cache` interface found in <<_cache_>> allows the application to
+request eviction of entity data from the second-level cache directly
+and immediately, outside the scope of any persistence context.
 
 === Query APIs [[a3125]]
 

@@ -217,21 +217,21 @@ EntityManagerFactory emf =
 
 === EntityManagerFactory Interface
 
-The `EntityManagerFactory` interface is used
+The `EntityManagerFactory` interface found in <<_entitymanagerfactory_>>
+
+An `EntityManagerFactory` may be used
 by the application to obtain an application-managed entity manager. When
 the application has finished using the entity manager factory, and/or at
 application shutdown, the application should close the entity manager
 factory. Once an entity manager factory has been closed, all its entity
 managers are considered to be in the closed state.
 
-The `EntityManagerFactory` interface provides
+An `EntityManagerFactory` also provides
 access to information and services that are global to the persistence
 unit. This includes access to the second level cache that is maintained
 by the persistence provider and to the `PersistenceUnitUtil` interface.
 The `Cache` interface is described in <<a12124>>; the
 `PersistenceUnitUtil` interface in <<a12177>>.
-
-This interface may be found in <<_entitymanagerfactory_>>.
 
 Any number of vendor-specific properties may
 be included in the map passed to the `createEntityManager` methods.
@@ -301,10 +301,10 @@ presence of JTA transactions that may or may not be active.
 
 ==== The EntityTransaction Interface
 
-The `EntityTransaction` interface is used to
-control resource transactions on resource-local entity managers. The
-`EntityManager.getTransaction()` method returns an instance of the
-`EntityTransaction` interface.
+The `EntityTransaction` interface found in <<_entitytransaction_>>
+is used to control resource transactions on resource-local entity
+managers. The `getTransaction()` method of `EntityManager` returns
+an instance of the `EntityTransaction` interface.
 
 When a resource-local entity manager is used,
 and the persistence provider runtime throws an exception defined to
@@ -313,8 +313,6 @@ transaction for rollback.
 
 If the `EntityTransaction.commit` operation
 fails, the persistence provider must roll back the transaction.
-
-This interface may be found in <<_entitytransaction_>>.
 
 The following example illustrates the
 creation of an entity manager factory in a Java SE environment, and its
@@ -1112,16 +1110,18 @@ provider must detach all managed entities.
 
 === PersistenceUnitUtil Interface [[a12177]]
 
-The `PersistenceUnitUtil` interface provides
-access to utility methods that can be invoked on entities associated
+The `PersistenceUnitUtil` interface found in <<_persistenceunitutil_>>
+declares utility methods that can be invoked on entities associated
 with the persistence unit. The behavior is undefined if these methods
 are invoked on an entity instance that is not associated with the
 persistence unit from whose entity manager factory this interface has
 been obtained.
 
-This interface may be found in <<_persistenceunitutil_>>.
-
 === SchemaManager Interface [[a12178]]
+
+The `SchemaManager` interface may be found in <<_schemamanager_>>.
+An instance of `SchemaManager` may be obtained by calling the
+`getSchemaManager()` method of `EntityManagerFactory`.
 
 The `SchemaManager` interface allows programmatic control over schema
 generation and cleanup at runtime. This differs from the functionality
@@ -1142,5 +1142,3 @@ corresponding action.
 
 Thus, the behavior of the `SchemaManager` may be controlled via the
 properties defined in <<a12917>> and <<a12384>>.
-
-This interface may be found in <<_schemamanager_>>.
