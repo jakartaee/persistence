@@ -8,10 +8,9 @@ This specification provides a set of interfaces for dynamically accessing
 a metamodel representing the managed classes of a persistence unit.
 Instances of metamodel types may be obtained either:
 
-- via programmatic lookup using an instance of the interface
-  `jakarta.persistence.metamodel.Metamodel` obtained from the
-  `EntityManagerFactory` or `EntityManager` by calling
-  `getMetamodel()`, or
+- via programmatic lookup using an instance of the interface `Metamodel`
+  (found in <<_metamodel_>>) obtained from the `EntityManagerFactory` or
+  `EntityManager` by calling `getMetamodel()`, or
 - in a typesafe way, using _static metamodel classes_.
 
 A static metamodel class is a class with static members providing direct
@@ -47,11 +46,11 @@ this specification.]
 * The name of the metamodel class is derived from the name of the
 managed class by appending "`_`" to the name of the managed class.
 
-* The metamodel class `X_` must be annotated with the
-`jakarta.persistence.StaticMetamodel` annotationfootnote:[If the class
-was generated, the `javax.annotation.processing.Generated` or `jakarta.annotation.Generated`
-annotation should be used to annotate the class. The use of any other annotations on static
-metamodel classes is undefined.].
+* The metamodel class `X_` must be annotated with the `StaticMetamodel`
+annotation found in <<_staticmetamodel_>>.footnote:[If the class was
+generated, it should also be annotated with either
+`javax.annotation.processing.Generated` or `jakarta.annotation.Generated`.
+The use of any other annotations on static metamodel classes is undefined.]
 
 * If the managed class `X` extends another class `S`, where `S` is the
 most derived managed class (i.e., entity or mapped superclass) extended

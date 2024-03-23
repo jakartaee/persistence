@@ -1,12 +1,14 @@
 [appendix]
 == Metamodel API Interfaces [[metamodel-api]]
 
-=== `Metamodel`
+The following APIs are defined in the package `jakarta.persistence.metamodel`.
+
+=== `Metamodel` [[_metamodel_]]
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/metamodel/Metamodel.java[lines=18..-1]
 ----
-=== `StaticMetamodel`
+=== `StaticMetamodel` [[_staticmetamodel_]]
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/metamodel/StaticMetamodel.java[lines=18..-1]

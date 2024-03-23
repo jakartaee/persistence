@@ -724,12 +724,12 @@ be used for vendor-specific information. The namespace
 
 === jakarta.persistence.PersistenceConfiguration Class [[a13444]]
 
-The `PersistenceConfiguration` class is used to programmatically define and
-configure a persistence unit and create an `EntityManagerFactory` instance
-directly. Thus, `PersistenceConfiguration` is an alternative to XML-based
-configuration using `persistence.xml`, and so the configuration options
-available via this API reflect the similarly-named elements of
-`persistence.xml`. See <<a12237>>.
+The `PersistenceConfiguration` class found in <<_persistenceconfiguration_>>
+is used to programmatically define and configure a persistence unit and create
+an `EntityManagerFactory` instance directly. Thus, `PersistenceConfiguration`
+is an alternative to XML-based configuration using `persistence.xml`, and so
+the configuration options available via this API reflect the similarly-named
+elements of `persistence.xml`. See <<a12237>>.
 
 A programmatically-configured persistence unit is considered a Java SE
 persistence unit, even when this API is used within the Jakarta EE

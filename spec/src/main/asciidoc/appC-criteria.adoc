@@ -1,6 +1,8 @@
 [appendix]
 == Criteria API Interfaces [[criteria-api]]
 
+The following APIs are defined in the package `jakarta.persistence.criteria`.
+
 === `CriteriaBuilder` [[_criteriabuilder_]]
 [source,java]
 ----

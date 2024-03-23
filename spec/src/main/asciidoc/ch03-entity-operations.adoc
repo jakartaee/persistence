@@ -2685,16 +2685,21 @@ The following hint is defined by this specification for use in query configurati
 
  jakarta.persistence.query.timeout // time in milliseconds
 
-This hint may be used with the `Query`,
-`TypedQuery`, or `StoredProcedureQuery` `setHint` method or the
-`NamedQuery`, `NamedNativeQuery`, and `NamedStoredProcedureQuery`
-annotations. It may also be passed as a property to the
-`Persistence.createEntityManagerFactory` method and used in the
-`properties` element of the `persistence.xml` file. See <<a3127>>,
-<<a12384>>, <<a13443>>, <<a13710>>. When used in
-the `createEntityManagerFactory` method, the `persistence.xml` file, and
-annotations, the `timeout` hint serves as a default value which can be
-selectively overridden by use in the `setHint` method.
+This hint may:
+
+- be passed to the `setHint()` method of the `Query`, `TypedQuery`,
+  and `StoredProcedureQuery` interfaces found in <<persistence-api>>,
+- used with the `NamedQuery`, `NamedNativeQuery`, and
+  `NamedStoredProcedureQuery` annotations specified in <<a13710>>,
+- passed as a property to the `createEntityManagerFactory()` method
+  of the `Persistence` class, as defined in <<a13443>>, or
+- used in the `properties` element of the `persistence.xml` file, as
+  defined in <<a12384>>.
+
+The timeout specified by calling the `createEntityManagerFactory()`
+method, via the `persistence.xml` file, or in annotations, serves as
+a default value which can be selectively overridden by calling the
+`setHint()` method.
 
 Portable applications should not rely on this
 hint. Depending on the persistence provider and database in use, the

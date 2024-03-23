@@ -77,8 +77,7 @@ of the criteria API is described in <<a11349>>.
 === Constructing Criteria Queries [[a10614]]
 
 A criteria query is constructed through the creation and modification of
-an instance of `jakarta.persistence.criteria.CriteriaQuery`. This interface
-is found in <<_criteriaquery_>>.
+an instance of the `CriteriaQuery` interface found in <<_criteriaquery_>>.
 
 The `CriteriaBuilder` interface found in <<_criteriabuilder_>> is used to
 construct `CriteriaQuery`, `CriteriaUpdate`, and `CriteriaDelete` objects.

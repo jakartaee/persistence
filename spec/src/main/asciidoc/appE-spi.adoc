@@ -1,6 +1,8 @@
 [appendix]
 == Persistence SPI Interfaces [[persistence-spi]]
 
+The following APIs are defined in the package `jakarta.persistence.spi`.
+
 === `ClassTransformer` [[_classtransformer_]]
 [source,java]
 ----
