@@ -1,5 +1,5 @@
 [appendix]
-== Persistence API Interfaces
+== Persistence API Interfaces [[persistence-api]]
 
 === `EntityManager` [[_entitymanager_]]
 [source,java]
@@ -49,13 +49,13 @@ include::../../../../api/src/main/java/jakarta/persistence/TypedQuery.java[lines
 include::../../../../api/src/main/java/jakarta/persistence/StoredProcedureQuery.java[lines=18..-1]
 ----
 
-=== `Tuple` [[a3868]]
+=== `Tuple` [[_tuple_]]
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/Tuple.java[lines=18..-1]
 ----
 
-=== `TupleElement` [[a3949]]
+=== `TupleElement` [[_tupleelement_]]
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/TupleElement.java[lines=18..-1]

@@ -1898,8 +1898,7 @@ Entity graphs are used in the specification
 of “fetch plans” for query or `find` operations.
 
 The `EntityGraph`, `AttributeNode`, and `Subgraph` interfaces found in
-<<Persistence API Interfaces>> are used to dynamically construct entity
-graphs.
+<<persistence-api>> are used to dynamically construct entity graphs.
 
 The annotations `NamedEntityGraph`, `NamedAttributeNode`, and
 `NamedSubgraph` described in <<a13662>> are used to statically define
@@ -2504,7 +2503,7 @@ also support parameter binding and pagination control. The
 `StoredProcedureQuery` API is used for the execution of queries that
 invoke stored procedures defined in the database.
 
-These interfaces may be found in <<Persistence API Interfaces>>.
+These interfaces may be found in <<persistence-api>>.
 
 ==== Query Execution
 

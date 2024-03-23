@@ -1,5 +1,5 @@
 [appendix]
-== Metamodel API Interfaces
+== Metamodel API Interfaces [[metamodel-api]]
 
 === `Metamodel`
 [source,java]

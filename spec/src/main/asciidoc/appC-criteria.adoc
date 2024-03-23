@@ -1,7 +1,7 @@
 [appendix]
-== Criteria API Interfaces [[a6997]]
+== Criteria API Interfaces [[criteria-api]]
 
-=== `CriteriaBuilder`
+=== `CriteriaBuilder` [[_criteriabuilder_]]
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaBuilder.java[lines=18..-1]
@@ -13,7 +13,7 @@ include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaBuil
 include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaDelete.java[lines=18..-1]
 ----
 
-=== `CriteriaQuery` [[a8857]]
+=== `CriteriaQuery` [[_criteriaquery_]]
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaQuery.java[lines=18..-1]

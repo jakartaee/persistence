@@ -21,7 +21,7 @@ form of metamodel objects over which the Criteria API operates. The
 semantics of criteria queries are designed to reflect those of Jakarta
 Persistence query language queries.
 
-The complete criteria query API may be found in <<Criteria API Interfaces>>.
+The complete criteria query API may be found in <<criteria-api>>.
 
 The syntax of the Criteria API is designed to
 allow the construction of an object-based query “graph”, whose nodes
@@ -76,15 +76,15 @@ of the criteria API is described in <<a11349>>.
 
 === Constructing Criteria Queries [[a10614]]
 
-A criteria query is constructed through the
-creation and modification of a
-`jakarta.persistence.criteria.CriteriaQuery` object.
+A criteria query is constructed through the creation and modification of
+an instance of `jakarta.persistence.criteria.CriteriaQuery`. This interface
+is found in <<_criteriaquery_>>.
 
-The `CriteriaBuilder` interface is used to
-construct `CriteriaQuery`, `CriteriaUpdate`, and `CriteriaDelete`
-objects. The `CriteriaBuilder` implementation is accessed through the
-`getCriteriaBuilder` method of the `EntityManager` or
-`EntityManagerFactory` interface.
+The `CriteriaBuilder` interface found in <<_criteriabuilder_>> is used to
+construct `CriteriaQuery`, `CriteriaUpdate`, and `CriteriaDelete` objects.
+The `CriteriaBuilder` implementation is accessed through the
+`getCriteriaBuilder` method of the `EntityManager` or `EntityManagerFactory`
+interface.
 
 For example:
 
@@ -121,16 +121,15 @@ CriteriaQuery<Object> createQuery();
 Methods for the creation of update and delete
 queries are described in <<a11239>>.
 
-The methods `<T> CriteriaQuery<T>
-createQuery(Class<T> resultClass)` and `createTupleQuery` provide for
-typing of criteria query results and for typesafe query execution using
-the `TypedQuery` API.
+The methods `<T> CriteriaQuery<T> createQuery(Class<T> resultClass)` and
+`createTupleQuery` provide for typing of criteria query results and for
+typesafe query execution using the `TypedQuery` API.
 
 The effect of the `createTupleQuery` method
 is semantically equivalent to invoking the `createQuery` method with the
 `Tuple.class` argument. The `Tuple` interface supports the extraction of
-multiple selection items in a strongly typed manner. See <<a3868>> and
-<<a3949>>.
+multiple selection items in a strongly typed manner. See <<_tuple_>> and
+<<_tupleelement_>>.
 
 The `CriteriaQuery<Object> createQuery()`
 method supports both the case where the `select` or `multiselect` method
@@ -908,7 +907,7 @@ The `multiselect` method also supports the
 specification and aggregation of multiple selection items. When the
 `multiselect` method is used, the aggregation of the selection items is
 determined by the result type of the `CriteriaQuery` object as described
-in <<a10621>> and <<a8857>>.
+in <<a10621>>.
 
 A `Selection` instance passed to the
 `construct`, `tuple`, `array`, or `multiselect` methods can be one of

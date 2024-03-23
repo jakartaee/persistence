@@ -263,4 +263,4 @@ of the managed classes of a persistence unit.
 An instance of `Metamodel` may be obtained by calling the `getMetamodel()`
 method of `EntityManagerFactory` or `EntityManager`.
 
-The complete metamodel API may be found in <<Metamodel API Interfaces>>.
+The complete metamodel API may be found in <<metamodel-api>>.

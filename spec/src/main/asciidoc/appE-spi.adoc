@@ -1,5 +1,5 @@
 [appendix]
-== Persistence SPI Interfaces
+== Persistence SPI Interfaces [[persistence-spi]]
 
 === `ClassTransformer` [[_classtransformer_]]
 [source,java]

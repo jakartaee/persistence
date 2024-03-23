@@ -183,7 +183,7 @@ etc.), the list of persistence providers may change.]
 - The `PersistenceProviderResolverHolder` class holds the
   `PersistenceProviderResolver` instance that is in use.
 
-These interfaces may be found in <<Persistence SPI Interfaces>>.
+These interfaces may be found in <<persistence-spi>>.
 
 The implementation of `PersistenceProviderResolverHolder` must be
 threadsafe, but no guarantee is made against multiple threads setting
