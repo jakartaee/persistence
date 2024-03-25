@@ -75,9 +75,10 @@ public static final String Y = "y";
 ----
 +
 where the field name `Y` is obtained by transforming each lowercase
-character in the attribute name `y` to uppercase, and inserting an
+character in the attribute name `y` to uppercase, inserting an
 underscore if the character following the transformed character
-is uppercase.
+is uppercase, and then replacing each character which is not
+a legal Java identifier character with an underscore.
 
 * For every persistent non-collection-valued
 attribute `y` declared by class `X`, where the type of `y` is `Y`, the
@@ -131,7 +132,7 @@ the metamodel class must contain a declaration as follows:
 public static final String T_N = "n";
 ----
 +
-where The prefix `T` is the string `QUERY`, `GRAPH`, or `MAPPING`,
+where the prefix `T` is the string `QUERY`, `GRAPH`, or `MAPPING`,
 as appropriate, depending on the annotation type, and the suffix
 `N` is obtained by transforming each lowercase character in the
 name `n` to uppercase, inserting an underscore if the character
@@ -148,6 +149,8 @@ must contain a declaration as follows:
 public static volatile TypedQueryReference<R> _n_;
 ----
 +
+where `n` is the name `"n"` with every character which is not a legal Java identifier character
+replaced with an underscore.
 
 * For every named entity graph with name `"n"` declared by
 annotations of the class `X`, the metamodel class must contain
@@ -158,15 +161,18 @@ a declaration as follows:
 public static volatile EntityGraph<X> _n;
 ----
 +
+where `n` is the name `"n"` with every character which is not a legal Java identifier character
+replaced with an underscore.
 
 Import statements must be included for the
-needed `jakarta.persistence.metamodel` types as appropriate (e.g.,
-`jakarta.persistence.metamodel.SingularAttribute`,
-`jakarta.persistence.metamodel.CollectionAttribute`,
-`jakarta.persistence.metamodel.SetAttribute`,
-`jakarta.persistence.metamodel.ListAttribute`,
-`jakarta.persistence.metamodel.MapAttribute`) and all classes `X`, `Y`,
-`Z`, `R`, and `K`.
+needed `jakarta.persistence` and `jakarta.persistence.metamodel` types as appropriate
+and all classes `X`, `Y`, `Z`, `R`, and `K`.
+
+[NOTE]
+====
+Implementations of this specification are not required to resolve naming collisions
+resulting from the rules above when generating canonical metamodel classes.
+====
 
 [NOTE]
 ====
@@ -190,7 +196,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-
 
 @Entity
 public class Order {
@@ -218,13 +223,14 @@ The corresponding canonical metamodel class, `Order_`, is as follows:
 package com.example;
 
 import java.math.BigDecimal;
+import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.SetAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
 
 @StaticMetamodel(Order.class)
 public class Order_ {
-	public static volatile EntityType<Order> class_;
+    public static volatile EntityType<Order> class_;
 
     public static volatile SingularAttribute<Order, Integer> orderId;
     public static volatile SingularAttribute<Order, Customer> customer;
@@ -232,11 +238,11 @@ public class Order_ {
     public static volatile SingularAttribute<Order, Address> shippingAddress;
     public static volatile SingularAttribute<Order, BigDecimal> totalCost;
 
-	public static final String LINE_ITEMS = "lineItems";
-	public static final String ORDER_ID = "orderId";
-	public static final String SHIPPING_ADDRESS = "shippingAddress";
-	public static final String TOTAL_COST = "totalCost";
-	public static final String CUSTOMER = "customer";
+    public static final String LINE_ITEMS = "lineItems";
+    public static final String ORDER_ID = "orderId";
+    public static final String SHIPPING_ADDRESS = "shippingAddress";
+    public static final String TOTAL_COST = "totalCost";
+    public static final String CUSTOMER = "customer";
 }
 ----
 
