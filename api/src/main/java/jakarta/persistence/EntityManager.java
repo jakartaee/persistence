@@ -236,6 +236,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws TransactionRequiredException if there is no transaction
      *         when invoked on a container-managed entity manager of
      *         that is of type {@link PersistenceContextType#TRANSACTION}
+     * @throws OptimisticLockException when optimistic locking conflict
+     *         occurs
      */
     <T> T merge(T entity);
 
@@ -247,6 +249,8 @@ public interface EntityManager extends AutoCloseable {
      * given entity instance is already removed, it is ignored. If the
      * given entity is new, it is itself ignored, but the operation still
      * cascades.
+     * <p>Note that {@link OptimisticLockException} may not be thrown by this
+     * method but defer to database synchronization operation.
      * @param entity  a managed, new, or removed entity instance
      * @throws IllegalArgumentException if the instance is not an entity
      *         or is a detached entity
@@ -254,6 +258,8 @@ public interface EntityManager extends AutoCloseable {
      *         container-managed entity manager of type
      *         {@link PersistenceContextType#TRANSACTION} and there is
      *         no transaction
+     * @throws OptimisticLockException when optimistic locking conflict
+     *         occurs
      */
     void remove(Object entity);
     
@@ -564,6 +570,8 @@ public interface EntityManager extends AutoCloseable {
      * @throws TransactionRequiredException if there is
      *        no transaction or if the entity manager has not been
      *        joined to the current transaction
+     * @throws OptimisticLockException when optimistic locking conflict
+     *         occurs
      * @throws PersistenceException if the flush fails
      */
     void flush();
