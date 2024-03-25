@@ -71,7 +71,7 @@ metamodel class must contain a field declaration as follows:
 +
 [source,java]
 ----
-public static final String Y_ = "y";
+public static final String Y = "y";
 ----
 +
 where the field name `Y` is obtained by transforming each lowercase
@@ -165,13 +165,19 @@ where `n` is the name `"n"` with every character which is not a legal Java ident
 replaced with an underscore.
 
 Import statements must be included for the
-needed `jakarta.persistence.metamodel` types as appropriate (e.g.,
-`jakarta.persistence.metamodel.SingularAttribute`,
-`jakarta.persistence.metamodel.CollectionAttribute`,
-`jakarta.persistence.metamodel.SetAttribute`,
-`jakarta.persistence.metamodel.ListAttribute`,
-`jakarta.persistence.metamodel.MapAttribute`) and all classes `X`, `Y`,
-`Z`, `R`, and `K`.
+needed `jakarta.persistence` and `jakarta.persistence.metamodel` types as appropriate (e.g.,
+`jakarta.persistence.EntityGraph`, `jakarta.persistence.TypedQueryReference`,
+`jakarta.persistence.metamodel.SingularAttribute`, `jakarta.persistence.metamodel.CollectionAttribute`,
+`jakarta.persistence.metamodel.SetAttribute`, `jakarta.persistence.metamodel.ListAttribute`,
+`jakarta.persistence.metamodel.MapAttribute`, `jakarta.persistence.metamodel.EntityType`,
+`jakarta.persistence.metamodel.EmbeddableType`, `jakarta.persistence.metamodel.MappedSuperclassType`)
+and all classes `X`, `Y`, `Z`, `R`, and `K`.
+
+[NOTE]
+====
+Implementations of this specification are not required to resolve naming collisions
+when generating canonical metamodel classes.
+====
 
 [NOTE]
 ====
@@ -195,7 +201,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-
 
 @Entity
 public class Order {
@@ -223,6 +228,7 @@ The corresponding canonical metamodel class, `Order_`, is as follows:
 package com.example;
 
 import java.math.BigDecimal;
+import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.SetAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
@@ -237,11 +243,11 @@ public class Order_ {
     public static volatile SingularAttribute<Order, Address> shippingAddress;
     public static volatile SingularAttribute<Order, BigDecimal> totalCost;
 
-    public static final String LINE_ITEMS_ = "lineItems";
-    public static final String ORDER_ID_ = "orderId";
-    public static final String SHIPPING_ADDRESS_ = "shippingAddress";
-    public static final String TOTAL_COST_ = "totalCost";
-    public static final String CUSTOMER_ = "customer";
+    public static final String LINE_ITEMS = "lineItems";
+    public static final String ORDER_ID = "orderId";
+    public static final String SHIPPING_ADDRESS = "shippingAddress";
+    public static final String TOTAL_COST = "totalCost";
+    public static final String CUSTOMER = "customer";
 }
 ----
 
