@@ -1303,6 +1303,7 @@ comparison_expression ::=
     entity_expression {= | <>} {entity_expression | all_or_any_expression} |
     arithmetic_expression comparison_operator
         {arithmetic_expression | all_or_any_expression} |
+    entity_id_or_version_function {= | <>} input_parameter |
     entity_type_expression {= | <>} entity_type_expression}
 
 comparison_operator ::= = | > | >= | < | <= | <>
@@ -2441,12 +2442,43 @@ SELECT e.name,
 FROM Employee e JOIN e.frequentFlierPlan f
 ----
 
-==== Entity Type Expressions [[a5381]]
+==== Identifier and Version Functions
 
-An entity type expression can be used to
-restrict query polymorphism. The TYPE operator returns the exact type of
-the argument.
+The ID and VERSION functions evaluate to the primary key or version,
+respectively, of their argument, which must be an identification variable
+assigned an entity abstract schema type or a path expression resolving to
+a one-to-one or many-to-one relationship field. For example, if `Person`
+has a primary key field named `ssn`, then `ID(person)` is a synonym for
+`person.ssn`.
 
+----
+entity_id_or_version_function ::= id_function | version_function
+id_function ::=
+    ID(general_identification_variable |
+       single_valued_object_path_expression)
+version_function ::=
+    VERSION(general_identification_variable |
+            single_valued_object_path_expression)
+----
+
+The result type of an ID or VERSION function expression is the primary
+key type or version type of the argument entity, respectively.
+
+The result may be compared to an input parameter:
+
+[source,sql]
+----
+DELETE from Employee
+WHERE id(this) = :id
+  AND version(this) = :version
+----
+
+A persistence provider is not required to support the use of the ID
+function for entities with composite primary keys.
+
+==== Entity Type Expressions and Literal Entity Types [[a5381]]
+
+An _entity type expression_ can be used to restrict query polymorphism.
 The syntax of an entity type expression is as follows:
 
 ----
@@ -2460,10 +2492,17 @@ type_discriminator ::=
          input_parameter)
 ----
 
-An `entity_type_literal` is designated by the entity name.
+The TYPE operator returns the exact type of its argument, which must be
+an identification variable assigned an entity abstract schema type, a
+path expression resolving to a one-to-one or many-to-one relationship
+field, or an input parameter.
 
-The Java class of the entity is used as an
-input parameter to specify the entity type.
+An `entity_type_literal` specifies a literal entity type by its entity
+name defined above in <<naming>>.
+
+For an input parameter, the entity type must be specified by calling
+`Query.setParameter()` with the `java.lang.Class` object representing
+the entity class.
 
 Examples:
 
@@ -3381,6 +3420,7 @@ comparison_expression ::=
         {datetime_expression | all_or_any_expression} |
     entity_expression {= | <>} {entity_expression | all_or_any_expression} |
     arithmetic_expression comparison_operator {arithmetic_expression | all_or_any_expression} |
+    entity_id_or_version_function {= | <>} input_parameter |
     entity_type_expression {= | <>} entity_type_expression}
 comparison_operator ::= = | > | >= | < | <= | <>
 arithmetic_expression ::=
@@ -3488,6 +3528,13 @@ function_arg ::=
     state_valued_path_expression |
     input_parameter |
     scalar_expression
+entity_id_or_version_function ::= id_function | version_function
+id_function ::=
+    ID(general_identification_variable |
+       single_valued_object_path_expression)
+version_function ::=
+    VERSION(general_identification_variable |
+            single_valued_object_path_expression)
 case_expression ::=
     general_case_expression |
     simple_case_expression |
