@@ -165,12 +165,7 @@ where `n` is the name `"n"` with every character which is not a legal Java ident
 replaced with an underscore.
 
 Import statements must be included for the
-needed `jakarta.persistence` and `jakarta.persistence.metamodel` types as appropriate (e.g.,
-`jakarta.persistence.EntityGraph`, `jakarta.persistence.TypedQueryReference`,
-`jakarta.persistence.metamodel.SingularAttribute`, `jakarta.persistence.metamodel.CollectionAttribute`,
-`jakarta.persistence.metamodel.SetAttribute`, `jakarta.persistence.metamodel.ListAttribute`,
-`jakarta.persistence.metamodel.MapAttribute`, `jakarta.persistence.metamodel.EntityType`,
-`jakarta.persistence.metamodel.EmbeddableType`, `jakarta.persistence.metamodel.MappedSuperclassType`)
+needed `jakarta.persistence` and `jakarta.persistence.metamodel` types as appropriate
 and all classes `X`, `Y`, `Z`, `R`, and `K`.
 
 [NOTE]
