@@ -1,0 +1,90 @@
+[appendix]
+== Metamodel API Interfaces [[metamodel-api]]
+
+The following APIs are defined in the package `jakarta.persistence.metamodel`.
+
+=== `Metamodel` [[_metamodel_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/Metamodel.java[lines=18..-1]
+----
+=== `StaticMetamodel` [[_staticmetamodel_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/StaticMetamodel.java[lines=18..-1]
+----
+=== `Attribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/Attribute.java[lines=18..-1]
+----
+=== `BasicType`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/BasicType.java[lines=18..-1]
+----
+=== `Bindable`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/Bindable.java[lines=18..-1]
+----
+=== `CollectionAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/CollectionAttribute.java[lines=18..-1]
+----
+=== `EmbeddableType`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/EmbeddableType.java[lines=18..-1]
+----
+=== `EntityType`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/EntityType.java[lines=18..-1]
+----
+=== `IdentifiableType`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/IdentifiableType.java[lines=18..-1]
+----
+=== `ListAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/ListAttribute.java[lines=18..-1]
+----
+=== `ManagedType`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/ManagedType.java[lines=18..-1]
+----
+=== `MapAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/MapAttribute.java[lines=18..-1]
+----
+=== `MappedSuperclassType`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/MappedSuperclassType.java[lines=18..-1]
+----
+=== `PluralAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/PluralAttribute.java[lines=18..-1]
+----
+=== `SetAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/SetAttribute.java[lines=18..-1]
+----
+=== `SingularAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/SingularAttribute.java[lines=18..-1]
+----
+=== `Type`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/Type.java[lines=18..-1]
+----

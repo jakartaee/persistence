@@ -1,0 +1,46 @@
+[appendix]
+== Persistence SPI Interfaces [[persistence-spi]]
+
+The following APIs are defined in the package `jakarta.persistence.spi`.
+
+=== `ClassTransformer` [[_classtransformer_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/spi/ClassTransformer.java[lines=18..-1]
+----
+
+=== `LoadState`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/spi/LoadState.java[lines=18..-1]
+----
+
+=== `PersistenceProvider` [[_persistenceprovider_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/spi/PersistenceProvider.java[lines=18..-1]
+----
+
+=== `PersistenceProviderResolver`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/spi/PersistenceProviderResolver.java[lines=18..-1]
+----
+
+=== `PersistenceProviderResolverHolder`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/spi/PersistenceProviderResolverHolder.java[lines=18..-1]
+----
+
+=== `PersistenceUnitInfo` [[_persistenceunitinfo_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/spi/PersistenceUnitInfo.java[lines=18..-1]
+----
+
+=== `ProviderUtil` [[_providerutil_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/spi/ProviderUtil.java[lines=18..-1]
+----

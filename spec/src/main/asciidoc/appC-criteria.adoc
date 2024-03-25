@@ -1,0 +1,190 @@
+[appendix]
+== Criteria API Interfaces [[criteria-api]]
+
+The following APIs are defined in the package `jakarta.persistence.criteria`.
+
+=== `CriteriaBuilder` [[_criteriabuilder_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaBuilder.java[lines=18..-1]
+----
+
+=== `CriteriaDelete`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaDelete.java[lines=18..-1]
+----
+
+=== `CriteriaQuery` [[_criteriaquery_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaQuery.java[lines=18..-1]
+----
+
+=== `CriteriaSelect`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaSelect.java[lines=18..-1]
+----
+
+=== `CriteriaUpdate`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaUpdate.java[lines=18..-1]
+----
+
+=== `AbstractQuery`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/AbstractQuery.java[lines=18..-1]
+----
+
+=== `CollectionJoin`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CollectionJoin.java[lines=18..-1]
+----
+
+=== `CommonAbstractCriteria`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CommonAbstractCriteria.java[lines=18..-1]
+----
+
+=== `CompoundSelection`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CompoundSelection.java[lines=18..-1]
+----
+
+=== `Expression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Expression.java[lines=18..-1]
+----
+
+=== `Fetch`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Fetch.java[lines=18..-1]
+----
+
+=== `FetchParent`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/FetchParent.java[lines=18..-1]
+----
+
+=== `AbstractQuery`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/From.java[lines=18..-1]
+----
+
+=== `Join`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Join.java[lines=18..-1]
+----
+
+=== `JoinType`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/JoinType.java[lines=18..-1]
+----
+
+=== `ListJoin`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/ListJoin.java[lines=18..-1]
+----
+
+=== `LocalDateField`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/LocalDateField.java[lines=18..-1]
+----
+
+=== `LocalDateTimeField`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/LocalDateTimeField.java[lines=18..-1]
+----
+
+=== `LocalTimeField`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/LocalTimeField.java[lines=18..-1]
+----
+
+=== `MapJoin`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/MapJoin.java[lines=18..-1]
+----
+
+=== `Nulls`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Nulls.java[lines=18..-1]
+----
+
+=== `Order`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Order.java[lines=18..-1]
+----
+
+=== `ParameterExpression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/ParameterExpression.java[lines=18..-1]
+----
+
+=== `Path`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Path.java[lines=18..-1]
+----
+
+=== `PluralJoin`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/PluralJoin.java[lines=18..-1]
+----
+
+=== `Predicate`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Predicate.java[lines=18..-1]
+----
+
+=== `Root`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Root.java[lines=18..-1]
+----
+
+=== `Selection`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Selection.java[lines=18..-1]
+----
+
+=== `SetJoin`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/SetJoin.java[lines=18..-1]
+----
+
+=== `Subquery`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/Subquery.java[lines=18..-1]
+----
+
+=== `TemporalField`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/TemporalField.java[lines=18..-1]
+----
