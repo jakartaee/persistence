@@ -176,7 +176,7 @@ and all classes `X`, `Y`, `Z`, `R`, and `K`.
 [NOTE]
 ====
 Implementations of this specification are not required to resolve naming collisions
-when generating canonical metamodel classes.
+resulting from the rules above when generating canonical metamodel classes.
 ====
 
 [NOTE]
