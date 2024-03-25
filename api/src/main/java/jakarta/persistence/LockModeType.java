@@ -133,6 +133,7 @@ package jakarta.persistence;
 public enum LockModeType implements FindOption, RefreshOption {
     /**
      * Synonymous with {@link #OPTIMISTIC}.
+     * <p>
      * {@code OPTIMISTIC} is preferred for new applications.
      *
      */
@@ -140,7 +141,8 @@ public enum LockModeType implements FindOption, RefreshOption {
 
     /**
      * Synonymous with {@link #OPTIMISTIC_FORCE_INCREMENT}.
-     * {@code OPTIMISTIC_FORCE_IMCREMENT} is preferred for
+     * <p>
+     * {@code OPTIMISTIC_FORCE_INCREMENT} is preferred for
      * new applications.
      *
      */

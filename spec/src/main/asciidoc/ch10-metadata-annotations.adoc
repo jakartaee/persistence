@@ -235,6 +235,8 @@ public @interface NamedSubgraph {
 
 === Annotations for Queries [[a13710]]
 
+The following annotations are used to declare named queries.
+
 ==== NamedQuery Annotation [[a13711]]
 
 The `NamedQuery` annotation declared a named query written in the Jakarta

@@ -1,0 +1,124 @@
+[appendix]
+== Persistence API Interfaces [[persistence-api]]
+
+The following APIs are defined in the package `jakarta.persistence`.
+
+=== `EntityManager` [[_entitymanager_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/EntityManager.java[lines=18..-1]
+----
+
+=== `EntityTransaction` [[_entitytransaction_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/EntityTransaction.java[lines=18..-1]
+----
+
+=== `EntityManagerFactory` [[_entitymanagerfactory_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/EntityManagerFactory.java[lines=18..-1]
+----
+
+=== `LockModeType` [[_lockmodetype_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/LockModeType.java[lines=18..-1]
+----
+
+=== `Cache` [[_cache_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Cache.java[lines=18..-1]
+----
+
+=== `Query` [[_query_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Query.java[lines=18..-1]
+----
+
+=== `TypedQuery`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/TypedQuery.java[lines=18..-1]
+----
+
+=== `StoredProcedureQuery`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/StoredProcedureQuery.java[lines=18..-1]
+----
+
+=== `Tuple` [[_tuple_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Tuple.java[lines=18..-1]
+----
+
+=== `TupleElement` [[_tupleelement_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/TupleElement.java[lines=18..-1]
+----
+
+=== `Parameter`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Parameter.java[lines=18..-1]
+----
+
+=== `Graph`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Graph.java[lines=18..-1]
+----
+
+=== `EntityGraph`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/EntityGraph.java[lines=18..-1]
+----
+
+=== `Subgraph`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Subgraph.java[lines=18..-1]
+----
+
+=== `AttributeNode`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/AttributeNode.java[lines=18..-1]
+----
+
+=== `SchemaManager` [[_schemamanager_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/SchemaManager.java[lines=18..-1]
+----
+
+=== `Persistence` [[_persistence_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Persistence.java[lines=18..-1]
+----
+
+=== `PersistenceConfiguration` [[_persistenceconfiguration_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/PersistenceConfiguration.java[lines=18..-1]
+----
+
+=== `PersistenceUtil` [[_persistenceutil_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/PersistenceUtil.java[lines=18..-1]
+----
+
+=== `PersistenceUnitUtil` [[_persistenceunitutil_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/PersistenceUnitUtil.java[lines=18..-1]
+----
