@@ -1921,14 +1921,15 @@ involving aggregate operators must not be used in the WHERE clause.] and
 HAVING clauses.
 
 ----
-scalar_expression::=
+scalar_expression ::=
     arithmetic_expression |
     string_expression |
     enum_expression |
     datetime_expression |
     boolean_expression |
     case_expression |
-    entity_type_expression
+    entity_type_expression |
+    entity_id_or_version_function
 ----
 
 ==== Literals
@@ -3371,7 +3372,8 @@ scalar_expression ::=
     datetime_expression |
     boolean_expression |
     case_expression |
-    entity_type_expression
+    entity_type_expression |
+    entity_id_or_version_function
 conditional_expression ::= conditional_term | conditional_expression OR conditional_term
 conditional_term ::= conditional_factor | conditional_term AND conditional_factor
 conditional_factor ::= [NOT] conditional_primary
