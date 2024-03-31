@@ -91,18 +91,18 @@ All statement types may have parameters.
 
 A select query is a string with the following clauses:
 
-* a SELECT clause, which determines the type of
+* a `SELECT` clause, which determines the type of
 the objects or values to be selected.
-* a FROM clause, which provides declarations
+* a `FROM` clause, which provides declarations
 that designate the domain to which the expressions specified in the
 other clauses of the query apply.
-* an optional WHERE clause, which may be used
+* an optional `WHERE` clause, which may be used
 to restrict the results that are returned by the query.
-* an optional GROUP BY clause, which allows
+* an optional `GROUP BY` clause, which allows
 query results to be aggregated in terms of groups.
-* an optional HAVING clause, which allows
+* an optional `HAVING` clause, which allows
 filtering over aggregated groups.
-* an optional ORDER BY clause, which may be
+* an optional `ORDER BY` clause, which may be
 used to order the results that are returned by the query.
 
 In BNF syntax, a select query is defined by:
@@ -111,7 +111,7 @@ In BNF syntax, a select query is defined by:
 select_query ::= [select_clause]? from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
 ----
 
-Every select statement has a FROM clause. The square brackets `[]` in the
+Every select statement has a `FROM` clause. The square brackets `[]` in the
 BNF indicate that the other clauses are optional.
 
 ===== Set Operators in Select Statements
@@ -155,7 +155,7 @@ delete_statement ::= delete_clause [where_clause]
 ----
 
 The update and delete clauses determine the
-type of the entities to be updated or deleted. The WHERE clause may be
+type of the entities to be updated or deleted. The `WHERE` clause may be
 used to restrict the scope of the update or delete operation.
 
 Update and delete statements are described
@@ -195,7 +195,7 @@ abstract schema types of all entities and embeddables that are defined
 in the same persistence unit.
 
 The domain of a query may be restricted by
-the `navigability` of the relationships of the entity and associated
+the _navigability_ of the relationships of the entity and associated
 embeddable classes on which it is based. The association fields of an
 entity's or embeddable's abstract schema type determine navigability.
 Using the association fields and their values, a query can select
@@ -245,14 +245,14 @@ orders that have at least one line item that has not yet shipped. (Note
 that this query does not select orders that have no line items.)
 
 Although reserved identifiers, such as
-DISTINCT, FROM, AS, JOIN, WHERE, and FALSE appear in upper case in this
-example, reserved identifiers are case
+`DISTINCT`, `FROM`, `AS`, `JOIN`, `WHERE`, and `FALSE` appear in upper
+case in this example, reserved identifiers are case
 insensitive.footnote:[This chapter uses the
 convention that reserved identifiers appear in upper case in the
 examples and BNF for the language.]
 
-The SELECT clause of this example designates
-the return type of this query to be of type Order.
+The `SELECT` clause of this example designates
+the return type of this query to be of type `Order`.
 
 Because the same persistence unit defines the
 abstract persistence schema of the related entities, the developer can
@@ -278,18 +278,18 @@ means of the relationships between `Order` and `LineItem` and between
 specified by using the entity name `Order`, which designates the
 abstract schema type over which the query ranges. The basis for the
 navigation is provided by the association fields `lineItems` and
-`product` of the abstract schema types Order and LineItem respectively.
+`product` of the abstract schema types `Order` and `LineItem` respectively.
 
 === The FROM Clause and Navigational Declarations
 
-The FROM clause of a query defines the _domain_ of the query:
+The `FROM` clause of a query defines the _domain_ of the query:
 
 - one or more named entity abstract schema types, as specified below
   in <<a4766>>, together with
 - zero or more joined associations and collections, as specified
   below in <<joins>>.
 
-An _identification variable_ is an identifier declared in the FROM
+An _identification variable_ is an identifier declared in the `FROM`
 clause of a query. Each identification variable is assigned an
 abstract schema type. Each element of the domain may declare an
 identification variable.
@@ -298,7 +298,7 @@ identification variable.
   and no joins, then the named entity does not require an explicit
   identification variable, and its identification variable defaults
   to the _implicit identification variable,_ `this`.
-- Otherwise, every element of the FROM clause--that is, every
+- Otherwise, every element of the `FROM` clause--that is, every
   named entity abstract schema types and every join--must
   declare an identification variable.
 
@@ -342,7 +342,7 @@ join_condition ::= ON conditional_expression
 collection_member_declaration ::= IN (collection_valued_path_expression) [AS] identification_variable
 ----
 
-The following subsections discuss the constructs used in the FROM clause.
+The following subsections discuss the constructs used in the `FROM` clause.
 
 ==== Identifiers [[a4760]]
 
@@ -357,19 +357,22 @@ which the method `Character.isJavaIdentifierPart` returns true. The
 question mark (`?`) character is reserved for use by the Jakarta
 Persistence query language.
 
-The followingfootnote:[BIT_LENGTH, CHAR_LENGTH, CHARACTER_LENGTH,
-POSITION, and UNKNOWN are not currently used: they are reserved for
-future use.] are reserved identifiers: ABS, ALL, AND, ANY, AS, ASC,
-AVG, BETWEEN, BIT_LENGTH, BOTH, BY, CASE, CEILING, CHAR_LENGTH,
-CHARACTER_LENGTH, CLASS, COALESCE, CONCAT, COUNT, CURRENT_DATE,
-CURRENT_TIME, CURRENT_TIMESTAMP, DELETE, DESC, DISTINCT, ELSE, EMPTY,
-END, ENTRY, ESCAPE, EXISTS, EXP, EXTRACT, FALSE, FETCH, FIRST, FLOOR,
-FROM, FUNCTION, GROUP, HAVING, IN, INDEX, INNER, IS, JOIN, KEY, LEADING,
-LAST, LEFT, LENGTH, LIKE, LOCAL, LN, LOCATE, LOWER, MAX, MEMBER, MIN, MOD,
-NEW, NOT, NULL, NULLS, NULLIF, OBJECT, OF, ON, OR, ORDER, OUTER, POSITION,
-POWER, REPLACE, RIGHT, ROUND, SELECT, SET, SIGN, SIZE, SOME, SQRT, SUBSTRING, SUM,
-THEN, TRAILING, TREAT, TRIM, TRUE, TYPE, UNKNOWN, UPDATE, UPPER,
-VALUE, WHEN, WHERE.
+The followingfootnote:[`BIT_LENGTH`, `CHAR_LENGTH`, `CHARACTER_LENGTH`,
+`POSITION`, and `UNKNOWN` are not currently used: they are reserved for
+future use.] are reserved identifiers: `ABS`, `ALL`, `AND`, `ANY`,
+`AS`, `ASC`, `AVG`, `BETWEEN`, `BIT_LENGTH`, `BOTH`, `BY`, `CASE`,
+`CEILING`, `CHAR_LENGTH`, `CHARACTER_LENGTH`, `CLASS`, `COALESCE`,
+`CONCAT`, `COUNT`, `CURRENT_DATE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`,
+`DELETE`, `DESC`, `DISTINCT`, `ELSE`, `EMPTY`, `END`, `ENTRY`, `ESCAPE`,
+`EXISTS`, `EXP`, `EXTRACT`, `FALSE`, `FETCH`, `FIRST`, `FLOOR`, `FROM`,
+`FUNCTION`, `GROUP`, `HAVING`, `IN`, `INDEX`, `INNER`, `IS`, `JOIN`,
+`KEY`, `LEADING`, `LAST`, `LEFT`, `LENGTH`, `LIKE`, `LOCAL`, `LN`,
+`LOCATE`, `LOWER`, `MAX`, `MEMBER`, `MIN`, `MOD`, `NEW`, `NOT`, `NULL`,
+`NULLS`, `NULLIF`, `OBJECT`, `OF`, `ON`, `OR`, `ORDER`, `OUTER`,
+`POSITION`, `POWER`, `REPLACE`, `RIGHT`, `ROUND`, `SELECT`, `SET`,
+`SIGN`, `SIZE`, `SOME`, `SQRT`, `SUBSTRING`, `SUM`, `THEN`, `TRAILING`,
+`TREAT`, `TRIM`, `TRUE`, `TYPE`, `UNKNOWN`, `UPDATE`, `UPPER`, `VALUE`,
+`WHEN`, `WHERE`.
 
 Reserved identifiers are case-insensitive.
 Reserved identifiers must not be used as identification variables or
@@ -385,10 +388,10 @@ releases of this specification.
 
 ==== Identification Variables [[a4765]]
 
-An identification variable is a valid identifier declared in the FROM
+An identification variable is a valid identifier declared in the `FROM`
 clause of a query.
 
-Every identification variable must be declared in the FROM clause,
+Every identification variable must be declared in the `FROM` clause,
 except for the implicit identification variable `this`. Identification
 variables are never declared in other clauses.
 
@@ -409,9 +412,9 @@ FROM Order o JOIN o.lineItems l JOIN l.product p
 WHERE p.productType = 'office_supplies'
 ----
 
-In the FROM clause declaration `o.lineItems`
-`l`, the identification variable `l` evaluates to any LineItem value
-directly reachable from Order. The association field `lineItems` is a
+In the `FROM` clause declaration `o.lineItems`
+`l`, the identification variable `l` evaluates to any `LineItem` value
+directly reachable from `Order`. The association field `lineItems` is a
 collection of instances of the abstract schema type LineItem and the
 identification variable `l` refers to an element of this collection. The
 type of `l` is the abstract schema type of `LineItem`.
@@ -430,15 +433,15 @@ An identification variable always designates
 a reference to a single value. It is declared in one of three ways: in a
 range variable declaration, in a join clause, or in a collection member
 declaration. The identification variable declarations are evaluated from
-left to right in the FROM clause, and an identification variable
+left to right in the `FROM` clause, and an identification variable
 declaration can use the result of a preceding identification variable
 declaration of the query string.
 
 All identification variables used in the
-SELECT, WHERE, ORDER BY, GROUP BY, or HAVING clause of a SELECT or
-DELETE statement must be declared in the FROM clause. The identification
-variables used in the WHERE clause of an UPDATE statement must be
-declared in the UPDATE clause.
+`SELECT`, `WHERE`, `ORDER BY`, `GROUP BY`, or `HAVING` clause of a `SELECT` or
+`DELETE` statement must be declared in the `FROM` clause. The identification
+variables used in the `WHERE` clause of an `UPDATE` statement must be
+declared in the `UPDATE` clause.
 
 Identification variables are existentially
 quantified in these clauses. This means that an identification variable
@@ -458,7 +461,7 @@ over a given named entity abstract schema type, with an associated
 identification variable.
 
 The syntax for declaring an identification variable as a range variable
-is similar to that of SQL; optionally, it may use the AS keyword. A
+is similar to that of SQL; optionally, it may use the `AS` keyword. A
 range variable declaration designates an entity abstract schema type by
 its entity name, as defined above in <<naming>>.footnote:[A range variable
 never designates an embeddable class abstract schema type.]
@@ -476,12 +479,12 @@ by navigation.
 In order to select values by comparing more
 than one instance of an entity abstract schema type, more than one
 identification variable ranging over the abstract schema type is needed
-in the FROM clause.
+in the `FROM` clause.
 
 The following query returns orders whose
 quantity is greater than the order quantity for John Smith. This example
 illustrates the use of two different identification variables in the
-FROM clause, both of the abstract schema type Order. The SELECT clause
+`FROM` clause, both of the abstract schema type `Order`. The `SELECT` clause
 of this query determines that it is the orders with quantities larger
 than John Smith's that are returned.
 
@@ -520,7 +523,7 @@ WHERE ord.customer.lastname = 'Smith'
 ----
 
 Otherwise, if the query domain has more than one element, each named
-entity abstract schema type listed in the FROM clause must be a range
+entity abstract schema type listed in the `FROM` clause must be a range
 variable declaration, and the implicit identification variable is not
 implicitly assigned an abstract schema type.
 
@@ -551,18 +554,18 @@ the result of navigation; that is, the type of the state field or
 association field to which the expression navigates. The type of a path
 expression that navigates to an association field may be specified as a
 subtype of the declared type of the association field by means of the
-TREAT operator. See <<a4965>>.
+`TREAT` operator. See <<a4965>>.
 
 An identification variable qualified
-by the KEY, VALUE, or ENTRY operator is a path expression. The KEY,
-VALUE, and ENTRY operators may only be applied to identification
+by the `KEY`, `VALUE`, or `ENTRY` operator is a path expression. The `KEY`,
+`VALUE`, and `ENTRY` operators may only be applied to identification
 variables that correspond to map-valued associations or map-valued
 element collections. The type of the path expression is the type
 computed as the result of the operation; that is, the abstract schema
-type of the field that is the value of the KEY, VALUE, or ENTRY operator
+type of the field that is the value of the `KEY`, `VALUE`, or `ENTRY` operator
 (the map key, map value, or map entry
 respectively).footnote:[Note that use of
-VALUE is optional, as an identification variable referring to an
+`VALUE` is optional, as an identification variable referring to an
 association of type `java.util.Map` is of the abstract schema type of
 the map value. (See <<a4765>>.)]
 
@@ -588,10 +591,10 @@ FROM Item i JOIN i.photos p
 WHERE KEY(p) LIKE '%egret'
 ----
 
-A path expression using the KEY or VALUE
-operator can be further composed. A path expression using the ENTRY
+A path expression using the `KEY` or `VALUE`
+operator can be further composed. A path expression using the `ENTRY`
 operator is terminal. It cannot be further composed and can only appear
-in the SELECT list of a query.
+in the `SELECT` list of a query.
 
 The syntax for qualified identification variables is as follows.
 
@@ -679,7 +682,7 @@ and collection-valued path expressions is as follows.
 An identification variable used in a
 `single_valued_object_path_expression` or in a
 `collection_valued_path_expression` may be an unqualified identification
-variable or an identification variable to which the KEY or VALUE
+variable or an identification variable to which the `KEY` or `VALUE`
 function has been applied.
 
 ----
@@ -689,9 +692,9 @@ general_identification_variable ::=
 ----
 
 The type of an entity-valued path expression
-or an entity-valued subpath of a path expression used in a WHERE clause
+or an entity-valued subpath of a path expression used in a `WHERE` clause
 may be specified as a subtype of the corresponding declared type by
-means of the TREAT operator. See <<a4965>>.
+means of the `TREAT` operator. See <<a4965>>.
 
 ----
 general_subpath ::= simple_subpath | treated_subpath{.single_valued_object_field}*
@@ -726,7 +729,7 @@ entity or embeddable class.
 A `single_valued_embeddable_object_field` is designated by the name
 of a field of embeddable class type.
 
-A _state `field` is designated by the name of
+A `state_field` is designated by the name of
 an entity or embeddable class state field that corresponds to a basic
 type.
 
@@ -738,13 +741,13 @@ or element type.
 
 It is syntactically illegal to compose a path
 expression from a path expression that evaluates to a collection. For
-example, if o designates Order, the path expression `o.lineItems.product`
+example, if `o` designates `Order`, the path expression `o.lineItems.product`
 is illegal since navigation to `lineItems` results in a collection. This
 case should produce an error when the query string is verified. To
 handle such a navigation, an identification variable must be declared in
-the FROM clause to range over the elements of the `lineItems`
+the `FROM` clause to range over the elements of the `lineItems`
 collection. Another path expression must be used to navigate over each
-such element in the WHERE clause of the query, as in the following:
+such element in the `WHERE` clause of the query, as in the following:
 
 [source,sql]
 ----
@@ -754,7 +757,7 @@ FROM Order AS o JOIN o.lineItems l
 
 A `collection_valued_path_expression` may only occur in:
 
-- the FROM clause of a query,
+- the `FROM` clause of a query,
 - an `empty_collection_comparison_expression`,
 - a `collection_member_expression`, or
 - as an argument to the SIZE operator.
@@ -780,7 +783,7 @@ Every join has a target, either:
   specified in <<a4766>>).
 
 An inner join may be implicitly specified by the use of a cartesian
-product in the FROM clause and a join condition in the WHERE clause.
+product in the `FROM` clause and a join condition in the `WHERE` clause.
 In the absence of a join condition, this reduces to the cartesian
 product.
 
@@ -838,7 +841,7 @@ The syntax for an inner join to an entity type is given by:
 [INNER] JOIN range_variable_declaration [join_condition]
 ----
 
-The keyword INNER is optional and does not affect the semantics
+The keyword `INNER` is optional and does not affect the semantics
 of the query.
 
 [source,sql]
@@ -897,7 +900,7 @@ FROM Customer c
 WHERE c.status = 1
 ----
 
-This is equivalent to the following query using the earlier IN
+This is equivalent to the following query using the earlier `IN`
 construct, defined in <<a19497>>. It selects those customers of
 status 1 for which at least one order exists:
 
@@ -920,7 +923,7 @@ WHERE c.address.zipcode = '95054'
 ----
 
 A join condition may be specified for an inner join. This is equivalent
-to specification of the same condition in the WHERE clause.
+to specification of the same condition in the `WHERE` clause.
 
 ===== Outer Joins [[a4898]]
 
@@ -930,7 +933,7 @@ The syntax for an outer join to an entity type is given by:
 LEFT [OUTER] JOIN range_variable_declaration [join_condition]
 ----
 
-The keyword OUTER is optional and does not affect the semantics of
+The keyword `OUTER` is optional and does not affect the semantics of
 the query.
 
 [source,sql]
@@ -964,7 +967,7 @@ LEFT [OUTER] JOIN join_association_path_expression [AS] identification_variable 
 An association outer join without no explicit `join_condition` has an
 implicit join condition inferred from the foreign key relationship
 mapped by the `join_association_path_expression`. Typically, a JPQL
-join of this form is translated to a SQL outer join with an ON condition
+join of this form is translated to a SQL outer join with an `ON` condition
 specifying the foreign key relationship, as in the following examples.
 
 Jakarta Persistence query language:
@@ -986,8 +989,8 @@ FROM Suppliers s LEFT JOIN Products p
 GROUP By s.name
 ----
 
-An explicit `join_condition` (that is, an ON condition in the JOIN)
-results in an additional restriction in the ON condition of the
+An explicit `join_condition` (that is, an `ON` condition in the `JOIN`)
+results in an additional restriction in the `ON` condition of the
 generated SQL.
 
 Jakarta Persistence query language:
@@ -1024,13 +1027,13 @@ GROUP BY s.name
 The result of the latter query will exclude suppliers who have no
 products in stock whereas the former query will include them.
 
-An important use case for LEFT JOIN is in enabling the prefetching of
+An important use case for `LEFT JOIN` is in enabling the prefetching of
 related data items as a side effect of a query. This is accomplished by
-specifying the LEFT JOIN as a FETCH JOIN, as described below.
+specifying the `LEFT JOIN` as a `FETCH JOIN`, as described below.
 
 ===== Fetch Joins [[a4931]]
 
-A FETCH JOIN clause in a query results in eager fetching of an association
+A `FETCH JOIN` clause in a query results in eager fetching of an association
 or element collection as a side effect of execution of the query.
 
 The syntax for a fetch join is given by:
@@ -1039,14 +1042,14 @@ The syntax for a fetch join is given by:
 fetch_join ::= [LEFT [OUTER] | INNER] JOIN FETCH join_association_path_expression
 ----
 
-A FETCH JOIN must be an INNER or LEFT (OUTER) join. A FETCH JOIN does not
+A `FETCH JOIN` must be an `INNER` or `LEFT` (`OUTER`) join. A `FETCH JOIN` does not
 have an explicit join condition or identification variable.
 
 The association referenced by the right side
-of the FETCH JOIN clause must be an association or element collection
+of the `FETCH JOIN` clause must be an association or element collection
 that is referenced from an entity or embeddable that is returned as a
 result of the query. It is not permitted to specify an identification
-variable for the objects referenced by the right side of the FETCH JOIN
+variable for the objects referenced by the right side of the `FETCH JOIN`
 clause, and hence references to the implicitly fetched entities or
 elements cannot appear elsewhere in the query.
 
@@ -1072,8 +1075,8 @@ in the query result or otherwise referenced in the query. Hence, for
 example, if department 1 has five employees, the above query returns
 five references to the department 1 entity.
 
-The FETCH JOIN construct must not be used in
-the FROM clause of a subquery.
+The `FETCH JOIN` construct must not be used in
+the `FROM` clause of a subquery.
 
 ==== Collection Member Declarations
 
@@ -1083,7 +1086,7 @@ obtained by navigation using a path expression.
 
 An identification variable of a collection
 member declaration is declared using a special operator, the reserved
-identifier IN. The argument to the IN operator is a collection-valued
+identifier `IN`. The argument to the `IN` operator is a collection-valued
 path expression. The path expression evaluates to a collection type
 specified as a result of navigation to a collection-valued association
 field of an entity or embeddable class abstract schema type.
@@ -1105,7 +1108,7 @@ FROM Order o JOIN o.lineItems l
 WHERE l.product.productType = 'office_supplies'
 ----
 
-can equivalently be expressed as follows, using the IN operator:
+can equivalently be expressed as follows, using the `IN` operator:
 
 [source,sql]
 ----
@@ -1117,20 +1120,20 @@ WHERE l.product.productType = 'office_supplies'
 In this example, `lineItems` is the name of an
 association field whose value is a collection of instances of the
 abstract schema type `LineItem`. The identification variable `l`
-designates a member of this collection, a single LineItem abstract
+designates a member of this collection, a single `LineItem` abstract
 schema type instance. In this example, `o` is an identification variable
-of the abstract schema type Order.
+of the abstract schema type `Order`.
 
 ==== FROM Clause and SQL [[a4957]]
 
 The Jakarta Persistence query language treats
-the FROM clause similarly to SQL in that the declared identification
+the `FROM` clause similarly to SQL in that the declared identification
 variables affect the results of the query even if they are not used in
-the WHERE clause. Application developers should use caution in defining
+the `WHERE` clause. Application developers should use caution in defining
 identification variables because the domain of the query can depend on
 whether there are any values of the declared type.
 
-For example, the FROM clause below defines a
+For example, the `FROM` clause below defines a
 query over all orders that have line items and existing products. If
 there are no `Product` instances in the database, the domain of the
 query is empty and no order is selected.
@@ -1144,7 +1147,7 @@ FROM Order AS o JOIN o.lineItems l JOIN l.product p
 ==== Polymorphism
 
 Jakarta Persistence queries are automatically
-polymorphic. The FROM clause of a query designates not only instances of
+polymorphic. The `FROM` clause of a query designates not only instances of
 the specific entity class(es) to which it explicitly refers but
 instances of subclasses of those classes as well. The instances returned
 by a query thus include instances of the subclasses that satisfy the
@@ -1152,22 +1155,22 @@ query criteria.
 
 Non-polymorphic queries or queries whose
 polymorphism is restricted can be specified using entity type
-expressions in the WHERE clause to restrict the domain of the query. See
+expressions in the `WHERE` clause to restrict the domain of the query. See
 <<a5381>>.
 
 ==== Downcasting [[a4965]]
 
-The use of the TREAT operator is supported
-for downcasting within path expressions in the FROM and WHERE clauses.
-Use of the TREAT operator allows access to subclass-specific state.
+The use of the `TREAT` operator is supported
+for downcasting within path expressions in the `FROM` and `WHERE` clauses.
+Use of the `TREAT` operator allows access to subclass-specific state.
 
 If during query execution the first argument
-to the TREAT operator is not a subtype (proper or improper) of the
+to the `TREAT` operator is not a subtype (proper or improper) of the
 target type, the path is considered to have no value, and does not
 participate in the determination of the result. That is, in the case of
 a join, the referenced object does not participate in the result, and in
 the case of a restriction, the associated predicate is false. Use of the
-TREAT operator therefore also has the effect of filtering on the
+`TREAT` operator therefore also has the effect of filtering on the
 specified type (and its subtypes) as well as performing the downcast. If
 the target type is not a subtype (proper or improper) of the static type
 of the first argument, the query is invalid.
@@ -1194,36 +1197,36 @@ WHERE TREAT(e AS Exempt).vacationDays > 10
 
 === WHERE Clause [[a4985]]
 
-The WHERE clause of a query consists of a
+The `WHERE` clause of a query consists of a
 conditional expression used to select objects or values that satisfy the
-expression. The WHERE clause restricts the result of a select statement
+expression. The `WHERE` clause restricts the result of a select statement
 or the scope of an update or delete operation.
 
-A WHERE clause is defined as follows:
+A `WHERE` clause is defined as follows:
 
 ----
 where_clause ::= WHERE conditional_expression
 ----
 
-The GROUP BY construct enables the
+The `GROUP BY` construct enables the
 aggregation of values according to the properties of an entity class.
-The HAVING construct enables conditions to be specified that further
+The `HAVING` construct enables conditions to be specified that further
 restrict the query result as restrictions upon the groups.
 
-The syntax of the HAVING clause is as follows:
+The syntax of the `HAVING` clause is as follows:
 
 ----
 having_clause ::= HAVING conditional_expression
 ----
 
-The GROUP BY and HAVING constructs are
+The `GROUP BY` and `HAVING` constructs are
 further discussed in <<a5410>>.
 
 === Conditional Expressions [[a4994]]
 
 The following sections describe language
-constructs that can be used in a conditional expression of the WHERE
-clause, the HAVING clause, or in an ON condition.
+constructs that can be used in a conditional expression of the `WHERE`
+clause, the `HAVING` clause, or in an `ON` condition.
 
 State fields that are mapped in serialized
 form or as lobs cannot be portably used in conditional
@@ -1242,7 +1245,7 @@ The scalar expressions described in <<a5243>> can be used in
 conditional expressions.
 
 Aggregate functions can only be used in
-conditional expressions in a HAVING clause. See <<a5410>>.
+conditional expressions in a `HAVING` clause. See <<a5410>>.
 
 Standard bracketing `()` for ordering expression evaluation is supported.
 
@@ -1270,14 +1273,14 @@ The operators are listed below in order of decreasing precedence.
 
 * Navigation operator (`.`)
 * Arithmetic operators:
-** +, - unary
-** *, / multiplication and division
-** +, - addition and subtraction
-* String concatenation (_||_)
-* Comparison operators: _=_, _>_, _>=_, _<_
-, _\<=_, _<>_ (not equal), _[NOT]_ _BETWEEN_, _[NOT]_ _LIKE_, _[NOT]_
-_IN_, _IS_ _[NOT]_ _NULL_, _IS_ _[NOT]_ _EMPTY_, _[NOT]_ _MEMBER_
-_[OF]_, _[NOT]_ _EXISTS_
+** `+`, `-` unary
+** `*`, `/` multiplication and division
+** `+`, `-` addition and subtraction
+* String concatenation (`||`)
+* Comparison operators: `=`, `>`, `>=`, `<`
+, `\<=`, `<>` (not equal), `[NOT] BETWEEN`, `[NOT] LIKE`, `[NOT]
+IN`, `IS [NOT] NULL`, `IS [NOT] EMPTY`, `[NOT] MEMBER
+[OF]`, `[NOT] EXISTS`
 * Logical operators:
 ** `NOT`
 ** `AND`
@@ -1319,7 +1322,7 @@ TYPE(e) = ExemptEmployee
 
 ==== Between Expressions
 
-The syntax for the use of the comparison operator [NOT] BETWEEN in a
+The syntax for the use of the comparison operator `[NOT] BETWEEN` in a
 conditional expression is as follows:
 
 ----
@@ -1329,7 +1332,7 @@ conditional expression is as follows:
     datetime_expression [NOT] BETWEEN datetime_expression AND datetime_expression
 ----
 
-The BETWEEN expression
+The `BETWEEN` expression
 
 ----
 x BETWEEN y AND z
@@ -1341,7 +1344,7 @@ is semantically equivalent to:
 y <= x AND x <= z
 ----
 
-The rules for unknown and NULL values in
+The rules for unknown and `NULL` values in
 comparison operations apply. See <<a5676>>.
 
 Examples:
@@ -1364,7 +1367,7 @@ WHERE c.holder.name = 'John Doe' AND INDEX(t) BETWEEN 0 AND 9
 ==== In Expressions [[a5107]]
 
 The syntax for the use of the comparison
-operator [NOT] IN in a conditional expression is as follows:
+operator `[NOT] IN` in a conditional expression is as follows:
 
 ----
 in_expression ::=
@@ -1412,22 +1415,22 @@ is false for `UK` and true for `Peru`, and is equivalent to the expression
 NOT ((o.country = 'UK') OR (o.country = 'US') OR (o.country = 'France'))
 ----
 
-If an IN or NOT IN expression has a list of `in_item` expressions,
+If an `IN` or `NOT IN` expression has a list of `in_item` expressions,
 there must be at least one item in the list.
 The value of such expressions is determined according to the
 following rules:
 
-- If the `state_valued_path_expression` in an IN or NOT IN expression
-  evaluates to `NULL` or unknown, then the whole IN or NOT IN
+- If the `state_valued_path_expression` in an `IN` or `NOT IN` expression
+  evaluates to `NULL` or unknown, then the whole `IN` or `NOT IN`
   expression evaluates to `NULL` or unknown.
 
 - Otherwise, if the `state_valued_path_expression` and at least one
-  `in_item` evaluate to the same value, the whole IN or NOT IN
+  `in_item` evaluate to the same value, the whole `IN` or `NOT IN`
   expression evaluates to true.
 
 - Otherwise, if the value of a `state_valued_path_expression`
   evaluates to a value distinct from the value of every `in_item`
-  expression, the whole IN or NOT IN expression evaluates to:
+  expression, the whole `IN` or `NOT IN` expression evaluates to:
 
   * false, if every `in_item` expression evaluates to a non-null
     value, or
@@ -1446,7 +1449,7 @@ o.country NOT IN :countries
 ==== Like Expressions
 
 The syntax for the use of the comparison
-operator [NOT] LIKE in a conditional expression is as follows:
+operator `[NOT] LIKE` in a conditional expression is as follows:
 
 ----
 like_expression ::=
@@ -1456,30 +1459,30 @@ like_expression ::=
 The `string_expression` must have a string
 value. The `pattern_value` is a string literal or a string-valued input
 parameter in which an underscore (`_`) stands for any single
-character, a percent (_%_) character stands for any sequence of
+character, a percent (`%`) character stands for any sequence of
 characters (including the empty sequence), and all other characters
-stand for themselves. The optional `escape_character` __ is a
+stand for themselves. The optional `escape_character` is a
 single-character string literal or a character-valued input parameter
 (i.e., `char` or `Character`) and is used to escape the special meaning
-of the underscore and percent characters in `pattern_value`
-_.footnote:[Refer to <<a19494>> for a more precise characterization of these rules.]
+of the underscore and percent characters in `pattern_value`.
+footnote:[Refer to <<a19494>> for a more precise characterization of these rules.]
 
 Examples:
 
-* _address.phone LIKE '12%3'_ is true for '123', '12993' and false for '1234'
-* _asentence.word LIKE 'l_se'_ is true for 'lose' and false for 'loose'
-* _aword.underscored LIKE '\_%' ESCAPE '\'_ is true for '_foo' and false for 'bar'
-* _address.phone NOT LIKE '12%3'_ is false for '123' and '12993' and true for '1234'
+* `address.phone LIKE '12%3'` is true for `'123'`, `'12993'` and false for `'1234'`
+* `asentence.word LIKE 'l_se'` is true for `'lose'` and false for `'loose'`
+* `aword.underscored LIKE '_%' ESCAPE '\'` is true for `'_foo'` and false for `'bar'`
+* `address.phone NOT LIKE '12%3'` is false for `'123'` and `'12993'` and true for `'1234'`
 
 If the value of the `string_expression` or
-`pattern_value` is `NULL` or unknown, the value of the LIKE expression
+`pattern_value` is `NULL` or unknown, the value of the `LIKE` expression
 is unknown. If the `escape_character` is specified and is `NULL`, the
-value of the LIKE expression is unknown.
+value of the `LIKE` expression is unknown.
 
 ==== Null Comparison Expressions
 
 The syntax for the use of the comparison
-operator IS NULL in a conditional expression is as follows:
+operator IS `NULL` in a conditional expression is as follows:
 
 ----
 null_comparison_expression ::=
@@ -1497,7 +1500,7 @@ may be added in a future release of this specification.
 ==== Empty Collection Comparison Expressions [[a5139]]
 
 The syntax for the use of the comparison
-operator IS EMPTY in an `empty_collection_comparison_expression` is as
+operator `IS EMPTY` in an `empty_collection_comparison_expression` is as
 follows:
 
 ----
@@ -1525,8 +1528,8 @@ value of the empty comparison expression is unknown.
 ==== Collection Member Expressions [[a5150]]
 
 The syntax for the use of the comparison
-operator MEMBER OFfootnote:[The use of the
-reserved word OF is optional in this expression.] in an
+operator `MEMBER OF` footnote:[The use of the
+reserved word `OF` is optional in this expression.] in a
 `collection_member_expression` is as follows:
 
 ----
@@ -1552,8 +1555,8 @@ embeddables in collection member expressions may be added in a future
 release of this specification.
 
 If the collection valued path expression
-designates an empty collection, the value of the MEMBER OF expression is
-FALSE and the value of the NOT MEMBER OF expression is TRUE. Otherwise,
+designates an empty collection, the value of the `MEMBER OF` expression is
+`FALSE` and the value of the `NOT MEMBER OF` expression is `TRUE`. Otherwise,
 if the value of the `collection_valued_path_expression`
 or `entity_or_value_expression` in the
 collection member expression is `NULL` or unknown, the value of the
@@ -1570,7 +1573,7 @@ WHERE 'Joe' MEMBER OF p.nicknames
 
 ==== Exists Expressions
 
-An EXISTS expression is a predicate that is
+An `EXISTS` expression is a predicate that is
 true only if the result of the subquery consists of one or more values
 and that is false otherwise.
 
@@ -1597,27 +1600,27 @@ employees whose spouses are also employees.
 
 ==== All or Any Expressions
 
-An ALL conditional expression is a predicate
+An `ALL` conditional expression is a predicate
 over a subquery that is true if the comparison operation is true for all
 values in the result of the subquery or the result of the subquery is
-empty. An ALL conditional expression is false if the result of the
+empty. An `ALL` conditional expression is false if the result of the
 comparison is false for at least one value of the result of the
 subquery, and is unknown if neither true nor false.
 
-An ANY conditional expression is a predicate
+An `ANY` conditional expression is a predicate
 over a subquery that is true if the comparison operation is true for
-some value in the result of the subquery. An ANY conditional expression
+some value in the result of the subquery. An `ANY` conditional expression
 is false if the result of the subquery is empty or if the comparison
 operation is false for every value in the result of the subquery, and is
-unknown if neither true nor false. The keyword SOME is synonymous with
-ANY.
+unknown if neither true nor false. The keyword `SOME` is synonymous with
+`ANY`.
 
-The comparison operators used with ALL or ANY
-conditional expressions are =, <, \<=, >, >=, <>. The result of the
+The comparison operators used with `ALL` or `ANY`
+conditional expressions are `=`, `<`, `\<=`, `>`, `>=`, `<>`. The result of the
 subquery must be like that of the other argument to the comparison
 operator in type. See <<a5735>>.
 
-The syntax of an ALL or ANY expression is
+The syntax of an `ALL` or `ANY` expression is
 specified as follows:
 
 ----
@@ -1642,9 +1645,9 @@ department.
 
 ==== Subqueries [[a5196]]
 
-Subqueries may be used in the WHERE or HAVING clause.footnote:[Subqueries are
-restricted to the WHERE and HAVING clauses in this release. Support for
-subqueries in the FROM clause will be considered in a later release of
+Subqueries may be used in the `WHERE` or `HAVING` clause.footnote:[Subqueries are
+restricted to the `WHERE` and `HAVING` clauses in this release. Support for
+subqueries in the `FROM` clause will be considered in a later release of
 this specification.]
 
 The syntax for subqueries is as follows:
@@ -1717,14 +1720,14 @@ conditional expressions containing `NULL` values.
 The following is a brief description of these semantics:
 
 * Comparison or arithmetic operations with a
-NULL value always yield an unknown value.
-* Two NULL values are not considered to be
+`NULL` value always yield an unknown value.
+* Two `NULL` values are not considered to be
 equal, the comparison yields an unknown value.
 * Comparison or arithmetic operations with an
 unknown value always yield an unknown value.
-* The IS NULL and IS NOT NULL operators convert
+* The `IS NULL` and `IS NOT NULL` operators convert
 a `NULL` state field or single-valued object field value into the
-respective TRUE or FALSE value.
+respective `TRUE` or `FALSE` value.
 * Boolean operators use three valued logic,
 defined by <<a5686, Table 1>>, <<a5705, Table 2>>, and <<a5724, Table 3>>.
 
@@ -1761,12 +1764,12 @@ defined by <<a5686, Table 1>>, <<a5705, Table 2>>, and <<a5724, Table 3>>.
 [NOTE]
 ====
 The Jakarta Persistence query language
-defines the empty string, '', as a string
-with 0 length, which is not equal to a NULL value. However, NULL values
+defines the empty string, `''`, as a string
+with length zero, which is not equal to a `NULL` value. However, `NULL` values
 and empty strings may not always be distinguished when queries are
 mapped to some databases. Application developers should therefore not
 rely on the semantics of query comparisons involving the empty string
-and NULL value.
+and `NULL` value.
 ====
 
 ==== Equality and Comparison Semantics [[a5735]]
@@ -1915,10 +1918,10 @@ of the type of the state field name, i.e., a string.
 Numeric, string, datetime, case, and entity
 type expressions result in scalar values.
 
-Scalar expressions may be used in the SELECT
-clause of a query as well as in the WHEREfootnote:[Note that expressions
-involving aggregate operators must not be used in the WHERE clause.] and
-HAVING clauses.
+Scalar expressions may be used in the `SELECT`
+clause of a query as well as in the `WHERE` footnote:[Note that expressions
+involving aggregate operators must not be used in the `WHERE` clause.] and
+`HAVING` clauses.
 
 ----
 scalar_expression ::=
@@ -1935,8 +1938,8 @@ scalar_expression ::=
 ==== Literals
 
 A string literal is enclosed in single
-quotes—for example: 'literal'. A string literal that includes a single
-quote is represented by two single quotes—for example: 'literal''s'.
+quotes—for example: `'literal'`. A string literal that includes a single
+quote is represented by two single quotes—for example: `'literal''s'`.
 String literals in queries, like Java `String` literals, use unicode
 character encoding. The use of Java escape notation is not supported in
 query string literals.
@@ -1960,8 +1963,8 @@ literal, the numeric value must be an exact integer literal.
 
 Just as in Java, when a numeric literal has no suffix:
 
-- an integer literal is interpreted as a Java int, and
-- a floating point literal is interpreted as a Java double.
+- an integer literal is interpreted as a Java `int`, and
+- a floating point literal is interpreted as a Java `double`.
 
 Support for hexadecimal and octal numeric literals is not required by
 this specification.
@@ -1994,13 +1997,13 @@ Although reserved literals appear in upper case, they are case-insensitive.
 ==== Identification Variables
 
 All identification variables used in the
-WHERE or HAVING clause of a SELECT or DELETE statement must be declared
-in the FROM clause, as described in <<a4765>>. The identification variables used in the
-WHERE clause of an UPDATE statement must be declared in the UPDATE
+`WHERE` or `HAVING` clause of a `SELECT` or `DELETE` statement must be declared
+in the `FROM` clause, as described in <<a4765>>. The identification variables used in the
+`WHERE` clause of an `UPDATE` statement must be declared in the `UPDATE`
 clause.
 
 Identification variables are existentially
-quantified in the WHERE and HAVING clause.
+quantified in the `WHERE` and `HAVING` clause.
 This means that an identification variable represents a member of a
 collection or an instance of an entity's abstract schema type. An
 identification variable never designates a collection in its entirety.
@@ -2008,10 +2011,10 @@ identification variable never designates a collection in its entirety.
 ==== Path Expressions
 
 It is illegal to use a
-`collection_valued_path_expression` within a WHERE or HAVING clause as
+`collection_valued_path_expression` within a `WHERE` or `HAVING` clause as
 part of a conditional expression except in an
 `empty_collection_comparison_expression`, in a
-`collection_member_expression`, or as an argument to the SIZE operator.
+`collection_member_expression`, or as an argument to the `SIZE` operator.
 
 ==== Input Parameters [[a5065]]
 
@@ -2045,8 +2048,8 @@ in <<a3125>>.
 The following rules apply to positional input parameters.
 
 * A positional parameter is designated by an integer, and prefixed with a
-_?_ symbol (question mark) in the text of the query string.
-For example: _?1_.
+`?` symbol (question mark) in the text of the query string.
+For example: `?1`.
 * Input parameters are numbered starting from 1.
 * A given positional parameter may occur more than once in the query string.
 * The ordering of the use of parameters within the text of the query string
@@ -2054,7 +2057,7 @@ need not match the numbering of the positional parameters.
 
 ===== Named Parameters
 
-A named parameter is denoted by an identifier, and prefixed by the _:_ symbol
+A named parameter is denoted by an identifier, and prefixed by the `:` symbol
 (colon) in the text of the query string. The identifier name must follow the
 usual rules for identifiers specified in <<a4760>>. Named parameters are
 case-sensitive.
@@ -2092,7 +2095,7 @@ Its operands must be string expressions.
 The Jakarta Persistence query language includes
 the built-in functions described in <<a5264>>, <<a5284>>,
 <<a5304>>, which may be used
-in the SELECT, WHERE or HAVING clause of a query. The invocation of
+in the `SELECT`, `WHERE` or `HAVING` clause of a query. The invocation of
 predefined database functions and user-defined database functions is
 described in <<a5311>>.
 
@@ -2120,39 +2123,39 @@ functions_returning_numerics ::=
     LOCATE(string_expression, string_expression[, arithmetic_expression])
 ----
 
-The CONCAT function returns a string that is
+The `CONCAT` function returns a string that is
 a concatenation of its arguments.
 
 The second and third arguments of the
-SUBSTRING function denote the starting position and length of the
+`SUBSTRING` function denote the starting position and length of the
 substring to be returned. These arguments are integers. The third
 argument is optional. If it is not specified, the substring from the
 start position to the end of the string is returned. The first position
-of a string is denoted by 1. The SUBSTRING function returns a string.
+of a string is denoted by 1. The `SUBSTRING` function returns a string.
 
-The TRIM function trims the specified
+The `TRIM` function trims the specified
 character from a string. If the character to be trimmed is not
 specified, it will be assumed to be space (or blank). The optional
-`trim_character` __ is a single-character string literal or a
-character-valued input parameter (i.e., `char` or `Character`
-)footnote:[Note that not all
+`trim_character` is a single-character string literal or a
+character-valued input parameter (i.e., `char` or `Character`)
+footnote:[Note that not all
 databases support the use of a trim character other than the space
 character; use of this argument may result in queries that are not
 portable.]. If a trim specification is not provided, it
-defaults to BOTH. The TRIM function returns the trimmed string.
+defaults to `BOTH`. The `TRIM` function returns the trimmed string.
 
-The LOWER and UPPER functions convert a
+The `LOWER` and `UPPER` functions convert a
 string to lower and upper case, respectively, with regard to the locale
 of the database. They return a string.
 
-The LEFT and RIGHT functions return the leftmost or rightmost substring,
+The `LEFT` and `RIGHT` functions return the leftmost or rightmost substring,
 respectively, of the first argument whose length is given by the second
 argument.
 
-The REPLACE function replaces all occurrences within the first argument
+The `REPLACE` function replaces all occurrences within the first argument
 string of the second argument string with the third argument string.
 
-The LOCATE function returns the position at which one string occurs within
+The `LOCATE` function returns the position at which one string occurs within
 a second string, optionally ignoring any occurrences that begin before a
 specified character position in the second string. It returns the first
 character position within the second string (after the specified character
@@ -2163,10 +2166,10 @@ to be searched in; the optional third argument is an integer representing
 the character position at which the search starts (by default, 1, the first
 character of the second string). If the first string does not occur within
 the second string, 0 is returned.footnote:[Note that not all databases
-support the use of the third argument to LOCATE; use of this argument may
+support the use of the third argument to `LOCATE`; use of this argument may
 result in queries that are not portable.]
 
-The LENGTH function returns the length of the
+The `LENGTH` function returns the length of the
 string in characters as an integer.
 
 ===== Arithmetic Functions [[a5284]]
@@ -2188,36 +2191,36 @@ functions_returning_numerics ::=
     extract_datetime_field
 ----
 
-The ABS, CEILING, and FLOOR functions accept a numeric argument and
+The `ABS`, `CEILING`, and `FLOOR` functions accept a numeric argument and
 return a number (integer, float, or double) of the same type as the
 argument.
 
-The SIGN function accepts a numeric argument and returns an integer.
+The `SIGN` function accepts a numeric argument and returns an integer.
 
-The SQRT, EXP, and LN functions accept a numeric argument and return
+The `SQRT`, `EXP`, and `LN` functions accept a numeric argument and return
 a double.
 
-The MOD function accepts two integer arguments and returns an integer.
+The `MOD` function accepts two integer arguments and returns an integer.
 
-The ROUND function accepts a numeric argument and an integer argument
+The `ROUND` function accepts a numeric argument and an integer argument
 and returns a number of the same type as the first argument.
 
-The POWER function accepts two numeric arguments and returns a double.
+The `POWER` function accepts two numeric arguments and returns a double.
 
 Numeric arguments to these functions may
 correspond to the numeric Java object types as well as the primitive
 numeric types.
 
-The SIZE function returns an integer value,
+The `SIZE` function returns an integer value,
 the number of elements of the collection. If the collection is empty,
-the SIZE function evaluates to zero.
+the `SIZE` function evaluates to zero.
 
-The INDEX function returns an integer value
+The `INDEX` function returns an integer value
 corresponding to the position of its argument in an ordered list. The
-INDEX function can only be applied to identification variables denoting
+`INDEX` function can only be applied to identification variables denoting
 types for which an order column has been specified.
 
-In the following example, _studentWaitlist_
+In the following example, `studentWaitlist`
 is a list of students for which an order column has been specified:
 
 [source,sql]
@@ -2241,21 +2244,21 @@ functions_returning_datetime :=
     extract_datetime_part
 ----
 
-The functions LOCAL DATE, LOCAL TIME, and LOCAL DATETIME return the value
+The functions `LOCAL DATE`, `LOCAL TIME`, and `LOCAL DATETIME` return the value
 of the current date, time, or timestamp on the database server, respectively.
 Their types are `java.time.LocalDate`, `java.time.LocalTime`, and
 `java.time.LocalDateTime` respectively.
 
-The functions CURRENT_DATE, CURRENT_TIME, and CURRENT_TIMESTAMP
+The functions `CURRENT_DATE`, `CURRENT_TIME`, and `CURRENT_TIMESTAMP`
 return the value of the current date, time, or timestamp on the database
 server, respectively. Their types are `java.sql.Date`, `java.sql.Time`,
 and `java.sql.Timestamp` respectively.
 
 The EXTRACT function takes a datetime argument and one of the following
-field type identifiers: YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE,
-SECOND, DATE, TIME.
+field type identifiers: `YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE`,
+`SECOND`, `DATE`, `TIME`.
 
-EXTRACT returns the value of the corresponding field or part of the
+`EXTRACT` returns the value of the corresponding field or part of the
 datetime.
 
 ----
@@ -2265,25 +2268,25 @@ extract_datetime_field :=
 datetime_field := identification_variable
 ----
 
-For the following field type identifiers, EXTRACT returns an integer
+For the following field type identifiers, `EXTRACT` returns an integer
 value:
 
-- YEAR means the calendar year.
-- QUARTER means the calendar quarter, numbered from 1 to 4.
-- MONTH means the calendar month of the year, numbered from 1.
-- WEEK means the ISO-8601 week number.
-- DAY means the calendar day of the month, numbered from 1.
-- HOUR means the hour of the day in 24-hour time, numbered from 0 to 23.
-- MINUTE means the minute of the hour, numbered from 0 to 59.
+- `YEAR` means the calendar year.
+- `QUARTER` means the calendar quarter, numbered from 1 to 4.
+- `MONTH` means the calendar month of the year, numbered from 1.
+- `WEEK` means the ISO-8601 week number.
+- `DAY` means the calendar day of the month, numbered from 1.
+- `HOUR` means the hour of the day in 24-hour time, numbered from 0 to 23.
+- `MINUTE` means the minute of the hour, numbered from 0 to 59.
 
-For the SECOND field type identifier, EXTRACT returns a floating point
+For the `SECOND` field type identifier, `EXTRACT` returns a floating point
 value:
 
-- SECOND means the second of the minute, numbered from 0 to 59, including
+- `SECOND` means the second of the minute, numbered from 0 to 59, including
   a fractional part representing fractions of a second.
 
 It is illegal to pass a datetime argument which does not have the given
-field type to EXTRACT.
+field type to `EXTRACT`.
 
 ----
 extract_datetime_part :=
@@ -2292,14 +2295,14 @@ extract_datetime_part :=
 datetime_part := identification_variable
 ----
 
-For the following field type identifiers, EXTRACT returns a part of the
+For the following field type identifiers, `EXTRACT` returns a part of the
 datetime value:
 
-- DATE means the date part of a datetime.
-- TIME means the time part of a datetime.
+- `DATE` means the date part of a datetime.
+- `TIME` means the time part of a datetime.
 
 It is illegal to pass a datetime argument which does not have the given
-part to EXTRACT.
+part to `EXTRACT`.
 
 [source,sql]
 ----
@@ -2308,7 +2311,7 @@ FROM Course c WHERE c.year = EXTRACT(YEAR FROM LOCAL DATE)
 
 ==== Typecasts
 
-The CAST function converts an expression of one type to an expression
+The `CAST` function converts an expression of one type to an expression
 of a different type.
 
 ----
@@ -2321,8 +2324,8 @@ arithmetic_cast_function::=
 The persistence provider is required to accept typecasts of the following
 forms:
 
-- any scalar expression to STRING
-- any string expression to INTEGER, LONG, FLOAT, or DOUBLE
+- any scalar expression to `STRING`
+- any string expression to `INTEGER`, `LONG`, `FLOAT`, or `DOUBLE`
 
 Typecast expressions are evaluated by the database, with semantics that
 vary somewhat between different databases.
@@ -2330,9 +2333,9 @@ vary somewhat between different databases.
 When a typecast occurs as a select expression, the result type of the
 select expression is:
 
-- `java.lang.String` for a cast to STRING
+- `java.lang.String` for a cast to `STRING`
 - `java.lang.Integer`, `java.lang.Long`, `java.lang.Float`, or `java.lang.Double`
-  for a cast to INTEGER, LONG, FLOAT, or DOUBLE, respectively
+  for a cast to `INTEGER`, `LONG`, `FLOAT`, or `DOUBLE`, respectively
 
 ==== Invocation of Predefined and User-defined Database Functions [[a5311]]
 
@@ -2445,7 +2448,7 @@ FROM Employee e JOIN e.frequentFlierPlan f
 
 ==== Identifier and Version Functions
 
-The ID and VERSION functions evaluate to the primary key or version,
+The `ID` and `VERSION` functions evaluate to the primary key or version,
 respectively, of their argument, which must be an identification variable
 assigned an entity abstract schema type or a path expression resolving to
 a one-to-one or many-to-one relationship field. For example, if `Person`
@@ -2462,7 +2465,7 @@ version_function ::=
             single_valued_object_path_expression)
 ----
 
-The result type of an ID or VERSION function expression is the primary
+The result type of an `ID` or `VERSION` function expression is the primary
 key type or version type of the argument entity, respectively.
 
 The result may be compared to an input parameter:
@@ -2474,7 +2477,7 @@ WHERE id(this) = :id
   AND version(this) = :version
 ----
 
-A persistence provider is not required to support the use of the ID
+A persistence provider is not required to support the use of the `ID`
 function for entities with composite primary keys.
 
 ==== Entity Type Expressions and Literal Entity Types [[a5381]]
@@ -2493,7 +2496,7 @@ type_discriminator ::=
          input_parameter)
 ----
 
-The TYPE operator returns the exact type of its argument, which must be
+The `TYPE` operator returns the exact type of its argument, which must be
 an identification variable assigned an entity abstract schema type, a
 path expression resolving to a one-to-one or many-to-one relationship
 field, or an input parameter.
@@ -2570,18 +2573,18 @@ non-integral type in others. Portable applications should not assume a
 particular result type.
 ====
 
-For numeric expressions occurring in the SELECT clause, these rules
+For numeric expressions occurring in the `SELECT` clause, these rules
 determine the Java object type returned in the query result list.
 
 === GROUP BY, HAVING [[a5410]]
 
-The GROUP BY construct enables the
+The `GROUP BY` construct enables the
 aggregation of result values according to a set of properties. The
-HAVING construct enables conditions to be specified that further
+`HAVING` construct enables conditions to be specified that further
 restrict the query result. Such conditions are restrictions upon the
 groups.
 
-The syntax of the GROUP BY and HAVING clauses is as follows:
+The syntax of the `GROUP BY` and `HAVING` clauses is as follows:
 
 ----
 groupby_clause ::= GROUP BY groupby_item {, groupby_item}*
@@ -2590,16 +2593,16 @@ groupby_item ::= single_valued_path_expression | identification_variable
 having_clause ::= HAVING conditional_expression
 ----
 
-If a query contains both a WHERE clause and a
-GROUP BY clause, the effect is that of first applying the where clause,
-and then forming the groups and filtering them according to the HAVING
-clause. The HAVING clause causes those groups to be retained that
-satisfy the condition of the HAVING clause.
+If a query contains both a `WHERE` clause and a
+`GROUP BY` clause, the effect is that of first applying the where clause,
+and then forming the groups and filtering them according to the `HAVING`
+clause. The `HAVING` clause causes those groups to be retained that
+satisfy the condition of the `HAVING` clause.
 
-The requirements for the SELECT clause when
-GROUP BY is used follow those of SQL: namely, any item that appears in
-the SELECT clause (other than as an aggregate function or as an argument
-to an aggregate function) must also appear in the GROUP BY clause. In
+The requirements for the `SELECT` clause when
+`GROUP BY` is used follow those of SQL: namely, any item that appears in
+the `SELECT` clause (other than as an aggregate function or as an argument
+to an aggregate function) must also appear in the `GROUP BY` clause. In
 forming the groups, null values are treated as the same for grouping
 purposes.
 
@@ -2608,23 +2611,23 @@ case, the entity must contain no serialized state fields or lob-valued
 state fields that are eagerly fetched. Grouping by an entity that
 contains serialized state fields or lob-valued state fields is not
 portable, since the implementation is permitted to eagerly fetch fields
-or properties that have been specified as LAZY.
+or properties that have been specified as `LAZY`.
 
 Grouping by embeddables is not supported.
 
-The HAVING clause is used to filter over the
+The `HAVING` clause is used to filter over the
 groups, and can contain aggregate functions over attributes included in
 the groups and/or functions or other query language operators over the
 attributes that are used for grouping. It is not required that an
-aggregate function used in the HAVING clause also be used in the SELECT
+aggregate function used in the `HAVING` clause also be used in the `SELECT`
 clause.
 
-If there is no GROUP BY clause and the HAVING
+If there is no `GROUP BY` clause and the `HAVING`
 clause is used, the result is treated as a single group, and the select
-list can only consist of aggregate functions. The use of HAVING in the
-absence of GROUP BY is not required to be supported by an implementation
-of this specification. Portable applications should not rely on HAVING
-without the use of GROUP BY.
+list can only consist of aggregate functions. The use of `HAVING` in the
+absence of `GROUP BY` is not required to be supported by an implementation
+of this specification. Portable applications should not rely on `HAVING`
+without the use of `GROUP BY`.
 
 Examples:
 
@@ -2648,10 +2651,10 @@ HAVING COUNT(o) >= 5
 
 === SELECT Clause [[a5438]]
 
-The SELECT clause specifies the query result, as a list of items to
+The `SELECT` clause specifies the query result, as a list of items to
 be returned by the query.
 
-The SELECT clause can contain one or more of the following elements:
+The `SELECT` clause can contain one or more of the following elements:
 
 - an identification variable that ranges over an abstract schema type,
 - a single-valued path expression,
@@ -2659,7 +2662,7 @@ The SELECT clause can contain one or more of the following elements:
 - an aggregate expression,
 - a constructor expression.
 
-The SELECT clause has the following syntax:
+The `SELECT` clause has the following syntax:
 
 ----
 select_clause ::= SELECT [DISTINCT] select_item {, select_item}*
@@ -2704,7 +2707,7 @@ FROM VideoStore v JOIN v.videoInventory i
 WHERE v.location.zipcode = '94301' AND VALUE(i) > 0
 ----
 
-Note that the SELECT clause must be specified
+Note that the `SELECT` clause must be specified
 to return only single-valued expressions. The query below is therefore
 not valid:
 
@@ -2713,30 +2716,30 @@ not valid:
 SELECT o.lineItems FROM Order AS o
 ----
 
-The DISTINCT
+The `DISTINCT`
 keyword is used to specify that duplicate values must be eliminated from
 the query result.
 
-If DISTINCT is not specified, duplicate
+If `DISTINCT` is not specified, duplicate
 values are not eliminated.
 
-The result of DISTINCT over embeddable
+The result of `DISTINCT` over embeddable
 objects or map `entry` results is undefined.
 
 Standalone identification variables in the
-SELECT clause may optionally be qualified by the
-OBJECT operator.footnote:[Note that the keyword
-OBJECT is not required. It is preferred that it be omitted for new
+`SELECT` clause may optionally be qualified by the
+`OBJECT` operator.footnote:[Note that the keyword
+`OBJECT` is not required. It is preferred that it be omitted for new
 queries.] The
-SELECT clause must not use the OBJECT operator to qualify path
+`SELECT` clause must not use the `OBJECT` operator to qualify path
 expressions.
 
 A `result_variable` assigns a name to a `select_item` in the query result.
 The `result variable` must be a valid identifier, as defined in <<a4760>>,
 must not be a reserved identifier, and must not collide with any
-identification variable declared in the FROM clause. A result variable may
+identification variable declared in the `FROM` clause. A result variable may
 be used to refer to an element of the select clause from an item in the
-ORDER BY clause, as specified in <<a5587>>. Like identification variables,
+`ORDER BY` clause, as specified in <<a5587>>. Like identification variables,
 result variables are case-insensitive.
 
 Example:
@@ -2744,14 +2747,14 @@ Example:
 [source,sql]
 ----
 SELECT c, COUNT(l) AS itemCount
-FROM Customer c JOIN c.Orders o JOIN o.lineItems l
+FROM Customer c JOIN c.orders o JOIN o.lineItems l
 WHERE c.address.state = 'CA'
 GROUP BY c
 ORDER BY itemCount
 ----
 
-The SELECT clause is optional. A query with a missing SELECT clause
-is interpreted as if it had the following single-item SELECT clause:
+The `SELECT` clause is optional. A query with a missing `SELECT` clause
+is interpreted as if it had the following single-item `SELECT` clause:
 `select this`, where `this` is the implicit identification variable.
 
 Thus, the following queries are equivalent:
@@ -2778,30 +2781,30 @@ WHERE ord.customer.lastname = 'Smith'
 ----
 
 If the implicit identification variable has not been assigned an
-abstract schema type, the SELECT clause is required.
+abstract schema type, the `SELECT` clause is required.
 
 ==== Result Type of the SELECT Clause [[a5439]]
 
 The type of the query result specified by the
-SELECT clause of a query is an entity
+`SELECT` clause of a query is an entity
 abstract schema type, a state field type,
 the result of a scalar expression, the result of an aggregate function,
 the result of a construction operation, or some sequence of these.
 
-The result type of the SELECT clause is
-defined by the the result types of the select expressions contained in
-it. When multiple select expressions are used in the SELECT clause, the
+The result type of the `SELECT` clause is
+defined by the result types of the select expressions contained in
+it. When multiple select expressions are used in the `SELECT` clause, the
 elements in this result correspond in order to the order of their
-specification in the SELECT clause and in type to the result types of
+specification in the `SELECT` clause and in type to the result types of
 each of the select expressions.
 
-The type of the result of a select_expression
+The type of the result of a `select_expression`
 is as follows:
 
-* The result type of an identification_variable
+* The result type of an `identification_variable`
 is the type of the entity object or embeddable object to which the
 identification variable corresponds. The type of an
-identification_variable that refers to an entity abstract schema type is
+`identification_variable` that refers to an entity abstract schema type is
 the type of the entity to which that identification variable corresponds
 or a subtype as determined by the object/relational mapping.
 * The result type of a
@@ -2819,12 +2822,12 @@ subtype of the relationship field of the entity object as determined by
 the object/relational mapping.
 * The result type of a
 `single_valued_path_expression` that is an `identification_variable` to
-which the KEY or VALUE function has been applied is determined by the
+which the `KEY` or `VALUE` function has been applied is determined by the
 type of the map key or value respectively, as defined by the above
 rules.
 * The result type of a
 `single_valued_path_expression` that is an `identification_variable` to
-which the ENTRY function has been applied is `java.util.Map.Entry`,
+which the `ENTRY` function has been applied is `java.util.Map.Entry`,
 where the key and value types of the map entry are determined by the
 above rules as applied to the map key and map value respectively.
 * The result type of a `scalar_expression` is
@@ -2833,21 +2836,21 @@ result type of a numeric `scalar_expression` is defined in <<a5574>>.
 * The result type of an
 `entity_type_expression` scalar expression is the Java class to which
 the resulting abstract schema type corresponds.
-* The result type of aggregate_expression is
+* The result type of `aggregate_expression` is
 defined in <<a5538>>.
-* The result type of a constructor_expression
+* The result type of a `constructor_expression`
 is the type of the class for which the constructor is defined. The types
 of the arguments to the constructor are defined by the above rules.
 
 ==== Constructor Expressions in the SELECT Clause [[a5500]]
 
-A constructor may be used in the SELECT list
+A constructor may be used in the `SELECT` list
 to return an instance of a Java class. The specified class is not
 required to be an entity or to be mapped to the database. The
 constructor name must be fully qualified.
 
 If an entity class name is specified as the
-constructor name in the SELECT NEW clause, the resulting entity
+constructor name in the `SELECT NEW` clause, the resulting entity
 instances will be in either the new or the detached state, depending on
 whether a primary key is retrieved for the constructed object.
 
@@ -2870,12 +2873,12 @@ WHERE o.count > 100
 
 If the result of a query corresponds to an
 association field or state field whose value is null, that null value is
-returned in the result of the query method. The IS NOT NULL construct
+returned in the result of the query method. The `IS NOT NULL` construct
 can be used to eliminate such null values from the result set of the
 query.
 
 Note, however, that state field types defined
-in terms of Java numeric primitive types cannot produce NULL values in
+in terms of Java numeric primitive types cannot produce `NULL` values in
 the query result. A query that returns such a state field type as a
 result type must not return a null value.
 
@@ -2938,55 +2941,55 @@ The result of a query may be the result of an
 aggregate function applied to a path expression.
 
 The following aggregate functions can be used
-in the SELECT clause of a query: AVG, COUNT, MAX, MIN, SUM, aggregate
+in the `SELECT` clause of a query: `AVG`, `COUNT`, `MAX`, `MIN`, `SUM`, aggregate
 functions defined in the database.
 
-For all aggregate functions except COUNT, the
+For all aggregate functions except `COUNT`, the
 path expression that is the argument to the aggregate function must
-terminate in a state field. The path expression argument to COUNT may
+terminate in a state field. The path expression argument to `COUNT` may
 terminate in either a state field or a association field, or the
-argument to COUNT may be an identification variable.
+argument to `COUNT` may be an identification variable.
 
-Arguments to the functions SUM and AVG must
-be numeric. Arguments to the functions MAX and MIN must correspond to
+Arguments to the functions `SUM` and `AVG` must
+be numeric. Arguments to the functions `MAX` and `MIN` must correspond to
 orderable state field types (i.e., numeric types, string types,
 character types, or date types).
 
 The Java type that is contained in the result
 of a query using an aggregate function is as follows:
 
-* COUNT returns Long.
-* MAX, MIN return the type of the state field to which they are applied.
-* AVG returns Double.
-* SUM returns Long when applied to state fields
-of integral types (other than BigInteger); Double when applied to state
-fields of floating point types; BigInteger when applied to state fields
-of type BigInteger; and BigDecimal when applied to state fields of type
-BigDecimal.
+* `COUNT` returns Long.
+* `MAX`, `MIN` return the type of the state field to which they are applied.
+* `AVG` returns Double.
+* `SUM` returns Long when applied to state fields
+of integral types (other than `BigInteger`); `Double` when applied to state
+fields of floating point types; `BigInteger` when applied to state fields
+of type `BigInteger`; and `BigDecimal` when applied to state fields of type
+`BigDecimal`.
 
 Null values are eliminated before the
 aggregate function is applied, regardless of whether the keyword
-DISTINCT is specified.
+`DISTINCT` is specified.
 
-If SUM, AVG, MAX, or MIN is used, and there
+If `SUM`, `AVG`, `MAX`, or `MIN` is used, and there
 are no values to which the aggregate function can be applied, the result
-of the aggregate function is NULL.
+of the aggregate function is `NULL`.
 
-If COUNT is used, and there are no values to
-which COUNT can be applied, the result of the aggregate function is 0.
+If `COUNT` is used, and there are no values to
+which `COUNT` can be applied, the result of the aggregate function is `0`.
 
 The argument to an aggregate function
-may be preceded by the keyword DISTINCT to specify that duplicate values
+may be preceded by the keyword `DISTINCT` to specify that duplicate values
 are to be eliminated before the aggregate function is
 applied.footnote:[It is legal to
-specify DISTINCT with MAX or MIN, but it does not affect the result.]
+specify `DISTINCT` with `MAX` or `MIN`, but it does not affect the result.]
 
-The use of DISTINCT with COUNT is not
+The use of `DISTINCT` with `COUNT` is not
 supported for arguments of embeddable types or map entry types.
 
 The invocation of aggregate database
 functions, including user defined functions, is supported by means of
-the FUNCTION operator. See <<a5311>>.
+the `FUNCTION` operator. See <<a5311>>.
 
 The following query returns the average order quantity:
 
@@ -3033,8 +3036,8 @@ WHERE c.lastname = 'Smith' AND c.firstname = 'John' AND l.price IS NOT NULL
 
 === ORDER BY Clause [[a5587]]
 
-The ORDER BY clause specifies how the results of a query should be sorted.
-The syntax of the ORDER BY clause is:
+The `ORDER BY` clause specifies how the results of a query should be sorted.
+The syntax of the `ORDER BY` clause is:
 
 ----
 orderby_clause ::= ORDER BY orderby_item {, orderby_item}*
@@ -3046,30 +3049,30 @@ orderby_expression ::=
     scalar_expression
 ----
 
-The ORDER BY clause specifies a list of items. Each `orderby_expression`
+The `ORDER BY` clause specifies a list of items. Each `orderby_expression`
 must be one of the following:
 
 1. A `state_field_path_expression` evaluating to an orderable state field
    of an entity or embeddable class abstract schema type designated in the
-   SELECT clause by either:
+   `SELECT` clause by either:
    - a `general_identification_variable`, or
    - a `single_valued_object_path_expression`.
 2. A `state_field_path_expression` evaluating to the same state field of
    the same entity or embeddable abstract schema type as a
-   `state_field_path_expression` in the SELECT clause.
+   `state_field_path_expression` in the `SELECT` clause.
 3. A `general_identification_variable` evaluating to the same map field of
    the same entity or embeddable abstract schema type as a
-   `general_identification_variable` in the SELECT clause.
+   `general_identification_variable` in the `SELECT` clause.
 4. A reference to a `result_variable` declared by an orderable item in the
-   SELECT clause. The orderable item must be an `aggregate_expression`, a
+   `SELECT` clause. The orderable item must be an `aggregate_expression`, a
    `scalar_expression`, or a `state_field_path_expression`.
 5. Any `scalar_expression` involving only ``state_field_path_expression``s
    which would be allowed according to items 1 or 2 above.
 
 Depending on the database, arbitrary scalar expressions may not be allowed
-in the ORDER BY clause. Therefore, applications which require portability
+in the `ORDER BY` clause. Therefore, applications which require portability
 between databases should not depend on the use of a scalar expression in
-ORDER BY if it is only permitted by item 5.
+`ORDER BY` if it is only permitted by item 5.
 
 For example, the four queries below are legal.
 
@@ -3108,7 +3111,7 @@ ORDER BY UPPER(c.lastname), UPPER(c.firstname)
 ----
 
 The following two queries are _not_ legal
-because the `orderby_item` is not reflected in the SELECT clause of the
+because the `orderby_item` is not reflected in the `SELECT` clause of the
 query.
 
 [source,sql]
@@ -3124,8 +3127,8 @@ WHERE c.lastname = 'Smith' AND c.firstname = 'John'
 ORDER BY o.quantity
 ----
 
-The keyword ASC specifies that ascending ordering is used for the associated
-`orderby_item`; the keyword DESC specifies that descending ordering is used.
+The keyword `ASC` specifies that ascending ordering is used for the associated
+`orderby_item`; the keyword `DESC` specifies that descending ordering is used.
 If neither keyword is explicitly specified, ascending ordering is the default.
 
 The interpretation of ascending or descending order is determined by the
@@ -3135,30 +3138,30 @@ database, but, in general:
   descending order means larger values first, and
 - strings are sorted lexicographically, using a database-dependent collation.
 
-The keyword NULLS specifies the ordering of null values, either FIRST or LAST.
+The keyword `NULLS` specifies the ordering of null values, either `FIRST` or `LAST`.
 
-- FIRST means that results are sorted so that all null values occur before
+- `FIRST` means that results are sorted so that all null values occur before
   all non-null values.
-- LAST means that results are sorted so that all null values occur after
+- `LAST` means that results are sorted so that all null values occur after
   all non-null values.
 
-If NULLS is not specified, the database determines whether null values occur
+If `NULLS` is not specified, the database determines whether null values occur
 first or last.
 
-Items occurring earlier in the ORDER BY clause take precedence. That is,
-an item occurring later in the ORDER BY clause is only used to resolve
+Items occurring earlier in the `ORDER BY` clause take precedence. That is,
+an item occurring later in the `ORDER BY` clause is only used to resolve
 "ties" between results which cannot be unambiguously ordered using only
 earlier items.
 
 The order of query results must be preserved in the result list or stream
-returned by a query execution method when an ORDER BY clause is specified.
+returned by a query execution method when an `ORDER BY` clause is specified.
 
 === Bulk Update and Delete Operations [[a5636]]
 
 Bulk update and delete operations apply to
 entities of a single entity class (together with its subclasses, if
-any). Only one entity abstract schema type may be specified in the FROM
-or UPDATE clause.
+any). Only one entity abstract schema type may be specified in the `FROM`
+or `UPDATE` clause.
 
 The syntax of these operations is as follows:
 
@@ -3177,14 +3180,14 @@ delete_statement ::= delete_clause [where_clause]
 delete_clause ::= DELETE FROM entity_name [[AS] identification_variable]
 ----
 
-The syntax of the WHERE clause is described
+The syntax of the `WHERE` clause is described
 in <<a4985>>.
 
 A delete operation only applies to entities
 of the specified class and its subclasses. It does not cascade to
 related entities.
 
-The new_value specified for an update
+The `new_value` specified for an update
 operation must be compatible in type with the field to which it is
 assigned.
 
