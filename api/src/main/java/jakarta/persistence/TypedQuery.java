@@ -138,6 +138,8 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the query execution exceeds
      *         the query timeout value set and the transaction
      *         is rolled back
+     *
+     * @since 3.2
      */
     X getSingleResultOrNull();
 
