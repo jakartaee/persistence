@@ -353,6 +353,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      *                   meaning all queries
      * @return a map keyed by query name
      * @param <R> the specified upper bound on the query result types
+     *
+     * @since 3.2
      */
     <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
 
@@ -364,6 +366,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      *                   meaning all entity graphs
      * @return a map keyed by graph name
      * @param <E> the specified upper bound on the entity graph types
+     *
+     * @since 3.2
      */
     <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
 
@@ -389,6 +393,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * control to the client.
      *
      * @param work a function to be executed in the scope of the transaction
+     *
+     * @since 3.2
      */
     void runInTransaction(Consumer<EntityManager> work);
     /**
@@ -415,6 +421,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @param work a function to be called in the scope of the transaction
      * @return the value returned by the given function
+     *
+     * @since 3.2
      */
     <R> R callInTransaction(Function<EntityManager, R> work);
 }

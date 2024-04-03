@@ -166,6 +166,8 @@ public @interface Column {
      * should not be stored in a {@code time} column, or that the
      * maximum number of digits supported by the database and JDBC
      * driver should be stored in a {@code timestamp} column.
+     *
+     * @since 3.2
      */
     int secondPrecision() default -1;
 

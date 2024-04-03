@@ -555,6 +555,7 @@ public interface EntityManager extends AutoCloseable {
      *         an entity, or if it is neither persistent nor detached
      * @throws EntityNotFoundException if the entity state cannot be
      *         accessed
+     * @since 3.2
      */
     <T> T getReference(T entity);
 

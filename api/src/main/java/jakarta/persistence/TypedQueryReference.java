@@ -24,6 +24,8 @@ import java.util.Map;
  * @param <R> an upper bound on the result type of the query
  *
  * @see EntityManager#createQuery(TypedQueryReference)
+ *
+ * @since 3.2
  */
 public interface TypedQueryReference<R> {
     /**
