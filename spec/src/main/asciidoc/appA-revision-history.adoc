@@ -83,7 +83,7 @@ Added `comment` and `check` members to `@Table` and `@Column` annotations, along
 
 Added `secondPrecision` to `@Column` annotation and clarified semantics of `@Column` members
 
-Added factory-level access to named queries and named entity graphs
+Added factory-level access to named queries and named entity graphs, along with `TypedQueryReference`
 
 Added integration points for dependency injection
 
