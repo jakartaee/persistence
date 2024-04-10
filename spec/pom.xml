@@ -24,7 +24,7 @@
     <groupId>jakarta.persistence</groupId>
     <artifactId>persistence-spec</artifactId>
     <packaging>pom</packaging>
-    <version>3.2</version>
+    <version>3.3-SNAPSHOT</version>
     <name>Jakarta Persistence Specification</name>
 
     <properties>
@@ -38,7 +38,7 @@
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
 
-        <project.build.outputTimestamp>2024-04-10T08:49:22Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2024-04-10T08:59:15Z</project.build.outputTimestamp>
     </properties>
 
     <scm>
