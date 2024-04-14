@@ -18,11 +18,11 @@ transaction. To facilitate such use of entity managers in Jakarta EE
 environments, when an entity manager is injected into a component or
 looked up directly in the JNDI naming context, its persistence context
 will automatically be propagated with the current JTA transaction, and
-the EntityManager references that are mapped to the same persistence
+the `EntityManager` references that are mapped to the same persistence
 unit will provide access to this same persistence context within the JTA
 transaction. This propagation of persistence contexts by the Jakarta EE
 container avoids the need for the application to pass references to
-EntityManager instances from one component to another. An entity manager
+`EntityManager` instances from one component to another. An entity manager
 for which the container manages the persistence context in this manner
 is termed a _container-managed entity manager_. A container-managed
 entity manager's lifecycle is managed by the Jakarta EE container.
@@ -30,10 +30,10 @@ entity manager's lifecycle is managed by the Jakarta EE container.
 In less common use cases within Jakarta EE
 environments, applications may need to access a persistence context that
 is “stand-alone”—i.e. not propagated along with the JTA transaction
-across the EntityManager references for the given persistence unit.
+across the `EntityManager` references for the given persistence unit.
 Instead, each instance of creating an entity manager causes a new
 isolated persistence context to be created that is not accessible
-through other EntityManager references within the same transaction.
+through other `EntityManager` references within the same transaction.
 These use cases are supported through the `createEntityManager` methods
 of the `EntityManagerFactory` interface. An entity manager that is used
 by the application to create and destroy a persistence context in this
@@ -251,7 +251,7 @@ be used for vendor-specific information. The namespace
 === Controlling Transactions
 
 Depending on the transactional type of the
-entity manager, transactions involving EntityManager operations may be
+entity manager, transactions involving `EntityManager` operations may be
 controlled either through JTA or through use of the resource-local
 `EntityTransaction` API, which is mapped to a resource transaction over
 the resource that underlies the entities managed by the entity manager.
@@ -499,7 +499,7 @@ as `PersistenceContextType.TRANSACTION`.
 
 A new persistence context begins when the
 container-managed entity manager is invokedfootnote:[Specifically, when
-one of the methods of the EntityManager interface is invoked.] in
+one of the methods of the `EntityManager` interface is invoked.] in
 the scope of an active JTA transaction, and there is no current
 persistence context already associated with the JTA transaction. The
 persistence context is created and then associated with the JTA
@@ -510,7 +510,7 @@ to the transaction.
 
 The persistence context ends when the
 associated JTA transaction commits or rolls back, and all entities that
-were managed by the EntityManager become detached.footnote:[Note that this
+were managed by the `EntityManager` become detached.footnote:[Note that this
 applies to a transaction-scoped persistence context of type
 SynchronizationType.UNSYNCHRONIZED that has not been joined to the
 transaction as well.]
@@ -1015,7 +1015,7 @@ Note that the JTA transaction may rollback in a
 background thread (e.g., as a result of transaction timeout), in which
 case the container should arrange for the entity manager to be closed
 but the `EntityManager.close` method should not be concurrently invoked
-while the application is in an EntityManager invocation.
+while the application is in an `EntityManager` invocation.
 
 The container must throw the
 `TransactionRequiredException` if a transaction-scoped persistence
@@ -1094,7 +1094,7 @@ to the transaction. Note that the JTA transaction may rollback in a
 background thread (e.g., as a result of transaction timeout), in which
 case the provider should arrange for the managed entities to be detached
 from the persistence context but not concurrently while the application
-is in an EntityManager invocation.
+is in an `EntityManager` invocation.
 * When the provider throws an exception defined
 to cause transaction rollback, the provider must mark the transaction
 for rollback if the persistence context is of type

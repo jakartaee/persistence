@@ -55,9 +55,9 @@ used must be the standard property name `jakarta.persistence.bean.manager`.
 
 The `EntityManagerFactory` instance obtained
 as a result will be used by the container to create container-managed
-entity managers. Only one EntityManagerFactory is permitted to be
+entity managers. Only one `EntityManagerFactory` is permitted to be
 created for each deployed persistence unit configuration. Any number of
-EntityManager instances may be created from a given factory.
+`EntityManager` instances may be created from a given factory.
 
 In a Jakarta EE environment, the classes of the
 persistence unit should not be loaded by the application class loader or
