@@ -206,7 +206,7 @@ and persistent by invoking the `persist` method on it or by cascading
 the persist operation.
 
 The semantics of the persist operation,
-applied to an entity `X` are as follows:
+applied to an entity X are as follows:
 
 * If X is a new entity, it becomes managed. The
 entity X will be entered into the database at or before transaction
@@ -291,7 +291,7 @@ owning side of the relationship. It is the developer's responsibility to
 keep the in-memory references held on the owning side and those held on
 the inverse side consistent with each other when they change. In the
 case of unidirectional one-to-one and one-to-many relationships, it is
-the developer's responsibility to insure that the semantics of the
+the developer's responsibility to ensure that the semantics of the
 relationships are adhered to.footnote:[This might be an
 issue if unique constraints (such as those described for the default
 mappings in <<a640>> and <<a764>>) were not applied in the
@@ -320,7 +320,7 @@ active or if the persistence context has not been joined to the current
 transaction, the persistence provider must not flush to the database.
 
 The semantics of the flush operation, applied
-to an entity `X` are as follows:
+to an entity X are as follows:
 
 * If X is a managed entity, it is synchronized
 to the database.
@@ -339,7 +339,7 @@ the ownership of the relationship. If X owns the relationship, any
 changes to the relationship are synchronized with the database;
 otherwise, if Y owns the relationships, the behavior is undefined.
 * If X is a removed entity, it is removed from
-the database. No cascade options are relevant.
+the database. No `cascade` options are relevant.
 
 ==== Refreshing an Entity Instance
 
@@ -392,7 +392,7 @@ entities is annotated with the `cascade=DETACH` or `cascade=ALL`
 annotation element value. Entities which previously referenced X will
 continue to reference X. Portable applications should not pass removed
 entities that have been detached from the persistence context to further
-EntityManager operations.
+`EntityManager` operations.
 
 ==== Detached Entities [[a1982]]
 
@@ -405,7 +405,7 @@ or otherwise passing an entity by value—e.g., to a separate application
 tier, through a remote interface, etc.
 
 Detached entity instances continue to live
-outside of the persistence context in which they were persisted or
+outside the persistence context in which they were persisted or
 retrieved. Their state is no longer guaranteed to be synchronized with
 the database state.
 
@@ -579,7 +579,7 @@ extends beyond that of a single transaction (extended persistence
 context). The enum `PersistenceContextType` is used to define the
 persistence context lifetime scope for container-managed entity
 managers. The persistence context lifetime scope is defined when the
-EntityManager instance is created (whether explicitly, or in conjunction
+`EntityManager` instance is created (whether explicitly, or in conjunction
 with injection or JNDI lookup). See <<a11791>>.
 
 [source,java]
@@ -593,22 +593,22 @@ of a transaction (i.e., it is of type
 `PersistenceContextType.TRANSACTION`).
 
 When an extended persistence context is used,
-the extended persistence context exists from the time the EntityManager
+the extended persistence context exists from the time the `EntityManager`
 instance is created until it is closed. This persistence context might
 span multiple transactions and non-transactional invocations of the
-EntityManager.
+`EntityManager`.
 
-An EntityManager with an extended persistence
+An `EntityManager` with an extended persistence
 context maintains its references to the entity objects after a
 transaction has committed. Those objects remain managed by the
-EntityManager, and they can be updated as managed objects between
+`EntityManager`, and they can be updated as managed objects between
 transactions.footnote:[Note that when a new
 transaction is begun, the managed objects in an extended persistence
 context are `not` reloaded from the database.] Navigation from a managed object in
 an extended persistence context results in one or more other managed
 objects regardless of whether a transaction is active.
 
-When an EntityManager with an extended
+When an `EntityManager` with an extended
 persistence context is used, the persist, remove, merge, and refresh
 operations can be called regardless of whether a transaction is active.
 The effects of these operations will be committed to the database when
@@ -1073,7 +1073,7 @@ use `LockModeType.PESSIMISTIC_WRITE` where
 When the lock cannot be obtained, and the
 database locking failure results in transaction-level rollback, the
 provider must throw the `PessimisticLockException` and ensure that the
-JTA transaction or EntityTransaction has been marked for rollback.
+JTA transaction or `EntityTransaction` has been marked for rollback.
 
 When the lock cannot be obtained, and the
 database locking failure results in only statement-level rollback, the
@@ -1088,7 +1088,7 @@ provider is not required to flush the entity to the database
 immediately.] If the lock conversion fails, and the
 database locking failure results in transaction-level rollback, the
 provider must throw the `PessimisticLockException` and ensure that the
-JTA transaction or EntityTransaction has been marked for rollback. When
+JTA transaction or `EntityTransaction` has been marked for rollback. When
 the lock conversion fails, and the database locking failure results in
 only statement-level rollback, the provider must throw the
 `LockTimeoutException` (and must not mark the transaction for
@@ -1397,7 +1397,7 @@ The following rules apply to lifecycle callback methods:
 
 The `PrePersist` and `PreRemove` callback
 methods are invoked for a given entity before the respective
-EntityManager persist and remove operations for that entity are
+`EntityManager` persist and remove operations for that entity are
 executed. For entities to which the merge operation has been applied and
 causes the creation of newly managed instances, the `PrePersist`
 callback methods will be invoked for the managed instance after the
