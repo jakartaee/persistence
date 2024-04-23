@@ -760,7 +760,7 @@ A `collection_valued_path_expression` may only occur in:
 - the `FROM` clause of a query,
 - an `empty_collection_comparison_expression`,
 - a `collection_member_expression`, or
-- as an argument to the SIZE operator.
+- as an argument to the `SIZE` operator.
 
 See <<a5139>>, <<a5150>>, and <<a5284>>.
 
@@ -1029,11 +1029,11 @@ products in stock whereas the former query will include them.
 
 An important use case for `LEFT JOIN` is in enabling the prefetching of
 related data items as a side effect of a query. This is accomplished by
-specifying the `LEFT JOIN` as a `FETCH JOIN`, as described below.
+specifying the `LEFT JOIN` as a fetch join, that is, `LEFT JOIN FETCH`, as described below.
 
 ===== Fetch Joins [[a4931]]
 
-A `FETCH JOIN` clause in a query results in eager fetching of an association
+A _fetch join_ clause in a query results in eager fetching of an association
 or element collection as a side effect of execution of the query.
 
 The syntax for a fetch join is given by:
@@ -1042,14 +1042,14 @@ The syntax for a fetch join is given by:
 fetch_join ::= [LEFT [OUTER] | INNER] JOIN FETCH join_association_path_expression
 ----
 
-A `FETCH JOIN` must be an `INNER` or `LEFT` (`OUTER`) join. A `FETCH JOIN` does not
+A fetch join must be an `INNER` or `LEFT` (`OUTER`) join. A fetch join does not
 have an explicit join condition or identification variable.
 
 The association referenced by the right side
-of the `FETCH JOIN` clause must be an association or element collection
+of the fetch join clause must be an association or element collection
 that is referenced from an entity or embeddable that is returned as a
 result of the query. It is not permitted to specify an identification
-variable for the objects referenced by the right side of the `FETCH JOIN`
+variable for the objects referenced by the right side of the fetch join
 clause, and hence references to the implicitly fetched entities or
 elements cannot appear elsewhere in the query.
 
@@ -1075,7 +1075,7 @@ in the query result or otherwise referenced in the query. Hence, for
 example, if department 1 has five employees, the above query returns
 five references to the department 1 entity.
 
-The `FETCH JOIN` construct must not be used in
+The fetch join construct must not be used in
 the `FROM` clause of a subquery.
 
 ==== Collection Member Declarations
