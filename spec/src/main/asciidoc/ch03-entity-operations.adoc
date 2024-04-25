@@ -144,29 +144,6 @@ public class OrderEntryBean implements OrderEntry {
 }
 ----
 
-[NOTE]
-====
-The semantics of
-
-    public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass)
-
-method may be extended in a future release of this specification to
-support other result types. Applications that specify other result types
-(e.g., Tuple.class) will not be portable.
-====
-
-[NOTE]
-====
-The semantics
-
-    public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass)
-
-method may be extended in a future release of this specification to
-support other result types. Applications that specify other result types
-(e.g., Tuple.class) will not be portable.
-====
-
-
 === Entity Instance's Life Cycle [[a1929]]
 
 This section describes the `EntityManager`
@@ -2532,6 +2509,22 @@ items are returned, the elements of the query result are of type
 `Object[]`. If only a single item is returned as a result of the SQL
 result set mapping or if a result class is specified, the elements of
 the query result are of type `Object`.
+
+[NOTE]
+====
+The semantics of the methods
+
+[source,java]
+public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass)
+
+[source,java]
+public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass)
+
+may be extended in a future release of this specification to support other
+result types. Use of other result types, including `Tuple.class`, is not
+portable.
+====
+
 
 Stored procedure queries can be executed using the `getResultList`,
 `getSingleResult`, `getSingleResultOrNull`, and `execute` methods.
