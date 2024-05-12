@@ -480,7 +480,7 @@ respectively.
 @Retention(RUNTIME)
 public @interface EntityResult {
     Class entityClass();
-    LockModeType lockMode() default LockModeType.OPTIMISTIC;
+    LockModeType lockMode() default LockModeType.NONE;
     FieldResult[] fields() default {};
     String discriminatorColumn() default "";
 }
