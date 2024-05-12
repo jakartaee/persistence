@@ -972,7 +972,7 @@ non-versioned objects, `LockModeType.OPTIMISTIC_FORCE_INCREMENT` must
 always prevent the phenomena P1 and P2. For non-versioned objects,
 whether or not `LockModeType.OPTIMISTIC_FORCE_INCREMENT` has any
 additional behavior is vendor-specific. Applications that call
-`lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)_ on non-versioned
+`lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)` on non-versioned
 objects will not be portable.
 
 For versioned objects, it is permissible for
