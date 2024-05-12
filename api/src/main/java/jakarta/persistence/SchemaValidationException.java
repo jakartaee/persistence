@@ -16,7 +16,7 @@
 package jakarta.persistence;
 
 /**
- * Thrown when {@link SchemaManager#validate() schema validation} fails.
+ * Thrown when {@linkplain SchemaManager#validate() schema validation} fails.
  *
  * @see SchemaManager#validate()
  *
