@@ -25,7 +25,7 @@
 
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.2.1-SNAPSHOT</version>
 
     <name>Jakarta Persistence API</name>
     <url>https://github.com/jakartaee/persistence</url>
@@ -99,7 +99,7 @@
         <vendor.name>Eclipse Foundation</vendor.name>
 
         <maven.compiler.release>17</maven.compiler.release>
-        <project.build.outputTimestamp>2023-11-23T14:10:48Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2024-04-10T08:59:19Z</project.build.outputTimestamp>
     </properties>
 
     <build>
