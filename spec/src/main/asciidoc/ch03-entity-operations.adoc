@@ -198,7 +198,7 @@ XML descriptor element.
 * If X is a detached object, the
 `EntityExistsException` may be thrown when the persist operation is
 invoked, or the `EntityExistsException` or another
-`PersistenceException` `may` be thrown at flush or commit time.
+`PersistenceException` may be thrown at flush or commit time.
 * For all entities Y referenced by a
 relationship from X, if the relationship to Y has been annotated with
 the `cascade` element value `cascade=PERSIST` or `cascade=ALL`, the
@@ -242,7 +242,7 @@ context of type `SynchronizationType.UNSYNCHRONIZED` or an
 application-managed persistence context that has been created outside
 the scope of the current transaction will only be synchronized to the
 database if it has been joined to the current transaction by the
-application's use of the `EntityManager` `joinTransaction` method.
+application's use of the `EntityManager.joinTransaction` method.
 
 The state of persistent entities is
 synchronized to the database at transaction commit. This synchronization
