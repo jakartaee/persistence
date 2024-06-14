@@ -68,7 +68,7 @@ public @interface EntityResult {
      * The lock mode obtained by the SQL query.
      * @since 3.2
      */
-    LockModeType lockMode() default LockModeType.OPTIMISTIC;
+    LockModeType lockMode() default LockModeType.NONE;
 
     /** 
      * Maps the columns specified in the SELECT list of the 
