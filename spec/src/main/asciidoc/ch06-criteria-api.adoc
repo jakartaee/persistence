@@ -860,11 +860,11 @@ If a name is supplied when the
 `ParameterExpression` instance is created, the parameter may also be
 treated as a named parameter when the query is executed:
 
+[source,java]
+----
 CriteriaQuery<Customer> q =
 cb.createQuery(Customer.class);
 
-[source,java]
-----
 Root<Customer> c = q.from(Customer.class);
 ParameterExpression<Integer> param = cb.parameter(Integer.class, "stat");
 q.select(c).where(cb.equal(c.get(Customer_.status), param));

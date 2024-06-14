@@ -47,8 +47,6 @@ public @interface CheckConstraint {
     /**
      * (Optional) A SQL fragment appended to the generated DDL
      * which creates this constraint.
-     *
-     * @since 3.2
      */
     String options() default "";
 }
