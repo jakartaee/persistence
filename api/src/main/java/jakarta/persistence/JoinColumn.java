@@ -30,14 +30,19 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * collection. If the {@code JoinColumn} annotation itself is defaulted,
  * a single join column is assumed and the default values apply.
  *
- * <p>Example:
+ * <p>Here, a {@linkplain ManyToOne many-to-one association} is mapped
+ * to a foreign key of the target {@code Address} entity held in the
+ * table mapped by the {@code Employee} entity:
  * {@snippet :
+ * // In Employee class
  * @ManyToOne
- * @JoinColumn(name = "ADDR_ID")
+ * @JoinColumn(name = "ADDR_ID") // join column is in the table for Employee
  * public Address getAddress() { return address; }
  * }
  *
- * <p>Example: unidirectional one-to-many association using a foreign key mapping
+ * <p>In this example, a unidirectional {@linkplain OneToMany one-to-many
+ * association} is mapped to a foreign key of the {@code Customer} entity
+ * held in the table mapped by the target {@code Order} entity:
  * {@snippet :
  * // In Customer class
  * @OneToMany
@@ -177,12 +182,18 @@ public @interface JoinColumn {
     String table() default "";
 
     /**
-     * (Optional) Used to specify or control the generation of a
-     * foreign key constraint when table generation is in effect.
-     * If this element is not specified, a default foreign key
-     * strategy is selected by the persistence provider.
+     * (Optional) Controls generation of the foreign key constraint
+     * on this join column when table generation is in effect.
+     * <p>
+     * If this element is not specified, and if there is no parent
+     * {@link JoinColumns @JoinColumns} annotation or if the parent
+     * {@link JoinColumns @JoinColumns} annotation does not specify
+     * the {@link JoinColumns#foreignKey foreignKey}, a default
+     * foreign key strategy is selected by the persistence provider.
      *
      * @since 2.1
+     *
+     * @see JoinColumns#foreignKey
      */
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
