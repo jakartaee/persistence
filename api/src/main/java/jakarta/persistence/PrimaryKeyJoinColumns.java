@@ -24,19 +24,36 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Groups {@link PrimaryKeyJoinColumn} annotations.
- * It is used to map composite foreign keys.
+ * Specifies the mapping for a composite foreign key which is also a
+ * primary key. This annotation groups {@link PrimaryKeyJoinColumn}
+ * annotations.
  *
- * <p>Example: {@code ValuedCustomer} subclass
+ * <p>Since {@code @PrimaryKeyJoinColumn} is a repeatable annotation,
+ * it's not usually necessary to specify {@code @PrimaryKeyJoinColumns}
+ * explicitly:
  * {@snippet :
  * @Entity
  * @Table(name = "VCUST")
  * @DiscriminatorValue("VCUST")
- * @PrimaryKeyJoinColumns({
- *     @PrimaryKeyJoinColumn(name = "CUST_ID",
- *                           referencedColumnName = "ID"),
- *     @PrimaryKeyJoinColumn(name = "CUST_TYPE",
- *                           referencedColumnName = "TYPE")})
+ * @PrimaryKeyJoinColumn(name = "CUST_ID",
+ *                       referencedColumnName = "ID")
+ * @PrimaryKeyJoinColumn(name = "CUST_TYPE",
+ *                       referencedColumnName = "TYPE")
+ * public class ValuedCustomer extends Customer { ... }
+ * }
+ *
+ * <p>However, {@code @PrimaryKeyJoinColumns} is useful for controlling
+ * generation of composite foreign key constraints:
+ * {@snippet :
+ * @Entity
+ * @Table(name = "VCUST")
+ * @DiscriminatorValue("VCUST")
+ * @PrimaryKeyJoinColumns(
+ *         value = {@PrimaryKeyJoinColumn(name = "CUST_ID",
+ *                                        referencedColumnName = "ID"),
+ *                  @PrimaryKeyJoinColumn(name = "CUST_TYPE",
+ *                                        referencedColumnName = "TYPE")},
+ *         foreignKey = @ForeignKey(name = "VCUST_CUST_FK"))
  * public class ValuedCustomer extends Customer { ... }
  * }
  *
@@ -49,20 +66,34 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface PrimaryKeyJoinColumns {
 
     /**
-     * One or more {@link PrimaryKeyJoinColumn} annotations.
+     * (Optional) The primary key columns that map the relationship.
+     * <p>
+     * If no {@code @PrimaryKeyJoinColumn}s are specified, the
+     * columns are inferred according to the relationship mapping
+     * defaults, exactly as if the {@code @PrimaryKeyJoinColumns}
+     * annotation was missing. This allows the {@link #foreignKey}
+     * to be specified even when the primary key join columns are
+     * defaulted.
      */
-    PrimaryKeyJoinColumn[] value();
+    PrimaryKeyJoinColumn[] value() default {};
 
     /**
-     * (Optional) Used to specify or control the generation of a
-     * foreign key constraint when table generation is in effect.
-     * If both this element and the {@code foreignKey} element of
-     * any of the {@link PrimaryKeyJoinColumn} elements are specified,
-     * the behavior is undefined. If no foreign key annotation element
-     * is specified in either location, a default foreign key strategy
-     * is selected by the persistence provider.
+     * (Optional) Controls generation of the foreign key constraint
+     * on these primary key join columns when table generation is in
+     * effect.
+     * <ul>
+     * <li>If both this element and a
+     *     {@link PrimaryKeyJoinColumn#foreignKey foreignKey} element
+     *     of one of the {@link PrimaryKeyJoinColumn} annotations are
+     *     specified, the behavior is undefined.
+     * <li>If no {@link PrimaryKeyJoinColumn} annotation is specified
+     *     in either location, a default foreign key strategy is
+     *     selected by the persistence provider.
+     * </ul>
      *
      * @since 2.1
+     *
+     * @see PrimaryKeyJoinColumn#foreignKey
      */
     ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
 
