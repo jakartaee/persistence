@@ -361,7 +361,7 @@ database or to generate DDL that contains “CREATE SCHEMA” commands. If
 this property is not supplied, the provider should not attempt to create
 database schemas. This property may also be specified in Java SE
 environments.
-`jakarta.persistence.schema-generation.scripts.create-target`, +
+`jakarta.persistence.schema-generation.scripts.create-target`, ::
 `jakarta.persistence.schema-generation.scripts.drop-target` ::
 If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. +
@@ -390,7 +390,7 @@ not included in the result of this method, the
 specified as needed. These should contain the values returned by the
 JDBC `getDatabaseMajorVersion` and `getDatabaseMinorVersion` methods
 respectively.
-`jakarta.persistence.schema-generation.create-script-source`, +
+`jakarta.persistence.schema-generation.create-script-source`, ::
 `jakarta.persistence.schema-generation.drop-script-source` ::
 The `jakarta.persistence.schema-generation.create-script-source` and
 `jakarta.persistence.schema-generation.drop-script-source` properties are
