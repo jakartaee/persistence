@@ -1251,6 +1251,11 @@ hierarchy, or by one of its mapped superclasses. A portable application
 must not declare a version field or property in a subclass of the root
 class of an entity class hierarchy.
 
+Any *positive number* or *non-null timestamp* initial value will be the seed of version,
+otherwise vendors are free to seed the version. A portable application
+should declare a version number field with positive initial value
+to make the seed deterministic.
+
 === Basic Types [[a486]]
 
 The following Java types are considered _basic types_:
