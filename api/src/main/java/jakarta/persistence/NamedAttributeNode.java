@@ -29,9 +29,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see NamedSubgraph
  *
  * @since 2.1
+ *
+ * @deprecated Use {@link NamedEntityGraphAttributeNode}
  */
 @Target({})
 @Retention(RUNTIME)
+@Deprecated(since = "4.0")
 public @interface NamedAttributeNode {
 
     /**
