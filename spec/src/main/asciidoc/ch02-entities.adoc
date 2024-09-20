@@ -2308,29 +2308,31 @@ public class ShoppingCart extends Cart {
 
 The mapping of class hierarchies is specified through metadata.
 
-There are three basic strategies that are
-used when mapping a class or class hierarchy to a relational database:
+There are three basic strategies which may be used when mapping an
+entity class hierarchy to tables in a relational database.
 
-* a single table per class hierarchy
-* a joined subclass strategy, in which fields
-that are specific to a subclass are mapped to a separate table than the
-fields that are common to the parent class, and a join is performed to
-instantiate the subclass.
-* a table per concrete entity class
+* With a _single table per class hierarchy_, every field declared by
+  any class in the hierarchy maps to a column of the same table.
+  A subclass shares the table of its superclasses.
+* With a _table per concrete entity class_, every field declared or
+  inherited by a given subclass is mapped to the same table, but each
+  concrete class in the hierarchy has its own separate table.
+* For the _joined subclass_ strategy, any field which is declared by
+  a subclass is mapped to a separate table from the fields which are
+  declared by its superclass. Table joins may be used to retrieve all
+  fields declared and inherited by the subclass.
 
-An implementation is required to support the
-single table per class hierarchy inheritance mapping strategy and the
-joined subclass strategy.
+An implementation is required to support the single table per class
+hierarchy inheritance mapping strategy and the joined subclass strategy.
 
 [NOTE]
 ====
-Support for the table per concrete class
-inheritance mapping strategy is optional in this release. Applications
-that use this mapping strategy will not be portable.
+Support for the table per concrete class inheritance mapping strategy
+is optional in this release. Applications that use this mapping strategy
+are not portable between all providers.
 
-Support for the combination of inheritance
-strategies within a single entity inheritance hierarchy is not required
-by this specification.
+Support for the combination of inheritance strategies within a single entity
+inheritance hierarchy is not required by this specification.
 ====
 
 ==== Single Table per Class Hierarchy Strategy
