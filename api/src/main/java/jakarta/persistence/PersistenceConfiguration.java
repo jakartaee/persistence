@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 package jakarta.persistence;
 
@@ -162,7 +163,28 @@ public class PersistenceConfiguration {
     public static final String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.drop-target";
 
     /**
-     * An instance of {@code jakarta.validation.ValidatorFactory},
+     * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseProductName()},
+     * for use when JDBC metadata is not available.
+     * @since 4.0
+     */
+    public static final String DATABASE_PRODUCT_NAME = "jakarta.persistence.database-product-name";
+
+    /**
+     * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseMajorVersion()},
+     * for use when JDBC metadata is not available.
+     * @since 4.0
+     */
+    public static final String DATABASE_MAJOR_VERSION = "jakarta.persistence.database-major-version";
+
+    /**
+     * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseMinorVersion()},
+     * for use when JDBC metadata is not available.
+     * @since 4.0
+     */
+    public static final String DATABASE_MINOR_VERSION = "jakarta.persistence.database-minor-version";
+
+    /**
+     * An instance of {@code jakarta.validation.ValidatorFactory}.
      */
     public static final String VALIDATION_FACTORY = "jakarta.persistence.validation.factory";
     /**
