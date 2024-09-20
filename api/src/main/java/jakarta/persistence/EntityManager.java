@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -449,6 +450,44 @@ public interface EntityManager extends AutoCloseable {
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
                FindOption... options);
+
+    /**
+     * Find the instances of the given entity class with the primary keys
+     * in the given list, using the given {@linkplain FindOption options}.
+     * The position of an instance in the list matches the position of
+     * its primary key in the list, and the list contains a null value if
+     * there is no persistent instance matching a given primary key.
+     * If an entity instance is contained in the persistence context,
+     * it is returned from there.
+     * <p>If an entity is found within the persistence context and
+     * the lock mode type is pessimistic and the entity has a version
+     * attribute, the persistence provider must perform optimistic
+     * version checks when obtaining the database lock. If these checks
+     * fail, the {@code OptimisticLockException} is thrown.
+     * <p>If the lock mode type is pessimistic and the entity instance
+     * is found but cannot be locked:
+     * <ul>
+     * <li>the {@code PessimisticLockException} is thrown if the
+     *     database locking failure causes transaction-level
+     *     rollback
+     * <li>the {@code LockTimeoutException} is thrown if the database
+     *     locking failure causes only statement-level rollback
+     * </ul>
+     * <p>If a vendor-specific {@linkplain FindOption option} is not
+     * recognized, it is silently ignored.
+     * <p>Portable applications should not rely on the standard
+     * {@linkplain Timeout timeout option}. Depending on the database
+     * in use and the locking mechanisms used by the provider, this
+     * option may or may not be observed.
+     * @param entityClass the entity type
+     * @param primaryKeys ordered list of primary keys
+     * @param options     standard and vendor-specific options
+     * @return an ordered list of persistent instances, with null elements
+     *         representing missing entities
+     * @since 4.0
+     */
+    <T> List<T> findMultiple(Class<T> entityClass, List<Object> primaryKeys,
+                             FindOption... options);
 
     /**
      * Find an instance of the root entity of the given {@link EntityGraph}
