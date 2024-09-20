@@ -24,7 +24,7 @@ package jakarta.persistence;
  * <ul>
  * <li>{@link #USE} indicates that data may be read from the
  *     second-level cache.
- * <li>{@link #BYPASS} indicates that data may not be read
+ * <li>{@link #BYPASS} indicates that data must not be read
  *     from the second-level cache.
  * </ul>
  *
@@ -39,13 +39,16 @@ package jakarta.persistence;
 public enum CacheRetrieveMode implements FindOption {
 
     /**
-     * Read entity data from the cache: this is the default
-     * behavior.
+     * Specifies that data may be read from the second-level cache
+     * instead of from the database.
+     * <p>
+     * This is the default mode.
      */
     USE,
 
     /**
-     * Bypass the cache: get data directly from the database.
+     * Specifies that data must not be read from the second-level
+     * cache and must be read from the database.
      */
-    BYPASS  
+    BYPASS
 }

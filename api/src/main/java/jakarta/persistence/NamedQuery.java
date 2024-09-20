@@ -78,6 +78,7 @@ public @interface NamedQuery {
      * the result class of a named query is not specified, the
      * persistence implementation is entitled to default the
      * result class to {@code Object} or {@code Object[]}.
+     * @since 3.2
      */
     Class<?> resultClass() default void.class;
 
@@ -87,12 +88,14 @@ public @interface NamedQuery {
      * is specified, the query must be executed in a transaction
      * and the persistence context joined to the transaction.
      * @since 2.0
+     * @see Query#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
-    
+
     /**
      * (Optional) Query properties and hints. May include
      * vendor-specific query hints.
+     * @see Query#setHint
      */
     QueryHint[] hints() default {};
 

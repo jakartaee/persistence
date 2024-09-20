@@ -96,12 +96,6 @@ public @interface NamedNativeQuery {
     String query();
 
     /**
-     * Query properties and hints.
-     * (May include vendor-specific query hints.)
-     */
-    QueryHint[] hints() default {};
-
-    /**
      * The class of each query result. If a {@link #resultSetMapping
      * result set mapping} is specified, the specified result class
      * must agree with the type inferred from the result set mapping.
@@ -145,4 +139,11 @@ public @interface NamedNativeQuery {
      * @since 3.2
      */
     ColumnResult[] columns() default {};
+
+    /**
+     * Query properties and hints.
+     * (May include vendor-specific query hints.)
+     * @see Query#setHint
+     */
+    QueryHint[] hints() default {};
 }

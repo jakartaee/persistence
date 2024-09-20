@@ -23,7 +23,7 @@ package jakarta.persistence;
  * <ul>
  * <li>{@link #USE} indicates that data may be written to the
  *     second-level cache.
- * <li>{@link #BYPASS} indicates that data may not be written
+ * <li>{@link #BYPASS} indicates that data must not be written
  *     to the second-level cache.
  * <li>{@link #REFRESH} indicates that data must be written
  *     to the second-level cache, even when the data is already
@@ -41,22 +41,31 @@ package jakarta.persistence;
 public enum CacheStoreMode implements FindOption, RefreshOption {
 
     /**
-     * Insert entity data into cache when read from database and
-     * insert/update entity data when written to the database:
-     * this is the default behavior. Does not force refresh of
-     * already cached items when reading from database.
+     * Specifies that entity data may be inserted into the
+     * second-level cache when read from the database, and inserted
+     * or updated in the second-level cache when written to the
+     * database. The persistence provider is not required to refresh
+     * already-cached items when reading from the database.
+     * <p>
+     * This is the default mode.
      */
     USE,
 
     /**
-     * Don't insert into cache. 
+     * Specifies that entity data must never be inserted into the
+     * second-level cache when read from the database, nor when
+     * written to the database. The persistence provider is
+     * permitted to invalidate cached items when writing to the
+     * database.
      */
     BYPASS,
 
     /**
-     * Insert/update entity data held in the cache when read from
-     * the database and when written to the database. Force refresh
-     * of cache for items read from database.
+     * Specifies that entity data must be inserted or updated in
+     * the second-level cache when read from the database or when
+     * written to the database. The persistence provider is
+     * required to refresh already-cached items when reading from
+     * the database.
      */
     REFRESH
 }
