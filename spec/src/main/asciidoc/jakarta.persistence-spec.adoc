@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2024 Contributors to the Eclipse Foundation
 //
 
 = Jakarta Persistence
@@ -8,7 +8,7 @@
 :email: https://dev.eclipse.org/mailman/listinfo/jpa-dev
 :version-label!:
 :doctype: book
-:license: Eclipse Foundation Specification License v1.0
+:license: Eclipse Foundation Specification License v1.1
 :source-highlighter: coderay
 :toc: left
 :toclevels: 4

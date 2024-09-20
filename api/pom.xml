@@ -25,7 +25,7 @@
 
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
-    <version>3.2.1-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
 
     <name>Jakarta Persistence API</name>
     <url>https://github.com/jakartaee/persistence</url>
@@ -90,11 +90,11 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spec.non.final>false</spec.non.final>
-        <spec.version>3.2</spec.version>
+        <spec.version>4.0</spec.version>
         <spec.build>01</spec.build>
-        <spec.impl.version>3.2.0</spec.impl.version>
+        <spec.impl.version>4.0.0</spec.impl.version>
         <spec.api.package>jakarta.persistence</spec.api.package>
-        <spec.new.spec.version>3.2</spec.new.spec.version>
+        <spec.new.spec.version>4.0</spec.new.spec.version>
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
 
