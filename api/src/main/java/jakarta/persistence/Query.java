@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Lukas Jungmann  - 2.2
 //     Linda DeMichiel - 2.1
@@ -60,6 +61,24 @@ public interface Query {
      */
     @SuppressWarnings({"rawtypes"})
     List getResultList();
+
+    /**
+     * Determine the size of the query result list that would be
+     * returned by calling {@link #getResultList()} with no
+     * {@linkplain #getFirstResult() offset} or
+     * {@linkplain #getMaxResults() limit} applied to the query.
+     * @return the size of the list that would be returned
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    long getResultCount();
 
     /**
      * Execute a SELECT query and return the query results as an untyped
