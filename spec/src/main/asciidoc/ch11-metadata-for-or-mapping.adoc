@@ -575,9 +575,9 @@ strategy hint has been specified. In particular, lazy fetching might
 only be available for `Basic` mappings for which property-based access
 is used.
 
-The `optional` element is a hint as to
-whether the value of the field or property may be null. It is
-disregarded for primitive types.
+If the annotated field or property is of primitive type, or if it is
+also annotated with `jakarta.annotation.Nonnull`, then `optional=false`
+is implied, and the value of the `optional` annotation member is ignored.
 
 .Basic Annotation Elements
 [#a14218,options="header"]
@@ -590,9 +590,9 @@ strategy is a requirement on the persistence provider runtime that the
 value must be eagerly fetched. The LAZY strategy is a hint to the
 persistence provider runtime. |EAGER
 |boolean |optional
-|(Optional) Whether the value of the field or
-property may be null. This is a hint and is disregarded for primitive
-types; it may be used in schema generation.
+|(Optional) Whether the value of the field or property may be null.
+May be used in schema generation. Ignored if the field or property
+is of primitive type or is annotated `Nonnull`.
 |true
 |===
 
@@ -2983,6 +2983,10 @@ runtime that the associated entity should be fetched lazily when it is
 first accessed. The implementation is permitted to eagerly fetch
 associations for which the `LAZY` strategy hint has been specified.
 
+If the annotated field or property is also annotated with
+`jakarta.annotation.Nonnull`, then `optional=false` is implied
+and the value of the `optional` annotation member is ignored.
+
 .ManyToOne Annotation Elements
 [#a15202,options="header"]
 |===
@@ -3010,9 +3014,10 @@ persistence provider runtime.
 
 |boolean
 |optional
-|(Optional) Whether the association is
-optional. If set to false then a non-null relationship must always
-exist.
+|(Optional) Whether the association is optional. If set to false,
+then a non-null relationship must always exist.
+May be used in schema generation. Ignored if the field or property
+is annotated `Nonnull`.
 |true
 |===
 
@@ -4118,6 +4123,10 @@ applications must otherwise not depend upon a specific order of removal,
 and must not reassign an entity that has been orphaned to another
 relationship or otherwise attempt to persist it.
 
+If the annotated field or property is also annotated with
+`jakarta.annotation.Nonnull`, then `optional=false` is implied
+and the value of the `optional` annotation member is ignored.
+
 .OneToOne Annotation Elements
 [#a15735,options="header"]
 |===
@@ -4144,9 +4153,10 @@ persistence provider runtime.
 
 |boolean
 |optional
-|(Optional) Whether the association is
-optional. If set to false then a non-null relationship must always
-exist.
+|(Optional) Whether the association is optional. If set to false,
+then a non-null relationship must always exist.
+May be used in schema generation. Ignored if the field or property
+is annotated `Nonnull`.
 |true
 
 |String

@@ -163,8 +163,12 @@ public @interface OneToOne {
     FetchType fetch() default FetchType.EAGER;
 
     /** 
-     * (Optional) Whether the association is optional. If set 
-     * to false then a non-null relationship must always exist.
+     * (Optional) Whether the association is optional. If set to
+     * {@code false} then a non-null relationship must always exist.
+     *
+     * <p>If the annotated field or property is also annotated
+     * {@code @jakarta.annotation.Nonnull}, then {@code optional=false}
+     * is implied, and the value of this annotation member is ignored.
      */
     boolean optional() default true;
 
