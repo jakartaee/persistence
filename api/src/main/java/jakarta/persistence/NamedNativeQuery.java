@@ -96,6 +96,13 @@ public @interface NamedNativeQuery {
     String query();
 
     /**
+     * (Optional) The {@link ManagedEntityMode} to use for entities
+     * loaded during execution of the query.
+     * @since 4.0
+     */
+    ManagedEntityMode managedEntityMode() default ManagedEntityMode.READ_WRITE;
+
+    /**
      * The class of each query result. If a {@link #resultSetMapping
      * result set mapping} is specified, the specified result class
      * must agree with the type inferred from the result set mapping.

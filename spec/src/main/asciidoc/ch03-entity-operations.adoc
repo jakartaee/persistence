@@ -276,6 +276,26 @@ After an entity has been removed, its state
 (except for generated state) will be that of the entity at the point at
 which the remove operation was called.
 
+==== Read-only entities
+
+The enumeration `ManagedEntityMode` allows an entity loaded into the
+persistence context via a call to `find()` or via execution of a query
+to be loaded in one of two modes.
+
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/ManagedEntityMode.java[lines=18..-1]
+----
+
+By default, an entity is loaded in modifiable mode, and its state is
+synchronized to the database when a flush operation occurs. An entity
+may be loaded in read-only mode by passing `READ_ONLY` to
+`EntityManager.find()` or `Query.setManagedEntityMode()`. Furthermore,
+the current mode for a given managed entity may be changed by calling
+`EntityManager.setManagedEntityMode()`. Changes made to an entity instance
+currently loaded in read-only mode are not synchronized to the database,
+and do not become persistent.
+
 ==== Synchronization to the Database [[a1955]]
 
 In general, a persistence context will be
@@ -341,8 +361,8 @@ transaction, the persistence provider must not flush to the database.
 The semantics of the flush operation, applied
 to an entity X are as follows:
 
-* If X is a managed entity, it is synchronized
-to the database.
+* If X is a managed entity, and it was loaded with
+`ManagedEntityMode.READ_WRITE`, it is synchronized to the database.
 ** For all entities Y referenced by a
 relationship from X, if the relationship to Y has been annotated with
 the `cascade` element value `cascade=PERSIST` or `cascade=ALL`, the
@@ -357,6 +377,9 @@ transaction marked for rollback) or the transaction commit will fail.
 the ownership of the relationship. If X owns the relationship, any
 changes to the relationship are synchronized with the database;
 otherwise, if Y owns the relationships, the behavior is undefined.
+* If X is a managed entity, and it was loaded with
+`ManagedEntityMode.READ_ONLY`, it is ignored by the flush operation,
+and is not synchronized with the database.
 * If X is a removed entity, it is removed from
 the database. No `cascade` options are relevant.
 
