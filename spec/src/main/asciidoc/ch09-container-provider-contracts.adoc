@@ -516,13 +516,13 @@ application.
 
 The `PersistenceUnitInfo` interface may be found in <<_persistenceunitinfo_>>.
 
-The enum `jakarta.persistence.spi.PersistenceUnitTransactionType`
+The enum `jakarta.persistence.PersistenceUnitTransactionType`
 defines whether the entity managers created by the factory will be
-JTA or resource-local entity managers. This enum is deprecated.
+JTA or resource-local entity managers.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/spi/PersistenceUnitTransactionType.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/PersistenceUnitTransactionType.java[lines=18..-1]
 ----
 
 The enum `jakarta.persistence.SharedCacheMode`
