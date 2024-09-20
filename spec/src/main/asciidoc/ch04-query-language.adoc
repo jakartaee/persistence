@@ -2038,7 +2038,7 @@ unknown value. See <<a5676>>.
 An input parameter might be _single-valued_ or _collection-valued_.
 An input parameter which occurs directly to the right of the `IN` keyword
 in an `IN` predicate, as defined in <<a5107>>, is collection-valued. Every
-other input parameter is single-valued
+other input parameter is single-valued.
 
 The API for the binding concrete arguments to query parameters is described
 in <<a3125>>.
