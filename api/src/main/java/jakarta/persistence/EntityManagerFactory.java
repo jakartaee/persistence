@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -184,6 +185,36 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @since 2.1
      */
     EntityManager createEntityManager(SynchronizationType synchronizationType, Map<?, ?> map);
+
+    /**
+     * Create a new application-managed {@link EntityAgent}. This
+     * method returns a new {@code EntityAgent} instance each time
+     * it is invoked.
+     * <p>The {@link EntityAgent#isOpen} method will return true
+     * on the returned instance.
+     * @return entity agent instance
+     * @throws IllegalStateException if the entity manager factory
+     * has been closed
+     *
+     * @since 4.0
+     */
+    EntityAgent createEntityAgent();
+
+    /**
+     * Create a new application-managed {@link EntityAgent} with
+     * the given {@link Map} specifying property settings. This
+     * method returns a new {@code EntityAgent} instance each time
+     * it is invoked.
+     * <p>The {@link EntityAgent#isOpen} method will return true
+     * on the returned instance.
+     * @param map properties for entity agent
+     * @return entity agent instance
+     * @throws IllegalStateException if the entity manager factory
+     * has been closed
+     *
+     * @since 4.0
+     */
+    EntityAgent createEntityAgent(Map<?, ?> map);
 
     /**
      * Return an instance of {@link CriteriaBuilder} which may be used
