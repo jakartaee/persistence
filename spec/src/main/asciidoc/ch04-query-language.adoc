@@ -108,7 +108,7 @@ used to order the results that are returned by the query.
 In BNF syntax, a select query is defined by:
 
 ----
-select_query ::= [select_clause]? from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
+select_query ::= [select_clause] from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
 ----
 
 Every select statement has a `FROM` clause. The square brackets `[]` in the
