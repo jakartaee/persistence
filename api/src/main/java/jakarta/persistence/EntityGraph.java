@@ -24,6 +24,39 @@ package jakarta.persistence;
  * The methods to add subgraphs implicitly create the corresponding
  * attribute nodes as well; such attribute nodes should not be
  * redundantly specified.
+ * <p>
+ * When used to specify fetching, an entity graph has two possible
+ * interpretations:
+ * <ul>
+ * <li>As a <em>load graph</em>, where every node explicitly added
+ *     to or explicitly removed from the graph overrides the
+ *     {@linkplain FetchType fetching strategy} of the attribute
+ *     which was specified via annotations or XML descriptor, but
+ *     the graph does not affect the fetching strategy of any
+ *     attribute which was neither added to nor removed from the
+ *     graph.
+ * <li>As a <em>fetch graph</em>, where the graph completely
+ *     overrides every fetching strategy specified via annotations
+ *     or XML descriptor, and every attribute not explicitly added
+ *     to the graph is treated as {@link FetchType#LAZY}.
+ * </ul>
+ * <p>
+ * An entity graph passed as the first argument to
+ * {@link EntityManager#find(EntityGraph, Object, FindOption...)},
+ * {@link EntityManager#get(EntityGraph, Object, FindOption...)},
+ * or {@link TypedQuery#setEntityGraph(EntityGraph)} is
+ * interpreted as a load graph.
+ * <p>
+ * The persistence provider is always permitted to fetch additional
+ * entity state beyond that specified by a fetch graph or load graph.
+ * It is required, however, that the persistence provider fetch all
+ * state specified by the fetch or load graph.
+ *
+ * @apiNote Support for lazy fetching of {@linkplain Basic basic}
+ * fields and properties varies between persistence providers and
+ * even between container environments. Therefore, the behavior of
+ * a fetch graph, or of a load graph which explicitly removes a
+ * {@linkplain Basic basic} attribute, is likely to lack portability.
  *
  * @param <T> The type of the root entity.
  *
@@ -65,5 +98,5 @@ public interface EntityGraph<T> extends Graph<T> {
      *         statically defined
      */
     <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
-    
+
 }
