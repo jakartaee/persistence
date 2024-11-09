@@ -470,7 +470,7 @@ required, the application must not use lazy loading.
 ==== Managed Instances
 
 It is the responsibility of the application
-to insure that an instance is managed in only a single persistence
+to ensure that an instance is managed in only a single persistence
 context. The behavior is undefined if the same Java instance is made
 managed in more than one persistence context.
 

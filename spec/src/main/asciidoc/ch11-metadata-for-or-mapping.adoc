@@ -13,7 +13,7 @@ schema that corresponds to the application domain model are dependent
 upon the mappings expressed by means of the object/relational mapping
 metadata. The implementation of this specification must assume this
 application dependency upon the object/relational mapping metadata and
-insure that the semantics and requirements expressed by that mapping are
+ensure that the semantics and requirements expressed by that mapping are
 observed.
 
 The use of object/relational mapping metadata

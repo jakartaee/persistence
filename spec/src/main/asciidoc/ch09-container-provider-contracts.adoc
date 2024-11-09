@@ -807,7 +807,7 @@ the entity is present in the environment._
 don't need to access an attribute reference to determine its load state,
 and can determine if the entity has been provided by them._
 * _By first querying all providers using
-bytecode enhancement, it is insured that no attribute will be loaded by
+bytecode enhancement, it is ensured that no attribute will be loaded by
 side effect._
 * _Proxy-based providers do need to access an
 attribute reference to determine load state, but will not trigger
