@@ -85,4 +85,5 @@ public @interface MapsId {
      * not explicitly specified, the relationship maps the primary
      * key of the entity.
      */
-   String value() default ""; }
+    String value() default "";
+}
