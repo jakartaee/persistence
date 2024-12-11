@@ -1366,6 +1366,7 @@ public @interface DiscriminatorColumn {
     String columnDefinition() default "";
     String options() default "";
     int length() default 31;
+    String comment() default "";
 }
 ----
 
@@ -1403,6 +1404,12 @@ the specified discriminator type.
 |(Optional) The column length for
 String-based discriminator types. Ignored for other discriminator types.
 |31
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*
