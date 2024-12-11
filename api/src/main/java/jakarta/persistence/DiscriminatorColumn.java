@@ -91,4 +91,12 @@ public @interface DiscriminatorColumn {
      * Ignored for other discriminator types.
      */
     int length() default 31;
+
+    /**
+     * (Optional) A comment to be applied to the column.
+     * This is only used if table generation is in effect.
+     *
+     * @since 4.0
+     */
+    String comment() default "";
 }
