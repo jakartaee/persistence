@@ -71,7 +71,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #insert(Object)
      */
-    void insertMultiple(List<Object> entities);
+    void insertMultiple(List<?> entities);
 
     /**
      * Update a record.
@@ -97,7 +97,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #update(Object)
      */
-    void updateMultiple(List<Object> entities);
+    void updateMultiple(List<?> entities);
 
     /**
      * Delete a record.
@@ -123,7 +123,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #delete(Object)
      */
-    void deleteMultiple(List<Object> entities);
+    void deleteMultiple(List<?> entities);
 
     /**
      * Perform an upsert, that is, to insert the record if it does
@@ -159,7 +159,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #upsert(Object)
      */
-    void upsertMultiple(List<Object> entities);
+    void upsertMultiple(List<?> entities);
 
     /**
      * Retrieve a record.
@@ -238,7 +238,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #refresh(Object)
      */
-    void refreshMultiple(List<Object> entities);
+    void refreshMultiple(List<?> entities);
 
     /**
      * Refresh the entity instance state from the database.
