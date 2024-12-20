@@ -1,7 +1,7 @@
 package jakarta.persistence.sql;
 
 public record ColumnMapping<T>(String name, Class<T> type)
-        implements MappingElement<T> {
+        implements MappingElement<T>, ResultSetMapping<T> {
 
     public static ColumnMapping<Object> of(String name) {
         return new ColumnMapping<>(name, Object.class);
