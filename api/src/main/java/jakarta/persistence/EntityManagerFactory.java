@@ -25,6 +25,7 @@ import java.util.function.Function;
 
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.sql.ResultSetMapping;
 
 /**
  * Interface used to interact with the persistence unit, and to
@@ -434,6 +435,20 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @since 3.2
      */
     <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
+
+    /**
+     * A map keyed by {@linkplain SqlResultSetMapping#name name}, containing
+     * {@linkplain ResultSetMapping result set mappings} to every result set
+     * mapping defined in annotations whose inferred result type is assignable
+     * to the given Java type.
+     * @param resultType any Java type, including {@code Object.class}
+     *                   meaning all result set mappings
+     * @return a map keyed by query name
+     * @param <R> the specified upper bound on the query result types
+     *
+     * @since 4.0
+     */
+    <R> Map<String, ResultSetMapping<R>> getResultSetMappings(Class<R> resultType);
 
     /**
      * Register a listener for the given kind of entity lifecycle event
