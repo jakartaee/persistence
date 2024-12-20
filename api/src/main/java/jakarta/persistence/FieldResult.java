@@ -23,9 +23,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used in conjunction with the {@link EntityResult} annotation to map
- * columns specified in the SELECT list of a SQL query to the properties
- * or fields of an entity class.
+ * a column specified in the {@code SELECT} list of a SQL query to a
+ * property or field of an entity class.
  *
+ * <p>The {@link #name} member specifies the name of the mapped field
+ * or property of the entity class. If the property or field is
+ * declared by a {@linkplain Embedded child embeddable object}, then
+ * {@link #name} specifies a qualified path.
  *
  * <p>Example:
  * {@snippet :
@@ -59,13 +63,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface FieldResult { 
 
     /**
-     * Name of the persistent field or property of the class.
+     * Name of the persistent field or property of an entity class.
      */
     String name();
 
     /** 
-     * Name of the column in the SELECT clause - i.e., column 
-     * aliases, if applicable. 
+     * Name of the column in the {@code SELECT} clause&mdash;that is,
+     * the column alias, if applicable.
      */
     String column();
 }

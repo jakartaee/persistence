@@ -23,14 +23,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used in conjunction with the {@link SqlResultSetMapping} or
- * {@link NamedNativeQuery} annotation to map the SELECT clause
- * of a SQL query to an entity result.
+ * {@link NamedNativeQuery} annotation to map the {@code SELECT}
+ * clause of a SQL query to an entity result.
  *
- * <p>If this annotation is used, the SQL statement should select 
- * all the columns that are mapped to the entity object.
- * This should include foreign key columns to related entities. 
- * The results obtained when insufficient data is available 
- * are undefined.
+ * <p>The SQL {@code SELECT} statement should select every column
+ * mapped by the {@linkplain #entityClass entity class}, including
+ * foreign key columns of related entities. If a mapped column is
+ * missing from the SQL result set, the behavior is undefined.
+ *
+ * <p>If the names of the columns of the result set of the SQL
+ * statement exactly match the column names mapped by the entity
+ * class, then it is not necessary to explicitly specify mappings
+ * for the {@linkplain #fields} or {@linkplain #discriminatorColumn
+ * discriminator column} of the entity. Otherwise, if a column name
+ * of the SQL result set does not exactly match the column name
+ * mapped by the entity class, the {@link FieldResult} annotation
+ * must be used to explicitly specify the mapping.
  *
  * <p>Example:
  * {@snippet :
@@ -71,14 +79,14 @@ public @interface EntityResult {
     LockModeType lockMode() default LockModeType.NONE;
 
     /** 
-     * Maps the columns specified in the SELECT list of the 
-     * query to the properties or fields of the entity class. 
+     * Maps the columns specified in the {@code SELECT} list of
+     * the query to the properties or fields of the entity class.
      */
     FieldResult[] fields() default {};
 
     /** 
-     * Specifies the column name (or alias) of the column in 
-     * the SELECT list that is used to determine the type of 
+     * Specifies the column name (or alias) of the column in the
+     * {@code SELECT} list that is used to determine the type of
      * the entity instance.
      */
     String discriminatorColumn() default "";

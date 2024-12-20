@@ -22,18 +22,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used in conjunction with the {@link SqlResultSetMapping} or
- * {@link NamedNativeQuery} annotation to map the SELECT clause
- * of a SQL query to a constructor.
+ * {@link NamedNativeQuery} annotation to map the {@code SELECT}
+ * clause of a SQL query to the constructor of an arbitrary
+ * Java class.
  *
- * <p>Applies a constructor for the target class, passing in as
- * arguments values from the specified columns. All columns
- * corresponding to arguments of the intended constructor must
- * be specified using the {@link #columns} element of the
- * {@code ConstructorResult} annotation in the same order as that
- * of the argument list of the constructor. Any entities returned
- * as constructor results will be in either the new or detached
- * state, depending on whether a primary key is retrieved for
- * the constructed object.
+ * <p>When processing a result set, the provider instantiates
+ * the {@linkplain #targetClass target class} by calling a
+ * matching constructor of the class, passing as arguments the
+ * values of the specified {@linkplain #columns} of the result
+ * set. Columns must be explicitly listed by {@link #columns}
+ * in the same order as their corresponding parameters occur in
+ * the argument list of the constructor.
+ *
+ * <p>The target class need not be a managed type. Any instance
+ * of an entity class returned as a constructor result will be
+ * in either the new or detached state, depending on whether a
+ * primary key was assigned to the constructed object.
  *
  * <p>Example:
  * {@snippet :
@@ -72,12 +76,15 @@ public @interface ConstructorResult {
 
     /**
      * (Required) The class whose constructor is to be invoked.
+     * This may be any Java class with a constructor matching
+     * the specified {@linkplain #columns columns}.
      */
     Class<?> targetClass();
 
     /** 
-     * (Required) The mapping of columns in the SELECT list
-     * to the arguments of the intended constructor, in order.
+     * (Required) The mapping of columns in the {@code SELECT}
+     * list to arguments of a constructor of the specified Java
+     * {@linkplain #targetClass target class}, in order.
      */
     ColumnResult[] columns();
 }
