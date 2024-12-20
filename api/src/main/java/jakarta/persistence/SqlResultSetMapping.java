@@ -17,12 +17,9 @@
 
 package jakarta.persistence;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
@@ -135,31 +132,6 @@ public @interface SqlResultSetMapping {
      * Specifies the result set mapping to scalar values.
      */
     ColumnResult[] columns() default {};
-
-    interface MappingElement {}
-
-    record Map(String name, EntityResult[] entities, ConstructorResult[] classes, ColumnResult[] columns)
-            implements SqlResultSetMapping {
-        @SuppressWarnings("unchecked")
-        private static <R> R[] newArrayInstance(Class<R> type, int length) {
-            return (R[]) Array.newInstance(type, length);
-        }
-        static <R> R[] extract(Class<R> type, MappingElement[] mappingElements) {
-            return Arrays.stream(mappingElements)
-                    .filter(type::isInstance)
-                    .toArray(length -> newArrayInstance(type, length));
-        }
-        Map(String name, MappingElement... mappings) {
-            this(name,
-                    extract(EntityResult.class, mappings),
-                    extract(ConstructorResult.class, mappings),
-                    extract(ColumnResult.class, mappings));
-        }
-        @Override
-        public Class<? extends Annotation> annotationType() {
-            return SqlResultSetMapping.class;
-        }
-    }
 }
 
 
