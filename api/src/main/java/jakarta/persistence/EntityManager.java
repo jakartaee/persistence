@@ -27,6 +27,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.criteria.CriteriaDelete;
+import jakarta.persistence.sql.ResultSetMapping;
 
 /**
  * Interface used to interact with the persistence context.
@@ -1137,6 +1138,15 @@ public interface EntityManager extends AutoCloseable {
      * @return the new query instance
      */
     Query createNativeQuery(String sqlString, String resultSetMapping);
+
+    /**
+     * Create an instance of {@link TypedQuery} for executing
+     * a native SQL query.
+     * @param sqlString a native SQL query string
+     * @param resultSetMapping the result set mapping
+     * @return the new query instance
+     */
+    <T> TypedQuery<T> createNativeQuery(String sqlString, ResultSetMapping<T> resultSetMapping);
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
