@@ -1,20 +1,15 @@
 package jakarta.persistence.sql;
 
-import jakarta.persistence.FieldResult;
 import jakarta.persistence.metamodel.SingularAttribute;
 
-import java.lang.annotation.Annotation;
+public record FieldMapping<C,T>(Class<C> container, Class<T> type, String name, String column) implements MemberMapping<C> {
 
-public record FieldMapping<T>(String name, String column)
-        implements FieldResult {
-
-    public static <T> FieldMapping<T> map(SingularAttribute<T,?> attribute, String column) {
-        return new FieldMapping<>(attribute.getName(), column);
+    public static <C,T> FieldMapping<C,T> of(Class<C> container, Class<T> type, String name, String column) {
+        return new FieldMapping<>(container, type, name, column);
     }
 
-    @Override
-    public Class<? extends Annotation> annotationType() {
-        return FieldResult.class;
+    public static <C,T> FieldMapping<C,T> of(SingularAttribute<C,T> attribute, String column) {
+        return new FieldMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), column);
     }
 }
 

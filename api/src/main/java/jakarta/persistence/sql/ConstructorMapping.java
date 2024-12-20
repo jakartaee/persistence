@@ -1,19 +1,9 @@
 package jakarta.persistence.sql;
 
-import jakarta.persistence.ColumnResult;
-import jakarta.persistence.ConstructorResult;
+public record ConstructorMapping<T>(Class<T> targetClass, ColumnMapping<?>[] columns)
+        implements MappingElement<T> {
 
-import java.lang.annotation.Annotation;
-
-public record ConstructorMapping<T>(Class<T> targetClass, ColumnResult[] columns)
-        implements ConstructorResult, MappingElement<T> {
-
-    public static <T> ConstructorMapping<T> map(Class<T> targetClass, ColumnResult... columns) {
+    public static <T> ConstructorMapping<T> of(Class<T> targetClass, ColumnMapping<?>... columns) {
         return new ConstructorMapping<>(targetClass, columns);
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-        return ConstructorResult.class;
     }
 }
