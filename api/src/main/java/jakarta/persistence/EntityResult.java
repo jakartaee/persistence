@@ -17,7 +17,6 @@
 
 package jakarta.persistence;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -91,18 +90,4 @@ public @interface EntityResult {
      * the entity instance.
      */
     String discriminatorColumn() default "";
-
-    record Map(Class<?> entityClass, String discriminatorColumn, FieldResult[] fields, LockModeType lockMode)
-            implements EntityResult, SqlResultSetMapping.MappingElement {
-        Map(Class<?> entityClass, FieldResult... fields) {
-            this(entityClass, "", fields, LockModeType.NONE);
-        }
-        Map(Class<?> entityClass, String discriminatorColumn, FieldResult... fields) {
-            this(entityClass, discriminatorColumn, fields, LockModeType.NONE);
-        }
-        @Override
-        public Class<? extends Annotation> annotationType() {
-            return EntityResult.class;
-        }
-    }
 }
