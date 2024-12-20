@@ -26,11 +26,13 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Specifies a mapping of the columns of a result set of a native SQL query
- * or stored procedure. Every SQL result set mapping has a {@link #name},
- * which may be defaulted, especially when the annotation is applied at
- * the method level. SQL result set mapping names must be unique within
- * a persistence unit.
+ * Specifies an explicit mapping of the columns of a result set of a native
+ * SQL query or stored procedure to {@linkplain EntityResult entity classes},
+ * {@linkplain ColumnResult scalar values}, and {@linkplain ConstructorResult
+ * Java class constructors}. Every SQL result set mapping has a {@link #name},
+ * which may be defaulted, especially when the annotation is applied at the
+ * method level. SQL result set mapping names must be unique within a
+ * persistence unit.
  *
  * <p>In this example, a named mapping is declared by annotating an entity
  * class, and a reference to the mapping is obtained from the static
