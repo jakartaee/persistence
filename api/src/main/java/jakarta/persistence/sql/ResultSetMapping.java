@@ -1,48 +1,67 @@
 package jakarta.persistence.sql;
 
-import jakarta.persistence.ColumnResult;
-import jakarta.persistence.ConstructorResult;
-import jakarta.persistence.EntityResult;
-import jakarta.persistence.SqlResultSetMapping;
+/**
+ * Specifies a mapping of the columns of a result set of a SQL query or stored procedure
+ * to {@linkplain EntityMapping entities}, {@linkplain ColumnMapping scalar values}, and
+ * {@linkplain ConstructorMapping Java class constructors}.
+ *
+ * <p>This class may be instantiated programmatically, for example:
+ * {@snippet :
+ * var entityMapping =
+ *         ResultSetMapping.of(
+ *                 EntityMapping.of(Author.class,
+ *                         FieldMapping.of(Author_.ssn, "author_ssn"),
+ *                         EmbeddableMapping.of(Author_.name,
+ *                                 FieldMapping.of(Name_.first, "author_first_name"),
+ *                                 FieldMapping.of(Name_.last, "author_last_name"))));
+ *
+ * var constructorMapping =
+ *         ResultSetMapping.of(
+ *                 ConstructorMapping.of(Summary.class,
+ *                         ColumnMapping.of("book_isbn"),
+ *                         ColumnMapping.of("book_title"),
+ *                         ColumnMapping.of("book_author")));
+ *
+ * var mixedMapping =
+ *         ResultSetMapping.of(
+ *                 EntityMapping.of(Author.class),
+ *                 EntityMapping.of(Book.class,
+ *                         FieldMapping.of(Book_.isbn, "book_isbn")),
+ *                 ColumnMapping.of("sales", BigDecimal.class),
+ *                 ConstructorMapping.of(Summary.class,
+ *                         ColumnMapping.of("book_isbn"),
+ *                         ColumnMapping.of("book_title")));
+ * }
+ *
+ * <p>Alternatively, an instance representing a
+ * {@linkplain jakarta.persistence.SqlResultSetMapping result set mapping defined using annotations}
+ * may be obtained via {@link jakarta.persistence.EntityManagerFactory#getResultSetMappings}.
+ *
+ * <p>A {@code ResultSetMapping} may be used to
+ * {@linkplain jakarta.persistence.EntityManager#createNativeQuery(String, ResultSetMapping) obtain}
+ * and execute a {@link jakarta.persistence.TypedQuery TypedQuery}.
+ *
+ * @since 4.0
+ */
+public record ResultSetMapping<T>(Class<T> resultType, MappingElement<?>[] elements) {
 
-import java.lang.annotation.Annotation;
-
-import static jakarta.persistence.sql.MappingElement.extract;
-
-public record ResultSetMapping<T>(String name, EntityResult[] entities, ConstructorResult[] classes, ColumnResult[] columns)
-        implements SqlResultSetMapping {
-
-    public static ResultSetMapping<Object[]> create(MappingElement<?>... mappings) {
-        return new ResultSetMapping<>("",
-                extract(EntityResult.class, mappings),
-                extract(ConstructorResult.class, mappings),
-                extract(ColumnResult.class, mappings));
+    public static ResultSetMapping<Object[]> of(MappingElement<?>... mappings) {
+        return new ResultSetMapping<>(Object[].class, mappings);
     }
 
-    public static <T> ResultSetMapping<T> create(EntityMapping<T> entityMapping) {
-        return new ResultSetMapping<>("",
-                new EntityResult[]{entityMapping},
-                new ConstructorResult[0],
-                new ColumnResult[0]);
+    public static <T> ResultSetMapping<T> of(EntityMapping<T> entityMapping) {
+        return new ResultSetMapping<>(entityMapping.entityClass(),
+                new EntityMapping[]{entityMapping});
     }
 
-    public static <T> ResultSetMapping<T> create(ConstructorMapping<T> constructorMapping) {
-        return new ResultSetMapping<>("",
-                new EntityResult[0],
-                new ConstructorResult[]{constructorMapping},
-                new ColumnResult[0]);
+    public static <T> ResultSetMapping<T> of(ConstructorMapping<T> constructorMapping) {
+        return new ResultSetMapping<>(constructorMapping.targetClass(),
+                new ConstructorMapping[]{constructorMapping});
     }
 
-    public static <T> ResultSetMapping<T> create(ColumnMapping<T> columnResult) {
-        return new ResultSetMapping<>("",
-                new EntityResult[0],
-                new ConstructorResult[0],
-                new ColumnResult[]{columnResult});
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-        return SqlResultSetMapping.class;
+    public static <T> ResultSetMapping<T> of(ColumnMapping<T> columnMapping) {
+        return new ResultSetMapping<>(columnMapping.type(),
+                new ColumnMapping[]{columnMapping});
     }
 }
 
