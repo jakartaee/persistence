@@ -17,6 +17,7 @@
 
 package jakarta.persistence;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -72,4 +73,12 @@ public @interface FieldResult {
      * the column alias, if applicable.
      */
     String column();
+
+    record Map(String name, String column)
+            implements FieldResult {
+        @Override
+        public Class<? extends Annotation> annotationType() {
+            return FieldResult.class;
+        }
+    }
 }
