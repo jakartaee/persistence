@@ -23,12 +23,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Used in conjunction with the {@link SqlResultSetMapping},
  * {@link NamedNativeQuery}, or {@link ConstructorResult}
- * annotation to map a column of the SELECT list of a SQL query.
+ * annotation to map a column of the {@code SELECT} list of
+ * a SQL query to a scalar (non-entity) value.
  *
  * <p>The {@link #name} element references the name of a column
- * in the SELECT list &#8212; i.e., column alias, if applicable.
- * Scalar result types can be included in the query result by
- * specifying this annotation in the metadata.
+ * in the {@code SELECT} list&mdash;that is, the column alias,
+ * if applicable. Scalar result types can be included in the
+ * query result by specifying this annotation in the metadata.
  *
  * <p>Example:
  * {@snippet :
@@ -68,7 +69,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface ColumnResult { 
 
     /**
-     * (Required) The name of a column in the SELECT clause of a SQL query
+     * (Required) The name of a column in the {@code SELECT} clause of a SQL query.
      */
     String name();
 

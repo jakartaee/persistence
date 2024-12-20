@@ -24,8 +24,10 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Specifies a mapping of the columns of a result set of a native SQL query
- * or stored procedure.
+ * Specifies a mapping of the columns of a result set of a native SQL
+ * query or stored procedure to {@linkplain EntityResult entities},
+ * {@linkplain ColumnResult scalar values}, and
+ * {@linkplain ConstructorResult Java class constructors}.
  *
  * <p>Example:
  * {@snippet :
