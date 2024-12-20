@@ -16,6 +16,7 @@
 
 package jakarta.persistence;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -87,4 +88,12 @@ public @interface ConstructorResult {
      * {@linkplain #targetClass target class}, in order.
      */
     ColumnResult[] columns();
+
+    record Map(Class<?> targetClass, ColumnResult... columns)
+            implements ConstructorResult, SqlResultSetMapping.MappingElement {
+        @Override
+        public Class<? extends Annotation> annotationType() {
+            return ConstructorResult.class;
+        }
+    }
 }
