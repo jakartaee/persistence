@@ -1,37 +1,40 @@
 package jakarta.persistence.sql;
 
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.metamodel.SingularAttribute;
+
 /**
  * Specifies a mapping of the columns of a result set of a SQL query or stored procedure
  * to {@linkplain EntityMapping entities}, {@linkplain ColumnMapping scalar values}, and
  * {@linkplain ConstructorMapping Java class constructors}.
  *
- * <p>This class may be instantiated programmatically, for example:
+ * <p>A {@link ResultSetMapping} may be instantiated programmatically, for example:
  * {@snippet :
+ * import static jakarta.persistence.sql.ResultSetMapping.*;
+ *
+ * ...
+ *
  * var entityMapping =
- *         ResultSetMapping.of(
- *                 EntityMapping.of(Author.class,
- *                         FieldMapping.of(Author_.ssn, "author_ssn"),
- *                         EmbeddableMapping.of(Author_.name,
- *                                 FieldMapping.of(Name_.first, "author_first_name"),
- *                                 FieldMapping.of(Name_.last, "author_last_name"))));
+ *         entity(Author.class,
+ *                 field(Author_.ssn, "auth_ssn"),
+ *                 embedded(Author_.name,
+ *                         field(Name_.first, "auth_first_name"),
+ *                         field(Name_.last, "auth_last_name")));
  *
  * var constructorMapping =
- *         ResultSetMapping.of(
- *                 ConstructorMapping.of(Summary.class,
- *                         ColumnMapping.of("book_isbn"),
- *                         ColumnMapping.of("book_title"),
- *                         ColumnMapping.of("book_author")));
+ *         constructor(Summary.class,
+ *                 column("isbn"),
+ *                 column("title"),
+ *                 column("author"));
  *
- * var mixedMapping =
- *         ResultSetMapping.of(
- *                 EntityMapping.of(Author.class),
- *                 EntityMapping.of(Book.class,
- *                         FieldMapping.of(Book_.isbn, "book_isbn")),
- *                 ColumnMapping.of("sales", BigDecimal.class),
- *                 ConstructorMapping.of(Summary.class,
- *                         ColumnMapping.of("book_isbn"),
- *                         ColumnMapping.of("book_title")));
- * }
+ * var compoundMapping =
+ *         compound(
+ *                 entity(Author.class),
+ *                 entity(Book.class, field(Book_.isbn, "isbn")),
+ *                 column("sales", BigDecimal.class),
+ *                 constructor(Summary.class, column("isbn"), column("title"))
+ *         );
+ *}
  *
  * <p>Alternatively, an instance representing a
  * {@linkplain jakarta.persistence.SqlResultSetMapping result set mapping defined using annotations}
@@ -43,25 +46,55 @@ package jakarta.persistence.sql;
  *
  * @since 4.0
  */
-public record ResultSetMapping<T>(Class<T> resultType, MappingElement<?>[] elements) {
+public interface ResultSetMapping<T> {
+    Class<T> type();
 
-    public static ResultSetMapping<Object[]> of(MappingElement<?>... mappings) {
-        return new ResultSetMapping<>(Object[].class, mappings);
+    static <T> ColumnMapping<T> column(String name, Class<T> type) {
+        return ColumnMapping.of(name, type);
     }
 
-    public static <T> ResultSetMapping<T> of(EntityMapping<T> entityMapping) {
-        return new ResultSetMapping<>(entityMapping.entityClass(),
-                new EntityMapping[]{entityMapping});
+    static ColumnMapping<Object> column(String name) {
+        return ColumnMapping.of(name);
     }
 
-    public static <T> ResultSetMapping<T> of(ConstructorMapping<T> constructorMapping) {
-        return new ResultSetMapping<>(constructorMapping.targetClass(),
-                new ConstructorMapping[]{constructorMapping});
+    static <T> ConstructorMapping<T> constructor(Class<T> targetClass, ColumnMapping<?>... columns) {
+        return ConstructorMapping.of(targetClass, columns);
     }
 
-    public static <T> ResultSetMapping<T> of(ColumnMapping<T> columnMapping) {
-        return new ResultSetMapping<>(columnMapping.type(),
-                new ColumnMapping[]{columnMapping});
+    static CompoundMapping compound(MappingElement<?>... elements) {
+        return CompoundMapping.of(elements);
+    }
+
+    @SafeVarargs
+    static <T> EntityMapping<T> entity(Class<T> entityClass, MemberMapping<T>... fields) {
+        return EntityMapping.of(entityClass, LockModeType.NONE, "", fields);
+    }
+
+    @SafeVarargs
+    static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
+        return EntityMapping.of(entityClass, LockModeType.NONE, discriminatorColumn, fields);
+    }
+
+    @SafeVarargs
+    static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
+        return EntityMapping.of(entityClass, lockMode, discriminatorColumn, fields);
+    }
+
+    @SafeVarargs
+    static <C,T> EmbeddableMapping<C,T> embedded(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
+        return EmbeddableMapping.of(container, embeddableClass, name, fields);
+    }
+
+    @SafeVarargs
+    static <C,T> EmbeddableMapping<C,T> embedded(SingularAttribute<C,T> embedded, MemberMapping<T>... fields) {
+        return EmbeddableMapping.of(embedded.getDeclaringType().getJavaType(), embedded.getJavaType(), embedded.getName(), fields);
+    }
+
+    static <C,T> FieldMapping<C,T> field(Class<C> container, Class<T> type, String name, String column) {
+        return FieldMapping.of(container, type, name, column);
+    }
+
+    static <C,T> FieldMapping<C,T> field(SingularAttribute<C,T> attribute, String column) {
+        return FieldMapping.of(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), column);
     }
 }
-
