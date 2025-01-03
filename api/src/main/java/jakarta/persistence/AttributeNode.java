@@ -11,9 +11,12 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Linda DeMichiel - 2.1
 
 package jakarta.persistence;
+
+import jakarta.persistence.metamodel.Attribute;
 
 import java.util.Map;
 
@@ -36,6 +39,15 @@ public interface AttributeNode<T> {
      * @return name of the attribute
      */
     String getAttributeName();
+
+    /**
+     * The attribute from which this branch of the graph or subgraph is forked.
+     *
+     * @return The metamodel object representing the graphed attribute
+     *
+     * @since 4.0
+     */
+    Attribute<?,T> getAttribute();
 
     /**
      * Return a map of subgraphs associated with this attribute
