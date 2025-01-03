@@ -11,11 +11,13 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 
 package jakarta.persistence;
 
 import jakarta.persistence.metamodel.Attribute;
+import jakarta.persistence.metamodel.ManagedType;
 import jakarta.persistence.metamodel.MapAttribute;
 import jakarta.persistence.metamodel.PluralAttribute;
 
@@ -30,6 +32,15 @@ import java.util.List;
  * @since 3.2
  */
 public interface Graph<T> {
+
+    /**
+     * The managed type at which this graph or subgraph is rooted.
+     *
+     * @return The metamodel object representing the graphed type
+     *
+     * @since 4.0
+     */
+    ManagedType<T> getGraphedType();
 
     /**
      * Get an existing attribute node for the attribute with the given
