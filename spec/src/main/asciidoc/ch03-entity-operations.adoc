@@ -2357,7 +2357,7 @@ conversions to the corresponding values in the query result before
 returning them to the application. The use of functions, including
 aggregates, on converted attributes is undefined. If an exception is
 thrown from a conversion method, the persistence provider must wrap the
-exception in a PersistenceException and, if the persistence context is
+exception in a `PersistenceException` and, if the persistence context is
 joined to a transaction, mark the transaction for rollback.
 
 === Second-Level Cache [[a3061]]
@@ -2622,34 +2622,36 @@ public List findWithName(String name) {
 
 ==== Queries and Flush Mode [[a4374]]
 
-The flush mode setting affects the result of
-a query as follows.
+The _flush mode_ setting may affect the result of a query.
+The possible flush modes are enumerated by `FlushModeType`.
 
-When queries are executed within a
-transaction, if `FlushModeType.AUTO` is set on the `Query`,
-`TypedQuery`, or `StoredProcedureQuery` object, or if the flush mode
-setting for the persistence context is `AUTO` (the default) and a flush
-mode setting has not been specified for the query object, the
-persistence provider is responsible for ensuring that all updates to the
-state of all entities in the persistence context which could potentially
-affect the result of the query are visible to the processing of the
-query. The persistence provider implementation may achieve this by
-flushing those entities to the database or by some other means. If
-`FlushModeType.COMMIT` is set, the effect of updates made to entities in
-the persistence context upon queries is unspecified.
-
-If the persistence context has not been
-joined to the current transaction, the persistence provider must not
-flush to the database regardless of the flush mode setting.
 
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=18..-1]
 ----
 
+When a query is executed within a transaction:
 
-If there is no transaction active, the
-persistence provider must not flush to the database.
+- If `FlushModeType.AUTO` is set via the `Query`, `TypedQuery`, or
+  `StoredProcedureQuery` object, or if the flush mode  setting for
+  the persistence context is `AUTO` (the default) and a flush
+  mode setting has not been specified for the query object, the
+  persistence provider must ensure that every modification to the
+  state of every entity associated with the persistence context
+  which could possibly affect the result of the query is visible
+  to the processing of the query. The persistence provider
+  implementation might guarantee this by flushing pending updates
+  to modified entities to the database before executing the query.
+
+- On the other hand, if `FlushModeType.COMMIT` is set, the effect
+  of updates made to entities in the persistence context on query
+  results is unspecified.
+
+If there is no transaction active or if the persistence context has
+not been joined to the current transaction, the persistence provider
+must not flush to the database, regardless of the flush mode.
+
 
 ==== Queries and Lock Mode [[a4385]]
 
