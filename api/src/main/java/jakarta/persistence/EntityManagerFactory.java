@@ -123,7 +123,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
  *
  * @since 1.0
  */
-public interface EntityManagerFactory extends AutoCloseable {
+public interface EntityManagerFactory extends GraphFactory, AutoCloseable {
 
     /**
      * Create a new application-managed {@link EntityManager}. This
@@ -340,7 +340,8 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Add a named copy of the given {@link EntityGraph} to this
      * {@code EntityManagerFactory}. If an entity graph with the
-     * given name already exists, it is replaced.
+     * given name already exists, it is replaced. The graph may
+     * be later retrieved via {@link #getEntityGraph(String)}.
      * @param graphName  name for the entity graph
      * @param entityGraph  entity graph
      * @since 2.1
@@ -360,19 +361,6 @@ public interface EntityManagerFactory extends AutoCloseable {
      */
     <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
 
-    /**
-     * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
-     * every named {@linkplain EntityGraph entity graph} whose entity type is
-     * assignable to the given Java type.
-     * @param entityType any Java type, including {@code Object.class}
-     *                   meaning all entity graphs
-     * @return a map keyed by graph name
-     * @param <E> the specified upper bound on the entity graph types
-     * @see jakarta.persistence.metamodel.EntityType#getNamedEntityGraphs()
-     *
-     * @since 3.2
-     */
-    <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
 
     /**
      * Register a listener for the given kind of entity lifecycle event

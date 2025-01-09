@@ -41,12 +41,20 @@ public interface EntityType<X>
     String getName();
 
     /**
+     * Create a new mutable {@link EntityGraph} with this given root entity type,
+     * allowing programmatic definition of the graph.
+     * @return a trivial entity graph with only a root node
+     * @see jakarta.persistence.GraphFactory#createEntityGraph(Class)
+     * @since 4.0
+     */
+    EntityGraph<X> createEntityGraph();
+
+    /**
      * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
      * every named {@linkplain EntityGraph entity graph} whose root entity type
      * is this type.
      * @return a map keyed by graph name
-     * @see jakarta.persistence.EntityManagerFactory#getNamedEntityGraphs(Class)
-     *
+     * @see jakarta.persistence.GraphFactory#getNamedEntityGraphs(Class)
      * @since 4.0
      */
     Map<String,EntityGraph<X>> getNamedEntityGraphs();
