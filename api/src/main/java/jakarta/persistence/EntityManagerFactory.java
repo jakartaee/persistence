@@ -368,6 +368,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *                   meaning all entity graphs
      * @return a map keyed by graph name
      * @param <E> the specified upper bound on the entity graph types
+     * @see jakarta.persistence.metamodel.EntityType#getNamedEntityGraphs()
      *
      * @since 3.2
      */

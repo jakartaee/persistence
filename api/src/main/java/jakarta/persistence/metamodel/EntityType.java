@@ -11,10 +11,16 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
 package jakarta.persistence.metamodel;
+
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.NamedEntityGraph;
+
+import java.util.Map;
 
 /**
  * An instance of {@code EntityType} represents
@@ -33,4 +39,15 @@ public interface EntityType<X>
      * @return entity name
      */
     String getName();
+
+    /**
+     * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
+     * every named {@linkplain EntityGraph entity graph} whose root entity type
+     * is this type.
+     * @return a map keyed by graph name
+     * @see jakarta.persistence.EntityManagerFactory#getNamedEntityGraphs(Class)
+     *
+     * @since 4.0
+     */
+    Map<String,EntityGraph<X>> getNamedEntityGraphs();
 }
