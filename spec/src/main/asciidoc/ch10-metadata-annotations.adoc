@@ -121,7 +121,7 @@ an operation which retrieves an instance or instances of the root entity is
 executed.
 
 The `name` element assigns a name to the entity graph, and is used to
-identify the entity graph in calls to `EntityManager.getEntityGraph()`.
+identify the entity graph in calls to `GraphFactory.getEntityGraph()`.
 If no name is explicitly specified, the name defaults to the entity name
 of the annotated root entity. Entity graph names must be unique within the
 persistence unit.
@@ -187,7 +187,7 @@ considered to refer to all of these.
 The `keySubgraph` element is used to refer to
 a `NamedSubgraph` specification that further characterizes an attribute
 node corresponding to the key of a Map-valued attribute. The value of
-the the `keySubgraph` element must correspond to the `name` used for the
+the `keySubgraph` element must correspond to the `name` used for the
 subgraph in the `NamedSubgraph` element. If the referenced attribute is
 an entity which has entity subclasses, there may be more than one
 `NamedSubgraph` element with this name, and the `keySubgraph` element is
