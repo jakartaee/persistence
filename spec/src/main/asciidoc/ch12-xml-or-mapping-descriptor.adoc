@@ -376,7 +376,7 @@ subclasses (unless otherwise overridden for a subclass by the
 
 ===== name
 
-The name attribute defines the entity name.
+The name attribute specifies the entity name.
 The `name` attribute overrides the value of the entity name defined by
 the `name` element of the `Entity` annotation (whether explicitly
 specified or defaulted). Caution must be exercised in overriding the

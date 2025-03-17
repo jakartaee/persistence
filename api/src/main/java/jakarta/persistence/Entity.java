@@ -92,10 +92,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface Entity {
 
 	/**
-	 * (Optional) The entity name. Defaults to the unqualified
-	 * name of the entity class. This name is used to refer to the
-	 * entity in queries. The name must not be a reserved literal
-	 * in the Jakarta Persistence query language.
+	 * (Optional) The entity name. Defaults to the unqualified name
+	 * of the entity class. This name is used to refer to the entity
+	 * in queries. The name must be a legal Java identifier, and must
+	 * not be a reserved identifier in the Jakarta Persistence query
+	 * language.
 	 */
 	String name() default "";
 }
