@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King       - 4.0
 //     Gavin King       - 3.2
 //     Petros Splinakis - 2.2
 //     Linda DeMichiel  - 2.1
@@ -94,4 +95,14 @@ public @interface NamedQuery {
      * vendor-specific query hints.
      */
     QueryHint[] hints() default {};
+
+    /**
+     * (Optional) The name of a {@linkplain NamedEntityGraph named
+     * entity graph} interpreted as a load graph and applied to the
+     * entity returned by the query. The named {@link EntityGraph}
+     * may be overridden by calling
+     * {@link TypedQuery#setEntityGraph(EntityGraph)}.
+     * @since 4.0
+     */
+    String entityGraph() default "";
 }
