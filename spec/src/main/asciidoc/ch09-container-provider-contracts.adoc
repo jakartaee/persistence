@@ -617,7 +617,7 @@ override any defaults that the persistence provider might have applied.
 See <<a12382>> and <<a2374>>.
 |===
 
-The following properties correspond to the  properties in the `persistence.xml`
+The following properties correspond to the properties in the `persistence.xml`
 ile. When any of these properties are specified in the `Map` parameter passed
 to the `createEntityManagerFactory` method, their values override the values of
 the corresponding properties in the `persistence.xml` file for the named
@@ -708,6 +708,10 @@ for the configuration of the entity manager factory:
 | `jakarta.persistence.dataSource`
 | Instance of `javax.sql.DataSource` to be used for the specified
 persistence unit.
+| `jakarta.persistence.jdbc.fetchSize`
+| Override the default JDBC fetch size.
+| `jakarta.persistence.jdbc.batchSize`
+| Hint to enable JDBC statement batching by setting a batch size.
 | `jakarta.persistence.validation.factory`
 | Instance of `jakarta.validation.ValidatorFactory`.
 |===
