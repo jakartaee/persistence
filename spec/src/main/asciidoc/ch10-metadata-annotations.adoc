@@ -262,11 +262,17 @@ results returned by the query. If a lock mode other than `NONE` is
 specified, the query may only be executed within a persistence context
 with an associated active transaction.
 
-The `hints` elements may be used to specify query properties and hints.
+The `hints` element may be used to specify query properties and hints.
 Properties defined by this specification must be observed by the provider;
 hints defined by this specification should be observed by the provider
 when possible. Vendor-specific hints that are not recognized by a provider
 must be ignored.
+
+The `entityGraph` element may specify the name of a named entity graph
+interpreted as a load graph and applied to the entity returned by the
+query. The named `EntityGraph` may be overridden by calling
+`TypedQuery.setEntityGraph()`.
+
 
 The `NamedQuery` and `NamedQueries` annotations can be applied to an entity
 or mapped superclass.
@@ -282,6 +288,7 @@ public @interface NamedQuery {
     Class<?> resultClass() default void.class;
     LockModeType lockMode() default NONE;
     QueryHint[] hints() default {};
+    String entityGraph() default "";
 }
 
 @Target({})
