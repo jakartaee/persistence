@@ -93,6 +93,18 @@ public class PersistenceConfiguration {
      * An instance of {@code javax.sql.DataSource}.
      */
     public static final String JDBC_DATASOURCE = "jakarta.persistence.dataSource";
+    /**
+     * Override the default {@linkplain java.sql.Statement#setFetchSize JDBC fetch size}.
+     * @since 4.0
+     */
+    public static final String JDBC_FETCH_SIZE = "jakarta.persistence.jdbc.fetchSize";
+    /**
+     * Enable {@linkplain java.sql.Statement#executeBatch JDBC statement batching}
+     * by setting a batch size.
+     * <p>This setting is a hint.
+     * @since 4.0
+     */
+    public static final String JDBC_BATCH_SIZE = "jakarta.persistence.jdbc.batchSize";
 
     /**
      * Default pessimistic lock timeout hint.
