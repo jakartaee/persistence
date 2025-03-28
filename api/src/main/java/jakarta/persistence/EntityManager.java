@@ -486,7 +486,7 @@ public interface EntityManager extends AutoCloseable {
      *         representing missing entities
      * @since 4.0
      */
-    <T> List<T> findMultiple(Class<T> entityClass, List<Object> primaryKeys,
+    <T> List<T> findMultiple(Class<T> entityClass, List<?> primaryKeys,
                              FindOption... options);
 
     /**
