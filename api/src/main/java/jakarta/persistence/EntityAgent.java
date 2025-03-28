@@ -62,7 +62,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws IllegalArgumentException is the given instance is
      *         determined to not be new or removed
      */
-    Object insert(Object entity);
+    void insert(Object entity);
 
     /**
      * Insert every record in the given list.
