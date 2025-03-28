@@ -222,7 +222,7 @@ public interface EntityAgent extends EntityHandler {
      * @return an ordered list of detached entity instances, with
      *         null elements representing missing entities
      */
-    <T> List<T> getMultiple(Class<T> entityClass, List<Object> ids);
+    <T> List<T> getMultiple(Class<T> entityClass, List<?> ids);
 
     /**
      * Refresh the entity instance state from the database.
