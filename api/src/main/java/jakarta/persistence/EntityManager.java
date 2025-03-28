@@ -1055,6 +1055,24 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
 
     /**
+     * Create an instance of {@link TypedQuery} for executing a
+     * Jakarta Persistence query language statement, specifying
+     * an {@link EntityGraph} which is interpreted as a load
+     * graph. The select list of the query must contain only a
+     * single item, which must be assignable to the root type
+     * of the given entity graph.
+     * @param qlString a Jakarta Persistence query string
+     * @param resultGraph entity graph interpreted as a load graph
+     * @return the new query instance
+     * @throws IllegalArgumentException if the query string is
+     *         found to be invalid or if the query result is
+     *         found to not be assignable to the root type of
+     *         the entity graph
+     * @since 4.0
+     */
+    <T> TypedQuery<T> createQuery(String qlString, EntityGraph<T> resultGraph);
+
+    /**
      * Create an instance of {@link Query} for executing a named
      * query written in the Jakarta Persistence query language or
      * in native SQL.
