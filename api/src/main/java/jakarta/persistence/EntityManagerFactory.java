@@ -322,6 +322,37 @@ public interface EntityManagerFactory extends AutoCloseable {
     void addNamedQuery(String name, Query query);
 
     /**
+     * Define the given {@link TypedQuery} as a named query such that
+     * future query objects can be created from it by calling either
+     * {@link EntityManager#createQuery(TypedQueryReference)} or
+     * {@link EntityManager#createNamedQuery(String,Class)}. Return a
+     * {@linkplain TypedQueryReference reference} to the query.
+     * <p>Any configuration of the query object (except for actual
+     * parameter binding) in effect when the named query is added
+     * is retained as part of the named query definition. This
+     * includes configuration information such as max results, hints,
+     * flush mode, lock mode, result set mapping information, and
+     * information about stored procedure parameters.
+     * <p>When the query is executed, information that can be set by
+     * means of the query APIs can be overridden. Information that is
+     * overridden does not affect the named query as registered with
+     * the entity manager factory, and thus does not affect subsequent
+     * query objects created from it by calling {@code createNamedQuery}.
+     * <p>If a named query of the same name has been previously defined,
+     * either statically via metadata or via this method, that query
+     * definition is replaced.
+     *
+     * @param name name for the query
+     * @param query a {@link TypedQuery}
+     *
+     * @since 4.0
+     *
+     * @see EntityManager#createQuery(TypedQueryReference)
+     * @see EntityManager#createNamedQuery(String,Class)
+     */
+    <R> TypedQueryReference<R> addNamedQuery(String name, TypedQuery<R> query);
+
+    /**
      * Return an object of the specified type to allow access to
      * a provider-specific API. If the provider implementation of
      * {@code EntityManagerFactory} does not support the given
