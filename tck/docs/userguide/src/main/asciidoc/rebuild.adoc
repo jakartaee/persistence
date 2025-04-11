@@ -1,0 +1,12 @@
+include::attributes.conf[]
+
+
+ifdef::rebuild[]
+include::rebuild.inc[]
+endif::rebuild[]
+ifndef::rebuild[]
+
+<<<
+Appendix B is not used for the {TechnologyShortName} TCK.
+
+endif::rebuild[]
