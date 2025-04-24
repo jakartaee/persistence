@@ -25,6 +25,10 @@ import java.util.stream.Stream;
 
 /**
  * Interface used to control the execution of typed queries.
+ * Only SELECT queries are typed queries, since only a SELECT
+ * query can return a result. A DELETE or UPDATE query is not
+ * a typed query, and is always represented by an untyped
+ * instance of {@link Query}.
  *
  * @param <X> query result type
  *
@@ -357,4 +361,13 @@ public interface TypedQuery<X> extends Query {
      * @since 3.2
      */
     TypedQuery<X> setTimeout(Integer timeout);
+
+    /**
+     * @deprecated
+     * This operation should never be called on a {@code TypedQuery}.
+     * Any DELETE or UPDATE query is represented by an untyped instance
+     * of {@link Query}.
+     */
+    @Override @Deprecated(since = "4.0")
+    int executeUpdate();
 }
