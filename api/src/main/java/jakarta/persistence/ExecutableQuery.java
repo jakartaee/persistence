@@ -18,6 +18,10 @@ package jakarta.persistence;
 /**
  * Interface used to control execution of an UPDATE or DELETE
  * query.
+ *
+ * @since 4.0
+ *
+ * @see QueryCreator#forExecution()
  */
 public interface ExecutableQuery extends Query {
     /**
@@ -56,21 +60,4 @@ public interface ExecutableQuery extends Query {
 
     @Override
     ExecutableQuery setTimeout(Integer timeout);
-
-    /**
-     * @throws UnsupportedOperationException because this method
-     * should not be called on an {@code ExecutableQuery}
-     */
-    @Override @Deprecated
-    default ExecutableQuery forExecution() {
-        throw new UnsupportedOperationException();
-    }
-    /**
-     * @throws UnsupportedOperationException because this method
-     * should not be called on an {@code ExecutableQuery}
-     */
-    @Override @Deprecated
-    default <R> TypedQuery<R> forType(Class<R> resultType) {
-        throw new UnsupportedOperationException();
-    }
 }

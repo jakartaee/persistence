@@ -464,22 +464,4 @@ public interface StoredProcedureQuery extends Query {
      *         is rolled back
      */
     int getUpdateCount();
-
-    /**
-     * @throws UnsupportedOperationException because this method
-     * should not be called on a {@code StoredProcedureQuery}
-     */
-    @Override @Deprecated
-    default ExecutableQuery forExecution() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @throws UnsupportedOperationException because this method
-     * should not be called on a {@code StoredProcedureQuery}
-     */
-    @Override @Deprecated
-    default <R> TypedQuery<R> forType(Class<R> resultType) {
-        throw new UnsupportedOperationException();
-    }
 }

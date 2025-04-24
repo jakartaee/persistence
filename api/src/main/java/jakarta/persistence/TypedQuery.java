@@ -34,6 +34,7 @@ import java.util.stream.Stream;
  *
  * @see Query
  * @see Parameter
+ * @see QueryCreator#forType(Class)
  *
  * @since 2.0
  */
@@ -440,22 +441,4 @@ public interface TypedQuery<X> extends Query {
      */
     @Override @Deprecated(since = "4.0")
     int executeUpdate();
-
-    /**
-     * @throws UnsupportedOperationException because this method
-     * should not be called on a {@code TypedQuery}
-     */
-    @Override @Deprecated
-    default ExecutableQuery forExecution() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @throws UnsupportedOperationException because this method
-     * should not be called on a {@code TypedQuery}
-     */
-    @Override @Deprecated
-    default <R> TypedQuery<R> forType(Class<R> resultType) {
-        throw new UnsupportedOperationException();
-    }
 }

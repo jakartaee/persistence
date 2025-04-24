@@ -37,25 +37,6 @@ import java.util.stream.Stream;
 public interface Query {
 
     /**
-     * Obtain a {@link TypedQuery} with the given query result type,
-     * which must be a supertype of the result type of this query.
-     * This query must be a SELECT query.
-     * @param resultType The Java class of the query result type
-     * @param <R> The query result type
-     * 
-     * @since 4.0 
-     */
-    <R> TypedQuery<R> forType(Class<R> resultType);
-
-    /**
-     * Obtain a {@link ExecutableQuery}.
-     * This query must be an UPDATE or DELETE query.
-     * 
-     * @since 4.0
-     */
-    ExecutableQuery forExecution();
-
-    /**
      * Execute a SELECT query and return the query results as an untyped
      * {@link List}.
      * @return a list of the results, or an empty list if there are
