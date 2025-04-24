@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -357,6 +358,15 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @since 3.2
      */
     <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
+
+    /**
+     * A map keyed by {@linkplain NamedQuery#name query name}, containing
+     * {@linkplain QueryReference references} to every named query.
+     * @return a map keyed by query name
+     *
+     * @since 4.0
+     */
+    Map<String, QueryReference> getNamedQueries();
 
     /**
      * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Gavin King      - 3.2
+//     Gavin King      - 4.0
 
 package jakarta.persistence;
 
@@ -19,31 +19,22 @@ import java.util.Map;
 
 /**
  * A reference to a named query declared via the {@link NamedQuery}
- * or {@link NamedNativeQuery} annotations. Always represents a
- * SELECT query, since only a SELECT query can return a result.
- * A DELETE or UPDATE query is not a typed query, and is always
- * represented by an untyped instance of {@link QueryReference}.
+ * or {@link NamedNativeQuery} annotations.
  *
- * @param <R> an upper bound on the result type of the query
+ * @see EntityManager#createQuery(QueryReference)
  *
- * @see EntityManager#createQuery(TypedQueryReference)
- *
- * @since 3.2
+ * @since 4.0
  */
-public interface TypedQueryReference<R> {
+public interface QueryReference {
     /**
      * The name of the query.
      */
     String getName();
 
     /**
-     * The result type of the query.
-     */
-    Class<? extends R> getResultType();
-
-    /**
      * A map keyed by hint name of all hints specified via
      * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
      */
     Map<String,Object> getHints();
+
 }
