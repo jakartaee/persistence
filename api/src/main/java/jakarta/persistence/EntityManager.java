@@ -181,9 +181,8 @@ import jakarta.persistence.criteria.CriteriaDelete;
  *     {@link LockOption}s.
  * </ul>
  *
- * @see QueryCreator
+ * @see Query
  * @see TypedQuery
- * @see ExecutableQuery
  * @see CriteriaQuery
  * @see PersistenceContext
  * @see StoredProcedureQuery
@@ -986,14 +985,14 @@ public interface EntityManager extends AutoCloseable {
     Map<String, Object> getProperties();
 
     /**
-     * Create an instance of {@link QueryCreator} for executing
-     * a Jakarta Persistence query language statement.
+     * Create an instance of {@link Query} for executing a
+     * Jakarta Persistence query language statement.
      * @param qlString a Jakarta Persistence query string
      * @return the new query instance
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
      */
-    QueryCreator createQuery(String qlString);
+    Query createQuery(String qlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -1019,26 +1018,26 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createQuery(CriteriaSelect<T> selectQuery);
 
     /**
-     * Create an instance of {@link ExecutableQuery} for executing
-     * a criteria update query.
+     * Create an instance of {@link Query} for executing a
+     * criteria update query.
      * @param updateQuery  a criteria update query object
      * @return the new query instance
      * @throws IllegalArgumentException if the update query is
      *         found to be invalid
      * @since 2.1
      */
-    ExecutableQuery createQuery(CriteriaUpdate<?> updateQuery);
+    Query createQuery(CriteriaUpdate<?> updateQuery);
 
     /**
-     * Create an instance of {@link ExecutableQuery} for executing
-     * a criteria delete query.
+     * Create an instance of {@link Query} for executing a
+     * criteria delete query.
      * @param deleteQuery  a criteria delete query object
      * @return the new query instance
      * @throws IllegalArgumentException if the delete query is
      *         found to be invalid
      * @since 2.1
      */
-    ExecutableQuery createQuery(CriteriaDelete<?> deleteQuery);
+    Query createQuery(CriteriaDelete<?> deleteQuery);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -1057,9 +1056,9 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link QueryCreator} for executing
-     * a named query written in the Jakarta Persistence query
-     * language or in native SQL.
+     * Create an instance of {@link Query} for executing a named
+     * query written in the Jakarta Persistence query language or
+     * in native SQL.
      * @param name the name of a query defined in metadata
      * @return the new query instance
      * @throws IllegalArgumentException if a query has not been
@@ -1068,7 +1067,7 @@ public interface EntityManager extends AutoCloseable {
      * @see NamedQuery
      * @see NamedNativeQuery
      */
-    QueryCreator createNamedQuery(String name);
+    Query createNamedQuery(String name);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -1088,9 +1087,9 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link QueryCreator} for executing
-     * a named query written in the Jakarta Persistence query
-     * language or in native SQL.
+     * Create an instance of {@link Query} for executing a named
+     * query written in the Jakarta Persistence query language or
+     * in native SQL.
      * @param reference a reference to the query defined in metadata
      * @return the new query instance
      * @throws IllegalArgumentException if a query has not been
@@ -1102,7 +1101,7 @@ public interface EntityManager extends AutoCloseable {
      * @see NamedNativeQuery
      * @since 4.0
      */
-    QueryCreator createQuery(QueryReference reference);
+    Query createQuery(QueryReference reference);
 
     /**
      * Create an instance of {@link TypedQuery} for executing
@@ -1122,8 +1121,8 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createQuery(TypedQueryReference<T> reference);
 
     /**
-     * Create an instance of {@link QueryCreator} for executing a
-     * native SQL statement, e.g., for update or delete.
+     * Create an instance of {@link Query} for executing a native
+     * SQL statement, e.g., for update or delete.
      *
      * <p>If the query is not an update or delete query, query
      * execution will result in each row of the SQL result being
@@ -1135,7 +1134,7 @@ public interface EntityManager extends AutoCloseable {
      * @param sqlString a native SQL query string
      * @return the new query instance
      */
-    QueryCreator createNativeQuery(String sqlString);
+    Query createNativeQuery(String sqlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -1148,13 +1147,13 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createNativeQuery(String sqlString, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link QueryCreator} for executing a
-     * native SQL query.
+     * Create an instance of {@link Query} for executing a native SQL
+     * query.
      * @param sqlString a native SQL query string
      * @param resultSetMapping the name of the result set mapping
      * @return the new query instance
      */
-    QueryCreator createNativeQuery(String sqlString, String resultSetMapping);
+    Query createNativeQuery(String sqlString, String resultSetMapping);
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
@@ -1282,7 +1281,7 @@ public interface EntityManager extends AutoCloseable {
      * Close an application-managed entity manager.
      * <p>After invocation of {@code close()}, every method of
      * the {@code EntityManager} instance and of any instance
-     * of {@link ExecutableQuery}, {@link TypedQuery}, or
+     * of {@link Query}, {@link TypedQuery}, or
      * {@link StoredProcedureQuery} obtained from it throws
      * the {@link IllegalStateException}, except for
      * {@link #getProperties()}, {@link #getTransaction()},

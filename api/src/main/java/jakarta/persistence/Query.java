@@ -27,6 +27,21 @@ import java.util.stream.Stream;
 
 /**
  * Interface used to control query execution.
+ * <ul>
+ * <li>For an UPDATE or DELETE query, an instance of this interface
+ *     is used to execute the query.
+ * <li>For a SELECT query, an instance of {@link TypedQuery} should
+ *     be used.
+ * </ul>
+ * If an instance of this interface represents a SELECT query, then
+ * a {@code TypedQuery} representing the same query may be obtained
+ * by calling {@link #ofType(Class)}, passing the result type of
+ * the query.
+ *
+ * @apiNote Every operation which is only relevant to SELECT queries,
+ * for example, {@link #getResultList} and {@link #setMaxResults}, is
+ * now declared deprecated by this interface. Such operations should
+ * be invoked via the {@link TypedQuery} interface.
  *
  * @see TypedQuery
  * @see StoredProcedureQuery
@@ -35,6 +50,16 @@ import java.util.stream.Stream;
  * @since 1.0
  */
 public interface Query {
+    /**
+     * Obtain a {@link TypedQuery} with the given query result type,
+     * which must be a supertype of the result type of this query.
+     * This query must be a SELECT query.
+     * @param resultType The Java class of the query result type
+     * @param <R> The query result type
+     *
+     * @since 4.0
+     */
+    <R> TypedQuery<R> ofType(Class<R> resultType);
 
     /**
      * Execute a SELECT query and return the query results as an untyped
@@ -176,9 +201,7 @@ public interface Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
-     * @deprecated Use {@code forExecution().executeUpdate()}.
      */
-    @Deprecated(since = "4.0")
     int executeUpdate();
 
     /**

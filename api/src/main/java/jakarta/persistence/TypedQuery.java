@@ -34,7 +34,7 @@ import java.util.stream.Stream;
  *
  * @see Query
  * @see Parameter
- * @see QueryCreator#forType(Class)
+ * @see Query#ofType(Class)
  *
  * @since 2.0
  */
