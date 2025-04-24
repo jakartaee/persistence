@@ -1026,7 +1026,7 @@ public interface EntityManager extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    Query createQuery(CriteriaUpdate<?> updateQuery);
+    ExecutableQuery createQuery(CriteriaUpdate<?> updateQuery);
 
     /**
      * Create an instance of {@link Query} for executing a criteria
@@ -1037,7 +1037,7 @@ public interface EntityManager extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    Query createQuery(CriteriaDelete<?> deleteQuery);
+    ExecutableQuery createQuery(CriteriaDelete<?> deleteQuery);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a

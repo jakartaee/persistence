@@ -21,8 +21,8 @@ import java.util.Map;
  * A reference to a named query declared via the {@link NamedQuery}
  * or {@link NamedNativeQuery} annotations. Always represents a
  * SELECT query, since only a SELECT query can return a result.
- * A DELETE or UPDATE query is not a typed query, and is always
- * represented by an untyped instance of {@link QueryReference}.
+ * A DELETE or UPDATE query is not a typed query, and should be
+ * represented by an instance of {@link ExecutableQuery}.
  *
  * @param <R> an upper bound on the result type of the query
  *
