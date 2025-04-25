@@ -30,8 +30,8 @@
     <properties>
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <maven.site.skip>true</maven.site.skip>
-        <asciidoctor.maven.plugin.version>3.0.0</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>2.3.15</asciidoctorj.pdf.version>
+        <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
+        <asciidoctorj.pdf.version>2.3.19</asciidoctorj.pdf.version>
         <spec.name>jakarta-${project.artifactId}-${project.version}</spec.name>
         <!-- status: DRAFT, BETA, etc., or blank for final -->
         <status>DRAFT</status>
