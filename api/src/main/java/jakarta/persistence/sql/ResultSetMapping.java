@@ -46,55 +46,128 @@ import jakarta.persistence.metamodel.SingularAttribute;
  *
  * @since 4.0
  */
-public interface ResultSetMapping<T> {
+public sealed interface ResultSetMapping<T>
+        permits EntityMapping, CompoundMapping, ColumnMapping, ConstructorMapping {
+    /**
+     * The result type of the mapping.
+     */
     Class<T> type();
 
-    static <T> ColumnMapping<T> column(String name, Class<T> type) {
-        return ColumnMapping.of(name, type);
+    /**
+     * Construct a mapping for a single column to a scalar value.
+     * @param columnName The colum name
+     * @param type The Java type of the scalar value
+     */
+    static <T> ColumnMapping<T> column(String columnName, Class<T> type) {
+        return ColumnMapping.of(columnName, type);
     }
 
-    static ColumnMapping<Object> column(String name) {
-        return ColumnMapping.of(name);
+    /**
+     * Construct a mapping for a single column to a scalar value.
+     * @param columnName The colum name
+     */
+    static ColumnMapping<Object> column(String columnName) {
+        return ColumnMapping.of(columnName);
     }
 
+    /**
+     * Construct a mapping to a constructor of a Java class.
+     *
+     * @param targetClass The Java class which declares the constructor
+     * @param columns Mappings for the columns
+     */
     static <T> ConstructorMapping<T> constructor(Class<T> targetClass, ColumnMapping<?>... columns) {
         return ConstructorMapping.of(targetClass, columns);
     }
 
+    /**
+     * Construct a mapping which packages a tuple of values as a Java array.
+     *
+     * @param elements Mappings for elements of the type
+     */
     static CompoundMapping compound(MappingElement<?>... elements) {
         return CompoundMapping.of(elements);
     }
 
+    /**
+     * Construct a mapping for an entity class.
+     *
+     * @param entityClass The Java class of the entity
+     * @param fields Mappings for fields or properties of the entity
+     */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, MemberMapping<T>... fields) {
         return EntityMapping.of(entityClass, LockModeType.NONE, "", fields);
     }
 
+    /**
+     * Construct a mapping for an entity class.
+     *
+     * @param entityClass The Java class of the entity
+     * @param discriminatorColumn The name of the column holding the discriminator
+     * @param fields Mappings for fields or properties of the entity
+     */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
         return EntityMapping.of(entityClass, LockModeType.NONE, discriminatorColumn, fields);
     }
 
+    /**
+     * Construct a mapping for an entity class.
+     *
+     * @param entityClass The Java class of the entity
+     * @param lockMode The lock mode acquired by SQL query
+     * @param discriminatorColumn The name of the column holding the discriminator
+     * @param fields Mappings for fields or properties of the entity
+     */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
         return EntityMapping.of(entityClass, lockMode, discriminatorColumn, fields);
     }
 
+    /**
+     * Construct a mapping for an embedded object.
+     *
+     * @param container The Java class which declares the field holding the embedded object
+     * @param embeddableClass The Java class of the embedded object
+     * @param name The name of the field holding the embedded object
+     * @param fields Mappings for fields or properties of the entity
+     */
     @SafeVarargs
     static <C,T> EmbeddableMapping<C,T> embedded(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
         return EmbeddableMapping.of(container, embeddableClass, name, fields);
     }
 
+    /**
+     * Construct a mapping for an embedded object.
+     *
+     * @param embedded The metamodel attribute representing the field or property holding the embedded object
+     * @param fields Mappings for fields or properties of the entity
+     */
     @SafeVarargs
     static <C,T> EmbeddableMapping<C,T> embedded(SingularAttribute<C,T> embedded, MemberMapping<T>... fields) {
         return EmbeddableMapping.of(embedded.getDeclaringType().getJavaType(), embedded.getJavaType(), embedded.getName(), fields);
     }
 
-    static <C,T> FieldMapping<C,T> field(Class<C> container, Class<T> type, String name, String column) {
-        return FieldMapping.of(container, type, name, column);
+    /**
+     * Construct a mapping for a field or property of an entity or embeddable type.
+     *
+     * @param container The Java class which declares the field or property
+     * @param type The type of the field or property
+     * @param name The name of the field or property
+     * @param columnName The name of the mapped column
+     */
+    static <C,T> FieldMapping<C,T> field(Class<C> container, Class<T> type, String name, String columnName) {
+        return FieldMapping.of(container, type, name, columnName);
     }
 
-    static <C,T> FieldMapping<C,T> field(SingularAttribute<C,T> attribute, String column) {
-        return FieldMapping.of(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), column);
+    /**
+     * Construct a mapping for a field or property of an entity or embeddable type.
+     *
+     * @param attribute The metamodel attribute representing the field or property
+     * @param columnName The name of the mapped column
+     */
+    static <C,T> FieldMapping<C,T> field(SingularAttribute<C,T> attribute, String columnName) {
+        return FieldMapping.of(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), columnName);
     }
 }
