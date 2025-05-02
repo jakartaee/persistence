@@ -2,14 +2,29 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.metamodel.SingularAttribute;
 
-public record FieldMapping<C,T>(Class<C> container, Class<T> type, String name, String column) implements MemberMapping<C> {
+/**
+ * Maps a column of a JDBC {@link java.sql.ResultSet} to a given
+ * field or column of an entity or embeddable type.
+ *
+ * @param container The Java class which declares the field
+ * @param type The Java class of the field
+ * @param name The name of the field
+ * @param columnName The name of the mapped column of the result set
+ * @param <C> The type of the entity or embeddable type
+ * @param <T> The type of the field
+ *
+ * @since 4.0
+ */
+public record FieldMapping<C,T>
+        (Class<C> container, Class<T> type, String name, String columnName)
+        implements MemberMapping<C> {
 
-    public static <C,T> FieldMapping<C,T> of(Class<C> container, Class<T> type, String name, String column) {
-        return new FieldMapping<>(container, type, name, column);
+    public static <C,T> FieldMapping<C,T> of(Class<C> container, Class<T> type, String name, String columnName) {
+        return new FieldMapping<>(container, type, name, columnName);
     }
 
-    public static <C,T> FieldMapping<C,T> of(SingularAttribute<C,T> attribute, String column) {
-        return new FieldMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), column);
+    public static <C,T> FieldMapping<C,T> of(SingularAttribute<C,T> attribute, String columnName) {
+        return new FieldMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), columnName);
     }
 }
 
