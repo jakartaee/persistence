@@ -339,7 +339,7 @@ and transaction management with an application-managed `EntityManager`.
 [source,java]
 ----
 entityManagerFactory.runInTransaction(entityManager -> {
-    User user = em.createQuery
+    User user = entityManager.createQuery
         ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass", User.class)
         .setParameter("name", args[0])
         .setParameter("pass", args[1])
@@ -383,6 +383,58 @@ The application should not attempt to manage the lifecycle of the
 transaction or `EntityManager` directly. If the application calls an
 operation of `EntityTransaction` from within a call to `runInTransaction`
 or `callInTransaction`, the behavior is undefined.
+
+=== The runWithAgent and callWithAgent methods
+
+The `runWithAgent` and `callWithAgent` methods of the
+`EntityManagerFactory` provide a shortcut for persistence context
+and transaction management with an application-managed `EntityAgent`.
+
+[source,java]
+----
+List<Permission> user =
+    entityManagerFactory.callWithAgent(entityAgent ->
+        entityAgent.createQuery
+            ("SELECT u FROM User u WHERE u.name=:name AND u.pass=:pass", User.class)
+            .setParameter("name", args[0])
+            .setParameter("pass", args[1])
+            .getSingleResult()
+            .getPermissions());
+----
+
+The argument function passed to `runWithAgent` or
+`callWithAgent` must be called and passed a new instance of
+`EntityAgent`. When the argument function returns or throws an
+exception, this `EntityAgent` must be closed before `runInTransaction`
+or `callInTransaction` returns.
+
+The argument function is executed in the context of a transaction
+associated with this new `EntityAgent`.
+
+- If the transaction type of the persistence unit is JTA, and there
+  is a JTA transaction already associated with the caller, then the
+  `EntityAgent` is associated with this current transaction. If the
+  argument function throws an exception, the JTA transaction must be
+  marked for rollback, and the exception must be rethrown by
+  `runWithAgent` or `callWithAgent`.  Otherwise, `callWithAgent`
+  must return the same value returned by the argument function.
+
+- Otherwise, if the transaction type of the persistence unit is
+  resource-local, or if there is no JTA transaction already associated
+  with the caller, then the `EntityAgent` is associated with a new
+  transaction. If the argument function throws an exception, this
+  transaction must be rolled back, and then the exception must be
+  rethrown by `runWithAgent` or `callWithAgent`. If the argument
+  function returns, then `runWithAgent` or `callWithAgent` must
+  attempt to commit the transaction. If the attempt to commit the
+  transaction fails, the exception must be rethrown. Otherwise,
+  `callWithAgent` must return the same value returned by the argument
+  function.
+
+The application should not attempt to manage the lifecycle of the
+transaction or `EntityAgent` directly. If the application calls an
+operation of `EntityTransaction` from within a call to `runWithAgent`
+or `callWithAgent`, the behavior is undefined.
 
 === Container-managed Persistence Contexts [[a11791]]
 
