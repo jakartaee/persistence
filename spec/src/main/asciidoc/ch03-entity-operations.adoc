@@ -6,14 +6,16 @@
 
 This chapter describes:
 
-- the use of the `EntityManager` and `Query` APIs to retrieve instances of
-  entity classes representing persistent state held in the database, and
-  of `EntityGraph` to control the limits of the object graph returned by
-  such operations,
+- the use of the `EntityManager`, `EntityAgent`, and `Query` APIs to
+  retrieve instances of entity classes representing persistent state held
+  in the database, and of `EntityGraph` to control the limits of the object
+  graph returned by such operations,
 - the use of the `EntityManager` API to manage the lifecycle of entity
   instances associated with a persistence context, and to control the
   synchronization of state held in the persistence context with the
   database,
+- the use of the `EntityAgent` API to directly update persistent state held
+  in the database _without_ the use of a persistence context,
 - the use of the second-level cache, and
 - entity listeners and lifeycle callbacks, attribute converters,
   and integration with Bean Validation.
@@ -35,21 +37,29 @@ key, and to query over persistent entity types. <<a1066>> describes the
 `EntityManager` interface. <<a2052>> describes mechanisms for concurrency
 control and locking. <<a4639>> provides a summary of exceptions.
 
-The `EntityManager` acts as a factory for instances of `Query`, which are
-used to control query execution. `Query`, `TypedQuery`, `StoredProcedureQuery`,
-and related interfaces are described in <<a3125>>. The Jakarta Persistence
-query language is defined in <<a4665>> and APIs for the construction of
-Criteria queries in <<a6925>>. <<a2397>> describes the use of entity graphs
-to control and limit the data fetched during find and query operations.
+When a persistence context is not required, `EntityAgent` offers an
+alternative way to interact with the database. The operations of
+`EntityAgent` accept entity instances which are not associated with any
+persistence context. The lifecycle of these instances is not managed by
+the persistence provider. <<entity-agent>> describes the `EntityAgent`
+interface.
 
-Each `EntityManager` belongs to an `EntityManagerFactory` with an associated
-_persistence unit_. A persistence unit defines a set of related entities which
-map to a single database. Entities belonging to the same persistence unit may
-participate in associations. An `EntityManager` may only manage instances of
-entities belonging to its persistence unit. The definition of persistence
-units is described in <<a12229>>. An `EntityManagerFactory` might have an
-associated second-level cache. <<a3061>> describes mechanisms for portable
-configuration of the second-level cache.
+The `EntityManager` or `EntityAgent` acts as a factory for instances of
+`Query`, which are used to control query execution. `Query`, `TypedQuery`,
+`StoredProcedureQuery`, and related interfaces are described in <<a3125>>.
+The Jakarta Persistence query language is defined in <<a4665>> and APIs
+for the construction of Criteria queries in <<a6925>>. <<a2397>> describes
+the use of entity graphs to control and limit the data fetched during find
+and query operations.
+
+Each `EntityManager` or `EntityAgent` belongs to an `EntityManagerFactory`
+with an associated _persistence unit_. A persistence unit defines a set of
+related entities which map to a single database. Entities belonging to the
+same persistence unit may participate in associations. An `EntityManager`
+or `EntityAgent` handles instances of entities belonging to its persistence
+unit. The definition of persistence units is described in <<a12229>>. An
+`EntityManagerFactory` might have an associated second-level cache. <<a3061>>
+describes mechanisms for portable configuration of the second-level cache.
 
 Jakarta Persistence features several mechanisms allowing user-written code
 to react to events occurring within the persistence context. <<a2153>>
@@ -58,73 +68,105 @@ describes entity listeners and lifecycle callback methods for entities.
 describes mechanisms for defining conversions between entity and database
 representations for attributes of basic types.
 
+=== Properties and Hints [[properties-hints]]
+
+The `EntityManager` and `EntityAgent` interfaces--along with some other
+interfaces defined by this specification--contain methods that take
+"properties" or "hints" as arguments. This specification distinguishes
+between properties and hints as follows:
+
+* A _property_ defined by this specification must be observed by the
+  provider unless otherwise explicitly stated.
+
+* A _hint_ specifies a preference on the part of the application. While
+  a hint defined by this specification should be observed by the provider
+  if possible, a hint may or may not always be observed. A portable
+  application must not depend on the observance of a hint.
+
+=== EntityHandler Interface [[entity-handler]]
+
+Operations common to `EntityManager` and `EntityAgent` are declared by the
+interface `EntityHandler`, which may be found in <<_entityhandler_>>.
+
+The methods `close()`, `isOpen()`, `joinTransaction()`, and `getTransaction()`
+are used to control the lifecycle of application-managed entity managers and
+entity agents. See <<a11465>>. Any method of `EntityManager` and `EntityAgent`
+except for `isOpen()`, `getTransaction()`, and `getProperties()` throws
+`IllegalStateException` if the entity manager or entity agent has been closed.
+
+Any `Query`, `TypedQuery`, `StoredProcedureQuery`, `CriteriaBuilder`,
+`Metamodel`, or `EntityTransaction` object obtained from a given entity
+manager or entity agent is valid only while that entity manager or entity
+agent is open. A method of `Query`, `TypedQuery`, or `StoredProcedureQuery`
+obtained from an entity manager or entity agent which has been closed throws
+`IllegalStateException`.
+
+The method `createQuery()` is used to obtain a `Query` or `TypedQuery`
+representing a Jakarta Persistence Query Language query of Criteria query.
+An `IllegalArgumentException` may be thrown by `createQuery()` if:
+
+- the argument to a `createQuery()` is not a legal Jakarta Persistence
+  Query Language query,
+- the result class specification of a Jakarta Persistence Query Language
+  query is incompatible with the result of the query, or
+- the argument to a `createQuery()` is not a valid `CriteriaQuery` object.
+
+Alternatively, `createQuery()` might return a result, and then execution of
+the query might later fail. In that case, a `PersistenceException` is thrown
+when the query is executed.
+
+The method `createNativeQuery()` is used to obtain a `Query` or `TypedQuery`
+representing a native SQL query. A `PersistenceException` is thrown when the
+native query is executed if:
+
+- the query is rejected by the database server, or
+- the result set specification is incompatible with the result set of the SQL
+  query.
+
+The `PersistenceException` should wrap the underlying database exception if
+possible.
+
+Any runtime exception thrown by a method of `EntityManager` or `EntityAgent`
+causes the current transaction to be marked for rollback if the persistence
+context is joined to that transaction. As an exception to this rule,
+`LockTimeoutException` does not cause the current transaction to be marked
+for rollback.
+
 === EntityManager Interface [[a1066]]
 
 The `EntityManager` interface may be found in <<_entitymanager_>>.
 
-The `persist`, `merge`, `remove`, and
-`refresh` methods must be invoked within a transaction context when an
-entity manager with a transaction-scoped persistence context is used. If
-there is no transaction context, the
-`jakarta.persistence.TransactionRequiredException` is thrown.
+The methods `persist()`, `merge()`, `remove()`, and `refresh()` may not be
+invoked on an entity manager with a transaction-scoped persistence context
+when no transaction is active. If one of these methods is called on an entity
+manager with a transaction-scoped persistence context when there is no active
+transaction context, the method must throw
+`jakarta.persistence.TransactionRequiredException`.
 
-Methods that specify a lock mode other than
-`LockModeType.NONE` must be invoked within a transaction. If there is no
-transaction or if the entity manager has not been joined to the
-transaction, the `jakarta.persistence.TransactionRequiredException` is
-thrown.
+If a method of `EntityManager` accepts a lock mode and the method is called
+when no transaction is active, then the specified lock mode must be
+`LockModeType.NONE`. If there is no active transaction, or if the entity
+manager has not been joined to the transaction, and any lock mode other than
+`LockModeType.NONE` is passed to the method, the method must throw
+`jakarta.persistence.TransactionRequiredException`.
 
-The `find` method (provided it is invoked
-without a lock or invoked with `LockModeType.NONE`) and the
-`getReference` method are not required to be invoked within a
-transaction. If an entity manager with transaction-scoped persistence
-context is in use, the resulting entities will be detached; if an entity
-manager with an extended persistence context is used, they will be
-managed. See <<a2027>> for entity manager use outside a
-transaction.
+The `getReference()` method may be called without an active transaction.
 
-The `Query`, `TypedQuery`,
-`StoredProcedureQuery`, `CriteriaBuilder`, `Metamodel`, and
-`EntityTransaction` objects obtained from an entity manager are valid
-while that entity manager is open.
+The `find()` method may be invoked when there is no active transaction only
+if it is called without an explicit lock mode or with the explicit mode
+`LockModeType.NONE`.
 
-If the argument to the `createQuery` method
-is not a valid Jakarta Persistence query string or a valid `CriteriaQuery`
-object, the `IllegalArgumentException` may be thrown or the query
-execution will fail and a `PersistenceException` will be thrown. If the
-result class specification of a Jakarta Persistence query language query is
-incompatible with the result of the query, the
-`IllegalArgumentException` may be thrown when the `createQuery` method
-is invoked or the query execution will fail and a `PersistenceException`
-will be thrown when the query is executed. If a native query is not a
-valid query for the database in use or if the result set specification
-is incompatible with the result of the query, the query execution will
-fail and a `PersistenceException` will be thrown when the query is
-executed. The `PersistenceException` should wrap the underlying database
-exception when possible.
+- If the entity manager has a transaction-scoped persistence context, the
+  entity returned by `find()` is detached;
+- if the entity manager has an extended persistence context, the returned
+  entity is managed.
 
-Runtime exceptions thrown by the methods of
-the `EntityManager` interface other than the `LockTimeoutException` will
-cause the current transaction to be marked for rollback if the
-persistence context is joined to that transaction.
+Similar rules applying to entity instances returned by execution of a query
+via an `EntityManager` are specified in <<query-execution>>.
 
-The methods `close`, `isOpen`,
-`joinTransaction`, and `getTransaction` are used to manage
-application-managed entity managers and their lifecycle. See <<a11465>>.
-
-The `EntityManager` interface and other
-interfaces defined by this specification contain methods that take
-properties and/or hints as arguments. This specification distinguishes
-between `properties` and `hints` as follows:
-
-* A property defined by this specification must
-be observed by the provider unless otherwise explicitly stated.
-
-* A hint specifies a preference on the part of
-the application. While a hint defined by this specification should be
-observed by the provider if possible, a hint may or may not always be
-observed. A portable application must not depend on the observance of a
-hint.
+See <<a2027>> for information about transaction-scoped and extended
+persistence contexts.See <<a11431>> for further discussion of entity
+manager use outside a transaction and persistence context types.
 
 For example:
 
@@ -144,7 +186,7 @@ public class OrderEntryBean implements OrderEntry {
 }
 ----
 
-=== Entity Instance's Life Cycle [[a1929]]
+=== Entity Instance Life Cycle [[a1929]]
 
 This section describes the `EntityManager`
 operations for managing an entity instance's lifecycle. An entity
@@ -665,6 +707,24 @@ persistence context that is not joined to a transaction is unaffected by
 transaction rollback.
 ====
 
+=== EntityAgent interface [[entity-agent]]
+
+The `EntityAgent` interface may be found in <<_entityagent_>>.
+
+If a method of `EntityAgent` accepts a lock mode and the method is called
+when no transaction is active, then the specified lock mode must be
+`LockModeType.NONE`. If there is no active transaction, or if the entity
+agent has not been joined to the transaction, and any lock mode other than
+`LockModeType.NONE` is passed to the method, the method must throw
+`jakarta.persistence.TransactionRequiredException`.
+
+Any other method of `EntityAgent` may be called without an active transaction.
+
+Entity instances returned by any method of `EntityAgent`, or by execution of
+any query obtained by calling `createQuery()`, `createNamedQuery()`,
+`createNativeQuery()`, or `createStoredProcedureQuery()` on an `EntityAgent`,
+are always detached.
+
 === Locking and Concurrency [[a2052]]
 
 This specification assumes the use of
@@ -1140,7 +1200,7 @@ This hint may be used with the methods of the
 `Query.setLockMode` method and the `NamedQuery` annotation. It may also
 be passed as a property to the `Persistence.createEntityManagerFactory`
 method and used in the `properties` element of the `persistence.xml`
-file. See <<a1066>>, <<a4385>>, <<a12384>>, <<a13443>>,
+file. See <<properties-hints>>, <<a4385>>, <<a12384>>, <<a13443>>,
 and <<a13711>>. When used in
 the `createEntityManagerFactory` method, the `persistence.xml` file, and
 the `NamedQuery` annotation, the timeout hint serves as a default value
@@ -2432,9 +2492,9 @@ The _cache retrieve mode_ and _cache store mode_ control how a given
 persistence context interacts with the second-level cache.
 
 - The cache retrieve mode may be set by calling `setCacheRetrieveMode()`
-  on `EntityManager` or `Query`.
+  on `EntityManager`, `EntityAgent`, or `Query`.
 - The cache store mode may be set by calling `setCacheStoreMode()` on
-  `EntityManager` or `Query`.
+  `EntityManager`, `EntityAgent`, or `Query`.
 - A cache store mode or cache retrieve mode, or both, may be passed to
   the `find()` method of `EntityManager` as a `FindOption`.
 - A cache store mode may be passed to the `refresh()` method of
@@ -2450,7 +2510,7 @@ Alternatively, a cache mode may be specified using the property name
 `jakarta.persistence.cache.retrieveMode` or
 `jakarta.persistence.cache.storeMode` by:
 
-- calling the `setProperty()` method of `EntityManager`,
+- calling the `setProperty()` method of `EntityManager` or `EntityAgent`,
 - calling the `setHint()` method of `Query`, or
 - passing a map containing one of these properties to `find()` or `refresh()`.
 
@@ -2500,7 +2560,7 @@ invoke stored procedures defined in the database.
 
 These interfaces may be found in <<persistence-api>>.
 
-==== Query Execution
+==== Query Execution [[query-execution]]
 
 Jakarta Persistence query language, Criteria API, and native SQL
 select queries are executed using the methods `getResultList`,
@@ -2565,19 +2625,23 @@ The effect of applying `setMaxResults` or
 undefined. The use of `setMaxResults` and `setFirstResult` is not
 supported for stored procedure queries.
 
-`Query` and `TypedQuery` methods other than
-the `executeUpdate` method are not required to be invoked within a
-transaction context, unless a lock mode other than `LockModeType.NONE`
-has been specified for the query. In particular, the `getResultList`,
-`getSingleResult`, and `getSingleResultOrNull` methods are not required
-to be invoked within a transaction context unless such a lock mode has
-been specified for the queryfootnote:[A lock mode is
-specified for a query by means of the `setLockMode` method or by
-specifying the lock mode in the `NamedQuery` annotation.]. If an entity manager with
-transaction-scoped persistence context is in use, the resulting entities
-will be detached; if an entity manager with an extended persistence
-context is used, they will be managed. See <<a11431>> for further
-discussion of entity manager use outside a transaction and persistence context types.
+Apart from `executeUpdate()`, methods `Query` and `TypedQuery` may be
+invoked without an active transaction context, unless a lock mode other
+than `LockModeType.NONE` has been specified for the query. In particular,
+the methods `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()`
+may be called when no transaction is activefootnote:[A lock mode may be
+specified for a query by calling `setLockMode()` or by specifying the
+`lockMode` member of the `@NamedQuery` annotation.].
+
+- If the `Query` or `TypedQuery` object was obtained from an `EntityAgent`
+  or from an `EntityManager` with a transaction-scoped persistence context,
+  the entities returned by the query are detached;
+- otherwise, if the query object was obtained or from an `EntityManager`
+  with an extended persistence, the returned entities are managed.
+
+See <<a2027>> for information about transaction-scoped and extended
+persistence contexts. See <<a11431>> for further discussion of entity
+manager use outside a transaction and persistence context types.
 
 Whether a `StoredProcedureQuery` should be
 invoked in a transaction context should be determined by the

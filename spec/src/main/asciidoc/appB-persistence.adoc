@@ -3,10 +3,22 @@
 
 The following APIs are defined in the package `jakarta.persistence`.
 
+=== `EntityHandler` [[_entityhandler_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/EntityHandler.java[lines=18..-1]
+----
+
 === `EntityManager` [[_entitymanager_]]
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/EntityManager.java[lines=18..-1]
+----
+
+=== `EntityAgent` [[_entityagent_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/EntityAgent.java[lines=18..-1]
 ----
 
 === `EntityTransaction` [[_entitytransaction_]]
