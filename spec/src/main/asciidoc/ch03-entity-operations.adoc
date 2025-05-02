@@ -1428,13 +1428,27 @@ access, but must not be `static` or `final`.
 The following annotations designate lifecycle event callback methods of
 the corresponding types.
 
-* `PrePersist`
-* `PostPersist`
-* `PreRemove`
-* `PostRemove`
-* `PreUpdate`
-* `PostUpdate`
-* `PostLoad`
+Annotations for callbacks corresponding to managed entity instance
+lifecycle operations:
+
+* `@PrePersist`
+* `@PostPersist`
+* `@PreRemove`
+* `@PostRemove`
+* `@PreUpdate`
+* `@PostUpdate`
+* `@PostLoad`
+
+Annotations for callbacks corresponding to database operations:
+
+* `@PreInsert`
+* `@PostInsert`
+* `@PreUpdate`
+* `@PostUpdate`
+* `@PreUpsert`
+* `@PostUpsert`
+* `@PreDelete`
+* `@PostDelete`
 
 The following rules apply to lifecycle callback methods:
 
@@ -1461,57 +1475,62 @@ An entity or entity listener may have multiple lifecycle callback methods:
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
-The `PrePersist` and `PreRemove` callback
-methods are invoked for a given entity before the respective
-`EntityManager` persist and remove operations for that entity are
-executed. For entities to which the merge operation has been applied and
-causes the creation of newly managed instances, the `PrePersist`
-callback methods will be invoked for the managed instance after the
-entity state has been copied to it. These `PrePersist` and `PreRemove`
-callbacks will also be invoked on all entities to which these operations
-are cascaded. The `PrePersist` and `PreRemove` methods will always be
-invoked as part of the synchronous persist, merge, and remove operations.
-Primary key values generated using the `SEQUENCE`, `TABLE`, or `UUID`
-strategy are available in the `PrePersist` method. Primary key values
-generated using the `IDENTITY` strategy are not available in the
-`PrePersist` method.
+The `@PrePersist` and `@PreRemove` callbacks occur before the
+respective persist and remove operations for an entity are executed.
+For entities to which the `merge()` operation has been applied and
+causes the creation of newly managed instances, the `@PrePersist`
+callback occurs for the managed instance after the entity state has
+been copied to it. The `@PrePersist` and `@PreRemove` callbacks also
+occur for any entity to which these operations cascade. The `@PrePersist`
+and `@PreRemove` methods are always invoked as part of the synchronous
+`persist()`, `merge()`, and `remove()` operations of `EntityManager`.
 
-The `PostPersist` and `PostRemove` callback
-methods are invoked for an entity after the entity has been made
-persistent or removed. These callbacks will also be invoked on all
-entities to which these operations are cascaded. The `PostPersist` and
-`PostRemove` methods will be invoked after the database insert and
-delete operations respectively. These database operations may occur
-directly after the persist, merge, or remove operations have been
-invoked or they may occur directly after a flush operation has occurred
-(which may be at the end of the transaction). Generated primary key
-values are always available in the `PostPersist` method.
+The `@PostPersist` and `@PostRemove` callbacks occur after an entity
+has been made persistent, or after it has been removed, respectively.
+These callbacks also occur for any entity to which these operations
+cascade. The `@PostPersist` and `@PostRemove` methods occur after the
+database insert and delete operations, respectively. The database
+operations might occur directly after invocation of `persist()`,
+`merge()`, or `remove()`, or they might occur during a `flush()`
+operation--which may not happen until the end of the transaction.
 
-The `PreUpdate` and `PostUpdate` callbacks
-occur before and after the database update operations to entity data
-respectively. These database operations may occur at the time the entity
-state is updated or they may occur at the time state is flushed to the
-database (which may be at the end of the transaction).
+Generated primary key values might not be available during a `@PrePersist`
+callback.
+
+- Primary key values generated using the `SEQUENCE`, `TABLE`, or `UUID`
+  strategy are available in the `@PrePersist` method. Primary key values
+  generated using the `IDENTITY` strategy are not available in the
+  `@PrePersist` method.
+
+- Generated primary key values are always available in the `@PostPersist`
+  method.
+
+The `@PreInsert`, `@PostInsert`, `@PreUpdate`, `@PostUpdate`, `@PreDelete`
+and `@PostDelete` callbacks occur before and after database insert, update,
+and delete operations to entity data, respectively. These callbacks occur
+whenever entity state is modified via `EntityManager` or `EntityAgent`,
+and are not tied to the lifecycle of managed entities associated with a
+persistence context.
 
 [NOTE]
 ====
-Note that it is implementation-dependent as
-to whether `PreUpdate` and `PostUpdate` callbacks occur when an entity
-is persisted and subsequently modified in a single transaction or when
-an entity is modified and subsequently removed within a single
-transaction. Portable applications should not rely on such behavior.
+It is implementation-dependent as to whether `@PreUpdate` and `@PostUpdate`
+callbacks occur when an entity is persisted and then subsequently modified
+in a single transaction, or when an entity is modified and subsequently
+removed within a single transaction. Portable applications should not rely
+on such behavior.
 ====
 
-The `PostLoad` method for an entity is
-invoked after the entity has been loaded into the current persistence
-context from the database or after the refresh operation has been
-applied to it. The `PostLoad` method is invoked before a query result is
-returned or accessed or before an association is traversed.
+The `@PostLoad` callback occurs after an entity instance has been loaded
+from the database by any means, or after the `refresh()` operation has
+been applied to an entity instance. The `@PostLoad` method is invoked
+before the newly-loaded query entity is returned or made accessible to
+the application.
 
-It is implementation-dependent as to whether
-callback methods are invoked before or after the cascading of the
-lifecycle events to related entities. Applications should not depend on
-this ordering.
+[NOTE]
+This specification does not define whether callback methods are invoked
+before or after an operation cascades to associated entities. Applications
+should not depend on this ordering.
 
 For example:
 
