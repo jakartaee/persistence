@@ -2,7 +2,22 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.LockModeType;
 
-public record EntityMapping<T>(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
+/**
+ * Maps columns of a JDBC {@link java.sql.ResultSet} to a given
+ * {@linkplain jakarta.persistence.Entity entity} class.
+ *
+ * @param entityClass The entity class
+ * @param lockMode The lock mode acquired by the SQL query
+ * @param discriminatorColumn The name of the column holding the
+ *        {@linkplain jakarta.persistence.DiscriminatorColumn
+ *        discriminator}
+ * @param fields Mappings for fields or properties of the entity
+ * @param <T> The entity type
+ *
+ * @since 4.0
+ */
+public record EntityMapping<T>
+        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
         implements MappingElement<T>, ResultSetMapping<T> {
 
     @SafeVarargs
