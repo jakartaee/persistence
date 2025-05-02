@@ -458,38 +458,40 @@ public interface EntityManagerFactory extends AutoCloseable {
     <R> R callInTransaction(Function<EntityManager, R> work);
 
     /**
-     * Create a new application-managed {@link EntityAgent} with an active
-     * transaction, and execute the given function, passing the {@code EntityAgent}
-     * to the function.
+     * Create a new application-managed {@link EntityHandler} of the given type,
+     * with an active transaction, and execute the given function, passing the
+     * {@code EntityHandler} to the function.
      * <p>
      * If the transaction type of the persistence unit is JTA, and there is a JTA
-     * transaction already associated with the caller, then the {@code EntityAgent}
+     * transaction already associated with the caller, then the {@code EntityHandler}
      * is associated with this current transaction. If the given function throws an
      * exception, the JTA transaction is marked for rollback, and the exception is
      * rethrown.
      * <p>
      * Otherwise, if the transaction type of the persistence unit is resource-local,
      * or if there is no JTA transaction already associated with the caller, then
-     * the {@code EntityAgent} is associated with a new transaction. If the given
+     * the {@code EntityHandler} is associated with a new transaction. If the given
      * function returns without throwing an exception, this transaction is committed.
      * If the function does throw an exception, the transaction is rolled back, and
      * the exception is rethrown.
      * <p>
-     * Finally, the {@code EntityAgent} is closed before this method returns
+     * Finally, the {@code EntityHandler} is closed before this method returns
      * control to the client.
      *
+     * @param handlerClass the type of {@link EntityHandler} to create, for
+     *                     example, {@link EntityAgent EntityAgent.class}.
      * @param work a function to be executed in the scope of the transaction
      *
      * @since 4.0
      */
-    void runWithAgent(Consumer<EntityAgent> work);
+    <H extends EntityHandler> void runInTransaction(Class<H> handlerClass, Consumer<H> work);
     /**
-     * Create a new application-managed {@link EntityAgent} with an active
-     * transaction, and call the given function, passing the {@code EntityAgent}
-     * to the function.
+     * Create a new application-managed {@link EntityHandler} of the given type,
+     * with an active transaction, and call the given function, passing the
+     * {@code EntityHandler} to the function.
      * <p>
      * If the transaction type of the persistence unit is JTA, and there is a JTA
-     * transaction already associated with the caller, then the {@code EntityAgent}
+     * transaction already associated with the caller, then the {@code EntityHandler}
      * is associated with this current transaction. If the given function returns
      * without throwing an exception, the result of the function is returned. If the
      * given function throws an exception, the JTA transaction is marked for rollback,
@@ -497,18 +499,20 @@ public interface EntityManagerFactory extends AutoCloseable {
      * <p>
      * Otherwise, if the transaction type of the persistence unit is resource-local,
      * or if there is no JTA transaction already associated with the caller, then
-     * the {@code EntityAgent} is associated with a new transaction. If the given
+     * the {@code EntityHandler} is associated with a new transaction. If the given
      * function returns without throwing an exception, this transaction is committed
      * and the result of the function is returned. If the function does throw an
      * exception, the transaction is rolled back, and the exception is rethrown.
      * <p>
-     * Finally, the {@code EntityAgent} is closed before this method returns
+     * Finally, the {@code EntityHandler} is closed before this method returns
      * control to the client.
      *
+     * @param handlerClass the type of {@link EntityHandler} to create, for
+     *                     example, {@link EntityAgent EntityAgent.class}.
      * @param work a function to be called in the scope of the transaction
      * @return the value returned by the given function
      *
      * @since 4.0
      */
-    <R> R callWithAgent(Function<EntityAgent,R> work);
+    <R, H extends EntityHandler> R callInTransaction(Class<H> handlerClass, Function<EntityAgent,R> work);
 }
