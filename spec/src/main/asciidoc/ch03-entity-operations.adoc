@@ -289,12 +289,26 @@ include::../../../../api/src/main/java/jakarta/persistence/ManagedEntityMode.jav
 
 By default, an entity is loaded in modifiable mode, and its state is
 synchronized to the database when a flush operation occurs. An entity
-may be loaded in read-only mode by passing `READ_ONLY` to
-`EntityManager.find()` or `Query.setManagedEntityMode()`. Furthermore,
+may be loaded in read-only mode by passing `ManagedEntityMode.READ_ONLY`
+to `EntityManager.find()` or `Query.setManagedEntityMode()`. Furthermore,
 the current mode for a given managed entity may be changed by calling
 `EntityManager.setManagedEntityMode()`. Changes made to an entity instance
 currently loaded in read-only mode are not synchronized to the database,
 and do not become persistent.
+
+When `READ_ONLY` is passed to `find()` or to `Query.setManagedEntityMode()`,
+every entity loaded into the persistence context during the invocation of
+`find()` or subsequent execution of the `Query` is loaded in read-only mode,
+including any eagerly-fetched associated entities
+
+When a `ManagedEntityMode` is passed to `EntityManager.setManagedEntityMode()`,
+the mode applies only the given managed entity instance, and does not affect
+associated entities.
+
+If a managed entity loaded in read-only mode would be returned by a call
+to `find()` which does not request `READ_ONLY` mode, or among the results
+of a query which does not request `READ_ONLY` mode, a `PersistenceException`
+must be thrown by `find()` or by the method which executes the query.
 
 ==== Synchronization to the Database [[a1955]]
 
