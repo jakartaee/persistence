@@ -88,10 +88,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * }
  *
+ * <p>A {@code SqlResultSetMapping} may be reified at runtime as an
+ * instance of {@link jakarta.persistence.sql.ResultSetMapping}.
+ *
  * @see Query
  * @see StoredProcedureQuery
  * @see NamedNativeQuery
  * @see NamedStoredProcedureQuery
+ *
+ * @see jakarta.persistence.sql.ResultSetMapping
+ * @see jakarta.persistence.sql.CompoundMapping
+ * @see EntityManagerFactory#getResultSetMappings(Class)
  *
  * @since 1.0
  */
