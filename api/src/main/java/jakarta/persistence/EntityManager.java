@@ -1118,11 +1118,16 @@ public interface EntityManager extends AutoCloseable {
     Query createNativeQuery(String sqlString);
 
     /**
-     * Create an instance of {@link Query} for executing a native
-     * SQL query.
+     * Create an instance of {@link TypedQuery} for executing a native
+     * SQL query, returning instances of the given Java class, which
+     * must be an entity class or the class of a basic type.
+     * <ul>
+     * <li>If the given class is an entity class, the object/relational
+     *     mappings for the entity are used to interpret the result set.
+     * <li>Otherwise, the first column of the result set is interpreted
+     *     via the specified basic type.
+     * </ul>
      *
-     * <p><em>In the next release of this API, the return type of this
-     * method will change to {@code TypedQuery<T>}.</em>
      * @param sqlString a native SQL query string
      * @param resultClass the type of the query result
      * @return the new query instance
