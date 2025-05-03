@@ -15,16 +15,19 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.persistence.TupleElement;
+
 /**
  * Supertype of objects which map a column or columns of a
  * JDBC {@link java.sql.ResultSet} to a Java type returned
  * by the query. In particular, a {@link CompoundMapping}
- * packages a list of {@code MappingElement}s.
+ * or {@link TupleMapping} packages a list of
+ * {@code MappingElement}s.
  *
  * @param <T> The type returned
  *
  * @since 4.0
  */
-public sealed interface MappingElement<T>
+public sealed interface MappingElement<T> extends TupleElement<T>
         permits EntityMapping, ColumnMapping, ConstructorMapping  {
 }

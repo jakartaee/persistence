@@ -30,6 +30,16 @@ package jakarta.persistence.sql;
 public record ColumnMapping<T>(String columnName, Class<T> type)
         implements MappingElement<T>, ResultSetMapping<T> {
 
+    @Override
+    public Class<? extends T> getJavaType() {
+        return type;
+    }
+
+    @Override
+    public String getAlias() {
+        return columnName;
+    }
+
     public static ColumnMapping<Object> of(String columnName) {
         return new ColumnMapping<>(columnName, Object.class);
     }

@@ -21,6 +21,7 @@ package jakarta.persistence.sql;
  *
  * @param elements Mappings for the elements of the tuple
  *
+ * @see TupleMapping
  * @see jakarta.persistence.SqlResultSetMapping
  *
  * @since 4.0

@@ -37,6 +37,16 @@ public record EntityMapping<T>
         (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
         implements MappingElement<T>, ResultSetMapping<T> {
 
+    @Override
+    public Class<? extends T> getJavaType() {
+        return entityClass;
+    }
+
+    @Override
+    public String getAlias() {
+        return null;
+    }
+
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, MemberMapping<T>... fields) {
         return new EntityMapping<>(entityClass, LockModeType.NONE, "", fields);

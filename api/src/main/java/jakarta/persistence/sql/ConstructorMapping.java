@@ -31,6 +31,16 @@ package jakarta.persistence.sql;
 public record ConstructorMapping<T>(Class<T> targetClass, ColumnMapping<?>[] columns)
         implements MappingElement<T>, ResultSetMapping<T> {
 
+    @Override
+    public Class<? extends T> getJavaType() {
+        return targetClass;
+    }
+
+    @Override
+    public String getAlias() {
+        return null;
+    }
+
     public static <T> ConstructorMapping<T> of(Class<T> targetClass, ColumnMapping<?>... columns) {
         return new ConstructorMapping<>(targetClass, columns);
     }

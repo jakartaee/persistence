@@ -66,7 +66,7 @@ import jakarta.persistence.metamodel.SingularAttribute;
  * @since 4.0
  */
 public sealed interface ResultSetMapping<T>
-        permits CompoundMapping, EntityMapping, ConstructorMapping, ColumnMapping {
+        permits CompoundMapping, TupleMapping, EntityMapping, ConstructorMapping, ColumnMapping {
     /**
      * The result type of the mapping.
      */
@@ -106,6 +106,16 @@ public sealed interface ResultSetMapping<T>
      */
     static CompoundMapping compound(MappingElement<?>... elements) {
         return CompoundMapping.of(elements);
+    }
+
+    /**
+     * Construct a mapping which packages a tuple of values as an instance of
+     * {@link jakarta.persistence.Tuple}.
+     *
+     * @param elements Mappings for elements of the type
+     */
+    static TupleMapping tuple(MappingElement<?>... elements) {
+        return TupleMapping.of(elements);
     }
 
     /**
