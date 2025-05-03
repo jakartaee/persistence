@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -1131,8 +1132,10 @@ public interface EntityManager extends AutoCloseable {
     <T> Query createNativeQuery(String sqlString, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link Query} for executing
-     * a native SQL query.
+     * Create an instance of {@link Query} for executing a native SQL
+     * query, using the {@linkplain SqlResultSetMapping mapping} with
+     * the given {@linkplain SqlResultSetMapping#name name} to interpret
+     * the JDBC result set.
      * @param sqlString a native SQL query string
      * @param resultSetMapping the name of the result set mapping
      * @return the new query instance
@@ -1140,8 +1143,9 @@ public interface EntityManager extends AutoCloseable {
     Query createNativeQuery(String sqlString, String resultSetMapping);
 
     /**
-     * Create an instance of {@link TypedQuery} for executing
-     * a native SQL query.
+     * Create an instance of {@link TypedQuery} for executing a native
+     * SQL query, using the given {@link ResultSetMapping} to interpret
+     * the JDBC result set.
      * @param sqlString a native SQL query string
      * @param resultSetMapping the result set mapping
      * @return the new query instance

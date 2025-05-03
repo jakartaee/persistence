@@ -61,6 +61,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see SqlResultSetMapping
  * @see NamedNativeQuery
  *
+ * @see jakarta.persistence.sql.EntityMapping
+ *
  * @since 1.0
  */
 @Target({}) 
