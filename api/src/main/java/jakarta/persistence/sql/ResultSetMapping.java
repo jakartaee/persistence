@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0,
+ * or the Eclipse Distribution License v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+ */
+
+// Contributors:
+//     Gavin King      - 4.0
+
 package jakarta.persistence.sql;
 
 import jakarta.persistence.LockModeType;
@@ -23,9 +38,9 @@ import jakarta.persistence.metamodel.SingularAttribute;
  *
  * var constructorMapping =
  *         constructor(Summary.class,
- *                 column("isbn"),
- *                 column("title"),
- *                 column("author"));
+ *                 column("isbn", String.class),
+ *                 column("title", String.class),
+ *                 column("author", String.class));
  *
  * var compoundMapping =
  *         compound(
@@ -44,10 +59,14 @@ import jakarta.persistence.metamodel.SingularAttribute;
  * {@linkplain jakarta.persistence.EntityManager#createNativeQuery(String, ResultSetMapping) obtain}
  * and execute a {@link jakarta.persistence.TypedQuery TypedQuery}.
  *
+ * @see jakarta.persistence.SqlResultSetMapping
+ * @see jakarta.persistence.EntityManagerFactory#getResultSetMappings(Class)
+ * @see jakarta.persistence.EntityManager#createNativeQuery(String, ResultSetMapping)
+ *
  * @since 4.0
  */
 public sealed interface ResultSetMapping<T>
-        permits EntityMapping, CompoundMapping, ColumnMapping, ConstructorMapping {
+        permits CompoundMapping, EntityMapping, ConstructorMapping, ColumnMapping {
     /**
      * The result type of the mapping.
      */
@@ -134,8 +153,8 @@ public sealed interface ResultSetMapping<T>
      * @param fields Mappings for fields or properties of the entity
      */
     @SafeVarargs
-    static <C,T> EmbeddableMapping<C,T> embedded(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
-        return EmbeddableMapping.of(container, embeddableClass, name, fields);
+    static <C,T> EmbeddedMapping<C,T> embedded(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
+        return EmbeddedMapping.of(container, embeddableClass, name, fields);
     }
 
     /**
@@ -145,8 +164,8 @@ public sealed interface ResultSetMapping<T>
      * @param fields Mappings for fields or properties of the entity
      */
     @SafeVarargs
-    static <C,T> EmbeddableMapping<C,T> embedded(SingularAttribute<C,T> embedded, MemberMapping<T>... fields) {
-        return EmbeddableMapping.of(embedded.getDeclaringType().getJavaType(), embedded.getJavaType(), embedded.getName(), fields);
+    static <C,T> EmbeddedMapping<C,T> embedded(SingularAttribute<C,T> embedded, MemberMapping<T>... fields) {
+        return EmbeddedMapping.of(embedded.getDeclaringType().getJavaType(), embedded.getJavaType(), embedded.getName(), fields);
     }
 
     /**
