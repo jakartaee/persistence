@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -56,8 +56,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @SqlResultSetMapping(name="OrderItemResults", entities={
  *     @EntityResult(entityClass=com.acme.Order.class),
  *     @EntityResult(entityClass=com.acme.Item.class)
- * })
- * }
+ * })}
+ *
  * or using the elements of this annotation:
  * {@snippet :
  * @NamedNativeQuery(
@@ -65,13 +65,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         query = "SELECT o.id, o.quantity, o.item, i.id, i.name, i.description " +
  *                 "FROM Order o, Item i " +
  *                 "WHERE (o.quantity > 25) AND (o.item = i.id)",
- *         resultSetMapping = "OrderItemResults");
+ *         resultSetMapping = "OrderItemResults",
  *         entities={
  *                 @EntityResult(entityClass=com.acme.Order.class),
  *                 @EntityResult(entityClass=com.acme.Item.class)
  *         }
- * )
- * }
+ * )}
  *
  * <p> The {@code NamedNativeQuery} annotation can be applied to
  * an entity class or mapped superclass.
