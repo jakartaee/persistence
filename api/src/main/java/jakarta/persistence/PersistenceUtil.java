@@ -17,6 +17,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Utility interface between the application and the persistence
  * provider(s). 
@@ -38,7 +40,7 @@ public interface PersistenceUtil {
      * @return false if entity's state has not been loaded or if
      * the attribute state has not been loaded, else true
      */
-    boolean isLoaded(Object entity, String attributeName);
+    boolean isLoaded(@Nonnull Object entity, @Nonnull String attributeName);
 
     /**
      * Determine the load state of an entity.
@@ -52,5 +54,5 @@ public interface PersistenceUtil {
      * @param entity whose load state is to be determined
      * @return false if the entity has not been loaded, else true
      */
-    boolean isLoaded(Object entity);
+    boolean isLoaded(@Nonnull Object entity);
 }

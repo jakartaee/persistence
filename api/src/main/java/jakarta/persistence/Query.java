@@ -18,6 +18,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +61,8 @@ public interface Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
-    @SuppressWarnings({"rawtypes"})
+    @SuppressWarnings("rawtypes")
+    @Nonnull
     List getResultList();
 
     /**
@@ -92,6 +96,7 @@ public interface Query {
      * @since 2.2
      */
     @SuppressWarnings({"rawtypes"})
+    @Nonnull
     default Stream getResultStream() {
         return getResultList().stream();
     }
@@ -118,6 +123,7 @@ public interface Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Nonnull
     Object getSingleResult();
 
     /**
@@ -143,6 +149,7 @@ public interface Query {
      *
      * @since 3.2
      */
+    @Nullable
     Object getSingleResultOrNull();
 
     /**
@@ -169,6 +176,7 @@ public interface Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Nonnull
     Query setMaxResults(int maxResult);
 
     /**
@@ -186,6 +194,7 @@ public interface Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Nonnull
     Query setFirstResult(int startPosition);
 
     /**
@@ -212,7 +221,8 @@ public interface Query {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
-    Query setHint(String hintName, Object value);
+    @Nonnull
+    Query setHint(@Nonnull String hintName, @Nullable Object value);
 
     /**
      * Get the properties and hints and associated values that are in
@@ -220,6 +230,7 @@ public interface Query {
      * @return query properties and hints
      * @since 2.0
      */
+    @Nonnull
     Map<String, Object> getHints();
 
     /**
@@ -232,7 +243,8 @@ public interface Query {
      *         query
      * @since 2.0
      */
-    <T> Query setParameter(Parameter<T> param, T value);
+    @Nonnull
+    <T> Query setParameter(@Nonnull Parameter<T> param, T value);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
@@ -247,8 +259,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(Parameter<Calendar> param, Calendar value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull Parameter<Calendar> param, Calendar value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
@@ -263,8 +276,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(Parameter<Date> param, Date value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull Parameter<Date> param, Date value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a named parameter.
@@ -275,7 +289,8 @@ public interface Query {
      *         not correspond to a parameter of the query or if
      *         the argument is of incorrect type
      */
-    Query setParameter(String name, Object value);
+    @Nonnull
+    Query setParameter(@Nonnull String name, Object value);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a named parameter.
@@ -290,8 +305,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(String name, Calendar value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull String name, Calendar value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link java.util.Date} to a named parameter.
@@ -306,8 +322,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(String name, Date value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull String name, Date value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a positional parameter.
@@ -318,6 +335,7 @@ public interface Query {
      *         correspond to a positional parameter of the
      *         query or if the argument is of incorrect type
      */
+    @Nonnull
     Query setParameter(int position, Object value);
 
     /**
@@ -334,8 +352,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(int position, Calendar value,  
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(int position, Calendar value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link java.util.Date} to a positional
@@ -351,8 +370,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(int position, Date value,  
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(int position, Date value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Get the parameter objects corresponding to the declared
@@ -366,6 +386,7 @@ public interface Query {
      *         this use
      * @since 2.0
      */
+    @Nonnull
     Set<Parameter<?>> getParameters();
 
     /**
@@ -382,7 +403,8 @@ public interface Query {
      *         this use
      * @since 2.0
      */
-    Parameter<?> getParameter(String name);
+    @Nonnull
+    Parameter<?> getParameter(@Nonnull String name);
 
     /**
      * Get the parameter object corresponding to the declared
@@ -400,7 +422,9 @@ public interface Query {
      *         the implementation does not support this use
      * @since 2.0
      */
-    <T> Parameter<T> getParameter(String name, Class<T> type);
+    @Nonnull
+    <T> Parameter<T> getParameter(@Nonnull String name,
+                                  @Nonnull Class<T> type);
 
     /**
      * Get the parameter object corresponding to the declared
@@ -416,6 +440,7 @@ public interface Query {
      *         this use
      * @since 2.0
      */
+    @Nonnull
     Parameter<?> getParameter(int position);
 
     /**
@@ -433,7 +458,8 @@ public interface Query {
      *         the implementation does not support this use
      * @since 2.0
      */
-    <T> Parameter<T> getParameter(int position, Class<T> type);
+    @Nonnull
+    <T> Parameter<T> getParameter(int position, @Nonnull Class<T> type);
 
     /**
      * Return a boolean indicating whether a value has been bound 
@@ -442,7 +468,7 @@ public interface Query {
      * @return boolean indicating whether parameter has been bound
      * @since 2.0
      */
-    boolean isBound(Parameter<?> param);
+    boolean isBound(@Nonnull Parameter<?> param);
 
     /**
      * Return the input value bound to the parameter.
@@ -455,7 +481,8 @@ public interface Query {
      *         been bound
      * @since 2.0
      */
-    <T> T getParameterValue(Parameter<T> param);
+    @Nonnull
+    <T> T getParameterValue(@Nonnull Parameter<T> param);
 
     /**
      * Return the input value bound to the named parameter.
@@ -468,7 +495,8 @@ public interface Query {
      *         specified name does not exist
      * @since 2.0
      */
-    Object getParameterValue(String name);
+    @Nonnull
+    Object getParameterValue(@Nonnull String name);
 
     /**
      * Return the input value bound to the positional parameter.
@@ -481,6 +509,7 @@ public interface Query {
      *          specified position does not exist
      * @since 2.0
      */
+    @Nonnull
     Object getParameterValue(int position);
 
     /**
@@ -490,7 +519,8 @@ public interface Query {
      * @param flushMode  flush mode
      * @return the same query instance
      */
-    Query setFlushMode(FlushModeType flushMode);
+    @Nonnull
+    Query setFlushMode(@Nonnull FlushModeType flushMode);
 
     /**
      * Get the flush mode in effect for the query execution. 
@@ -499,6 +529,7 @@ public interface Query {
      * @return flush mode
      * @since 2.0
      */
+    @Nonnull
     FlushModeType getFlushMode();
 
     /**
@@ -511,7 +542,8 @@ public interface Query {
      *         query
      * @since 2.0
      */
-    Query setLockMode(LockModeType lockMode);
+    @Nonnull
+    Query setLockMode(@Nonnull LockModeType lockMode);
 
     /**
      * Get the current lock mode for the query. Returns null if a
@@ -523,6 +555,7 @@ public interface Query {
      *          query
      * @since 2.0
      */
+    @Nonnull
     LockModeType getLockMode();
 
     /**
@@ -533,7 +566,8 @@ public interface Query {
      * @return the same query instance
      * @since 3.2
      */
-    Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+    @Nonnull
+    Query setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode);
 
     /**
      * Set the cache storage mode that is in effect during query
@@ -543,13 +577,15 @@ public interface Query {
      * @return the same query instance
      * @since 3.2
      */
-    Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    @Nonnull
+    Query setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode);
 
     /**
      * The cache retrieval mode that will be in effect during query
      * execution.
      * @since 3.2
      */
+    @Nonnull
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
@@ -557,6 +593,7 @@ public interface Query {
      * execution.
      * @since 3.2
      */
+    @Nonnull
     CacheStoreMode getCacheStoreMode();
 
     /**
@@ -568,12 +605,14 @@ public interface Query {
      * @return the same query instance
      * @since 3.2
      */
-    Query setTimeout(Integer timeout);
+    @Nonnull
+    Query setTimeout(@Nullable Integer timeout);
 
     /**
      * The query timeout.
      * @since 3.2
      */
+    @Nullable
     Integer getTimeout();
 
     /**
@@ -590,5 +629,6 @@ public interface Query {
      *         the given type
      * @since 2.0
      */
-    <T> T unwrap(Class<T> cls);
+    @Nonnull
+    <T> T unwrap(@Nonnull Class<T> cls);
 }

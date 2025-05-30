@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 import java.util.Map;
 
 /**
@@ -42,5 +44,6 @@ public interface TypedQueryReference<R> {
      * A map keyed by hint name of all hints specified via
      * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
      */
+    @Nonnull
     Map<String,Object> getHints();
 }

@@ -17,6 +17,8 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceConfiguration;
@@ -51,7 +53,9 @@ public interface PersistenceProvider {
      *
      * @see Persistence#createEntityManagerFactory(String, Map)
      */
-    EntityManagerFactory createEntityManagerFactory(String emName, Map<?, ?> map);
+    @Nullable
+    EntityManagerFactory createEntityManagerFactory(
+            @Nonnull String emName, @Nullable Map<?, ?> map);
 
     /**
      * Called by {@link Persistence} class when an
@@ -66,7 +70,9 @@ public interface PersistenceProvider {
      *
      * @since 3.2
      */
-    EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration);
+    @Nullable
+    EntityManagerFactory createEntityManagerFactory(
+            @Nonnull PersistenceConfiguration configuration);
 
     /**
      * Called by the container when an {@link EntityManagerFactory}
@@ -86,7 +92,9 @@ public interface PersistenceProvider {
      * @return {@link EntityManagerFactory} for the persistence unit
      * specified by the metadata
      */
-    EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo info, Map<?, ?> map);
+    @Nonnull
+    EntityManagerFactory createContainerEntityManagerFactory(
+            @Nonnull PersistenceUnitInfo info, @Nullable Map<?, ?> map);
 
 
     /**
@@ -98,15 +106,17 @@ public interface PersistenceProvider {
      * manager factory.
      * <p>
      * @param info metadata for use by the persistence provider
-     * @param map properties for schema generation;  these may
-     *            also include provider-specific properties
+     * @param properties properties for schema generation;
+     *                   these may also include provider-specific
+     *                   properties
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided of if schema
      *         generation otherwise fails
      *
      * @since 2.1
      */
-    void generateSchema(PersistenceUnitInfo info, Map<?, ?> map);
+    void generateSchema(@Nonnull PersistenceUnitInfo info,
+                        @Nullable Map<?, ?> properties);
 
     /**
      * Create database schemas and/or tables and/or create DDL
@@ -117,10 +127,11 @@ public interface PersistenceProvider {
      * manager factory.
      * <p>
      * @param persistenceUnitName the name of the persistence unit
-     * @param map properties for schema generation;  these may
-     *            also contain provider-specific properties.  The
-     *            value of these properties override any values that
-     *            may have been configured elsewhere.
+     * @param properties properties for schema generation;
+     *                   these may also contain provider-specific
+     *                   properties. The value of these properties
+     *                   override any values that may have been
+     *                   configured elsewhere.
      * @return true  if schema was generated, otherwise false
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
@@ -128,7 +139,8 @@ public interface PersistenceProvider {
      *
      * @since 2.1
      */
-    boolean generateSchema(String persistenceUnitName, Map<?, ?> map);
+    boolean generateSchema(@Nonnull String persistenceUnitName,
+                           @Nullable Map<?, ?> properties);
 
     /**
      * Return the utility interface implemented by the persistence
@@ -137,6 +149,7 @@ public interface PersistenceProvider {
      *
      * @since 2.0
      */
+    @Nonnull
     ProviderUtil getProviderUtil();
 }
 

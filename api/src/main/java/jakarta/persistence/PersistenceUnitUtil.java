@@ -17,6 +17,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Attribute;
 
 /**
@@ -40,7 +42,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * @return false if entity's state has not been loaded or if 
      *         the attribute state has not been loaded, else true
      */
-    boolean isLoaded(Object entity, String attributeName);
+    boolean isLoaded(@Nonnull Object entity, @Nonnull String attributeName);
 
     /**
      * Determine the load state of a given persistent attribute
@@ -51,7 +53,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      *         the attribute state has not been loaded, else true
      * @since 3.2
      */
-    <E> boolean isLoaded(E entity, Attribute<? super E, ?> attribute);
+    <E> boolean isLoaded(@Nonnull E entity, @Nonnull Attribute<? super E, ?> attribute);
 
     /**
      * Determine the load state of an entity belonging to the
@@ -65,7 +67,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * @param entity   entity instance whose load state is to be determined
      * @return false if the entity has not been loaded, else true
      */
-    boolean isLoaded(Object entity);
+    boolean isLoaded(@Nonnull Object entity);
 
     /**
      * Load the persistent value of a given persistent attribute
@@ -82,7 +84,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    void load(Object entity, String attributeName);
+    void load(@Nonnull Object entity, @Nonnull String attributeName);
 
     /**
      * Load the persistent value of a given persistent attribute
@@ -99,7 +101,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    <E> void load(E entity, Attribute<? super E, ?> attribute);
+    <E> void load(@Nonnull E entity, @Nonnull Attribute<? super E, ?> attribute);
 
     /**
      * Load the persistent state of an entity belonging to the
@@ -114,7 +116,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    void load(Object entity);
+    void load(@Nonnull Object entity);
 
     /**
      * Return true if the given entity belonging to the persistence
@@ -133,7 +135,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    boolean isInstance(Object entity, Class<?> entityClass);
+    boolean isInstance(@Nonnull Object entity, @Nonnull Class<?> entityClass);
 
     /**
      * Return the concrete entity class if the given entity belonging
@@ -149,7 +151,8 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * database
      * @since 3.2
      */
-    <T> Class<? extends T> getClass(T entity);
+    @Nonnull
+    <T> Class<? extends T> getClass(@Nonnull T entity);
 
     /**
      * Return the id of the entity.
@@ -161,7 +164,8 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * @throws IllegalArgumentException if the object is found not 
      *         to be an entity
      */
-    Object getIdentifier(Object entity);
+    @Nonnull
+    Object getIdentifier(@Nonnull Object entity);
 
     /**
      * Return the version of the entity.
@@ -169,10 +173,11 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * the database insert has occurred.
      * Returns null if the entity does not yet have an id.
      * @param entity  entity instance
-     * @return id of the entity
+     * @return version of the entity
      * @throws IllegalArgumentException if the object is found not
      *         to be an entity
      * @since 3.2
      */
-    Object getVersion(Object entity);
+    @Nullable
+    Object getVersion(@Nonnull Object entity);
 }

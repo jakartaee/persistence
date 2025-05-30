@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Interface used to interact with the second-level cache.
  * If no second-level cache is in use, the methods of this
@@ -32,21 +34,21 @@ public interface Cache {
      * @param primaryKey  primary key
      * @return boolean indicating whether the entity is in the cache
      */
-    boolean contains(Class<?> cls, Object primaryKey);
+    boolean contains(@Nonnull Class<?> cls, @Nonnull Object primaryKey);
 
     /**
      * Remove the data for the given entity from the cache.
      * @param cls  entity class
      * @param primaryKey  primary key
      */
-    void evict(Class<?> cls, Object primaryKey);
+    void evict(@Nonnull Class<?> cls, @Nonnull Object primaryKey);
 
     /**
      * Remove the data for entities of the specified class
      * (and its subclasses) from the cache.
      * @param cls  entity class
      */
-    void evict(Class<?> cls);
+    void evict(@Nonnull Class<?> cls);
 
     /**
      * Clear the cache.
@@ -67,5 +69,6 @@ public interface Cache {
      *         the given type
      * @since 2.1
      */
-    <T> T unwrap(Class<T> cls);
+    @Nonnull
+    <T> T unwrap(@Nonnull Class<T> cls);
 }

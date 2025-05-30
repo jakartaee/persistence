@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * This type represents a subgraph for an attribute node that
  * corresponds to a managed type. Using this class, an entity
@@ -34,6 +36,7 @@ public interface Subgraph<T> extends Graph<T> {
      * Return the type for which this subgraph was defined.
      * @return managed type referenced by the subgraph
      */
+    @Nonnull
     Class<T> getClassType();
 
 }

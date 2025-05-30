@@ -18,6 +18,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.util.List;
 import java.util.Date;
 import java.util.Calendar;
@@ -57,6 +60,7 @@ public interface TypedQuery<X> extends Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Nonnull
     List<X> getResultList();
 
     /**
@@ -89,6 +93,7 @@ public interface TypedQuery<X> extends Query {
      * @see #getResultList()
      * @since 2.2
      */
+    @Nonnull
     default Stream<X> getResultStream() {
         return getResultList().stream();
     }
@@ -115,6 +120,7 @@ public interface TypedQuery<X> extends Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Nonnull
     X getSingleResult();
 
     /**
@@ -141,6 +147,7 @@ public interface TypedQuery<X> extends Query {
      *
      * @since 3.2
      */
+    @Nullable
     X getSingleResultOrNull();
 
     /**
@@ -149,6 +156,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Nonnull
     TypedQuery<X> setMaxResults(int maxResult);
 
     /**
@@ -158,6 +166,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Nonnull
     TypedQuery<X> setFirstResult(int startPosition);
 
     /**
@@ -175,7 +184,9 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
-    TypedQuery<X> setHint(String hintName, Object value);
+    @Nonnull
+    TypedQuery<X> setHint(@Nonnull String hintName,
+                          @Nullable Object value);
 
     /**
      * Bind the value of a {@code Parameter} object.
@@ -186,7 +197,8 @@ public interface TypedQuery<X> extends Query {
      *         does not correspond to a parameter of the
      *         query
      */
-     <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
+    @Nonnull
+    <T> TypedQuery<X> setParameter(@Nonnull Parameter<T> param, T value);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
@@ -200,9 +212,10 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(Parameter<Calendar> param, 
-                               Calendar value,  
-                               TemporalType temporalType);
+    @Nonnull
+    TypedQuery<X> setParameter(@Nonnull Parameter<Calendar> param,
+                               Calendar value,
+                               @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
@@ -216,8 +229,9 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(Parameter<Date> param, Date value,  
-                               TemporalType temporalType);
+    @Nonnull
+    TypedQuery<X> setParameter(@Nonnull Parameter<Date> param, Date value,
+                               @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a named parameter.
@@ -228,7 +242,8 @@ public interface TypedQuery<X> extends Query {
      *         not correspond to a parameter of the query or if
      *         the argument is of incorrect type
      */
-    TypedQuery<X> setParameter(String name, Object value);
+    @Nonnull
+    TypedQuery<X> setParameter(@Nonnull String name, Object value);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a named parameter.
@@ -243,8 +258,9 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(String name, Calendar value, 
-                               TemporalType temporalType);
+    @Nonnull
+    TypedQuery<X> setParameter(@Nonnull String name, Calendar value,
+                               @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link java.util.Date} to a named parameter.
@@ -259,8 +275,9 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(String name, Date value, 
-                               TemporalType temporalType);
+    @Nonnull
+    TypedQuery<X> setParameter(@Nonnull String name, Date value,
+                               @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a positional parameter.
@@ -271,6 +288,7 @@ public interface TypedQuery<X> extends Query {
      *         correspond to a positional parameter of the
      *         query or if the argument is of incorrect type
      */
+    @Nonnull
     TypedQuery<X> setParameter(int position, Object value);
 
     /**
@@ -287,8 +305,9 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(int position, Calendar value,  
-                               TemporalType temporalType);
+    @Nonnull
+    TypedQuery<X> setParameter(int position, Calendar value,
+                               @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link java.util.Date} to a positional
@@ -304,8 +323,9 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(int position, Date value,  
-                               TemporalType temporalType);
+    @Nonnull
+    TypedQuery<X> setParameter(int position, Date value,
+                               @Nonnull TemporalType temporalType);
 
      /**
       * Set the flush mode type to be used for the query execution.
@@ -314,7 +334,8 @@ public interface TypedQuery<X> extends Query {
       * @param flushMode  flush mode
       * @return the same query instance
       */
-     TypedQuery<X> setFlushMode(FlushModeType flushMode);
+     @Nonnull
+     TypedQuery<X> setFlushMode(@Nonnull FlushModeType flushMode);
 
      /**
       * Set the lock mode type to be used for the query execution.
@@ -325,7 +346,8 @@ public interface TypedQuery<X> extends Query {
       *         or a {@link jakarta.persistence.criteria.CriteriaQuery}
       *         query
       */
-     TypedQuery<X> setLockMode(LockModeType lockMode);
+     @Nonnull
+     TypedQuery<X> setLockMode(@Nonnull LockModeType lockMode);
 
     /**
      * Set the cache retrieval mode that is in effect during
@@ -335,7 +357,8 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+    @Nonnull
+    TypedQuery<X> setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode);
 
     /**
      * Set the cache storage mode that is in effect during
@@ -345,7 +368,8 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    @Nonnull
+    TypedQuery<X> setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode);
 
     /**
      * Set the query timeout, in milliseconds. This is a hint,
@@ -356,5 +380,6 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    TypedQuery<X> setTimeout(Integer timeout);
+    @Nonnull
+    TypedQuery<X> setTimeout(@Nullable Integer timeout);
 }
