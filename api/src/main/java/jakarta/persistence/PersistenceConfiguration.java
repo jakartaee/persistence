@@ -172,12 +172,12 @@ public class PersistenceConfiguration {
      * The provider-generated SQL script which creates the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
      */
-    public static final String SCHEMAGEN_CREATE_TARGET = "jakarta.persistence.schema-generation.create-target";
+    public static final String SCHEMAGEN_CREATE_TARGET = "jakarta.persistence.schema-generation.scripts.create-target";
     /**
      * The provider-generated SQL script which drops the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
      */
-    public static final String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.drop-target";
+    public static final String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.scripts.drop-target";
 
     /**
      * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseProductName()},
