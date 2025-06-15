@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Attribute;
+
 /**
  * This type represents the root of an entity graph that will be
  * used as a template to define the attribute nodes and boundaries
@@ -25,7 +27,7 @@ package jakarta.persistence;
  * attribute nodes as well; such attribute nodes should not be
  * redundantly specified.
  * <p>
- * When used to specify fetching, an entity graph has two possible
+ * When used to specify fetching, an entity graph has three possible
  * interpretations:
  * <ul>
  * <li>As a <em>load graph</em>, where every node explicitly added
@@ -39,6 +41,15 @@ package jakarta.persistence;
  *     overrides every fetching strategy specified via annotations
  *     or XML descriptor, and every attribute not explicitly added
  *     to the graph is treated as {@link FetchType#LAZY}.
+ * <li>As a <em>refresh graph</em>, where every node explicitly added
+ *     to or explicitly removed from the graph overrides the default
+ *     behavior of refresh with respect to the corresponding attribute.
+ *     The default behavior is to refresh every attribute of an entity
+ *     being refreshed, without refreshing any associated entity.
+ *     The method {@link #addSubgraph(Attribute)} specifies that an
+ *     associated entity <em>should</em> be refreshed. The method
+ *     {@link #removeAttributeNode(Attribute)} hints that an attribute
+ *     of an entity being refreshed <em>should not</em> be refreshed.
  * </ul>
  * <p>
  * An entity graph passed as the first argument to

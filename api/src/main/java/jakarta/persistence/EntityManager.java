@@ -892,7 +892,9 @@ public interface EntityManager extends AutoCloseable {
      * made to the entity, if any. This operation does not cascade to
      * associations marked {@link CascadeType#REFRESH cascade=REFRESH}
      * unless they are included in the given entity graph.
+     * @param entityGraph  entity graph interpreted as a refresh graph
      * @param entity  a managed entity instance
+     * @param options  standard and vendor-specific options
      * @throws IllegalArgumentException if the instance is not an entity
      *         or if the entity is not managed
      * @throws TransactionRequiredException if there is no
@@ -903,7 +905,8 @@ public interface EntityManager extends AutoCloseable {
      *         the database
      * @since 4.0
      */
-    <T> void refresh(T entity, EntityGraph<T> entityGraph);
+    <T> void refresh(T entity, EntityGraph<T> entityGraph,
+                     RefreshOption... options);
 
     /**
      * Clear the persistence context, causing all managed entities to
