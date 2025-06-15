@@ -1867,45 +1867,47 @@ approach defined by the Bean Validation specification
 
 === Entity Graphs [[a2397]]
 
-An entity graph is a template that captures
-the path and boundaries for an operation or query. It is defined in the
-form of metadata or an object created by the dynamic `EntityGraph` API.
+An entity graph is a template that captures the extent of an operation or
+query.
 
-Entity graphs are used in the specification
-of “fetch plans” for query or `find` operations.
+- An entity graph may be used to specify a _fetch plan_ for a query or
+  `find()` operation.
+- Alternatively, an entity graph may be used to specify a _refresh plan_
+  for a `refresh()` operation.
 
-The `EntityGraph`, `AttributeNode`, and `Subgraph` interfaces found in
-<<persistence-api>> are used to dynamically construct entity graphs.
+An entity graph may be defined via metadata or by constructing an
+instance of `EntityGraph` programmatically in application code.
 
-The annotations `NamedEntityGraph`, `NamedAttributeNode`, and
-`NamedSubgraph` described in <<a13662>> are used to statically define
-entity graphs. The `named-entity-graph` XML element and its subelements
-may be used to override these annotations or to define additional named
-entity graphs.
+- The `EntityGraph`, `AttributeNode`, and `Subgraph` interfaces found in
+  <<persistence-api>> are used to dynamically construct entity graphs.
 
-The semantics of entity graphs with regard to
-find and query operations are described in <<a2814>>.
+- The annotations `NamedEntityGraph`, `NamedAttributeNode`, and
+  `NamedSubgraph` described in <<a13662>> are used to statically define
+  entity graphs. The `named-entity-graph` XML element and its subelements
+  may be used to override these annotations or to define additional named
+  entity graphs.
 
-==== Use of Entity Graphs in find and query operations [[a2814]]
+==== Fetch plans [[a2814]]
 
-An entity graph can be used with the `find`
-method or as a query hint to override or augment `FetchType` semantics.
+An entity graph can be used with the `find()` method or as a query hint to
+define a fetch plan which overrides or augments the `FetchType` semantics.
+An entity graph used as a fetch plan may be interpreted as a _fetch graph_,
+as specified below in <<fetch-graph>>, or as a _load graph_, as specified
+below in <<load-graph>>.
 
-The standard properties
-`jakarta.persistence.fetchgraph` and `jakarta.persistence.loadgraph` are
-used to specify such graphs to queries and `find` operations.
+The default fetch graph for an entity or embeddable is defined to comprise
+the transitive closure of all of its attributes which are specified as
+`FetchType.EAGER` (or defaulted as such).
 
-The default fetch graph for an entity or
-embeddable is defined to consist of the transitive closure of all of its
-attributes that are specified as `FetchType.EAGER` (or defaulted as
-such).
+The persistence provider is permitted to fetch additional entity state
+beyond that which is specified by a fetch plan. It is required, however,
+that the persistence provider fetch all state specified by the fetch plan.
 
-The persistence provider is permitted to
-fetch additional entity state beyond that specified by a fetch graph or
-load graph. It is required, however, that the persistence provider fetch
-all state specified by the fetch or load graph.
+The standard properties `jakarta.persistence.fetchgraph` and
+`jakarta.persistence.loadgraph` may be used to pass fetch plans to queries
+and `find` operations.
 
-===== Fetch Graph Semantics
+===== Fetch Graph Semantics [[fetch-graph]]
 
 When the `jakarta.persistence.fetchgraph`
 property is used to specify an entity graph, attributes that are
@@ -2065,7 +2067,7 @@ Since the type of the `approver` attribute is `Employee`, the
 approver's default fetch graph (`id`, `name`, and `employeeNumber`
 attributes) would also be fetched.
 
-===== Load Graph Semantics
+===== Load Graph Semantics [[load-graph]]
 
 When the `jakarta.persistence.loadgraph`
 property is used to specify an entity graph, attributes that are
@@ -2205,6 +2207,31 @@ In the above example, the default fetch graph
 The default fetch graphs of the related `Project` instances (`id`,
 `name`, and `doc` attributes) and their `Requirements` instances (`id`
 and `description` attributes) are also fetched.
+
+==== Refresh plans
+
+An entity graph can be used with the `refresh()` method to define a refresh
+plan which overrides or augments the default behavior of refresh. An entity
+graph used as a refresh plan is interpreted as a _refresh graph_, as specified
+below in <<refresh-graph>>
+
+The default behavior is to refresh every attribute of an entity being
+refreshed, without refreshing any associated entity.
+
+The persistence provider is permitted to refresh additional entity state
+beyond that which is specified by a refresh plan. It is required, however,
+that the persistence provider fetch all state specified by the refresh plan.
+
+===== Refresh Graph Semantics [[refresh-graph]]
+
+A refresh plan includes every attribute of an entity being refreshed
+by default, but does not include any associated entity.
+
+- An attribute node may be explicitly removed from the refresh graph,
+  hinting that the attribute need not be refreshed.
+
+- A subgraph may be added to the refresh graph, specifying that the
+  associated entity should be refreshed.
 
 === Type Conversion of Basic Attributes [[a2999]]
 
