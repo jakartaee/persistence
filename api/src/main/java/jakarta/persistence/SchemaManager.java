@@ -83,4 +83,16 @@ public interface SchemaManager {
 	 * and continue.
 	 */
 	void truncate();
+
+	/**
+	 * Import initial data any configured SQL scripts for data loading,
+	 * without executing any DDL.
+	 *
+	 * <p>If a SQL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+	 *
+	 * @since 4.0
+	 */
+	void populate();
 }
