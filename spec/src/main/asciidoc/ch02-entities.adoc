@@ -2432,7 +2432,7 @@ following approaches must be used:
 * It is possible to specify that all database
 identifiers in use for a persistence unit be treated as delimited
 identifiers by specifying the `<delimited-identifiers/>` element within
-the `persistence-unit-defaults` element of the object/relational xml
+the `<persistence-unit-defaults>` element of the object/relational XML
 mapping file. If the `<delimited-identifiers/>` element is specified, it
 cannot be overridden.
 * It is possible to specify on a per-name basis
@@ -2456,17 +2456,17 @@ other annotations:
 * `FieldResult(column *element*)`
 * `ColumnResult(name *element*)`
 * `CollectionTable(name, catalog, schema *elements*)`
-* `Column(name, columnDefinition, table *elements*)`
-* `DiscriminatorColumn(name, columnDefinition *elements*)`
+* `Column(name, table *elements*)`
+* `DiscriminatorColumn(name *elements*)`
 * `ForeignKey(name, foreignKeyDefinition *elements*)`
 * `Index(name, columnList *elements*)`
-* `JoinColumn(name, referencedColumnName, columnDefinition, table *elements*)`
+* `JoinColumn(name, referencedColumnName, table *elements*)`
 * `JoinTable(name, catalog, schema *elements*)`
-* `MapKeyColumn(name, columnDefinition, table *elements*)`
-* `MapKeyJoinColumn(name, referencedColumnName, columnDefinition, table *elements*)`
+* `MapKeyColumn(name, table *elements*)`
+* `MapKeyJoinColumn(name, referencedColumnName, table *elements*)`
 * `NamedStoredProcedureQuery(procedureName *element*)`
-* `OrderColumn(name, columnDefinition *elements*)`
-* `PrimaryKeyJoinColumn(name, referencedColumnName, columnDefinition *elements*)`
+* `OrderColumn(name *elements*)`
+* `PrimaryKeyJoinColumn(name, referencedColumnName *elements*)`
 * `SecondaryTable(name, catalog, schema *elements*)`
 * `SequenceGenerator(sequenceName, catalog, schema *elements*)`
 * `StoredProcedureParameter(name *element*)`
@@ -2481,20 +2481,20 @@ identifiers and for which the above rules apply:
 * `entity-mappings(schema, catalog *elements*)`
 * `persistence-unit-defaults(schema, catalog *elements*)`
 * `collection-table(name, catalog, schema *attributes*)`
-* `column(name, table, column-definition *attributes*)`
+* `column(name, table *attributes*)`
 * `column-result(name *attribute*)`
-* `discriminator-column(name, column-definition *attributes*)`
+* `discriminator-column(name *attributes*)`
 * `entity-result(discriminator-column *attribute*)`
 * `field-result(column *attribute*)`
 * `foreign-key(name, foreign-key-definition *attributes*)`
 * `index(name *attribute*, column-list *element*)`
-* `join-column(name, referenced-column-name, column-definition, table *attributes*)`
+* `join-column(name, referenced-column-name, table *attributes*)`
 * `join-table(name, catalog, schema *attributes*)`
-* `map-key-column(name, column-definition, table *attributes*)`
-* `map-key-join-column(name, referenced-column-name, column-definition, table *attributes*)`
+* `map-key-column(name, table *attributes*)`
+* `map-key-join-column(name, referenced-column-name, table *attributes*)`
 * `named-stored-procedure-query(procedure-name *attribute*)`
-* `order-column(name, column-definition *attributes*)`
-* `primary-key-join-column(name, referenced-column-name, column-definition *attributes*)`
+* `order-column(name *attributes*)`
+* `primary-key-join-column(name, referenced-column-name *attributes*)`
 * `secondary-table(name, catalog, schema *attributes*)`
 * `sequence-generator(sequence-name, catalog, schema *attributes*)`
 * `stored-procedure-parameter(name *attribute*)`
