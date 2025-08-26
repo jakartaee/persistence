@@ -16,6 +16,8 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.annotation.Nonnull;
+
 import java.util.List;
 
 /**
@@ -41,6 +43,7 @@ public interface PersistenceProviderResolver {
      * @return list of the persistence providers available 
      *         in the environment
      */
+    @Nonnull
     List<PersistenceProvider> getPersistenceProviders();
 
     /**

@@ -17,6 +17,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nullable;
+
 /**
  * Interface used to control transactions on resource-local entity
  * managers. The {@link EntityManager#getTransaction} method returns
@@ -79,11 +81,12 @@ public interface EntityTransaction {
       *                that the database server should set the timeout
       * @since 3.2
       */
-     void setTimeout(Integer timeout);
+     void setTimeout(@Nullable Integer timeout);
 
      /**
       * The transaction timeout.
       * @since 3.2
       */
+     @Nullable
      Integer getTimeout();
 }

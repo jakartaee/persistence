@@ -15,6 +15,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  * This type represents the root of an entity graph that will be
  * used as a template to define the attribute nodes and boundaries
@@ -49,6 +52,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * Returns null if the {@code EntityGraph} is not a named
      * {@code EntityGraph}.
      */
+    @Nullable
     String getName();
 
     /**
@@ -63,7 +67,8 @@ public interface EntityGraph<T> extends Graph<T> {
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
      */
-    <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
+    @Nonnull
+    <S extends T> Subgraph<S> addTreatedSubgraph(@Nonnull Class<S> type);
 
     /**
      * Add additional attributes to this entity graph that
@@ -79,6 +84,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * @deprecated use {@link #addTreatedSubgraph(Class)}
      */
     @Deprecated(since = "3.2", forRemoval = true)
-    <T> Subgraph<? extends T> addSubclassSubgraph(Class<? extends T> type);
+    @Nonnull
+    <T> Subgraph<? extends T> addSubclassSubgraph(@Nonnull Class<? extends T> type);
 
 }

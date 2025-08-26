@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
@@ -133,6 +135,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
+    @Nonnull
     EntityManager createEntityManager();
     
     /**
@@ -147,7 +150,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
-    EntityManager createEntityManager(Map<?, ?> map);
+    @Nonnull
+    EntityManager createEntityManager(@Nonnull Map<?, ?> map);
 
     /**
      * Create a new JTA application-managed {@link EntityManager} with
@@ -164,7 +168,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.1
      */
-    EntityManager createEntityManager(SynchronizationType synchronizationType);
+    @Nonnull
+    EntityManager createEntityManager(@Nonnull SynchronizationType synchronizationType);
 
     /**
      * Create a new JTA application-managed {@link EntityManager} with
@@ -183,7 +188,9 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.1
      */
-    EntityManager createEntityManager(SynchronizationType synchronizationType, Map<?, ?> map);
+    @Nonnull
+    EntityManager createEntityManager(@Nonnull SynchronizationType synchronizationType,
+                                      @Nonnull Map<?, ?> map);
 
     /**
      * Return an instance of {@link CriteriaBuilder} which may be used
@@ -197,6 +204,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
+    @Nonnull
     CriteriaBuilder getCriteriaBuilder();
     
     /**
@@ -208,6 +216,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
+    @Nonnull
     Metamodel getMetamodel();
 
     /**
@@ -234,6 +243,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
+    @Nonnull
     String getName();
 
     /**
@@ -246,6 +256,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
+    @Nonnull
     Map<String, Object> getProperties();
 
     /**
@@ -258,6 +269,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
+    @Nullable
     Cache getCache();
 
     /**
@@ -269,6 +281,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
+    @Nonnull
     PersistenceUnitUtil getPersistenceUnitUtil();
 
     /**
@@ -277,6 +290,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
+    @Nonnull
     PersistenceUnitTransactionType getTransactionType();
 
     /**
@@ -288,6 +302,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
+    @Nonnull
     SchemaManager getSchemaManager();
 
     /**
@@ -317,7 +332,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.1
      */
-    void addNamedQuery(String name, Query query);
+    void addNamedQuery(@Nonnull String name, @Nonnull Query query);
 
     /**
      * Return an object of the specified type to allow access to
@@ -333,7 +348,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      *        the given type
      * @since 2.1
      */
-    <T> T unwrap(Class<T> cls);
+    @Nonnull
+    <T> T unwrap(@Nonnull Class<T> cls);
 
     /**
      * Add a named copy of the given {@link EntityGraph} to this
@@ -343,7 +359,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @param entityGraph  entity graph
      * @since 2.1
      */
-    <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
+    <T> void addNamedEntityGraph(@Nonnull String graphName,
+                                 @Nonnull EntityGraph<T> entityGraph);
 
     /**
      * A map keyed by {@linkplain NamedQuery#name query name}, containing
@@ -356,7 +373,9 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
-    <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
+    @Nonnull
+    <R> Map<String, TypedQueryReference<R>> getNamedQueries(
+            @Nonnull Class<R> resultType);
 
     /**
      * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
@@ -369,7 +388,9 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
-    <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
+    @Nonnull
+    <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(
+            @Nonnull Class<E> entityType);
 
     /**
      * Create a new application-managed {@link EntityManager} with an active
@@ -396,7 +417,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
-    void runInTransaction(Consumer<EntityManager> work);
+    void runInTransaction(@Nonnull Consumer<EntityManager> work);
     /**
      * Create a new application-managed {@link EntityManager} with an active
      * transaction, and call the given function, passing the {@code EntityManager}
@@ -424,5 +445,5 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 3.2
      */
-    <R> R callInTransaction(Function<EntityManager, R> work);
+    <R> R callInTransaction(@Nonnull Function<EntityManager, R> work);
 }

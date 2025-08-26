@@ -14,6 +14,9 @@
 //     Gavin King      - 3.2
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -210,7 +213,7 @@ public class PersistenceConfiguration {
      * @param name the name of the persistence unit, which may be used by
      *             the persistence provider for logging and error reporting
      */
-    public PersistenceConfiguration(String name) {
+    public PersistenceConfiguration(@Nonnull String name) {
         Objects.requireNonNull(name, "Persistence unit name should not be null");
         this.name = name;
     }
@@ -220,6 +223,7 @@ public class PersistenceConfiguration {
      * @throws PersistenceException if required configuration is missing or
      *                             if the factory could not be created
      */
+    @Nonnull
     public EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(this);
     }
@@ -229,6 +233,7 @@ public class PersistenceConfiguration {
      * provider for logging and error reporting.
      * @return the name of the persistence unit.
      */
+    @Nonnull
     public String name() {
         return name;
     }
@@ -238,7 +243,8 @@ public class PersistenceConfiguration {
      * @param providerClassName the qualified name of the persistence provider class
      * @return this configuration
      */
-    public PersistenceConfiguration provider(String providerClassName) {
+    @Nonnull
+    public PersistenceConfiguration provider(@Nullable String providerClassName) {
         this.provider = providerClassName;
         return this;
     }
@@ -248,6 +254,7 @@ public class PersistenceConfiguration {
      * {@link jakarta.persistence.spi.PersistenceProvider}.
      * @return the qualified name of the persistence provider class.
      */
+    @Nullable
     public String provider() {
         return provider;
     }
@@ -257,7 +264,8 @@ public class PersistenceConfiguration {
      * @param dataSourceJndiName the JNDI name of a JTA datasource
      * @return this configuration
      */
-    public PersistenceConfiguration jtaDataSource(String dataSourceJndiName) {
+    @Nonnull
+    public PersistenceConfiguration jtaDataSource(@Nullable String dataSourceJndiName) {
         this.jtaDataSource = dataSourceJndiName;
         return this;
     }
@@ -266,6 +274,7 @@ public class PersistenceConfiguration {
      * The JNDI name of a JTA {@code javax.sql.DataSource}.
      * @return the configured JTA datasource, if any, or null
      */
+    @Nullable
     public String jtaDataSource() {
         return jtaDataSource;
     }
@@ -275,7 +284,8 @@ public class PersistenceConfiguration {
      * @param dataSourceJndiName the JNDI name of a non-JTA datasource
      * @return this configuration
      */
-    public PersistenceConfiguration nonJtaDataSource(String dataSourceJndiName) {
+    @Nonnull
+    public PersistenceConfiguration nonJtaDataSource(@Nullable String dataSourceJndiName) {
         this.nonJtaDataSource = dataSourceJndiName;
         return this;
     }
@@ -284,6 +294,7 @@ public class PersistenceConfiguration {
      * The JNDI name of a non-JTA {@code javax.sql.DataSource}.
      * @return the configured non-JTA datasource, if any, or null
      */
+    @Nullable
     public String nonJtaDataSource() {
         return nonJtaDataSource;
     }
@@ -295,7 +306,8 @@ public class PersistenceConfiguration {
      * @param managedClass the managed class
      * @return this configuration
      */
-    public PersistenceConfiguration managedClass(Class<?> managedClass) {
+    @Nonnull
+    public PersistenceConfiguration managedClass(@Nonnull Class<?> managedClass) {
         managedClasses.add(managedClass);
         return this;
     }
@@ -306,6 +318,7 @@ public class PersistenceConfiguration {
      * {@link MappedSuperclass}, or {@link Converter}.
      * @return all configured managed classes
      */
+    @Nonnull
     public List<Class<?>> managedClasses() {
         return managedClasses;
     }
@@ -316,7 +329,8 @@ public class PersistenceConfiguration {
      * @param name the resource path of the mapping file
      * @return this configuration
      */
-    public PersistenceConfiguration mappingFile(String name) {
+    @Nonnull
+    public PersistenceConfiguration mappingFile(@Nonnull String name) {
         mappingFileNames.add(name);
         return this;
     }
@@ -325,6 +339,7 @@ public class PersistenceConfiguration {
      * The configured resource paths of XML mapping files.
      * @return all configured mapping file resource paths
      */
+    @Nonnull
     public List<String> mappingFiles() {
         return mappingFileNames;
     }
@@ -334,7 +349,8 @@ public class PersistenceConfiguration {
      * @param transactionType the transaction type
      * @return this configuration
      */
-    public PersistenceConfiguration transactionType(PersistenceUnitTransactionType transactionType) {
+    @Nonnull
+    public PersistenceConfiguration transactionType(@Nonnull PersistenceUnitTransactionType transactionType) {
         this.transactionType = transactionType;
         return this;
     }
@@ -352,6 +368,7 @@ public class PersistenceConfiguration {
      * </ul>
      * @return the transaction type
      */
+    @Nonnull
     public PersistenceUnitTransactionType transactionType() {
         return transactionType;
     }
@@ -361,7 +378,7 @@ public class PersistenceConfiguration {
      * @param sharedCacheMode the shared cache mode
      * @return this configuration
      */
-    public PersistenceConfiguration sharedCacheMode(SharedCacheMode sharedCacheMode) {
+    public PersistenceConfiguration sharedCacheMode(@Nonnull SharedCacheMode sharedCacheMode) {
         this.sharedCacheMode = sharedCacheMode;
         return this;
     }
@@ -380,7 +397,7 @@ public class PersistenceConfiguration {
      * @param validationMode the shared cache mode
      * @return this configuration
      */
-    public PersistenceConfiguration validationMode(ValidationMode validationMode) {
+    public PersistenceConfiguration validationMode(@Nonnull ValidationMode validationMode) {
         this.validationMode = validationMode;
         return this;
     }
@@ -389,6 +406,7 @@ public class PersistenceConfiguration {
      * The validation mode, {@link ValidationMode#AUTO} by default.
      * @return the validation mode
      */
+    @Nonnull
     public ValidationMode validationMode() {
         return validationMode;
     }
@@ -399,7 +417,8 @@ public class PersistenceConfiguration {
      * @param value the property value
      * @return this configuration
      */
-    public PersistenceConfiguration property(String name, Object value) {
+    @Nonnull
+    public PersistenceConfiguration property(@Nonnull String name, @Nullable Object value) {
         properties.put(name, value);
         return this;
     }
@@ -409,7 +428,8 @@ public class PersistenceConfiguration {
      * @param properties the properties
      * @return this configuration
      */
-    public PersistenceConfiguration properties(Map<String,?> properties) {
+    @Nonnull
+    public PersistenceConfiguration properties(@Nonnull Map<String,?> properties) {
         this.properties.putAll(properties);
         return this;
     }
@@ -418,6 +438,7 @@ public class PersistenceConfiguration {
      * Standard and vendor-specific property settings.
      * @return the configured properties
      */
+    @Nonnull
     public Map<String, Object> properties() {
         return properties;
     }

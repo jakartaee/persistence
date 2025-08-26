@@ -16,6 +16,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -103,7 +106,9 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
-    StoredProcedureQuery setHint(String hintName, Object value);
+    @Nonnull
+    StoredProcedureQuery setHint(@Nonnull String hintName,
+                                 @Nullable Object value);
 
     /**
      * Bind the value of a {@code Parameter} object.
@@ -113,7 +118,8 @@ public interface StoredProcedureQuery extends Query {
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      */
-    <T> StoredProcedureQuery setParameter(Parameter<T> param, 
+    @Nonnull
+    <T> StoredProcedureQuery setParameter(@Nonnull Parameter<T> param,
                                           T value);
 
     /**
@@ -128,9 +134,10 @@ public interface StoredProcedureQuery extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(Parameter<Calendar> param,
-                                      Calendar value, 
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull Parameter<Calendar> param,
+                                      Calendar value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
@@ -144,9 +151,10 @@ public interface StoredProcedureQuery extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(Parameter<Date> param,
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull Parameter<Date> param,
                                       Date value,
-                                      TemporalType temporalType);
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a named parameter.
@@ -157,7 +165,8 @@ public interface StoredProcedureQuery extends Query {
      *         not correspond to a parameter of the query or if the
      *         argument is of incorrect type
      */
-    StoredProcedureQuery setParameter(String name, Object value);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull String name, Object value);
 
     /**
      * Bind an instance of {@code java.util.Calendar} to a named parameter.
@@ -172,9 +181,10 @@ public interface StoredProcedureQuery extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(String name, 
-                                      Calendar value, 
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull String name,
+                                      Calendar value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@code java.util.Date} to a named parameter.
@@ -189,9 +199,10 @@ public interface StoredProcedureQuery extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(String name, 
-                                      Date value, 
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull String name,
+                                      Date value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a positional parameter.
@@ -202,6 +213,7 @@ public interface StoredProcedureQuery extends Query {
      *         correspond to a positional parameter of the query
      *         or if the argument is of incorrect type
      */
+    @Nonnull
     StoredProcedureQuery setParameter(int position, Object value);
 
     /**
@@ -218,9 +230,10 @@ public interface StoredProcedureQuery extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Nonnull
     StoredProcedureQuery setParameter(int position, 
-                                      Calendar value,  
-                                      TemporalType temporalType);
+                                      Calendar value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@code java.util.Date} to a positional parameter.
@@ -235,9 +248,10 @@ public interface StoredProcedureQuery extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(int position, 
-                                      Date value,  
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(int position,
+                                      Date value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Set the flush mode type to be used for the query execution.
@@ -246,7 +260,8 @@ public interface StoredProcedureQuery extends Query {
      * @param flushMode  flush mode
      * @return the same query instance
      */
-    StoredProcedureQuery setFlushMode(FlushModeType flushMode);
+    @Nonnull
+    StoredProcedureQuery setFlushMode(@Nonnull FlushModeType flushMode);
 
     /**
      * Set the cache retrieval mode that is in effect during
@@ -256,7 +271,8 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+    @Nonnull
+    StoredProcedureQuery setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode);
 
     /**
      * Set the cache storage mode that is in effect during
@@ -266,7 +282,8 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    @Nonnull
+    StoredProcedureQuery setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode);
 
     /**
      * Set the query timeout, in milliseconds. This is a hint,
@@ -277,7 +294,8 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    StoredProcedureQuery setTimeout(Integer timeout);
+    @Nonnull
+    StoredProcedureQuery setTimeout(@Nullable Integer timeout);
 
     /**
      * Register a positional parameter.
@@ -287,10 +305,11 @@ public interface StoredProcedureQuery extends Query {
      * @param mode  parameter mode 
      * @return the same query instance
      */
+    @Nonnull
     StoredProcedureQuery registerStoredProcedureParameter(
-	  int position,
-	  Class<?> type,
-	  ParameterMode mode);
+            int position,
+            @Nonnull Class<?> type,
+            @Nonnull ParameterMode mode);
 
     /**
      * Register a named parameter.
@@ -300,10 +319,11 @@ public interface StoredProcedureQuery extends Query {
      * @param mode  parameter mode 
      * @return the same query instance
      */
+    @Nonnull
     StoredProcedureQuery registerStoredProcedureParameter(
-	  String parameterName,
-	  Class<?> type,
-	  ParameterMode mode);
+            @Nonnull String parameterName,
+            @Nonnull Class<?> type,
+            @Nonnull ParameterMode mode);
 
     /**
      * Retrieve a value passed back from the procedure
@@ -317,6 +337,7 @@ public interface StoredProcedureQuery extends Query {
      *         not correspond to a parameter of the query or is
      *         not an INOUT or OUT parameter
      */
+    @Nonnull
     Object getOutputParameterValue(int position);
 
     /**
@@ -332,7 +353,8 @@ public interface StoredProcedureQuery extends Query {
      *         not correspond to a parameter of the query or is
      *         not an INOUT or OUT parameter
      */
-    Object getOutputParameterValue(String parameterName);
+    @Nonnull
+    Object getOutputParameterValue(@Nonnull String parameterName);
 
     /**
      * Return true if the first result corresponds to a result set,
@@ -382,6 +404,8 @@ public interface StoredProcedureQuery extends Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @SuppressWarnings("rawtypes")
+    @Nonnull
     List getResultList();
 
     /**
@@ -402,6 +426,7 @@ public interface StoredProcedureQuery extends Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Nonnull
     Object getSingleResult();
 
     /**
@@ -421,6 +446,7 @@ public interface StoredProcedureQuery extends Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Nullable
     Object getSingleResultOrNull();
 
     /**

@@ -360,4 +360,12 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
         </plugins>
     </build>
 
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+    </dependencies>
+
 </project>

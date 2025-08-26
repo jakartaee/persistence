@@ -17,6 +17,9 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -53,6 +56,7 @@ public class PersistenceProviderResolverHolder {
      * 
      * @return the current persistence provider resolver
      */
+    @Nonnull
     public static PersistenceProviderResolver getPersistenceProviderResolver() {
         return singleton;
     }
@@ -62,7 +66,7 @@ public class PersistenceProviderResolverHolder {
      * 
      * @param resolver persistence provider resolver to be used.
      */
-    public static void setPersistenceProviderResolver(PersistenceProviderResolver resolver) {
+    public static void setPersistenceProviderResolver(@Nullable PersistenceProviderResolver resolver) {
         if (resolver == null) {
             singleton = new DefaultPersistenceProviderResolver();
         } else {
@@ -90,6 +94,8 @@ public class PersistenceProviderResolverHolder {
          */
         private static final ReferenceQueue referenceQueue = new ReferenceQueue();
 
+        @Override
+        @Nonnull
         public List<PersistenceProvider> getPersistenceProviders() {
             // Before we do the real loading work, see whether we need to
             // do some cleanup: If references to class loaders or

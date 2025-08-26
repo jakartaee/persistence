@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.spi.PersistenceProvider;
 import jakarta.persistence.spi.PersistenceProviderResolver;
 import jakarta.persistence.spi.PersistenceProviderResolverHolder;
@@ -62,7 +65,9 @@ public class Persistence {
      * @return the factory that creates {@link EntityManager}s configured
      *         according to the specified persistence unit
      */
-    public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName) {
+    @Nonnull
+    public static EntityManagerFactory createEntityManagerFactory(
+            @Nonnull String persistenceUnitName) {
         return createEntityManagerFactory(persistenceUnitName, null);
     }
 
@@ -79,7 +84,9 @@ public class Persistence {
      * @return the factory that creates {@link EntityManager}s configured
      *        according to the specified persistence unit
      */
-    public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName, Map<?,?> properties) {
+    @Nonnull
+    public static EntityManagerFactory createEntityManagerFactory(
+            @Nonnull String persistenceUnitName, @Nullable Map<?,?> properties) {
 
         EntityManagerFactory emf = null;
         PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
@@ -108,7 +115,8 @@ public class Persistence {
      *
      * @since 3.2
      */
-    public static EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration) {
+    @Nonnull
+    public static EntityManagerFactory createEntityManagerFactory(@Nonnull PersistenceConfiguration configuration) {
 
         EntityManagerFactory emf = null;
         PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
@@ -136,22 +144,23 @@ public class Persistence {
      * from creation of the entity manager factory.
      * <p>
      * @param persistenceUnitName the name of the persistence unit
-     * @param map properties for schema generation; these may also
-     *            contain provider-specific properties. The values
-     *            of these properties override any values that may
-     *            have been configured elsewhere.
+     * @param properties properties for schema generation;
+     *                   these may also contain provider-specific
+     *                   properties. The values of these properties
+     *                   override any values that may have been
+     *                   configured elsewhere.
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
      *         generation otherwise fails.
      *
      * @since 2.1
      */
-    public static void generateSchema(String persistenceUnitName, Map<?,?> map) {
+    public static void generateSchema(@Nonnull String persistenceUnitName, @Nullable Map<?,?> properties) {
         PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
         List<PersistenceProvider> providers = resolver.getPersistenceProviders();
         
         for (PersistenceProvider provider : providers) {
-            if (provider.generateSchema(persistenceUnitName, map)) {
+            if (provider.generateSchema(persistenceUnitName, properties)) {
                 return;
             }
         }
@@ -165,6 +174,7 @@ public class Persistence {
      * @return {@link PersistenceUtil} instance
      * @since 2.0
      */
+    @Nonnull
     public static PersistenceUtil getPersistenceUtil() {
        return new PersistenceUtilImpl();
     }
@@ -175,7 +185,7 @@ public class Persistence {
      * @since 2.0
      */
     private static class PersistenceUtilImpl implements PersistenceUtil {
-        public boolean isLoaded(Object entity, String attributeName) {
+        public boolean isLoaded(@Nonnull Object entity, @Nonnull String attributeName) {
             PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
 
             List<PersistenceProvider> providers = resolver.getPersistenceProviders();
@@ -203,7 +213,7 @@ public class Persistence {
             return true;
         }
 
-        public boolean isLoaded(Object entity) {
+        public boolean isLoaded(@Nonnull Object entity) {
             PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
 
             List<PersistenceProvider> providers = resolver.getPersistenceProviders();
