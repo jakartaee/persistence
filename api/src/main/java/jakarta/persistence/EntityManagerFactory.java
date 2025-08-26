@@ -17,6 +17,7 @@
 
 package jakarta.persistence;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -370,6 +371,36 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @since 3.2
      */
     <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
+
+    /**
+     * Register a listener for the given kind of entity lifecycle event
+     * and given entity type, returning an {@link EntityListenerRegistration}
+     * which may be used to {@linkplain EntityListenerRegistration#cancel cancel}
+     * the registration.
+     * <p>
+     * The given entity type may be an entity class or any supertype of
+     * an entity class, including {@code java.lang.Object}. The lifecycle
+     * event type is identified by the class of a callback annotation type,
+     * for example, {@link PostPersist PostPersist.class}. When a lifecycle
+     * event of the given type occurs for any entity assignable to the given
+     * entity type, the listener is invoked with the entity instance.
+     *
+     * @param entityType An entity class, or any supertype of an entity
+     *                   class
+     * @param callbackType The kind of entity callback, represented by
+     *                     the class of the callback annotation type
+     * @param listener The callback listener
+     * @return An {@link EntityListenerRegistration} representing the
+     *         registration of the given listener with this factory
+     * @throws IllegalArgumentException if the given annotation type
+     *         does not represent a recognized lifecycle callback
+     *
+     * @since 4.0
+     */
+    <E> EntityListenerRegistration addListener(
+            Class<E> entityType,
+            Class<? extends Annotation> callbackType,
+            Consumer<? super E> listener);
 
     /**
      * Create a new application-managed {@link EntityManager} with an active
