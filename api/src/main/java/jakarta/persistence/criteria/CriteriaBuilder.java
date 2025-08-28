@@ -527,6 +527,15 @@ public interface CriteriaBuilder {
      */
     <Y extends Comparable<? super Y>> Predicate between(Expression<? extends Y> v, Y x, Y y);
 	
+    /**
+     * Create a predicate for testing whether the first argument is 
+     * between the second and third arguments in value.
+     * @param v  value 
+     * @param x  expression
+     * @param y  expression
+     * @return between predicate
+     */
+    <Y extends Comparable<? super Y>> Predicate between(Y v, Expression<? extends Y> x, Expression<? extends Y> y);    
 
     //comparisons for numeric operands:
 	
