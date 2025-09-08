@@ -1238,7 +1238,8 @@ describes the rules that apply to method invocation order in this case.
 
 ==== Entity Listeners
 
-The entity listener class must have a public no-arg constructor.
+The entity listener class must have a public constructor with no
+parameters.
 
 Entity listener classes in Jakarta EE
 environments support dependency injection through the Contexts and
@@ -1327,21 +1328,22 @@ The same annotations (and XML elements) are used to declare:
 
 The signatures of the callback methods differ between these two cases:
 
-- a callback method defined by an entity class or mapped superclass has
-  the signature:
+- a callback method defined by an entity class or mapped superclass must
+  have the signature:
 +
- void <METHOD>()
+ void method()
 +
+where `method` is a legal Java method name, but
 - a callback method defined by an entity listener class has the signature:
 +
- void <METHOD>(S)
+ void method(E entity)
 +
-where `S` is any supertype of the entity class or mapped superclass to
-which the entity listener is applied. At runtime, the argument to the
-entity listener callback method is the entity instance for which the
-callback method is being invoked.
+where `method` is a legal Java method name, and `E` is any supertype of
+an entity class or mapped superclass to which the entity listener applies.
+At runtime, the argument to the entity listener callback method is the
+entity instance for which the callback method is being invoked.
 
-Callback methods can have public, private, protected, or package level
+Callback methods can have `public`, `private`, `protected`, or package level
 access, but must not be `static` or `final`.
 
 The following annotations designate lifecycle event callback methods of
@@ -1369,6 +1371,14 @@ The following rules apply to lifecycle callback methods:
   instances, or modify relationships within the same persistence
   contextfootnote:[Note that this caution applies also to the actions of
   objects that might be injected into an entity listener].
+
+An entity or entity listener may have multiple lifecycle callback methods:
+
+- an entity class may have at most one callback method for a given type
+  of lifecycle event, but
+- an entity listener class may have multiple callback methods for a given
+  type of lifecycle event, but at most one callback method for a given
+  type of event and given entity type.
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
@@ -1580,10 +1590,10 @@ public class CatListener2 {
 If a `PostPersist` event occurs on an
 instance of `Cat`, the following methods are called in order:
 
-. postPersistPetListenerMethod
-. postPersistCatListenerMethod
-. postPersistCatListener2Method
-. postPersistAnimal
+. `postPersistPetListenerMethod`
+. `postPersistCatListenerMethod`
+. `postPersistCatListener2Method`
+. `postPersistAnimal`
 
 Assume that `SiameseCat` is defined as a
 subclass of `Cat`:
@@ -1612,12 +1622,12 @@ public class SiameseCatListener {
 If a `PostPersist` event occurs on an
 instance of `SiameseCat`, the following methods are called in order:
 
-. postPersistPetListenerMethod
-. postPersistCatListenerMethod
-. postPersistCatListener2Method
-. postPersistSiameseCatListenerMethod
-. postPersistAnimal
-. postPersistSiameseCat
+. `postPersistPetListenerMethod`
+. `postPersistCatListenerMethod`
+. `postPersistCatListener2Method`
+. `postPersistSiameseCatListenerMethod`
+. `postPersistAnimal`
+. `postPersistSiameseCat`
 
 Assume the definition of `SiameseCat` were instead:
 
@@ -1639,11 +1649,11 @@ In this case, the following methods would be
 called in order, where `postPersistAnimal` is the `PostPersist` method
 defined in the `SiameseCat` class:
 
-. postPersistPetListenerMethod
-. postPersistCatListenerMethod
-. postPersistCatListener2Method
-. postPersistSiameseCatListenerMethod
-. postPersistAnimal
+. `postPersistPetListenerMethod`
+. `postPersistCatListenerMethod`
+. `postPersistCatListener2Method`
+. `postPersistSiameseCatListenerMethod`
+. `postPersistAnimal`
 
 ==== Exceptions
 
@@ -1668,14 +1678,6 @@ is used to specify the lifecycle listener methods of an entity listener
 class. The lifecycle listener methods are specified by using the
 `pre-persist`, `post-persist`, `pre-remove`, `post-remove`,
 `pre-update`, `post-update`, and/or `post-load` elements.
-
-An entity listener class can define multiple
-callback methods. However, at most one method of an entity listener
-class can be designated as a pre-persist method, post-persist method,
-pre-remove method, post-remove method, pre-update method, post-update
-method, and/or post-load method, regardless of whether the XML
-descriptor is used to define entity listeners or whether some
-combination of annotations and XML descriptor elements is used.
 
 ===== Specification of the Binding of Entity Listener Classes to Entities
 
@@ -1732,7 +1734,7 @@ specification <<a19498>>.
 
 This specification supports the use of bean
 validation for the automatic validation of entities upon the
-pre-persist, pre-update, and pre-remove lifecycle validation events.
+`pre-persist`, `pre-update`, and `pre-remove` lifecycle validation events.
 These lifecycle validation events occur immediately after the point at
 which all the `PrePersist`, `PreUpdate`, and `PreRemove` lifecycle
 callback method invocations respectively have been completed, or
