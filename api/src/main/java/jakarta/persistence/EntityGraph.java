@@ -31,9 +31,9 @@ package jakarta.persistence;
  * @see Subgraph
  * @see NamedEntityGraph
  *
- * @see EntityManager#createEntityGraph(Class)
- * @see EntityManager#createEntityGraph(String)
- * @see EntityManager#getEntityGraph(String)
+ * @see GraphFactory#createEntityGraph(Class)
+ * @see GraphFactory#createEntityGraph(String)
+ * @see GraphFactory#getEntityGraph(String)
  * @see EntityManagerFactory#addNamedEntityGraph(String, EntityGraph)
  * @see EntityManager#find(EntityGraph, Object, FindOption...)
  *

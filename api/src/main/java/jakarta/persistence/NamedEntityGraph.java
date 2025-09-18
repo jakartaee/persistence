@@ -30,7 +30,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * is executed.
  *
  * <p> A reference to a named entity graph may be obtained by calling
- * {@link EntityManager#getEntityGraph(String)}, and may be passed to
+ * {@link GraphFactory#getEntityGraph(String)}, and may be passed to
  * {@link EntityManager#find(EntityGraph, Object, FindOption...)}.
  *
  * @since 2.1
@@ -41,8 +41,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedEntityGraph {
 
     /**
-     * (Optional) The name used to identify the entity graph in calls to
-     * {@link EntityManager#getEntityGraph(String)}. If no name is explicitly
+     * (Optional) The name used to identify this entity graph in calls to
+     * {@link GraphFactory#getEntityGraph(String)}. If no name is explicitly
      * specified, the name defaults to the entity name of the annotated root
      * entity. Entity graph names must be unique within the persistence unit.
      */

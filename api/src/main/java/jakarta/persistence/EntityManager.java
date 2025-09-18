@@ -19,7 +19,6 @@
 package jakarta.persistence;
 
 import java.util.Map;
-import java.util.List;
 
 import jakarta.persistence.criteria.CriteriaSelect;
 import jakarta.persistence.metamodel.Metamodel;
@@ -189,7 +188,7 @@ import jakarta.persistence.criteria.CriteriaDelete;
  * 
  * @since 1.0
  */
-public interface EntityManager extends AutoCloseable {
+public interface EntityManager extends GraphFactory, AutoCloseable {
 
     /**
      * Make a new entity instance managed and persistent, resulting in
@@ -1324,46 +1323,6 @@ public interface EntityManager extends AutoCloseable {
      * @since 2.0
      */
     Metamodel getMetamodel();
-
-    /**
-     * Create a new mutable {@link EntityGraph}, allowing dynamic
-     * definition of an entity graph.
-     * @param rootType class of entity graph
-     * @return entity graph
-     * @since 2.1
-     */
-    <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
-
-    /**
-     * Obtain a mutable copy of a named {@link EntityGraph}, or
-     * return null if there is no entity graph with the given
-     * name.
-     * @param graphName name of an entity graph
-     * @return entity graph
-     * @since 2.1
-     */
-    EntityGraph<?> createEntityGraph(String graphName);
-
-    /**
-     * Obtain a named {@link EntityGraph}. The returned instance
-     * of {@code EntityGraph} should be considered immutable.
-     * @param graphName  name of an existing entity graph
-     * @return named entity graph
-     * @throws IllegalArgumentException if there is no entity
-     *         of graph with the given name
-     * @since 2.1
-     */
-    EntityGraph<?> getEntityGraph(String graphName);
-
-    /**
-     * Return all named {@link EntityGraph}s that are defined for
-     * the given entity class type.
-     * @param entityClass  entity class
-     * @return list of all entity graphs defined for the entity
-     * @throws IllegalArgumentException if the class is not an entity
-     * @since 2.1
-     */
-    <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
 
     /**
      * Execute the given action using the database connection underlying this
