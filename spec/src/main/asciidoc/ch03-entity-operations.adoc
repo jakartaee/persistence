@@ -1987,9 +1987,7 @@ In the above example, only the `number` attribute would be eagerly fetched.
 
 [source,java]
 ----
-@NamedEntityGraph(
-    attributeNodes={@NamedAttributeNode("projects")}
-)
+@NamedEntityGraph
 @Entity
 public class Employee {
     @Id
@@ -2002,13 +2000,14 @@ public class Employee {
     @Basic
     protected String employeeNumber;
 
-    @OneToMany()
+    @OneToMany
     protected List<Dependents> dependents;
 
-    @OneToMany()
+    @OneToMany
+    @NamedEntityGraphAttributeNode
     protected List<Project> projects;
 
-    @OneToMany()
+    @OneToMany
     protected List<PhoneNumber> phoneNumbers;
 
     // ...
@@ -2135,9 +2134,7 @@ In the above example, the `number` and `type` attributes are fetched.
 
 [source,java]
 ----
-@NamedEntityGraph(
-    attributeNodes={@NamedAttributeNode("projects")}
-)
+@NamedEntityGraph
 @Entity
 public class Employee {
     @Id
@@ -2150,13 +2147,14 @@ public class Employee {
     @Basic
     protected String employeeNumber;
 
-    @OneToMany()
+    @OneToMany
     protected List<Dependents> dependents;
 
-    @OneToMany()
+    @OneToMany
     protected List<Project> projects;
 
-    @OneToMany()
+    @OneToMany
+    @NamedEntityGraphAttributeNode
     protected List<PhoneNumber> phoneNumbers;
 
     // ...

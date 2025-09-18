@@ -18,7 +18,6 @@ package jakarta.persistence;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
-import java.util.Map;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -30,9 +29,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see NamedSubgraph
  *
  * @since 2.1
+ *
+ * @deprecated Use {@link NamedEntityGraphAttributeNode}
  */
 @Target({})
 @Retention(RUNTIME)
+@Deprecated(since = "4.0")
 public @interface NamedAttributeNode {
 
     /**
