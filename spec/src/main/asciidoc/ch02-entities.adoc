@@ -442,7 +442,7 @@ within the same persistence unit.
 
 Every entity must have a primary key. The value of its primary key uniquely
 identifies an entity instance within a persistence context and to operations
-of the `EntityManager`, as described in <<a1060>>.
+of the `EntityManager` or `EntityAgent`, as described in <<a1060>>.
 
 The primary key must be declared by:
 
@@ -2150,7 +2150,7 @@ is to define state and mapping information that is common to multiple
 entity classes.
 
 A mapped superclass, unlike an entity, is not
-queryable and must not be passed as an argument to `EntityManager` or
+queryable and must not be passed as an argument to `EntityManager`, `EntityAgent`, or
 `Query` operations. Persistent relationships defined by a mapped
 superclass must be unidirectional.
 
@@ -2255,7 +2255,7 @@ retained across transactions.]. Any
 annotations on such superclasses are ignored.
 
 Non-entity classes cannot be passed as
-arguments to methods of the `EntityManager` or `Query`
+arguments to methods of the `EntityManager`, `EntityAgent`, or `Query`
 interfacesfootnote:[This includes
 instances of a non-entity class that extends an entity class.] and cannot bear mapping information.
 
