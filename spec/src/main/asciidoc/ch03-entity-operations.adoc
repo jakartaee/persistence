@@ -2071,7 +2071,7 @@ When the `jakarta.persistence.loadgraph`
 property is used to specify an entity graph, attributes that are
 specified by attribute nodes of the entity graph are treated as
 `FetchType.EAGER` and attributes that are not specified are treated
-according to their specified or default FetchType.
+according to their specified or default `FetchType`.
 
 The following rules apply. The rules of this
 section are applied recursively.
