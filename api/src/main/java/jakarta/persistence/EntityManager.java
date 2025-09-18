@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -1017,8 +1018,8 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createQuery(CriteriaSelect<T> selectQuery);
 
     /**
-     * Create an instance of {@link Query} for executing a criteria
-     * update query.
+     * Create an instance of {@link Query} for executing a
+     * criteria update query.
      * @param updateQuery  a criteria update query object
      * @return the new query instance
      * @throws IllegalArgumentException if the update query is
@@ -1028,8 +1029,8 @@ public interface EntityManager extends AutoCloseable {
     Query createQuery(CriteriaUpdate<?> updateQuery);
 
     /**
-     * Create an instance of {@link Query} for executing a criteria
-     * delete query.
+     * Create an instance of {@link Query} for executing a
+     * criteria delete query.
      * @param deleteQuery  a criteria delete query object
      * @return the new query instance
      * @throws IllegalArgumentException if the delete query is
@@ -1086,8 +1087,25 @@ public interface EntityManager extends AutoCloseable {
     <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link TypedQuery} for executing a
-     * named query written in the Jakarta Persistence query
+     * Create an instance of {@link Query} for executing a named
+     * query written in the Jakarta Persistence query language or
+     * in native SQL.
+     * @param reference a reference to the query defined in metadata
+     * @return the new query instance
+     * @throws IllegalArgumentException if a query has not been
+     *         defined, or if the query string is found to be
+     *         invalid, or if the query result is found to not be
+     *         assignable to the specified type
+     * @see EntityManagerFactory#getNamedQueries()
+     * @see NamedQuery
+     * @see NamedNativeQuery
+     * @since 4.0
+     */
+    Query createQuery(QueryReference reference);
+
+    /**
+     * Create an instance of {@link TypedQuery} for executing
+     * a named query written in the Jakarta Persistence query
      * language or in native SQL.
      * @param reference a reference to the query defined in metadata
      * @return the new query instance
@@ -1098,6 +1116,7 @@ public interface EntityManager extends AutoCloseable {
      * @see EntityManagerFactory#getNamedQueries(Class)
      * @see NamedQuery
      * @see NamedNativeQuery
+     * @since 3.2
      */
     <T> TypedQuery<T> createQuery(TypedQueryReference<T> reference);
 
@@ -1118,20 +1137,18 @@ public interface EntityManager extends AutoCloseable {
     Query createNativeQuery(String sqlString);
 
     /**
-     * Create an instance of {@link Query} for executing a native
-     * SQL query.
+     * Create an instance of {@link TypedQuery} for executing a
+     * native SQL query.
      *
-     * <p><em>In the next release of this API, the return type of this
-     * method will change to {@code TypedQuery<T>}.</em>
      * @param sqlString a native SQL query string
      * @param resultClass the type of the query result
      * @return the new query instance
      */
-    <T> Query createNativeQuery(String sqlString, Class<T> resultClass);
+    <T> TypedQuery<T> createNativeQuery(String sqlString, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link Query} for executing
-     * a native SQL query.
+     * Create an instance of {@link Query} for executing a native SQL
+     * query.
      * @param sqlString a native SQL query string
      * @param resultSetMapping the name of the result set mapping
      * @return the new query instance
@@ -1155,8 +1172,8 @@ public interface EntityManager extends AutoCloseable {
     StoredProcedureQuery createNamedStoredProcedureQuery(String name);
 
     /**
-     * Create an instance of {@link StoredProcedureQuery} for executing a
-     * stored procedure in the database.
+     * Create an instance of {@link StoredProcedureQuery} for executing
+     * a stored procedure in the database.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
      * <p>If the stored procedure returns one or more result sets, any
