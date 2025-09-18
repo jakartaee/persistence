@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Lukas Jungmann  - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -19,6 +20,7 @@ package jakarta.persistence.spi;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.net.URL;
 import jakarta.persistence.SharedCacheMode;
@@ -147,13 +149,24 @@ public interface PersistenceUnitInfo {
     /**
      * Returns the list of the names of the classes that the
      * persistence provider must add to its set of managed
-     * classes. Each name corresponds to a named {@code class} element in the
-     * {@code persistence.xml} file.
+     * classes. Each name corresponds to a named {@code class}
+     * element in the {@code persistence.xml} file.
      * @return the list of the names of the classes that the 
      * persistence provider must add to its set of managed 
      * classes 
      */
     List<String> getManagedClassNames();
+
+    /**
+     * Returns the list of names of all managed classes in
+     * the persistence unit, whether named explicitly in the
+     * {@code persistence.xml} file, or discovered by the
+     * container via scanning.
+     * @return the list of names of all managed classes in
+     * the persistence unit
+     * @since 4.0
+     */
+    List<String> getAllManagedClassNames();
 
     /**
      * Returns whether classes in the root of the persistence unit
@@ -225,7 +238,10 @@ public interface PersistenceUnitInfo {
      * Classes are only transformed once within the same classloading
      * scope, regardless of how many persistence units they may be 
      * a part of.
-     * @param transformer   provider-supplied transformer that the
+     * <p>If the container previously called
+     * {@link PersistenceProvider#getClassTransformer} with this
+     * {@code PersistenceUnitInfo}, then this method has no effect.
+     * @param transformer  provider-supplied transformer that the
      * container invokes at class-(re)definition time
      */
     void addTransformer(ClassTransformer transformer);
