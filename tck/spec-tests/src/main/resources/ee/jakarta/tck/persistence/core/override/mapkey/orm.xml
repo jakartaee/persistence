@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2018, 2022 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+    https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+    version="3.2">
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.Department">
+        <attributes>
+            <one-to-many name="employees" mapped-by="department" fetch="EAGER">
+                <order-by>id ASC</order-by>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.Employee">
+        <attributes>
+            <many-to-one name="department"/>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.TheatreCompany">
+        <attributes>
+            <many-to-many name="locations" mapped-by="companies" fetch="EAGER">
+                <map-key name="code"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.TheatreLocation">
+        <attributes>
+            <many-to-many name="companies">
+                <join-table name="THEATRELOCATION_THEATRECOMPANY">
+                    <join-column name="LOCATIONS_ID"/>
+                    <inverse-join-column name="COMPANIES_ID"/>
+                </join-table>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.Store">
+        <attributes>
+            <one-to-many name="customers" mapped-by="store">
+                <map-key name="custName"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.Customers">
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.Consumer">
+        <attributes>
+            <many-to-many name="orders" mapped-by="consumers" fetch="EAGER">
+                <order-by>cost DESC</order-by>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.mapkey.RetailOrder">
+    </entity>
+</entity-mappings>

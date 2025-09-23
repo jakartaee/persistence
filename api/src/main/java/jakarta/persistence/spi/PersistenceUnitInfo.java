@@ -21,6 +21,8 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Properties;
 import java.net.URL;
+
+import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.SharedCacheMode;
 import jakarta.persistence.ValidationMode;
 import jakarta.persistence.EntityManagerFactory;
