@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2024 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,8 +20,6 @@ package jakarta.persistence.spi;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -39,9 +37,9 @@ import java.util.logging.Logger;
  *
  * <p>Enable {@code "jakarta.persistence.spi"} logger to show diagnostic
  * information.
- * 
+ *
  * <p>Implementations must be thread-safe.
- * 
+ *
  * @since 2.0
  */
 public class PersistenceProviderResolverHolder {
@@ -50,7 +48,7 @@ public class PersistenceProviderResolverHolder {
 
     /**
      * Returns the current persistence provider resolver.
-     * 
+     *
      * @return the current persistence provider resolver
      */
     public static PersistenceProviderResolver getPersistenceProviderResolver() {
@@ -59,7 +57,7 @@ public class PersistenceProviderResolverHolder {
 
     /**
      * Defines the persistence provider resolver used.
-     * 
+     *
      * @param resolver persistence provider resolver to be used.
      */
     public static void setPersistenceProviderResolver(PersistenceProviderResolver resolver) {
@@ -72,7 +70,7 @@ public class PersistenceProviderResolverHolder {
 
     /**
      * Default provider resolver class to use when none is explicitly set.
-     * 
+     *
      * <p>Uses service loading mechanism as described in the Jakarta Persistence
      * specification. A ServiceLoader.load() call is made with the current context
      * classloader to find the service provider files on the classpath.
@@ -81,10 +79,10 @@ public class PersistenceProviderResolverHolder {
 
         /**
          * Cached list of available providers cached by CacheKey to ensure
-         * there is not potential for provider visibility issues. 
+         * there is not potential for provider visibility issues.
          */
         private volatile HashMap<CacheKey, PersistenceProviderReference> providers = new HashMap<CacheKey, PersistenceProviderReference>();
-        
+
         /**
          * Queue for reference objects referring to class loaders or persistence providers.
          */
@@ -96,12 +94,12 @@ public class PersistenceProviderResolverHolder {
             // persistence providers have been nulled out, remove all related
             // information from the cache.
             processQueue();
-            
-            ClassLoader loader = getContextClassLoader();
+
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
             CacheKey cacheKey = new CacheKey(loader);
             PersistenceProviderReference providersReferent = this.providers.get(cacheKey);
             List<PersistenceProvider> loadedProviders = null;
-            
+
             if (providersReferent != null) {
                 loadedProviders = providersReferent.get();
             }
@@ -127,7 +125,7 @@ public class PersistenceProviderResolverHolder {
                 if (loadedProviders.isEmpty()) {
                     log(Level.WARNING, "No valid providers found.");
                 }
-                
+
                 providersReferent = new PersistenceProviderReference(loadedProviders, referenceQueue, cacheKey);
 
                 this.providers.put(cacheKey, providersReferent);
@@ -135,7 +133,7 @@ public class PersistenceProviderResolverHolder {
 
             return loadedProviders;
         }
-        
+
         /**
          * Remove garbage collected cache keys & providers.
          */
@@ -143,22 +141,6 @@ public class PersistenceProviderResolverHolder {
             CacheKeyReference ref;
             while ((ref = (CacheKeyReference) referenceQueue.poll()) != null) {
                 providers.remove(ref.getCacheKey());
-            }            
-        }
-
-        /**
-         * Wraps {@code Thread.currentThread().getContextClassLoader()} into a
-         * doPrivileged block if security manager is present
-         */
-        private static ClassLoader getContextClassLoader() {
-            if (System.getSecurityManager() == null) {
-                return Thread.currentThread().getContextClassLoader();
-            } else {
-                return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                    public ClassLoader run() {
-                        return Thread.currentThread().getContextClassLoader();
-                    }
-                });
             }
         }
 
@@ -180,25 +162,25 @@ public class PersistenceProviderResolverHolder {
             this.providers.clear();
         }
 
-        
+
         /**
          * The common interface to get a CacheKey implemented by
          * LoaderReference and PersistenceProviderReference.
          */
         private interface CacheKeyReference {
             CacheKey getCacheKey();
-        }        
-        
+        }
+
         /**
           * Key used for cached persistence providers. The key checks
           * the class loader to determine if the persistence providers
           * is a match to the requested one. The loader may be null.
           */
         private class CacheKey implements Cloneable {
-            
+
             /* Weak Reference to ClassLoader */
             private LoaderReference loaderRef;
-            
+
             /* Cached Hashcode */
             private int hashCodeCache;
 
@@ -270,13 +252,13 @@ public class PersistenceProviderResolverHolder {
                 return "CacheKey[" + getLoader() + ")]";
             }
         }
-       
+
        /**
          * References to class loaders are weak references, so that they can be
-         * garbage collected when nobody else is using them. The DefaultPersistenceProviderResolver 
+         * garbage collected when nobody else is using them. The DefaultPersistenceProviderResolver
          * class has no reason to keep class loaders alive.
          */
-        private class LoaderReference extends WeakReference<ClassLoader> 
+        private class LoaderReference extends WeakReference<ClassLoader>
                 implements CacheKeyReference {
             private CacheKey cacheKey;
 

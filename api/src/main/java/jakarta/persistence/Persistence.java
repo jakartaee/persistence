@@ -42,16 +42,9 @@ import jakarta.persistence.spi.LoadState;
  *
  * @since 1.0
  */
-public class Persistence {
+public final class Persistence {
 
-    /**
-     * Default constructor.
-     * @deprecated This class is not intended to be extended nor instantiated,
-     *     it is going to be marked {@code final} when this constructor becomes hidden.
-     */
-    @Deprecated(since = "3.2", forRemoval = true)
-    public Persistence() {
-        //kept for backward compatibility with pre-3.2 versions
+    private Persistence() {
     }
 
     /**
@@ -221,23 +214,4 @@ public class Persistence {
         }
     }
 
-    /**
-     * This final String is deprecated and should be removed and is only here for TCK backward compatibility
-     * @since 1.0
-     * @deprecated
-     *
-     * TODO: Either change TCK reference to PERSISTENCE_PROVIDER field to expect 
-     * "jakarta.persistence.spi.PersistenceProvider" or remove PERSISTENCE_PROVIDER field and also update TCK signature 
-     * tests. 
-     */
-    @Deprecated(since = "3.2", forRemoval = true)
-    public static final String PERSISTENCE_PROVIDER = "jakarta.persistence.spi.PersistenceProvider";
-    
-    /**
-     * This instance variable is deprecated and should be removed and is only here for TCK backward compatibility
-     * @since 1.0
-     * @deprecated
-     */
-    @Deprecated(since = "3.2", forRemoval = true)
-    protected static final Set<PersistenceProvider> providers = new HashSet<PersistenceProvider>();
 }
