@@ -73,7 +73,7 @@ may be using different persistence units), the referenced class is the same
 identical class.
 
 In Java SE environments, the metadata mapping files, jar files, and classes
-described in the following sections can be used. To insure the portability
+described in the following sections can be used. To ensure the portability
 of a Java SE application, it is necessary to explicitly list the managed
 persistence classes included in the persistence unit using the `class`
 element of the `persistence.xml` file. See <<a12305>>.
@@ -463,7 +463,7 @@ the mapping annotation defaults. The `class` element is used to list
 a managed persistence class.
 
 In Java SE environments, an explicit list of all managed persistence
-class names must be specified to insure portability. Portable Java SE
+class names must be specified to ensure portability. Portable Java SE
 applications should not rely on the other mechanisms described here to
 determine the managed persistence classes of a persistence unit. In
 Java SE environments, a persistence provider may require that the set

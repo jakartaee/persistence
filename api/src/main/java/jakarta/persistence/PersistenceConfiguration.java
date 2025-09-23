@@ -151,6 +151,11 @@ public class PersistenceConfiguration {
      */
     public static final String SCHEMAGEN_DROP_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.drop-script-source";
     /**
+     * An application-provided SQL script to be executed after the
+     * schema is created, typically used for loading data.
+     */
+    public static final String SCHEMAGEN_LOAD_SCRIPT_SOURCE = "jakarta.persistence.sql-load-script-source";
+    /**
      * The provider-generated SQL script which creates the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
      */

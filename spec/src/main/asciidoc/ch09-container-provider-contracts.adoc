@@ -362,7 +362,7 @@ database or to generate DDL that contains “CREATE SCHEMA” commands. If
 this property is not supplied, the provider should not attempt to create
 database schemas. This property may also be specified in Java SE
 environments.
-`jakarta.persistence.schema-generation.scripts.create-target`, +
+`jakarta.persistence.schema-generation.scripts.create-target`, ::
 `jakarta.persistence.schema-generation.scripts.drop-target` ::
 If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. +
@@ -391,7 +391,7 @@ not included in the result of this method, the
 specified as needed. These should contain the values returned by the
 JDBC `getDatabaseMajorVersion` and `getDatabaseMinorVersion` methods
 respectively.
-`jakarta.persistence.schema-generation.create-script-source`, +
+`jakarta.persistence.schema-generation.create-script-source`, ::
 `jakarta.persistence.schema-generation.drop-script-source` ::
 The `jakarta.persistence.schema-generation.create-script-source` and
 `jakarta.persistence.schema-generation.drop-script-source` properties are
@@ -517,13 +517,13 @@ application.
 
 The `PersistenceUnitInfo` interface may be found in <<_persistenceunitinfo_>>.
 
-The enum `jakarta.persistence.spi.PersistenceUnitTransactionType`
+The enum `jakarta.persistence.PersistenceUnitTransactionType`
 defines whether the entity managers created by the factory will be
-JTA or resource-local entity managers. This enum is deprecated.
+JTA or resource-local entity managers.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/spi/PersistenceUnitTransactionType.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/PersistenceUnitTransactionType.java[lines=18..-1]
 ----
 
 The enum `jakarta.persistence.SharedCacheMode`
@@ -807,7 +807,7 @@ the entity is present in the environment._
 don't need to access an attribute reference to determine its load state,
 and can determine if the entity has been provided by them._
 * _By first querying all providers using
-bytecode enhancement, it is insured that no attribute will be loaded by
+bytecode enhancement, it is ensured that no attribute will be loaded by
 side effect._
 * _Proxy-based providers do need to access an
 attribute reference to determine load state, but will not trigger
