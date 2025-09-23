@@ -3077,13 +3077,14 @@ that is the value of the map.
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface MapKey {
-    String name() default "";
+    String value() default "";
+    @Deprecated String name() default "";
 }
 ----
 
-The `name` element designates the name of the
-persistent field or property of the associated entity that is used as
-the map key. If the `name` element is not specified, the primary key of
+The `value` or `name` element designates the name of the persistent
+field or property of the associated entity that is used as the map key.
+If neither `value` nor `name` element is specified, the primary key of
 the associated entity is used as the map key. If the primary key is a
 composite primary key and is mapped as `IdClass`, an instance of the
 primary key class is used as the key.
