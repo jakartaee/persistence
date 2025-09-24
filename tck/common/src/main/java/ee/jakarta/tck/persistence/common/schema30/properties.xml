@@ -1,0 +1,70 @@
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<project name="jpa_core_common_schema30">
+
+    <property name="jpa_common_schema30_dir" value="com/sun/ts/tests/jpa/common/schema30"/>
+    <property name="complete_path_jpa_common_schema30_dir" value="${basedir}"/>
+
+    <property name="schema.par.classes"
+              value="${jpa_common_schema30_dir}/Address.class,
+                     ${jpa_common_schema30_dir}/Alias.class,
+                     ${jpa_common_schema30_dir}/Country.class,
+                     ${jpa_common_schema30_dir}/CreditCard.class,
+                     ${jpa_common_schema30_dir}/Customer.class,
+                     ${jpa_common_schema30_dir}/Department.class,
+                     ${jpa_common_schema30_dir}/Employee.class,
+                     ${jpa_common_schema30_dir}/HardwareProduct.class,
+                     ${jpa_common_schema30_dir}/Info.class,
+                     ${jpa_common_schema30_dir}/LineItem.class,
+                     ${jpa_common_schema30_dir}/LineItemException.class,
+                     ${jpa_common_schema30_dir}/Order.class,
+                     ${jpa_common_schema30_dir}/Phone.class,
+                     ${jpa_common_schema30_dir}/Product.class,
+                     ${jpa_common_schema30_dir}/ShelfLife.class,
+                     ${jpa_common_schema30_dir}/SoftwareProduct.class,
+                     ${jpa_common_schema30_dir}/Spouse.class,
+                     ${jpa_common_schema30_dir}/Trim.class"/>
+
+    <property name="metamodel.par.classes"
+              value="${jpa_common_schema30_dir}/Address_.class,
+                     ${jpa_common_schema30_dir}/Alias_.class,
+                     ${jpa_common_schema30_dir}/Country_.class,
+                     ${jpa_common_schema30_dir}/CreditCard_.class,
+                     ${jpa_common_schema30_dir}/Customer_.class,
+                     ${jpa_common_schema30_dir}/Department_.class,
+                     ${jpa_common_schema30_dir}/Employee_.class,
+                     ${jpa_common_schema30_dir}/HardwareProduct_.class,
+                     ${jpa_common_schema30_dir}/Info_.class,
+                     ${jpa_common_schema30_dir}/LineItem_.class,
+                     ${jpa_common_schema30_dir}/Order_.class,
+                     ${jpa_common_schema30_dir}/Phone_.class,
+                     ${jpa_common_schema30_dir}/Product_.class,
+                     ${jpa_common_schema30_dir}/ShelfLife_.class,
+                     ${jpa_common_schema30_dir}/SoftwareProduct_.class,
+                     ${jpa_common_schema30_dir}/Spouse_.class,
+                     ${jpa_common_schema30_dir}/Trim_.class"/>
+
+    <property name="util.classes"
+              value="${jpa_common_schema30_dir}/Util.class"/>
+
+    <property name="all.par.classes"
+              value="${schema.par.classes}, ${metamodel.par.classes}"/>
+
+
+</project>

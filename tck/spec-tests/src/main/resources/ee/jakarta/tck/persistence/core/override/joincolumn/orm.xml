@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2018, 2022 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+    https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+    version="3.2">
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.TheatreCompany1">
+        <attributes>
+            <one-to-many name="locations" mapped-by="company">
+                <cascade>
+                    <cascade-persist/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.TheatreLocation1">
+        <attributes>
+            <many-to-one name="company">
+                <join-column name="TCOMP_ID" referenced-column-name="ID"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.Course">
+        <attributes>
+            <many-to-many name="students" mapped-by="courses">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.Student">
+        <attributes>
+            <many-to-many name="courses">
+                <join-table name="STUDENT_2_COURSE_2">
+                    <join-column name="STUDENTS_ID"/>
+                    <inverse-join-column name="COURSES_ID"/>
+                </join-table>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.Cubicle">
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.Hardware">
+        <attributes>
+            <many-to-one name="cubicle">
+                <join-column name="CUBE_ID" referenced-column-name="ID"/>
+                <join-column name="CUBE_LOCATION" referenced-column-name="LOCATION"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.Customer1">
+        <attributes>
+            <one-to-many name="orders">
+                <join-table name="CUST_ORDER">
+                    <join-column name="CUSTID"/>
+                    <inverse-join-column name="ORDERID"/>
+                </join-table>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+    <entity class="ee.jakarta.tck.persistence.core.override.joincolumn.RetailOrder1">
+    </entity>
+</entity-mappings>
+
+

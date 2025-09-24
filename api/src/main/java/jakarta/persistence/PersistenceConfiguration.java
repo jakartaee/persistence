@@ -94,6 +94,18 @@ public class PersistenceConfiguration {
      * An instance of {@code javax.sql.DataSource}.
      */
     public static final String JDBC_DATASOURCE = "jakarta.persistence.dataSource";
+    /**
+     * Override the default {@linkplain java.sql.Statement#setFetchSize JDBC fetch size}.
+     * @since 4.0
+     */
+    public static final String JDBC_FETCH_SIZE = "jakarta.persistence.jdbc.fetchSize";
+    /**
+     * Enable {@linkplain java.sql.Statement#executeBatch JDBC statement batching}
+     * by setting a batch size.
+     * <p>This setting is a hint.
+     * @since 4.0
+     */
+    public static final String JDBC_BATCH_SIZE = "jakarta.persistence.jdbc.batchSize";
 
     /**
      * Default pessimistic lock timeout hint.
@@ -151,6 +163,11 @@ public class PersistenceConfiguration {
      * schema is dropped.
      */
     public static final String SCHEMAGEN_DROP_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.drop-script-source";
+    /**
+     * An application-provided SQL script to be executed after the
+     * schema is created, typically used for loading data.
+     */
+    public static final String SCHEMAGEN_LOAD_SCRIPT_SOURCE = "jakarta.persistence.sql-load-script-source";
     /**
      * The provider-generated SQL script which creates the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
