@@ -20,7 +20,8 @@ discovering the `persistence.xml` files and processing them.
 When the container finds a `persistence.xml`
 file, it must process the persistence unit definitions that it contains.
 The container must validate the `persistence.xml` file against the
-`persistence_3_2.xsd`, `persistence_3_0.xsd` or `persistence_2_2.xsd` schema in accordance with
+`persistence_4_0.xsd`, `persistence_3_2.xsd`, `persistence_3_0.xsd`
+or `persistence_2_2.xsd` schema in accordance with
 the version specified by the `persistence.xml` file and report any validation errors.
 Provider or data source information not specified in the `persistence.xml` file
 must be provided at deployment time or defaulted by the container. The
@@ -361,7 +362,7 @@ database or to generate DDL that contains “CREATE SCHEMA” commands. If
 this property is not supplied, the provider should not attempt to create
 database schemas. This property may also be specified in Java SE
 environments.
-`jakarta.persistence.schema-generation.scripts.create-target`, +
+`jakarta.persistence.schema-generation.scripts.create-target`, ::
 `jakarta.persistence.schema-generation.scripts.drop-target` ::
 If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. +
@@ -390,7 +391,7 @@ not included in the result of this method, the
 specified as needed. These should contain the values returned by the
 JDBC `getDatabaseMajorVersion` and `getDatabaseMinorVersion` methods
 respectively.
-`jakarta.persistence.schema-generation.create-script-source`, +
+`jakarta.persistence.schema-generation.create-script-source`, ::
 `jakarta.persistence.schema-generation.drop-script-source` ::
 The `jakarta.persistence.schema-generation.create-script-source` and
 `jakarta.persistence.schema-generation.drop-script-source` properties are
@@ -516,13 +517,13 @@ application.
 
 The `PersistenceUnitInfo` interface may be found in <<_persistenceunitinfo_>>.
 
-The enum `jakarta.persistence.spi.PersistenceUnitTransactionType`
+The enum `jakarta.persistence.PersistenceUnitTransactionType`
 defines whether the entity managers created by the factory will be
-JTA or resource-local entity managers. This enum is deprecated.
+JTA or resource-local entity managers.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/spi/PersistenceUnitTransactionType.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/PersistenceUnitTransactionType.java[lines=18..-1]
 ----
 
 The enum `jakarta.persistence.SharedCacheMode`
@@ -616,7 +617,7 @@ override any defaults that the persistence provider might have applied.
 See <<a12382>> and <<a2374>>.
 |===
 
-The following properties correspond to the  properties in the `persistence.xml`
+The following properties correspond to the properties in the `persistence.xml`
 ile. When any of these properties are specified in the `Map` parameter passed
 to the `createEntityManagerFactory` method, their values override the values of
 the corresponding properties in the `persistence.xml` file for the named
@@ -707,8 +708,24 @@ for the configuration of the entity manager factory:
 | `jakarta.persistence.dataSource`
 | Instance of `javax.sql.DataSource` to be used for the specified
 persistence unit.
+| `jakarta.persistence.jdbc.fetchSize`
+| Override the default JDBC fetch size.
+| `jakarta.persistence.jdbc.batchSize`
+| Hint to enable JDBC statement batching by setting a batch size.
 | `jakarta.persistence.validation.factory`
 | Instance of `jakarta.validation.ValidatorFactory`.
+| `jakarta.persistence.database-product-name`
+| The value returned for the target database by the JDBC method
+`getDatabaseProductName` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
+| `jakarta.persistence.database-major-version`
+| The value returned for the target database by the JDBC method
+`getDatabaseMajorVersion` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
+| `jakarta.persistence.database-minor-version`
+| The value returned for the target database by the JDBC method
+`getDatabaseMinorVersion` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
 |===
 
 Any number of vendor-specific properties may
@@ -806,7 +823,7 @@ the entity is present in the environment._
 don't need to access an attribute reference to determine its load state,
 and can determine if the entity has been provided by them._
 * _By first querying all providers using
-bytecode enhancement, it is insured that no attribute will be loaded by
+bytecode enhancement, it is ensured that no attribute will be loaded by
 side effect._
 * _Proxy-based providers do need to access an
 attribute reference to determine load state, but will not trigger

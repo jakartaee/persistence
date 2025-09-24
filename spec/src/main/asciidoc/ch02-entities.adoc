@@ -534,15 +534,16 @@ The following rules apply to composite primary keys:
   class and mapped to multiple fields or properties of the entity class
   (see <<a14836>>).
 
-- If the composite primary key class is represented as an id class, the
-  names of primary key fields or properties of the primary key class and
-  those of the entity class to which the id class is mapped must correspond
-  and their types must be the same.
+- If the composite primary key is represented as an id class, the names
+  of the primary key fields or properties of the primary key class and
+  those of the entity class to which the id class is mapped must match
+  and their types must be the same, unless the primary key involves a
+  derived identity.
 
-- A primary key which corresponds to a derived identity must conform to the
+- A primary key which involves a derived identity must conform to the
   rules specified below in <<a149>>.
 
-==== Primary Keys Corresponding to Derived Identities [[a149]]
+==== Primary Keys Involving Derived Identities [[a149]]
 
 The identity of an entity is said to be partially _derived_ from the
 identity of a second entity when the _child_ or _dependent_ first entity
