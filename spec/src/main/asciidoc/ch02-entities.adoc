@@ -2378,7 +2378,7 @@ inherited properties, are mapped to columns of the table for the class.
 This strategy has the following drawbacks:
 
 * It provides poor support for polymorphic relationships.
-* It typically requires that SQL UNION queries
+* It typically requires that SQL `UNION` queries
 (or a separate SQL query per subclass) be issued for queries that are
 intended to range over the class hierarchy.
 
@@ -2401,7 +2401,7 @@ such.
 
 For example, assuming the use of an English
 locale, the following must be passed to the database as undelimited
-identifers so that they will be treated as equivalent for all databases
+identifiers so that they will be treated as equivalent for all databases
 that comply with the SQL Standard's requirements for the treatment of
 “regular identifiers” (undelimited identifiers) and “delimited
 identifiers” <<a19494>>:
@@ -2431,9 +2431,9 @@ following approaches must be used:
 
 * It is possible to specify that all database
 identifiers in use for a persistence unit be treated as delimited
-identifiers by specifying the _<delimited-identifiers/>_ element within
+identifiers by specifying the `<delimited-identifiers/>` element within
 the `persistence-unit-defaults` element of the object/relational xml
-mapping file. If the _<delimited-identifiers/>_ element is specified, it
+mapping file. If the `<delimited-identifiers/>` element is specified, it
 cannot be overridden.
 * It is possible to specify on a per-name basis
 that a name for a database object is to be interpreted as a delimited

@@ -321,7 +321,7 @@ The `fetch` method must not be used in a subquery.
 
 Multiple levels of fetch joins are not
 required to be supported by an implementation of this specification.
-Applications that use multi-level fetch joins will not be portable.
+Applications that use multi-level fetch joins are not portable.
 
 *Example:*
 
