@@ -707,7 +707,6 @@ treated_subpath ::=
 
 single_valued_path_expression ::=
     qualified_identification_variable |
-    TREAT(qualified_identification_variable AS subtype) |
     state_field_path_expression |
     single_valued_object_path_expression
 
@@ -3288,7 +3287,6 @@ map_field_identification_variable ::=
     VALUE(identification_variable)
 single_valued_path_expression ::=
     qualified_identification_variable |
-    TREAT(qualified_identification_variable AS subtype) |
     state_field_path_expression |
     single_valued_object_path_expression
 general_identification_variable ::=
