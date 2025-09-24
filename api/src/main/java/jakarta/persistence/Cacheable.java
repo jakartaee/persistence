@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  * 
  * @since 2.0
  */
-@Target({ TYPE })
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface Cacheable {
 

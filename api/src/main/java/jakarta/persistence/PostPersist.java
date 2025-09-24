@@ -54,6 +54,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 1.0
  */
-@Target({METHOD})
+@Target(METHOD)
 @Retention(RUNTIME)
 public @interface PostPersist {}

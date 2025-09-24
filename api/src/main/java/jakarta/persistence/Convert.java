@@ -208,7 +208,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 2.1
  */
 @Repeatable(Converts.class)
-@Target({METHOD, FIELD, TYPE}) @Retention(RUNTIME)
+@Target({METHOD, FIELD, TYPE})
+@Retention(RUNTIME)
 public @interface Convert {
 
   /**
@@ -231,8 +232,8 @@ public @interface Convert {
    * <li>if an {@linkplain Embedded embedded field} is annotated
    *     {@code @Convert(attributeName = "startDate")}, then the
    *     converter is applied to the field or property named
-   *     {@code startDate} of the referenced {@linkplain
-   *     Embeddable embeddable} class, or
+   *     {@code startDate} of the referenced
+   *     {@linkplain Embeddable embeddable} class, or
    * <li>if an {@linkplain ElementCollection map collection}
    *     whose key type is an embeddable type is annotated
    *     {@code @Convert(attributeName="key.jobType")}, the
