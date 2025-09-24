@@ -714,6 +714,18 @@ persistence unit.
 | Hint to enable JDBC statement batching by setting a batch size.
 | `jakarta.persistence.validation.factory`
 | Instance of `jakarta.validation.ValidatorFactory`.
+| `jakarta.persistence.database-product-name`
+| The value returned for the target database by the JDBC method
+`getDatabaseProductName` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
+| `jakarta.persistence.database-major-version`
+| The value returned for the target database by the JDBC method
+`getDatabaseMajorVersion` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
+| `jakarta.persistence.database-minor-version`
+| The value returned for the target database by the JDBC method
+`getDatabaseMinorVersion` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
 |===
 
 Any number of vendor-specific properties may
