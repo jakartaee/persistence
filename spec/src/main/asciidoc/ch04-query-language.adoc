@@ -713,7 +713,7 @@ single_valued_path_expression ::=
 
 state_field_path_expression ::= [general_subpath.]state_field
 
-state_valued_path_expression ::= state_field_path_expression | general_identification_variable
+state_valued_path_expression ::= state_field_path_expression
 
 single_valued_object_path_expression ::= general_subpath.single_valued_object_field
 
@@ -3301,8 +3301,7 @@ simple_subpath ::=
 treated_subpath ::=
     TREAT(general_subpath AS subtype){.single_valued_object_field}*
 state_field_path_expression ::= [general_subpath.]state_field
-state_valued_path_expression ::=
-    state_field_path_expression | general_identification_variable
+state_valued_path_expression ::= state_field_path_expression
 single_valued_object_path_expression ::=
     general_subpath.single_valued_object_field
 collection_valued_path_expression ::= general_subpath.{collection_valued_field}
