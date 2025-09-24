@@ -2492,8 +2492,7 @@ entity_type_expression ::=
     input_parameter
 type_discriminator ::=
     TYPE(general_identification_variable |
-         single_valued_object_path_expression |
-         input_parameter)
+         single_valued_object_path_expression)
 ----
 
 The `TYPE` operator returns the exact type of its argument, which must be
@@ -3487,8 +3486,7 @@ entity_type_expression ::=
     input_parameter
 type_discriminator ::=
     TYPE(general_identification_variable |
-        single_valued_object_path_expression |
-        input_parameter)
+        single_valued_object_path_expression)
 arithmetic_cast_function::=
     CAST(string_expression AS {INTEGER | LONG | FLOAT | DOUBLE})
 functions_returning_numerics ::=
