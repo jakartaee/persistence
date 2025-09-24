@@ -697,13 +697,13 @@ may be specified as a subtype of the corresponding declared type by
 means of the `TREAT` operator. See <<a4965>>.
 
 ----
-general_subpath ::= simple_subpath | treated_subpath{.single_valued_object_field}*
+general_subpath ::= simple_subpath | treated_subpath
 
 simple_subpath ::=
-    general_identification_variable |
     general_identification_variable{.single_valued_object_field}*
 
-treated_subpath ::= TREAT(general_subpath AS subtype)
+treated_subpath ::=
+    TREAT(general_subpath AS subtype){.single_valued_object_field}*
 
 single_valued_path_expression ::=
     qualified_identification_variable |
@@ -3295,11 +3295,11 @@ single_valued_path_expression ::=
 general_identification_variable ::=
     identification_variable |
     map_field_identification_variable
-general_subpath ::= simple_subpath | treated_subpath{.single_valued_object_field}*
+general_subpath ::= simple_subpath | treated_subpath
 simple_subpath ::=
-    general_identification_variable |
     general_identification_variable{.single_valued_object_field}*
-treated_subpath ::= TREAT(general_subpath AS subtype)
+treated_subpath ::=
+    TREAT(general_subpath AS subtype){.single_valued_object_field}*
 state_field_path_expression ::= [general_subpath.]state_field
 state_valued_path_expression ::=
     state_field_path_expression | general_identification_variable
