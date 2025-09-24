@@ -71,7 +71,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 2.1
  */
 @Repeatable(NamedStoredProcedureQueries.class)
-@Target({TYPE}) 
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface NamedStoredProcedureQuery { 
 

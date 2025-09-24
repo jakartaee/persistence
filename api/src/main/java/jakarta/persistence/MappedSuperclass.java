@@ -102,7 +102,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 1.0
  */
 @Documented
-@Target({TYPE})
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface MappedSuperclass {
 }

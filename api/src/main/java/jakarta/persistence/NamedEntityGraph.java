@@ -36,7 +36,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 2.1
  */
 @Repeatable(NamedEntityGraphs.class)
-@Target({TYPE})
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface NamedEntityGraph {
 

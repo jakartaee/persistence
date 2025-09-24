@@ -58,7 +58,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 1.0
  */
-@Target({TYPE}) 
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface DiscriminatorValue {
 
