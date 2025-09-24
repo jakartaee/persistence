@@ -96,6 +96,13 @@ public @interface NamedNativeQuery {
     String query();
 
     /**
+     * (Optional) The {@link ManagedEntityMode} to use for entities
+     * loaded during execution of the query.
+     * @since 4.0
+     */
+    ManagedEntityMode managedEntityMode() default ManagedEntityMode.READ_WRITE;
+
+    /**
      * Query properties and hints.
      * (May include vendor-specific query hints.)
      */

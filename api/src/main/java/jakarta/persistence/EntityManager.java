@@ -893,6 +893,27 @@ public interface EntityManager extends AutoCloseable {
     void clear();
 
     /**
+     * Obtain the {@link ManagedEntityMode} of the given entity.
+     * @param entity a persistent entity associated with the
+     *               persistence context
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or if the entity is not managed
+     * @since 4.0
+     */
+    ManagedEntityMode getManagedEntityMode(Object entity);
+
+    /**
+     * Set the {@link ManagedEntityMode} of the given entity.
+     * @param entity a persistent entity associated with the
+     *               persistence context
+     * @param mode the new mode
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or if the entity is not managed
+     * @since 4.0
+     */
+    void setManagedEntityMode(Object entity, ManagedEntityMode mode);
+
+    /**
      * Evict the given managed or removed entity from the persistence
      * context, causing the entity to become immediately detached.
      * Unflushed changes made to the entity, if any, including deletion

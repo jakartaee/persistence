@@ -357,4 +357,12 @@ public interface TypedQuery<X> extends Query {
      * @since 3.2
      */
     TypedQuery<X> setTimeout(Integer timeout);
+
+    /**
+     * Set the {@link ManagedEntityMode} to be used for entities
+     * loaded during execution of this query.
+     *
+     * @since 4.0
+     */
+    TypedQuery<X> setManagedEntityMode(ManagedEntityMode managedEntityMode);
 }
