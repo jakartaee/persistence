@@ -29,7 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 2.1
  */
-@Target({TYPE}) 
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface NamedStoredProcedureQueries { 
 

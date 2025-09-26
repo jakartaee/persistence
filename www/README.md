@@ -25,8 +25,8 @@ These snapshot releases have received only minimal testing, but may
 provide previews of bug fixes or new features under development.
 
 For example, you can download the jakarta.persistence-api.jar file from the Jakarta Persistence
-3.2.0-SNAPSHOT release
-[here](https://jakarta.oss.sonatype.org/content/repositories/snapshots/jakarta/persistence/jakarta.persistence-api/3.2.0-SNAPSHOT/).
+4.0.0-SNAPSHOT release
+[here](https://jakarta.oss.sonatype.org/content/repositories/snapshots/jakarta/persistence/jakarta.persistence-api/4.0.0-SNAPSHOT/).
 Be sure to scroll to the bottom and choose the jar file with the most
 recent time stamp.
 

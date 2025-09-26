@@ -80,7 +80,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 1.0
  */
 @Repeatable(NamedNativeQueries.class)
-@Target({TYPE}) 
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface NamedNativeQuery { 
 

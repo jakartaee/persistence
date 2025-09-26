@@ -23,10 +23,10 @@ package jakarta.persistence;
 public enum ConstraintMode {
 
     /** Apply the constraint. */
-	CONSTRAINT,
+    CONSTRAINT,
 
     /** Do not apply the constraint. */
-	NO_CONSTRAINT,
+    NO_CONSTRAINT,
 
     /** Use the provider-defined default behavior. */
     PROVIDER_DEFAULT

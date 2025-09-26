@@ -426,7 +426,7 @@ new managed entity instance X'.
 `IllegalArgumentException` will be thrown by the merge operation (or the
 transaction commit will fail).
 * If X is a managed entity, it is ignored by
-the merge operation, however, the merge operation is cascaded to
+the merge operation; however, the merge operation is cascaded to
 entities referenced by relationships from X if these relationships have
 been annotated with the `cascade` element value `cascade=MERGE` or
 `cascade=ALL` annotation.
@@ -470,7 +470,7 @@ required, the application must not use lazy loading.
 ==== Managed Instances
 
 It is the responsibility of the application
-to insure that an instance is managed in only a single persistence
+to ensure that an instance is managed in only a single persistence
 context. The behavior is undefined if the same Java instance is made
 managed in more than one persistence context.
 
@@ -1829,7 +1829,7 @@ automatic validation upon lifecycle events must use a
 * Attributes that have not been loaded must not
 be loaded.
 * Validation cascade (`@Valid`) must not
-occur for entity associations (single- or multi-valued).
+occur for entity associations (single-valued or multi-valued).
 
 These requirements guarantee that no unloaded
 attribute or association will be loaded by side effect and that no
@@ -2071,7 +2071,7 @@ When the `jakarta.persistence.loadgraph`
 property is used to specify an entity graph, attributes that are
 specified by attribute nodes of the entity graph are treated as
 `FetchType.EAGER` and attributes that are not specified are treated
-according to their specified or default FetchType.
+according to their specified or default `FetchType`.
 
 The following rules apply. The rules of this
 section are applied recursively.

@@ -28,7 +28,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  * @since 1.0
  */
 
-@Target({TYPE})
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface PersistenceUnits {
 
