@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King       - 4.0
 //     Gavin King       - 3.2
 //     Petros Splinakis - 2.2
 //     Linda DeMichiel  - 2.1
@@ -86,9 +87,34 @@ public @interface NamedQuery {
      * is specified, the query must be executed in a transaction
      * and the persistence context joined to the transaction.
      * @since 2.0
+     * @see Query#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
-    
+
+    /**
+     * (Optional) The {@linkplain CacheStoreMode cache store mode}
+     * to use in query execution.
+     * @since 4.0
+     * @see Query#setCacheStoreMode 
+     */
+    CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
+
+    /**
+     * (Optional) The {@linkplain CacheRetrieveMode cache retrieve mode}
+     * to use in query execution.
+     * @since 4.0
+     * @see Query#setCacheRetrieveMode 
+     */
+    CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
+
+    /**
+     * (Optional) A query timeout in milliseconds. By default,
+     * there is no timeout.
+     * @since 4.0
+     * @see Query#setTimeout 
+     */
+    int timeout() default -1;
+
     /**
      * (Optional) Query properties and hints. May include
      * vendor-specific query hints.

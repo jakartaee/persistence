@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King       - 4.0
 //     Gavin King       - 3.2
 //     Petros Splinakis - 2.2
 //     Linda DeMichiel  - 2.1
@@ -96,12 +97,6 @@ public @interface NamedNativeQuery {
     String query();
 
     /**
-     * Query properties and hints.
-     * (May include vendor-specific query hints.)
-     */
-    QueryHint[] hints() default {};
-
-    /**
      * The class of each query result. If a {@link #resultSetMapping
      * result set mapping} is specified, the specified result class
      * must agree with the type inferred from the result set mapping.
@@ -145,4 +140,34 @@ public @interface NamedNativeQuery {
      * @since 3.2
      */
     ColumnResult[] columns() default {};
+
+    /**
+     * (Optional) The {@linkplain CacheStoreMode cache store mode}
+     * to use in query execution.
+     * @since 4.0
+     * @see Query#setCacheStoreMode
+     */
+    CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
+
+    /**
+     * (Optional) The {@linkplain CacheRetrieveMode cache retrieve mode}
+     * to use in query execution.
+     * @since 4.0
+     * @see Query#setCacheRetrieveMode
+     */
+    CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
+
+    /**
+     * (Optional) A query timeout in milliseconds. By default,
+     * there is no timeout.
+     * @since 4.0
+     * @see Query#setTimeout
+     */
+    int timeout() default -1;
+
+    /**
+     * Query properties and hints.
+     * (May include vendor-specific query hints.)
+     */
+    QueryHint[] hints() default {};
 }
