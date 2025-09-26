@@ -31,12 +31,12 @@ import java.lang.annotation.Target;
  * 
  * @since 2.0
  */
-@Target({ TYPE, METHOD, FIELD })
+@Target({TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface Access {
 
     /**
-     * (Required)  Specification of field- or property-based access.
+     * (Required) Specification of field- or property-based access.
      */
     AccessType value();
 }

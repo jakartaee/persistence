@@ -1,0 +1,42 @@
+#
+# Copyright (c) 2017, 2024 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+###############################################################
+# The signature test mapping file for the JPA TCK.  This file
+# should be formatted as a standard java properties file.  The
+# name is the package name and the value is the version of the
+# package that should be tested by the signature tests.
+#
+# Note: Recording the signatures of a package includes all
+#       child packages.  The signature test tool looks for
+#       the best signature file to use when playing back
+#       signatures.  Meaning if we have a jakarta.servlet
+#       signature file and a jakarta.servlet.jsp signature file,
+#       the signature test tool will use the jakarta.servlet.jsp
+#       signature file to verify the jakarta.servlet.jsp package
+#       signatures even though the jakarta.servlet signature
+#       file contains the jakarta.servlet.jsp package signatures.
+#       The signatures are in both files (since the API Check
+#       tool records child package signatures and there does
+#       not seem to be a way to turn this feature off) but the
+#       jakarta.servlet.jsp signature file can vary independent
+#       of the jakarta.servlet signature file.
+#
+###############################################################
+
+# Persistence packages
+jakarta.persistence=3.2
+

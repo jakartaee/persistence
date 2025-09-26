@@ -63,7 +63,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public class Department {
  *     ...
  *     @OneToMany(mappedBy = "department")
- *     @MapKey(name = "name")
+ *     @MapKey("name")
  *     public Map<String, Employee> getEmployees() {... }
  *     ...
  * }
@@ -89,11 +89,25 @@ public @interface MapKey {
     /**
      * (Optional) The name of the persistent field or property of
      * the associated entity that is used as the map key.
-     * <p> Default: If the {@code name} element is not specified,
-     * the primary key of the associated entity is used as the map
-     * key. If the primary key is a composite primary key and is
-     * mapped as {@link IdClass}, an instance of the primary key
-     * class is used as the key.
+     * <p> Default: If neither {@code value} nor {@link #name} is
+     * specified, the primary key of the associated entity is used
+     * as the map key. If the primary key is a composite primary key
+     * and is mapped as {@link IdClass}, an instance of the primary
+     * key class is used as the key.
      */
+    String value() default "";
+
+    /**
+     * (Optional) The name of the persistent field or property of
+     * the associated entity that is used as the map key.
+     * <p> Default: If neither {@code name} nor {@link #value} is
+     * specified, the primary key of the associated entity is used
+     * as the map key. If the primary key is a composite primary key
+     * and is mapped as {@link IdClass}, an instance of the primary
+     * key class is used as the key.
+     *
+     * @deprecated Use {@link #value} instead
+     */
+    @Deprecated(since = "4.0")
     String name() default "";
 }

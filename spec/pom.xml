@@ -24,14 +24,14 @@
     <groupId>jakarta.persistence</groupId>
     <artifactId>persistence-spec</artifactId>
     <packaging>pom</packaging>
-    <version>3.3-SNAPSHOT</version>
+    <version>4.0-SNAPSHOT</version>
     <name>Jakarta Persistence Specification</name>
 
     <properties>
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <maven.site.skip>true</maven.site.skip>
-        <asciidoctor.maven.plugin.version>3.0.0</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>2.3.15</asciidoctorj.pdf.version>
+        <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
+        <asciidoctorj.pdf.version>2.3.19</asciidoctorj.pdf.version>
         <spec.name>jakarta-${project.artifactId}-${project.version}</spec.name>
         <!-- status: DRAFT, BETA, etc., or blank for final -->
         <status>DRAFT</status>
@@ -60,7 +60,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -158,7 +158,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.7.1</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2018, 2022 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+    https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+    version="3.2">
+    <package>ee.jakarta.tck.persistence.core.relationship.descriptors</package>
+    <entity name="XAddress" class="ee.jakarta.tck.persistence.core.relationship.descriptors.XAddress" access="FIELD">
+        <table name="ADDRESS"/>
+        <attributes>
+            <id name="xId">
+                <column name="ID"/>
+            </id>
+            <basic name="xStreet">
+                <column name="STREET"/>
+            </basic>
+            <basic name="xCity">
+                <column name="CITY"/>
+            </basic>
+            <basic name="xState">
+                <column name="STATE"/>
+            </basic>
+            <basic name="xZip">
+                <column name="ZIP"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity name="XAnnualReview" class="ee.jakarta.tck.persistence.core.relationship.descriptors.XAnnualReview"
+            access="FIELD">
+        <table name="ANNUALREVIEW"/>
+        <attributes>
+            <id name="xAid">
+                <column name="AID"/>
+            </id>
+            <basic name="xService">
+                <column name="SERVICE"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity name="XCompany" class="ee.jakarta.tck.persistence.core.relationship.descriptors.XCompany" access="FIELD">
+        <table name="COMPANY"/>
+        <attributes>
+            <id name="xCompanyId">
+                <column name="COMPANYID"/>
+            </id>
+            <basic name="xName">
+                <column name="NAME"/>
+            </basic>
+            <one-to-many name="xTeams" target-entity="XTeam" mapped-by="xcompany">
+            </one-to-many>
+            <one-to-one name="xAddress" fetch="EAGER">
+                <join-column name="ADDRESS_ID"/>
+            </one-to-one>
+        </attributes>
+    </entity>
+    <entity name="XInsurance" class="ee.jakarta.tck.persistence.core.relationship.descriptors.XInsurance" access="FIELD">
+        <table name="INSURANCE"/>
+        <attributes>
+            <id name="xInsId">
+                <column name="INSID"/>
+            </id>
+            <basic name="xCarrier">
+                <column name="CARRIER"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity name="XPerson" class="ee.jakarta.tck.persistence.core.relationship.descriptors.XPerson" access="FIELD">
+        <table name="PERSON"/>
+        <attributes>
+            <id name="xPersonId">
+                <column name="PERSONID"/>
+            </id>
+            <basic name="firstName">
+                <column name="FIRSTNAME"/>
+            </basic>
+            <basic name="lastName">
+                <column name="LASTNAME"/>
+            </basic>
+            <many-to-one name="xTeam" fetch="EAGER">
+                <join-column name="TEAM_TEAMID"/>
+            </many-to-one>
+            <one-to-many name="xAnnualReviews" target-entity="XAnnualReview">
+                <join-table name="PERSON_ANNUALREVIEW">
+                    <join-column name="Person_PERSONID" referenced-column-name="PERSONID"/>
+                    <inverse-join-column name="annualReviews_AID" referenced-column-name="AID"/>
+                </join-table>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-one name="xProject" fetch="EAGER">
+                <join-column name="PROJECT_PROJID" referenced-column-name="PROJID"/>
+            </one-to-one>
+            <many-to-many name="xProjects" target-entity="XProject" mapped-by="xPersons"/>
+            <many-to-many name="xCarriers" target-entity="XInsurance">
+                <join-table name="PERSON_INSURANCE">
+                    <join-column name="Person_PERSONID" referenced-column-name="PERSONID"/>
+                    <inverse-join-column name="insurance_INSID" referenced-column-name="INSID"/>
+                </join-table>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity name="XProject" class="ee.jakarta.tck.persistence.core.relationship.descriptors.XProject" access="FIELD">
+        <table name="PROJECT"/>
+        <attributes>
+            <id name="xProjId">
+                <column name="PROJID"/>
+            </id>
+            <basic name="xName">
+                <column name="NAME"/>
+            </basic>
+            <basic name="xBudget">
+                <column name="BUDGET"/>
+            </basic>
+            <one-to-one name="xProjectLead" mapped-by="xProject">
+            </one-to-one>
+            <many-to-many name="xPersons" target-entity="XPerson">
+                <join-table name="PROJECT_PERSON">
+                    <join-column name="projects_PROJID" referenced-column-name="PROJID"/>
+                    <inverse-join-column name="persons_PERSONID" referenced-column-name="PERSONID"/>
+                </join-table>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity name="XTeam" class="ee.jakarta.tck.persistence.core.relationship.descriptors.XTeam" access="FIELD">
+        <table name="TEAM"/>
+        <attributes>
+            <id name="xteamid">
+                <column name="TEAMID"/>
+            </id>
+            <basic name="xname">
+                <column name="NAME"/>
+            </basic>
+            <many-to-one name="xcompany">
+                <join-column name="COMPANY_COMPANYID"/>
+                <cascade>
+                    <cascade-remove/>
+                </cascade>
+            </many-to-one>
+        </attributes>
+    </entity>
+</entity-mappings>

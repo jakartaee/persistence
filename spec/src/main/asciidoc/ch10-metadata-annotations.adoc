@@ -12,15 +12,17 @@ The XML schema defined in chapter
 
 These annotations and types are in the package `jakarta.persistence`.
 
-=== Entity
+=== Entity [[entity-annotation]]
 
-The `Entity` annotation specifies that the
-class is an entity. This annotation is applied to the entity class.
+The `Entity` annotation specifies that the annotated class is an entity.
 
-The `name` annotation element specifies the
-entity name. If the `name` element is not specified, the entity name
-defaults to the unqualified name of the entity class. This name is used
-to refer to the entity in queries.
+The `name` annotation element specifies the entity name. If the `name`
+element is not specified, the entity name defaults to the unqualified
+name of the entity class. This name is used to refer to the entity in
+queries. (See <<naming>>.) The name must be a legal Java identifier,
+and must not be a reserved identifiers in the Jakarta Persistence query
+language.
+
 
 [source,java]
 ----

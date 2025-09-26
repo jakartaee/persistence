@@ -321,7 +321,7 @@ The `fetch` method must not be used in a subquery.
 
 Multiple levels of fetch joins are not
 required to be supported by an implementation of this specification.
-Applications that use multi-level fetch joins will not be portable.
+Applications that use multi-level fetch joins are not portable.
 
 *Example:*
 
@@ -1819,7 +1819,7 @@ query object has been created from it. The modification of the
 have any impact on the already created executable query object. If the
 modified `CriteriaQuery`, `CriteriaUpdate`, or `CriteriaDelete` object
 is passed to the `createQuery` method, the persistence provider must
-insure that a new executable query object is created and returned that
+ensure that a new executable query object is created and returned that
 reflects the semantics of the changed query definition.
 
 `CriteriaQuery`, `CriteriaUpdate`, and

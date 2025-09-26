@@ -67,7 +67,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 2.1
  */
-@Target({TYPE}) @Retention(RUNTIME)
+@Target(TYPE)
+@Retention(RUNTIME)
 public @interface Converter {
      /**
       * Specifies whether the annotated converter should be
