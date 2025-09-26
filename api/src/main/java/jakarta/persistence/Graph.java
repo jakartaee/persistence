@@ -211,25 +211,6 @@ public interface Graph<T> {
     <Y> Subgraph<Y> addTreatedSubgraph(Attribute<? super T, ? super Y> attribute, Class<Y> type);
 
     /**
-     * Add a node to the graph that corresponds to a managed type
-     * with inheritance. This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity graph.
-     * Subclass subgraphs will automatically include the specified
-     * attributes of superclass subgraphs
-     *
-     * @param attribute  attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type
-     * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
-     * @deprecated use {@link #addTreatedSubgraph(Attribute, Class)}
-     */
-    @Deprecated(since = "3.2", forRemoval = true)
-    <X> Subgraph<? extends X> addSubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
-
-    /**
      * Add a node to the graph that corresponds to a managed type.
      * This allows for construction of multi-node entity graphs
      * that include related managed types.
@@ -359,41 +340,6 @@ public interface Graph<T> {
      *         statically defined
      */
     <K> Subgraph<K> addTreatedMapKeySubgraph(MapAttribute<? super T, ? super K, ?> attribute, Class<K> type);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type. This allows for construction of
-     * multi-node entity graphs that include related managed types.
-     *
-     * @param attribute  attribute
-     * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type entity
-     * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
-     * @deprecated use {@link #addMapKeySubgraph(MapAttribute)}
-     */
-    @Deprecated(since = "3.2", forRemoval = true)
-    <X> Subgraph<X> addKeySubgraph(Attribute<? super T, X> attribute);
-
-    /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type with inheritance. This allows for
-     * construction of multi-node entity graphs that include related
-     * managed types.  Subclass subgraphs will automatically include
-     * the specified attributes of superclass subgraphs
-     *
-     * @param attribute  attribute
-     * @param type  entity subclass
-     * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute's target 
-     *         type is not a managed type entity
-     * @throws IllegalStateException if this EntityGraph has been 
-     *         statically defined
-     * @deprecated use {@link #addTreatedMapKeySubgraph(MapAttribute, Class)}
-     */
-    @Deprecated(since = "3.2", forRemoval = true)
-    <X> Subgraph<? extends X> addKeySubgraph(Attribute<? super T, X> attribute, Class<? extends X> type);
 
     /**
      * Add a node to the graph that corresponds to a map key

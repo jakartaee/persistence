@@ -108,7 +108,7 @@ used to order the results that are returned by the query.
 In BNF syntax, a select query is defined by:
 
 ----
-select_query ::= [select_clause]? from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
+select_query ::= [select_clause] from_clause [where_clause] [groupby_clause] [having_clause] [orderby_clause]
 ----
 
 Every select statement has a `FROM` clause. The square brackets `[]` in the
@@ -203,11 +203,11 @@ related entities and use their abstract schema types in the query.
 
 ==== Naming [[naming]]
 
-Entities are designated in query strings by
-their entity names. The entity name is defined by the `name` element of
-the `Entity` annotation (or the `entity-name` XML descriptor element),
-and defaults to the unqualified name of the entity class. Entity names
-are scoped within the persistence unit and must be unique within the
+Entities are designated in query strings by their entity names. The
+entity name is specified by the `name` element of the `Entity` annotation,
+as defined in <<entity-annotation>>, or by the `entity-name` XML descriptor
+element, and defaults to the unqualified name of the entity class. Entity
+names are scoped within the persistence unit and must be unique within the
 persistence unit.
 
 ==== Example [[a4713]]

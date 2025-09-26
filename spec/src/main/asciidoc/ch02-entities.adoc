@@ -534,15 +534,16 @@ The following rules apply to composite primary keys:
   class and mapped to multiple fields or properties of the entity class
   (see <<a14836>>).
 
-- If the composite primary key class is represented as an id class, the
-  names of primary key fields or properties of the primary key class and
-  those of the entity class to which the id class is mapped must correspond
-  and their types must be the same.
+- If the composite primary key is represented as an id class, the names
+  of the primary key fields or properties of the primary key class and
+  those of the entity class to which the id class is mapped must match
+  and their types must be the same, unless the primary key involves a
+  derived identity.
 
-- A primary key which corresponds to a derived identity must conform to the
+- A primary key which involves a derived identity must conform to the
   rules specified below in <<a149>>.
 
-==== Primary Keys Corresponding to Derived Identities [[a149]]
+==== Primary Keys Involving Derived Identities [[a149]]
 
 The identity of an entity is said to be partially _derived_ from the
 identity of a second entity when the _child_ or _dependent_ first entity
@@ -2377,7 +2378,7 @@ inherited properties, are mapped to columns of the table for the class.
 This strategy has the following drawbacks:
 
 * It provides poor support for polymorphic relationships.
-* It typically requires that SQL UNION queries
+* It typically requires that SQL `UNION` queries
 (or a separate SQL query per subclass) be issued for queries that are
 intended to range over the class hierarchy.
 
@@ -2400,7 +2401,7 @@ such.
 
 For example, assuming the use of an English
 locale, the following must be passed to the database as undelimited
-identifers so that they will be treated as equivalent for all databases
+identifiers so that they will be treated as equivalent for all databases
 that comply with the SQL Standard's requirements for the treatment of
 “regular identifiers” (undelimited identifiers) and “delimited
 identifiers” <<a19494>>:
@@ -2430,9 +2431,9 @@ following approaches must be used:
 
 * It is possible to specify that all database
 identifiers in use for a persistence unit be treated as delimited
-identifiers by specifying the _<delimited-identifiers/>_ element within
+identifiers by specifying the `<delimited-identifiers/>` element within
 the `persistence-unit-defaults` element of the object/relational xml
-mapping file. If the _<delimited-identifiers/>_ element is specified, it
+mapping file. If the `<delimited-identifiers/>` element is specified, it
 cannot be overridden.
 * It is possible to specify on a per-name basis
 that a name for a database object is to be interpreted as a delimited

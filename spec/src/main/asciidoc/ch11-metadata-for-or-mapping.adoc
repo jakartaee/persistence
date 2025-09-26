@@ -13,7 +13,7 @@ schema that corresponds to the application domain model are dependent
 upon the mappings expressed by means of the object/relational mapping
 metadata. The implementation of this specification must assume this
 application dependency upon the object/relational mapping metadata and
-insure that the semantics and requirements expressed by that mapping are
+ensure that the semantics and requirements expressed by that mapping are
 observed.
 
 The use of object/relational mapping metadata
@@ -1366,6 +1366,7 @@ public @interface DiscriminatorColumn {
     String columnDefinition() default "";
     String options() default "";
     int length() default 31;
+    String comment() default "";
 }
 ----
 
@@ -1403,6 +1404,12 @@ the specified discriminator type.
 |(Optional) The column length for
 String-based discriminator types. Ignored for other discriminator types.
 |31
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:*
@@ -3075,13 +3082,14 @@ that is the value of the map.
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface MapKey {
-    String name() default "";
+    String value() default "";
+    @Deprecated String name() default "";
 }
 ----
 
-The `name` element designates the name of the
-persistent field or property of the associated entity that is used as
-the map key. If the `name` element is not specified, the primary key of
+The `value` or `name` element designates the name of the persistent
+field or property of the associated entity that is used as the map key.
+If neither `value` nor `name` element is specified, the primary key of
 the associated entity is used as the map key. If the primary key is a
 composite primary key and is mapped as `IdClass`, an instance of the
 primary key class is used as the key.

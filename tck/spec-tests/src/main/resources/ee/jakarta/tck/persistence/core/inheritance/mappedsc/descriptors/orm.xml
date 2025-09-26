@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2018, 2022 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+    https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+    version="3.2">
+    <package>ee.jakarta.tck.persistence.core.inheritance.mappedsc.descriptors</package>
+    <mapped-superclass class="Employee" access="PROPERTY">
+        <attributes>
+            <id name="id">
+                <column name="IDxx"/>
+            </id>
+            <basic name="firstName">
+                <column name="FIRSTNAMExx"/>
+            </basic>
+            <basic name="lastName">
+                <column name="LASTNAMExx"/>
+            </basic>
+            <basic name="hireDate">
+                <column name="HIREDATExx"/>
+            </basic>
+            <many-to-one name="department" fetch="EAGER">
+                <join-column name="FK_DEPT"/>
+            </many-to-one>
+            <one-to-one name="project" fetch="EAGER">
+                <join-column name="FK_PROJECT"/>
+            </one-to-one>
+        </attributes>
+    </mapped-superclass>
+    <entity name="Department" class="Department" access="PROPERTY">
+        <table name="DEPARTMENT"/>
+        <attributes>
+            <id name="id">
+                <column name="ID"/>
+            </id>
+            <basic name="name">
+                <column name="NAME"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity name="FullTimeEmployee" class="FullTimeEmployee" access="PROPERTY">
+        <table name="EMPLOYEE"/>
+        <attribute-override name="id">
+            <column name="ID"/>
+        </attribute-override>
+        <attribute-override name="firstName">
+            <column name="FIRSTNAME"/>
+        </attribute-override>
+        <attribute-override name="lastName">
+            <column name="LASTNAME"/>
+        </attribute-override>
+        <attribute-override name="hireDate">
+            <column name="HIREDATE"/>
+        </attribute-override>
+        <attributes>
+            <basic name="salary">
+                <column name="SALARY"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity name="PartTimeEmployee" class="PartTimeEmployee" access="PROPERTY">
+        <table name="EMPLOYEE"/>
+        <attribute-override name="id">
+            <column name="ID"/>
+        </attribute-override>
+        <attribute-override name="firstName">
+            <column name="FIRSTNAME"/>
+        </attribute-override>
+        <attribute-override name="lastName">
+            <column name="LASTNAME"/>
+        </attribute-override>
+        <attribute-override name="hireDate">
+            <column name="HIREDATE"/>
+        </attribute-override>
+        <attributes>
+            <basic name="wage">
+                <column name="SALARY"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity name="Project" class="Project" access="PROPERTY">
+        <table name="PROJECT"/>
+        <attributes>
+            <id name="projId">
+                <column name="PROJID"/>
+            </id>
+            <basic name="name">
+                <column name="NAME"/>
+            </basic>
+            <basic name="budget">
+                <column name="BUDGET"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
