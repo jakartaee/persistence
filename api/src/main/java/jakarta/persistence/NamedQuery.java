@@ -88,7 +88,14 @@ public @interface NamedQuery {
      * @since 2.0
      */
     LockModeType lockMode() default LockModeType.NONE;
-    
+
+    /**
+     * (Optional) The {@link ManagedEntityMode} to use for entities
+     * loaded during execution of the query.
+     * @since 4.0
+     */
+    ManagedEntityMode managedEntityMode() default ManagedEntityMode.READ_WRITE;
+
     /**
      * (Optional) Query properties and hints. May include
      * vendor-specific query hints.

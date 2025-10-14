@@ -577,6 +577,22 @@ public interface Query {
     Integer getTimeout();
 
     /**
+     * Set the {@link ManagedEntityMode} to be used for entities
+     * loaded during execution of this query.
+     *
+     * @since 4.0
+     */
+    Query setManagedEntityMode(ManagedEntityMode managedEntityMode);
+
+    /**
+     * The {@link ManagedEntityMode} that will be in effect during
+     * execution of this query.
+     *
+     * @since 4.0
+     */
+    ManagedEntityMode getManagedEntityMode();
+
+    /**
      * Return an object of the specified type to allow access to 
      * a provider-specific API. If the provider implementation of
      * {@code Query} does not support the given type, the
