@@ -57,7 +57,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 2.0
  */
-@Target({METHOD, FIELD}) @Retention(RUNTIME)
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
 public @interface MapKeyEnumerated {
     
     /**

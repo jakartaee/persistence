@@ -56,7 +56,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 3.2
  */
-@Target({FIELD})
+@Target(FIELD)
 @Retention(RUNTIME)
 public @interface EnumeratedValue {
 }

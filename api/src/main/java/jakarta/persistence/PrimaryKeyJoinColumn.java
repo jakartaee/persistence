@@ -113,13 +113,19 @@ public @interface PrimaryKeyJoinColumn {
     String options() default "";
 
     /**
-     * (Optional) Used to specify or control the generation of a
-     * foreign key constraint for the primary key join column 
-     * when table generation is in effect. If this element is not
-     * specified, the persistence provider's default foreign key
-     * strategy will apply.
+     * (Optional) Controls generation of the foreign key constraint
+     * on this primary key join column when table generation is in
+     * effect.
+     * <p>
+     * If this element is not specified, and if there is no parent
+     * {@link PrimaryKeyJoinColumns} annotation or if the parent
+     * {@link PrimaryKeyJoinColumns} annotation does not specify the
+     * {@link PrimaryKeyJoinColumns#foreignKey foreignKey}, a default
+     * foreign key strategy is selected by the persistence provider.
      *
      * @since 2.1
+     *
+     * @see PrimaryKeyJoinColumns#foreignKey
      */
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 }

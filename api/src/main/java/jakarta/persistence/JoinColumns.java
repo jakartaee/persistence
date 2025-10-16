@@ -31,12 +31,23 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * {@link JoinColumn#name name} and {@link JoinColumn#referencedColumnName
  * referencedColumnName}.
  *
- * <p>Example:
+ * <p>Since {@code @JoinColumn} is a repeatable annotation, it's not usually
+ * necessary to specify {@code @JoinColumns} explicitly:
  * {@snippet :
  * @ManyToOne
- * @JoinColumns({
- *     @JoinColumn(name = "ADDR_ID", referencedColumnName = "ID"),
- *     @JoinColumn(name = "ADDR_ZIP", referencedColumnName = "ZIP")})
+ * @JoinColumn(name = "ADDR_ID", referencedColumnName = "ID")
+ * @JoinColumn(name = "ADDR_ZIP", referencedColumnName = "ZIP")
+ * public Address getAddress() { return address; }
+ * }
+ *
+ * <p>However, {@code @JoinColumns} is useful for controlling generation of
+ * composite foreign key constraints:
+ * {@snippet :
+ * @ManyToOne
+ * @JoinColumns(
+ *         value = {@JoinColumn(name = "ADDR_ID", referencedColumnName = "ID"),
+ *                  @JoinColumn(name = "ADDR_ZIP", referencedColumnName = "ZIP")},
+ *         foreignKey = @ForeignKey(name = "PERSON_ADDRESS_FK"))
  * public Address getAddress() { return address; }
  * }
  *
@@ -50,20 +61,31 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 public @interface JoinColumns {
 
     /**
-     * The join columns that map the relationship.
+     * (Optional) The join columns that map the relationship.
+     * <p>
+     * If no {@code @JoinColumn}s are specified, the join columns
+     * are inferred according to the relationship mapping defaults,
+     * exactly as if the {@code @JoinColumns} annotation was missing.
+     * This allows the {@link #foreignKey} to be specified when the
+     * join columns are defaulted.
      */
-    JoinColumn[] value();
+    JoinColumn[] value() default {};
 
     /**
-     * (Optional) Used to specify or control the generation of a
-     * foreign key constraint when table generation is in effect.
-     * If both this element and the {@code foreignKey} element of
-     * any of the {@link JoinColumn} elements are specified, the
-     * behavior is undefined. If no foreign key annotation element
-     * is specified in either location, a default foreign key
-     * strategy is selected by the persistence provider.
+     * (Optional) Controls generation of the foreign key constraint
+     * on these join columns when table generation is in effect.
+     * <ul>
+     * <li>If both this element and a {@link JoinColumn#foreignKey
+     *     foreignKey} element of one of the {@link JoinColumn}
+     *     annotations are specified, the behavior is undefined.
+     * <li>If no {@link ForeignKey} annotation is specified in
+     *     either location, a default foreign key strategy is
+     *     selected by the persistence provider.
+     * </ul>
      *
      * @since 2.1
+     *
+     * @see JoinColumn#foreignKey
      */
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 }
