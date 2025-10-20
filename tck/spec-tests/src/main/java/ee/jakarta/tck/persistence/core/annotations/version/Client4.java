@@ -176,8 +176,8 @@ public class Client4 extends Client {
 		try {
 			getEntityTransaction().begin();
 			Timestamp currentTime = new Timestamp(new Date().getTime());
-			getEntityManager().persist(new Timestamp_Field("1", currentTime));
-			getEntityManager().persist(new Timestamp_Property("2", currentTime));
+			getEntityManager().persist(new Timestamp_Field("1"));
+			getEntityManager().persist(new Timestamp_Property("2"));
 			getEntityTransaction().commit();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Unexpected Exception in createTimestampTestData:", e);

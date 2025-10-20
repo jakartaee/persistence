@@ -39,12 +39,6 @@ public class Integer_Property implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Integer_Property(String id, Integer basicInteger) {
-
-		this.id = id;
-		this.basicInteger = basicInteger;
-	}
-
 	@Id
 	public String getId() {
 		return id;

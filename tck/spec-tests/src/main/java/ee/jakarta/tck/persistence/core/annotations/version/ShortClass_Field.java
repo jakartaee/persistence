@@ -50,12 +50,6 @@ public class ShortClass_Field implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public ShortClass_Field(String id, Short value) {
-
-		this.id = id;
-		this.basicShort = value;
-	}
-
 	public String getId() {
 		return id;
 	}

@@ -44,12 +44,6 @@ public class Long_Property implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Long_Property(String id, long value) {
-
-		this.id = id;
-		this.basicLong = value;
-	}
-
 	@Id
 	public String getId() {
 		return id;

@@ -264,8 +264,8 @@ public class Client3 extends Client {
 			getEntityTransaction().begin();
 			getEntityManager().persist(new Long_Field("1"));
 			getEntityManager().persist(new Long_Property("2"));
-			getEntityManager().persist(new LongClass_Field("3", new Long(0)));
-			getEntityManager().persist(new LongClass_Property("4", new Long(0)));
+			getEntityManager().persist(new LongClass_Field("3"));
+			getEntityManager().persist(new LongClass_Property("4"));
 			getEntityTransaction().commit();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Unexpected Exception in createLongTestData:", e);
