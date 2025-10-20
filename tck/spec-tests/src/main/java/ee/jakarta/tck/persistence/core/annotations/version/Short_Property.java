@@ -44,12 +44,6 @@ public class Short_Property implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Short_Property(String id, short value) {
-
-		this.id = id;
-		this.basicShort = value;
-	}
-
 	@Id
 	public String getId() {
 		return id;

@@ -41,12 +41,6 @@ public class Timestamp_Property implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Timestamp_Property(String id, Timestamp basicTimestamp) {
-
-		this.id = id;
-		this.basicTimestamp = basicTimestamp;
-	}
-
 	@Id
 	public String getId() {
 		return id;

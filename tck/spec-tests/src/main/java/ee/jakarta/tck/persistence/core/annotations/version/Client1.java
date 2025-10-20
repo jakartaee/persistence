@@ -266,8 +266,8 @@ public class Client1 extends Client {
 			getEntityTransaction().begin();
 			getEntityManager().persist(new Int_Field("1"));
 			getEntityManager().persist(new Int_Property("2"));
-			getEntityManager().persist(new Integer_Field("3", new Integer(0)));
-			getEntityManager().persist(new Integer_Property("4", new Integer(0)));
+			getEntityManager().persist(new Integer_Field("3"));
+			getEntityManager().persist(new Integer_Property("4"));
 
 			getEntityTransaction().commit();
 		} catch (Exception e) {

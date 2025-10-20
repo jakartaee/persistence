@@ -264,8 +264,8 @@ public class Client2 extends Client {
 			getEntityTransaction().begin();
 			getEntityManager().persist(new Short_Field("1"));
 			getEntityManager().persist(new Short_Property("2"));
-			getEntityManager().persist(new ShortClass_Field("3", new Short((short) 0)));
-			getEntityManager().persist(new ShortClass_Property("4", new Short((short) 0)));
+			getEntityManager().persist(new ShortClass_Field("3"));
+			getEntityManager().persist(new ShortClass_Property("4"));
 			getEntityTransaction().commit();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Unexpected Exception in createShortTestData:", e);
