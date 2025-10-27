@@ -768,7 +768,7 @@ See <<a5139>>, <<a5150>>, and <<a5284>>.
 
 JPQL defines the following varieties of join:
 
-- inner joins, and.
+- inner joins, and
 - left outer joins.footnote:[Support for right outer joins and full
 outer joins is under consideration for inclusion in a future version
 of this specification.]
@@ -818,7 +818,7 @@ join_spec ::= [INNER | LEFT [OUTER]] JOIN
 join_association_path_expression ::=
     join_collection_valued_path_expression |
     join_single_valued_path_expression |
-    TREAT(join_collection_valued_path_expression `AS` subtype) |
+    TREAT(join_collection_valued_path_expression AS subtype) |
     TREAT(join_single_valued_path_expression AS subtype)
 
 join_collection_valued_path_expression ::=
@@ -1992,7 +1992,7 @@ The boolean literals are `TRUE` and `FALSE`.
 
 Entity type literals are specified by entity names—for example: `Customer`.
 
-Although reserved literals appear in upper case, they are case-insensitive.
+Although reserved literals appear in uppercase, they are case-insensitive.
 
 ==== Identification Variables
 
@@ -2254,7 +2254,7 @@ return the value of the current date, time, or timestamp on the database
 server, respectively. Their types are `java.sql.Date`, `java.sql.Time`,
 and `java.sql.Timestamp` respectively.
 
-The EXTRACT function takes a datetime argument and one of the following
+The `EXTRACT` function takes a datetime argument and one of the following
 field type identifiers: `YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE`,
 `SECOND`, `DATE`, `TIME`.
 
@@ -2956,12 +2956,12 @@ orderable state field types (i.e., numeric types, string types,
 character types, or date types).
 
 The Java type that is contained in the result
-of a query using an aggregate function is as follows:
+of a query using an aggregate function is determined as follows:
 
-* `COUNT` returns Long.
+* `COUNT` returns `Long`.
 * `MAX`, `MIN` return the type of the state field to which they are applied.
-* `AVG` returns Double.
-* `SUM` returns Long when applied to state fields
+* `AVG` returns `Double`.
+* `SUM` returns `Long` when applied to state fields
 of integral types (other than `BigInteger`); `Double` when applied to state
 fields of floating point types; `BigInteger` when applied to state fields
 of type `BigInteger`; and `BigDecimal` when applied to state fields of type
