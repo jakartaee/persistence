@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2024 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2024 Oracle and/or its affiliates and others. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -58,7 +58,7 @@ public interface PersistenceUnitInfo {
      * @return  the fully-qualified class name of the scope annotation,
      *          or null if no scope was explicitly specified
      */
-    public String getScopeAnnotationName();
+    String getScopeAnnotationName();
 
     /**
      * Returns the fully-qualified class names of annotations annotated
@@ -68,7 +68,7 @@ public interface PersistenceUnitInfo {
      *          or an empty list if no qualifier annotations were explicitly
      *          specified
      */
-    public List<String> getQualifierAnnotationNames();
+    List<String> getQualifierAnnotationNames();
 
     /**
      * Returns the transaction type of the entity managers created by
