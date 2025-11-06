@@ -545,6 +545,45 @@ public interface EntityManager extends AutoCloseable {
                FindOption... options);
 
     /**
+     * Find the instances of the root entity of the given
+     * {@link EntityGraph} with primary keys in the given list, using
+     * the given {@linkplain FindOption options}, and interpreting the
+     * {@code EntityGraph} as a load graph. The position of an instance
+     * in the list matches the position of its primary key in the list,
+     * and the list contains a null value if there is no persistent
+     * instance matching a given primary key. If an entity instance is
+     * contained in the persistence context, it is returned from there.
+     * <p>If an entity is found within the persistence context and
+     * the lock mode type is pessimistic and the entity has a version
+     * attribute, the persistence provider must perform optimistic
+     * version checks when obtaining the database lock. If these checks
+     * fail, the {@code OptimisticLockException} is thrown.
+     * <p>If the lock mode type is pessimistic and the entity instance
+     * is found but cannot be locked:
+     * <ul>
+     * <li>the {@code PessimisticLockException} is thrown if the
+     *     database locking failure causes transaction-level
+     *     rollback
+     * <li>the {@code LockTimeoutException} is thrown if the database
+     *     locking failure causes only statement-level rollback
+     * </ul>
+     * <p>If a vendor-specific {@linkplain FindOption option} is not
+     * recognized, it is silently ignored.
+     * <p>Portable applications should not rely on the standard
+     * {@linkplain Timeout timeout option}. Depending on the database
+     * in use and the locking mechanisms used by the provider, this
+     * option may or may not be observed.
+     * @param entityGraph entity graph interpreted as a load graph
+     * @param primaryKeys ordered list of primary keys
+     * @param options     standard and vendor-specific options
+     * @return an ordered list of persistent instances, with null elements
+     *         representing missing entities
+     * @since 4.0
+     */
+    <T> List<T> findMultiple(EntityGraph<T> entityGraph, List<?> primaryKeys,
+                             FindOption... options);
+
+    /**
      * Obtain a reference to an instance of the given entity class
      * with the given primary key, whose state may be lazily fetched.
      * <p>If the requested instance does not exist in the database,
