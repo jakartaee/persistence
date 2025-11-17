@@ -761,8 +761,9 @@ For the purposes of versioning and optimistic locking, the state of a
 given entity is considered to include:
 
 - every persistent field or property which is not a relationship to
-  another entity, and
-- every relationship owned by the entity, as defined by <<a516>>.
+  another entity and is not annotated `ExcludeFromVersioning`, and
+- every relationship owned by the entity, as defined by <<a516>>,
+  which is not annotated `ExcludeFromVersioning` on the owning side.
 footnote:[This includes owned relationships maintained in join tables.]
 
 Unowned relationships are not considered part of the state of the entity.

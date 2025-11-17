@@ -1878,6 +1878,24 @@ enum Status {
 }
 ----
 
+==== ExcludeFromVersioning Annotation
+
+The `ExcludeFromVersioning` annotation specifies that mutation of the
+annotated field or property does not result in incrementation of the
+version field or property of the entity.
+
+[source,java]
+----
+@Target({METHOD, FIELD})
+@Retention(RUNTIME)
+public @interface ExcludeFromVersioning {}
+----
+
+This annotation indicates that the application tolerates lost updates
+to the annotated field or property when concurrent optimistic
+transactions modify the same entity instance, and that no
+`OptimisticLockException` should occur in this scenario.
+
 ==== ForeignKey Annotation [[a14754]]
 
 The `ForeignKey` annotation is used to
