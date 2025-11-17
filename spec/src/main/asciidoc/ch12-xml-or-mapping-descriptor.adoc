@@ -700,6 +700,11 @@ mapping for the specified field or property. If an `embedded` subelement
 is present, and attributes or subelements of that `embedded` subelement
 are not explicitly specified, their default values are applied.
 
+====== exclude-from-versioning
+
+The `exclude-from-versioning` subelement overrides the
+mapping for the specified field or property.
+
 ====== transient
 
 The `transient` subelement overrides the
