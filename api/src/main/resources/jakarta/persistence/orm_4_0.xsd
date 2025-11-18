@@ -400,8 +400,8 @@
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="embedded" type="orm:embedded"
                    minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="exclude-from-versioning"
-                   type="orm:exclude-from-versioning"
+      <xsd:element name="excluded-from-versioning"
+                   type="orm:excluded-from-versioning"
                    minOccurs="0"/>
       <xsd:element name="transient" type="orm:transient"
                    minOccurs="0" maxOccurs="unbounded"/>
@@ -2395,13 +2395,13 @@
 
     <!-- **************************************************** -->
 
-    <xsd:complexType name="exclude-from-versioning">
+    <xsd:complexType name="excluded-from-versioning">
         <xsd:annotation>
             <xsd:documentation>
 
                 @Target({METHOD, FIELD})
                 @Retention(RUNTIME)
-                public @interface ExcludeFromVersioning {}
+                public @interface ExcludedFromVersioning {}
 
             </xsd:documentation>
         </xsd:annotation>

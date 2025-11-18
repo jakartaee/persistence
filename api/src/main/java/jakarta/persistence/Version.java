@@ -67,7 +67,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see LockModeType
  * @see PersistenceUnitUtil#getVersion(Object)
- * @see ExcludeFromVersioning
+ * @see ExcludedFromVersioning
  *
  * @since 1.0
  */
