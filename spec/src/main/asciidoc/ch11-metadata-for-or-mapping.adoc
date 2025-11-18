@@ -1878,9 +1878,9 @@ enum Status {
 }
 ----
 
-==== ExcludeFromVersioning Annotation
+==== ExcludedFromVersioning Annotation
 
-The `ExcludeFromVersioning` annotation specifies that mutation of the
+The `ExcludedFromVersioning` annotation specifies that mutation of the
 annotated field or property does not result in incrementation of the
 version field or property of the entity.
 
