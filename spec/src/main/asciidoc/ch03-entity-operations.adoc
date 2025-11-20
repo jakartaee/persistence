@@ -1201,14 +1201,32 @@ response to an `OptimisticLockException`.
 
 === Entity Listeners and Callback Methods [[a2153]]
 
-A method may be designated as a lifecycle
-callback method to receive notification of entity lifecycle events. A
-lifecycle callback method can be defined on an entity class, a mapped
-superclass, or an entity listener class associated with an entity or
-mapped superclass. An entity listener class is a class whose methods are
-invoked in response to lifecycle events on an entity. Any number of
-entity listener classes can be defined for an entity class or mapped
-superclass.
+A method may be designated as a lifecycle callback method to receive
+notification of _entity lifecycle events_. A lifecycle callback method
+can be declared by:
+
+- an entity class,
+- a mapped superclass, or
+- an entity listener class associated with an entity or mapped superclass.
+
+An _entity listener class_ is a class whose methods are invoked in response
+to lifecycle events on an entity. Any number of entity listener classes
+can be defined for an entity class or mapped superclass.
+
+A callback may also be registered programmatically at runtime by calling
+`EntityManagerFactory.addListener()`, passing:
+
+- an entity class, or any supertype of an entity class, including
+  `java.lang.Object`,
+- an annotation class object representing a type of entity lifecycle
+  event, and
+- an instance of `Consumer`.
+
+Such a callback is treated as if the given `Consumer` were an instance
+of an entity listener class associated with the given entity type or
+with every entity type which is a subtype of the given type, and as if
+the `accept()` method were annotated with the given entity lifecycle
+callback annotation type.
 
 Default entity listeners—entity listener
 classes whose callback methods apply to all entities in the persistence
