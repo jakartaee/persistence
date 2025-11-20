@@ -2615,7 +2615,7 @@ include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[li
 When a query is executed within a transaction:
 
 - If `FlushModeType.AUTO` is set via the `Query`, `TypedQuery`, or
-  `StoredProcedureQuery` object, or if the flush mode  setting for
+  `StoredProcedureQuery` object, or if the flush mode setting for
   the persistence context is `AUTO` (the default) and a flush
   mode setting has not been specified for the query object, the
   persistence provider must ensure that every modification to the
