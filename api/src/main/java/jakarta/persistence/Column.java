@@ -186,4 +186,30 @@ public @interface Column {
      * @since 3.2
      */
     String comment() default "";
+
+   /**
+     * (Optional) An application-defined numeric identifier for the column, primarily used during
+     * table parsing or generation operations. This ID serves several purposes:
+     * <ul>
+     *   <li>Column ordering: Frameworks or tools may use this ID to determine the
+     *       display or processing order of columns when generating schema definitions.</li>
+     *   <li>Column referencing: Advanced tools may use this ID to uniquely reference
+     *       specific columns in operations like schema migrations or comparisons.</li>
+     *   <li>Custom processing: Applications may use this ID to implement custom
+     *       logic for specific columns during schema generation or validation.</li>
+     * </ul>
+     *
+     * The ID recommend be in the range of [0, Integer.MAX_VALUE), where:
+     * <ul>
+     *   <li> Integer.MAX_VALUE (default): No specific ordering; framework uses default behavior</li>
+     *   <li>Positive integers: Explicit ordering/reference identifiers</li>
+     * </ul>
+     *
+     * This attribute is typically used in advanced schema generation or migration
+     * scenarios where columns need to be explicitly referenced, ordered, or
+     * processed differently from the default behavior.
+     *
+     * @since 3.2
+     */
+    int columnOrder() default Integer.MAX_VALUE;
 }
