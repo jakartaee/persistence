@@ -388,7 +388,12 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @param entityType An entity class, or any supertype of an entity
      *                   class
      * @param callbackType The kind of entity callback, represented by
-     *                     the class of the callback annotation type
+     *                     the class of the callback annotation type,
+     *                     usually one of the following classes:
+     *                     {@link PrePersist}, {@link PostPersist},
+     *                     {@link PreUpdate}, {@link PostUpdate},
+     *                     {@link PreRemove}, {@link PostRemove},
+     *                     and {@link PostLoad}.
      * @param listener The callback listener
      * @return An {@link EntityListenerRegistration} representing the
      *         registration of the given listener with this factory
