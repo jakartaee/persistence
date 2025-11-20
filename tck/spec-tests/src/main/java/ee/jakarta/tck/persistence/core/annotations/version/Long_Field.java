@@ -50,12 +50,6 @@ public class Long_Field implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Long_Field(String id, long value) {
-
-		this.id = id;
-		this.basicLong = value;
-	}
-
 	public String getId() {
 		return id;
 	}

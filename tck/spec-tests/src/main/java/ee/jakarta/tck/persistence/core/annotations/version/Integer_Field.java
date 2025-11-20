@@ -45,12 +45,6 @@ public class Integer_Field implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Integer_Field(String id, Integer basicInteger) {
-
-		this.id = id;
-		this.basicInteger = basicInteger;
-	}
-
 	public String getId() {
 		return id;
 	}

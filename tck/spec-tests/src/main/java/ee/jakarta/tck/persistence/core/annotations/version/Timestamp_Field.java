@@ -47,12 +47,6 @@ public class Timestamp_Field implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Timestamp_Field(String id, Timestamp basicTimestamp) {
-
-		this.id = id;
-		this.basicTimestamp = basicTimestamp;
-	}
-
 	public String getId() {
 		return id;
 	}
