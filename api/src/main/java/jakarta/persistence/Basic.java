@@ -97,8 +97,12 @@ public @interface Basic {
      * (Optional) Specifies whether the value of the field or
      * property may be null.
      *
-     * <p>This is a hint and is disregarded for primitive types;
-     * it may be used in schema generation to infer that the
+     * <p>If the annotated field or property is of primitive type,
+     * or if it is also annotated {@code @jakarta.annotation.Nonnull},
+     * then {@code optional=false} is implied, and the value of this
+     * annotation member is ignored.
+     *
+     * <p>May be used in schema generation to infer that the
      * mapped column is {@link Column#nullable not null}.
      *
      * <p>If not specified, defaults to {@code true}.
