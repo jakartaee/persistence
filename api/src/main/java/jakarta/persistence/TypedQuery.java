@@ -182,7 +182,7 @@ public interface TypedQuery<X> extends Query {
      * @return the entity graph or {@code null}
      * @since 4.0
      */
-    EntityGraph<X> getEntityGraph();
+    EntityGraph<? super X> getEntityGraph();
 
     /**
      * Set a query property or hint. The hints elements may be used 
