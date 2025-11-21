@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -130,6 +130,25 @@ public interface PersistenceProvider {
      * @since 2.1
      */
     boolean generateSchema(String persistenceUnitName, Map<?, ?> map);
+
+
+    /**
+     * Create database schemas and/or tables and/or create DDL
+     * scripts as determined by the supplied properties.
+     * <p>
+     * Called by the {@link Persistence} class when schema generation
+     * is to occur as a separate phase from creation of the entity
+     * manager factory.
+     * <p>
+     * @param configuration  the configuration of the persistence unit
+     * @return true  if schema was generated, otherwise false
+     * @throws PersistenceException if insufficient or inconsistent
+     *         configuration information is provided or if schema
+     *         generation otherwise fails
+     *
+     * @since 7.0
+     */
+    boolean generateSchema(PersistenceConfiguration configuration);
 
     /**
      * Return the utility interface implemented by the persistence
