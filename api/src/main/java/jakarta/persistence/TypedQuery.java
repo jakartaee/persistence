@@ -168,8 +168,8 @@ public interface TypedQuery<X> extends Query {
      * @param entityGraph an entity graph interpreted as a load graph
      *                    applied to the entity returned by the query
      * @return the same query instance
-     * @throws UnsupportedOperationException if this object does not
-     *         represent a Jakarta Persistence query
+     * @throws UnsupportedOperationException if this object represents
+     *         a native query
      * @since 4.0
      */
     TypedQuery<X> setEntityGraph(EntityGraph<? super X> entityGraph);
