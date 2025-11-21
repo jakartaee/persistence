@@ -83,4 +83,19 @@ public interface SchemaManager {
 	 * and continue.
 	 */
 	void truncate();
+
+	/**
+	 * Import initial data using any configured
+     * {@linkplain PersistenceConfiguration#SCHEMAGEN_LOAD_SCRIPT_SOURCE
+     * SQL scripts for data loading}, without executing any DDL.
+	 *
+	 * <p>If a SQL operation fails, the behavior is undefined.
+	 * A provider may throw an exception, or it may ignore the problem
+	 * and continue.
+     *
+     * @see PersistenceConfiguration#SCHEMAGEN_LOAD_SCRIPT_SOURCE
+	 *
+	 * @since 4.0
+	 */
+	void populate();
 }
