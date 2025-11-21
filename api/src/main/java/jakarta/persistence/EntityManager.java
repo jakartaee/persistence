@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -1359,6 +1360,20 @@ public interface EntityManager extends AutoCloseable {
      * @since 2.1
      */
     EntityGraph<?> getEntityGraph(String graphName);
+
+    /**
+     * Obtain a named {@link EntityGraph}. The returned instance
+     * of {@code EntityGraph} should be considered immutable.
+     * @param rootType class of entity graph
+     * @param graphName  name of an existing entity graph
+     * @return named entity graph
+     * @throws IllegalArgumentException if there is no entity
+     *         of graph with the given name, or if the entity
+     *         graph with the given name does not have the
+     *         specified root entity class type
+     * @since 7.0
+     */
+    <T> EntityGraph<T> getEntityGraph(Class<T> rootType, String graphName);
 
     /**
      * Return all named {@link EntityGraph}s that are defined for
