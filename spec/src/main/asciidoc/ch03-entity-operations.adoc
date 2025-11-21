@@ -3341,29 +3341,27 @@ immediately by calls to `getOutputParameterValue`.
 
 The following is a summary of the exceptions defined by this specification:
 
-*PersistenceException*
+PersistenceException ::
 
 The `PersistenceException` is thrown by the
 persistence provider when a problem occurs. It may be thrown to report
 that the invoked operation could not complete because of an unexpected
 error (e.g., failure of the persistence provider to open a database
-connection).
-
-All other exceptions defined by this
+connection). All other exceptions defined by this
 specification are subclasses of the `PersistenceException`. All
 instances of `PersistenceException` except for instances of
-`NoResultException`, `NonUniqueResultException`, `LockTimeoutException`
-, and `QueryTimeoutException` will cause the current transaction, if one
+`NoResultException`, `NonUniqueResultException`, `LockTimeoutException`,
+and `QueryTimeoutException` will cause the current transaction, if one
 is active and the persistence context has been joined to it, to be
 marked for rollback.
 
-*TransactionRequiredException*
+TransactionRequiredException::
 
 The `TransactionRequiredException` is thrown
 by the persistence provider when a transaction is required but is not
 active.
 
-*OptimisticLockException*
+OptimisticLockException::
 
 The `OptimisticLockException` is thrown by
 the persistence provider when an optimistic locking conflict occurs.
@@ -3371,7 +3369,7 @@ This exception may be thrown as part of an API call, at flush, or at
 commit time. The current transaction, if one is active, will be marked
 for rollback.
 
-*PessimisticLockException*
+PessimisticLockException::
 
 The `PessimisticLockException` is thrown by
 the persistence provider when a pessimistic locking conflict occurs. The
@@ -3380,7 +3378,7 @@ current transaction will be marked for rollback. Typically the
 been rolled back due to deadlock or because the database uses
 transaction-level rollback when a pessimistic lock cannot be granted.
 
-*LockTimeoutException*
+LockTimeoutException::
 
 The `LockTimeoutException` is thrown by the
 persistence provider when a pessimistic locking conflict occurs that
@@ -3389,12 +3387,12 @@ the database uses statement-level rollback when a pessimistic lock
 cannot be granted (and there is no deadlock). The `LockTimeoutException`
 does not cause the current transaction to be marked for rollback.
 
-*RollbackException*
+RollbackException::
 
 The `RollbackException` is thrown by the
 persistence provider when `EntityTransaction.commit` fails.
 
-*EntityExistsException*
+EntityExistsException::
 
 The `EntityExistsException` may thrown by the
 persistence provider when the `persist` operation is invoked and the
@@ -3404,7 +3402,7 @@ another `PersistenceException` may be thrown at commit time. The current
 transaction, if one is active and the persistence context has been
 joined to it, will be marked for rollback.
 
-*EntityNotFoundException*
+EntityNotFoundException::
 
 The `EntityNotFoundException` is thrown by
 the persistence provider when an entity reference obtained by
@@ -3415,14 +3413,14 @@ locking is used and the entity no longer exists in the database. The
 current transaction, if one is active and the persistence context has
 been joined to it, will be marked for rollback.
 
-*NoResultException*
+NoResultException::
 
 The `NoResultException` is thrown by the persistence provider when
 `Query.getSingleResult` is invoked and there is no result to return.
 This exception will not cause the current transaction, if one is
 active, to be marked for rollback.
 
-*NonUniqueResultException*
+NonUniqueResultException::
 
 The `NonUniqueResultException` is thrown by the persistence provider
 when `Query.getSingleResult` or `Query.getSingleResultOrNull` is
@@ -3430,7 +3428,7 @@ invoked and there is more than one result from the query. This
 exception will not cause the current transaction, if one is active,
 to be marked for rollback.
 
-*QueryTimeoutException*
+QueryTimeoutException::
 
 The `QueryTimeoutException` is thrown by the
 persistence provider when a query times out and only the statement is
