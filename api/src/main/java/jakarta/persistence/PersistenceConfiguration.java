@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -157,26 +157,41 @@ public class PersistenceConfiguration {
     /**
      * An application-provided SQL script to be executed when the
      * schema is created.
+     * <p>
+     * An instance of {@link java.io.Reader} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_CREATE_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.create-script-source";
     /**
      * An application-provided SQL script to be executed when the
      * schema is dropped.
+     * <p>
+     * An instance of {@link java.io.Reader} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_DROP_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.drop-script-source";
     /**
      * An application-provided SQL script to be executed after the
      * schema is created, typically used for loading data.
+     * <p>
+     * An instance of {@link java.io.Reader} or a string specifying
+     * the file URL of the DML script.
      */
     public static final String SCHEMAGEN_LOAD_SCRIPT_SOURCE = "jakarta.persistence.sql-load-script-source";
     /**
      * The provider-generated SQL script which creates the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+     * <p>
+     * An instance of `{@link java.io.Writer} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_CREATE_TARGET = "jakarta.persistence.schema-generation.scripts.create-target";
     /**
      * The provider-generated SQL script which drops the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+     * <p>
+     * An instance of `{@link java.io.Writer} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.scripts.drop-target";
 
@@ -262,6 +277,21 @@ public class PersistenceConfiguration {
      */
     public EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(this);
+    }
+
+    /**
+     * Execute the schema management action specified by the property
+     * {@link #SCHEMAGEN_DATABASE_ACTION} or {@link #SCHEMAGEN_SCRIPTS_ACTION},
+     * without creating an {@link EntityManagerFactory}.
+     *
+     * @throws PersistenceException if insufficient or inconsistent
+     *         configuration information is provided or if schema
+     *         generation otherwise fails.
+     *
+     * @since 7.0
+     */
+    public void exportSchema() {
+        Persistence.generateSchema( this );
     }
 
     /**
