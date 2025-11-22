@@ -2394,12 +2394,12 @@ case_expression ::=
     nullif_expression
 
 general_case_expression ::=
-    CASE when_clause {when_clause}* ELSE scalar_expression END
+    CASE when_clause {when_clause}* {ELSE scalar_expression} END
 when_clause ::= WHEN conditional_expression THEN scalar_expression
 
 simple_case_expression ::=
     CASE case_operand simple_when_clause {simple_when_clause}*
-    ELSE scalar_expression
+    {ELSE scalar_expression}
     END
 case_operand ::= state_valued_path_expression | type_discriminator
 simple_when_clause ::= WHEN scalar_expression THEN scalar_expression
@@ -2408,6 +2408,10 @@ coalesce_expression ::= COALESCE(scalar_expression {, scalar_expression}+)
 
 nullif_expression ::= NULLIF(scalar_expression, scalar_expression)
 ----
+
+The `ELSE` branch of a case expression is optional. A case expression
+without an `ELSE` branch is interpreted as if it had the `ELSE` branch
+`ELSE NULL`.
 
 Examples:
 
@@ -3549,11 +3553,11 @@ case_expression ::=
     simple_case_expression |
     coalesce_expression |
     nullif_expression
-general_case_expression::= CASE when_clause {when_clause}* ELSE scalar_expression END
+general_case_expression::= CASE when_clause {when_clause}* {ELSE scalar_expression} END
 when_clause ::= WHEN conditional_expression THEN scalar_expression
 simple_case_expression ::=
     CASE case_operand simple_when_clause {simple_when_clause}*
-    ELSE scalar_expression
+    {ELSE scalar_expression}
     END
 case_operand ::= state_valued_path_expression | type_discriminator
 simple_when_clause ::= WHEN scalar_expression THEN scalar_expression
