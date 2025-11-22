@@ -892,43 +892,39 @@ using a lock with `LockModeType.PESSIMISTIC_WRITE` or
 that same transaction may modify or delete
 that entity instance.
 
-When an entity instance is locked using
-pessimistic locking, the persistence provider must lock the database
-row(s) that correspond to the non-collection-valued persistent state of
-that instance. If a joined inheritance strategy is used, or if the
-entity is otherwise mapped to a secondary table, this entails locking
-the row(s) for the entity instance in the additional table(s). Entity
-relationships for which the locked entity contains the foreign key will
-also be locked, but not the state of the referenced entities (unless
-those entities are explicitly locked). Element collections and
-relationships for which the entity does not contain the foreign key
-(such as relationships that are mapped to join tables or unidirectional
-one-to-many relationships for which the target entity contains the
-foreign key) will not be locked by default.
+The `PessimisticLockScope` enum be found in <<_pessimisticlockscope_>>
+controls how a pessimistic lock applied to an entity affects associated
+collections and relationships.
 
-Element collections and relationships owned
-by the entity that are contained in join tables will be locked if the
-`jakarta.persistence.lock.scope` property is specified with a value of
-`PessimisticLockScope.EXTENDED`. The state of entities referenced by
-such relationships will not be locked (unless those entities are
-explicitly locked). This property may be passed as an argument to the
-methods of the `EntityManager`, `Query`, and `TypedQuery` interfaces
-that allow lock modes to be specified or used with the `NamedQuery`
-annotation.
+`NORMAL`::
+The persistence provider must lock the row or rows of the primary and
+secondary tables mapped by the entity. In the case of a joined
+inheritance hierarchy, this includes all rows in tables mapped by the
+entity superclasses of the entity. This is the default behavior of
+pessimistic locking.
 
-Locking such a relationship or element
-collection generally locks only the rows in the join table or collection
-table for that relationship or collection. This means that phantoms will
-be possible.
+`EXTENDED`::
+The persistence provider must lock the row or rows of:
+- the primary and secondary tables mapped by the entity, including all
+  rows in tables mapped by the entity superclasses of the entity in the
+  case of a joined inheritance hierarchy,
+- join tables mapped by associations owned by the entity, and
+- collection tables mapped by collections belonging to the entity.
 
-The values of the
-`jakarta.persistence.lock.scope` property are defined by the
-`PessimisticLockScope` enum.
+`CASCADED`::
+The persistence provider must lock the row or rows of:
+- the primary and secondary tables mapped by the entity, including all
+  rows in tables mapped by the entity superclasses of the entity in the
+  case of a joined inheritance hierarchy,
+- join tables mapped by associations  which were fetched as part of the
+  operation which obtained the pessimistic lock, along with the primary
+  and secondary tables mapped by the associated entities,
+- collection tables mapped by collections belonging to the entity which
+  were fetched as part of the operation which obtained the pessimistic
+  lock.
 
-[source,java]
-----
-include::../../../../api/src/main/java/jakarta/persistence/PessimisticLockScope.java[lines=18..-1]
-----
+The values of the property `jakarta.persistence.lock.scope` property
+are defined by the `PessimisticLockScope` enum.
 
 This specification does not define the
 mechanisms a persistence provider uses to obtain database locks, and a
