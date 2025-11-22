@@ -118,6 +118,13 @@ public @interface NamedQuery {
     LockModeType lockMode() default LockModeType.NONE;
 
     /**
+     * (Optional) The pessimistic lock scope to use in query execution
+     * if a pessimistic lock mode is specified via {@link #lockMode}.
+     * @since 7.0
+     */
+    PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
+
+    /**
      * (Optional) Query properties and hints. May include
      * vendor-specific query hints.
      * @see Query#setHint

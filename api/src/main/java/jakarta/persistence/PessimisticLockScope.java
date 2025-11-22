@@ -17,47 +17,86 @@
 package jakarta.persistence;
 
 /**
- *
- * Defines the values of the {@code jakarta.persistence.lock.scope}
- * property for pessimistic locking.  This property may be passed as an
- * argument to the methods of the {@link EntityManager}, {@link Query},
- * and {@link TypedQuery} interfaces that allow lock modes to be specified
- * or used with the {@link NamedQuery} annotation.
+ * Controls how a {@linkplain LockModeType pessimistic lock} applied to
+ * an entity affects associated collections and relationships.
+ * <p>
+ * A {@code PessimisticLockScope} may be passed as a {@link FindOption}
+ * {@link RefreshOption}, or {@link LockOption}. Alternatively, it may
+ * be specified via the property {@code jakarta.persistence.lock.scope}.
+ * This property may be passed as an argument to methods of
+ * {@link EntityManager}, {@link Query}, and {@link TypedQuery} which
+ * accept a {@link LockModeType} or it may be used in the {@link NamedQuery}
+ * annotation.
  *
  * @since 2.0
  */
 public enum PessimisticLockScope implements FindOption, RefreshOption, LockOption {
 
     /**
-     * This value defines the default behavior for pessimistic locking.
+     * <p>The persistence provider must lock the row or rows of the
+     * {@linkplain Table primary} and {@linkplain SecondaryTable secondary}
+     * tables mapped by the entity. In the case of a
+     * {@linkplain InheritanceType#JOINED joined} inheritance hierarchy,
+     * this includes all rows in tables mapped by the entity superclasses
+     * of the entity.
      *
-     * <p>The persistence provider must lock the database row(s) that
-     * correspond to the non-collection-valued persistent state of
-     * that instance. If a joined inheritance strategy is used, or if
-     * the entity is otherwise mapped to a secondary table, this
-     * entails locking the row(s) for the entity instance in the
-     * additional table(s). Entity relationships for which the locked
-     * entity contains the foreign key will also be locked, but not
-     * the state of the referenced entities (unless those entities are
-     * explicitly locked). Element collections and relationships for
-     * which the entity does not contain the foreign key (such as
-     * relationships that are mapped to join tables or unidirectional
-     * one-to-many relationships for which the target entity contains
-     * the foreign key) will not be locked by default.
+     * <p>The pessimistic lock does not extend to rows of:
+     * <ul>
+     * <li>tables mapped by associated entities,
+     * <li>{@linkplain JoinTable join tables} mapped by associations,
+     *     or
+     * <li>{@linkplain CollectionTable collection tables}.
+     * </ul>
+     *
+     * <p>This is the default behavior of pessimistic locking.
      */
     NORMAL,
 
     /**
-     * In addition to the locking behavior specified for {@link #NORMAL},
-     * element collections and relationships owned by the entity that
-     * are contained in join tables are locked if the property
-     * {@code jakarta.persistence.lock.scope} is specified with a value
-     * of {@code PessimisticLockScope#EXTENDED}. The state of entities
-     * referenced by such relationships is not locked (unless those
-     * entities are explicitly locked). Locking such a relationship or
-     * element collection generally locks only the rows in the join table
-     * or collection table for that relationship or collection. This means
-     * that phantoms are possible.
+     * <p>The persistence provider must lock the row or rows of:
+     * <ul>
+     * <li>the {@linkplain Table primary} and
+     *     {@linkplain SecondaryTable secondary} tables mapped by the
+     *     entity, including all rows in tables mapped by the entity
+     *     superclasses of the entity in the case of a
+     *     {@linkplain InheritanceType#JOINED joined} inheritance
+     *     hierarchy,
+     * <li>{@linkplain JoinTable join tables} mapped by associations
+     *     owned by the entity, and
+     * <li>{@linkplain CollectionTable collection tables} mapped by
+     *     collections belonging to the entity.
+     * </ul>
+     *
+     * <p>The pessimistic lock does not extend to rows of:
+     * <ul>
+     * <li>tables mapped by associated entities,
+     * <li>{@linkplain JoinTable join tables} mapped by associations
+     *     not owned by the entity.
+     * </ul>
      */
-    EXTENDED
+    EXTENDED,
+
+    /**
+     * <p>The persistence provider must lock the row or rows of:
+     * <ul>
+     * <li>the {@linkplain Table primary} and
+     *     {@linkplain SecondaryTable secondary} tables mapped by the
+     *     entity, including all rows in tables mapped by the entity
+     *     superclasses of the entity in the case of a
+     *     {@linkplain InheritanceType#JOINED joined} inheritance
+     *     hierarchy,
+     * <li>{@linkplain JoinTable join tables} mapped by associations
+     *     which were fetched as part of the operation which obtained
+     *     the pessimistic lock, along with the primary and secondary
+     *     tables mapped by the associated entities,
+     * <li>{@linkplain CollectionTable collection tables} mapped by
+     *     collections belonging to the entity which were fetched as
+     *     part of the operation which obtained the pessimistic lock.
+     * </ul>
+     *
+     * <p>The pessimistic lock does not extend to data which was not
+     * fetched as part of the operation which obtained the pessimistic
+     * lock.
+     */
+    CASCADED
 }
