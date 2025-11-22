@@ -357,7 +357,8 @@ object to `EntityManager.createNamedQuery(String, Class)`.
 The `lockMode` element specifies a lock mode for the entity instances in
 results returned by the query. If a lock mode other than `NONE` is
 specified, the query may only be executed within a persistence context
-with an associated active transaction.
+with an associated active transaction. The `lockScope` element specifies
+the corresponding scope for a pessimistic lock.
 
 The `hints` element may be used to specify query properties and hints.
 Properties defined by this specification must be observed by the provider;
@@ -384,6 +385,7 @@ public @interface NamedQuery {
     String query();
     Class<?> resultClass() default void.class;
     LockModeType lockMode() default NONE;
+    PessimisticLockScope lockScope() default NORMAL;
     QueryHint[] hints() default {};
     String entityGraph() default "";
 }
