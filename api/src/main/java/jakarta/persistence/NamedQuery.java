@@ -93,7 +93,7 @@ public @interface NamedQuery {
     /**
      * (Optional) The pessimistic lock scope to use in query execution
      * if a pessimistic lock mode is specified via {@link #lockMode}.
-     * @since 7.0
+     * @since 4.0
      */
     PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
     
