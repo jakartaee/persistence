@@ -38,7 +38,8 @@ public interface Query {
 
     /**
      * Execute a SELECT query and return the query results as an untyped
-     * {@link List}.
+     * {@link List}. If necessary, first synchronize changes with the
+     * database by flushing the persistence context.
      * @return a list of the results, or an empty list if there are
      *         no results
      * @throws IllegalStateException if called for a Jakarta
@@ -57,13 +58,17 @@ public interface Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      */
     @SuppressWarnings({"rawtypes"})
     List getResultList();
 
     /**
      * Execute a SELECT query and return the query results as an untyped
-     * {@link java.util.stream.Stream}.
+     * {@link java.util.stream.Stream}. If necessary, first synchronize
+     * changes with the database by flushing the persistence context.
      *
      * <p>By default, this method delegates to {@code getResultList().stream()},
      * however persistence provider may choose to override this method
@@ -87,6 +92,9 @@ public interface Query {
      * @throws PersistenceException if the query execution exceeds
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      * @see Stream
      * @see #getResultList()
      * @since 2.2
@@ -98,6 +106,8 @@ public interface Query {
 
     /**
      * Execute a SELECT query that returns a single untyped result.
+     * If necessary, first synchronize changes with the database by
+     * flushing the persistence context.
      * @return the result
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
@@ -117,11 +127,16 @@ public interface Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      */
     Object getSingleResult();
 
     /**
      * Execute a SELECT query that returns a single untyped result.
+     * If necessary, first synchronize changes with the database by
+     * flushing the persistence context.
      * @return the result, or null if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
@@ -140,6 +155,9 @@ public interface Query {
      * @throws PersistenceException if the query execution exceeds
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      *
      * @since 3.2
      */

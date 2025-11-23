@@ -715,7 +715,7 @@ of work, the version or timestamp is:
 1. read from the database when the data itself is read, and
 2. verified when the data is deleted.
 
-An _optimistic lock failure_ occurs when verification fails, that is,
+An _optimistic locking conflict_ occurs when verification fails, that is,
 if the version or timestamp held in the database changes between
 reading the data (step 1), and attempting to update or delete the data
 (step 2).
@@ -734,7 +734,7 @@ optimistic locking must specify a version field or property for each
 optimistically-locked entity using the `@Version` annotation defined in
 <<a16432>> or equivalent XML element.
 
-When an optimistic lock failure is detected, the persistence provider
+When an optimistic locking conflict is detected, the persistence provider
 must:
 
 - throw an `OptimisticLockException` and

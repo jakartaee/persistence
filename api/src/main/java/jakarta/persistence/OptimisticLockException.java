@@ -26,6 +26,8 @@ package jakarta.persistence;
  * @see EntityManager#find(Class, Object, LockModeType, java.util.Map)
  * @see EntityManager#lock(Object, LockModeType)
  * @see EntityManager#lock(Object, LockModeType, java.util.Map)
+ * @see EntityManager#merge(Object)
+ * @see EntityManager#flush()
  * 
  * @since 1.0
  */
