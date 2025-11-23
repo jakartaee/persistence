@@ -1319,10 +1319,10 @@ Address address;
 
 ==== DiscriminatorColumn Annotation [[a14530]]
 
-For the SINGLE_TABLE mapping strategy, and
-typically also for the JOINED strategy, the persistence provider will
+For the `SINGLE_TABLE` mapping strategy, and
+typically also for the `JOINED` strategy, the persistence provider will
 use a type discriminator column. The `DiscriminatorColumn` annotation is
-used to define the discriminator column for the SINGLE_TABLE and JOINED
+used to define the discriminator column for the `SINGLE_TABLE` and `JOINED`
 inheritance mapping strategies.
 
 The strategy and the discriminator
@@ -1337,8 +1337,8 @@ specified on an entity class (including on an abstract entity class).
 
 If the `DiscriminatorColumn` annotation is
 missing, and a discriminator column is required, the name of the
-discriminator column defaults to "DTYPE" and the discriminator type to
-STRING.
+discriminator column defaults to `DTYPE` and the discriminator type to
+`STRING`.
 
 <<a14548>> lists the annotation elements
 that may be specified for the `DiscriminatorColumn` annotation and their
@@ -2263,7 +2263,7 @@ hierarchy.
 
 If the `Inheritance` annotation is not
 specified or if no inheritance type is specified for an entity class
-hierarchy, the SINGLE_TABLE mapping strategy is used.
+hierarchy, the `SINGLE_TABLE` mapping strategy is used.
 
 Support for the combination of inheritance
 strategies is not required by this specification. Portable applications
@@ -2306,7 +2306,7 @@ public @interface Inheritance {
 |InheritanceType
 |strategy
 |(Optional) The inheritance strategy to use for the entity inheritance hierarchy.
-|InheritanceType.SINGLE_TABLE
+|`InheritanceType.SINGLE_TABLE`
 |===
 
 *Example:*
@@ -2411,7 +2411,7 @@ by this foreign key column. When used with entity relationship mappings
 other than the cases described below, the referenced column is in the
 table of the target entity. When used with a unidirectional OneToMany
 foreign key mapping, the referenced column is in the table of the source
-entity. When used inside a JoinTable annotation, the referenced key
+entity. When used inside a `JoinTable` annotation, the referenced key
 column is in the entity table of the owning entity, or inverse entity if
 the join is part of the inverse join definition. When used in a
 collection table mapping, the referenced column is in the table of the
@@ -4570,7 +4570,7 @@ specifies a primary key column that is used as a foreign key to join to
 another table.
 
 The `PrimaryKeyJoinColumn` annotation is used
-to join the primary table of an entity subclass in the JOINED mapping
+to join the primary table of an entity subclass in the `JOINED` mapping
 strategy to the primary table of its superclass; it is used within a
 `SecondaryTable` annotation to join a secondary table to a primary
 table; and it may be used in a `OneToOne` mapping in which the primary
@@ -4593,7 +4593,7 @@ that may be specified for the `PrimaryKeyJoinColumn` annotation and
 their default values.
 
 If no `PrimaryKeyJoinColumn` annotation is
-specified for a subclass in the JOINED mapping strategy, the foreign key
+specified for a subclass in the `JOINED` mapping strategy, the foreign key
 columns are assumed to have the same names as the primary key columns of
 the primary table of the superclass.
 
@@ -4620,20 +4620,20 @@ public @interface PrimaryKeyJoinColumn {
 |name
 |(Optional) The name of the primary key column of the current table.
 |The same name
-as the primary key column of the primary table of the superclass (JOINED
+as the primary key column of the primary table of the superclass (`JOINED`
 mapping strategy); the same name as the primary key column of the
-primary table (SecondaryTable mapping); or the same name as the primary
-key column for the table for the referencing entity (OneToOne mapping).
+primary table (`SecondaryTable` mapping); or the same name as the primary
+key column for the table for the referencing entity (`OneToOne` mapping).
 
 |String
 |referencedColumnName
 |(Optional) The name of the primary key column of the table being joined to.
 |The
 same name as the primary key column of the primary table of the
-superclass (JOINED mapping strategy); the same name as the primary key
-column of the primary table (SecondaryTable mapping); or the same name
+superclass (`JOINED` mapping strategy); the same name as the primary key
+column of the primary table (`SecondaryTable` mapping); or the same name
 as the primary key column of the table for the referenced entity
-(OneToOne mapping).
+(`OneToOne` mapping).
 
 |String
 |columnDefinition
@@ -5075,7 +5075,7 @@ allocating sequence numbers from the sequence.
 
 ==== SequenceGenerators Annotation [[a16205]]
 
-The SequenceGenerators annotation can be used
+The `SequenceGenerators` annotation can be used
 to specify multiple sequence generators.
 
 [source,java]
@@ -5103,8 +5103,8 @@ public @interface SequenceGenerators {
 The `Table` annotation specifies the
 primary table for the annotated entity. Additional tables may be
 specified by using the `SecondaryTable` or `SecondaryTables`
-annotation.footnote:[When a joined
-inheritance strategy is used, the Table annotation is used to specify a
+annotation.footnote:[When a `JOINED`
+inheritance strategy is used, the `Table` annotation is used to specify a
 primary table for the subclass-specific state if the default is not
 used.]
 
@@ -5159,7 +5159,7 @@ public @interface Table {
 |(Optional) Unique constraints that are to be
 placed on the table. These are only used if table generation is in
 effect. These constraints apply in addition to any constraints specified
-by the Column and JoinColumn annotations and constraints entailed by
+by the `Column` and `JoinColumn` annotations and constraints entailed by
 primary key mappings.
 |No additional
 constraints
@@ -5372,7 +5372,7 @@ public class Address {
 
 ==== TableGenerators Annotation
 
-The TableGenerators annotation can be used to
+The `TableGenerators` annotation can be used to
 specify multiple table generators.
 
 [source,java]
@@ -5794,8 +5794,8 @@ See <<a15873>> for the rules that pertain to the generation of order columns.
 ===== DiscriminatorColumn
 
 A discriminator column is generated for the
-SINGLE_TABLE mapping strategy and may optionally be generated by the
-provider for use with the JOINED inheritance strategy. The
+`SINGLE_TABLE` mapping strategy and may optionally be generated by the
+provider for use with the `JOINED` inheritance strategy. The
 `DiscriminatorColumn` annotation may be used to control the mapping of
 the discriminator column. See <<a14530>> for the rules that pertain to
 discriminator columns.
@@ -5925,8 +5925,8 @@ be used to override such mappings.
 
 The `PrimaryKeyJoinColumn` annotation
 specifies that a primary key column is to be used as a foreign key. This
-annotation is used in the specification of the JOINED mapping strategy
-and for joining a secondary table to a primary table in a OneToOne
+annotation is used in the specification of the `JOINED` mapping strategy
+and for joining a secondary table to a primary table in a `OneToOne`
 relationship mapping. In general, the foreign key definitions created
 should be expected to be provider-dependent and database-dependent.
 Applications that are sensitive to the exact mapping that is used should

@@ -17,7 +17,7 @@
 package jakarta.persistence;
 
 /**
- * Enumerated the options for mapping entity inheritance.
+ * Enumerates the options for mapping entity inheritance.
  *
  * @see Inheritance#strategy
  *
