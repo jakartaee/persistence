@@ -361,6 +361,18 @@ public interface EntityManagerFactory extends GraphFactory, AutoCloseable {
      */
     <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
 
+    /**
+     * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
+     * every named {@linkplain EntityGraph entity graph} whose entity type is
+     * assignable to the given Java type.
+     * @param entityType any Java type, including {@code Object.class}
+     *                   meaning all entity graphs
+     * @return a map keyed by graph name
+     * @param <E> the specified upper bound on the entity graph types
+     * @see jakarta.persistence.metamodel.EntityType#getNamedEntityGraphs()
+     * @since 3.2
+     */
+    <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
 
     /**
      * Register a listener for the given kind of entity lifecycle event

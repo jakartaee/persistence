@@ -74,17 +74,4 @@ public interface GraphFactory {
      */
     <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
 
-    /**
-     * A map keyed by {@linkplain NamedEntityGraph#name graph name},
-     * containing every named {@linkplain EntityGraph entity graph}
-     * whose entity type is assignable to the given Java type.
-     * @param entityType any Java type, including {@code Object.class}
-     *                   meaning all entity graphs
-     * @return a map keyed by graph name
-     * @param <E> the specified upper bound on the entity graph types
-     * @see jakarta.persistence.metamodel.EntityType#getNamedEntityGraphs()
-     * @since 3.2
-     */
-    <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
-
 }
