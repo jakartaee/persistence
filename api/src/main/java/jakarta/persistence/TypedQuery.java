@@ -363,12 +363,26 @@ public interface TypedQuery<X> extends Query {
       * Set the lock mode type to be used for the query execution.
       * @param lockMode  lock mode
       * @return the same query instance
-      * @throws IllegalStateException if the query is found not to 
-      *         be a Jakarta Persistence query language SELECT query
-      *         or a {@link jakarta.persistence.criteria.CriteriaQuery}
-      *         query
+      * @throws IllegalStateException if the query is not a Jakarta
+      *         Persistence query language SELECT query or a
+      *         {@link jakarta.persistence.criteria.CriteriaQuery}
+      * @since 2.0
       */
      TypedQuery<X> setLockMode(LockModeType lockMode);
+
+    /**
+     * The pessimistic lock scope to use in query execution if a
+     * pessimistic lock mode is specified via {@link #setLockMode}.
+     * If the query is executed without a pessimistic lock mode,
+     * the pessimistic lock scope has no effect.
+     * @since 4.0
+     * @param lockScope the scope of the pessimistic lock
+     * @return the same query instance
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
+     */
+    TypedQuery<X> setLockScope(PessimisticLockScope lockScope);
 
     /**
      * Set the cache retrieval mode that is in effect during
