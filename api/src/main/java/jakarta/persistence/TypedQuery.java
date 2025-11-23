@@ -38,7 +38,8 @@ public interface TypedQuery<X> extends Query {
 	
     /**
      * Execute a SELECT query and return the query results as a typed
-     * {@link List List&lt;X&gt;}.
+     * {@link List List&lt;X&gt;}. If necessary, first synchronize
+     * changes with the database by flushing the persistence context.
      * @return a list of the results, each of type {@link X}, or an
      *         empty list if there are no results
      * @throws IllegalStateException if called for a Jakarta
@@ -62,11 +63,13 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Execute a SELECT query and return the query result as a typed
-     * {@link java.util.stream.Stream Stream&lt;X&gt;}.
+     * {@link java.util.stream.Stream Stream&lt;X&gt;}. If necessary,
+     * first synchronize changes with the database by flushing the
+     * persistence context.
      *
      * <p>By default, this method delegates to {@link List#stream()
-     * getResultList().stream()}, however, persistence provider may
-     * choose to override this method to provide additional capabilities.
+     * getResultList().stream()}. The persistence provider may choose
+     * to override this method to provide additional capabilities.
      *
      * @return a stream of the results, each of type {@link X}, or an
      *         empty stream if there are no results
@@ -86,6 +89,9 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the query execution exceeds
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      * @see Stream
      * @see #getResultList()
      * @since 2.2
@@ -96,6 +102,8 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Execute a SELECT query that returns a single result.
+     * If necessary, first synchronize changes with the database by
+     * flushing the persistence context.
      * @return the result, of type {@link X}
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
@@ -115,11 +123,16 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      */
     X getSingleResult();
 
     /**
      * Execute a SELECT query that returns a single untyped result.
+     * If necessary, first synchronize changes with the database by
+     * flushing the persistence context.
      * @return the result, of type {@link X}, or null if there is no
      *         result
      * @throws NonUniqueResultException if more than one result
@@ -139,6 +152,9 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the query execution exceeds
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      *
      * @since 3.2
      */

@@ -200,7 +200,7 @@ public interface EntityManager extends AutoCloseable {
      * This operation cascades to every entity related by an association
      * marked {@link CascadeType#PERSIST cascade=PERSIST}. If the given
      * entity instance is already managed, that is, if it already belongs
-     * to this persistence context, and has not been marked for removal,
+     * to this persistence context and has not been marked for removal,
      * it is itself ignored, but the operation still cascades.
      * @param entity  a new, managed, or removed entity instance
      * @throws EntityExistsException if the given entity is detached
@@ -227,7 +227,7 @@ public interface EntityManager extends AutoCloseable {
      * operation cascades to every entity related by an association
      * marked {@link CascadeType#MERGE cascade=MERGE}. If the given
      * entity instance is managed, that is, if it belongs to this
-     * persistence context, and has not been marked for removal, it is
+     * persistence context and has not been marked for removal, it is
      * itself ignored, but the operation still cascades, and it is
      * returned directly.
      * @param entity  a new, managed, or detached entity instance
@@ -237,6 +237,10 @@ public interface EntityManager extends AutoCloseable {
      * @throws TransactionRequiredException if there is no transaction
      *         when invoked on a container-managed entity manager of
      *         that is of type {@link PersistenceContextType#TRANSACTION}
+     * @throws OptimisticLockException if an optimistic locking conflict
+     *         is detected (note that optimistic version checking might be
+     *         deferred until changes are flushed to the database)
+     *
      */
     <T> T merge(T entity);
 
@@ -255,6 +259,9 @@ public interface EntityManager extends AutoCloseable {
      *         container-managed entity manager of type
      *         {@link PersistenceContextType#TRANSACTION} and there is
      *         no transaction
+     * @throws OptimisticLockException if an optimistic locking conflict
+     *         is detected (note that optimistic version checking might be
+     *         deferred until changes are flushed to the database)
      */
     void remove(Object entity);
     
@@ -268,7 +275,7 @@ public interface EntityManager extends AutoCloseable {
      * @return the found entity instance or null if the entity does
      *         not exist
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or if the second argument is
+     *         not denote an entity type, or if the second argument is
      *         not a valid type for that entity's primary key or is
      *         null
      */
@@ -288,7 +295,7 @@ public interface EntityManager extends AutoCloseable {
      * @return the found entity instance or null if the entity does
      *         not exist
      * @throws IllegalArgumentException if the first argument does 
-     *         not denote an entity type or if the second argument
+     *         not denote an entity type, or if the second argument
      *         is not a valid type for that entity's primary key or
      *         is null
      * @since 2.0
@@ -299,7 +306,7 @@ public interface EntityManager extends AutoCloseable {
     /**
      * Find by primary key and obtain the given lock type for the
      * resulting entity. Search for an entity of the specified class and
-     * primary key, and lock it with respect to the specified lock type.
+     * primary key and lock it with respect to the specified lock type.
      * If the entity instance is contained in the persistence context,
      * it is returned from there, and the effect of this method is the
      * same as if the {@link #lock} method had been called on the entity.
@@ -308,7 +315,7 @@ public interface EntityManager extends AutoCloseable {
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock. If these checks
      * fail, the {@link OptimisticLockException} is thrown.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -322,7 +329,7 @@ public interface EntityManager extends AutoCloseable {
      * @return the found entity instance or null if the entity does
      *         not exist
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or the second argument is
+     *         not denote an entity type, or the second argument is
      *         not a valid type for that entity's primary key or
      *         is null
      * @throws TransactionRequiredException if there is no 
@@ -345,7 +352,7 @@ public interface EntityManager extends AutoCloseable {
     /**
      * Find by primary key and lock the entity, using the specified
      * properties. Search for an entity of the specified class and
-     * primary key, and lock it with respect to the specified lock type.
+     * primary key and lock it with respect to the specified lock type.
      * If the entity instance is contained in the persistence context,
      * it is returned from there.  
      * <p> If the entity is found within the persistence context and
@@ -353,7 +360,7 @@ public interface EntityManager extends AutoCloseable {
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock. If these checks
      * fail, the {@link OptimisticLockException} is thrown.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -375,7 +382,7 @@ public interface EntityManager extends AutoCloseable {
      * @return the found entity instance or null if the entity does
      *         not exist
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or the second argument is
+     *         not denote an entity type, or the second argument is
      *         not a valid type for that entity's primary key or
      *         is null
      * @throws TransactionRequiredException if there is no 
@@ -407,9 +414,9 @@ public interface EntityManager extends AutoCloseable {
      * <p>If the entity is found within the persistence context and
      * the lock mode type is pessimistic and the entity has a version
      * attribute, the persistence provider must perform optimistic
-     * version checks when obtaining the database lock.  If these checks
+     * version checks when obtaining the database lock. If these checks
      * fail, the {@code OptimisticLockException} is thrown.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@code PessimisticLockException} is thrown if the
@@ -465,7 +472,7 @@ public interface EntityManager extends AutoCloseable {
      * attribute, the persistence provider must perform optimistic
      * version checks when obtaining the database lock. If these checks
      * fail, the {@code OptimisticLockException} is thrown.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -519,13 +526,13 @@ public interface EntityManager extends AutoCloseable {
      * association to an entity without loading its state from the
      * database.
      * <p>The application should not expect the instance state to
-     * be available upon detachment, unless it was accessed by the
+     * be available upon detachment unless it was accessed by the
      * application while the entity manager was open.
      * @param entityClass  entity class
      * @param primaryKey  primary key
      * @return a reference to the entity instance
      * @throws IllegalArgumentException if the first argument does
-     *         not denote an entity type or the second argument is
+     *         not denote an entity type, or the second argument is
      *         not a valid type for that entity's primary key or
      *         is null
      * @throws EntityNotFoundException if the entity state cannot
@@ -548,7 +555,7 @@ public interface EntityManager extends AutoCloseable {
      * association to an entity without loading its state from the
      * database.
      * <p>The application should not expect the instance state to
-     * be available upon detachment, unless it was accessed by the
+     * be available upon detachment unless it was accessed by the
      * application while the entity manager was open.
      * @param entity  a persistent or detached entity instance
      * @return a reference to the entity instance
@@ -567,6 +574,8 @@ public interface EntityManager extends AutoCloseable {
      *        no transaction or if the entity manager has not been
      *        joined to the current transaction
      * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected
      */
     void flush();
 
@@ -592,7 +601,7 @@ public interface EntityManager extends AutoCloseable {
      * also perform optimistic version checks when obtaining the 
      * database lock. If these checks fail, the
      * {@link OptimisticLockException} is thrown.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -629,7 +638,7 @@ public interface EntityManager extends AutoCloseable {
      * also perform optimistic version checks when obtaining the 
      * database lock. If these checks fail, the
      * {@link OptimisticLockException} is thrown.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -675,7 +684,7 @@ public interface EntityManager extends AutoCloseable {
      * also perform optimistic version checks when obtaining the
      * database lock. If these checks fail, the
      * {@link OptimisticLockException} is thrown.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -759,7 +768,7 @@ public interface EntityManager extends AutoCloseable {
      * if any, and obtain the given {@linkplain LockModeType lock mode}.
      * This operation cascades to every entity related by an association
      * marked {@link CascadeType#REFRESH cascade=REFRESH}.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -798,7 +807,7 @@ public interface EntityManager extends AutoCloseable {
      * using the specified properties. This operation cascades to every
      * entity related by an association marked {@link CascadeType#REFRESH
      * cascade=REFRESH}.
-     * <p>If the lock mode type is pessimistic and the entity instance
+     * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -847,7 +856,7 @@ public interface EntityManager extends AutoCloseable {
      * obtaining the given lock mode. This operation cascades to every
      * entity related by an association marked {@link CascadeType#REFRESH
      * cascade=REFRESH}.
-     * <p>If the lock mode type is pessimistic and the entity instance is
+     * <p>If the lock mode type is pessimistic, and the entity instance is
      * found but cannot be locked:
      * <ul>
      * <li>the {@link PessimisticLockException} is thrown if the
@@ -926,7 +935,7 @@ public interface EntityManager extends AutoCloseable {
      * @param entity  a managed entity instance
      * @return the lock mode currently held
      * @throws TransactionRequiredException if there is no active
-     *         transaction or if the entity manager has not been
+     *         transaction, or if the entity manager has not been
      *         joined to the current transaction
      * @throws IllegalArgumentException if a transaction is active
      *         but the given instance is not a managed entity

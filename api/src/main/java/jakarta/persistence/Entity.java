@@ -65,7 +65,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * annotated {@link Id} or {@link EmbeddedId} holding the primary key
  * of the entity. An entity class may optionally have a field or
  * property annotated {@link Version}, which holds a value used to
- * detect optimistic lock failure.
+ * detect optimistic locking conflicts.
  *
  * <p>Fields or properties of an entity class are persistent by default.
  * The {@link Transient} annotation or the Java {@code transient} keyword

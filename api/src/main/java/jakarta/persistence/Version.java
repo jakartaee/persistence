@@ -24,12 +24,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Declares the version field or property of an entity class, which
- * is used to detect optimistic lock failures, ensuring the integrity
+ * is used to detect optimistic locking conflicts, ensuring the integrity
  * of optimistic transactions. The version field or property holds a
  * version number or timestamp identifying the revision of the entity
  * data held by an entity class instance.
  *
- * <p>An {@linkplain OptimisticLockException optimistic lock failure}
+ * <p>An {@linkplain OptimisticLockException optimistic locking conflict}
  * occurs when verification of the version or timestamp fails
  * during an attempt to update the entity, that is, if the version
  * or timestamp held in the database changes between reading the
