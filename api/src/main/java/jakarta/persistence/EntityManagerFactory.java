@@ -123,7 +123,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
  *
  * @since 1.0
  */
-public interface EntityManagerFactory extends AutoCloseable {
+public interface EntityManagerFactory extends GraphFactory, AutoCloseable {
 
     /**
      * Create a new application-managed {@link EntityManager}. This
@@ -340,7 +340,8 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Add a named copy of the given {@link EntityGraph} to this
      * {@code EntityManagerFactory}. If an entity graph with the
-     * given name already exists, it is replaced.
+     * given name already exists, it is replaced. The graph may
+     * be later retrieved via {@link #getEntityGraph(String)}.
      * @param graphName  name for the entity graph
      * @param entityGraph  entity graph
      * @since 2.1
@@ -368,7 +369,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *                   meaning all entity graphs
      * @return a map keyed by graph name
      * @param <E> the specified upper bound on the entity graph types
-     *
+     * @see jakarta.persistence.metamodel.EntityType#getNamedEntityGraphs()
      * @since 3.2
      */
     <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType);
