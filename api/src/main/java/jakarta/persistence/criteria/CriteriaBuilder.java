@@ -534,6 +534,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  expression
      * @return between predicate
+     * @since 4.0
      */
     <Y extends Comparable<? super Y>> Predicate between(Y v, Expression<? extends Y> x, Expression<? extends Y> y);    
 
