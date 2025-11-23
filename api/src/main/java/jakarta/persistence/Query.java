@@ -566,10 +566,9 @@ public interface Query {
      * Set the lock mode type to be used for the query execution.
      * @param lockMode  lock mode
      * @return the same query instance
-     * @throws IllegalStateException if the query is found not to
-     *         be a Jakarta Persistence query language SELECT query
-     *         or a {@link jakarta.persistence.criteria.CriteriaQuery}
-     *         query
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @since 2.0
      */
     Query setLockMode(LockModeType lockMode);
@@ -578,13 +577,38 @@ public interface Query {
      * Get the current lock mode for the query. Returns null if a
      * lock mode has not been set on the query object.
      * @return lock mode
-     * @throws IllegalStateException if the query is found not to
-     *          be a Jakarta Persistence query language SELECT query
-     *          or a {@link jakarta.persistence.criteria.CriteriaQuery}
-     *          query
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @since 2.0
      */
     LockModeType getLockMode();
+
+    /**
+     * The pessimistic lock scope to use in query execution if a
+     * pessimistic lock mode is specified via {@link #setLockMode}.
+     * If the query is executed without a pessimistic lock mode,
+     * the pessimistic lock scope has no effect.
+     * @since 4.0
+     * @param lockScope the scope of the pessimistic lock
+     * @return the same query instance
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
+     */
+    Query setLockScope(PessimisticLockScope lockScope);
+
+    /**
+     * Get the current pessimistic lock scope for the query.
+     * Returns null if a lock scope has not been set on the query
+     * object.
+     * @return pessimistic lock scope
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
+     * @since 4.0
+     */
+    PessimisticLockScope getLockScope();
 
     /**
      * Set the cache retrieval mode that is in effect during query
