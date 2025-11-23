@@ -1349,6 +1349,18 @@ public interface EntityManager extends GraphFactory, AutoCloseable {
     Metamodel getMetamodel();
 
     /**
+     * Obtain a mutable copy of a named {@link EntityGraph}, or return
+     * {@code null} if there is no entity graph with the given name.
+     * @param graphName the name of an existing entity graph
+     * @return a copy of the entity graph with the given name,
+     *         or {@code null} if there is no such graph
+     * @since 2.1
+     * @deprecated Use {@link #getEntityGraph(String)} instead.
+     */
+    @Deprecated(since = "4.0", forRemoval = true)
+    EntityGraph<?> createEntityGraph(String graphName);
+
+    /**
      * Execute the given action using the database connection underlying this
      * {@code EntityManager}. Usually, the connection is a JDBC connection, but a
      * provider might support some other native connection type, and is not required

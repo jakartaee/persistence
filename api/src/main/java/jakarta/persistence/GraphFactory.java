@@ -42,31 +42,7 @@ public interface GraphFactory {
     <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
 
     /**
-     * Obtain a mutable copy of a named {@link EntityGraph}, or return
-     * {@code null} if there is no entity graph with the given name.
-     * @param graphName the name of an existing entity graph
-     * @return a copy of the entity graph with the given name,
-     *         or {@code null} if there is no such graph
-     * @since 2.1
-     */
-    EntityGraph<?> createEntityGraph(String graphName);
-
-    /**
-     * Obtain a mutable copy of a named {@link EntityGraph}.
-     * @param rootType the root entity type of the graph
-     * @param graphName the name of an existing entity graph
-     * @return a copy of the entity graph with the given name
-     * @throws IllegalArgumentException if there is no entity
-     *         graph with the given name, or if the entity
-     *         graph with the given name does not have exactly
-     *         the given root entity type
-     * @since 4.0
-     */
-    <T> EntityGraph<T> createEntityGraph(Class<T> rootType, String graphName);
-
-    /**
-     * Obtain a named {@link EntityGraph}. The returned instance of
-     * {@code EntityGraph} should be considered immutable.
+     * Obtain a mutable copy of the named {@link EntityGraph}.
      * @param graphName the name of an existing entity graph
      * @return the entity graph with the given name
      * @throws IllegalArgumentException if there is no entity
@@ -76,8 +52,7 @@ public interface GraphFactory {
     EntityGraph<?> getEntityGraph(String graphName);
 
     /**
-     * Obtain a named {@link EntityGraph}. The returned instance of
-     * {@code EntityGraph} should be considered immutable.
+     * Obtain a mutable copy of the named {@link EntityGraph}.
      * @param rootType the root entity type of the graph
      * @param graphName the name of an existing entity graph
      * @return the entity graph with the given name
