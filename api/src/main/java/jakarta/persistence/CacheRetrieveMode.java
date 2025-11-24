@@ -33,19 +33,43 @@ package jakarta.persistence;
  *
  * @see EntityManager#setCacheRetrieveMode(CacheRetrieveMode)
  * @see Query#setCacheRetrieveMode(CacheRetrieveMode)
+ * @see NamedQuery#cacheRetrieveMode()
  *
  * @since 2.0
  */
 public enum CacheRetrieveMode implements FindOption {
 
     /**
-     * Read entity data from the cache: this is the default
-     * behavior.
+     * Specifies that data may be read from the second-level cache
+     * instead of from the database.
+     * <p>
+     * This is the default cache retrieval mode for a persistence
+     * context.
+     *
+     * @see EntityManager#getCacheRetrieveMode()
      */
     USE,
 
     /**
-     * Bypass the cache: get data directly from the database.
+     * Specifies that data may not be read from the second-level
+     * cache and must be read from the database.
      */
-    BYPASS  
+    BYPASS,
+
+    /**
+     * Specifies that the cache storage mode is determined by
+     * the {@linkplain EntityManager#getCacheRetrieveMode
+     * cache retrieval mode of the persistence context}.
+     * <p>
+     * This is the default cache retrieval mode for a query.
+     * <p>
+     * If this cache retrieval mode is passed to
+     * {@link EntityManager#setCacheRetrieveMode},
+     * the behavior is undefined.
+     *
+     * @see Query#getCacheRetrieveMode()
+     *
+     * @since 4.0
+     */
+    DEFAULT
 }

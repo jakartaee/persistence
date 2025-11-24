@@ -41,22 +41,49 @@ package jakarta.persistence;
 public enum CacheStoreMode implements FindOption, RefreshOption {
 
     /**
-     * Insert entity data into cache when read from database and
-     * insert/update entity data when written to the database:
-     * this is the default behavior. Does not force refresh of
-     * already cached items when reading from database.
+     * Specifies that entity data may be inserted into the
+     * second-level cache when read from the database, and inserted
+     * or updated in the second-level cache when written to the
+     * database. The persistence provider is not required to refresh
+     * already-cached items when reading from the database.
+     * <p>
+     * This is the default cache storage mode for a persistence
+     * context.
+     *
+     * @see EntityManager#getCacheStoreMode()
      */
     USE,
 
     /**
-     * Don't insert into cache. 
+     * Specifies that entity data may not be inserted into the
+     * second-level cache when read from the database, nor when
+     * written to the database.
      */
     BYPASS,
 
     /**
-     * Insert/update entity data held in the cache when read from
-     * the database and when written to the database. Force refresh
-     * of cache for items read from database.
+     * Specifies that entity data must be inserted or updates in
+     * the second-level cache when read from the database or when
+     * written to the database. The persistence provider is
+     * required to refresh already-cached items when reading from
+     * the database.
      */
-    REFRESH
+    REFRESH,
+
+    /**
+     * Specifies that the cache storage mode is determined by
+     * the {@linkplain EntityManager#getCacheStoreMode
+     * cache storage mode of the persistence context}.
+     * <p>
+     * This is the default cache storage mode for a query.
+     * <p>
+     * If this cache retrieval mode is passed to
+     * {@link EntityManager#setCacheStoreMode},
+     * the behavior is undefined.
+     *
+     * @see Query#getCacheStoreMode()
+     *
+     * @since 4.0
+     */
+    DEFAULT
 }
