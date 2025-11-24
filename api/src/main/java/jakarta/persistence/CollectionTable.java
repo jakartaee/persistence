@@ -173,6 +173,14 @@ public @interface CollectionTable {
     Index[] indexes() default {};
 
     /**
+     * (Optional) A comment to be applied to the table.
+     * This is only used if table generation is in effect.
+     *
+     * @since 4.0
+     */
+    String comment() default "";
+
+    /**
      * (Optional) A SQL fragment appended to the generated DDL
      * statement which creates this table. This is only used if
      * table generation is in effect.
