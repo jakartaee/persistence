@@ -39,6 +39,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>a Java primitive type, or wrapper of a primitive type,
  * <li>{@link String},
  * <li>{@link java.util.UUID},
+ * <li>{@link java.time.LocalDate},
  * <li>{@link java.util.Date},
  * <li>{@link java.sql.Date},
  * <li>{@link java.math.BigDecimal}, or
