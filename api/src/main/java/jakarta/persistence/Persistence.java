@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates and others. All rights reserved.
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates and others. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Lukas Jungmann  - 3.2
 //     Linda DeMichiel - 2.1
@@ -34,9 +35,9 @@ import jakarta.persistence.spi.LoadState;
  * container environment as well; however, support for the Java SE
  * bootstrapping APIs is not required in container environments.
  * 
- * <p>The {@code Persistence} class is used to obtain a {@link
- * PersistenceUtil PersistenceUtil} instance in both Jakarta EE
- * and Java SE environments.
+ * <p>The {@code Persistence} class is used to obtain a
+ * {@link PersistenceUtil PersistenceUtil} instance in both
+ * Jakarta EE and Java SE environments.
  *
  * @since 1.0
  */
@@ -125,7 +126,7 @@ public final class Persistence {
      * <p>
      * Called when schema generation is to occur as a separate phase
      * from creation of the entity manager factory.
-     * <p>
+     *
      * @param persistenceUnitName the name of the persistence unit
      * @param map properties for schema generation; these may also
      *            contain provider-specific properties. The values
@@ -149,7 +150,33 @@ public final class Persistence {
         
         throw new PersistenceException("No Persistence provider to generate schema named " + persistenceUnitName);
     }
-    
+
+    /**
+     * Create database schemas and/or tables and/or create DDL scripts
+     * as determined by the supplied properties.
+     * <p>
+     * Called when schema generation is to occur as a separate phase
+     * from creation of the entity manager factory.
+     *
+     * @param configuration configuration of the persistence unit
+     * @throws PersistenceException if insufficient or inconsistent
+     *         configuration information is provided or if schema
+     *         generation otherwise fails.
+     *
+     * @since 7.0
+     */
+    public static void generateSchema(PersistenceConfiguration configuration) {
+        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
+
+        for (PersistenceProvider provider : providers) {
+            if (provider.generateSchema(configuration)) {
+                return;
+            }
+        }
+
+        throw new PersistenceException("No Persistence provider to generate schema named " + configuration.name());
+    }
 
     /**
      * Return the {@link PersistenceUtil} instance
