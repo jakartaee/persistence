@@ -35,6 +35,7 @@ package jakarta.persistence;
  *
  * @see EntityManager#setCacheStoreMode(CacheStoreMode)
  * @see Query#setCacheStoreMode(CacheStoreMode)
+ * @see NamedQuery#cacheStoreMode()
  *
  * @since 2.0
  */
@@ -49,8 +50,6 @@ public enum CacheStoreMode implements FindOption, RefreshOption {
      * <p>
      * This is the default cache storage mode for a persistence
      * context.
-     *
-     * @see EntityManager#getCacheStoreMode()
      */
     USE,
 
@@ -71,17 +70,12 @@ public enum CacheStoreMode implements FindOption, RefreshOption {
     REFRESH,
 
     /**
-     * Specifies that the cache storage mode is determined by
-     * the {@linkplain EntityManager#getCacheStoreMode
-     * cache storage mode of the persistence context}.
-     * <p>
-     * This is the default cache storage mode for a query.
-     * <p>
-     * If this cache retrieval mode is passed to
-     * {@link EntityManager#setCacheStoreMode},
-     * the behavior is undefined.
+     * An indirect way to refer to the current cache storage mode
+     * of the persistence context. That is, calling
+     * {@code setCacheStoreMode(DEFAULT)} is equivalent to calling
+     * {@code setCacheStoreMode(entityManager.getCacheStoreMode())}.
      *
-     * @see Query#getCacheStoreMode()
+     * @see EntityManager#getCacheStoreMode()
      *
      * @since 4.0
      */

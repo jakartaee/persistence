@@ -586,10 +586,11 @@ public interface Query {
      * The cache retrieval mode that will be in effect during query
      * execution.
      * @return The cache retrieval mode set by calling
-     *         {@link #setCacheRetrieveMode} or specifying
-     *         {@link NamedQuery#cacheRetrieveMode}, or
-     *         {@link CacheRetrieveMode#DEFAULT} if no cache
-     *         retrieval mode has been explicitly specified.
+     *         {@link #setCacheRetrieveMode} or by specifying
+     *         {@link NamedQuery#cacheRetrieveMode}, or the
+     *         cache retrieval mode of the persistence context
+     *         if no non-{@code DEFAULT} cache retrieval mode
+     *         has been explicitly specified for this query.
      * @since 3.2
      */
     CacheRetrieveMode getCacheRetrieveMode();
@@ -598,10 +599,11 @@ public interface Query {
      * The cache storage mode that will be in effect during query
      * execution.
      * @return The cache storage mode set by calling
-     *         {@link #setCacheStoreMode} or specifying
-     *         {@link NamedQuery#cacheStoreMode}, or
-     *         {@link CacheStoreMode#DEFAULT} if no cache
-     *         storage mode has been explicitly specified.
+     *         {@link #setCacheStoreMode} or by specifying
+     *         {@link NamedQuery#cacheStoreMode}, or the
+     *         cache storage mode of the persistence context
+     *         if no non-{@code DEFAULT} cache storage mode
+     *         has been explicitly specified for this query.
      * @since 3.2
      */
     CacheStoreMode getCacheStoreMode();

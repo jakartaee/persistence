@@ -45,8 +45,6 @@ public enum CacheRetrieveMode implements FindOption {
      * <p>
      * This is the default cache retrieval mode for a persistence
      * context.
-     *
-     * @see EntityManager#getCacheRetrieveMode()
      */
     USE,
 
@@ -57,17 +55,12 @@ public enum CacheRetrieveMode implements FindOption {
     BYPASS,
 
     /**
-     * Specifies that the cache storage mode is determined by
-     * the {@linkplain EntityManager#getCacheRetrieveMode
-     * cache retrieval mode of the persistence context}.
-     * <p>
-     * This is the default cache retrieval mode for a query.
-     * <p>
-     * If this cache retrieval mode is passed to
-     * {@link EntityManager#setCacheRetrieveMode},
-     * the behavior is undefined.
+     * An indirect way to refer to the current cache retrieval
+     * mode of the persistence context. That is, calling
+     * {@code setCacheRetrieveMode(DEFAULT)} is equivalent to calling
+     * {@code setCacheRetrieveMode(entityManager.getCacheRetrieveMode())}.
      *
-     * @see Query#getCacheRetrieveMode()
+     * @see EntityManager#getCacheRetrieveMode()
      *
      * @since 4.0
      */
