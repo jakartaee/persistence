@@ -78,6 +78,7 @@ public @interface NamedQuery {
      * the result class of a named query is not specified, the
      * persistence implementation is entitled to default the
      * result class to {@code Object} or {@code Object[]}.
+     * @since 3.2
      */
     Class<?> resultClass() default void.class;
 
