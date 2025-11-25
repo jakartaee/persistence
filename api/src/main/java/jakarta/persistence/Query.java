@@ -67,11 +67,17 @@ public interface Query {
     List getResultList();
 
     /**
-     * Determine the size of the query result list that would be
-     * returned by calling {@link #getResultList()} with no
+     * <p>Determine the maximum number of results that could in
+     * principle be returned by the query if no
      * {@linkplain #getFirstResult() offset} or
-     * {@linkplain #getMaxResults() limit} applied to the query.
-     * @return the size of the list that would be returned
+     * {@linkplain #getMaxResults() limit} were applied.</p>
+     *
+     * <p>The {@code getResultCount} method should not cause query
+     * results to be fetched from the database.</p>
+     *
+     * @return the maximum number of results that could in principle
+     *         be returned by the query if no offset or limit were
+     *         applied
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
