@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -138,5 +139,37 @@ public interface PersistenceProvider {
      * @since 2.0
      */
     ProviderUtil getProviderUtil();
+
+    /**
+     * Obtain a transformer supplied by the provider that is called
+     * for every new class definition or class redefinition that gets
+     * loaded by the loader returned by the
+     * {@link PersistenceUnitInfo#getClassLoader} method. The
+     * transformer has no effect on the result returned by the
+     * {@link PersistenceUnitInfo#getNewTempClassLoader} method.
+     * Classes are only transformed once within the same classloading
+     * scope, regardless of how many persistence units they may be
+     * a part of.
+     * <p>The given instance of {@link PersistenceUnitInfo} may
+     * return {@code null} when any one the accessor methods
+     * {@link PersistenceUnitInfo#getClassLoader()},
+     * {@link PersistenceUnitInfo#getJtaDataSource()}, or
+     * {@link PersistenceUnitInfo#getNonJtaDataSource()} is called
+     * by an implementation of this method.
+     * <p>If the container calls this method before invoking
+     * {@link #createContainerEntityManagerFactory} to create the
+     * {@link EntityManagerFactory}, then the transformer returned
+     * by this method is used instead of any transformer registered
+     * via {@link PersistenceUnitInfo#addTransformer}. The container
+     * is not required to call this method.
+     * @return  provider-supplied transformer that the
+     * container invokes at class-(re)definition time
+     * @param info  metadata for use by the persistence provider
+     * @param map  a Map of integration-level properties for use
+     * by the persistence provider, which will not usually contain
+     * a {@code ValidatorFactory} or {@code BeanManager}.
+     * @since 4.0
+     */
+    ClassTransformer getClassTransformer(PersistenceUnitInfo info, Map<?, ?> map);
 }
 
