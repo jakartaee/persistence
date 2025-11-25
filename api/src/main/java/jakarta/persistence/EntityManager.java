@@ -896,6 +896,29 @@ public interface EntityManager extends AutoCloseable {
                  RefreshOption... options);
 
     /**
+     * Refresh the state of the given managed entity instance from the
+     * database, along with all associated entities reachable by
+     * following the given {@link EntityGraph}, overwriting changes
+     * made to the entity, if any. This operation does not cascade to
+     * associations marked {@link CascadeType#REFRESH cascade=REFRESH}
+     * unless they are included in the given entity graph.
+     * @param entityGraph  entity graph interpreted as a refresh graph
+     * @param entity  a managed entity instance
+     * @param options  standard and vendor-specific options
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or if the entity is not managed
+     * @throws TransactionRequiredException if there is no
+     *         transaction when invoked on a container-managed
+     *         entity manager of type
+     *         {@link PersistenceContextType#TRANSACTION}
+     * @throws EntityNotFoundException if the entity no longer exists in
+     *         the database
+     * @since 4.0
+     */
+    <T> void refresh(T entity, EntityGraph<T> entityGraph,
+                     RefreshOption... options);
+
+    /**
      * Clear the persistence context, causing all managed entities to
      * become detached. Changes made to entities that have not already
      * been flushed to the database will never be made persistent.

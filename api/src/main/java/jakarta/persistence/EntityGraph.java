@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Attribute;
+
 /**
  * This type represents the root of an entity graph that will be
  * used as a template to define the attribute nodes and boundaries
@@ -24,6 +26,41 @@ package jakarta.persistence;
  * The methods to add subgraphs implicitly create the corresponding
  * attribute nodes as well; such attribute nodes should not be
  * redundantly specified.
+ * <p>
+ * When used to specify fetching, an entity graph has three possible
+ * interpretations:
+ * <ul>
+ * <li>As a <em>load graph</em>, where every node explicitly added
+ *     to or explicitly removed from the graph overrides the
+ *     {@linkplain FetchType fetching strategy} of the attribute
+ *     which was specified via annotations or XML descriptor, but
+ *     the graph does not affect the fetching strategy of any
+ *     attribute which was neither added to nor removed from the
+ *     graph.
+ * <li>As a <em>fetch graph</em>, where the graph completely
+ *     overrides every fetching strategy specified via annotations
+ *     or XML descriptor, and every attribute not explicitly added
+ *     to the graph is treated as {@link FetchType#LAZY}.
+ * <li>As a <em>refresh graph</em>, where every node explicitly added
+ *     to or explicitly removed from the graph overrides the default
+ *     behavior of refresh with respect to the corresponding attribute.
+ *     The default behavior is to refresh every attribute of an entity
+ *     being refreshed, without refreshing any associated entity.
+ *     The method {@link #addSubgraph(Attribute)} specifies that an
+ *     associated entity <em>should</em> be refreshed. The method
+ *     {@link #removeAttributeNode(Attribute)} hints that an attribute
+ *     of an entity being refreshed <em>should not</em> be refreshed.
+ * </ul>
+ * <p>
+ * An entity graph passed as the first argument to
+ * {@link EntityManager#find(EntityGraph, Object, FindOption...)}
+ * is interpreted as a load graph.
+ * <p>
+ * When an entity graph is passed to
+ * {@link EntityManager#refresh(Object, EntityGraph)}, the graph
+ * completely overrides the effect of {@code cascade=REFRESH}, and
+ * each node belonging to the graph is treated as an instruction
+ * to refresh the corresponding attribute.
  *
  * @param <T> The type of the root entity.
  *
@@ -36,6 +73,7 @@ package jakarta.persistence;
  * @see EntityManager#getEntityGraph(String)
  * @see EntityManagerFactory#addNamedEntityGraph(String, EntityGraph)
  * @see EntityManager#find(EntityGraph, Object, FindOption...)
+ * @see EntityManager#refresh(Object, EntityGraph)
  *
  * @since 2.1
  */
