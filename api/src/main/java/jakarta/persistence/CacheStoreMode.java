@@ -54,14 +54,14 @@ public enum CacheStoreMode implements FindOption, RefreshOption {
     USE,
 
     /**
-     * Specifies that entity data may not be inserted into the
+     * Specifies that entity data may neither be inserted into the
      * second-level cache when read from the database, nor when
      * written to the database.
      */
     BYPASS,
 
     /**
-     * Specifies that entity data must be inserted or updates in
+     * Specifies that entity data must be inserted or updated in
      * the second-level cache when read from the database or when
      * written to the database. The persistence provider is
      * required to refresh already-cached items when reading from

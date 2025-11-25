@@ -147,7 +147,7 @@ public @interface NamedNativeQuery {
      * @since 4.0
      * @see Query#setCacheStoreMode
      */
-    CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
+    CacheStoreMode cacheStoreMode() default CacheStoreMode.DEFAULT;
 
     /**
      * (Optional) The {@linkplain CacheRetrieveMode cache retrieve mode}
@@ -155,7 +155,7 @@ public @interface NamedNativeQuery {
      * @since 4.0
      * @see Query#setCacheRetrieveMode
      */
-    CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
+    CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.DEFAULT;
 
     /**
      * (Optional) A query timeout in milliseconds. By default,
