@@ -2427,7 +2427,7 @@ defined in this section, if specified by the application.
 ==== Cache Modes
 
 The _cache retrieve mode_ and _cache store mode_ control how a given
-persistence context by interacts with the second-level cache.
+persistence context interacts with the second-level cache.
 
 - The cache retrieve mode may be set by calling `setCacheRetrieveMode()`
   on `EntityManager` or `Query`.
@@ -2466,7 +2466,6 @@ specification or via provider-specific mechanisms.
 Applications which depend on the cache retrieve mode or cache store mode
 but which do not specify the `shared-cache-mode` element are not portable.
 
-
 `CacheRetrieveMode` enumerates the cache retrieve modes recognized by this
 specification. The semantics of each mode is defined by its Javadoc.
 
@@ -2475,10 +2474,8 @@ specification. The semantics of each mode is defined by its Javadoc.
 include::../../../../api/src/main/java/jakarta/persistence/CacheRetrieveMode.java[lines=18..-1]
 ----
 
-
 `CacheStoreMode` enumerates the cache store modes recognized by this
 specification. The semantics of each mode is defined by its Javadoc.
-
 
 [source,java]
 ----
