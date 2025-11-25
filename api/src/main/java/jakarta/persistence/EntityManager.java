@@ -236,7 +236,7 @@ public interface EntityManager extends AutoCloseable {
      *         or is a removed entity
      * @throws TransactionRequiredException if there is no transaction
      *         when invoked on a container-managed entity manager of
-     *         that is of type {@link PersistenceContextType#TRANSACTION}
+     *         type {@link PersistenceContextType#TRANSACTION}
      * @throws OptimisticLockException if an optimistic locking conflict
      *         is detected (note that optimistic version checking might be
      *         deferred until changes are flushed to the database)
