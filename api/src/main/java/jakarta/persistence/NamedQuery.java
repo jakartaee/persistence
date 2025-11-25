@@ -27,30 +27,35 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Declares a named query written in the Jakarta Persistence
- * query language. Query names are scoped to the persistence unit.
- * A named query may be executed by calling
- * {@link EntityManager#createNamedQuery(String, Class)}.
+ * Declares a named query written in the Jakarta Persistence Query
+ * Language. Query names are scoped to the persistence unit.
  *
- * <p> The following is an example of the definition of a named
- * query written in the Jakarta Persistence query language:
- * {@snippet :
- * @NamedQuery(
- *     name = "findAllCustomersWithName",
- *     query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")
- * }
- *
- * <p> The named query may be executed like this:
- * {@snippet :
- * @PersistenceContext EntityManager em;
- * ...
- * List<Customer> customers = em.createNamedQuery("findAllCustomersWithName", Customer.class)
- *               .setParameter("custName", "Smith")
- *               .getResultList();
- * }
- *
- * The {@code NamedQuery} annotation can be applied to an entity
+ * <p> The {@code NamedQuery} annotation can be applied to an entity
  * class or mapped superclass.
+ * {@snippet :
+ * @NamedQuery(name = "findAllCustomersWithName",
+ *            query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+ * @Entity
+ * class Customer { ... }
+ * }
+ *
+ * <p> A named query may be executed by calling
+ * {@link EntityManager#createNamedQuery(String, Class)}.
+ * {@snippet :
+ * List<Customer> customers =
+ *         em.createNamedQuery("findAllCustomersWithName", Customer.class)
+ *             .setParameter("custName", "Smith")
+ *             .getResultList();
+ * }
+ *
+ * <p> Alternatively, a reference to a named query may be obtained
+ * via the static metamodel.
+ * {@snippet :
+ * List<Customer> customers =
+ *         em.createQuery(Customer_._findAllCustomersWithName_)
+ *             .setParameter("custName", "Smith")
+ *             .getResultList();
+ * }
  *
  * @since 1.0
  */
