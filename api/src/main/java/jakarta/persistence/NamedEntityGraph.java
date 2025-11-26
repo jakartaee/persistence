@@ -28,10 +28,38 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * limits of the graph of associated attributes and entities fetched when
  * an operation which retrieves an instance or instances of the root entity
  * is executed.
+ * {@snippet :
+ * @NamedEntityGraph(name = "EmployeeWithProjects",
+ *         attributeNodes = @NamedAttributeNode("projects"))
+ * @Entity
+ * public class Employee { ... }
+ * }
  *
  * <p> A reference to a named entity graph may be obtained by calling
  * {@link EntityManager#getEntityGraph(String)}, and may be passed to
  * {@link EntityManager#find(EntityGraph, Object, FindOption...)}.
+ * {@snippet :
+ * Object employee =
+ *         em.find(em.getEntityGraph("EmployeeWithProjects"),
+ *                 employeeId);
+ * }
+ *
+ * <p> Alternatively, a reference to a named entity graph may be obtained
+ * from the {@link EntityManagerFactory}.
+ * {@snippet :
+ * EntityGraph<Employee> graph =
+ *         emf.getNamedEntityGraphs(Employee.class)
+ *             .get("EmployeeWithProjects")>
+ * Employee employee = em.find(graph, employeeId);
+ * }
+ *
+ * <p> Alternatively, a reference to a named entity graph may be obtained
+ * from the static metamodel.
+ * {@snippet :
+ * Employee employee =
+ *         em.find(Employee_._EmployeeWithProjects,
+ *                 employeeId);
+ * }
  *
  * @since 2.1
  */
