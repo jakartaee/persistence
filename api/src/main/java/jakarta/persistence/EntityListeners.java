@@ -64,7 +64,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>An entity listener class may have multiple callback
  * methods for a given type of lifecycle event, but at most
  * one callback method for a given type of event and given
- * entity type.
+ * parameter type.
  *
  * <pre>
  * class Observer {
