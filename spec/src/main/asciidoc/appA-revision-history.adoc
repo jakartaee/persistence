@@ -25,6 +25,7 @@ Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
 
 Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference`
 
+`jakarta.annotation.Nonnull` now implies `optional=false`
 
 Allow `value` member of `@JoinColumns` to be defaulted
 
