@@ -1397,7 +1397,7 @@ An entity or entity listener may have multiple lifecycle callback methods:
   of lifecycle event, but
 - an entity listener class may have multiple callback methods for a given
   type of lifecycle event, but at most one callback method for a given
-  type of event and given entity type.
+  type of event and given parameter type.
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
