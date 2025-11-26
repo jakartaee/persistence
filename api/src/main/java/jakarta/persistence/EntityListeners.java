@@ -43,8 +43,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link PostRemove}, and/or {@link PostLoad}. A callback
  * method defined by an entity listener class must have the
  * signature {@code void method(E entity)} where {@code E} is
- * a supertype of an entity class or mapped superclass to which
- * the entity listener applies.
+ * an entity class, mapped superclass, or supertype of the entity
+ * class or mapped supertype to which the entity listener applies.
  *
  * <pre>
  * class BookObserver {
