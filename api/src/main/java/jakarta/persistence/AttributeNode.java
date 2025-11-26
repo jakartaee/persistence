@@ -56,7 +56,7 @@ public interface AttributeNode<T> {
      * attribute node or an empty {@code Map} if none have been
      * defined
      */
-    Map<Class, Subgraph> getSubgraphs();
+    Map<Class<?>, Subgraph<?>> getSubgraphs();
 
     /**
      * Return a map of subgraphs associated with this attribute
@@ -65,6 +65,6 @@ public interface AttributeNode<T> {
      * attribute node's map key or an empty {@code Map} if none
      * have been defined
      */
-    Map<Class, Subgraph> getKeySubgraphs();
+    Map<Class<?>, Subgraph<?>> getKeySubgraphs();
 }
 
