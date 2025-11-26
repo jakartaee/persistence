@@ -342,6 +342,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @param name name for the query
      * @param query a {@link TypedQuery}
+     * @return a reference to the query
      *
      * @since 4.0
      *
