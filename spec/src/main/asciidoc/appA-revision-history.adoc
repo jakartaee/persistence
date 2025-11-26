@@ -13,13 +13,18 @@ Added `@ExcludedFromVersioning`
 
 Added `addListener()` to `EntityManagerFactory`
 
+Specify that an entity listener may have multiple callbacks of same type
+
 Added `findMultiple()` to `EntityManager`
 
 Added `getResultCount()` to `Query`
 
 Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
 
-- Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
+Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
+
+Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference`
+
 
 Allow `value` member of `@JoinColumns` to be defaulted
 
