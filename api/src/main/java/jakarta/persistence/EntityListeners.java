@@ -30,12 +30,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>Every entity listener class must have a public constructor
  * with no parameters.
- *
- * <pre>
- * &#64;Entity
- * &#64;EntityListeners(BookObserver.class)
+ * {@snippet :
+ * @Entity
+ * @EntityListeners(BookObserver.class)
  * class Book { ... }
- * </pre>
+ * }
  *
  * <p>The specified entity listener classes may have callback
  * methods annotated {@link PrePersist}, {@link PreUpdate},
@@ -48,55 +47,52 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * listener applies. If multiple entity classes are assignable
  * to the type {@code E}, the callback method is invoked for
  * any such class to which the entity listener applies.
- *
- *
- * <pre>
+ * {@snippet :
  * class BookObserver {
  *
- *     &#64;PostPersist
+ *     @PostPersist
  *     void newBook(Book book) {
  *         ...
  *     }
  *
  * }
- * </pre>
+ * }
  *
  * <p>An entity listener class may have multiple callback
  * methods for a given type of lifecycle event, but at most
  * one callback method for a given type of event and given
  * parameter type.
- *
- * <pre>
+ * {@snippet :
  * class Observer {
  *
  *     // called only for Books
- *     &#64;PostPersist
+ *     @PostPersist
  *     void newBook(Book book) {
  *         ...
  *     }
  *
  *     // called only for Authors
- *     &#64;PostPersist
+ *     @PostPersist
  *     void newAuthor(Author author) {
  *         ...
  *     }
  *
  *     // called for any entity type to which the listener applies
- *     &#64;PostLoad
+ *     @PostLoad
  *     void entityLoaded(Object entity) {
  *         ...
  *     }
  *
  * }
- * </pre>
+ * }
  *
  * <p>Entity listener classes in Jakarta EE environments support
  * dependency injection through the Contexts and Dependency
- * Injection API (CDI) when CDI is enabled. An entity listener
+ * Injection (CDI) API when CDI is enabled. An entity listener
  * class that makes use of CDI injection may also define lifecycle
  * callback methods annotated with the {@code PostConstruct} and
- * {@code PreDestroy} annotations. These methods will be invoked
- * after injection has taken place and before the entity listener
+ * {@code PreDestroy} annotations. These methods are called after
+ * dependencies have been injected and before the entity listener
  * instance is destroyed, respectively.
  *
  * @since 1.0
