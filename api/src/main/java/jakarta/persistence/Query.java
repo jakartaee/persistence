@@ -63,7 +63,7 @@ public interface Query {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
      */
-    @SuppressWarnings({"rawtypes"})
+    @SuppressWarnings("rawtypes")
     List getResultList();
 
     /**
@@ -124,7 +124,7 @@ public interface Query {
      * @see #getResultList()
      * @since 2.2
      */
-    @SuppressWarnings({"rawtypes"})
+    @SuppressWarnings("rawtypes")
     default Stream getResultStream() {
         return getResultList().stream();
     }
