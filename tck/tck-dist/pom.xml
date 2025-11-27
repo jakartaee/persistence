@@ -122,7 +122,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>../../../../..</directory>
+                <directory>../..</directory>
                 <includes>
                     <include>LICENSE.md</include>
                 </includes>

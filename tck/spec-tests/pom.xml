@@ -29,6 +29,21 @@
 
     <packaging>jar</packaging>
 
+    <properties>
+        <jdbc.db>derby</jdbc.db>
+        <jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>
+        <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
+        <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
+        <jakarta.persistence.jdbc.user>cts1</jakarta.persistence.jdbc.user>
+        <jakarta.persistence.jdbc.password>cts1</jakarta.persistence.jdbc.password>
+        <jpa.provider.implementation.specific.properties/>
+        <jpa.provider.implementation.specific.additional.properties/>
+        <db.supports.sequence>true</db.supports.sequence>
+        <persistence.second.level.caching.supported>true</persistence.second.level.caching.supported>
+        <user.dir>/tmp</user.dir>
+        <log.file.location>/tmp</log.file.location>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -77,24 +92,40 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.4.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.3</version>
                 <configuration>
-                    <resources>
-                        <resource>
-                            <directory>src/main/java</directory>
-                            <includes>
-                                <include>**/*.xml</include>
-                                <include>**/*.map</include>
-                                <include>**/*.txt</include>
-                                <include>**/*.sig*</include>
-                            </includes>
-                        </resource>
-                    </resources>
+                    <systemPropertyVariables>
+                        <platform.mode>standalone</platform.mode>
+                        <persistence.unit.name>JPATCK</persistence.unit.name>
+                        <persistence.unit.name.2>JPATCK2</persistence.unit.name.2>
+                        <jakarta.persistence.provider>${jakarta.persistence.provider}</jakarta.persistence.provider>
+                        <jakarta.persistence.jdbc.driver>${jakarta.persistence.jdbc.driver}</jakarta.persistence.jdbc.driver>
+                        <jakarta.persistence.jdbc.url>${jakarta.persistence.jdbc.url}</jakarta.persistence.jdbc.url>
+                        <jakarta.persistence.jdbc.user>${jakarta.persistence.jdbc.user}</jakarta.persistence.jdbc.user>
+                        <jakarta.persistence.jdbc.password>${jakarta.persistence.jdbc.password}</jakarta.persistence.jdbc.password>
+                        <jpa.provider.implementation.specific.properties>${jpa.provider.implementation.specific.properties}</jpa.provider.implementation.specific.properties>
+                        <persistence.second.level.caching.supported>${persistence.second.level.caching.supported}</persistence.second.level.caching.supported>
+                        <vehicle>standalone</vehicle>
+                        <user.dir>${user.dir}</user.dir>
+                        <db.supports.sequence>${db.supports.sequence}</db.supports.sequence>
+                        <Insert_Jpa_Purchase_Order>INSERT INTO PURCHASE_ORDER(ID, TOTAL, DESCRIPTION) VALUES(?, ?, null)</Insert_Jpa_Purchase_Order>
+                        <Select_Jpa_Purchase_Order>SELECT ID, TOTAL FROM PURCHASE_ORDER WHERE ID=?</Select_Jpa_Purchase_Order>
+                        <log.file.location>${log.file.location}</log.file.location>
+                        <jdbc.db>${jdbc.db}</jdbc.db>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
         <resources>
             <resource>
-                <directory>../../../../..</directory>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>../..</directory>
                 <includes>
                     <include>LICENSE.md</include>
                 </includes>
@@ -107,7 +138,11 @@
         <profile>
             <id>hibernate</id>
             <properties>
-                <hibernate.version>7.0.0</hibernate.version>
+                <hibernate.version>7.1.10.Final</hibernate.version>
+                <jpa.provider.implementation.specific.properties>
+                    hibernate.query.jpaql_strict_compliance=true:hibernate.id.new_generator_mappings=true:hibernate.cache.region.factory_class=org.hibernate.testing.cache.CachingRegionFactory:hibernate.model.generator_name_as_sequence_name=true:hibernate.jpa.compliance.transaction=true:hibernate.jpa.compliance.closed=true:hibernate.jpa.compliance.query=true:hibernate.jpa.compliance.list=true:hibernate.jpa.compliance.caching=true:hibernate.jpa.compliance.global_id_generators=true:hibernate.jpa.compliance=true:hibernate.type.wrapper_array_handling=legacy:hibernate.type.preferred_uuid_jdbc_type=char${jpa.provider.implementation.specific.additional.properties}
+                </jpa.provider.implementation.specific.properties>
+                <jakarta.persistence.provider>org.hibernate.jpa.HibernatePersistenceProvider</jakarta.persistence.provider>
             </properties>
             <dependencyManagement>
                 <dependencies>
@@ -152,6 +187,9 @@
             <id>db2</id>
             <properties>
                 <db2.jdbc.version>11.5.9.0</db2.jdbc.version>
+                <jdbc.db>db2</jdbc.db>
+                <jakarta.persistence.jdbc.driver>com.ibm.db2.jcc.DB2Driver</jakarta.persistence.jdbc.driver>
+                <db.delimiter>!</db.delimiter>
             </properties>
             <dependencies>
                 <dependency>
@@ -166,6 +204,8 @@
             <id>derby</id>
             <properties>
                 <derby.jdbc.version>10.15.2.0</derby.jdbc.version>
+                <jdbc.db>derby</jdbc.db>
+                <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
             </properties>
             <dependencies>
                 <dependency>
@@ -185,6 +225,9 @@
             <id>mssqlserver</id>
             <properties>
                 <mssqlserver.jdbc.version>12.4.2.jre11</mssqlserver.jdbc.version>
+                <jdbc.db>mssqlserver</jdbc.db>
+                <jakarta.persistence.jdbc.driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jakarta.persistence.jdbc.driver>
+                <db.delimiter>!</db.delimiter>
             </properties>
             <dependencies>
                 <dependency>
@@ -199,6 +242,9 @@
             <id>mysql</id>
             <properties>
                 <mysql.jdbc.version>9.2.0</mysql.jdbc.version>
+                <jdbc.db>mysql</jdbc.db>
+                <jakarta.persistence.jdbc.driver>com.mysql.cj.jdbc.Driver</jakarta.persistence.jdbc.driver>
+                <db.delimiter>!</db.delimiter>
             </properties>
             <dependencies>
                 <dependency>
@@ -213,6 +259,9 @@
             <id>oracle</id>
             <properties>
                 <oracle.jdbc.version>23.7.0.25.01</oracle.jdbc.version>
+                <jdbc.db>oracle</jdbc.db>
+                <jakarta.persistence.jdbc.driver>oracle.jdbc.OracleDriver</jakarta.persistence.jdbc.driver>
+                <db.delimiter>!</db.delimiter>
             </properties>
             <dependencies>
                 <dependency>
@@ -227,6 +276,8 @@
             <id>postgresql</id>
             <properties>
                 <postgresql.jdbc.version>42.7.4</postgresql.jdbc.version>
+                <jdbc.db>postgresql</jdbc.db>
+                <jakarta.persistence.jdbc.driver>org.postgresql.Driver</jakarta.persistence.jdbc.driver>
             </properties>
             <dependencies>
                 <dependency>
@@ -235,6 +286,19 @@
                     <version>${postgresql.jdbc.version}</version>
                 </dependency>
             </dependencies>
+        </profile>
+
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <user.dir>${env.TEMP}</user.dir>
+                <log.file.location>${env.TEMP}</log.file.location>
+            </properties>
         </profile>
     </profiles>
 </project>
