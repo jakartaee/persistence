@@ -42,7 +42,6 @@ import java.util.Set;
  *
  * @since 2.0
  */
-@SuppressWarnings("hiding")
 public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
 
     /**
@@ -202,7 +201,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> Join<X, Y> join(String attributeName);	
+    <Y> Join<X, Y> join(String attributeName);
 
     /**
      * Create an inner join to the specified {@link Collection}-valued
@@ -213,7 +212,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> CollectionJoin<X, Y> joinCollection(String attributeName);	
+    <Y> CollectionJoin<X, Y> joinCollection(String attributeName);
 
     /**
      * Create an inner join to the specified {@link Set}-valued
@@ -224,7 +223,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> SetJoin<X, Y> joinSet(String attributeName);	
+    <Y> SetJoin<X, Y> joinSet(String attributeName);
 
     /**
      * Create an inner join to the specified {@link List}-valued
@@ -235,7 +234,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> ListJoin<X, Y> joinList(String attributeName);		
+    <Y> ListJoin<X, Y> joinList(String attributeName);
     
     /**
      * Create an inner join to the specified {@link Map}-valued
@@ -246,7 +245,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, K, V> MapJoin<X, K, V> joinMap(String attributeName);	
+    <K, V> MapJoin<X, K, V> joinMap(String attributeName);
 
     /**
      * Create a join to the specified attribute using the given
@@ -258,7 +257,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> Join<X, Y> join(String attributeName, JoinType jt);	
+    <Y> Join<X, Y> join(String attributeName, JoinType jt);
     
     /**
      * Create a join to the specified {@link Collection}-valued
@@ -270,7 +269,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> CollectionJoin<X, Y> joinCollection(String attributeName, JoinType jt);	
+    <Y> CollectionJoin<X, Y> joinCollection(String attributeName, JoinType jt);
 
     /**
      * Create a join to the specified {@link Set}-valued attribute
@@ -282,7 +281,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> SetJoin<X, Y> joinSet(String attributeName, JoinType jt);	
+    <Y> SetJoin<X, Y> joinSet(String attributeName, JoinType jt);
 
     /**
      * Create a join to the specified {@link List}-valued attribute
@@ -294,7 +293,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */
-    <X, Y> ListJoin<X, Y> joinList(String attributeName, JoinType jt);	
+    <Y> ListJoin<X, Y> joinList(String attributeName, JoinType jt);
 
     /**
      * Create a join to the specified {@link Map}-valued attribute
@@ -306,5 +305,5 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *        name does not exist
      */
-    <X, K, V> MapJoin<X, K, V> joinMap(String attributeName, JoinType jt);	
+    <K, V> MapJoin<X, K, V> joinMap(String attributeName, JoinType jt);
 }

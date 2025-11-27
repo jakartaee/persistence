@@ -85,8 +85,7 @@ public interface FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */	
-    @SuppressWarnings("hiding")
-    <X, Y> Fetch<X, Y> fetch(String attributeName);
+    <Y> Fetch<X, Y> fetch(String attributeName);
 
     /**
      * Create a fetch join to the specified attribute using 
@@ -98,6 +97,5 @@ public interface FetchParent<Z, X> {
      * @throws IllegalArgumentException if attribute of the given
      *         name does not exist
      */	
-    @SuppressWarnings("hiding")
-    <X, Y> Fetch<X, Y> fetch(String attributeName, JoinType jt);
+    <Y> Fetch<X, Y> fetch(String attributeName, JoinType jt);
 }
