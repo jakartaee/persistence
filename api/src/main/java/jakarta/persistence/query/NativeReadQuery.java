@@ -15,13 +15,7 @@
 
 package jakarta.persistence.query;
 
-import jakarta.persistence.CacheRetrieveMode;
-import jakarta.persistence.CacheStoreMode;
-import jakarta.persistence.ColumnResult;
-import jakarta.persistence.ConstructorResult;
-import jakarta.persistence.EntityResult;
-import jakarta.persistence.QueryHint;
-import jakarta.persistence.SqlResultSetMapping;
+import jakarta.persistence.*;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -48,6 +42,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     Book getBookWithIsbn(String isbn);
  * }
  * }
+ * <p> A method return type <em>agrees</em> with the type returned by the
+ * query if either:
+ * <ul>
+ * <li>it is exactly {@code R} or {@link java.util.List List&lt;R&gt;}
+ *     where the query return type is assignable to {@code R}, or
+ * <li>the method is a Jakarta Data repository method, and its return type
+ *     is a legal query method return type for the given query, as specified
+ *     by Jakarta Data.
+ * </ul>
  *
  * <p> When this annotation is applied to a method of a class or interface
  * belonging to the persistence unit, a reference to a query declared using
