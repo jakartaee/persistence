@@ -14,7 +14,6 @@ module jakarta.persistence {
 
     requires java.logging;
     requires transitive java.sql;
-    requires jakarta.persistence;
 
     exports jakarta.persistence;
     exports jakarta.persistence.criteria;
