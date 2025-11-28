@@ -2694,34 +2694,56 @@ Persistence query language select query or a criteria query, the
 
 ==== Query Hints [[a4391]]
 
-The following hint is defined by this specification for use in query configuration.
+A _query hint_ is a named value which may be:
+
+- passed to the `setHint()` method declared by the `Query` interface
+  found in <<persistence-api>>, or
+- specified via the `hints` member of any one of the annotations which
+  declares a named query or static query, as specified in <<a13710>>.
+
+A query hint specified in annotations may be overridden by calling the
+`setHint()` method of the `Query` interface.
+
+The following query hints are defined for use with native SQL queries:
+
+ jakarta.persistence.query.affectingTables
+ jakarta.persistence.query.affectingEntities
+
+These hints may be used to specify, respectively:
+
+* a comma-separated list of tables holding data which affects the
+  result of the query, and/or
+* a comma-separated list of entity types with state affecting the
+  result of the query.
+
+If neither hint is correctly specified, a native query might return
+results which are stale with respect to modifications made within
+the current persistence context.
+
+This hint is defined for use with any kind of query:
 
  jakarta.persistence.query.timeout // time in milliseconds
 
-This hint may:
+This query hint may additionally be:
 
-- be passed to the `setHint()` method of the `Query`, `TypedQuery`,
-  and `StoredProcedureQuery` interfaces found in <<persistence-api>>,
-- used with the `NamedQuery`, `NamedNativeQuery`, and
-  `NamedStoredProcedureQuery` annotations specified in <<a13710>>,
 - passed as a property to the `createEntityManagerFactory()` method
   of the `Persistence` class, as defined in <<a13443>>, or
-- used in the `properties` element of the `persistence.xml` file, as
-  defined in <<a12384>>.
+- used in the `properties` element of the `persistence.xml` file,
+  as defined in <<a12384>>.
 
 The timeout specified by calling the `createEntityManagerFactory()`
 method, via the `persistence.xml` file, or in annotations, serves as
 a default value which can be selectively overridden by calling the
-`setHint()` method.
+`setHint()` method of the `Query` interface.
 
-Portable applications should not rely on this
-hint. Depending on the persistence provider and database in use, the
-hint may or may not be observed.
+Portable applications should not rely on query hints. Depending on
+the persistence provider and database in use, the hint may or may
+not be observed.
 
-Vendors are permitted to support the use of
-additional, vendor-specific hints. Vendor-specific hints must not use
-the `jakarta.persistence` namespace. Vendor-specific hints must be ignored
-if they are not understood.
+A persistence provider is permitted to support the use of additional,
+vendor-specific hints. Vendor-specific hints must not have names in
+the `jakarta.persistence` namespace. A vendor-specific hint must be
+ignored if it is not understood by the provider.
 
 ==== Parameter Objects [[a4397]]
 
