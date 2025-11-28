@@ -35,7 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * interface Orders {
  *     @NativeWriteQuery(query="update orders set cancelled = true where datePaid is null and date < :cutoffDate"
- *                       entities = Order.class)
+ *                       affectingEntities = Order.class)
  *     void cancelUnpaidOrders(LocalDate cutoffDate);
  * }
  *}
@@ -72,8 +72,11 @@ public @interface NativeWriteQuery {
      * is correctly specified, the query might return results
      * which are stale with respect to modifications made within
      * the current persistence context.
+     *
+     * <p> The list of entities here is assigns a value to the
+     * standard query hint {@code jakarta.persistence.query.affectingTables}.
      */
-    String[] tables() default {};
+    String[] affectingTables() default {};
 
     /**
      * A list of entity types with state affecting the result of
@@ -81,8 +84,11 @@ public @interface NativeWriteQuery {
      * is correctly specified, the query might return results
      * which are stale with respect to modifications made within
      * the current persistence context.
+     *
+     * <p> The list of entities here is assigns a value to the
+     * standard query hint {@code jakarta.persistence.query.affectingEntities}.
      */
-    Class<?>[] entities() default {};
+    Class<?>[] affectingEntities() default {};
 
     /**
      * A query timeout in milliseconds.

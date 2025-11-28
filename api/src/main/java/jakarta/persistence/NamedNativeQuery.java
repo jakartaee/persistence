@@ -141,6 +141,30 @@ public @interface NamedNativeQuery {
     ColumnResult[] columns() default {};
 
     /**
+     * A list of tables holding data which affects the result of
+     * the query. If neither {@code tables} nor {@code entities}
+     * is correctly specified, the query might return results
+     * which are stale with respect to modifications made within
+     * the current persistence context.
+     *
+     * <p> The list of entities here is assigns a value to the
+     * standard query hint {@code jakarta.persistence.query.affectingTables}.
+     */
+    String[] affectingTables() default {};
+
+    /**
+     * A list of entity types with state affecting the result of
+     * the query. If neither {@code tables} nor {@code entities}
+     * is correctly specified, the query might return results
+     * which are stale with respect to modifications made within
+     * the current persistence context.
+     *
+     * <p> The list of entities here is assigns a value to the
+     * standard query hint {@code jakarta.persistence.query.affectingEntities}.
+     */
+    Class<?>[] affectingEntities() default {};
+
+    /**
      * Query properties and hints.
      * (May include vendor-specific query hints.)
      * @see Query#setHint

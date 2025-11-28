@@ -17,7 +17,11 @@ package jakarta.persistence.query;
 
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
+import jakarta.persistence.ColumnResult;
+import jakarta.persistence.ConstructorResult;
+import jakarta.persistence.EntityResult;
 import jakarta.persistence.QueryHint;
+import jakarta.persistence.SqlResultSetMapping;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -38,7 +42,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * interface Library {
  *     @NativeReadQuery(query="select * from books where title like :title",
- *                      entities = Book.class)
+ *                      affectingEntities = Book.class)
  *     List<Book> findBooksByTitle(String title);
  *
  *     @NativeReadQuery(query="select * from books where isbn = :isbn")
@@ -79,13 +83,46 @@ public @interface NativeReadQuery {
     String query();
 
     /**
+     * The name of a {@link SqlResultSetMapping}, as defined in metadata.
+     * The named result set mapping is used to interpret the result set
+     * of the native SQL query.
+     *
+     * <p>Alternatively, the elements {@link #entities}, {@link #classes},
+     * and {@link #columns} may be used to specify a result set mapping.
+     * These elements may not be used in conjunction with
+     * {@code resultSetMapping}.
+     */
+    String resultSetMapping() default "";
+
+    /**
+     * Specifies the result set mapping to entities.
+     * May not be used in combination with {@link #resultSetMapping}.
+     */
+    EntityResult[] entities() default {};
+
+    /**
+     * Specifies the result set mapping to constructors.
+     * May not be used in combination with {@link #resultSetMapping}.
+     */
+    ConstructorResult[] classes() default {};
+
+    /**
+     * Specifies the result set mapping to scalar values.
+     * May not be used in combination with {@link #resultSetMapping}.
+     */
+    ColumnResult[] columns() default {};
+
+    /**
      * A list of tables holding data which affects the result of
      * the query. If neither {@code tables} nor {@code entities}
      * is correctly specified, the query might return results
      * which are stale with respect to modifications made within
      * the current persistence context.
+     *
+     * <p> The list of entities here is assigns a value to the
+     * standard query hint {@code jakarta.persistence.query.affectingTables}.
      */
-    String[] tables() default {};
+    String[] affectingTables() default {};
 
     /**
      * A list of entity types with state affecting the result of
@@ -93,8 +130,11 @@ public @interface NativeReadQuery {
      * is correctly specified, the query might return results
      * which are stale with respect to modifications made within
      * the current persistence context.
+     *
+     * <p> The list of entities here is assigns a value to the
+     * standard query hint {@code jakarta.persistence.query.affectingEntities}.
      */
-    Class<?>[] entities() default {};
+    Class<?>[] affectingEntities() default {};
 
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.
