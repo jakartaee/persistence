@@ -26,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a query expressed in the Jakarta Persistence Query Language,
  * usually an {@code UPDATE} or {@code DELETE} statement, which is
- * executed by calling {@link jakarta.persistence.Query#executeUpdate()
+ * executed by calling {@link jakarta.persistence.Query#executeUpdate
  * executeUpdate()}.
  *
  * <p>This annotation may be applied to any abstract method of any class
