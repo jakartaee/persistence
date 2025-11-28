@@ -98,6 +98,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.3</version>
                 <configuration>
+                    <testSourceDirectory>${build.sourceDirectory}</testSourceDirectory>
+                    <testClassesDirectory>${build.outputDirectory}</testClassesDirectory>
+                    <includes>
+                        <include>**/*Client*.*</include>
+                        <include>**/*JPASigTest*.*</include>
+                    </includes>
                     <systemPropertyVariables>
                         <platform.mode>standalone</platform.mode>
                         <persistence.unit.name>JPATCK</persistence.unit.name>
