@@ -2704,23 +2704,7 @@ A _query hint_ is a named value which may be:
 A query hint specified in annotations may be overridden by calling the
 `setHint()` method of the `Query` interface.
 
-The following query hints are defined for use with native SQL queries:
-
- jakarta.persistence.query.affectingTables
- jakarta.persistence.query.affectingEntities
-
-These hints may be used to specify, respectively:
-
-* a comma-separated list of tables holding data which affects the
-  result of the query, and/or
-* a comma-separated list of entity types with state affecting the
-  result of the query.
-
-If neither hint is correctly specified, a native query might return
-results which are stale with respect to modifications made within
-the current persistence context.
-
-This hint is defined for use with any kind of query:
+This standard query hint is defined by this specification:
 
  jakarta.persistence.query.timeout // time in milliseconds
 

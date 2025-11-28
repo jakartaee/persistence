@@ -41,11 +41,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the type returned by the query.
  * {@snippet :
  * interface Library {
- *     @NativeReadQuery(query="select * from books where title like :title",
- *                      affectingEntities = Book.class)
+ *     @NativeReadQuery(query="select * from books where title like ?1")
  *     List<Book> findBooksByTitle(String title);
  *
- *     @NativeReadQuery(query="select * from books where isbn = :isbn")
+ *     @NativeReadQuery(query="select * from books where isbn = ?1")
  *     Book getBookWithIsbn(String isbn);
  * }
  * }
@@ -111,30 +110,6 @@ public @interface NativeReadQuery {
      * May not be used in combination with {@link #resultSetMapping}.
      */
     ColumnResult[] columns() default {};
-
-    /**
-     * A list of tables holding data which affects the result of
-     * the query. If neither {@code tables} nor {@code entities}
-     * is correctly specified, the query might return results
-     * which are stale with respect to modifications made within
-     * the current persistence context.
-     *
-     * <p> The list of entities here is assigns a value to the
-     * standard query hint {@code jakarta.persistence.query.affectingTables}.
-     */
-    String[] affectingTables() default {};
-
-    /**
-     * A list of entity types with state affecting the result of
-     * the query. If neither {@code tables} nor {@code entities}
-     * is correctly specified, the query might return results
-     * which are stale with respect to modifications made within
-     * the current persistence context.
-     *
-     * <p> The list of entities here is assigns a value to the
-     * standard query hint {@code jakarta.persistence.query.affectingEntities}.
-     */
-    Class<?>[] affectingEntities() default {};
 
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.

@@ -34,8 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Jakarta Data repository.
  * {@snippet :
  * interface Orders {
- *     @NativeWriteQuery(query="update orders set cancelled = true where datePaid is null and date < :cutoffDate"
- *                       affectingEntities = Order.class)
+ *     @NativeWriteQuery(query="update orders set cancelled = 1 where datePaid is null and date < ?1")
  *     void cancelUnpaidOrders(LocalDate cutoffDate);
  * }
  *}
@@ -65,30 +64,6 @@ public @interface NativeWriteQuery {
      * The query string in the Jakarta Persistence Query Language.
      */
     String query();
-
-    /**
-     * A list of tables holding data which affects the result of
-     * the query. If neither {@code tables} nor {@code entities}
-     * is correctly specified, the query might return results
-     * which are stale with respect to modifications made within
-     * the current persistence context.
-     *
-     * <p> The list of entities here is assigns a value to the
-     * standard query hint {@code jakarta.persistence.query.affectingTables}.
-     */
-    String[] affectingTables() default {};
-
-    /**
-     * A list of entity types with state affecting the result of
-     * the query. If neither {@code tables} nor {@code entities}
-     * is correctly specified, the query might return results
-     * which are stale with respect to modifications made within
-     * the current persistence context.
-     *
-     * <p> The list of entities here is assigns a value to the
-     * standard query hint {@code jakarta.persistence.query.affectingEntities}.
-     */
-    Class<?>[] affectingEntities() default {};
 
     /**
      * A query timeout in milliseconds.
