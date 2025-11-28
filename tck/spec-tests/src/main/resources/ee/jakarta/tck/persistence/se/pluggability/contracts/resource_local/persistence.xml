@@ -23,7 +23,7 @@
     https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
   version="3.2">
     <persistence-unit name="ALTPROVIDERPU" transaction-type="RESOURCE_LOCAL">
-        <provider>com.sun.ts.tests.jpa.common.pluggability.altprovider.implementation.PersistenceProvider</provider>
+        <provider>ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation.PersistenceProvider</provider>
 
     </persistence-unit>
 </persistence>
