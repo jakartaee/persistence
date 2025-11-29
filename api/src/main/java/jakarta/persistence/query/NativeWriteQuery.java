@@ -61,7 +61,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NativeWriteQuery {
 
     /**
-     * The query string in the Jakarta Persistence Query Language.
+     * The query string in the native SQL dialect of the database.
      */
     String query();
 
