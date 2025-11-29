@@ -15,11 +15,6 @@
 
 package jakarta.persistence.query;
 
-import jakarta.persistence.CacheRetrieveMode;
-import jakarta.persistence.CacheStoreMode;
-import jakarta.persistence.LockModeType;
-import jakarta.persistence.QueryHint;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -27,10 +22,10 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a query expressed in the Jakarta Persistence Query Language,
- * usually a {@code SELECT} statement, which is executed by calling
+ * Specifies a query expressed in the native SQL dialect of the database,
+ * usually a SQL {@code SELECT} statement, which is executed by calling
  * {@link jakarta.persistence.Query#getResultList getResultList()},
- * {@link jakarta.persistence.Query#getResultList getResultStream()}, or
+ * {@link jakarta.persistence.Query#getResultStream getResultStream()}, or
  * {@link jakarta.persistence.Query#getSingleResult getSingleResult()}.
  *
  * <p> This annotation may be applied to any abstract method of any class
@@ -38,14 +33,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Jakarta Data repository. The return type of the method must agree with
  * the type returned by the query.
  * {@snippet :
- * interface Library {
- *     @ReadQuery(query="from Book where title like :title")
+ * import jakarta.persistence.CacheStoreMode;interface Library {
+ *     @StaticNativeQuery("select * from books where title like ?1")
+ *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
- *     @ReadQuery(query="from Book where isbn = :isbn")
+ *     @StaticNativeQuery("select * from books where isbn = ?1")
  *     Book getBookWithIsbn(String isbn);
  * }
- * }
+ *}
  * <p> A method return type <em>agrees</em> with the type returned by the
  * query if either:
  * <ul>
@@ -82,46 +78,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface ReadQuery {
-
+public @interface StaticNativeQuery {
     /**
-     * The query string in the Jakarta Persistence Query Language.
+     * The query string in the native SQL dialect of the database.
      */
-    String query();
-
-    /**
-     * The lock mode type to use in query execution.
-     * If a {@code lockMode} other than {@link LockModeType#NONE}
-     * is specified, the query must be executed in a transaction
-     * and the persistence context joined to the transaction.
-     * @see jakarta.persistence.Query#setLockMode
-     */
-    LockModeType lockMode() default LockModeType.NONE;
-
-    /**
-     * The {@linkplain CacheStoreMode cache store mode} to use.
-     * @see jakarta.persistence.Query#setCacheStoreMode
-     */
-    CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
-
-    /**
-     * The {@linkplain CacheRetrieveMode cache retrieve mode}
-     * to use.
-     * @see jakarta.persistence.Query#setCacheRetrieveMode
-     */
-    CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
-
-    /**
-     * A query timeout in milliseconds.
-     * By default, there is no timeout.
-     * @see jakarta.persistence.Query#setTimeout
-     */
-    int timeout() default -1;
-
-    /**
-     * Query properties and hints.
-     * May include vendor-specific query hints.
-     * @see jakarta.persistence.Query#setHint(String, Object)
-     */
-    QueryHint[] hints() default {};
+    String value();
 }
