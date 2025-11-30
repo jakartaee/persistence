@@ -111,7 +111,7 @@ public class Client extends PMClientBase {
     private static final LocalTime LOCAL_TIME_DEF = LocalTime.of(0, 0, 0);
 
     /** LocalTime constant. */
-    private static final LocalTime LOCAL_TIME = LocalTime.now();
+    private static final LocalTime LOCAL_TIME = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 
     /** Default LocalDateTime constant. */
     private static final LocalDateTime LOCAL_DATE_TIME_DEF = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
