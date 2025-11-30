@@ -19,7 +19,9 @@ import java.util.Map;
 
 /**
  * A reference to a named query declared via the {@link NamedQuery}
- * or {@link NamedNativeQuery} annotations.
+ * or {@link NamedNativeQuery} annotations, or using
+ * {@link jakarta.persistence.query.StaticQuery} or
+ * {@link jakarta.persistence.query.StaticNativeQuery}.
  *
  * @param <R> an upper bound on the result type of the query
  *
