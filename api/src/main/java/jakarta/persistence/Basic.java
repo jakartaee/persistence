@@ -39,8 +39,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>{@link java.util.Date} or {@link java.util.Calendar},
  * <li>{@code java.sql.Date}, {@code java.sql.Time},
  *     or {@code java.sql.Timestamp},
- * <li>{@code byte[]} or {@code Byte[]},
- *     {@code char[]} or {@code Character[]},
+ * <li>{@code byte[]} or {@code char[]},
  * <li>a Java {@code enum} type, or
  * <li>any other {@linkplain java.io.Serializable serializable} type.
  * </ul>
