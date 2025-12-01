@@ -421,27 +421,26 @@ credentials sufficient for the persistence provider to carry out the
 requested actions. If this property is not specified, the persistence
 provider should use the DataSource that has otherwise been provided.
 
+[[a12918]]
 ==== Data Loading
 
-Data loading, by means of the use of SQL
-scripts, may occur as part of the schema generation process after the
-creation of the database artifacts or independently of schema
-generation. The specification of the
-`jakarta.persistence.sql-load-script-source` controls whether data loading
-will occur.
+Data loading via execution of a SQL DML script may occur as part of the
+schema generation process, after the creation of the database artifacts,
+or independently of schema generation. The specification of the property
+`jakarta.persistence.sql-load-script-source` controls whether data
+loading occurs.
 
 `jakarta.persistence.sql-load-script-source` ::
-In Jakarta EE container environments, it is
-generally expected that the container will be responsible for executing
-data load scripts, although the container is permitted to delegate this
-task to the persistence provider. If a load script is to be used in Java
-SE environments or if the Jakarta EE container delegates the execution of
-the load script to the persistence provider, this property must be
-specified. + The
-`jakarta.persistence.sql-load-script-source` property specifies a
-`java.io.Reader` configured for reading of the SQL load script for
-database initialization or a string designating a file URL for the
-script.
+The property `jakarta.persistence.sql-load-script-source` specifies either
+a `java.io.Reader` configured for reading a SQL DML script for data loading
+or a string designating a file URL where the script is located.
+This property must be specified when a DML script is used for loading data
+in a Java SE environment, or when the Jakarta EE container delegates the
+execution of a DML script to the persistence provider.
+
+In a Jakarta EE container environment, it is generally expected that the
+container is responsible for executing DML scripts for data loading, but
+the container is permitted to delegate this task to the persistence provider.
 
 === Responsibilities of the Persistence Provider
 
