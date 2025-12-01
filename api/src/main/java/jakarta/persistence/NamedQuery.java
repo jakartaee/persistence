@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * class or mapped superclass.
  * {@snippet :
  * @NamedQuery(name = "findAllCustomersWithName",
- *            query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+ *             query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")
  * @Entity
  * class Customer { ... }
  * }
