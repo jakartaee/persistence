@@ -25,6 +25,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target(METHOD)
 @Retention(RUNTIME)
+/**
+ * <p>Configures options that apply to a write operation. This method
+ * may annotate a method that is annotated {@link StaticQuery},
+ * {@link StaticNativeQuery}, or {@code jakarta.data.repository.Query}
+ * that has a {@code value} that supplies an {@code UPDATE} or
+ * {@code DELETE} statement. Alternatively, it may annotate a
+ * Jakarta Data repository method that is annotated
+ * {@code jakarta.data.repository.Delete} and uses the
+ * parameter-based automatic query pattern.</p>
+ */
 public @interface WriteQueryOptions {
     /**
      * A query timeout in milliseconds.
