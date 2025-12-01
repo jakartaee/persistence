@@ -21,6 +21,7 @@ import java.util.Map;
  * Allows programmatic {@linkplain #create schema creation},
  * {@linkplain #validate schema validation},
  * {@linkplain #truncate data cleanup}, and
+ * {@linkplain #populate data loading}, and
  * {@linkplain #drop schema cleanup} for entities belonging
  * to a certain persistence unit.
  * 
