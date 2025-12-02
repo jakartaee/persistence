@@ -35,6 +35,8 @@ Made `ELSE` branch in `CASE` expressions optional in JPQL.
 
 Added `jakarta.persistence.jdbc.fetchSize` and `jakarta.persistence.jdbc.batchSize`, and promoted schema export specific properties `jakarta.persistence.database-*` to API
 
+Added `SchemaManager.populate()` and the new schema generation action `populate`.
+
 Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_LOAD_SCRIPT_SOURCE` to `PersistenceConfiguration`
 
 Change default `lockMode` of `EntityResult` to `NONE`
