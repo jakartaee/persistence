@@ -109,4 +109,17 @@ public @interface Table {
      * @since 3.2
      */
     String options() default "";
+
+    /**
+     * (Optional) Defines the explicit order of columns when the table is created in the database.
+     * This array specifies the exact sequence of column names in the generated DDL statement.
+     * Column names specified here must correspond to existing entity attribute names or
+     * database column names defined by {@link Column#name()}.
+     * This is only used if table generation is in effect.
+     * <p> Defaults to an empty array, in which case the persistence provider's
+     * default column ordering strategy (e.g., alphabetical, or based on Java Record component order) will apply.
+     *
+     * @since 3.2
+     */
+    String[] columns() default {};
 }
