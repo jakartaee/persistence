@@ -43,6 +43,10 @@ Change default `lockMode` of `EntityResult` to `NONE`
 
 Added `comment` member to `@DiscriminatorColumn`
 
+Fixed some incorrect generic method signatures in `From`
+
+Fixed use of raw types in `AttributeNode`
+
 Deprecate `name` member of `@MapKey` in favor of `value`.
 
 Deleted APIs marked deprecated for removal
