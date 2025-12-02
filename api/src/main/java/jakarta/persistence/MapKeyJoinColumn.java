@@ -95,7 +95,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 2.0
  */
 @Repeatable(MapKeyJoinColumns.class)
-@Target( { METHOD, FIELD })
+@Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface MapKeyJoinColumn {
     /**
