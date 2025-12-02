@@ -30,12 +30,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * database to reflect any insertion, deletion, or reordering
  * affecting the list.
  *
- * <p>The {@code OrderColumn} annotation is specified on a
- * {@link OneToMany} or {@link ManyToMany} relationship or on an
+ * <p>The {@code OrderColumn} annotation is specified on the owning side
+ * of a {@link OneToMany} or {@link ManyToMany} relationship or on an
  * element collection. The {@code OrderColumn} annotation is specified
  * on the side of the relationship that references the collection that
- * is to be ordered. The order column is not visible as part of the
- * state of the entity or embeddable class.
+ * is ordered. The order column is not visible as part of the state of
+ * the entity or embeddable class.
+ *
+ * <p>This annotation is used with owned collections. For unowned
+ * collections, that is, for association mappings which specify
+ * {@code mappedBy}, the {@link OrderBy} annotation should be used.
  *
  * <p>The {@link OrderBy} annotation should be used for ordering that
  * is visible as persistent state and maintained by the application.
