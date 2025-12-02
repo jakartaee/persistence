@@ -103,7 +103,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 2.0
  */
 
-@Target( { METHOD, FIELD })
+@Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface CollectionTable {
 
