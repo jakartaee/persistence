@@ -438,10 +438,6 @@ This property must be specified when a DML script is used for loading data
 in a Java SE environment, or when the Jakarta EE container delegates the
 execution of a DML script to the persistence provider.
 
-In a Jakarta EE container environment, it is generally expected that the
-container is responsible for executing DML scripts for data loading, but
-the container is permitted to delegate this task to the persistence provider.
-
 === Responsibilities of the Persistence Provider
 
 The persistence provider must implement the
