@@ -120,7 +120,8 @@ public class PersistenceConfiguration {
      * The action to be performed against the database.
      *
      * <p>Standard actions are: {@code none}, {@code create},
-     * {@code drop}, {@code drop-and-create}, {@code validate}.
+     * {@code drop}, {@code drop-and-create}, {@code validate},
+     * {@code populate}.
      */
     public static final String SCHEMAGEN_DATABASE_ACTION = "jakarta.persistence.schema-generation.database.action";
     /**

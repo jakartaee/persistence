@@ -305,7 +305,7 @@ deploying the persistence unit
 The `jakarta.persistence.schema-generation.database.action` property specifies
 the action to be taken by the persistence provider with regard to the
 database artifacts. The values for this property are _"none"_,
-_"create"_, _"drop-and-create"_, _"drop"_, _"validate"_. If the
+_"create"_, _"drop-and-create"_, _"drop"_, _"validate"_, _"populate"_. If the
 `jakarta.persistence.schema-generation.database.action` property is not
 specified, no schema generation actions must be taken on the database.
 `jakarta.persistence.schema-generation.scripts.action` ::
@@ -426,17 +426,30 @@ provider should use the DataSource that has otherwise been provided.
 
 Data loading via execution of a SQL DML script may occur as part of the
 schema generation process, after the creation of the database artifacts,
-or independently of schema generation. The specification of the property
-`jakarta.persistence.sql-load-script-source` controls whether data
-loading occurs.
+or independently of schema creation. The specification of the property
+`jakarta.persistence.sql-load-script-source` supplies the location of
+the DML script which loads data, and helps control whether data loading
+occurs.
 
 `jakarta.persistence.sql-load-script-source` ::
-The property `jakarta.persistence.sql-load-script-source` specifies either
-a `java.io.Reader` configured for reading a SQL DML script for data loading
-or a string designating a file URL where the script is located.
-This property must be specified when a DML script is used for loading data
-in a Java SE environment, or when the Jakarta EE container delegates the
-execution of a DML script to the persistence provider.
+This property specifies either a `java.io.Reader` configured for reading
+a SQL DML script for data loading or a string designating a file URL where
+the script is located.
+
+When this property is set, the behavior depends on the schema
+generation action specified by the property
+`jakarta.persistence.schema-generation.database.action`:
+
+- if the action is `create` or `drop-and-create`, the persistence provider
+  must execute the DML script after creating the database artifacts,
+- if the action is `populate`, the persistence provider must execute the
+  DML script,
+- if the action is `drop`, `validate`, or `none`, the persistence provider
+  must not execute the DML script.
+
+If `jakarta.persistence.sql-load-script-source` is set, but the property
+`jakarta.persistence.schema-generation.database.action` is not set, the
+behavior is undefined and is not portable between persistence providers.
 
 === Responsibilities of the Persistence Provider
 
