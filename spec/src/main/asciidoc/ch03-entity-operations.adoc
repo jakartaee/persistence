@@ -3347,7 +3347,9 @@ The `PersistenceException` is thrown by the
 persistence provider when a problem occurs. It may be thrown to report
 that the invoked operation could not complete because of an unexpected
 error (e.g., failure of the persistence provider to open a database
-connection). All other exceptions defined by this
+connection).
++
+All other exceptions defined by this
 specification are subclasses of the `PersistenceException`. All
 instances of `PersistenceException` except for instances of
 `NoResultException`, `NonUniqueResultException`, `LockTimeoutException`,
