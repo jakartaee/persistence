@@ -1138,7 +1138,8 @@ The methods of `SchemaManager` correspond to values of the property
 `jakarta.persistence.schema-generation.scripts.action`. The methods
 `create()`, `drop()`, and `validate()` correspond to the actions
 `create`, `drop`, and `validate`. The method `truncate()` has no
-corresponding action.
+corresponding action. The method `populate()` triggers data loading
+as described in <<a12918>> and corresponds to the action `populate`.
 
 Thus, the behavior of the `SchemaManager` may be controlled via the
 properties defined in <<a12917>> and <<a12384>>.
