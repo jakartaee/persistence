@@ -22,9 +22,9 @@ import java.util.List;
  * database than what is possible with {@link EntityManager}.
  *
  * <p>An instance of {@code EntityAgent} must be obtained from
- * an {@link EntityManagerFactory}, and is able to manage
- * persistence of entities belonging to the associated persistence
- * unit.
+ * an {@link EntityManagerFactory}, and is able to execute
+ * persistence-related operations for entity types belonging to the
+ * associated persistence unit.
  *
  * <p>An {@code EntityAgent} has no associated persistence context,
  * and works only with detached entity instances. When a method of
