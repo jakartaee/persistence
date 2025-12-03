@@ -18,11 +18,13 @@ package jakarta.persistence;
 import java.util.List;
 
 /**
- * Interface enabling more direct control over interaction with the
- * database than what is possible with {@link EntityManager}.
+ * Provides entity operations that are performed independently
+ * of a persistence context. This interface enables more direct
+ * control over interaction with the database than what is
+ * possible with {@link EntityManager}.
  *
  * <p>An instance of {@code EntityAgent} must be obtained from
- * an {@link EntityManagerFactory}, and is able to execute
+ * an {@link EntityManagerFactory} and is able to execute
  * persistence-related operations for entity types belonging to the
  * associated persistence unit.
  *
@@ -31,7 +33,7 @@ import java.util.List;
  * this interface is called, any necessary interaction with the
  * database happens immediately and synchronously. In particular,
  * {@linkplain #update update} is an explicit operation. Since
- * there's no {@linkplain EntityManager#flush flush operation},
+ * there is no {@linkplain EntityManager#flush flush operation},
  * and since the entities themselves are detached, modifications to
  * the entities are never automatically detected and made persistent.
  *
@@ -56,8 +58,6 @@ public interface EntityAgent extends EntityHandler {
      * </ul>
      *
      * @param entity a new or removed entity instance
-     *
-     * @return The identifier of the inserted entity
      *
      * @throws IllegalArgumentException if the given instance is
      *         determined to not be new or removed
@@ -191,8 +191,6 @@ public interface EntityAgent extends EntityHandler {
      * given {@link EntityGraph}.
      *
      * @param graph The {@link EntityGraph}
-     * @param graphSemantic a {@link GraphSemantic} specifying
-     *                      how the graph should be interpreted
      * @param id The id of the entity to retrieve
      *
      * @return a detached entity instance
@@ -215,7 +213,7 @@ public interface EntityAgent extends EntityHandler {
     <T> T get(EntityGraph<T> graph, Object id, LockModeType lockMode);
 
     /**
-     * Retrieve multiple rows, returning entity instances in a
+     * Retrieve multiple records, returning entity instances in a
      * list where the position of an instance in the list matches
      * the position of its identifier in the given array, and the
      * list contains a null value if there is no persistent
@@ -253,7 +251,7 @@ public interface EntityAgent extends EntityHandler {
     void refresh(Object entity, LockModeType lockMode);
 
     /**
-     * Fetch an association or collection that's configured for lazy loading.
+     * Fetch an association or collection that is configured for lazy loading.
      * <pre>
      * Book book = agent.get(Book.class, isbn);  // book is immediately detached
      * agent.fetch(book.getAuthors());           // fetch the associated authors
