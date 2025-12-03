@@ -1437,7 +1437,6 @@ lifecycle operations:
 * `@PostRemove`
 * `@PreUpdate`
 * `@PostUpdate`
-* `@PostLoad`
 
 Annotations for callbacks corresponding to database operations:
 
@@ -1449,6 +1448,12 @@ Annotations for callbacks corresponding to database operations:
 * `@PostUpsert`
 * `@PreDelete`
 * `@PostDelete`
+
+Finally, this annotation corresponds to a callback that occurs after
+persistent state read from the database is written to an entity instance,
+managed or otherwise.
+
+* `@PostLoad`
 
 The following rules apply to lifecycle callback methods:
 
