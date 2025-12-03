@@ -1367,7 +1367,10 @@ public interface EntityManager extends AutoCloseable {
      * <p>The {@code unwrap} method is to be preferred for new
      * applications.
      * @return the underlying provider object
+	 *
+	 * @deprecated Use {@link #unwrap(Class)} instead.
      */
+	@Deprecated(since = "4.0")
     Object getDelegate();
 
     /**
