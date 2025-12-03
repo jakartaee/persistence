@@ -59,13 +59,14 @@ public interface EntityAgent extends EntityHandler {
      *
      * @return The identifier of the inserted entity
      *
-     * @throws IllegalArgumentException is the given instance is
+     * @throws IllegalArgumentException if the given instance is
      *         determined to not be new or removed
      */
     void insert(Object entity);
 
     /**
-     * Insert every record in the given list.
+     * Insert every record in the given list. The records are
+     * inserted in the order in which they occur in the given list.
      *
      * @param entities The entities to be inserted.
      *
@@ -91,7 +92,8 @@ public interface EntityAgent extends EntityHandler {
     void update(Object entity);
 
     /**
-     * Update every record in the given list.
+     * Update every record in the given list. The records are
+     * updated in the order in which they occur in the given list.
      *
      * @param entities The entities to be updated.
      *
@@ -117,7 +119,8 @@ public interface EntityAgent extends EntityHandler {
     void delete(Object entity);
 
     /**
-     * Delete every record in the given list.
+     * Delete every record in the given list. The records are
+     * deleted in the order in which they occur in the given list.
      *
      * @param entities The entities to be deleted.
      *
@@ -126,10 +129,10 @@ public interface EntityAgent extends EntityHandler {
     void deleteMultiple(List<?> entities);
 
     /**
-     * Perform an upsert, that is, to insert the record if it does
-     * not exist, or update it if it already exists.
+     * Perform an upsert, that is, insert the record if it does not
+     * exist, or update it if it already exists.
      * <p>
-     * This method never performs id generation, and does not accept
+     * This method never performs id generation and does not accept
      * an entity instance with a null identifier. When id generation
      * is required, use {@link #insert(Object)}.
      * <p>
@@ -148,12 +151,13 @@ public interface EntityAgent extends EntityHandler {
      *
      * @param entity a detached entity instance, or a new instance
      *               with an assigned identifier
-     * @throws IllegalArgumentException is the entity has a null id
+     * @throws IllegalArgumentException if the entity has a null id
      */
     void upsert(Object entity);
 
     /**
-     * Upsert every record in the given list.
+     * Upsert every record in the given list. The records are
+     * upserted in the order in which they occur in the given list.
      *
      * @param entities The entities to be inserted or updated.
      *
