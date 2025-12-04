@@ -49,6 +49,8 @@ Fixed use of raw types in `AttributeNode`
 
 Deprecate `name` member of `@MapKey` in favor of `value`.
 
+Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
+
 Deleted APIs marked deprecated for removal
 
 Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
