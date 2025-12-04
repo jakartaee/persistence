@@ -176,11 +176,12 @@ public interface EntityAgent extends EntityHandler {
     <T> T get(Class<T> entityClass, Object id);
 
     /**
-     * Retrieve a record, obtaining the specified lock mode.
+     * Retrieve a record, obtaining the lock level specified
+     * by the given {@linkplain LockModeType lock mode}.
      *
      * @param entityClass The class of the entity to retrieve
      * @param id The id of the entity to retrieve
-     * @param lockMode The lock mode to apply to the entity
+     * @param lockMode The lock level to obtain
      *
      * @return a detached entity instance
      */
@@ -202,11 +203,12 @@ public interface EntityAgent extends EntityHandler {
     /**
      * Retrieve a record, fetching associations specified by the
      * given {@linkplain EntityGraph load graph}, and obtaining
-     * the specified {@link LockModeType lock mode}.
+     * the lock level specified by the given {@link LockModeType
+     * lock mode}.
      *
      * @param graph The {@linkplain EntityGraph load graph}
      * @param id The id of the entity to retrieve
-     * @param lockMode The lock mode to apply to the entity
+     * @param lockMode The lock level to obtain
      *
      * @return a detached entity instance
      */
