@@ -26,8 +26,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Declares operations common to {@link EntityManager}
- * and {@link EntityAgent}.
+ * Declares operations common to {@link EntityManager} and
+ * {@link EntityAgent}. The status of an entity instance
+ * returned by an operation declared by this interface
+ * depends on the semantics of the subtype:
+ * <ul>
+ * <li>for an {@link EntityAgent}, there is no associated
+ *     persistence context, and so every entity instance
+ *     returned by any operation is in the detached state,
+ *     but
+ * <li>for an {@link EntityManager}, every entity instance
+ *     returned by any operation declared by this interface
+ *     is in the managed state and belongs to the persistence
+ *     context associated with the entity manager.
+ * </ul>
  *
  * @since 4.0
  */
