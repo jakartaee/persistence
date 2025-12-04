@@ -41,7 +41,7 @@ import java.util.List;
  *
  * @see EntityManager
  */
-public interface EntityAgent extends EntityHandler {
+public non-sealed interface EntityAgent extends EntityHandler {
 
     /**
      * Insert a record.

@@ -31,7 +31,8 @@ import java.util.Map;
  *
  * @since 4.0
  */
-public interface EntityHandler extends AutoCloseable {
+public sealed interface EntityHandler extends AutoCloseable
+        permits EntityManager, EntityAgent {
 
     /**
      * Set the default {@linkplain CacheRetrieveMode cache retrieval
