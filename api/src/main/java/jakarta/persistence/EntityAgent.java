@@ -65,6 +65,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *         identifier assigned by the application, and a
      *         record with the assigned identifier already exists
      *         in the database
+     * @throws PersistenceException if a record could not be
+     *         inserted in the database
      */
     void insert(Object entity);
 
@@ -82,6 +84,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *         has an identifier assigned by the application, and
      *         a record with the assigned identifier already exists
      *         in the database
+     * @throws PersistenceException if a record could not be
+     *         inserted in the database
      *
      * @see #insert(Object)
      */
@@ -105,6 +109,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *         conflict is detected, that is, if no row matching
      *         the identifier of the given entity exists in the
      *         database or if an optimistic version check fails
+     * @throws PersistenceException if a record could not be
+     *         updated in the database
      */
     void update(Object entity);
 
@@ -123,6 +129,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *         the identifier of one of the given entities exists
      *         in the database or if an optimistic version check
      *         fails
+     * @throws PersistenceException if a record could not be
+     *         updated in the database
      *
      * @see #update(Object)
      */
@@ -146,6 +154,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *         conflict is detected, that is, if no row matching
      *         the identifier of the given entity exists in the
      *         database or if an optimistic version check fails
+     * @throws PersistenceException if a record could not be
+     *         deleted from the database
      */
     void delete(Object entity);
 
@@ -164,6 +174,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *         the identifier of one of the given entities exists
      *         in the database or if an optimistic version check
      *         fails
+     * @throws PersistenceException if a record could not be
+     *         deleted from the database
      *
      * @see #delete(Object)
      */
@@ -198,6 +210,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected, that is, if an optimistic
      *         version check fails
+     * @throws PersistenceException if a record could not be
+     *         upserted in the database
      */
     void upsert(Object entity);
 
@@ -214,6 +228,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected, that is, if an optimistic
      *         version check fails
+     * @throws PersistenceException if a record could not be
+     *         upserted in the database
      *
      * @see #upsert(Object)
      */
@@ -226,6 +242,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *
      * @throws EntityNotFoundException if the given entity no
      *         longer exists in the database
+     * @throws PersistenceException if a record could not be
+     *         read from the database
      */
     void refresh(Object entity);
 
@@ -238,6 +256,8 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *
      * @throws EntityNotFoundException if one of the given
      *         entities no longer exists in the database
+     * @throws PersistenceException if a record could not be
+     *         read from the database
      */
     void refreshMultiple(List<?> entities);
 
@@ -246,6 +266,11 @@ public non-sealed interface EntityAgent extends EntityHandler {
      *
      * @param entity The entity to be refreshed.
      * @param lockMode The LockMode to be applied.
+     *
+     * @throws EntityNotFoundException if the given entity no
+     *         longer exists in the database
+     * @throws PersistenceException if a record could not be
+     *         read from the database
      */
     void refresh(Object entity, LockModeType lockMode);
 
@@ -258,6 +283,9 @@ public non-sealed interface EntityAgent extends EntityHandler {
      * </pre>
      *
      * @param association a {@linkplain FetchType#LAZY lazy} association
+     *
+     * @throws PersistenceException if a record could not be
+     *         read from the database
      */
     void fetch(Object association);
 }
