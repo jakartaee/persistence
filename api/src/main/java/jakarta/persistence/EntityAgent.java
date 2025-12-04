@@ -61,6 +61,10 @@ public interface EntityAgent extends EntityHandler {
      *
      * @throws IllegalArgumentException if the given instance is
      *         determined to not be new or removed
+     * @throws EntityExistsException if the given entity has an
+     *         identifier assigned by the application, and a
+     *         record with the assigned identifier already exists
+     *         in the database
      */
     void insert(Object entity);
 
@@ -71,6 +75,13 @@ public interface EntityAgent extends EntityHandler {
      * method.
      *
      * @param entities The entities to be inserted.
+     *
+     * @throws IllegalArgumentException if one of the given
+     *         instances is determined to not be new or removed
+     * @throws EntityExistsException if one of the given entities
+     *         has an identifier assigned by the application, and
+     *         a record with the assigned identifier already exists
+     *         in the database
      *
      * @see #insert(Object)
      */
@@ -90,6 +101,10 @@ public interface EntityAgent extends EntityHandler {
      *
      * @throws IllegalArgumentException if the given instance is
      *         determined to not be detached
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected, that is, if no row matching
+     *         the identifier of the given entity exists in the
+     *         database or if an optimistic version check fails
      */
     void update(Object entity);
 
@@ -100,6 +115,14 @@ public interface EntityAgent extends EntityHandler {
      * method.
      *
      * @param entities The entities to be updated.
+     *
+     * @throws IllegalArgumentException if the one of the given
+     *         instances is determined to not be detached
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected, that is, if no row matching
+     *         the identifier of one of the given entities exists
+     *         in the database or if an optimistic version check
+     *         fails
      *
      * @see #update(Object)
      */
@@ -119,6 +142,10 @@ public interface EntityAgent extends EntityHandler {
      *
      * @throws IllegalArgumentException if the given instance is
      *         determined to not be detached
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected, that is, if no row matching
+     *         the identifier of the given entity exists in the
+     *         database or if an optimistic version check fails
      */
     void delete(Object entity);
 
@@ -129,6 +156,14 @@ public interface EntityAgent extends EntityHandler {
      * method.
      *
      * @param entities The entities to be deleted.
+     *
+     * @throws IllegalArgumentException if the one of the given
+     *         instances is determined to not be detached
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected, that is, if no row matching
+     *         the identifier of one of the given entities exists
+     *         in the database or if an optimistic version check
+     *         fails
      *
      * @see #delete(Object)
      */
@@ -157,7 +192,12 @@ public interface EntityAgent extends EntityHandler {
      *
      * @param entity a detached entity instance, or a new instance
      *               with an assigned identifier
-     * @throws IllegalArgumentException if the entity has a null id
+     *
+     * @throws IllegalArgumentException if the given entity has a
+     *         null identifier value
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected, that is, if an optimistic
+     *         version check fails
      */
     void upsert(Object entity);
 
@@ -168,6 +208,12 @@ public interface EntityAgent extends EntityHandler {
      * method.
      *
      * @param entities The entities to be inserted or updated.
+     *
+     * @throws IllegalArgumentException if one of the given
+     *         entities has a null identifier value
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected, that is, if an optimistic
+     *         version check fails
      *
      * @see #upsert(Object)
      */
