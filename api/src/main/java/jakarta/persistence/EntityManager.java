@@ -1020,4 +1020,14 @@ public interface EntityManager extends EntityHandler {
      */
     LockModeType getLockMode(Object entity);
 
+    /**
+     * Return the underlying provider object for the
+     * {@link EntityManager}, if available. The result of this
+     * method is implementation-specific.
+     * <p>The {@code unwrap} method is to be preferred for new
+     * applications.
+     * @return the underlying provider object
+     */
+    Object getDelegate();
+
 }

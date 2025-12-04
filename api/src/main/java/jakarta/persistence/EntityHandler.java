@@ -374,16 +374,6 @@ public interface EntityHandler extends AutoCloseable {
     <T> T unwrap(Class<T> cls);
 
     /**
-     * Return the underlying provider object for the
-     * {@link EntityHandler}, if available. The result of this
-     * method is implementation-specific.
-     * <p>The {@code unwrap} method is to be preferred for new
-     * applications.
-     * @return the underlying provider object
-     */
-    Object getDelegate();
-
-    /**
      * Close an application-managed {@code EntityHandler}.
      * <p>After invocation of {@code close()}, every method of
      * the {@code EntityHandler} instance and of any instance
