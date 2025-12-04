@@ -86,7 +86,8 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given entity class
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
-     *
+     * @throws PersistenceException if the record could not be
+     *         read from the database
      * @since 4.0
      */
     <T> T get(Class<T> entityClass, Object id);
@@ -109,6 +110,10 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given entity class
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if the
+     *         record could not be read from the database
      *
      * @since 4.0
      */
@@ -142,6 +147,10 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given entity class
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
+     * @throws PersistenceException if a given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if the
+     *         record could not be read from the database
      *
      * @since 4.0
      */
@@ -177,6 +186,10 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given entity class
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
+     * @throws PersistenceException if a given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if the
+     *         record could not be read from the database
      *
      * @since 4.0
      */
@@ -212,6 +225,10 @@ public sealed interface EntityHandler extends AutoCloseable
      *         the given entity class
      * @throws EntityNotFoundException if no record exists in
      *         the database for one of the given identifiers
+     * @throws PersistenceException if a given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if a
+     *         record could not be read from the database
      *
      * @since 4.0
      */
@@ -248,6 +265,10 @@ public sealed interface EntityHandler extends AutoCloseable
      *         the given entity class
      * @throws EntityNotFoundException if no record exists in
      *         the database for one of the given identifiers
+     * @throws PersistenceException if a given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if a
+     *         record could not be read from the database
      *
      * @since 4.0
      */
@@ -270,6 +291,8 @@ public sealed interface EntityHandler extends AutoCloseable
      *         unit, or if the given identifier is not a
      *         non-null instance of the identifier type of the
      *         given entity class
+     * @throws PersistenceException if the record could not be
+     *         read from the database
      *
      * @since 1.0
      */
@@ -308,7 +331,8 @@ public sealed interface EntityHandler extends AutoCloseable
      *         is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class
+     *         supported for the given entity class or if the
+     *         record could not be read from the database
      *
      * @since 1.0
      */
@@ -355,9 +379,10 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws LockTimeoutException if a pessimistic lock
      *         could not be obtained and only the statement
      *         is rolled back
-     * @throws PersistenceException if the given
+     * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class
+     *         supported for the given entity class or if the
+     *         record could not be read from the database
      *
      * @since 3.2
      */
@@ -406,9 +431,10 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws LockTimeoutException if a pessimistic lock
      *         could not be obtained and only the statement
      *         is rolled back
-     * @throws PersistenceException if the given
+     * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
      *         supported for the root entity of the given graph
+     *         or if the record could not be read from the database
      *
      * @since 3.2
      */
@@ -459,9 +485,10 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws LockTimeoutException if a pessimistic lock
      *         could not be obtained and only the statement
      *         is rolled back
-     * @throws PersistenceException if the given
+     * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class
+     *         supported for the given entity class or if a
+     *         record could not be read from the database
      *
      * @since 4.0
      */
@@ -516,9 +543,10 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws LockTimeoutException if a pessimistic lock
      *         could not be obtained and only the statement
      *         is rolled back
-     * @throws PersistenceException if the given
+     * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
      *         supported for the root entity of the given graph
+     *         or if a record could not be read from the database
      *
      * @since 4.0
      */

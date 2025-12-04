@@ -207,6 +207,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      * @throws TransactionRequiredException if there is no transaction
      *         when invoked on a container-managed entity manager that
      *         is of type {@link PersistenceContextType#TRANSACTION}
+     * @throws PersistenceException if the entity class has a generated
+     *         identifier and an identifier could not be generated
      */
     void persist(Object entity);
     
@@ -234,6 +236,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      * @throws OptimisticLockException if an optimistic locking conflict
      *         is detected (note that optimistic version checking might be
      *         deferred until changes are flushed to the database)
+     * @throws PersistenceException if a record could not be read from
+     *         the database
      *
      */
     <T> T merge(T entity);
@@ -276,6 +280,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         not denote an entity type, or if the second argument
      *         is not a valid type for that entity's primary key or
      *         is null
+     * @throws PersistenceException if the record could not be
+     *         read from the database
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -328,7 +334,10 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
      *        only the statement is rolled back
-     * @throws PersistenceException if an unsupported lock call is made
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if the
+     *         record could not be read from the database
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -447,7 +456,9 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
      *         only the statement is rolled back
-     * @throws PersistenceException if an unsupported lock call is made
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class
      */
     void lock(Object entity, LockModeType lockMode);
 
@@ -491,7 +502,9 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
      *         only the statement is rolled back
-     * @throws PersistenceException if an unsupported lock call is made
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class
      * @since 2.0
      */
     void lock(Object entity, LockModeType lockMode,
@@ -537,7 +550,9 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
      *         only the statement is rolled back
-     * @throws PersistenceException if an unsupported lock call is made
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class
      * @since 3.2
      */
     void lock(Object entity, LockModeType lockMode,
@@ -557,6 +572,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         {@link PersistenceContextType#TRANSACTION}
      * @throws EntityNotFoundException if the entity no longer
      *         exists in the database
+     * @throws PersistenceException if the record could not be read
+     *         from the database
      */
     void refresh(Object entity);
 
@@ -579,6 +596,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         {@link PersistenceContextType#TRANSACTION}
      * @throws EntityNotFoundException if the entity no longer 
      *         exists in the database
+     * @throws PersistenceException if the record could not be read
+     *         from the database
      * @since 2.0
      */
     void refresh(Object entity,
@@ -617,7 +636,10 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
      *         only the statement is rolled back
-     * @throws PersistenceException if an unsupported lock call is made
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if the record
+     *         could not be read from the database
      * @since 2.0
      */
     void refresh(Object entity, LockModeType lockMode);
@@ -664,7 +686,10 @@ public non-sealed interface EntityManager extends EntityHandler {
      *        and the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and
      *        only the statement is rolled back
-     * @throws PersistenceException if an unsupported lock call is made
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if the record
+     *         could not be read from the database
      * @since 2.0
      */
     void refresh(Object entity, LockModeType lockMode,
@@ -711,7 +736,10 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         the transaction is rolled back
      * @throws LockTimeoutException if pessimistic locking fails and only
      *         the statement is rolled back
-     * @throws PersistenceException if an unsupported lock call is made
+     * @throws PersistenceException if a given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class or if the record
+     *         could not be read from the database
      * @since 3.2
      */
     void refresh(Object entity,
