@@ -286,6 +286,9 @@ public non-sealed interface EntityAgent extends EntityHandler {
      * Refresh the entity instance state from the database.
      *
      * @param entity The entity to be refreshed.
+     *
+     * @throws EntityNotFoundException if the given entity no
+     *         longer exists in the database
      */
     void refresh(Object entity);
 
@@ -295,6 +298,9 @@ public non-sealed interface EntityAgent extends EntityHandler {
      * @param entities The entities to be refreshed.
      *
      * @see #refresh(Object)
+     *
+     * @throws EntityNotFoundException if one of the given
+     *         entities no longer exists in the database
      */
     void refreshMultiple(List<?> entities);
 

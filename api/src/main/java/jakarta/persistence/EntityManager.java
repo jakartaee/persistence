@@ -806,7 +806,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         entity manager of type
      *         {@link PersistenceContextType#TRANSACTION}
      * @throws EntityNotFoundException if the entity no longer
-     *        exists in the database
+     *         exists in the database
      */
     void refresh(Object entity);
 
