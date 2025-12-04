@@ -27,10 +27,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation may be applied to methods of an entity class, a
  * mapped superclass, or a callback listener class. The {@code PostLoad}
  * method for an entity is invoked after the entity has been loaded into
- * the current persistence context from the database or after the refresh
- * operation has been applied to it. The {@code PostLoad} method is invoked
- * before a query result is returned or accessed or before an association
- * is traversed.
+ * memory from the database or after the refresh operation has been applied
+ * to it. The {@code PostLoad} method is invoked before a query result is
+ * returned or accessed or before an association is traversed.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>
