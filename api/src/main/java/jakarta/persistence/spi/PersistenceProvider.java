@@ -151,7 +151,7 @@ public interface PersistenceProvider {
      * scope, regardless of how many persistence units they may be
      * a part of.
      * <p>The given instance of {@link PersistenceUnitInfo} may
-     * return {@code null} when any one the accessor methods
+     * return {@code null} when any of the accessor methods
      * {@link PersistenceUnitInfo#getClassLoader()},
      * {@link PersistenceUnitInfo#getJtaDataSource()}, or
      * {@link PersistenceUnitInfo#getNonJtaDataSource()} is called
