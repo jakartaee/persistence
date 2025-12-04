@@ -66,7 +66,9 @@ public interface EntityAgent extends EntityHandler {
 
     /**
      * Insert every record in the given list. The records are
-     * inserted in the order in which they occur in the given list.
+     * inserted in the order in which they occur in the given list
+     * and according to the requirements of the {@link #insert(Object)}
+     * method.
      *
      * @param entities The entities to be inserted.
      *
@@ -93,7 +95,9 @@ public interface EntityAgent extends EntityHandler {
 
     /**
      * Update every record in the given list. The records are
-     * updated in the order in which they occur in the given list.
+     * updated in the order in which they occur in the given list
+     * and according to the requirements of the {@link #update(Object)}
+     * method.
      *
      * @param entities The entities to be updated.
      *
@@ -120,7 +124,9 @@ public interface EntityAgent extends EntityHandler {
 
     /**
      * Delete every record in the given list. The records are
-     * deleted in the order in which they occur in the given list.
+     * deleted in the order in which they occur in the given list
+     * and according to the requirements of the {@link #delete(Object)}
+     * method.
      *
      * @param entities The entities to be deleted.
      *
@@ -157,7 +163,9 @@ public interface EntityAgent extends EntityHandler {
 
     /**
      * Upsert every record in the given list. The records are
-     * upserted in the order in which they occur in the given list.
+     * upserted in the order in which they occur in the given list
+     * and according to the requirements of the {@link #upsert(Object)}
+     * method.
      *
      * @param entities The entities to be inserted or updated.
      *
