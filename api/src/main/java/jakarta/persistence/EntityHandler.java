@@ -35,6 +35,356 @@ public sealed interface EntityHandler extends AutoCloseable
         permits EntityManager, EntityAgent {
 
     /**
+     * Retrieve an entity representing the record with the
+     * given identifier.
+     *
+     * @param entityClass The class of the entity to retrieve
+     * @param id The identifier of the entity to retrieve
+     *
+     * @return an entity instance with the given identifier
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if the given identifier is not a
+     *         non-null instance of the identifier type of the
+     *         given entity class
+     * @throws EntityNotFoundException if no record with the
+     *         given identifier exists in the database
+     */
+    <T> T get(Class<T> entityClass, Object id);
+
+    /**
+     * Retrieve an entity representing the record with the
+     * given identifier, obtaining the lock level specified
+     * by the given {@linkplain LockModeType lock mode}.
+     *
+     * @param entityClass The class of the entity to retrieve
+     * @param id The identifier of the entity to retrieve
+     * @param lockMode The lock level to obtain
+     *
+     * @return an entity instance with the given identifier
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if the given identifier is not a
+     *         non-null instance of the identifier type of the
+     *         given entity class
+     * @throws EntityNotFoundException if no record with the
+     *         given identifier exists in the database
+     */
+    <T> T get(Class<T> entityClass, Object id, LockModeType lockMode);
+
+    /**
+     * Retrieve an entity representing the record with the
+     * given identifier, fetching associations specified by
+     * the given {@linkplain EntityGraph load graph}.
+     *
+     * @param graph The {@linkplain EntityGraph load graph}
+     * @param id The identifier of the entity to retrieve
+     *
+     * @return an entity instance with the given identifier
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if the given identifier is not a
+     *         non-null instance of the identifier type of the
+     *         given entity class
+     * @throws EntityNotFoundException if no record with the
+     *         given identifier exists in the database
+     */
+    <T> T get(EntityGraph<T> graph, Object id);
+
+    /**
+     * Retrieve an entity representing the record with the
+     * given identifier, fetching associations specified by
+     * the given {@linkplain EntityGraph load graph}, and
+     * obtaining the lock level specified by the given
+     * {@linkplain LockModeType lock mode}.
+     *
+     * @param graph The {@linkplain EntityGraph load graph}
+     * @param id The identifier of the entity to retrieve
+     * @param lockMode The lock level to obtain
+     *
+     * @return an entity instance with the given identifier
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if the given identifier is not a
+     *         non-null instance of the identifier type of the
+     *         given entity class
+     * @throws EntityNotFoundException if no record with the
+     *         given identifier exists in the database
+     */
+    <T> T get(EntityGraph<T> graph, Object id, LockModeType lockMode);
+
+    /**
+     * Retrieve entity instances representing the records
+     * with the given identifiers, returning the instances in
+     * a list where the position of an instance in the list
+     * matches the position of its identifier in the given
+     * array.
+     *
+     * @param entityClass The class of the entity to retrieve
+     * @param ids The identifiers of the entities to retrieve
+     * @return an ordered list of entity instances
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if one of the given identifiers is not
+     *         a non-null instance of the identifier type of
+     *         the given entity class
+     * @throws EntityNotFoundException if no record exists in
+     *         the database for one of the given identifiers
+     */
+    <T> List<T> getMultiple(Class<T> entityClass, List<?> ids);
+
+    /**
+     * Retrieve entity instances representing the records with
+     * the given identifiers of the root entity of the given
+     * {@linkplain EntityGraph load graph}, returning the
+     * instances in a list where the position of an instance
+     * in the list matches the position of its identifier in
+     * the given array, and fetching associations specified by
+     * the load graph.
+     *
+     * @param graph The {@linkplain EntityGraph load graph}
+     * @param ids The identifiers of the entities to retrieve
+     * @return an ordered list of entity instances
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if one of the given identifiers is not
+     *         a non-null instance of the identifier type of
+     *         the given entity class
+     * @throws EntityNotFoundException if no record exists in
+     *         the database for one of the given identifiers
+     */
+    <T> List<T> getMultiple(EntityGraph<T> graph, List<?> ids);
+
+    /**
+     * Retrieve an entity representing the record with the
+     * given identifier, or return {@code null} if there is
+     * no such record in the database.
+     *
+     * @param entityClass The class of the entity to retrieve
+     * @param id The identifier of the entity to retrieve
+     * @return an entity instance with the given identifier,
+     *         or {@code null} if there is no matching record
+     *         in the database
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if the given identifier is not a
+     *         non-null instance of the identifier type of the
+     *         given entity class
+     */
+    <T> T find(Class<T> entityClass, Object id);
+
+    /**
+     * Retrieve an entity representing the record with the
+     * given identifier, obtaining the lock level specified
+     * by the given {@linkplain LockModeType lock mode}, or
+     * return {@code null} if there is no such record in the
+     * database.
+     *
+     * @param entityClass The class of the entity to retrieve
+     * @param id The identifier of the entity to retrieve
+     * @param lockMode The lock level to obtain
+     * @return an entity instance with the given identifier,
+     *         or {@code null} if there is no matching record
+     *         in the database
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, or if the given identifier is not a
+     *         non-null instance of the identifier type of the
+     *         given entity class
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class
+     */
+    <T> T find(Class<T> entityClass, Object id, LockModeType lockMode);
+
+    /**
+     * Retrieve an entity representing the record with the
+     * given identifier, or return {@code null} if there is
+     * no such record in the database, using the specified
+     * {@linkplain FindOption options}. If the given options
+     * include a {@link LockModeType}, obtain the lock level
+     * specified by the given lock mode.
+     *
+     * @param entityClass The class of the entity to retrieve
+     * @param id The identifier of the entity to retrieve
+     * @return an entity instance with the given identifier,
+     *         or {@code null} if there is no matching record
+     *         in the database
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, if the given identifier is not a non-null
+     *         instance of the identifier type of the given
+     *         entity class, or if the given options are
+     *         contradictory
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class
+     */
+    <T> T find(Class<T> entityClass, Object id, FindOption... options);
+
+    /**
+     * Retrieve an instance of the root entity of the given
+     * {@link EntityGraph} representing the record with the
+     * given identifier, or return {@code null} if there is
+     * no such record in the database, using the specified
+     * {@linkplain FindOption options} and interpreting the
+     * {@code EntityGraph} as a load graph. If the given
+     * options include a {@link LockModeType}, obtain the
+     * lock level specified by the given lock mode.
+     *
+     * @param graph The {@linkplain EntityGraph load graph}
+     * @param id The identifier of the entity to retrieve
+     * @return an entity instance with the given identifier,
+     *         or {@code null} if there is no matching record
+     *         in the database
+     *
+     * @throws IllegalArgumentException if the root entity
+     *         of the given graph is not an entity class
+     *         belonging to the persistence unit, if the
+     *         given identifier is not a non-null instance of
+     *         the identifier type of the given entity class,
+     *         or if the given options are contradictory
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the root entity of the given graph
+     */
+    <T> T find(EntityGraph<T> graph, Object id, FindOption... options);
+
+    /**
+     * Retrieve entity instances representing the records
+     * with the given identifiers, using the specified
+     * {@linkplain FindOption options}, returning the
+     * instances in a list where the position of an instance
+     * in the list matches the position of its identifier in
+     * the given array, and the list contains a null value
+     * if there is no record matching a given identifier.
+     * If the given options include a {@link LockModeType},
+     * obtain the lock level specified by the given lock mode.
+     *
+     * @param entityClass The class of the entity to retrieve
+     * @param ids The identifiers of the entities to retrieve
+     * @return an ordered list of entity instances with the
+     *         given identifiers, with {@code null} in
+     *         positions where there is no matching record
+     *         in the database
+     *
+     * @throws IllegalArgumentException if the given class is
+     *         not an entity class belonging to the persistence
+     *         unit, if one of the given identifiers is not a
+     *         non-null instance of the identifier type of the
+     *         given entity class, or if the given options are
+     *         contradictory
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the given entity class
+     */
+    <T> List<T> findMultiple(Class<T> entityClass, List<?> ids,
+                             FindOption... options);
+
+    /**
+     * Retrieve entity instances representing the records with
+     * the given identifiers of the root entity of the given
+     * {@link EntityGraph}, using the specified
+     * {@linkplain FindOption options} and interpreting the
+     * {@code EntityGraph} as a load graph, returning entity
+     * instances in a list where the position of an instance
+     * in the list matches the position of its identifier in
+     * the given array, and the list contains a null value
+     * if there is no record matching a given identifier.
+     * If the given options include a {@link LockModeType},
+     * obtain the lock level specified by the given lock mode.
+     *
+     * @param graph The {@linkplain EntityGraph load graph}
+     * @param ids The identifiers of the entities to retrieve
+     * @return an ordered list of entity instances with the
+     *         given identifiers, with {@code null} in
+     *         positions where there is no matching record
+     *         in the database
+     *
+     * @throws IllegalArgumentException if the root entity
+     *         of the given graph is not an entity class
+     *         belonging to the persistence unit, if one of
+     *         the given identifiers is not a non-null
+     *         instance of the identifier type of the given
+     *         entity class, or if the given options are
+     *         contradictory
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
+     * @throws PersistenceException if the given
+     *         {@linkplain LockModeType lock mode type} is not
+     *         supported for the root entity of the given graph
+     */
+    <T> List<T> findMultiple(EntityGraph<T> graph, List<?> ids,
+                             FindOption... options);
+
+    /**
      * Set the default {@linkplain CacheRetrieveMode cache retrieval
      * mode} for this {@code EntityHandler}.
      * @param cacheRetrieveMode cache retrieval mode

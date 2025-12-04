@@ -274,22 +274,23 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         not a valid type for that entity's primary key or is
      *         null
      */
+    @Override
     <T> T find(Class<T> entityClass, Object primaryKey);
-    
+
     /**
-     * Find by primary key, using the specified properties. 
-     * Search for an entity of the specified class and primary key. 
-     * If the entity instance is contained in the persistence 
-     * context, it is returned from there. 
-     * If a vendor-specific property or hint is not recognized, 
-     * it is silently ignored. 
+     * Find by primary key, using the specified properties.
+     * Search for an entity of the specified class and primary key.
+     * If the entity instance is contained in the persistence
+     * context, it is returned from there.
+     * If a vendor-specific property or hint is not recognized,
+     * it is silently ignored.
      * @param entityClass  entity class
      * @param primaryKey   primary key
-     * @param properties  standard and vendor-specific properties 
+     * @param properties  standard and vendor-specific properties
      *        and hints
      * @return the found entity instance or null if the entity does
      *         not exist
-     * @throws IllegalArgumentException if the first argument does 
+     * @throws IllegalArgumentException if the first argument does
      *         not denote an entity type, or if the second argument
      *         is not a valid type for that entity's primary key or
      *         is null
@@ -341,6 +342,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      * @throws PersistenceException if an unsupported lock call is made
      * @since 2.0
      */
+    @Override
     <T> T find(Class<T> entityClass, Object primaryKey,
                LockModeType lockMode);
 
@@ -450,6 +452,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
+    @Override
     <T> T find(Class<T> entityClass, Object primaryKey,
                FindOption... options);
 
@@ -488,6 +491,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         representing missing entities
      * @since 4.0
      */
+    @Override
     <T> List<T> findMultiple(Class<T> entityClass, List<?> primaryKeys,
                              FindOption... options);
 
@@ -543,6 +547,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      * @throws PersistenceException if an unsupported lock call is made
      * @since 3.2
      */
+    @Override
     <T> T find(EntityGraph<T> entityGraph, Object primaryKey,
                FindOption... options);
 
@@ -582,6 +587,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         representing missing entities
      * @since 4.0
      */
+    @Override
     <T> List<T> findMultiple(EntityGraph<T> entityGraph, List<?> primaryKeys,
                              FindOption... options);
 

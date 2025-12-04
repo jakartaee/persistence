@@ -220,69 +220,6 @@ public non-sealed interface EntityAgent extends EntityHandler {
     void upsertMultiple(List<?> entities);
 
     /**
-     * Retrieve a record.
-     *
-     * @param entityClass The class of the entity to retrieve
-     * @param id The id of the entity to retrieve
-     *
-     * @return a detached entity instance
-     */
-    <T> T get(Class<T> entityClass, Object id);
-
-    /**
-     * Retrieve a record, obtaining the lock level specified
-     * by the given {@linkplain LockModeType lock mode}.
-     *
-     * @param entityClass The class of the entity to retrieve
-     * @param id The id of the entity to retrieve
-     * @param lockMode The lock level to obtain
-     *
-     * @return a detached entity instance
-     */
-    <T> T get(Class<T> entityClass, Object id, LockModeType lockMode);
-
-    /**
-     * Retrieve a record, fetching associations specified by the
-     * given {@link EntityGraph}.
-     *
-     * @param graph The {@link EntityGraph}
-     * @param id The id of the entity to retrieve
-     *
-     * @return a detached entity instance
-     *
-     * @since 6.3
-     */
-    <T> T get(EntityGraph<T> graph, Object id);
-
-    /**
-     * Retrieve a record, fetching associations specified by the
-     * given {@linkplain EntityGraph load graph}, and obtaining
-     * the lock level specified by the given {@link LockModeType
-     * lock mode}.
-     *
-     * @param graph The {@linkplain EntityGraph load graph}
-     * @param id The id of the entity to retrieve
-     * @param lockMode The lock level to obtain
-     *
-     * @return a detached entity instance
-     */
-    <T> T get(EntityGraph<T> graph, Object id, LockModeType lockMode);
-
-    /**
-     * Retrieve multiple records, returning entity instances in a
-     * list where the position of an instance in the list matches
-     * the position of its identifier in the given array, and the
-     * list contains a null value if there is no persistent
-     * instance matching a given identifier.
-     *
-     * @param entityClass The class of the entity to retrieve
-     * @param ids         The ids of the entities to retrieve
-     * @return an ordered list of detached entity instances, with
-     *         null elements representing missing entities
-     */
-    <T> List<T> getMultiple(Class<T> entityClass, List<?> ids);
-
-    /**
      * Refresh the entity instance state from the database.
      *
      * @param entity The entity to be refreshed.
