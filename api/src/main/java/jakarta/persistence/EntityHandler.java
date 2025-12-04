@@ -112,11 +112,22 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Retrieve an entity representing the record with the
-     * given identifier, fetching associations specified by
-     * the given {@linkplain EntityGraph load graph}.
+     * given identifier, using the specified
+     * {@linkplain FindOption options}. If the given options
+     * include a {@link LockModeType}, obtain the lock level
+     * specified by the given lock mode.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
-     * @param graph The {@linkplain EntityGraph load graph}
+     * @param entityClass The class of the entity to retrieve
      * @param id The identifier of the entity to retrieve
+     * @param options Standard and vendor-specific options
      *
      * @return an entity instance with the given identifier
      *
@@ -128,18 +139,28 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
      */
-    <T> T get(EntityGraph<T> graph, Object id);
+    <T> T get(Class<T> entityClass, Object id, FindOption... options);
 
     /**
      * Retrieve an entity representing the record with the
      * given identifier, fetching associations specified by
      * the given {@linkplain EntityGraph load graph}, and
-     * obtaining the lock level specified by the given
-     * {@linkplain LockModeType lock mode}.
+     * using the specified {@linkplain FindOption options}.
+     * If the given options include a {@link LockModeType},
+     * obtain the lock level specified by the given lock
+     * mode.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
      * @param graph The {@linkplain EntityGraph load graph}
      * @param id The identifier of the entity to retrieve
-     * @param lockMode The lock level to obtain
+     * @param options Standard and vendor-specific options
      *
      * @return an entity instance with the given identifier
      *
@@ -151,17 +172,29 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
      */
-    <T> T get(EntityGraph<T> graph, Object id, LockModeType lockMode);
+    <T> T get(EntityGraph<T> graph, Object id, FindOption... options);
 
     /**
      * Retrieve entity instances representing the records
-     * with the given identifiers, returning the instances in
-     * a list where the position of an instance in the list
-     * matches the position of its identifier in the given
-     * array.
+     * with the given identifiers, using the specified
+     * {@linkplain FindOption options}, and returning the
+     * instances in a list where the position of an instance
+     * in the list matches the position of its identifier in
+     * the given array. If the given options include a
+     * {@link LockModeType}, obtain the lock level specified
+     * by the given lock mode.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
      * @param entityClass The class of the entity to retrieve
      * @param ids The identifiers of the entities to retrieve
+     * @param options Standard and vendor-specific options
      * @return an ordered list of entity instances
      *
      * @throws IllegalArgumentException if the given class is
@@ -172,19 +205,30 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws EntityNotFoundException if no record exists in
      *         the database for one of the given identifiers
      */
-    <T> List<T> getMultiple(Class<T> entityClass, List<?> ids);
+    <T> List<T> getMultiple(Class<T> entityClass, List<?> ids,
+                            FindOption... options);
 
     /**
      * Retrieve entity instances representing the records with
      * the given identifiers of the root entity of the given
-     * {@linkplain EntityGraph load graph}, returning the
+     * {@linkplain EntityGraph load graph}, using the specified
+     * {@linkplain FindOption options}, and returning the
      * instances in a list where the position of an instance
      * in the list matches the position of its identifier in
      * the given array, and fetching associations specified by
      * the load graph.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
      * @param graph The {@linkplain EntityGraph load graph}
      * @param ids The identifiers of the entities to retrieve
+     * @param options Standard and vendor-specific options
      * @return an ordered list of entity instances
      *
      * @throws IllegalArgumentException if the given class is
@@ -195,7 +239,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws EntityNotFoundException if no record exists in
      *         the database for one of the given identifiers
      */
-    <T> List<T> getMultiple(EntityGraph<T> graph, List<?> ids);
+    <T> List<T> getMultiple(EntityGraph<T> graph, List<?> ids,
+                            FindOption... options);
 
     /**
      * Retrieve an entity representing the record with the
@@ -271,6 +316,7 @@ public sealed interface EntityHandler extends AutoCloseable
      *
      * @param entityClass The class of the entity to retrieve
      * @param id The identifier of the entity to retrieve
+     * @param options Standard and vendor-specific options
      * @return an entity instance with the given identifier,
      *         or {@code null} if there is no matching record
      *         in the database
@@ -319,6 +365,7 @@ public sealed interface EntityHandler extends AutoCloseable
      *
      * @param graph The {@linkplain EntityGraph load graph}
      * @param id The identifier of the entity to retrieve
+     * @param options Standard and vendor-specific options
      * @return an entity instance with the given identifier,
      *         or {@code null} if there is no matching record
      *         in the database
@@ -368,6 +415,7 @@ public sealed interface EntityHandler extends AutoCloseable
      *
      * @param entityClass The class of the entity to retrieve
      * @param ids The identifiers of the entities to retrieve
+     * @param options Standard and vendor-specific options
      * @return an ordered list of entity instances with the
      *         given identifiers, with {@code null} in
      *         positions where there is no matching record
@@ -421,6 +469,7 @@ public sealed interface EntityHandler extends AutoCloseable
      *
      * @param graph The {@linkplain EntityGraph load graph}
      * @param ids The identifiers of the entities to retrieve
+     * @param options Standard and vendor-specific options
      * @return an ordered list of entity instances with the
      *         given identifiers, with {@code null} in
      *         positions where there is no matching record
