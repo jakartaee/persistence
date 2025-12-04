@@ -580,7 +580,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * Create an instance of {@link Query} for executing a
      * Jakarta Persistence query language statement.
      * @param qlString A Jakarta Persistence query string
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
      */
@@ -590,7 +591,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * Create an instance of {@link TypedQuery} for executing a
      * criteria query.
      * @param criteriaQuery A criteria query object
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if the criteria query is
      *         found to be invalid
      * @since 2.0
@@ -602,7 +604,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * criteria query, which may be a union or intersection of
      * top-level queries.
      * @param selectQuery A criteria query object
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if the criteria query is
      *         found to be invalid
      * @since 3.2
@@ -613,7 +616,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * Create an instance of {@link Query} for executing a criteria
      * update query.
      * @param updateQuery A criteria update query object
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if the update query is
      *         found to be invalid
      * @since 2.1
@@ -624,7 +628,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * Create an instance of {@link Query} for executing a criteria
      * delete query.
      * @param deleteQuery A criteria delete query object
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if the delete query is
      *         found to be invalid
      * @since 2.1
@@ -639,7 +644,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * the {@code resultClass} argument.
      * @param qlString A Jakarta Persistence query string
      * @param resultClass The type of the query result
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the query result is
      *         found to not be assignable to the specified type
@@ -656,7 +662,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * of the given entity graph.
      * @param qlString A Jakarta Persistence query string
      * @param resultGraph The {@linkplain EntityGraph load graph}
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the query result is
      *         found to not be assignable to the root type of
@@ -670,7 +677,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * query written in the Jakarta Persistence query language or
      * in native SQL.
      * @param name The name of a query defined in metadata
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if a query has not been
      *         defined with the given name, or if the query string is
      *         found to be invalid
@@ -688,7 +696,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * the {@code resultClass} argument.
      * @param name The name of a query defined in metadata
      * @param resultClass The type of the query result
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if a query has not been
      *         defined with the given name, if the query string is
      *         found to be invalid, or if the query result is found to
@@ -702,7 +711,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * named query written in the Jakarta Persistence query
      * language or in native SQL.
      * @param reference A reference to the query defined in metadata
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @throws IllegalArgumentException if a query has not been
      *         defined, if the query string is found to be
      *         invalid, or if the query result is found to not be
@@ -726,7 +736,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * their occurrence in the select list and default JDBC type
      * mappings are applied.
      * @param sqlString A native SQL query string
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @since 1.0
      */
     Query createNativeQuery(String sqlString);
@@ -744,7 +755,8 @@ public sealed interface EntityHandler extends AutoCloseable
      *
      * @param sqlString A native SQL query string
      * @param resultClass The type of the query result
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @since 1.0
      */
     <T> TypedQuery<T> createNativeQuery(String sqlString, Class<T> resultClass);
@@ -754,7 +766,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * a native SQL query.
      * @param sqlString A native SQL query string
      * @param resultSetMapping The name of the result set mapping
-     * @return The new query instance
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
      * @since 1.0
      */
     Query createNativeQuery(String sqlString, String resultSetMapping);
@@ -768,7 +781,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * result set is returned as a list of type {@code Object[]}.
      * @param name The name assigned to the stored procedure query in
      *             metadata
-     * @return The new stored procedure query instance
+     * @return An instance of {@link StoredProcedureQuery} which may be
+     *         used to execute the stored procedure
      * @throws IllegalArgumentException if no query has been defined
      *         with the given name
      * @since 2.1
@@ -784,7 +798,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * result set is returned as a list of type {@code Object[]}.
      * @param procedureName The name of the stored procedure in the
      *                      database
-     * @return The new stored procedure query instance
+     * @return An instance of {@link StoredProcedureQuery} which may be
+     *         used to execute the stored procedure
      * @throws IllegalArgumentException if a stored procedure of the
      *         given name does not exist (or if query execution will
      *         fail)
@@ -804,7 +819,8 @@ public sealed interface EntityHandler extends AutoCloseable
      *                      database
      * @param resultClasses The classes to which the result sets
      *                      produced by the stored procedure are mapped
-     * @return The new stored procedure query instance
+     * @return An instance of {@link StoredProcedureQuery} which may be
+     *         used to execute the stored procedure
      * @throws IllegalArgumentException if a stored procedure of the
      *         given name does not exist (or if query execution will
      *         fail)
@@ -826,7 +842,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * @param resultSetMappings The names of the result set mappings
      *                          to be used to map result sets returned
      *                          by the stored procedure
-     * @return The new stored procedure query instance
+     * @return An instance of {@link StoredProcedureQuery} which may be
+     *         used to execute the stored procedure
      * @throws IllegalArgumentException if a stored procedure or
      *         result set mapping of the given name does not exist
      *         (or the query execution will fail)
