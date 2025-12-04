@@ -276,11 +276,11 @@ public non-sealed interface EntityAgent extends EntityHandler {
 
     /**
      * Fetch an association or collection that is configured for lazy loading.
-     * <pre>
+     * {@snippet :
      * Book book = agent.get(Book.class, isbn);  // book is immediately detached
      * agent.fetch(book.getAuthors());           // fetch the associated authors
      * book.getAuthors().forEach(author -> ... );  // iterate the collection
-     * </pre>
+     * }
      *
      * @param association a {@linkplain FetchType#LAZY lazy} association
      *
