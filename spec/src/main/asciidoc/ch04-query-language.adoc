@@ -2041,7 +2041,7 @@ in an `IN` predicate, as defined in <<a5107>>, is collection-valued. Every
 other input parameter is single-valued.
 
 The API for the binding concrete arguments to query parameters is described
-in <<a3125>>.
+in <<a4406>>.
 
 ===== Positional Parameters
 
