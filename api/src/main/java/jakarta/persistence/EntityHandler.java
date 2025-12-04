@@ -29,17 +29,41 @@ import java.util.Map;
  * Declares operations common to {@link EntityManager} and
  * {@link EntityAgent}. The status of an entity instance
  * returned by an operation declared by this interface
- * depends on the semantics of the subtype:
+ * depends on the semantics of the subtype.
  * <ul>
- * <li>for an {@link EntityAgent}, there is no associated
+ * <li>For an {@link EntityAgent}, there is no associated
  *     persistence context, and so every entity instance
- *     returned by any operation is in the detached state,
- *     but
- * <li>for an {@link EntityManager}, every entity instance
+ *     returned by any operation is in the detached state.
+ *     Operations on an entity agent never return the same
+ *     entity instance twice.
+ * <li>For an {@link EntityManager}, every entity instance
  *     returned by any operation declared by this interface
  *     is in the managed state and belongs to the persistence
- *     context associated with the entity manager.
+ *     context associated with the entity manager. An
+ *     {@code EntityManager} is required to ensure that if an
+ *     entity instance representing a given record already
+ *     exists in its associated persistence context, then
+ *     exactly that instance is returned by every operation
+ *     that returns an entity representing the record.
  * </ul>
+ *
+ * <p>Operations which return entity instances are, by default,
+ * permitted to retrieve state from the second-level cache, if
+ * any, or, in the case of an {@code EntityManager}, directly
+ * from the persistence context, without directly accessing
+ * the database. However, any such operation must respect:
+ * <ul>
+ * <li>any {@linkplain LockModeType lock mode} requested as
+ *     an argument to the operation or by calling
+ *     {@link Query#setLockMode(LockModeType)}, as well as
+ * <li>any {@linkplain CacheRetrieveMode cache mode} given
+ *     as an {@linkplain FindOption optional argument} or
+ *     by calling {@link #setCacheRetrieveMode} or
+ *     {@link Query#setCacheRetrieveMode}.
+ * </ul>
+ * <p>Thus, access to the database might be required even when
+ * the entity is available in the persistence context or in the
+ * second-level cache.
  *
  * @since 4.0
  */
@@ -236,6 +260,14 @@ public sealed interface EntityHandler extends AutoCloseable
      * {@linkplain FindOption options}. If the given options
      * include a {@link LockModeType}, obtain the lock level
      * specified by the given lock mode.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
      * @param entityClass The class of the entity to retrieve
      * @param id The identifier of the entity to retrieve
@@ -276,6 +308,14 @@ public sealed interface EntityHandler extends AutoCloseable
      * {@code EntityGraph} as a load graph. If the given
      * options include a {@link LockModeType}, obtain the
      * lock level specified by the given lock mode.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
      * @param graph The {@linkplain EntityGraph load graph}
      * @param id The identifier of the entity to retrieve
@@ -317,6 +357,14 @@ public sealed interface EntityHandler extends AutoCloseable
      * if there is no record matching a given identifier.
      * If the given options include a {@link LockModeType},
      * obtain the lock level specified by the given lock mode.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
      * @param entityClass The class of the entity to retrieve
      * @param ids The identifiers of the entities to retrieve
@@ -362,6 +410,14 @@ public sealed interface EntityHandler extends AutoCloseable
      * if there is no record matching a given identifier.
      * If the given options include a {@link LockModeType},
      * obtain the lock level specified by the given lock mode.
+     * <p>If an implementation does not recognize a given
+     * vendor-specific {@linkplain FindOption option}, it
+     * must silently ignore the option.
+     * <p>Portable applications should not rely on the
+     * standard {@linkplain Timeout timeout option}.
+     * Depending on the database in use and the locking
+     * mechanisms used by the provider, this option may or
+     * may not be observed.
      *
      * @param graph The {@linkplain EntityGraph load graph}
      * @param ids The identifiers of the entities to retrieve
