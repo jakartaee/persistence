@@ -22,12 +22,7 @@ package jakarta.persistence;
 import java.util.Map;
 import java.util.List;
 
-import jakarta.persistence.criteria.CriteriaSelect;
-import jakarta.persistence.metamodel.Metamodel;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.CriteriaUpdate;
-import jakarta.persistence.criteria.CriteriaDelete;
 
 /**
  * Interface used to interact with the persistence context.
