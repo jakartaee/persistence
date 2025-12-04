@@ -144,8 +144,8 @@ same initial settings as defined by the implementation, and so on.
 
 More than one entity manager factory instance may be available simultaneously
 in the JVM.footnote:[This is usually the case when the application uses more
-than one database, since it's typical that each entity manager communicates
-which exactly one database. On the other hand, there's usually only one entity
+than one database, since it is typical that each entity manager communicates
+which exactly one database. On the other hand, there is usually only one entity
 manager factory for each persistence unit.]
 
 Methods of the `EntityManagerFactory` interface are threadsafe.

@@ -2649,7 +2649,7 @@ The effect of applying `setMaxResults` or
 undefined. The use of `setMaxResults` and `setFirstResult` is not
 supported for stored procedure queries.
 
-Apart from `executeUpdate()`, methods `Query` and `TypedQuery` may be
+Apart from `executeUpdate()`, methods of `Query` and `TypedQuery` may be
 invoked without an active transaction context, unless a lock mode other
 than `LockModeType.NONE` has been specified for the query. In particular,
 the methods `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()`
@@ -2661,7 +2661,7 @@ specified for a query by calling `setLockMode()` or by specifying the
   or from an `EntityManager` with a transaction-scoped persistence context,
   the entities returned by the query are detached;
 - otherwise, if the query object was obtained or from an `EntityManager`
-  with an extended persistence, the returned entities are managed.
+  with an extended persistence context, the returned entities are managed.
 
 See <<a2027>> for information about transaction-scoped and extended
 persistence contexts. See <<a11431>> for further discussion of entity

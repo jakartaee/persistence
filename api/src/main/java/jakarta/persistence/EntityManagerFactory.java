@@ -582,5 +582,5 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 4.0
      */
-    <R, H extends EntityHandler> R callInTransaction(Class<H> handlerClass, Function<EntityAgent,R> work);
+    <R, H extends EntityHandler> R callInTransaction(Class<H> handlerClass, Function<H,R> work);
 }
