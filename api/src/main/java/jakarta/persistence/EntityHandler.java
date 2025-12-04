@@ -88,6 +88,7 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given identifier exists in the database
      * @throws PersistenceException if the record could not be
      *         read from the database
+     *
      * @since 4.0
      */
     <T> T get(Class<T> entityClass, Object id);
