@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -84,9 +85,26 @@ public @interface ConstructorResult {
     Class<?> targetClass();
 
     /** 
-     * (Required) The mapping of columns in the {@code SELECT}
+     * (Optional) The mapping of columns in the {@code SELECT}
      * list to arguments of a constructor of the specified Java
      * {@linkplain #targetClass target class}, in order.
+     *
+     * <p>Constructor parameters mapping directly to column
+     * results must occur after parameters mapping to entities.
      */
-    ColumnResult[] columns();
+    ColumnResult[] columns() default {};
+
+    /**
+     * (Optional) The mapping of columns in the {@code SELECT}
+     * list to {@linkplain EntityResult entity results} which
+     * are then assigned to parameters of a constructor of the
+     * specified Java {@linkplain #targetClass target class},
+     * in order.
+     *
+     * <p>Constructor parameters mapping to entity results must
+     * occur after parameters mapping to columns.
+     *
+     * @since 4.0
+     */
+    EntityResult[] entities() default {};
 }

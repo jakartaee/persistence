@@ -93,10 +93,10 @@ public sealed interface ResultSetMapping<T>
      * Construct a mapping to a constructor of a Java class.
      *
      * @param targetClass The Java class which declares the constructor
-     * @param columns Mappings for the columns
+     * @param arguments Mappings for the constructor parameters, in order
      */
-    static <T> ConstructorMapping<T> constructor(Class<T> targetClass, ColumnMapping<?>... columns) {
-        return ConstructorMapping.of(targetClass, columns);
+    static <T> ConstructorMapping<T> constructor(Class<T> targetClass, MappingElement<?>... arguments) {
+        return ConstructorMapping.of(targetClass, arguments);
     }
 
     /**

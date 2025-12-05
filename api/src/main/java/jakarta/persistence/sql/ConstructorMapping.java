@@ -20,7 +20,7 @@ package jakarta.persistence.sql;
  * of the constructor of a Java class.
  *
  * @param targetClass The Java class which declares the constructor
- * @param columns The names of the mapped columns of the result set
+ * @param arguments Mappings assigned to the parameters of the constructor
  * @param <T> The type of the Java class
  *
  * @see jakarta.persistence.ConstructorResult
@@ -28,7 +28,7 @@ package jakarta.persistence.sql;
  * @since 4.0
  */
 
-public record ConstructorMapping<T>(Class<T> targetClass, ColumnMapping<?>[] columns)
+public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] arguments)
         implements MappingElement<T>, ResultSetMapping<T> {
 
     @Override
@@ -41,8 +41,8 @@ public record ConstructorMapping<T>(Class<T> targetClass, ColumnMapping<?>[] col
         return null;
     }
 
-    public static <T> ConstructorMapping<T> of(Class<T> targetClass, ColumnMapping<?>... columns) {
-        return new ConstructorMapping<>(targetClass, columns);
+    public static <T> ConstructorMapping<T> of(Class<T> targetClass, MappingElement<?>... arguments) {
+        return new ConstructorMapping<>(targetClass, arguments);
     }
 
     @Override
