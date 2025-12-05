@@ -299,7 +299,15 @@ In Jakarta EE environments, any strings
 corresponding to file URLs for script sources or targets must specify
 absolute paths (not relative). In Jakarta EE environments, all source and
 target file locations must be accessible to the application server
-deploying the persistence unit
+deploying the persistence unit.
+
+[NOTE]
+====
+This specification does not define the behavior if a target location for
+a script is already occupied by an existing file. An implementation might
+overwrite the file, append to the file, or fail fast. Portable applications
+must delete or truncate any file existing at a script target location.
+====
 
 `jakarta.persistence.schema-generation.database.action` ::
 The `jakarta.persistence.schema-generation.database.action` property specifies
