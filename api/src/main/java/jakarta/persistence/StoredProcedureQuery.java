@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2024 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 
@@ -280,6 +281,17 @@ public interface StoredProcedureQuery extends Query {
     StoredProcedureQuery setTimeout(Integer timeout);
 
     /**
+     * Mark this as a call to a stored procedure with a result
+     * parameter and register the type of the result parameter
+     * This is typically required when calling a stored function.
+     *
+     * @param resultType the type of the result parameter
+     *
+     * @since 4.0
+     */
+    StoredProcedureQuery registerResultParameter(Class<?> resultType);
+
+    /**
      * Register a positional parameter.
      * All parameters must be registered.
      * @param position  parameter position
@@ -288,9 +300,7 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      */
     StoredProcedureQuery registerStoredProcedureParameter(
-	  int position,
-	  Class<?> type,
-	  ParameterMode mode);
+            int position, Class<?> type, ParameterMode mode);
 
     /**
      * Register a named parameter.
@@ -301,9 +311,7 @@ public interface StoredProcedureQuery extends Query {
      * @return the same query instance
      */
     StoredProcedureQuery registerStoredProcedureParameter(
-	  String parameterName,
-	  Class<?> type,
-	  ParameterMode mode);
+            String parameterName, Class<?> type, ParameterMode mode);
 
     /**
      * Retrieve a value passed back from the procedure
