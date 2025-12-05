@@ -20,12 +20,15 @@ package jakarta.persistence;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
- * Specifies a mapping of the columns of a result set of a native SQL query
- * or stored procedure.
+ * Specifies a mapping of the columns of a result set of a native SQL
+ * query or stored procedure to {@linkplain EntityResult entities},
+ * {@linkplain ColumnResult scalar values}, and
+ * {@linkplain ConstructorResult Java class constructors}.
  *
  * <p>Example:
  * {@snippet :
@@ -54,10 +57,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     })
  * }
  *
+ * <p>A {@code SqlResultSetMapping} may be reified at runtime as an
+ * instance of {@link jakarta.persistence.sql.ResultSetMapping}.
+ *
  * @see Query
  * @see StoredProcedureQuery
  * @see NamedNativeQuery
  * @see NamedStoredProcedureQuery
+ *
+ * @see jakarta.persistence.sql.ResultSetMapping
+ * @see jakarta.persistence.sql.CompoundMapping
+ * @see EntityManagerFactory#getResultSetMappings(Class)
  *
  * @since 1.0
  */
@@ -89,3 +99,5 @@ public @interface SqlResultSetMapping {
      */
     ColumnResult[] columns() default {};
 }
+
+
