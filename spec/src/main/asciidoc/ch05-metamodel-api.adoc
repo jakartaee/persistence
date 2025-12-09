@@ -144,24 +144,6 @@ where `K` is the type of the key of the map in class `X`
 
 The metamodel class for any eligible class `X` is generated as follows:
 
-* For every field `f` of type `R` annotated with a static query annotation,
-the metamodel class must contain a declaration as follows:
-+
-[source,java]
-----
-public static TypedQueryReference<R> f =
-        new StaticQueryReference(
-                R.class,
-                "R.f",
-                Map.of("h1", v1, "h2", v2, ...),
-                o1, o2, o3, ...
-        );
-----
-+
-where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@ReadQueryOptions` or `@WriteQueryOptions`
-annotation of `f`.
-
 * For every method `m` of return type `R` and with parameters `p1`, `p2`,
 etc., of types `T1`, `T2`, etc., annotated with a static query annotation,
 the metamodel class must contain a declaration as follows:
