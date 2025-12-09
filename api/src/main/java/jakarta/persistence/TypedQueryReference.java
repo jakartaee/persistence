@@ -99,17 +99,19 @@ public interface TypedQueryReference<R> {
     /**
      * The names assigned to the supplied
      * {@linkplain #getArguments arguments} to query
-     * parameters. If the query has named parameters,
-     * these are interpreted as the parameter names.
-     * Otherwise, if the query has positional parameters,
-     * they are ignored.
+     * parameters, or {@code null} if no arguments were
+     * supplied. If the query has named parameters, these
+     * are interpreted as the parameter names. Otherwise,
+     * if the query has positional parameters, they are
+     * ignored.
      *
      * @since 4.0
      */
     String[] getParameterNames();
 
     /**
-     * The arguments supplied to the query parameters.
+     * The arguments supplied to the query parameters,
+     * or {@code null} if no arguments were supplied.
      * <ul>
      * <li>If the query has ordinal parameters, the
      * position of an argument in this array determines
