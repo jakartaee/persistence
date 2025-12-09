@@ -75,4 +75,20 @@ public @interface ReadQueryOptions {
      * @see jakarta.persistence.Query#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
+
+    /**
+     * The name of an {@link jakarta.persistence.NamedEntityGraph}
+     * {@linkplain jakarta.persistence.TypedQuery#setEntityGraph
+     * applied} to the entity returned by the query. By default,
+     * no entity graph is applied. The named entity graph must be
+     * an entity graph compatible with the entity type returned
+     * by the query. If the result type of the query is not an
+     * entity type, the behavior is undefined. The entity graph
+     * is interpreted as a load graph. The entity graph specified
+     * here may be overridden by calling {@code setEntityGraph()}.
+     *
+     * @see jakarta.persistence.NamedEntityGraph#name
+     * @see jakarta.persistence.TypedQuery#setEntityGraph
+     */
+    String entityGraph() default "";
 }
