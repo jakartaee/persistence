@@ -56,8 +56,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> When this annotation is applied to a method of a class or interface
  * belonging to the persistence unit, a reference to a query declared using
  * this annotation may be obtained from the static metamodel class of the
- * annotated class or interface. In addition, the query is treated as a
- * named query, where the query name is the name of the annotated method.
+ * annotated class or interface.
  * {@snippet :
  * List<Book> books =
  *         em.createQuery(Library_._findBooksByTitle_)
@@ -70,6 +69,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *           .setParameter("isbn", isbn)
  *           .getSingleResult();
  * }
+ *
+ * <p> In addition, the query is treated as a named query, where the query
+ * name is the concatenation of the unqualified name of the type, with the
+ * string {@code "."}, and the name of the annotated member, for example,
+ * {@code "Library.findBooksByTitle"}.
  *
  * <p> An implementation of Jakarta Data backed by Jakarta Persistence
  * must treat this annotation as a Jakarta Data query annotation.

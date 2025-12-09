@@ -33,7 +33,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Jakarta Data repository. The return type of the method must agree with
  * the type returned by the query.
  * {@snippet :
- * import jakarta.persistence.CacheStoreMode;interface Library {
+ * interface Library {
  *     @StaticNativeQuery("select * from books where title like ?1")
  *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
@@ -56,8 +56,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> When this annotation is applied to a method of a class or interface
  * belonging to the persistence unit, a reference to a query declared using
  * this annotation may be obtained from the static metamodel class of the
- * annotated class or interface. In addition, the query is treated as a
- * named query, where the query name is the name of the annotated method.
+ * annotated class or interface.
  * {@snippet :
  * List<Book> books =
  *         em.createQuery(Library_._findBooksByTitle_)
@@ -69,6 +68,25 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         em.createQuery(Library_._getBookWithIsbn_)
  *           .setParameter("isbn", isbn)
  *           .getSingleResult();
+ * }
+ *
+ * <p> In addition, the query is treated as a named query, where the query
+ * name is the concatenation of the unqualified name of the type, with the
+ * string {@code "."}, and the name of the annotated member, for example,
+ * {@code "Library.getBookWithIsbn"}.
+ *
+ * <p> If a {@link jakarta.persistence.SqlResultSetMapping} exists with
+ * the same name as the query, it is used to map the result set of the
+ * query. If the {@code @SqlResultSetMapping} annotation occurs on the
+ * same method as {@code @StaticNativeQuery} annotation, name defaulting
+ * rules conspire to ensure that no name needs to be explicitly specified.
+ * {@snippet :
+ * @StaticNativeQuery("select * from books where isbn = ?1")
+ * @SqlResultSetMapping(entities =
+ *         @EntityResult(entityClass = Book.class,
+ *                 fields = {@FieldResult(name = "isbn", column = "isbn_13"),
+ *                           @FieldResult(name = "title", column = "title_en"})
+ * Book getBookWithIsbn(String isbn);
  * }
  *
  * <p> An implementation of Jakarta Data backed by Jakarta Persistence

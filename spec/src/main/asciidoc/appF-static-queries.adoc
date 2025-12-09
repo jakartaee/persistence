@@ -26,12 +26,6 @@ include::../../../../api/src/main/java/jakarta/persistence/query/ReadQueryOption
 include::../../../../api/src/main/java/jakarta/persistence/query/WriteQueryOptions.java[lines=18..-1]
 ----
 
-=== `NativeQueryMapping`
-[source,java]
-----
-include::../../../../api/src/main/java/jakarta/persistence/query/NativeQueryMapping.java[lines=18..-1]
-----
-
 === `StaticQueryReference`
 [source,java]
 ----
