@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Gavin King      - 3.2
 
 package jakarta.persistence;
@@ -18,10 +19,49 @@ package jakarta.persistence;
 import java.util.Map;
 
 /**
- * A reference to a named query declared via the {@link NamedQuery}
- * or {@link NamedNativeQuery} annotations, or using
- * {@link jakarta.persistence.query.StaticQuery} or
- * {@link jakarta.persistence.query.StaticNativeQuery}.
+ * A reference to a named query declared via the
+ * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
+ * or using {@link jakarta.persistence.query.StaticQuery} or
+ * {@link jakarta.persistence.query.StaticNativeQuery}. An
+ * instance of {@code TypedQueryReference} is usually obtained
+ * from the static metamodel of the annotated type.
+ *
+ * <p>In this example, a method is annotated, and the name of
+ * the query is determined by the name of the annotated method.
+ * The annotated query is executed with the given argument to
+ * the query parameter named {@code pattern} and with the
+ * {@link CacheStoreMode#BYPASS} option:
+ * {@snippet :
+ * class Library {
+ *     @Inject EntityManager entityManager;
+ *
+ *     @StaticQuery("select a from Book b join b.authors a where b.title like :pattern")
+ *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     List<Author> findAuthorsGivenTitles(String pattern) {
+ *         return entityManager.createQuery(Library_.findAuthorsGivenTitles(pattern))
+ *                 .getResultList();
+ *     }
+ * }
+ * }
+ *
+ * <p>In this example, it is the entity class which is annotated,
+ * and the {@link NamedQuery} annotation explicitly specifies a
+ * name:
+ * {@snippet :
+ * @NamedQuery(name = "byTitle",
+ *             query = "Book b where title like ?1")
+ * @Entity class Book { .. }
+ * }
+ * <p>In this case the {@code TypedQueryReference} obtained from
+ * its static metamodel does not include arguments to the query
+ * parameters, and so they must be supplied via {@code setParameter}:
+ * {@snippet :
+ * var books =
+ *         entityManager.createQuery(Book_._byTitle_)
+ *                 .setCacheStoreMode(CacheStoreMode.BYPASS)
+ *                 .setParameter(1, pattern)
+ *                 .getResultList();
+ * }
  *
  * @param <R> an upper bound on the result type of the query
  *
@@ -43,6 +83,47 @@ public interface TypedQueryReference<R> {
     /**
      * A map keyed by hint name of all hints specified via
      * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
+     *
+     * @see Query#setHint
      */
     Map<String,Object> getHints();
+
+    /**
+     * Any {@linkplain FindOption options} controlling
+     * execution of the query.
+     *
+     * @since 4.0
+     */
+    FindOption[] getOptions();
+
+    /**
+     * The names assigned to the supplied
+     * {@linkplain #getArguments arguments} to query
+     * parameters. If the query has named parameters,
+     * these are interpreted as the parameter names.
+     * Otherwise, if the query has positional parameters,
+     * they are ignored.
+     *
+     * @since 4.0
+     */
+    String[] getParameterNames();
+
+    /**
+     * The arguments supplied to the query parameters.
+     * <ul>
+     * <li>If the query has ordinal parameters, the
+     * position of an argument in this array determines
+     * its assignment to a parameter.
+     * <li>If the query has named parameters, this array
+     * is aligned with the {@linkplain #getParameterNames
+     * array of parameter names} to obtain an assignment
+     * of arguments to parameters.
+     * </ul>
+     *
+     * @see Query#setParameter(int, Object)
+     * @see Query#setParameter(String, Object)
+     *
+     * @since 4.0
+     */
+    Object[] getArguments();
 }
