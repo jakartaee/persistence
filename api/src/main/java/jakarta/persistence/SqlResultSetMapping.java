@@ -59,7 +59,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *                  o.item_id AS order_item,
  *                  i.desc_name AS item_name
  *           FROM orders o, order_items i
- *           WHERE order_quantity > 25 AND order_item = i.id
+ *           WHERE order_total > 25 AND order_item = i.id
  *         """,
  *         Order_.MAPPING_ORDER_RESULTS
  * );
@@ -69,7 +69,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * which declares a {@link jakarta.persistence.query.StaticNativeQuery},
  * and the mapping does not need to explicitly specify its name:
  * {@snippet :
- * @StaticNativeQuery("SELECT * FROM orders WHERE order_quantity > :?1")
+ * @StaticNativeQuery("SELECT * FROM orders WHERE order_total > ?")
  * @SqlResultSetMapping(
  *     entities = @EntityResult(
  *             entityClass = Order.class,
