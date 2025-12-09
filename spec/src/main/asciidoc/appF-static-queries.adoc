@@ -1,0 +1,39 @@
+[appendix]
+== Static Query API [[static-query-api]]
+
+The following APIs are defined in the package `jakarta.persistence.query`.
+
+=== `StaticQuery`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/query/StaticQuery.java[lines=18..-1]
+----
+
+=== `StaticNativeQuery`
+----
+include::../../../../api/src/main/java/jakarta/persistence/query/StaticNativeQuery.java[lines=18..-1]
+----
+
+=== `ReadQueryOptions`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/query/ReadQueryOptions.java[lines=18..-1]
+----
+
+=== `WriteQueryOptions`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/query/WriteQueryOptions.java[lines=18..-1]
+----
+
+=== `NativeQueryMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/query/NativeQueryMapping.java[lines=18..-1]
+----
+
+=== `StaticQueryReference`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/query/StaticQueryReference.java[lines=18..-1]
+----
