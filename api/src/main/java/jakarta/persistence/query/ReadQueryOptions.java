@@ -26,8 +26,6 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target(METHOD)
-@Retention(RUNTIME)
 /**
  * <p>Configures options that apply to a read operation. This method
  * may annotate a method that is annotated {@link StaticQuery},
@@ -36,6 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Jakarta Data repository method that is annotated
  * {@code jakarta.data.repository.Find}.</p>
  */
+@Target(METHOD)
+@Retention(RUNTIME)
 public @interface ReadQueryOptions {
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.

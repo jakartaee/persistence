@@ -23,8 +23,6 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target(METHOD)
-@Retention(RUNTIME)
 /**
  * <p>Configures options that apply to a write operation. This method
  * may annotate a method that is annotated {@link StaticQuery},
@@ -35,6 +33,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@code jakarta.data.repository.Delete} and uses the
  * parameter-based automatic query pattern.</p>
  */
+@Target(METHOD)
+@Retention(RUNTIME)
 public @interface WriteQueryOptions {
     /**
      * A query timeout in milliseconds.
