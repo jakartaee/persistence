@@ -34,11 +34,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the type returned by the query.
  * {@snippet :
  * interface Library {
- *     @StaticNativeQuery("select * from books where title like ?1")
+ *     @StaticNativeQuery("select * from books where title like ?")
  *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
- *     @StaticNativeQuery("select * from books where isbn = ?1")
+ *     @StaticNativeQuery("select * from books where isbn = ?")
  *     Book getBookWithIsbn(String isbn);
  * }
  *}
@@ -81,7 +81,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * same method as {@code @StaticNativeQuery} annotation, name defaulting
  * rules conspire to ensure that no name needs to be explicitly specified.
  * {@snippet :
- * @StaticNativeQuery("select * from books where isbn = ?1")
+ * @StaticNativeQuery("select * from books where isbn = ?")
  * @SqlResultSetMapping(entities =
  *         @EntityResult(entityClass = Book.class,
  *                 fields = {@FieldResult(name = "isbn", column = "isbn_13"),
