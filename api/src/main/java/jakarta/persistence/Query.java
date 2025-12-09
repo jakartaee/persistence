@@ -19,6 +19,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Type;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -339,6 +341,36 @@ public interface Query {
     Query setParameter(String name, Object value);
 
     /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null.
+     * @param name  parameter name
+     * @param value  parameter value
+     * @param type  a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(String name, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * @param name  parameter name
+     * @param value  parameter value
+     * @param type  the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(String name, P value, Type<P> type);
+
+    /**
      * Bind an instance of {@link java.util.Calendar} to a named parameter.
      * @param name  parameter name
      * @param value  parameter value
@@ -380,6 +412,36 @@ public interface Query {
      *         query or if the argument is of incorrect type
      */
     Query setParameter(int position, Object value);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null.
+     * @param position  position
+     * @param value  parameter value
+     * @param type  a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(int position, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * @param position  position
+     * @param value  parameter value
+     * @param type  the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(int position, P value, Type<P> type);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a positional
