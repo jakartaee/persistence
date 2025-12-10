@@ -24,14 +24,28 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * <p>Configures options that apply to a write operation. This method
- * may annotate a method that is annotated {@link StaticQuery},
- * {@link StaticNativeQuery}, or {@code jakarta.data.repository.Query}
- * that has a {@code value} that supplies an {@code UPDATE} or
- * {@code DELETE} statement. Alternatively, it may annotate a
- * Jakarta Data repository method that is annotated
- * {@code jakarta.data.repository.Delete} and uses the
- * parameter-based automatic query pattern.</p>
+ * <p>Configures options that affect the execution of a
+ * database write operation. This annotation may be applied
+ * to:
+ * <ul>
+ * <li>a method with a {@link StaticQuery} or Jakarta Data
+ *     {@code jakarta.data.repository.Query} annotation
+ *     whose {@code value} member suplies an {@code UPDATE}
+ *     or {@code DELETE} statement,</li>
+ * <li>a method with a {@link StaticNativeQuery} annotation
+ *     whose {@code value} member specifies a SQL operation
+ *     that returns a row count, or
+ * <li>a Jakarta Data repository method annotated
+ *     {@code jakarta.data.repository.Delete} that uses the
+ *     parameter-based automatic query pattern.
+ * </ul>
+ *
+ * <p>This annotation must be respected by an implementation
+ * of Jakarta Data backed by Jakarta Persistence.
+ *
+ * @see ReadQueryOptions
+ *
+ * @since 4.0
  */
 @Target(METHOD)
 @Retention(RUNTIME)

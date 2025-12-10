@@ -27,25 +27,43 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * <p>Configures options that apply to a read operation. This method
- * may annotate a method that is annotated {@link StaticQuery},
- * {@link StaticNativeQuery}, or {@code jakarta.data.repository.Query}
- * that performs a read operation. Alternatively, it may annotate a
- * Jakarta Data repository method that is annotated
- * {@code jakarta.data.repository.Find}.</p>
+ * <p>Configures options that affect the execution of a
+ * database read operation. This annotation may be applied
+ * to:
+ * <ul>
+ * <li>a method with a {@link StaticQuery} or Jakarta Data
+ *     {@code jakarta.data.repository.Query} annotation
+ *     whose {@code value} member specifies a {@code SELECT}
+ *     statement,</li>
+ * <li>a method with a {@link StaticNativeQuery} annotation
+ *     whose {@code value} member specifies a SQL operation
+ *     which returns a result set, or
+ * <li>a Jakarta Data repository method annotated
+ *     {@code jakarta.data.repository.Find}.
+ * </ul>
+ *
+ * <p>This annotation must be respected by an implementation
+ * of Jakarta Data backed by Jakarta Persistence.
+ *
+ * @see WriteQueryOptions
+ *
+ * @since 4.0
  */
 @Target(METHOD)
 @Retention(RUNTIME)
 public @interface ReadQueryOptions {
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.
+     * The presence of this annotation overrides the default
+     * cache store mode of the persistence context.
      * @see jakarta.persistence.Query#setCacheStoreMode
      */
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
 
     /**
      * The {@linkplain CacheRetrieveMode cache retrieve mode}
-     * to use.
+     * to use. The presence of this annotation overrides the
+     * default cache store mode of the persistence context.
      * @see jakarta.persistence.Query#setCacheRetrieveMode
      */
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
