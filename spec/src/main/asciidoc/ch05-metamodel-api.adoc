@@ -154,8 +154,9 @@ public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
     return new StaticQueryReference(
             R.class,
             "R.m",
-            new String[] {"p1", "p2", ... },
-            new Object[] { p1, p2, ... },
+            List.of(T1.class, T2.class, ... ),
+            List.of("p1", "p2", ... ),
+            List.of(p1, p2, ... ),
             Map.of("h1", v1, "h2", v2, ...),
             o1, o2, o3, ...
     );

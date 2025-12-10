@@ -18,7 +18,7 @@ package jakarta.persistence.query;
 import jakarta.persistence.FindOption;
 import jakarta.persistence.TypedQueryReference;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -34,33 +34,39 @@ public final class StaticQueryReference<R>
         implements TypedQueryReference<R> {
     private final Class<R> resultType;
     private final String name;
-    private final String[] parameterNames;
-    private final Object[] arguments;
-    private final FindOption[] options;
+    private final List<Class<?>> parameterTypes;
+    private final List<String> parameterNames;
+    private final List<Object> arguments;
+    private final List<FindOption> options;
     private final Map<String, Object> hints;
 
     public StaticQueryReference(
             Class<R> resultType, String name,
+            List<Class<?>> parameterTypes,
             Map<String, Object> hints,
             FindOption... options) {
         this.resultType = resultType;
         this.name = name;
+        this.parameterTypes = parameterTypes;
         this.parameterNames = null;
         this.arguments = null;
-        this.options = options;
+        this.options = List.of(options);
         this.hints = hints;
     }
 
     public StaticQueryReference(
             Class<R> resultType, String name,
-            String[] parameterNames, Object[] arguments,
+            List<Class<?>> parameterTypes,
+            List<String> parameterNames,
+            List<Object> arguments,
             Map<String, Object> hints,
             FindOption... options) {
         this.resultType = resultType;
         this.name = name;
+        this.parameterTypes = parameterTypes;
         this.parameterNames = parameterNames;
         this.arguments = arguments;
-        this.options = options;
+        this.options = List.of(options);
         this.hints = hints;
     }
 
@@ -80,17 +86,22 @@ public final class StaticQueryReference<R>
     }
 
     @Override
-    public FindOption[] getOptions() {
+    public List<FindOption> getOptions() {
         return options;
     }
 
     @Override
-    public String[] getParameterNames() {
+    public List<Class<?>> getParameterTypes() {
+        return parameterTypes;
+    }
+
+    @Override
+    public List<String> getParameterNames() {
         return parameterNames;
     }
 
     @Override
-    public Object[] getArguments() {
+    public List<Object> getArguments() {
         return arguments;
     }
 
@@ -105,27 +116,25 @@ public final class StaticQueryReference<R>
         else {
             return Objects.equals(this.resultType, that.resultType)
                 && Objects.equals(this.name, that.name)
-                && Arrays.equals(this.parameterNames, that.parameterNames)
-                && Arrays.equals(this.arguments, that.arguments)
-                && Arrays.equals(this.options, that.options);
+                && Objects.equals(this.parameterTypes, that.parameterTypes)
+                && Objects.equals(this.parameterNames, that.parameterNames)
+                && Objects.equals(this.arguments, that.arguments)
+                && Objects.equals(this.options, that.options);
         }
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(resultType, name,
-                Arrays.hashCode(parameterNames),
-                Arrays.hashCode(arguments),
-                Arrays.hashCode(options));
+        return Objects.hash(resultType, name, parameterTypes, parameterNames, arguments, options);
     }
 
     @Override
     public String toString() {
-        return "StaticQueryReference[" +
-                "resultType=" + resultType + ", " +
-                "name=" + name + ", " +
-                "parameterNames=" + Arrays.toString(parameterNames) + ", " +
-                "arguments=" + Arrays.toString(arguments) + ", " +
-                "options=" + Arrays.toString(options) + ']';
+        return "StaticQueryReference["
+                + "resultType=" + resultType + ", "
+                + "name=" + name + ", "
+                + "parameterNames=" + parameterNames + ", "
+                + "arguments=" + arguments + ", "
+                + "options=" + options + ']';
     }
 }
