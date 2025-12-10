@@ -78,6 +78,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> An implementation of Jakarta Data backed by Jakarta Persistence
  * must treat this annotation as a Jakarta Data query annotation.
  *
+ * <p>The parameter types of the annotated method must be basic types.
+ * If this annotation occurs on a generic method, on a method with a
+ * parameter type which is not a basic type, or on a method with a
+ * return type or parameter type involving a type variable, the behavior
+ * is undefined.
+ *
  * @since 4.0
  */
 @Target(METHOD)
