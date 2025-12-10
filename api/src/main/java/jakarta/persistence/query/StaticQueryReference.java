@@ -43,20 +43,6 @@ public final class StaticQueryReference<R>
     public StaticQueryReference(
             Class<R> resultType, String name,
             List<Class<?>> parameterTypes,
-            Map<String, Object> hints,
-            FindOption... options) {
-        this.resultType = resultType;
-        this.name = name;
-        this.parameterTypes = parameterTypes;
-        this.parameterNames = null;
-        this.arguments = null;
-        this.options = List.of(options);
-        this.hints = hints;
-    }
-
-    public StaticQueryReference(
-            Class<R> resultType, String name,
-            List<Class<?>> parameterTypes,
             List<String> parameterNames,
             List<Object> arguments,
             Map<String, Object> hints,
