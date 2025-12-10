@@ -16,6 +16,7 @@
 
 package jakarta.persistence;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -83,6 +84,9 @@ public interface TypedQueryReference<R> {
     /**
      * A map keyed by hint name of all hints specified via
      * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
+     * <p>
+     * Any mutation of the returned map results in an
+     * {@link UnsupportedOperationException}.
      *
      * @see Query#setHint
      */
@@ -91,10 +95,26 @@ public interface TypedQueryReference<R> {
     /**
      * Any {@linkplain FindOption options} controlling
      * execution of the query.
+     * <p>
+     * Any mutation of the returned list results in an
+     * {@link UnsupportedOperationException}.
      *
      * @since 4.0
      */
-    FindOption[] getOptions();
+    List<FindOption> getOptions();
+
+    /**
+     * The types of the supplied
+     * {@linkplain #getArguments arguments} to query
+     * parameters, or {@code null} if no arguments were
+     * supplied.
+     * <p>
+     * Any mutation of the returned list results in an
+     * {@link UnsupportedOperationException}.
+     *
+     * @since 4.0
+     */
+    List<Class<?>> getParameterTypes();
 
     /**
      * The names assigned to the supplied
@@ -104,10 +124,13 @@ public interface TypedQueryReference<R> {
      * are interpreted as the parameter names. Otherwise,
      * if the query has positional parameters, they are
      * ignored.
+     * <p>
+     * Any mutation of the returned list results in an
+     * {@link UnsupportedOperationException}.
      *
      * @since 4.0
      */
-    String[] getParameterNames();
+    List<String> getParameterNames();
 
     /**
      * The arguments supplied to the query parameters,
@@ -121,11 +144,13 @@ public interface TypedQueryReference<R> {
      * array of parameter names} to obtain an assignment
      * of arguments to parameters.
      * </ul>
+     * <p>
+     * Any mutation of the returned list results in an
+     * {@link UnsupportedOperationException}.
      *
      * @see Query#setParameter(int, Object)
      * @see Query#setParameter(String, Object)
-     *
      * @since 4.0
      */
-    Object[] getArguments();
+    List<Object> getArguments();
 }
