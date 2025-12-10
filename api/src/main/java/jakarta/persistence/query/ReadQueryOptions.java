@@ -63,7 +63,7 @@ public @interface ReadQueryOptions {
     /**
      * The {@linkplain CacheRetrieveMode cache retrieve mode}
      * to use. The presence of this annotation overrides the
-     * default cache store mode of the persistence context.
+     * default cache retrieve mode of the persistence context.
      * @see jakarta.persistence.Query#setCacheRetrieveMode
      */
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;

@@ -27,7 +27,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <ul>
  * <li>any method of any class or interface belonging to the persistence
  *     unit, or
- * <li>a query method or default method of a Jakarta Data repository with
+ * <li>a query method of a Jakarta Data repository with
  *     an implementation backed by Jakarta Persistence.
  * </ul>
  * <p> The return type of the method must agree with the type returned by
