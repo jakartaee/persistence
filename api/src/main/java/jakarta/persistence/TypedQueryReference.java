@@ -87,6 +87,7 @@ import java.util.Map;
 public interface TypedQueryReference<R> {
     /**
      * The name of the query.
+     * Unique within a given persistence unit.
      */
     String getName();
 
