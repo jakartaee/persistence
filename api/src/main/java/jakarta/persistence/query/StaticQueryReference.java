@@ -25,7 +25,10 @@ import java.util.Objects;
 
 /**
  * A reference to a query declared using a {@link StaticQuery}
- * or {@link StaticNativeQuery} annotation.
+ * or {@link StaticNativeQuery} annotation. An instance of this
+ * class is usually instantiated by a generated method of the
+ * {@linkplain jakarta.persistence.metamodel.StaticMetamodel
+ * static metamodel} for the annotated program element.
  *
  * @param <R> The result type of the query
  *
