@@ -48,9 +48,10 @@ A class is considered _eligible_ for generation of a metamodel class if
 it belongs to the persistence unit and:
 
 - is a managed class (an entity class, embeddable class, or mapped
-  superclass), or
-- has a method or field annotated with one of the two static query
-  annotations, `@StaticQuery` or `@StaticNativeQuery`, as defined in
+  superclass),
+- has one or more `@NamedQuery`, `@NamedNativeQuery`, or annotations, or
+- has a method annotated with one of the two static query  annotations,
+  `@StaticQuery` or `@StaticNativeQuery`, as defined in
   <<static-query-api>>.
 
 For every eligible class in the persistence unit, a corresponding metamodel
