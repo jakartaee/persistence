@@ -152,8 +152,10 @@ the metamodel class must contain a declaration as follows:
 ----
 public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
     return new StaticQueryReference(
+            "X.m",
+            X.class,
+            "m",
             R.class,
-            "R.m",
             List.of(T1.class, T2.class, ... ),
             List.of("p1", "p2", ... ),
             List.of(p1, p2, ... ),

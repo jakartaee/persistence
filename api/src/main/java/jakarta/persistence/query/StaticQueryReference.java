@@ -18,6 +18,7 @@ package jakarta.persistence.query;
 import jakarta.persistence.FindOption;
 import jakarta.persistence.TypedQueryReference;
 
+import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +33,8 @@ import java.util.Objects;
  */
 public final class StaticQueryReference<R>
         implements TypedQueryReference<R> {
+    private final Class<?> annotatedClass;
+    private final String annotatedMemberName;
     private final Class<R> resultType;
     private final String name;
     private final List<Class<?>> parameterTypes;
@@ -41,14 +44,19 @@ public final class StaticQueryReference<R>
     private final Map<String, Object> hints;
 
     public StaticQueryReference(
-            Class<R> resultType, String name,
+            String queryName,
+            Class<?> annotatedClass,
+            String annotatedMemberName,
+            Class<R> resultType,
             List<Class<?>> parameterTypes,
             List<String> parameterNames,
             List<Object> arguments,
             Map<String, Object> hints,
             FindOption... options) {
+        this.name = queryName;
+        this.annotatedClass = annotatedClass;
+        this.annotatedMemberName = annotatedMemberName;
         this.resultType = resultType;
-        this.name = name;
         this.parameterTypes = parameterTypes;
         this.parameterNames = parameterNames;
         this.arguments = arguments;
@@ -58,12 +66,12 @@ public final class StaticQueryReference<R>
 
     @Override
     public String getName() {
-        return "";
+        return name;
     }
 
     @Override
     public Class<? extends R> getResultType() {
-        return null;
+        return resultType;
     }
 
     @Override
@@ -89,6 +97,24 @@ public final class StaticQueryReference<R>
     @Override
     public List<Object> getArguments() {
         return arguments;
+    }
+
+    /**
+     * Obtain a reference to the annotated member which declares
+     * the query, enabling a client to reflect on the member..
+     */
+    public Member getMember() {
+        try {
+            return parameterTypes != null
+                    ? annotatedClass.getDeclaredMethod(annotatedMemberName,
+                            parameterTypes.toArray(new Class[0]))
+                    // in case an implementation wishes to (ab)use this
+                    // class to represent an annotation of a field
+                    : annotatedClass.getDeclaredField(annotatedMemberName);
+        }
+        catch (NoSuchMethodException|NoSuchFieldException e) {
+            throw new IllegalStateException( e );
+        }
     }
 
     @Override
