@@ -18,7 +18,6 @@ package jakarta.persistence.query;
 import jakarta.persistence.FindOption;
 import jakarta.persistence.TypedQueryReference;
 
-import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -102,22 +101,12 @@ public final class StaticQueryReference<R>
         return arguments;
     }
 
-    /**
-     * Obtain a reference to the annotated member which declares
-     * the query, enabling a client to reflect on the member..
-     */
-    public Member getMember() {
-        try {
-            return parameterTypes != null
-                    ? annotatedClass.getDeclaredMethod(annotatedMemberName,
-                            parameterTypes.toArray(new Class[0]))
-                    // in case an implementation wishes to (ab)use this
-                    // class to represent an annotation of a field
-                    : annotatedClass.getDeclaredField(annotatedMemberName);
-        }
-        catch (NoSuchMethodException|NoSuchFieldException e) {
-            throw new IllegalStateException( e );
-        }
+    public Class<?> getAnnotatedClass() {
+        return annotatedClass;
+    }
+
+    public String getAnnotatedMemberName() {
+        return annotatedMemberName;
     }
 
     @Override
