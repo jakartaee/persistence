@@ -74,8 +74,11 @@ public sealed interface ResultSetMapping<T>
 
     /**
      * Construct a mapping for a single column to a scalar value.
+     *
      * @param columnName The colum name
      * @param type The Java type of the scalar value
+     *
+     * @see jakarta.persistence.ColumnResult
      */
     static <T> ColumnMapping<T> column(String columnName, Class<T> type) {
         return ColumnMapping.of(columnName, type);
@@ -83,7 +86,10 @@ public sealed interface ResultSetMapping<T>
 
     /**
      * Construct a mapping for a single column to a scalar value.
+     *
      * @param columnName The colum name
+     *
+     * @see jakarta.persistence.ColumnResult
      */
     static ColumnMapping<Object> column(String columnName) {
         return ColumnMapping.of(columnName);
@@ -94,6 +100,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param targetClass The Java class which declares the constructor
      * @param arguments Mappings for the constructor parameters, in order
+     *
+     * @see jakarta.persistence.ConstructorResult
      */
     static <T> ConstructorMapping<T> constructor(Class<T> targetClass, MappingElement<?>... arguments) {
         return ConstructorMapping.of(targetClass, arguments);
@@ -123,6 +131,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param entityClass The Java class of the entity
      * @param fields Mappings for fields or properties of the entity
+     *
+     * @see jakarta.persistence.EntityResult
      */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, MemberMapping<T>... fields) {
@@ -136,6 +146,8 @@ public sealed interface ResultSetMapping<T>
      * @param discriminatorColumn The name of the column holding the discriminator;
      *        an empty string indicates that there is no discriminator column
      * @param fields Mappings for fields or properties of the entity
+     *
+     * @see jakarta.persistence.EntityResult
      */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
@@ -150,6 +162,8 @@ public sealed interface ResultSetMapping<T>
      * @param discriminatorColumn The name of the column holding the discriminator;
      *        an empty string indicates that there is no discriminator column
      * @param fields Mappings for fields or properties of the entity
+     *
+     * @see jakarta.persistence.EntityResult
      */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
@@ -187,6 +201,8 @@ public sealed interface ResultSetMapping<T>
      * @param type The type of the field or property
      * @param name The name of the field or property
      * @param columnName The name of the mapped column
+     *
+     * @see jakarta.persistence.FieldResult
      */
     static <C,T> FieldMapping<C,T> field(Class<C> container, Class<T> type, String name, String columnName) {
         return FieldMapping.of(container, type, name, columnName);
@@ -197,6 +213,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param attribute The metamodel attribute representing the field or property
      * @param columnName The name of the mapped column
+     *
+     * @see jakarta.persistence.FieldResult
      */
     static <C,T> FieldMapping<C,T> field(SingularAttribute<C,T> attribute, String columnName) {
         return FieldMapping.of(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), columnName);
