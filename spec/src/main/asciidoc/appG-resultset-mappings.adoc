@@ -1,0 +1,64 @@
+[appendix]
+== Result Set Mapping API [[resultset-mapping-api]]
+
+The following APIs are defined in the package `jakarta.persistence.sql`.
+
+=== `ResultSetMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/ResultSetMapping.java[lines=18..-1]
+----
+
+=== `MappingElement`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/MappingElement.java[lines=18..-1]
+----
+
+=== `MemberMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/MemberMapping.java[lines=18..-1]
+----
+
+=== `ColumnMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/ColumnMapping.java[lines=18..-1]
+----
+
+=== `FieldMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/FieldMapping.java[lines=18..-1]
+----
+
+=== `EntityMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/EntityMapping.java[lines=18..-1]
+----
+
+=== `EmbeddedMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/EmbeddedMapping.java[lines=18..-1]
+----
+
+=== `CompoundMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/CompoundMapping.java[lines=18..-1]
+----
+
+=== `ConstructorMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/ConstructorMapping.java[lines=18..-1]
+----
+
+=== `TupleMapping`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/sql/TupleMapping.java[lines=18..-1]
+----
