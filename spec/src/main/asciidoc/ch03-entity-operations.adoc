@@ -2851,7 +2851,7 @@ canonical static metamodel, as specified in <<canonical-metamodel>>.
 public EntityManager em;
     // ...
 
-    customers = em.createNamedQuery(Customer_._findAllCustomersWithName_)
+    customers = em.createQuery(Customer_._findAllCustomersWithName_)
         .setParameter("custName", "Smith")
         .getResultList();
 ----
