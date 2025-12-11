@@ -49,10 +49,17 @@ import jakarta.persistence.Tuple;
  */
 public record TupleMapping(MappingElement<?>[] elements)
         implements ResultSetMapping<Tuple> {
+    /**
+     * Construct a new instance.
+     * @param elements Mappings for the elements of the tuple
+     */
     public static TupleMapping of(MappingElement<?>... elements) {
         return new TupleMapping(elements);
     }
 
+    /**
+     * Always returns {@link Tuple Tuple.class}.
+     */
     @Override
     public Class<Tuple> type() {
         return Tuple.class;

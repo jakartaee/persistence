@@ -31,20 +31,35 @@ package jakarta.persistence.sql;
 public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] arguments)
         implements MappingElement<T>, ResultSetMapping<T> {
 
+    /**
+     * The Java class which declares the constructor.
+     */
     @Override
-    public Class<? extends T> getJavaType() {
+    public Class<T> getJavaType() {
         return targetClass;
     }
 
+    /**
+     * Always returns {@code null}.
+     */
     @Override
     public String getAlias() {
         return null;
     }
 
+    /**
+     * Construct a new instance.
+     * @param targetClass The Java class which declares the constructor
+     * @param arguments Mappings assigned to the parameters of the constructor
+     * @param <T> The type of the Java class
+     */
     public static <T> ConstructorMapping<T> of(Class<T> targetClass, MappingElement<?>... arguments) {
         return new ConstructorMapping<>(targetClass, arguments);
     }
 
+    /**
+     * The Java class which declares the constructor.
+     */
     @Override
     public Class<T> type() {
         return targetClass;

@@ -36,10 +36,26 @@ public record FieldMapping<C,T>
         (Class<C> container, Class<T> type, String name, String columnName)
         implements MemberMapping<C> {
 
+    /**
+     * Construct a new instance.
+     * @param container The Java class which declares the field
+     * @param type The Java class of the field
+     * @param name The name of the field
+     * @param columnName The name of the mapped column of the result set
+     * @param <C> The type of the entity or embeddable type
+     * @param <T> The type of the field
+     */
     public static <C,T> FieldMapping<C,T> of(Class<C> container, Class<T> type, String name, String columnName) {
         return new FieldMapping<>(container, type, name, columnName);
     }
 
+    /**
+     * Construct a new instance.
+     * @param attribute The metamodel object representing the field
+     * @param columnName The name of the mapped column of the result set
+     * @param <C> The type of the entity or embeddable type
+     * @param <T> The type of the field
+     */
     public static <C,T> FieldMapping<C,T> of(SingularAttribute<C,T> attribute, String columnName) {
         return new FieldMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), columnName);
     }
