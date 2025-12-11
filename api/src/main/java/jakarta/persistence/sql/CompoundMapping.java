@@ -28,10 +28,18 @@ package jakarta.persistence.sql;
  */
 public record CompoundMapping(MappingElement<?>[] elements)
         implements ResultSetMapping<Object[]> {
+
+    /**
+     * Construct a new instance.
+     * @param elements Mappings for the elements of the tuple
+     */
     public static CompoundMapping of(MappingElement<?>... elements) {
         return new CompoundMapping(elements);
     }
 
+    /**
+     * Always returns {@code Object[].class}.
+     */
     @Override
     public Class<Object[]> type() {
         return Object[].class;

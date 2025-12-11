@@ -38,31 +38,67 @@ public record EntityMapping<T>
         (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
         implements MappingElement<T>, ResultSetMapping<T> {
 
+    /**
+     * The entity class.
+     */
     @Override
-    public Class<? extends T> getJavaType() {
+    public Class<T> getJavaType() {
         return entityClass;
     }
 
+    /**
+     * Always returns {@code null}.
+     */
     @Override
     public String getAlias() {
         return null;
     }
 
+    /**
+     * Construct a new instance.
+     * @param entityClass The entity class
+     * @param fields Mappings for fields or properties of the entity
+     * @param <T> The entity type
+     */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, MemberMapping<T>... fields) {
         return new EntityMapping<>(entityClass, LockModeType.NONE, "", fields);
     }
 
+    /**
+     * Construct a new instance.
+     * @param entityClass The entity class
+     * @param discriminatorColumn The name of the column holding the
+     *        {@linkplain jakarta.persistence.DiscriminatorColumn
+     *        discriminator}; an empty string indicates that there
+     *        is no discriminator column.
+     * @param fields Mappings for fields or properties of the entity
+     * @param <T> The entity type
+     */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
         return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields);
     }
 
+    /**
+     * Construct a new instance.
+     * @param entityClass The entity class
+     * @param lockMode The lock mode acquired by the SQL query
+     * @param discriminatorColumn The name of the column holding the
+     *        {@linkplain jakarta.persistence.DiscriminatorColumn
+     *        discriminator}; an empty string indicates that there
+     *        is no discriminator column.
+     * @param fields Mappings for fields or properties of the entity
+     * @param <T> The entity type
+     */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
         return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields);
     }
 
+    /**
+     * The entity class.
+     */
     @Override
     public Class<T> type() {
         return entityClass;
