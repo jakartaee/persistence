@@ -140,5 +140,3 @@ public @interface SqlResultSetMapping {
      */
     ColumnResult[] columns() default {};
 }
-
-
