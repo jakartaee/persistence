@@ -89,7 +89,8 @@ public @interface EntityResult {
     /** 
      * Specifies the column name (or alias) of the column in the
      * {@code SELECT} list that is used to determine the type of
-     * the entity instance.
+     * the entity instance. An empty string indicates that there
+     * is no discriminator column.
      */
     String discriminatorColumn() default "";
 }

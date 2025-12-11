@@ -25,7 +25,8 @@ import jakarta.persistence.LockModeType;
  * @param lockMode The lock mode acquired by the SQL query
  * @param discriminatorColumn The name of the column holding the
  *        {@linkplain jakarta.persistence.DiscriminatorColumn
- *        discriminator}
+ *        discriminator}; an empty string indicates that there
+ *        is no discriminator column.
  * @param fields Mappings for fields or properties of the entity
  * @param <T> The entity type
  *

@@ -133,7 +133,8 @@ public sealed interface ResultSetMapping<T>
      * Construct a mapping for an entity class.
      *
      * @param entityClass The Java class of the entity
-     * @param discriminatorColumn The name of the column holding the discriminator
+     * @param discriminatorColumn The name of the column holding the discriminator;
+     *        an empty string indicates that there is no discriminator column
      * @param fields Mappings for fields or properties of the entity
      */
     @SafeVarargs
@@ -146,7 +147,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param entityClass The Java class of the entity
      * @param lockMode The lock mode acquired by SQL query
-     * @param discriminatorColumn The name of the column holding the discriminator
+     * @param discriminatorColumn The name of the column holding the discriminator;
+     *        an empty string indicates that there is no discriminator column
      * @param fields Mappings for fields or properties of the entity
      */
     @SafeVarargs
