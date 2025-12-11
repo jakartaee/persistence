@@ -64,6 +64,20 @@ import java.util.Map;
  *                 .getResultList();
  * }
  *
+ * <p>A {@code TypedQueryReference} may include arguments to
+ * parameters of the query.
+ * <ul>
+ * <li>A reference representing a query declared using an
+ *     annotation of a type or field has no arguments, and so
+ *     {@link #getArguments()}, {@link #getParameterNames()},
+ *     and {@link #getParameterTypes()} all return {@code null}.
+ * <li>A reference representing a query declared using an
+ *     annotation of a method holds information about the
+ *     arguments passed to the method, making it available via
+ *     {@link #getArguments()}, {@link #getParameterNames()},
+ *     and {@link #getParameterTypes()}.
+ * </ul>
+ *
  * @param <R> an upper bound on the result type of the query
  *
  * @see EntityManager#createQuery(TypedQueryReference)
@@ -107,7 +121,9 @@ public interface TypedQueryReference<R> {
      * The types of the supplied
      * {@linkplain #getArguments arguments} to query
      * parameters, or {@code null} if no arguments were
-     * supplied.
+     * supplied. Arguments are present when this is a
+     * reference to a query declared using an annotation
+     * of a method.
      * <p>
      * Any mutation of the returned list results in an
      * {@link UnsupportedOperationException}.
@@ -120,10 +136,12 @@ public interface TypedQueryReference<R> {
      * The names assigned to the supplied
      * {@linkplain #getArguments arguments} to query
      * parameters, or {@code null} if no arguments were
-     * supplied. If the query has named parameters, these
-     * are interpreted as the parameter names. Otherwise,
-     * if the query has positional parameters, they are
-     * ignored.
+     * supplied. Arguments are present when this is a
+     * reference to a query declared using an annotation
+     * of a method. If the query has named parameters,
+     * these are interpreted as the parameter names.
+     * Otherwise, if the query has positional parameters,
+     * they are ignored.
      * <p>
      * Any mutation of the returned list results in an
      * {@link UnsupportedOperationException}.
@@ -135,6 +153,8 @@ public interface TypedQueryReference<R> {
     /**
      * The arguments supplied to the query parameters,
      * or {@code null} if no arguments were supplied.
+     * Arguments are present when this is a reference to
+     * a query declared using an annotation of a method.
      * <ul>
      * <li>If the query has ordinal parameters, the
      * position of an argument in this array determines
