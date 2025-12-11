@@ -30,7 +30,6 @@ import static java.lang.annotation.RetentionPolicy.*;
  *
  * @since 1.0
  */
-
 @Repeatable(PersistenceContexts.class)
 @Target({TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
