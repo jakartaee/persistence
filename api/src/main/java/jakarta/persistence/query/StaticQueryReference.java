@@ -33,7 +33,7 @@ import java.util.Objects;
  *
  * @since 4.0
  */
-public final class StaticQueryReference<R>
+public class StaticQueryReference<R>
         implements TypedQueryReference<R> {
     private final Class<?> annotatedClass;
     private final String annotatedMemberName;
