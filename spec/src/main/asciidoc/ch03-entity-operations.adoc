@@ -2980,7 +2980,7 @@ language cannot be used). Native SQL queries are not expected to be
 portable across databases.
 ====
 
-===== Returning Managed Entities from Native Queries
+===== Returning Managed Entities from Native Queries [[entity-results]]
 
 The persistence provider is responsible for
 performing the mapping between the values returned by the SQL query and
@@ -3229,7 +3229,7 @@ non-managed entity instances) as well as scalar results can be returned
 by a native query. These can be used singly, or in combination,
 including with entity results.
 
-====== Scalar Results
+====== Scalar Results [[scalar-results]]
 
 Scalar results can be included in the query
 result by specifying the `ColumnResult` annotation element of the
@@ -3262,7 +3262,7 @@ Query q = em.createNativeQuery(
     })
 ----
 
-====== Constructor Results
+====== Constructor Results [[constructor-results]]
 
 The mapping to constructors is specified
 using the `ConstructorResult` annotation element of the
@@ -3309,6 +3309,83 @@ the `classes` element); and any instances corresponding to column
 results (in the order defined in the `columns` element). If there are
 any columns whose result mappings have not been specified, they are
 ignored.
+
+===== Programmatic Result Set Mappings
+
+As an alternative to the annotations specified above, the API found in
+<<resultset-mapping-api>> defines a programmatic way to specify the
+mapping of a SQL result set.
+
+In the programmatic API:
+
+- `EntityMapping` is an alternative to `@EntityResult`, and has the
+  semantics specified above in <<entity-results>>,
+- `FieldMapping` is an alternative to `@FieldResult`,
+- `ConstructorMapping` is an alternative to `@ConstructorResult`,
+  with semantics specified in <<constructor-results>>,
+- `ColumnMapping` is an alternative to `@ColumnResult`, as specified
+  in <<scalar-results>>, and
+- `@EmbeddableMapping` is an alternative to the use of dot notation
+  to map embedded objects within an `EntityMapping`.
+
+Instances of these objects are usually constructed using static factory
+methods of the `ResultSetMapping` interface. These methods accept
+instances of the metamodel defined in <<a6072>>, which may be obtained
+from the static metamodel specified in <<a6933>> for type safety.
+Mapped column names are supplied as strings.
+
+The following code constructs a mapping for the `Author` entity with
+an embedded field of type `Name`.
+
+[source,java]
+----
+import static jakarta.persistence.sql.ResultSetMapping.*;
+...
+    var entityMapping =
+            entity(Author.class,
+                    field(Author_.ssn, "auth_ssn"),
+                    embedded(Author_.name,
+                            field(Name_.first, "auth_first_name"),
+                            field(Name_.last, "auth_last_name")));
+----
+
+This code constructs a mapping to the constructor of the unmanaged
+`Summary` class with three parameters of type `String`.
+
+[source,java]
+----
+import static jakarta.persistence.sql.ResultSetMapping.*;
+...
+    var constructorMapping =
+            constructor(Summary.class,
+                    column("isbn", String.class),
+                    column("title", String.class),
+                    column("author", String.class));
+----
+
+This example shows a mixed mapping to two entities, a scalar result,
+and the constructor of an unmanaged class.
+
+[source,java]
+----
+import static jakarta.persistence.sql.ResultSetMapping.*;
+...
+    var compoundMapping =
+            compound(
+                    entity(Author.class),
+                    entity(Book.class, field(Book_.isbn, "isbn")),
+                    column("sales", BigDecimal.class),
+                    constructor(Summary.class, column("isbn"), column("title"))
+            );
+----
+
+A programmatically constructed result set mapping may be passed as
+argument to the second parameter of the `createNativeQuery()` method
+of `EntityManager` for execution.
+
+An instance of `ResultSetMapping` representing a result set mapping
+declared using the `@SqlResultSetMapping` annotation may be obtained
+from the `EntityManagerFactory` by calling `getResultSetMappings()`.
 
 ===== Restrictions
 
