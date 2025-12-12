@@ -235,6 +235,53 @@ public @interface NamedSubgraph {
 }
 ----
 
+=== NamedEntityGraphAttributeNode
+
+The `NamedEntityGraphAttributeNode` annotation is an alternative to
+`NamedAttributeNode`, and may be placed on the persistent attribute
+represented by the graph node, instead of being nested inside the
+`NamedEntityGraph` annotation.
+
+[source,java]
+----
+@Repeatable(NamedEntityGraphAttributeNodes.class)
+@Target({FIELD, METHOD})
+@Retention(RUNTIME)
+public @interface NamedEntityGraphAttributeNode {
+    String graph() default "";
+}
+----
+
+The `graph` member specifies the name of the entity graph to which
+the node belongs. It defaults to the entity name of the annotated
+entity class.
+
+=== NamedEntityGraphSubgraph
+
+The `NamedEntityGraphSubgraph` annotation is an alternative to
+`NamedSubgraph`, and may be placed on the association represented
+by the subgraph, instead of being nested inside the `NamedEntityGraph`
+annotation.
+
+[source,java]
+----
+@Repeatable(NamedEntityGraphSubgraphs.class)
+@Target({FIELD, METHOD})
+@Retention(RUNTIME)
+public @interface NamedEntityGraphSubgraph {
+    String graph() default "";
+    String subgraph() default "";
+}
+----
+
+The `graph` member specifies the name of the entity graph to which
+the subgraph belongs. It defaults to the entity name of the annotated
+entity class.
+
+The `subgraph` member specifies the name of an entity graph rooted
+at the associated entity type. If not explicitly specified, it
+defaults to the name of the entity graph to which the node belongs.
+
 === Annotations for Queries [[a13710]]
 
 The following annotations are used to declare named queries.

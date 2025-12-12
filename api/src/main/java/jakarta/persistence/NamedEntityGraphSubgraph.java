@@ -60,7 +60,7 @@ public @interface NamedEntityGraphSubgraph {
      * The name of the containing entity graph, as specified by
      * {@link NamedEntityGraph#name}. If no name is explicitly
      * specified, the name defaults to the entity name of the
-     * annotated root entity.
+     * annotated entity class.
      */
     String graph() default "";
 
