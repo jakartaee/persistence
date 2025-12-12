@@ -13,6 +13,8 @@ Added `EntityAgent` and `EntityHandler`, along with new lifecycle events related
 
 Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticQueryReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
+Added `get()` operation as an alternative to `find()`
+
 Added `@ExcludedFromVersioning`
 
 Added `addListener()` to `EntityManagerFactory`
