@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2025 Contributors to the Eclipse Foundation
 //
 
 == Metadata Annotations [[metadata-annotations]]
@@ -238,8 +238,8 @@ public @interface NamedSubgraph {
 === NamedEntityGraphAttributeNode
 
 The `NamedEntityGraphAttributeNode` annotation is an alternative to
-`NamedAttributeNode`, and may be placed on the persistent attribute
-represented by the graph node, instead of being nested inside the
+`NamedAttributeNode`. It may be placed on the persistent attribute
+represented by the graph node instead of being nested inside the
 `NamedEntityGraph` annotation.
 
 [source,java]
@@ -259,8 +259,8 @@ entity class.
 === NamedEntityGraphSubgraph
 
 The `NamedEntityGraphSubgraph` annotation is an alternative to
-`NamedSubgraph`, and may be placed on the association represented
-by the subgraph, instead of being nested inside the `NamedEntityGraph`
+`NamedSubgraph`. It may be placed on the association represented
+by the subgraph instead of being nested inside the `NamedEntityGraph`
 annotation.
 
 [source,java]
