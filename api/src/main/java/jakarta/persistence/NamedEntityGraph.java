@@ -167,7 +167,7 @@ public @interface NamedEntityGraph {
      * (Optional) A list of attributes of the entity that are included in
      * this graph.
      *
-     * @apiNote Use {@link NamedEntityGraphAttributeNode}
+     * @apiNote Alternatively, use {@link NamedEntityGraphAttributeNode}
      */
     NamedAttributeNode[] attributeNodes() default {};
 
@@ -185,7 +185,7 @@ public @interface NamedEntityGraph {
      * entity graph. These are referenced by name from
      * {@link NamedAttributeNode} annotations.
      *
-     * @apiNote {@link NamedEntityGraphSubgraph}
+     * @apiNote Alternatively, use {@link NamedEntityGraphSubgraph}
      *
      * @see NamedAttributeNode#subgraph
      */
@@ -197,10 +197,8 @@ public @interface NamedEntityGraph {
      * entity graph. Specified attributes from superclasses are
      * included in subclasses.
      *
-     * @deprecated Since {@code EntityGraph.addSubclassSubgraph}
-     *             was removed
+     * @see EntityGraph#addTreatedSubgraph(Class)
      */
-    @Deprecated(since = "4.0", forRemoval = true)
     NamedSubgraph[] subclassSubgraphs() default {};
 }
 
