@@ -275,17 +275,23 @@ public non-sealed interface EntityAgent extends EntityHandler {
     void refresh(Object entity, LockModeType lockMode);
 
     /**
-     * Fetch an association or collection that is configured for lazy loading.
+     * Fetch an association or collection that was configured
+     * for lazy loading if it has not yet been fetched from
+     * the database. If the association or collection is
+     * already fetched, this operation has no effect. For
+     * convenience, this method always returns its argument.
      * {@snippet :
      * Book book = agent.get(Book.class, isbn);  // book is immediately detached
      * agent.fetch(book.getAuthors())            // fetch the associated authors
      *      .forEach(author -> ... );            // iterate the collection
      * }
      *
-     * @param association a {@linkplain FetchType#LAZY lazy} association
-     * @param <T> entity attribute type that is an association
+     * @param association A {@linkplain FetchType#LAZY lazy}
+     *                    association
+     * @param <T> The type of the entity attribute type,
+     *            either an entity type or a collection type
      *
-     * @return the association with its state fetched.
+     * @return The association with its state fetched.
      * @throws PersistenceException if a record could not be
      *         read from the database
      */
