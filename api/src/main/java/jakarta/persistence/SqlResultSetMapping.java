@@ -35,8 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * persistence unit.
  *
  * <p>In this example, a named mapping is declared by annotating an entity
- * class, and a reference to the mapping is obtained from the static
- * metamodel class of the entity:
+ * class:
  * {@snippet :
  * @SqlResultSetMapping(
  *         name = "orderResults",
@@ -53,18 +52,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @Entity
  * class Order { ... }
  * }
+ * <p>A reference to the mapping is obtained from the
+ * {@linkplain jakarta.persistence.metamodel.StaticMetamodel static metamodel}
+ * class of the entity:
  * {@snippet :
- * Query query = entityManager.createNativeQuery(
- *         """
- *           SELECT o.id AS order_id,
- *                  o.total AS order_total,
- *                  o.item_id AS order_item,
- *                  i.desc_name AS item_name
- *           FROM orders o, order_items i
- *           WHERE order_total > 25 AND order_item = i.id
- *         """,
- *         Order_.MAPPING_ORDER_RESULTS
- * );
+ * List<Order> orders =
+ *         entityManager.createNativeQuery(
+ *                 """
+ *                   SELECT o.id AS order_id,
+ *                          o.total AS order_total,
+ *                          o.item_id AS order_item,
+ *                          i.desc_name AS item_name
+ *                   FROM orders o, order_items i
+ *                   WHERE order_total > 25 AND order_item = i.id
+ *                 """,
+ *                 Order_._orderResults
+ *         ).getResultList();
  * }
  *
  * <p>In this example, a mapping is specified by annotating a method
@@ -92,24 +95,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * an instance of {@link jakarta.persistence.sql.ResultSetMapping}.
  * A reified representation of a {@code SqlResultSetMapping} known
  * to the persistence unit may be obtained by calling
- * {@link EntityManagerFactory#getResultSetMappings(Class)}.
+ * {@link EntityManagerFactory#getResultSetMappings(Class)} or
+ * from the static metamodel class of the annotated class.
  * {@snippet :
  * ResultSetMapping<Order> mapping =
  *         entityManager.getResultSetMappings(Order.class)
  *              .get(Order_.MAPPING_ORDER_RESULTS);
- * List<Order> orders =
- *         entityManager.createNativeQuery(
- *                 """
- *                   SELECT o.id AS order_id,
- *                          o.total AS order_total,
- *                          o.item_id AS order_item,
- *                          i.desc_name AS item_name
- *                   FROM orders o, order_items i
- *                   WHERE order_total > 25 AND order_item = i.id
- *                 """,
- *                 mapping
- *         ).getResultList();
- *}
+ *  *}
  *
  * @see Query
  * @see StoredProcedureQuery

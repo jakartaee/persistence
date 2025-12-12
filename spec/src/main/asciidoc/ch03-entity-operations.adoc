@@ -3296,7 +3296,7 @@ Query q = em.createNativeQuery(
 })
 ----
 
-===== Combinations of Result Types
+===== Combinations of Result Types [[combinations-of-result-types]]
 
 When a `SqlResultSetMapping` specifies more
 than one mapping type (i.e., more than one of `EntityResult`,
