@@ -9,6 +9,8 @@ This appendix lists the significant changes that have been made during the devel
 
 === Jakarta Persistence 4.0
 
+Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticQueryReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
+
 Added `@ExcludedFromVersioning`
 
 Added `addListener()` to `EntityManagerFactory`
