@@ -13,6 +13,10 @@ Added `EntityAgent` and `EntityHandler`, along with new lifecycle events related
 
 Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticQueryReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
+Added new API for programmatic SQL result set mappings
+
+Overloaded `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()` on `StoredProcedureQuery` for much better type safety
+
 Added `get()` operation as an alternative to `find()`
 
 Added `@ExcludedFromVersioning`
