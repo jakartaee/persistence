@@ -38,7 +38,7 @@ import java.util.List;
  * Each parameter is registered by calling
  * {@link #registerStoredProcedureParameter(int, Class, ParameterMode)}
  * or {@link #registerStoredProcedureParameter(String, Class, ParameterMode)},
- * depending on whether it is a positional or named parameter..
+ * depending on whether it is a positional or named parameter.
  * <p>
  * Stored procedure query execution may be controlled in accordance with 
  * the following:
