@@ -22,19 +22,23 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * A {@code NamedAttributeNode} is a member element of a
- * {@link NamedEntityGraph}.
+ * Declares an {@linkplain AttributeNode attribute node} as a member
+ * element of a {@link NamedEntityGraph}.
+ *
+ * <p>A {@code NamedAttributeNode} is reified at runtime as an
+ * instance of {@link AttributeNode}.
+ *
+ * @apiNote Alternatively, use {@link NamedEntityGraphAttributeNode}
+ * to declare an attribute node by annotating a field of the graphed
+ * entity class.
  *
  * @see NamedEntityGraph
  * @see NamedSubgraph
  *
  * @since 2.1
- *
- * @deprecated Use {@link NamedEntityGraphAttributeNode}
  */
 @Target({})
 @Retention(RUNTIME)
-@Deprecated(since = "4.0")
 public @interface NamedAttributeNode {
 
     /**
@@ -45,16 +49,17 @@ public @interface NamedAttributeNode {
 
     /**
      * (Optional) If the attribute references a managed type that has
-     * its own AttributeNodes, this element is used to refer to that
-     * {@link NamedSubgraph} definition.
-     * If the target type has inheritance, multiple subgraphs can
+     * its own {@link AttributeNode}s, this element is used to refer
+     * to that {@link NamedSubgraph} definition.
+     *
+     * <p> If the target type has inheritance, multiple subgraphs can
      * be specified. These additional subgraphs are intended to add
-     * subclass-specific attributes. Superclass subgraph entries will
-     * be merged into subclass subgraphs.  
+     * subclass-specific attributes. Superclass subgraph entries are
+     * merged into subclass subgraphs.
      *
      * <p> The value of this element is the name of the subgraph as
      * specified by the {@code name} element of the corresponding
-     * {@code NamedSubgraph} element.  If multiple subgraphs are
+     * {@link NamedSubgraph} element. If multiple subgraphs are
      * specified due to inheritance, they are referenced by this name.
      */
     String subgraph() default "";
@@ -62,12 +67,13 @@ public @interface NamedAttributeNode {
    /**
     * (Optional) If the attribute references a Map type, this element
     * can be used to specify a subgraph for the Key in the case of an
-    * Entity key type. A {@code keySubgraph} can not be specified
-    * without the {@code Map} attribute also being specified. If the
-    * target type has inheritance, multiple subgraphs can be specified.
-    * These additional subgraphs are intended to add subclass-specific
-    * attributes. Superclass subgraph entries are merged into subclass
-    * subgraphs.
+    * entity key type. A {@code keySubgraph} can not be specified
+    * without the {@code Map} attribute also being specified.
+    *
+    * <p> If the target type has inheritance, multiple subgraphs can
+    * be specified. These additional subgraphs are intended to add
+    * subclass-specific attributes. Superclass subgraph entries are
+    * merged into subclass subgraphs.
     * 
     * <p> The value of this element is the name of the key subgraph as
     * specified by the {@code name} element of the corresponding

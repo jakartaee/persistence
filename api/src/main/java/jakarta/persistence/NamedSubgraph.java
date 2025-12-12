@@ -20,27 +20,37 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * A {@code NamedSubgraph} is a member element of a {@link NamedEntityGraph}.
- * The {@code NamedSubgraph} is only referenced from within its containing
- * {@code NamedEntityGraph} and cannot be referenced independently. It is
- * referenced by its {@link #name} from a {@link NamedAttributeNode} element
- * of the {@code NamedEntityGraph}.
+ * Declares a {@linkplain Subgraph} as a member element of a
+ * {@link NamedEntityGraph}. The {@code NamedSubgraph} is only
+ * referenceable within its containing {@code @NamedEntityGraph}
+ * annotation and cannot be referenced independently.
+ *
+ * <p>A {@code NamedSubgraph} is referenced {@linkplain #name}
+ * from the {@link NamedAttributeNode#subgraph subgraph} element
+ * of a {@link NamedAttributeNode} annotation within the parent
+ * {@code NamedEntityGraph}.
+ *
+ * <p>A {@code NamedSubgraph} is reified at runtime as an
+ * instance of {@link Subgraph}.
+ *
+ * @apiNote Alternatively, use {@link NamedEntityGraphSubgraph}
+ * to declare a subgraph by annotating a field of the graphed
+ * entity class.
  *
  * @see NamedEntityGraph
  * @see NamedAttributeNode
  *
  * @since 2.1
- *
- * @deprecated Use {@link NamedEntityGraphSubgraph}
  */
 @Target({})
 @Retention(RUNTIME)
-@Deprecated(since = "4.0")
 public @interface NamedSubgraph {
 
     /**
      * (Required) The name of the subgraph as referenced from a
-     * NamedAttributeNode element.
+     * {@link NamedAttributeNode} element. Subgraph names are
+     * scoped to the containing {@link NamedEntityGraph}, and
+     * must be unique within that graph.
      */
     String name();
 
