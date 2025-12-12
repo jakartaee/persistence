@@ -41,7 +41,7 @@ Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_L
 
 Change default `lockMode` of `EntityResult` to `NONE`
 
-Added `comment` member to `@DiscriminatorColumn`
+Added `comment` member to `@DiscriminatorColumn` and `@CollectionTable`
 
 Fixed some incorrect generic method signatures in `From`
 
