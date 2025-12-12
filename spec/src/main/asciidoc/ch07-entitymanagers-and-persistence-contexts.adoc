@@ -123,33 +123,30 @@ public class MySessionBean implements MyInterface {
 }
 ----
 
-==== Obtaining an Application-managed Entity Manager [[a11465]]
+==== Obtaining an Application-managed Entity Manager or Entity Agent [[a11465]]
 
-An application-managed entity manager is
-obtained by the application from an entity manager factory.
+An application-managed entity manager or entity agent is obtained by the
+application from an entity manager factory.
 
-The `EntityManagerFactory` API used to obtain
-an application-managed entity manager is the same independent of whether
-this API is used in Jakarta EE or Java SE environments.
+The `EntityManagerFactory` API used to obtain an application-managed entity
+manager or entity agent is the same, independently of whether this API is
+used in Jakarta EE or Java SE environments.
 
 === Obtaining an Entity Manager Factory
 
-The `EntityManagerFactory` interface is used
-by the application to create an application-managed entity
-managerfootnote:[It may also be used
-internally by the Jakarta EE container. See <<a12100>>.].
+The `EntityManagerFactory` interface is used by the application to create
+an application-managed entity manager or entity agentfootnote:[It may also
+be used internally by the Jakarta EE container. See <<a12100>>.].
 
-Each entity manager factory provides entity
-manager instances that are all configured in the same manner (e.g.,
-configured to connect to the same database, use the same initial
-settings as defined by the implementation, etc.)
+Every entity manager obtained from a given `EntityManagerFactory` is
+configured in the same manner--connecting to the same database, using the
+same initial settings as defined by the implementation, and so on.
 
-More than one entity manager factory
-instance may be available simultaneously in the
-JVM.footnote:[This may be the case
-when using multiple databases, since in a typical configuration a single
-entity manager only communicates with a single database. There is only
-one entity manager factory per persistence unit, however.]
+More than one entity manager factory instance may be available simultaneously
+in the JVM.footnote:[This is usually the case when the application uses more
+than one database, since it is typical that each entity manager communicates
+which exactly one database. On the other hand, there is usually only one entity
+manager factory for each persistence unit.]
 
 Methods of the `EntityManagerFactory` interface are threadsafe.
 
@@ -250,60 +247,49 @@ be used for vendor-specific information. The namespace
 
 === Controlling Transactions
 
-Depending on the transactional type of the
-entity manager, transactions involving `EntityManager` operations may be
-controlled either through JTA or through use of the resource-local
-`EntityTransaction` API, which is mapped to a resource transaction over
-the resource that underlies the entities managed by the entity manager.
+Every entity manager factory is defined to be of a given transactional
+type--either JTA or resource-local--at the time it is configured and
+created. See sections <<a12296>> and <<a12802>>.
 
-An entity manager whose underlying
-transactions are controlled through JTA is termed a _JTA entity manager_.
+Depending on the transactional type of the entity manager factory,
+transactions involving `EntityManager` or `EntityAgent` operations may
+be controlled either through JTA or through use of the resource-local
+`EntityTransaction` API.
 
-An entity manager whose underlying
-transactions are controlled by the application through the
-`EntityTransaction` API is termed a _resource-local entity manager_.
+- An entity manager or entity agent whose underlying transactions are
+  controlled through JTA is termed a _JTA entity manager or agent_.
+  A JTA entity manager participates in the current JTA transaction,
+  which is begun and committed externally to the entity manager and
+  propagated to the underlying resource manager.
 
-A container-managed entity manager must be a
-JTA entity manager. JTA entity managers are only specified for use in
-Jakarta EE containers.
+- An entity manager or entity agent whose underlying transactions are
+  controlled by the application through the `EntityTransaction` API is
+  termed a _resource-local entity manager or agent_. A resource-local
+  transaction is mapped to a transaction over the underlying resource
+  by the persistence provider. Resource-local entity managers may use
+  server or local resources to connect to the database and are unaware
+  of the presence of JTA transactions that may or may not be active.
 
-An application-managed entity manager may be
-either a JTA entity manager or a resource-local entity manager.
+A container-managed entity manager or entity agent must be a JTA entity
+manager or agent. An application-managed entity manager or entity agent
+may be of either transactional type, depending on the transactional type
+of its entity manager factory.
 
-An entity manager is defined to be of a given
-transactional type—either JTA or resource-local—at the time its
-underlying entity manager factory is configured and created. See
-sections <<a12296>> and <<a12802>>.
+[NOTE]
+JTA entity managers and entity agents are only specified for use in Jakarta
+EE containers. This specification does not address the use of JTA outside
+the Jakarta EE environment.
 
-Both JTA entity managers and resource-local
-entity managers are required to be supported in Jakarta EE web containers
-and EJB containers. Within an EJB environment, a JTA entity manager is
-typically used. In general, in Java SE environments only resource-local
-entity managers are supported.
-
-==== JTA EntityManagers
-
-An entity manager whose transactions are
-controlled through JTA is a JTA entity manager. In general, a JTA entity
-manager participates in the current JTA transaction, which is begun and
-committed external to the entity manager and propagated to the
-underlying resource manager.
-
-==== Resource-local EntityManagers
-
-An entity manager whose transactions are
-controlled by the application through the `EntityTransaction` API is a
-resource-local entity manager. A resource-local entity manager
-transaction is mapped to a resource transaction over the resource by the
-persistence provider. Resource-local entity managers may use server or
-local resources to connect to the database and are unaware of the
-presence of JTA transactions that may or may not be active.
+Both JTA entity managers and resource-local entity managers are required to
+be supported in Jakarta EE web containers and EJB containers. Within an EJB
+environment, a JTA entity manager is typically used. In general, in Java SE
+environments only resource-local entity managers are supported.
 
 ==== The EntityTransaction Interface
 
 The `EntityTransaction` interface found in <<_entitytransaction_>>
 is used to control resource transactions on resource-local entity
-managers. The `getTransaction()` method of `EntityManager` returns
+managers. The `getTransaction()` method of `EntityHandler` returns
 an instance of the `EntityTransaction` interface.
 
 When a resource-local entity manager is used,
