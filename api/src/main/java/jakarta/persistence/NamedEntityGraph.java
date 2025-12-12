@@ -25,23 +25,96 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Declares a named {@linkplain EntityGraph entity graph} or subgraph
  * of a named entity graph. This annotation must be applied to the root
- * entity of the graph.
+ * entity of the graph or subgraph.
  *
- * <p>The annotations {@link NamedEntityGraphAttributeNode} and
- * {@link NamedEntityGraphSubgraph} control the limits of the graph of
+ * <p> The {@linkplain AttributeNode nodes} and {@linkplain Subgraph
+ * subgraphs} of an entity graph control the limits of the graph of
  * associated attributes and entities fetched when an operation which
  * retrieves an instance or instances of the root entity is executed.
+ *
+ * <p> There are two ways to specify the nodes and subgraphs of a named
+ * entity graph defined in annotations:
+ * <ul>
+ * <li>By annotating persistent attributes of the entity class with
+ *     {@link NamedEntityGraphAttributeNode} and
+ *     {@link NamedEntityGraphSubgraph} annotations which reference
+ *     the containing {@link NamedEntityGraph} by name.
+ * <li>By nesting {@link NamedAttributeNode} and {@link NamedSubgraph}
+ *     annotations within the {@link NamedEntityGraph} annotation.
+ * </ul>
+ * <p> The two approaches may be mixed within the same entity graph
+ * definition.
+ *
+ * <p> In the first approach, the definition of the named entity graph
+ * is distributed across the entity class and its associated classes.
  * {@snippet :
- * @NamedEntityGraph(name = "EmployeeWithProjects",
- *         attributeNodes = @NamedAttributeNode("projects"))
- * @Entity
+ * @NamedEntityGraph(name = "EmployeeWithProjectTasksAndEmployer")
+ * @Entity // root entity of graph
+ * public class Employee {
+ *     ...
+ *     // fetched attribute node
+ *     @NamedEntityGraphAttributeNode(graph = "EmployeeWithProjectTasksAndEmployer")
+ *     @ManyToOne(fetch=LAZY) Employer employer;
+ *
+ *     // reference to subgraph defined in Project class
+ *     @NamedEntityGraphSubgraph(graph = "EmployeeWithProjectTasksAndEmployer")
+ *     @ManyToMany Set<Project> projects;
+ * }
+ *
+ * @NamedEntityGraph(name = "EmployeeWithProjectTasksAndEmployer")
+ * @Entity // root entity of subgraph
+ * public class Project {
+ *     ...
+ *     // reference to subgraph defined in Task class
+ *     @NamedEntityGraphSubgraph(graph = "EmployeeWithProjectTasksAndEmployer")
+ *     @oneToMany List<Task> tasks;
+ * }
+ * }
+ *
+ * <p> In the second approach, the definition of the named entity graph
+ * is contained entirely within the {@link NamedEntityGraph} annotation.
+ * {@snippet :
+ * @NamedEntityGraph(
+ *         name = "EmployeeWithProjectTasksAndEmployer",
+ *         // fetched attributes of Employee
+ *         attributeNodes = {
+ *             @NamedAttributeNode("projects"),
+ *             @NamedAttributeNode(
+ *                     value = "employer", // name of association
+ *                     subgraph = "Projects" // reference to subgraph
+ *             )
+ *         },
+ *         // list of subgraphs of the entity graph
+ *         subgraphs = {
+ *             // subgraph specifying fetched attributes of Project
+ *             @NamedSubgraph(
+ *                     name = "Projects",
+ *                     // fetched attributes of Project
+ *                     attributeNodes = @NamedAttributeNode(
+ *                             value = "tasks", // name of association
+ *                             subgraph = "Tasks" // reference to subgraph
+ *                     )
+ *             ),
+ *             // subgraph specifying fetched attributes of Task
+ *             @NamedSubgraph(
+ *                     name = "Tasks",
+ *                     attributeNodes = ...
+ *             )
+ *         }
+ * )
+ * @Entity // root entity of graph
  * public class Employee { ... }
  * }
  *
- * <p> A reference to a named entity graph may be obtained by calling
- * {@link EntityManagerFactory#getNamedEntityGraphs(Class)} or
- * {@link EntityManager#getEntityGraph(String)} and may be passed to
- * {@link EntityManager#find(EntityGraph, Object, FindOption...)}.
+ * <p> A named entity graph defined using annotations is reified at
+ * runtime as an instance of {@link EntityGraph}, and its child
+ * nodes and subgraphs are reified respectively as instances of
+ * {@link AttributeNode} and {@link Subgraph}.
+ *
+ * <p> A reference to a named entity graph may be obtained by
+ * calling {@link EntityManagerFactory#getNamedEntityGraphs(Class)}
+ * or {@link EntityManager#getEntityGraph(String)} and may be passed
+ * to {@link EntityManager#find(EntityGraph, Object, FindOption...)}.
  * {@snippet :
  * Object employee =
  *         em.find(em.getEntityGraph("EmployeeWithProjects"),
@@ -64,6 +137,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         em.find(Employee_._EmployeeWithProjects,
  *                 employeeId);
  * }
+ *
+ * @see NamedEntityGraphAttributeNode
+ * @see NamedEntityGraphSubgraph
+ * @see NamedAttributeNode
+ * @see NamedSubgraph
+ * @see EntityGraph
  *
  * @since 2.1
  */
@@ -88,34 +167,34 @@ public @interface NamedEntityGraph {
      * (Optional) A list of attributes of the entity that are included in
      * this graph.
      *
-     * @deprecated Use {@link NamedEntityGraphAttributeNode}
+     * @apiNote Use {@link NamedEntityGraphAttributeNode}
      */
-    @Deprecated(since = "4.0")
     NamedAttributeNode[] attributeNodes() default {};
 
     /**
-     * (Optional) Includes all of the attributes of the annotated
-     * entity class as attribute nodes in the NamedEntityGraph without
-     * the need to explicitly list them.  Included attributes can
-     * still be fully specified by an attribute node referencing a
-     * subgraph.
+     * (Optional) Includes every attribute of the annotated entity
+     * class as an attribute node in the {@link NamedEntityGraph}
+     * without the need to explicitly list them. Included attributes
+     * can still be fully specified by an attribute node referencing
+     * a subgraph.
      */
     boolean includeAllAttributes() default false;
 
     /**
      * (Optional) A list of subgraphs that are included in the
-     * entity graph. These are referenced by name from NamedAttributeNode
-     * definitions.
+     * entity graph. These are referenced by name from
+     * {@link NamedAttributeNode} annotations.
      *
-     * @deprecated Use {@link NamedEntityGraphSubgraph}
+     * @apiNote {@link NamedEntityGraphSubgraph}
+     *
+     * @see NamedAttributeNode#subgraph
      */
-    @Deprecated(since = "4.0")
     NamedSubgraph[] subgraphs() default {};
 
     /**
      * (Optional) A list of subgraphs that will add additional
      * attributes for subclasses of the annotated entity class to the
-     * entity graph.  Specified attributes from superclasses are
+     * entity graph. Specified attributes from superclasses are
      * included in subclasses.
      *
      * @deprecated Since {@code EntityGraph.addSubclassSubgraph}

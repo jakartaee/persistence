@@ -28,6 +28,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * in a {@linkplain NamedEntityGraph named entity graph}. The
  * {@link #graph} member must specify the name of the graph.
  *
+ * <p>Multiple {@code @NamedEntityGraphAttributeNode}
+ * annotations may be applied to a single attribute, but each
+ * must specify the name of a different parent graph.
+ *
+ * <p>A {@code NamedEntityGraphAttributeNode} is reified at
+ * runtime as an instance of {@link AttributeNode}.
+ *
+ * @apiNote Alternatively, use {@link NamedAttributeNode} when
+ * nesting the declaration of the attribute node directly within
+ * a {@link NamedEntityGraph} annotation.
+ *
+ * @see NamedEntityGraph
+ * @see NamedEntityGraphSubgraph
  * @see EntityGraph#addAttributeNode
  * 
  * @since 4.0

@@ -34,7 +34,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     a named entity graph whose root is the associated
  *     entity.
  * </ul>
+ * <p>Multiple {@code @NamedEntityGraphSubgraph}
+ * annotations may be applied to a single attribute, but
+ * each must specify the name of a different parent graph.
  *
+ * <p>A {@code NamedEntitySubgraph} is reified at runtime
+ * as an instance of {@link Subgraph}.
+ *
+ * @apiNote Alternatively, use {@link NamedSubgraph} when
+ * nesting the definition of a subgraph directly within a
+ * {@link NamedEntityGraph} annotation.
+ *
+ * @see NamedEntityGraph
+ * @see NamedEntityGraphAttributeNode
  * @see EntityGraph#addSubgraph
  * @see EntityGraph#addElementSubgraph
  * 
