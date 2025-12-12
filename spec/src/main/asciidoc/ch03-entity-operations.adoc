@@ -1435,8 +1435,7 @@ lifecycle operations:
 * `@PostPersist`
 * `@PreRemove`
 * `@PostRemove`
-* `@PreUpdate`
-* `@PostUpdate`
+* `@PreMerge`
 
 Annotations for callbacks corresponding to database operations:
 
@@ -1480,15 +1479,17 @@ An entity or entity listener may have multiple lifecycle callback methods:
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
-The `@PrePersist` and `@PreRemove` callbacks occur before the
-respective persist and remove operations for an entity are executed.
-For entities to which the `merge()` operation has been applied and
-causes the creation of newly managed instances, the `@PrePersist`
-callback occurs for the managed instance after the entity state has
-been copied to it. The `@PrePersist` and `@PreRemove` callbacks also
-occur for any entity to which these operations cascade. The `@PrePersist`
-and `@PreRemove` methods are always invoked as part of the synchronous
-`persist()`, `merge()`, and `remove()` operations of `EntityManager`.
+The `@PrePersist`, `@PreRemove`, or `@PreMerge` callback occurs
+before the respective persist, remove, or merge operations for an
+entity is executed. The `@PreMerge` callback occurs before any state
+is copied from the entity. For entities to which the `merge()`
+operation has been applied and causes the creation of newly managed
+instances, the `@PrePersist` callback occurs for the managed instance
+after the entity state has been copied to it. The `@PrePersist`,
+`@PreRemove` and `@PreMerge` callbacks also occur for any entity to
+which these operations cascade. The `@PrePersist` and `@PreRemove`
+methods are always invoked as part of the synchronous `persist()`,
+`merge()`, and `remove()` operations of `EntityManager`.
 
 The `@PostPersist` and `@PostRemove` callbacks occur after an entity
 has been made persistent, or after it has been removed, respectively.

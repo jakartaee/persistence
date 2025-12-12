@@ -17,32 +17,22 @@
 
 package jakarta.persistence;
 
-import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PrePersist}
- * callback method is invoked for a given entity before the persist
- * operation for that entity is executed. For entities to which the
- * merge operation has been applied, causing the creation of newly
- * managed instances, the {@code PrePersist} callback method is
- * invoked for the managed instance after the entity state has been
- * copied to it. The {@code PrePersist} callback is also invoked on
- * all entities to which the {@code persist()} operation is cascaded.
- * The {@code PrePersist} method is always invoked synchronously as
- * part of the {@code persist()} operation.
- *
- * <p>A generated primary key value is available when this callback
- * occurs only for {@link GenerationType#UUID UUID},
- * {@link GenerationType#TABLE TABLE}, or
- * {@link GenerationType#SEQUENCE SEQUENCE}
- * primary key generation. For {@link GenerationType#IDENTITY IDENTITY}
- * primary key generation, the generated primary key is not available
- * when this callback occurs.
+ * mapped superclass, or a callback listener class. The {@code PreMerge}
+ * callback method is invoked for an entity instance before the merge
+ * operation for that entity is executed and before its state is copied
+ * to a corresponding managed entity if necessary. The {@code PreMerge}
+ * callback is also invoked on all entities to which the {@code merge()}
+ * operation is cascaded. The {@code PreMerge} method is always invoked
+ * synchronously as part of the {@code merge()} operation.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>
@@ -65,4 +55,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface PrePersist {}
+public @interface PreMerge {}
