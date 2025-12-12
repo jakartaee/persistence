@@ -1982,44 +1982,63 @@ of “fetch plans” for query or `find` operations.
 The `EntityGraph`, `AttributeNode`, and `Subgraph` interfaces found in
 <<persistence-api>> are used to dynamically construct entity graphs.
 
-The annotations `NamedEntityGraph`, `NamedAttributeNode`, and
-`NamedSubgraph` described in <<a13662>> are used to statically define
+The annotations `@NamedEntityGraph`, `@NamedAttributeNode`, and
+`@NamedSubgraph` described in <<a13662>> are used to statically define
 entity graphs. The `named-entity-graph` XML element and its subelements
 may be used to override these annotations or to define additional named
-entity graphs.
+entity graphs. As an alternative to `@NamedAttributeNode` and
+`@NamedSubgraph`, the annotations `@NamedEntityGraphAttributeNode` and
+`@NamedEntityGraphSubgraph`, also found in <<a13662>>, may be used
+to specify the nodes and subgraphs of a named entity graph declared via
+the `@NamedEntityGraph` annotation.
 
 The semantics of entity graphs with regard to
 find and query operations are described in <<a2814>>.
 
 ==== Use of Entity Graphs in find and query operations [[a2814]]
 
-An entity graph can be used with the `find`
-method or as a query hint to override or augment `FetchType` semantics.
+Use of an entity graph may be requested by passing the instance of
+`EntityGraph` to:
 
-The standard properties
-`jakarta.persistence.fetchgraph` and `jakarta.persistence.loadgraph` are
-used to specify such graphs to queries and `find` operations.
+- the first parameter of the `find()` method of `EntityManager`, to
+  control the data fetched by `find()`,
+- the second parameter of the `createQuery()` method of `EntityManager`,
+  or to the `setEntityGraph()` method of `Query` to control the data
+  fetched by the JPQL query, or
+- the `find()` method or `setHint()` method of `Query` via one of the
+  standard properties `jakarta.persistence.fetchgraph` or
+  `jakarta.persistence.loadgraph`.
 
-The default fetch graph for an entity or
-embeddable is defined to consist of the transitive closure of all of its
-attributes that are specified as `FetchType.EAGER` (or defaulted as
-such).
+An entity graph is interpreted as _load graph_, as specified below in
+<<load-graph-semantics>> unless it is passed as a hint via the property
+`jakarta.persistence.fetchgraph`, in which case it is interpreted as
+a _fetch graph_, as specified by <<fetch-graph-semantics>>.
 
-The persistence provider is permitted to
-fetch additional entity state beyond that specified by a fetch graph or
-load graph. It is required, however, that the persistence provider fetch
-all state specified by the fetch or load graph.
+The _default fetch graph_ for an entity or embeddable is defined to
+consist of the transitive closure of every attribute that is declared
+as `fetch=FetchType.EAGER` (or defaulted as such). This fetch graph
+is used whenever `find()` is called with no explicit entity graph.
+The default fetch graph does not affect JPQL queries. In the absence
+of an explicit entity graph, the data fetched by a query is determined
+by the query itself.
 
-===== Fetch Graph Semantics
+The persistence provider is always permitted to fetch additional entity
+state beyond that specified by a fetch graph or load graph. It is required,
+however, that the persistence provider fetch all state specified by the
+fetch or load graph.
 
-When the `jakarta.persistence.fetchgraph`
-property is used to specify an entity graph, attributes that are
-specified by attribute nodes of the entity graph are treated as
-`FetchType.EAGER` and attributes that are not specified are treated as
-`FetchType.LAZY`.
+===== Fetch Graph Semantics [[fetch-graph-semantics]]
 
-The following rules apply, depending on
-attribute type. The rules of this section are applied recursively.
+When an entity graph is interpreted as a fetch graph, that is, when it
+is specified via the property `jakarta.persistence.fetchgraph`:
+
+- an attribute that is explicitly declared as an attribute node of the
+  entity graph is treated as if it had been mapped with `FetchType.EAGER`,
+  and
+- an attribute that is not declared as a node is treated as if had been
+  mapped with `FetchType.LAZY`.
+
+The following rules apply. The rules of this section are applied recursively.
 
 A primary key or version attribute never
 needs to be specified in an attribute node of a fetch graph. (This
@@ -2076,9 +2095,9 @@ specification.
 
 [source,java]
 ----
-@NamedEntityGraph
+@NamedEntityGraph // graph name defaults to "PhoneNumber"
 @Entity
-public class Phonenumber {
+public class PhoneNumber {
     @Id
     protected String number;
 
@@ -2092,7 +2111,7 @@ In the above example, only the `number` attribute would be eagerly fetched.
 
 [source,java]
 ----
-@NamedEntityGraph
+@NamedEntityGraph(name = "employeeWithProjects")
 @Entity
 public class Employee {
     @Id
@@ -2109,7 +2128,8 @@ public class Employee {
     protected List<Dependents> dependents;
 
     @OneToMany
-    @NamedEntityGraphAttributeNode
+    // include projects as a node in the graph
+    @NamedEntityGraphAttributeNode(graph = "employeeWithProjects")
     protected List<Project> projects;
 
     @OneToMany
@@ -2150,7 +2170,7 @@ public class Requirements {
     protected String description;
 
     @OneToOne(fetch=FetchType.LAZY)
-    protected Approval approval
+    protected Approval approval;
 
     // ...
 }
@@ -2169,16 +2189,17 @@ Since the type of the `approver` attribute is `Employee`, the
 approver's default fetch graph (`id`, `name`, and `employeeNumber`
 attributes) would also be fetched.
 
-===== Load Graph Semantics
+===== Load Graph Semantics [[load-graph-semantics]]
 
-When the `jakarta.persistence.loadgraph`
-property is used to specify an entity graph, attributes that are
-specified by attribute nodes of the entity graph are treated as
-`FetchType.EAGER` and attributes that are not specified are treated
-according to their specified or default `FetchType`.
+When an entity graph is interpreted as a load graph:
 
-The following rules apply. The rules of this
-section are applied recursively.
+- an attribute that is explicitly declared as an attribute node of the
+  entity graph is treated as if it had been mapped with `FetchType.EAGER`,
+  and
+- an attribute that is not declared as a node is treated according to
+  its specified or defaulted `FetchType` of its default fetch group.
+
+The following rules apply. The rules of this section are applied recursively.
 
 * A primary key or version attribute never
 needs to be specified in an attribute node of a load graph. (This
@@ -2223,9 +2244,9 @@ additional attributes are fetched as specified in the key subgraph.
 
 [source,java]
 ----
-@NamedEntityGraph
+@NamedEntityGraph // graph name defaults to "PhoneNumber"
 @Entity
-public class Phonenumber {
+public class PhoneNumber {
     @Id
     protected String number;
 
@@ -2239,7 +2260,7 @@ In the above example, the `number` and `type` attributes are fetched.
 
 [source,java]
 ----
-@NamedEntityGraph
+@NamedEntityGraph(name = "employeeWithPhoneNumbers")
 @Entity
 public class Employee {
     @Id
@@ -2259,7 +2280,8 @@ public class Employee {
     protected List<Project> projects;
 
     @OneToMany
-    @NamedEntityGraphAttributeNode
+    // include phoneNumbers as a node in the graph
+    @NamedEntityGraphAttributeNode(name = "employeeWithPhoneNumbers")
     protected List<PhoneNumber> phoneNumbers;
 
     // ...
@@ -2297,7 +2319,7 @@ public class Requirements {
     protected String description;
 
     @OneToOne(fetch=FetchType.LAZY)
-    protected Approval approval
+    protected Approval approval;
 
     // ...
 }
