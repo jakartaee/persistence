@@ -21,6 +21,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaSelect;
 import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.metamodel.Metamodel;
+import jakarta.persistence.sql.ResultSetMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -801,15 +802,34 @@ public sealed interface EntityHandler extends AutoCloseable
     <T> TypedQuery<T> createNativeQuery(String sqlString, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link Query} for executing
-     * a native SQL query.
+     * Create an instance of {@link Query} for executing a native SQL
+     * query, using the {@linkplain SqlResultSetMapping mapping} with
+     * the given {@linkplain SqlResultSetMapping#name name} to interpret
+     * the JDBC result set.
      * @param sqlString A native SQL query string
      * @param resultSetMapping The name of the result set mapping
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
      * @since 1.0
+     * @apiNote Use of this overloaded form of the method results in a
+     * type cast of each query result in client code. As an alternative,
+     * obtain a typed reference to the mapping from the static metamodel
+     * and use {@link #createNativeQuery(String, ResultSetMapping)}.
      */
     Query createNativeQuery(String sqlString, String resultSetMapping);
+
+    /**
+     * Create an instance of {@link TypedQuery} for executing a native
+     * SQL query, using the given {@link ResultSetMapping} to interpret
+     * the JDBC result set.
+     * @param sqlString A native SQL query string
+     * @param resultSetMapping The result set mapping
+     * @return An instance of {@link Query} which may be used
+     *         to execute the given query
+     * @since 4.0
+     */
+    <T> TypedQuery<T> createNativeQuery(String sqlString,
+                                        ResultSetMapping<T> resultSetMapping);
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
@@ -864,6 +884,13 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given name does not exist (or if query execution will
      *         fail)
      * @since 2.1
+     * @apiNote Use of this overloaded form of the method results
+     * in a redundant type cast of each query result in client code.
+     * Instead, use {@link #createStoredProcedureQuery(String)} and
+     * pass each result class individually as an argument to
+     * {@link StoredProcedureQuery#getResultList(Class)},
+     * {@link StoredProcedureQuery#getSingleResult(Class)}, or
+     * {@link StoredProcedureQuery#getSingleResultOrNull(Class)}.
      */
     StoredProcedureQuery createStoredProcedureQuery(
             String procedureName, Class<?>... resultClasses);
@@ -887,6 +914,13 @@ public sealed interface EntityHandler extends AutoCloseable
      *         result set mapping of the given name does not exist
      *         (or the query execution will fail)
      * @since 2.1
+     * @apiNote Use of this overloaded form of the method results
+     * in a type cast of each query result in client code. As an
+     * alternative, use {@link #createStoredProcedureQuery(String)}
+     * and pass each result mapping individually as an argument to
+     * {@link StoredProcedureQuery#getResultList(ResultSetMapping)},
+     * {@link StoredProcedureQuery#getSingleResult(ResultSetMapping)}, or
+     * {@link StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)}.
      */
     StoredProcedureQuery createStoredProcedureQuery(
             String procedureName, String... resultSetMappings);
