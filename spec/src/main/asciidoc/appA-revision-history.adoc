@@ -61,6 +61,8 @@ Deleted APIs marked deprecated for removal
 
 Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
 
+Deprecated `EntityManager.getDelegate()` in favor of `unwrap()`.
+
 === Jakarta Persistence 3.2
 
 Added support for Java record types as embeddable classes
