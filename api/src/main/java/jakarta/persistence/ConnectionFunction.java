@@ -23,7 +23,7 @@ package jakarta.persistence;
  * @param <C> the connection type, usually {@code java.sql.Connection}
  *
  * @see ConnectionConsumer
- * @see EntityManager#callWithConnection(ConnectionFunction)
+ * @see EntityHandler#callWithConnection(ConnectionFunction)
  *
  * @since 3.2
  */

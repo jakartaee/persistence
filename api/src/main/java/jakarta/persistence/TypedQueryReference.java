@@ -80,7 +80,7 @@ import java.util.Map;
  *
  * @param <R> an upper bound on the result type of the query
  *
- * @see EntityManager#createQuery(TypedQueryReference)
+ * @see EntityHandler#createQuery(TypedQueryReference)
  *
  * @since 3.2
  */

@@ -16,8 +16,12 @@
 
 package jakarta.persistence;
 
+import java.util.List;
+
 /**
- * An option influencing the behavior of {@link EntityManager#find}.
+ * An option influencing the behavior of {@link EntityHandler#find},
+ * {@link EntityHandler#findMultiple}, {@link EntityHandler#get},
+ * or {@link EntityHandler#getMultiple}.
  * Built-in options control {@linkplain LockModeType locking},
  * {@linkplain CacheRetrieveMode cache interaction}, and
  * {@linkplain Timeout timeouts}.
@@ -31,8 +35,14 @@ package jakarta.persistence;
  * @see CacheStoreMode
  * @see Timeout
  *
- * @see EntityManager#find(Class, Object, FindOption...)
- * @see EntityManager#find(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#find(Class, Object, FindOption...)
+ * @see EntityHandler#find(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#findMultiple(Class, List, FindOption...)
+ * @see EntityHandler#findMultiple(EntityGraph, List, FindOption...)
+ * @see EntityHandler#get(Class, Object, FindOption...)
+ * @see EntityHandler#get(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#getMultiple(Class, List, FindOption...)
+ * @see EntityHandler#getMultiple(EntityGraph, List, FindOption...)
  *
  * @since 3.2
  */

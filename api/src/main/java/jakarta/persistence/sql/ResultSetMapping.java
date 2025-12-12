@@ -61,7 +61,10 @@ import jakarta.persistence.metamodel.SingularAttribute;
  *
  * @see jakarta.persistence.SqlResultSetMapping
  * @see jakarta.persistence.EntityManagerFactory#getResultSetMappings(Class)
- * @see jakarta.persistence.EntityManager#createNativeQuery(String, ResultSetMapping)
+ * @see jakarta.persistence.EntityHandler#createNativeQuery(String, ResultSetMapping)
+ * @see jakarta.persistence.StoredProcedureQuery#getResultList(ResultSetMapping)
+ * @see jakarta.persistence.StoredProcedureQuery#getSingleResult(ResultSetMapping)
+ * @see jakarta.persistence.StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)
  *
  * @since 4.0
  */
