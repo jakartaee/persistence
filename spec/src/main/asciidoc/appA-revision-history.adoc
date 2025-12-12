@@ -15,6 +15,8 @@ Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOpt
 
 Added new API for programmatic SQL result set mappings
 
+Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
+
 Overloaded `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()` on `StoredProcedureQuery` for much better type safety
 
 Added `get()` operation as an alternative to `find()`
