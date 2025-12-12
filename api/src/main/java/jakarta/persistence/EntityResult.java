@@ -58,6 +58,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * )
  * }
  *
+ * <p>At runtime, an {@code EntityResult} annotation is represented by an
+ * instance of {@link jakarta.persistence.sql.EntityMapping EntityMapping}
+ * in the {@link jakarta.persistence.sql.ResultSetMapping ResultSetMapping}
+ * returned by {@link EntityManagerFactory#getResultSetMappings(Class)}.
+ *
  * @see SqlResultSetMapping
  * @see NamedNativeQuery
  *

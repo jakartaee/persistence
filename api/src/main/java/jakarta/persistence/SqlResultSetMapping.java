@@ -88,8 +88,28 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * }
  *
- * <p>A {@code SqlResultSetMapping} may be reified at runtime as an
- * instance of {@link jakarta.persistence.sql.ResultSetMapping}.
+ * <p>A {@code SqlResultSetMapping} may be reified at runtime as
+ * an instance of {@link jakarta.persistence.sql.ResultSetMapping}.
+ * A reified representation of a {@code SqlResultSetMapping} known
+ * to the persistence unit may be obtained by calling
+ * {@link EntityManagerFactory#getResultSetMappings(Class)}.
+ * {@snippet :
+ * ResultSetMapping<Order> mapping =
+ *         entityManager.getResultSetMappings(Order.class)
+ *              .get(Order_.MAPPING_ORDER_RESULTS);
+ * List<Order> orders =
+ *         entityManager.createNativeQuery(
+ *                 """
+ *                   SELECT o.id AS order_id,
+ *                          o.total AS order_total,
+ *                          o.item_id AS order_item,
+ *                          i.desc_name AS item_name
+ *                   FROM orders o, order_items i
+ *                   WHERE order_total > 25 AND order_item = i.id
+ *                 """,
+ *                 mapping
+ *         ).getResultList();
+ *}
  *
  * @see Query
  * @see StoredProcedureQuery
