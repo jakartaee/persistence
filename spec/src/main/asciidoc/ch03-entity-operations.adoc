@@ -1972,15 +1972,26 @@ approach defined by the Bean Validation specification
 
 === Entity Graphs [[a2397]]
 
-An entity graph is a template that captures
-the path and boundaries for an operation or query. It is defined in the
-form of metadata or an object created by the dynamic `EntityGraph` API.
+An entity graph is a template that captures the path and boundaries of
+an operation or query. It might be defined in the form of metadata or
+as an object created at runtime via the programmatic `EntityGraph` API.
 
-Entity graphs are used in the specification
-of “fetch plans” for query or `find` operations.
+Every entity graph has a _root entity_. The root node of the graph
+represents this entity. The child nodes of the root node represent
+persistent attributes, embedded objects, or associations to other
+entities. A node representing an embedded object or an association
+to an entity might be the root of a subgraph with its own child nodes.
 
-The `EntityGraph`, `AttributeNode`, and `Subgraph` interfaces found in
-<<persistence-api>> are used to dynamically construct entity graphs.
+The _attribute nodes_ and _subgraphs_ of an entity graph control the
+limits of the graph of associated attributes and entities fetched when
+an operation which retrieves an instance or instances of the root entity
+of the graph is executed.
+
+The interface `EntityGraph`, which may be found in <<persistence-api>>,
+represents a graph at runtime. Its child attribute nodes and subgraphs
+are represented as instances of `AttributeNode` and `Subgraph`, also
+found in <<persistence-api>>. These interfaces may be used to construct
+an entity graph programmatically.
 
 The annotations `@NamedEntityGraph`, `@NamedAttributeNode`, and
 `@NamedSubgraph` described in <<a13662>> are used to statically define
