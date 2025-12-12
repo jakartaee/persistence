@@ -23,15 +23,22 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Interface used to control stored procedure query execution.
+ * Interface used to control execution of a stored procedure query.
  * <p>
- * Parameters must be registered before the stored procedure can
- * be executed by calling
+ * Before a stored procedure can be executed, each of its parameters
+ * must be explicitly registered by specifying:
+ * <ul>
+ * <li>the type of the parameter,
+ * <li>its position or name, and
+ * <li>whether its mode is {@link ParameterMode#IN IN},
+ *     {@link ParameterMode#OUT OUT}, {@link ParameterMode#INOUT INOUT},
+ *     or {@link ParameterMode#REF_CURSOR REF_CURSOR}.
+ * </ul>
+ * <p>
+ * Each parameter is registered by calling
  * {@link #registerStoredProcedureParameter(int, Class, ParameterMode)}
  * or {@link #registerStoredProcedureParameter(String, Class, ParameterMode)},
- * specifying the type of the parameter, its position or name,
- * and whether it is an {@link ParameterMode#IN IN} parameter or
- * {@link ParameterMode#OUT OUT} parameter.
+ * depending on whether it is a positional or named parameter..
  * <p>
  * Stored procedure query execution may be controlled in accordance with 
  * the following:
@@ -316,7 +323,7 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve a value passed back from the procedure
-     * through an INOUT or OUT parameter.
+     * through an {@code INOUT} or {@code OUT} parameter.
      * For portability, all results corresponding to result sets
      * and update counts must be retrieved before the values of 
      * output parameters.
@@ -330,7 +337,7 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve a value passed back from the procedure
-     * through an INOUT or OUT parameter.
+     * through an {@code INOUT} or {@code OUT} parameter.
      * For portability, all results corresponding to result sets
      * and update counts must be retrieved before the values of 
      * output parameters.
@@ -346,8 +353,9 @@ public interface StoredProcedureQuery extends Query {
     /**
      * Return true if the first result corresponds to a result set,
      * and false if it is an update count or if there are no results
-     * other than through INOUT and OUT parameters, if any.
-     * @return  true if first result corresponds to result set
+     * other than through {@code INOUT} and {@code OUT} parameters,
+     * if any.
+     * @return {@code true} if the first result is a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -584,7 +592,7 @@ public interface StoredProcedureQuery extends Query {
      * Return true if the next result corresponds to a result set,
      * and false if it is an update count or if there are no results
      * other than through INOUT and OUT parameters, if any.
-     * @return true if next result corresponds to result set
+     * @return {@code true} if the next result is a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -595,7 +603,7 @@ public interface StoredProcedureQuery extends Query {
     boolean hasMoreResults();
 
     /**
-     * Return the update count or  -1 if there is no pending result
+     * Return the update count or -1 if there is no pending result
      * or if the next result is not an update count.
      * @return update count or -1 if there is no pending result or if
      *         the next result is not an update count
