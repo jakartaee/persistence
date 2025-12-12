@@ -16,19 +16,33 @@
 
 package jakarta.persistence;
 
+import java.util.List;
+
 /**
  * Thrown by the persistence provider when an optimistic locking conflict
  * occurs. This exception may be thrown as part of an API call, a flush or
  * at commit time. The current transaction, if one is active, will be marked
  * for rollback.
- * 
- * @see EntityManager#find(Class, Object, LockModeType)
+ *
+ * @see EntityHandler#find(Class, Object, LockModeType)
+ * @see EntityHandler#find(Class, Object, FindOption...)
+ * @see EntityHandler#find(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#findMultiple(Class, List, FindOption...)
+ * @see EntityHandler#findMultiple(EntityGraph, List, FindOption...)
  * @see EntityManager#find(Class, Object, LockModeType, java.util.Map)
  * @see EntityManager#lock(Object, LockModeType)
+ * @see EntityManager#lock(Object, LockModeType, LockOption...)
  * @see EntityManager#lock(Object, LockModeType, java.util.Map)
  * @see EntityManager#merge(Object)
+ * @see EntityManager#remove(Object)
  * @see EntityManager#flush()
- * 
+ * @see EntityAgent#update(Object)
+ * @see EntityAgent#updateMultiple(List)
+ * @see EntityAgent#upsert(Object)
+ * @see EntityAgent#upsertMultiple(List)
+ * @see EntityAgent#delete(Object)
+ * @see EntityAgent#deleteMultiple(List)
+ *
  * @since 1.0
  */
 public class OptimisticLockException extends PersistenceException {

@@ -121,6 +121,7 @@ import jakarta.persistence.sql.ResultSetMapping;
  * entity managers are considered to be in the closed state.
  *
  * @see EntityManager
+ * @see EntityAgent
  *
  * @since 1.0
  */
@@ -226,7 +227,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory has
      * been closed
      *
-     * @see EntityManager#getCriteriaBuilder()
+     * @see EntityHandler#getCriteriaBuilder()
      *
      * @since 2.0
      */
@@ -379,8 +380,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 4.0
      *
-     * @see EntityManager#createQuery(TypedQueryReference)
-     * @see EntityManager#createNamedQuery(String,Class)
+     * @see EntityHandler#createQuery(TypedQueryReference)
+     * @see EntityHandler#createNamedQuery(String,Class)
      */
     <R> TypedQueryReference<R> addNamedQuery(String name, TypedQuery<R> query);
 

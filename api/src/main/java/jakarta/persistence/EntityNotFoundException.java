@@ -17,6 +17,8 @@
 
 package jakarta.persistence;
 
+import java.util.List;
+
 /**
  * Thrown by the persistence provider when an entity reference obtained by
  * {@link EntityManager#getReference EntityManager.getReference}
@@ -28,13 +30,25 @@ package jakarta.persistence;
  * <p> The current transaction, if one is active and the persistence context
  * has been joined to it, will be marked for rollback.
  * 
+ * @see EntityHandler#get(Class, Object)
+ * @see EntityHandler#get(Class, Object, LockModeType)
+ * @see EntityHandler#get(Class, Object, FindOption...)
+ * @see EntityHandler#get(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#getMultiple(Class, List, FindOption...)
+ * @see EntityHandler#getMultiple(EntityGraph, List, FindOption...)
  * @see EntityManager#getReference(Class,Object)
+ * @see EntityManager#getReference(Object)
  * @see EntityManager#refresh(Object)
  * @see EntityManager#refresh(Object, LockModeType)
+ * @see EntityManager#refresh(Object, RefreshOption...)
  * @see EntityManager#refresh(Object, java.util.Map)
  * @see EntityManager#refresh(Object, LockModeType, java.util.Map)
  * @see EntityManager#lock(Object, LockModeType)
+ * @see EntityManager#lock(Object, LockModeType, LockOption...)
  * @see EntityManager#lock(Object, LockModeType, java.util.Map)
+ * @see EntityAgent#refresh(Object)
+ * @see EntityAgent#refresh(Object, LockModeType)
+ * @see EntityAgent#refreshMultiple(List)
  * 
  * @since 1.0
  */
