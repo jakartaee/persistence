@@ -99,11 +99,39 @@ public @interface PostRemove {}
 
 @Target({METHOD})
 @Retention(RUNTIME)
+public @interface PreMerge {}
+
+@Target({METHOD})
+@Retention(RUNTIME)
+public @interface PreInsert {}
+
+@Target({METHOD})
+@Retention(RUNTIME)
+public @interface PostInsert {}
+
+@Target({METHOD})
+@Retention(RUNTIME)
 public @interface PreUpdate {}
 
 @Target({METHOD})
 @Retention(RUNTIME)
 public @interface PostUpdate {}
+
+@Target({METHOD})
+@Retention(RUNTIME)
+public @interface PreUpsert {}
+
+@Target({METHOD})
+@Retention(RUNTIME)
+public @interface PostUpsert {}
+
+@Target({METHOD})
+@Retention(RUNTIME)
+public @interface PreDelete {}
+
+@Target({METHOD})
+@Retention(RUNTIME)
+public @interface PostDelete {}
 
 @Target({METHOD})
 @Retention(RUNTIME)
