@@ -2014,8 +2014,8 @@ Use of an entity graph may be requested by passing the instance of
 - the first parameter of the `find()` method of `EntityManager`, to
   control the data fetched by `find()`,
 - the second parameter of the `createQuery()` method of `EntityManager`,
-  or to the `setEntityGraph()` method of `Query` to control the data
-  fetched by the JPQL query, or
+  or to the `setEntityGraph()` method of `TypedQuery` to control the
+  data fetched by the JPQL query, or
 - the `find()` method or `setHint()` method of `Query` via one of the
   standard properties `jakarta.persistence.fetchgraph` or
   `jakarta.persistence.loadgraph`.
