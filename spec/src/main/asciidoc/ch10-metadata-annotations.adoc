@@ -19,8 +19,8 @@ The `Entity` annotation specifies that the annotated class is an entity.
 The `name` annotation element specifies the entity name. If the `name`
 element is not specified, the entity name defaults to the unqualified
 name of the entity class. This name is used to refer to the entity in
-queries. (See <<naming>>.) The name must be a legal Java identifier,
-and must not be a reserved identifiers in the Jakarta Persistence query
+queries. (See <<naming>>.) The name must be a legal Java identifier
+and must not be a reserved identifier in the Jakarta Persistence query
 language.
 
 
