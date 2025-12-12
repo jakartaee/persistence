@@ -39,13 +39,23 @@ import java.util.Map;
  * <li>For an {@link EntityManager}, every entity instance
  *     returned by any operation declared by this interface
  *     is in the managed state and belongs to the persistence
- *     context associated with the entity manager. An
- *     {@code EntityManager} is required to ensure that if an
- *     entity instance representing a given record already
- *     exists in its associated persistence context, then
- *     exactly that instance is returned by every operation
- *     that returns an entity representing the record.
+ *     context associated with the entity manager. The
+ *     instance remains in the managed state until that
+ *     entity manager is closed and its persistence context
+ *     is destroyed. An {@code EntityManager} is required
+ *     to ensure that if an entity instance representing a
+ *     given record already exists in its associated
+ *     persistence context, then exactly that instance is
+ *     returned by every operation that returns an entity
+ *     representing the record.
  * </ul>
+ * <p>Note that, in a Jakarta EE container environment, a
+ * transaction-scoped entity manager which is accessed
+ * outside the scope of a container transaction is destroyed
+ * immediately after it is called. And so such an entity
+ * manager may appear to return unmanaged instances to its
+ * client. But this is merely a consequence of the extremely
+ * short lifetime of its persistence context.
  *
  * <p>Operations which return entity instances are, by default,
  * permitted to retrieve state from the second-level cache, if
