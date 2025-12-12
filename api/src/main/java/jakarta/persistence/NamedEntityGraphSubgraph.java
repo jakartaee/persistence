@@ -36,7 +36,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </ul>
  * <p>Multiple {@code @NamedEntityGraphSubgraph}
  * annotations may be applied to a single attribute, but
- * each must specify the name of a different parent graph.
+ * each must specify the name of a distinct parent graph.
  *
  * <p>A {@code NamedEntitySubgraph} is reified at runtime
  * as an instance of {@link Subgraph}.

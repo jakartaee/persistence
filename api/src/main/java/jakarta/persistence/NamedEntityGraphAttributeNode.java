@@ -30,7 +30,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>Multiple {@code @NamedEntityGraphAttributeNode}
  * annotations may be applied to a single attribute, but each
- * must specify the name of a different parent graph.
+ * must specify the name of a distinct parent graph.
  *
  * <p>A {@code NamedEntityGraphAttributeNode} is reified at
  * runtime as an instance of {@link AttributeNode}.
