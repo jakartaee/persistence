@@ -31,11 +31,12 @@ package jakarta.persistence;
  * @see Subgraph
  * @see NamedEntityGraph
  *
- * @see EntityManager#createEntityGraph(Class)
- * @see EntityManager#createEntityGraph(String)
- * @see EntityManager#getEntityGraph(String)
+ * @see EntityHandler#createEntityGraph(Class)
+ * @see EntityHandler#createEntityGraph(String)
+ * @see EntityHandler#getEntityGraph(String)
  * @see EntityManagerFactory#addNamedEntityGraph(String, EntityGraph)
- * @see EntityManager#find(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#find(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#get(EntityGraph, Object, FindOption...)
  *
  * @since 2.1
  */

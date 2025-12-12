@@ -31,7 +31,7 @@ package jakarta.persistence;
  * <p>Enumerates legal values of the property
  * {@code jakarta.persistence.cache.retrieveMode}.
  *
- * @see EntityManager#setCacheRetrieveMode(CacheRetrieveMode)
+ * @see EntityHandler#setCacheRetrieveMode(CacheRetrieveMode)
  * @see Query#setCacheRetrieveMode(CacheRetrieveMode)
  *
  * @since 2.0

@@ -16,11 +16,26 @@
 
 package jakarta.persistence;
 
+import java.util.List;
+
 /**
  * Thrown by the persistence provider when a pessimistic locking conflict
  * occurs. This exception may be thrown as part of an API call, a flush or
  * at commit time. The current transaction, if one is active, is marked
  * for rollback.
+ *
+ * @see EntityHandler#find(Class, Object, LockModeType)
+ * @see EntityHandler#find(Class, Object, FindOption...)
+ * @see EntityHandler#find(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#findMultiple(Class, List, FindOption...)
+ * @see EntityHandler#findMultiple(EntityGraph, List, FindOption...)
+ * @see EntityManager#find(Class, Object, LockModeType, java.util.Map)
+ * @see EntityManager#lock(Object, LockModeType)
+ * @see EntityManager#lock(Object, LockModeType, LockOption...)
+ * @see EntityManager#lock(Object, LockModeType, java.util.Map)
+ * @see EntityManager#refresh(Object, LockModeType)
+ * @see EntityManager#refresh(Object, RefreshOption...)
+ * @see EntityManager#refresh(Object, LockModeType, java.util.Map)
  *
  * @since 2.0
  */
