@@ -16,13 +16,22 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.sql.ResultSetMapping;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Interface used to control stored procedure query execution.
- *
+ * <p>
+ * Parameters must be registered before the stored procedure can
+ * be executed by calling
+ * {@link #registerStoredProcedureParameter(int, Class, ParameterMode)}
+ * or {@link #registerStoredProcedureParameter(String, Class, ParameterMode)},
+ * specifying the type of the parameter, its position or name,
+ * and whether it is an {@link ParameterMode#IN IN} parameter or
+ * {@link ParameterMode#OUT OUT} parameter.
  * <p>
  * Stored procedure query execution may be controlled in accordance with 
  * the following:
@@ -381,7 +390,11 @@ public interface StoredProcedureQuery extends Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @deprecated This method returns a raw {@code List}.
+     *             Use {@link #getResultList(Class)} instead.
      */
+    @SuppressWarnings("rawtypes")
+    @Deprecated(since = "4.0")
     List getResultList();
 
     /**
@@ -422,6 +435,150 @@ public interface StoredProcedureQuery extends Query {
      *         is rolled back
      */
     Object getSingleResultOrNull();
+
+    /**
+     * Retrieve the list of results from the next result set,
+     * returning instances of the given Java class, which
+     * must be an entity class or the class of a basic type,
+     * and which overrides any result set mapping or result
+     * class already specified.
+     * The provider will call {@code execute} on the query
+     * if needed.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @param resultClass the type of the query result
+     * @return a list of the results or null is the next item is not
+     * a result set
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    <R> List<R> getResultList(Class<R> resultClass);
+
+    /**
+     * Retrieve the list of results from the next result set,
+     * specifying a {@linkplain ResultSetMapping result set mapping}
+     * which overrides any mapping or result class already specified.
+     * The provider will call {@code execute} on the query
+     * if needed.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @param mapping the result set mapping to apply to the results
+     * @return a list of the results or null is the next item is not
+     * a result set
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    <R> List<R> getResultList(ResultSetMapping<R> mapping);
+
+    /**
+     * Retrieve a single result from the next result set,
+     * returning instances of the given Java class, which
+     * must be an entity class or the class of a basic type,
+     * and which overrides any result set mapping or result
+     * class already specified.
+     * The provider will call {@code execute} on the query
+     * if needed.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @param resultClass the type of the query result
+     * @return the result or null if the next item is not a result set
+     * @throws NoResultException if there is no result in the next
+     *         result set
+     * @throws NonUniqueResultException if more than one result
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    <R> R getSingleResult(Class<R> resultClass);
+
+    /**
+     * Retrieve a single result from the next result set,
+     * specifying a {@linkplain ResultSetMapping result set mapping}
+     * which overrides any mapping or result class already specified.
+     * The provider will call {@code execute} on the query
+     * if needed.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @param mapping the result set mapping to apply to the results
+     * @return the result or null if the next item is not a result set
+     * @throws NoResultException if there is no result in the next
+     *         result set
+     * @throws NonUniqueResultException if more than one result
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    <R> R getSingleResult(ResultSetMapping<R> mapping);
+
+    /**
+     * Retrieve a single result from the next result set,
+     * returning instances of the given Java class, which
+     * must be an entity class or the class of a basic type,
+     * and which overrides any result set mapping or result
+     * class already specified.
+     * The provider will call {@code execute} on the query
+     * if needed.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @param resultClass the type of the query result
+     * @return the result or null if the next item is not a result set
+     *         or if there is no result in the next result set
+     * @throws NonUniqueResultException if more than one result
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    <R> R getSingleResultOrNull(Class<R> resultClass);
+
+    /**
+     * Retrieve a single result from the next result set,
+     * specifying a {@linkplain ResultSetMapping result set mapping}
+     * which overrides any mapping or result class already specified.
+     * The provider will call {@code execute} on the query
+     * if needed.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @param mapping the result set mapping to apply to the results
+     * @return the result or null if the next item is not a result set
+     *         or if there is no result in the next result set
+     * @throws NonUniqueResultException if more than one result
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    <R> R getSingleResultOrNull(ResultSetMapping<R> mapping);
 
     /**
      * Return true if the next result corresponds to a result set,
