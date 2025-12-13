@@ -53,6 +53,13 @@ package jakarta.persistence;
  * not request {@code READ_ONLY} mode, or among the results
  * of a query which does not request {@code READ_ONLY} mode,
  * a {@link PersistenceException} is thrown.
+ * <p>
+ * If an entity loaded in read-only mode is passed to
+ * {@link EntityManager#refresh}, its mode is automatically
+ * reset to {@link #READ_WRITE}. If an entity loaded in
+ * read-only mode is passed to {@link EntityManager#remove}
+ * or {@link EntityManager#lock}, a {@link PersistenceException}
+ * is thrown.
  *
  * @since 4.0
  */

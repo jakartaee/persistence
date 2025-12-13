@@ -313,6 +313,11 @@ of `EntityManager` which does not request `READ_ONLY` mode, or among the
 results of a query which does not request `READ_ONLY` mode, a
 `PersistenceException` is thrown.
 
+If an entity loaded in read-only mode is passed to the `refresh()` method
+of `EntityManager`, its mode is automatically reset to `READ_WRITE`. If
+an entity loaded in read-only mode is passed to the `remove()` or `lock()`
+method of `EntityManager`, a `PersistenceException` is thrown.
+
 ==== Synchronization to the Database [[a1955]]
 
 In general, a persistence context will be
