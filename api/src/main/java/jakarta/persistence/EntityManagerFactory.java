@@ -469,9 +469,12 @@ public interface EntityManagerFactory extends AutoCloseable {
      *                     the class of the callback annotation type,
      *                     usually one of the following classes:
      *                     {@link PrePersist}, {@link PostPersist},
-     *                     {@link PreUpdate}, {@link PostUpdate},
      *                     {@link PreRemove}, {@link PostRemove},
-     *                     and {@link PostLoad}.
+     *                     {@link PreMerge}, {@link PostLoad}; or
+     *                     {@link PreInsert}, {@link PostInsert},
+     *                     {@link PreUpdate}, {@link PostUpdate},
+     *                     {@link PreUpsert}, {@link PostUpsert},
+     *                     {@link PreDelete}, {@link PostDelete}.
      * @param listener The callback listener
      * @return An {@link EntityListenerRegistration} representing the
      *         registration of the given listener with this factory

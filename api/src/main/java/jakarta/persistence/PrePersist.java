@@ -23,18 +23,19 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a callback method for the corresponding lifecycle event.
+ * Declares a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PrePersist}
- * callback method is invoked for a given entity before the persist
- * operation for that entity is executed. For entities to which the
- * merge operation has been applied, causing the creation of newly
- * managed instances, the {@code PrePersist} callback methods is
- * invoked for the managed instance after the entity state has been
- * copied to it. The {@code PrePersist} callback is also invoked on
- * all entities to which the {@code persist()} operation is cascaded.
- * The {@code PrePersist} method is always invoked synchronously as
- * part of the {@code persist()} operation.
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>The {@code @PrePersist} callback for an entity being made
+ * persistent occurs before the entity is marked as managed and
+ * associated with the persistence context. When the {@code merge()}
+ * operation results in the creation of a new managed instance, the
+ * {@code @PrePersist} callback for the managed instance occurs
+ * after the merged entity state has been copied to it. The
+ * {@code PrePersist} method is always invoked synchronously during
+ * execution of the {@link EntityManager#persist persist()} or
+ * {@link EntityManager#merge merge()} operation.
  *
  * <p>A generated primary key value is available when this callback
  * occurs only for {@link GenerationType#UUID UUID},
@@ -43,7 +44,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * primary key generation. For {@link GenerationType#IDENTITY IDENTITY}
  * primary key generation, the generated primary key is not available
  * when this callback occurs.
- *
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>

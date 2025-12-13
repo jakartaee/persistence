@@ -608,10 +608,13 @@ any `EntityListeners` annotation on the entity.
 These listeners apply to the entity and its
 subclasses unless otherwise excluded.
 
-===== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
+===== pre-* and post-*
 
-These subelements override any lifecycle
-callback methods defined by the corresponding annotations on the entity.
+The `pre-persist`, `post-persist`, `pre-remove`, `post-remove`,`pre-merge`,
+`pre-insert`, `post-insert`, `pre-delete`, `post-delete`, `pre-upsert`,
+`post-upsert`, `pre-update`, `post-update`, and `post-load` subelements
+override any lifecycle callback methods defined by the corresponding
+annotations on the entity.
 
 ===== attributes [[a17082]]
 
@@ -770,11 +773,13 @@ any `EntityListeners` annotation on the mapped superclass.
 These listeners apply to the mapped
 superclass and its subclasses unless otherwise excluded.
 
-===== pre-persist, post-persist, pre-remove, post-remove, pre-update, post-update, post-load
+===== pre-* and post-*
 
-These subelements override any lifecycle
-callback methods defined by the corresponding annotations on the mapped
-superclass.
+The `pre-persist`, `post-persist`, `pre-remove`, `post-remove`,`pre-merge`,
+`pre-insert`, `post-insert`, `pre-delete`, `post-delete`, `pre-upsert`,
+`post-upsert`, `pre-update`, `post-update`, and `post-load` subelements
+override any lifecycle callback methods defined by the corresponding
+annotations on the mapped superclass.
 
 [[a17126]]
 ===== attributes

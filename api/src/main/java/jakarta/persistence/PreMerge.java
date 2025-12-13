@@ -13,6 +13,7 @@
 // Contributors:
 //     Gavin King      - 4.0
 
+
 package jakarta.persistence;
 
 import java.lang.annotation.Retention;
@@ -26,12 +27,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation may be applied to methods of an entity class, a
  * mapped superclass, or a callback listener class.
  *
- * <p>The {@code PreInsert} callback occurs before any database insert
- * operation to entity data, whenever entity state is inserted via
- * {@link EntityManager} or {@link EntityAgent}. When such a modification
- * is made via an {@link EntityManager}, the database operation might
- * occur at the time the entity state is modified, or it may occur when
- * modifications are flushed to the database.
+ * <p>The {@code @PreMerge} callback for an entity being merged occurs
+ * before state is copied from the entity being merged to the
+ * corresponding managed entity, when copying is necessary. The
+ * {@code @PreMerge} method is always invoked synchronously during
+ * execution of the {@link EntityManager#merge merge()} operation.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>
@@ -52,6 +52,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 4.0
  */
-@Target({METHOD}) 
+@Target(METHOD)
 @Retention(RUNTIME)
-public @interface PreInsert {}
+public @interface PreMerge {}

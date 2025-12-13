@@ -80,9 +80,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * mapping annotations on the entity class.
  *
  * <p>Apart from its persistent fields and properties, an entity class
- * may declare callback methods using {@link PrePersist}, {@link PreUpdate},
- * {@link PreRemove}, {@link PostPersist}, {@link PostUpdate}, and/or
- * {@link PostRemove}.
+ * may declare callback methods using:
+ * <ul>
+ * <li>{@link PostLoad},
+ * <li>{@link PrePersist}, {@link PostPersist},
+ *     {@link PreRemove}, {@link PostRemove}, and {@link PreMerge},
+ * <li>{@link PreInsert}, {@link PostInsert}, {@link PreUpdate},
+ *     {@link PostUpdate}, {@link PreUpsert}, {@link PostUpsert},
+ *     {@link PreDelete}, and {@link PostDelete},
+ * </ul>
+ * <p>Alternatively, the entity class may specify any number of
+ * {@linkplain EntityListeners entity listener classes} which
+ * declare callback methods and are notified of lifecycle events
+ * relating to the entity.
  *
  * @since 1.0
  */

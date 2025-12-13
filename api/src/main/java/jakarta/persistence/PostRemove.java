@@ -22,15 +22,17 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a callback method for the corresponding lifecycle event.
+ * Declares a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PostRemove}
- * callback method is invoked for an entity after the entity has been
- * removed, and after the database delete operation. This database
- * operation may occur immediately when the {@code remove()} operation
- * is invoked, or it may happen at the time state is flushed to the
- * database. The {@code PostRemove} callback is also invoked on all
- * entities to which the {@code remove()} operation is cascaded.
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>The {@code @PostRemove} callback for an entity which has been
+ * removed occurs after the entity has been marked as removed in the
+ * persistence context, and after the database delete operations
+ * have been executed. Note that The database delete operations might
+ * occur immediately during execution of
+ * {@link EntityManager#remove remove()}, or they might occur later
+ * when the persistence context is flushed.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>
