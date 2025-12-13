@@ -1554,11 +1554,17 @@ removed within a single transaction. Portable applications should not rely
 on such behavior.
 ====
 
-The `@PostLoad` callback occurs after an entity instance has been loaded
-from the database by any means, or after the `refresh()` operation has
-been applied to an entity instance. The `@PostLoad` method is invoked
-before the newly-loaded query entity is returned or made accessible to
-the application.
+The `@PostLoad` callback occurs:
+
+- after an entity instance has been loaded from the database by any means,
+  or
+- after the `refresh()` operation of `EntityManager` or `EntityAgent` has
+  been applied to an entity instance.
+
+The non-relationship state of an entity is always set to the values just
+retrieved from the database before the `@PostLoad` method is invoked. The
+`@PostLoad` method is invoked before a newly loaded entity is returned
+or made accessible to the application.
 
 [NOTE]
 This specification does not define whether callback methods are invoked
