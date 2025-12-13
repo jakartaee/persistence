@@ -26,6 +26,30 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation may be applied to methods of an entity class, a
  * mapped superclass, or a callback listener class.
  *
+ * <p>The {@code PreUpsert} callback occurs before any database upsert
+ * operation to entity data, whenever entity state is modified via
+ * {@link EntityManager} or {@link EntityAgent}. When such a modification
+ * is made via an {@link EntityManager}, the database operation might
+ * occur at the time the entity state is modified, or it may occur when
+ * modifications are flushed to the database.
+ *
+ * <p>The following rules apply to lifecycle callback methods:
+ * <ul>
+ * <li>Lifecycle callback methods may throw unchecked/runtime exceptions.
+ *     A runtime exception thrown by a callback method that executes within
+ *     a transaction causes that transaction to be marked for rollback if
+ *     context is joined to the transaction.
+ * <li>Lifecycle callbacks can invoke JNDI, JDBC, JMS, and enterprise beans.
+ * <li>A lifecycle callback method may modify the non-relationship state of
+ *     the entity on which it is invoked.
+ * <li>In general, the lifecycle method of a portable application should not
+ *     invoke {@link EntityManager} or query operations, access other entity
+ *     instances, or modify relationships within the same persistence context
+ * </ul>
+ *
+ * <p>It is implementation-dependent whether callback methods are invoked
+ * before or after the cascading of the lifecycle events to related entities.
+ *
  * @since 4.0
  */
 @Target({METHOD}) 

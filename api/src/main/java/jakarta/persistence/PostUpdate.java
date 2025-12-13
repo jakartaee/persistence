@@ -24,10 +24,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PostUpdate}
- * callback occurs after the database update operation to entity data.
- * This database operation may occur at the time the entity state is
- * updated, or it may occur at the time state is flushed to the database.
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>The {@code PostUpdate} callback occurs after any database update
+ * operation to entity data, whenever entity state is modified via
+ * {@link EntityManager} or {@link EntityAgent}. When such a modification
+ * is made via an {@link EntityManager}, the database operation might
+ * occur at the time the entity state is modified, or it may occur when
+ * modifications are flushed to the database.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>

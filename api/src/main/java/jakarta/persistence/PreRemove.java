@@ -24,12 +24,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PreRemove}
- * callback method is invoked for a given entity before the remove
- * operation for that entity is executed. The {@code PreRemove} callback
- * is also invoked on all entities to which the {@code remove()} operation
- * is cascaded. The {@code PreRemove} method is always invoked synchronously
- * as part of the {@code remove()} operation.
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>A {@code @PreRemove} callback occurs before the entity being
+ * removed is marked as removed in the persistence context. The
+ * {@code @PreRemove} method is always invoked synchronously during
+ * execution of the {@link EntityManager#remove remove()} operation.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>

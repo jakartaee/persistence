@@ -26,13 +26,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PreMerge}
- * callback method is invoked for an entity instance before the merge
- * operation for that entity is executed and before its state is copied
- * to a corresponding managed entity if necessary. The {@code PreMerge}
- * callback is also invoked on all entities to which the {@code merge()}
- * operation is cascaded. The {@code PreMerge} method is always invoked
- * synchronously as part of the {@code merge()} operation.
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>The {@code @PreMerge} callback for an entity being merged occurs
+ * before state is copied from the entity being merged to the
+ * corresponding managed entity, when copying is necessary. The
+ * {@code @PreMerge} method is always invoked synchronously during
+ * execution of the {@link EntityManager#merge merge()} operation.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>
