@@ -21,6 +21,7 @@ package jakarta.persistence;
  * a result. The connection is usually a JDBC connection.
  *
  * @param <C> the connection type, usually {@code java.sql.Connection}
+ * @param <T> the type of the result
  *
  * @see ConnectionConsumer
  * @see EntityHandler#callWithConnection(ConnectionFunction)
