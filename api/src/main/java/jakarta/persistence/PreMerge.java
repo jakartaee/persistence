@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,7 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Gavin King      - 4.0
 
 
 package jakarta.persistence;
@@ -51,7 +50,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>It is implementation-dependent whether callback methods are invoked
  * before or after the cascading of the lifecycle events to related entities.
  *
- * @since 1.0
+ * @since 4.0
  */
 @Target(METHOD)
 @Retention(RUNTIME)
