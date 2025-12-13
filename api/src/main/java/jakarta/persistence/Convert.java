@@ -11,8 +11,9 @@
  */
 
 // Contributors:
+//     Gavin King       - 4.0
 //     Petros Splinakis - 2.2
-//     Linda DeMichiel - 2.1
+//     Linda DeMichiel  - 2.1
 
 package jakarta.persistence;
 
@@ -201,6 +202,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public class FullTimeEmployee extends GenericEmployee { ... }
  * }
  *
+ * <p>Example 12: Use of a built-in conversion between basic types:
+ * {@snippet :
+ * @Convert(to = BigDecimal.class)
+ * @Column(precision = 10, scale = 4)
+ * // maps to column of type DECIMAL(10,4)
+ * double magnitude;
+ * }
+ *
  * @see Converter
  * @see Converts
  * @see Basic
@@ -218,6 +227,57 @@ public @interface Convert {
    * multiple converters would otherwise apply.
    */
   Class<? extends AttributeConverter> converter() default AttributeConverter.class;
+
+  /**
+   * Specifies a basic type for the conversion. This element may be
+   * specified if the persistence provider feaures built-in support
+   * for converting between the specified type and:
+   * <ul>
+   * <li>the declared type of the annotated program element, in the
+   *     case that no {@linkplain #converter converter} is specified,
+   *     or
+   * <li>the basic type output by the
+   *     {@link AttributeConverter#convertToDatabaseColumn}
+   *     method of the specified {@linkplain #converter converter}.
+   * </ul>
+   * <p>Both {@link #converter} and {@code #to} may be specified for
+   * a given program element. In this case, when writing a value to
+   * the database:
+   * <ul>
+   * <li>the value of the target attribute of the entity is passed
+   *     first to the converter, and then
+   * <li>the built-in conversion is applied to the output of the
+   *     converter.
+   * </ul>
+   * <p>When reading a value from the database:
+   * <ul>
+   * <li>the built-in conversion is first applied to the value read
+   *     from the database, and then
+   * <li>the resulting converted value is passed to the converter.
+   * </ul>
+   *
+   * <p>The Persistence provider is required to support the following
+   * built-in conversions:
+   * <ul>
+   * <li>all numeric conversions defined by methods of the class
+   *     {@link Number} between primitive or wrapped numeric types,
+   * <li>all conversions defined by {@code toString} and {@code parse}
+   *     methods (for example, {@link Float#toString(float)} and
+   *     {@link Float#parseFloat(String)}) between primitive or wrapped
+   *     numeric types and {@link String}, and
+   * <li>conversions between {@link java.math.BigDecimal} and
+   *     {@link Double}, {@link Long}, {@code double}, or {@code long},
+   *     and between {@link java.math.BigInteger} and {@link Long}
+   *     or {@code long}.
+   * </ul>
+   * <p>A provider is encouraged to support additional vendor-specific
+   * built-in conversions, but such conversions are not portable between
+   * providers and should not be relied upon by portable application
+   * programs.
+   *
+   * @since 4.0
+   */
+  Class<?> to() default void.class;
 
   /**
    * A name or period-separated path identifying the converted
