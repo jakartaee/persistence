@@ -336,6 +336,13 @@
                             <addDefaultEntries>false</addDefaultEntries>
                         </manifest>
                     </archive>
+                    <tags>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>a</placement>
+                            <head>API Note:</head>
+                        </tag>
+                    </tags>
                     <quiet>true</quiet>
                     <notimestamp>true</notimestamp>
                     <docfilessubdirs>true</docfilessubdirs>
