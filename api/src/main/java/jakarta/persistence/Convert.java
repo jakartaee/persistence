@@ -208,6 +208,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @Column(precision = 10, scale = 4)
  * // maps to column of type DECIMAL(10,4)
  * double magnitude;
+ *
+ * @Convert(to = long.class)
+ * // maps to column of type BIGINT for extra headroom
+ * int count;
+ *
+ * @Convert(to = byte.class)
+ * // maps to column of type TINYINT in legacy database
+ * boolean enabled;
  * }
  *
  * @see Converter
@@ -264,11 +272,15 @@ public @interface Convert {
    * <li>all conversions defined by {@code toString} and {@code parse}
    *     methods (for example, {@link Float#toString(float)} and
    *     {@link Float#parseFloat(String)}) between primitive or wrapped
-   *     numeric types and {@link String}, and
+   *     numeric types and {@link String},
    * <li>conversions between {@link java.math.BigDecimal} and
    *     {@link Double}, {@link Long}, {@code double}, or {@code long},
    *     and between {@link java.math.BigInteger} and {@link Long}
-   *     or {@code long}.
+   *     or {@code long}, and
+   * <li>conversion from {@link Boolean} or {@code boolean} to any
+   *     integral numeric primitive or wrapper type, where {@code false}
+   *     or {@code FALSE} is converted to {@code 0} and {@code true} or
+   *     {@code TRUE} is converted to {@code 1}.
    * </ul>
    * <p>A provider is encouraged to support additional vendor-specific
    * built-in conversions, but such conversions are not portable between
