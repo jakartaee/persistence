@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King       - 4.0
 //     Gavin King       - 3.2
 //     Petros Splinakis - 2.2
 //     Linda DeMichiel  - 2.1
