@@ -79,6 +79,43 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * default access type for an entity is determined by the placement of
  * mapping annotations on the entity class.
  *
+ * <p>A field or property of an entity instance might be fetched eagerly
+ * when the entity is loaded from the database, or it might be fetched
+ * lazily from the database, either:
+ * <ul>
+ * <li>transparently on first access, if the entity is a managed instance
+ *     belonging to a persistence context, or
+ * <li>by calling the method {@link EntityAgent#fetch}, if the entity is
+ *     detached and not associated with any persistence context.
+ * </ul>
+ * <p>By default:
+ * <ul>
+ * <li>fields or properties of basic type, one-to-one associations, and
+ *     many-to-one associations are fetched eagerly, but
+ * <li>element collections, one-to-many associations, and many-to-many
+ *     associations are fetched lazily.
+ * </ul>
+ * <p>Lazy fetching may be controlled using the {@code fetch} member of
+ * the mapping annotations {@link Basic}, {@link OneToOne}, {@link ManyToOne},
+ * {@link OneToMany}, and {@link ManyToMany}, or by an {@link EntityGraph}.
+ * However, lazy fetching is {@linkplain FetchType always a hint}, and
+ * the persistence provider is always permitted to fetch more data than
+ * what is explicitly requested by the application or required by the
+ * Persistence specification.
+ *
+ * <p>By default, a field or property of non-primitive basic type, a
+ * one-to-one association, or a many-to-one association is assumed to be
+ * <em>optional</em>, that is, it may hold a null value when the state of
+ * the entity is written to the database. A field or property is
+ * non-optional if:
+ * <ul>
+ * <li>the field or property has a primitive type,
+ * <li>the field or property is annotated {@code jakarta.annotation.Nonnull},
+ *     or
+ * <li>the field or property has a {@link Basic}, {@link OneToOne}, or
+ *     {@link ManyToOne} annotation specifying {@code optional=false}.
+ * </ul>
+ *
  * <p>Apart from its persistent fields and properties, an entity class
  * may declare callback methods using:
  * <ul>
