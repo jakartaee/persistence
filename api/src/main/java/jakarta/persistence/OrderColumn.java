@@ -109,4 +109,12 @@ public @interface OrderColumn {
      * @since 3.2
      */
     String options() default "";
+
+    /**
+     * (Optional) A comment to be applied to the column.
+     * This is only used if table generation is in effect.
+     *
+     * @since 4.0
+     */
+    String comment() default "";
 }
