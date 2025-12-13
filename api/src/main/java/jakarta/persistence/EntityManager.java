@@ -281,7 +281,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         is not a valid type for that entity's primary key or
      *         is null
      * @throws PersistenceException if the record could not be
-     *         read from the database
+     *         read from the database, or if the entity is already
+     *         loaded in read-only mode
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -336,8 +337,9 @@ public non-sealed interface EntityManager extends EntityHandler {
      *        only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
+     *         supported for the given entity class, if the
+     *         record could not be read from the database, or if the
+     *         entity is already loaded in read-only mode
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
