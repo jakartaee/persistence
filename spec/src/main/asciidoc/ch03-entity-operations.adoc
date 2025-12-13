@@ -1813,8 +1813,9 @@ lifecycle callback methods as specified in annotations.
 The `entity-listener` XML descriptor element
 is used to specify the lifecycle listener methods of an entity listener
 class. The lifecycle listener methods are specified by using the
-`pre-persist`, `post-persist`, `pre-remove`, `post-remove`,
-`pre-update`, `post-update`, and/or `post-load` elements.
+`pre-persist`, `post-persist`, `pre-remove`, `post-remove`,`pre-merge`,
+`pre-insert`, `post-insert`, `pre-delete`, `post-delete`, `pre-upsert`,
+`post-upsert`, `pre-update`, `post-update`, and/or `post-load` elements.
 
 ===== Specification of the Binding of Entity Listener Classes to Entities
 
