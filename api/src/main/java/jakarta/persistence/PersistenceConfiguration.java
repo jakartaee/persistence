@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -122,6 +122,9 @@ public class PersistenceConfiguration {
      * <p>Standard actions are: {@code none}, {@code create},
      * {@code drop}, {@code drop-and-create}, {@code validate},
      * {@code populate}.
+     *
+     * @see SchemaManagementAction
+     * @see #schemaManagementDatabaseAction(SchemaManagementAction)
      */
     public static final String SCHEMAGEN_DATABASE_ACTION = "jakarta.persistence.schema-generation.database.action";
     /**
@@ -132,6 +135,9 @@ public class PersistenceConfiguration {
      *
      * <p>Standard actions are: {@code none}, {@code create},
      * {@code drop}, {@code drop-and-create}.
+     *
+     * @see SchemaManagementAction
+     * @see #schemaManagementScriptsAction(SchemaManagementAction)
      */
     public static final String SCHEMAGEN_SCRIPTS_ACTION = "jakarta.persistence.schema-generation.scripts.action";
     /**
@@ -157,26 +163,41 @@ public class PersistenceConfiguration {
     /**
      * An application-provided SQL script to be executed when the
      * schema is created.
+     * <p>
+     * An instance of {@link java.io.Reader} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_CREATE_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.create-script-source";
     /**
      * An application-provided SQL script to be executed when the
      * schema is dropped.
+     * <p>
+     * An instance of {@link java.io.Reader} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_DROP_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.drop-script-source";
     /**
      * An application-provided SQL script to be executed after the
      * schema is created, typically used for loading data.
+     * <p>
+     * An instance of {@link java.io.Reader} or a string specifying
+     * the file URL of the DML script.
      */
     public static final String SCHEMAGEN_LOAD_SCRIPT_SOURCE = "jakarta.persistence.sql-load-script-source";
     /**
      * The provider-generated SQL script which creates the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+     * <p>
+     * An instance of `{@link java.io.Writer} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_CREATE_TARGET = "jakarta.persistence.schema-generation.scripts.create-target";
     /**
      * The provider-generated SQL script which drops the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+     * <p>
+     * An instance of `{@link java.io.Writer} or a string specifying
+     * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.scripts.drop-target";
 
@@ -228,6 +249,48 @@ public class PersistenceConfiguration {
      */
     public static final String CACHE_MODE = "jakarta.persistence.sharedCache.mode";
 
+    /**
+     * Represents an action that can be performed by the schema management tooling.
+     *
+     * @since 4.0
+     */
+    public enum SchemaManagementAction {
+        /**
+         * No action.
+         */
+        NONE,
+        /**
+         * Create the generated database schema.
+         *
+         * @see SchemaManager#create(boolean)
+         */
+        CREATE,
+        /**
+         * Drop the generated database schema.
+         *
+         * @see SchemaManager#drop(boolean)
+         */
+        DROP,
+        /**
+         * Drop and then recreate the generated database schema.
+         */
+        DROP_AND_CREATE,
+        /**
+         * Validate the schema held in the database against the
+         * generated schema.
+         *
+         * @see SchemaManager#validate()
+         */
+        VALIDATE,
+        /**
+         * Populate the database with data from the DML load script.
+         *
+         * @see PersistenceConfiguration#SCHEMAGEN_LOAD_SCRIPT_SOURCE
+         * @see SchemaManager#populate()
+         */
+        POPULATE
+    }
+
     private final String name;
 
     private String provider;
@@ -237,6 +300,9 @@ public class PersistenceConfiguration {
     private SharedCacheMode sharedCacheMode = SharedCacheMode.UNSPECIFIED;
     private ValidationMode validationMode = ValidationMode.AUTO;
     private PersistenceUnitTransactionType transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
+
+    private SchemaManagementAction schemaManagementDatabaseAction = SchemaManagementAction.NONE;
+    private SchemaManagementAction schemaManagementScriptsAction = SchemaManagementAction.NONE;
 
     private final List<Class<?>> managedClasses = new ArrayList<>();
     private final List<String> mappingFileNames = new ArrayList<>();
@@ -262,6 +328,23 @@ public class PersistenceConfiguration {
      */
     public EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(this);
+    }
+
+    /**
+     * Execute the schema management action specified by the property
+     * {@link #SCHEMAGEN_DATABASE_ACTION} or {@link #SCHEMAGEN_SCRIPTS_ACTION},
+     * or by {@link #schemaManagementDatabaseAction(SchemaManagementAction)}
+     * or {@link #schemaManagementScriptsAction(SchemaManagementAction)}
+     * without creating an {@link EntityManagerFactory}.
+     *
+     * @throws PersistenceException if insufficient or inconsistent
+     *         configuration information is provided or if schema
+     *         generation otherwise fails.
+     *
+     * @since 4.0
+     */
+    public void exportSchema() {
+        Persistence.generateSchema( this );
     }
 
     /**
@@ -431,6 +514,52 @@ public class PersistenceConfiguration {
      */
     public ValidationMode validationMode() {
         return validationMode;
+    }
+
+    /**
+     * Set the schema management action to be performed against the database.
+     *
+     * @param action The schema management action to be performed
+     * @see #SCHEMAGEN_DATABASE_ACTION
+     * @since 4.0
+     */
+    public PersistenceConfiguration schemaManagementDatabaseAction(SchemaManagementAction action) {
+        this.schemaManagementDatabaseAction = action;
+        return this;
+    }
+
+    /**
+     * The schema management action to be performed against the database.
+     *
+     * @return The schema management action
+     * @see #SCHEMAGEN_DATABASE_ACTION
+     * @since 4.0
+     */
+    public SchemaManagementAction schemaManagementDatabaseAction() {
+        return schemaManagementDatabaseAction;
+    }
+
+    /**
+     * Set the schema management action to be performed by generated DDL scripts.
+     *
+     * @param action The schema management action to be performed
+     * @see #SCHEMAGEN_SCRIPTS_ACTION
+     * @since 4.0
+     */
+    public PersistenceConfiguration schemaManagementScriptsAction(SchemaManagementAction action) {
+        this.schemaManagementScriptsAction = action;
+        return this;
+    }
+
+    /**
+     * The schema management action to be performed by generated DDL scripts.
+     *
+     * @return The schema management action
+     * @see #SCHEMAGEN_SCRIPTS_ACTION
+     * @since 4.0
+     */
+    public SchemaManagementAction getSchemaManagementScriptsAction() {
+        return schemaManagementScriptsAction;
     }
 
     /**
