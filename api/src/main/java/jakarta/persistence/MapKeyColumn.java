@@ -155,4 +155,20 @@ public @interface MapKeyColumn {
      * precision should be inferred.
      */
     int scale() default 0; // decimal scale
+
+    /**
+     * (Optional) Check constraints to be applied to the column.
+     * These are only used if table generation is in effect.
+     *
+     * @since 4.0
+     */
+    CheckConstraint[] check() default {};
+
+    /**
+     * (Optional) A comment to be applied to the column.
+     * This is only used if table generation is in effect.
+     *
+     * @since 4.0
+     */
+    String comment() default "";
 }
