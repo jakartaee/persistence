@@ -62,6 +62,10 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @throws PersistenceException or if the query would return an
+     *         entity which is already loaded in read-only mode,
+     *         and {@link ManagedEntityMode#READ_ONLY} was not
+     *         ser by calling {@link #setManagedEntityMode}
      */
     @SuppressWarnings("rawtypes")
     List getResultList();
@@ -155,6 +159,10 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @throws PersistenceException or if the query would return an
+     *         entity which is already loaded in read-only mode,
+     *         and {@link ManagedEntityMode#READ_ONLY} was not
+     *         ser by calling {@link #setManagedEntityMode}
      */
     Object getSingleResult();
 
@@ -183,7 +191,10 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
-     *
+     * @throws PersistenceException or if the query would return an
+     *         entity which is already loaded in read-only mode,
+     *         and {@link ManagedEntityMode#READ_ONLY} was not
+     *         ser by calling {@link #setManagedEntityMode}
      * @since 3.2
      */
     Object getSingleResultOrNull();
@@ -626,6 +637,22 @@ public interface Query {
      * @since 3.2
      */
     Integer getTimeout();
+
+    /**
+     * Set the {@link ManagedEntityMode} to be used for entities
+     * loaded during execution of this query.
+     *
+     * @since 4.0
+     */
+    Query setManagedEntityMode(ManagedEntityMode managedEntityMode);
+
+    /**
+     * The {@link ManagedEntityMode} that will be in effect during
+     * execution of this query.
+     *
+     * @since 4.0
+     */
+    ManagedEntityMode getManagedEntityMode();
 
     /**
      * Return an object of the specified type to allow access to 

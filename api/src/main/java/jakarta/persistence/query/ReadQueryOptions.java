@@ -15,10 +15,7 @@
 
 package jakarta.persistence.query;
 
-import jakarta.persistence.CacheRetrieveMode;
-import jakarta.persistence.CacheStoreMode;
-import jakarta.persistence.LockModeType;
-import jakarta.persistence.QueryHint;
+import jakarta.persistence.*;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -67,6 +64,12 @@ public @interface ReadQueryOptions {
      * @see jakarta.persistence.Query#setCacheRetrieveMode
      */
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
+
+    /**
+     * The {@link ManagedEntityMode} to use for entities loaded
+     * during execution of the query.
+     */
+    ManagedEntityMode managedEntityMode() default ManagedEntityMode.READ_WRITE;
 
     /**
      * A query timeout in milliseconds.

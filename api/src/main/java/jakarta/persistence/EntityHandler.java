@@ -98,7 +98,8 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
      * @throws PersistenceException if the record could not be
-     *         read from the database
+     *         read from the database, or if the entity is
+     *         already loaded in read-only mode
      *
      * @since 4.0
      */
@@ -124,8 +125,10 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given identifier exists in the database
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
+     *         supported for the given entity class, if the
+     *         record could not be read from the database, or
+     *         if the entity is already loaded in read-only
+     *         mode
      *
      * @since 4.0
      */
@@ -161,8 +164,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given identifier exists in the database
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
+     *         supported for the given entity class, if the
+     *         record could not be read from the database, or
+     *         if the entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY}
+     *         was not specified as an option
      *
      * @since 4.0
      */
@@ -200,8 +206,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         given identifier exists in the database
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
+     *         supported for the given entity class, if the
+     *         record could not be read from the database, or
+     *         if the entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY}
+     *         was not specified as an option
      *
      * @since 4.0
      */
@@ -239,8 +248,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         the database for one of the given identifiers
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if a
-     *         record could not be read from the database
+     *         supported for the given entity class, if a
+     *         record could not be read from the database, or
+     *         if an entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY}
+     *         was not specified as an option
      *
      * @since 4.0
      */
@@ -279,8 +291,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         the database for one of the given identifiers
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if a
-     *         record could not be read from the database
+     *         supported for the given entity class, if a
+     *         record could not be read from the database, or
+     *         if an entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY}
+     *         was not specified as an option
      *
      * @since 4.0
      */
@@ -304,7 +319,8 @@ public sealed interface EntityHandler extends AutoCloseable
      *         non-null instance of the identifier type of the
      *         given entity class
      * @throws PersistenceException if the record could not be
-     *         read from the database
+     *         read from the database, or if the entity is
+     *         already loaded in read-only mode
      *
      * @since 1.0
      */
@@ -343,8 +359,10 @@ public sealed interface EntityHandler extends AutoCloseable
      *         is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
+     *         supported for the given entity class, if the
+     *         record could not be read from the database, or
+     *         if the entity is already loaded in read-only
+     *         mode
      *
      * @since 1.0
      */
@@ -393,8 +411,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         is rolled back
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
+     *         supported for the given entity class, if the
+     *         record could not be read from the database, or
+     *         if the entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY}
+     *         was not specified as an option
      *
      * @since 3.2
      */
@@ -445,8 +466,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         is rolled back
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the root entity of the given graph
-     *         or if the record could not be read from the database
+     *         supported for the root entity of the given graph,
+     *         if the record could not be read from the database,
+     *         or if the entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY} was
+     *         not specified as an option
      *
      * @since 3.2
      */
@@ -499,8 +523,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         is rolled back
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if a
-     *         record could not be read from the database
+     *         supported for the given entity class, if a
+     *         record could not be read from the database, or
+     *         if an entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY}
+     *         was not specified as an option
      *
      * @since 4.0
      */
@@ -557,8 +584,11 @@ public sealed interface EntityHandler extends AutoCloseable
      *         is rolled back
      * @throws PersistenceException if a given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the root entity of the given graph
-     *         or if a record could not be read from the database
+     *         supported for the root entity of the given graph,
+     *         if a record could not be read from the database,
+     *         or if an entity is already loaded in read-only
+     *         mode and {@link ManagedEntityMode#READ_ONLY} was
+     *         not specified as an option
      *
      * @since 4.0
      */

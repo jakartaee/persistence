@@ -260,6 +260,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      * @throws OptimisticLockException if an optimistic locking conflict
      *         is detected (note that optimistic version checking might be
      *         deferred until changes are flushed to the database)
+     * @throws PersistenceException if the given entity is currently loaded
+     *         in read-only mode
      */
     void remove(Object entity);
 
@@ -281,7 +283,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         is not a valid type for that entity's primary key or
      *         is null
      * @throws PersistenceException if the record could not be
-     *         read from the database
+     *         read from the database, or if the entity is already
+     *         loaded in read-only mode
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -336,8 +339,9 @@ public non-sealed interface EntityManager extends EntityHandler {
      *        only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
+     *         supported for the given entity class, if the
+     *         record could not be read from the database, or if the
+     *         entity is already loaded in read-only mode
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -458,7 +462,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class
+     *         supported for the given entity class, or if the given
+     *         entity is currently loaded in read-only mode
      */
     void lock(Object entity, LockModeType lockMode);
 
@@ -504,7 +509,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class
+     *         supported for the given entity class, or if the given
+     *         entity is currently loaded in read-only mode
      * @since 2.0
      */
     void lock(Object entity, LockModeType lockMode,
@@ -552,7 +558,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class
+     *         supported for the given entity class, or if the given
+     *         entity is currently loaded in read-only mode
      * @since 3.2
      */
     void lock(Object entity, LockModeType lockMode,
@@ -561,7 +568,9 @@ public non-sealed interface EntityManager extends EntityHandler {
     /**
      * Refresh the state of the given managed entity instance from
      * the database, overwriting unflushed changes made to the entity,
-     * if any. This operation cascades to every entity related by an
+     * if any. If the given entity is currently loaded in read-only
+     * mode, reset its mode to {@link ManagedEntityMode#READ_WRITE}.
+     * This operation cascades to every entity related by an
      * association marked {@link CascadeType#REFRESH cascade=REFRESH}.
      * @param entity  a managed entity instance
      * @throws IllegalArgumentException if the instance is not
@@ -580,7 +589,9 @@ public non-sealed interface EntityManager extends EntityHandler {
     /**
      * Refresh the state of the given managed entity instance from
      * the database, using the specified properties, and overwriting
-     * unflushed changes made to the entity, if any. This operation
+     * unflushed changes made to the entity, if any. If the given
+     * entity is currently loaded in read-only mode, reset its mode
+     * to {@link ManagedEntityMode#READ_WRITE}. This operation
      * cascades to every entity related by an association marked
      * {@link CascadeType#REFRESH cascade=REFRESH}.
      * <p>If a vendor-specific property or hint is not recognized,
@@ -607,8 +618,10 @@ public non-sealed interface EntityManager extends EntityHandler {
      * Refresh the state of the given managed entity instance from
      * the database, overwriting unflushed changes made to the entity,
      * if any, and obtain the given {@linkplain LockModeType lock mode}.
-     * This operation cascades to every entity related by an association
-     * marked {@link CascadeType#REFRESH cascade=REFRESH}.
+     * If the given entity is currently loaded in read-only mode, reset
+     * its mode to {@link ManagedEntityMode#READ_WRITE}. This operation
+     * cascades to every entity related by an association marked
+     * {@link CascadeType#REFRESH cascade=REFRESH}.
      * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
@@ -648,9 +661,11 @@ public non-sealed interface EntityManager extends EntityHandler {
      * Refresh the state of the given managed entity instance from
      * the database, overwriting unflushed changes made to the entity,
      * if any, and obtain the given {@linkplain LockModeType lock mode},
-     * using the specified properties. This operation cascades to every
-     * entity related by an association marked {@link CascadeType#REFRESH
-     * cascade=REFRESH}.
+     * using the specified properties. If the given entity is currently
+     * loaded in read-only mode, reset its mode to
+     * {@link ManagedEntityMode#READ_WRITE}. This operation cascades
+     * to every entity related by an association marked
+     * {@link CascadeType#REFRESH cascade=REFRESH}.
      * <p>If the lock mode type is pessimistic, and the entity instance
      * is found but cannot be locked:
      * <ul>
@@ -700,9 +715,11 @@ public non-sealed interface EntityManager extends EntityHandler {
      * database, using the specified {@linkplain RefreshOption options},
      * overwriting changes made to the entity, if any. If the supplied
      * options include a {@link LockModeType}, lock the given entity,
-     * obtaining the given lock mode. This operation cascades to every
-     * entity related by an association marked {@link CascadeType#REFRESH
-     * cascade=REFRESH}.
+     * obtaining the given lock mode. If the given entity is currently
+     * loaded in read-only mode, reset its mode to
+     * {@link ManagedEntityMode#READ_WRITE}. This operation cascades
+     * to every entity related by an association marked
+     * {@link CascadeType#REFRESH cascade=REFRESH}.
      * <p>If the lock mode type is pessimistic, and the entity instance is
      * found but cannot be locked:
      * <ul>
@@ -751,6 +768,27 @@ public non-sealed interface EntityManager extends EntityHandler {
      * been flushed to the database will never be made persistent.
      */
     void clear();
+
+    /**
+     * Obtain the {@link ManagedEntityMode} of the given entity.
+     * @param entity a persistent entity associated with the
+     *               persistence context
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or if the entity is not managed
+     * @since 4.0
+     */
+    ManagedEntityMode getManagedEntityMode(Object entity);
+
+    /**
+     * Set the {@link ManagedEntityMode} of the given entity.
+     * @param entity a persistent entity associated with the
+     *               persistence context
+     * @param mode the new mode
+     * @throws IllegalArgumentException if the instance is not an entity
+     *         or if the entity is not managed
+     * @since 4.0
+     */
+    void setManagedEntityMode(Object entity, ManagedEntityMode mode);
 
     /**
      * Evict the given managed or removed entity from the persistence
