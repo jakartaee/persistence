@@ -24,13 +24,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PostPersist}
- * callback method is invoked for an entity after the entity has been made
- * persistent, and after the database insert operation. This database
- * operation may occur immediately when the {@code persist()} operation
- * is invoked, or it may happen at the time state is flushed to the
- * database. The {@code PostPersist} callback is also invoked on all
- * entities to which the {@code persist()} operation is cascaded.
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>The {@code @PostPersist} callback for an entity which has been
+ * made persistent occurs after the entity has been marked as managed
+ * and associated with the persistence context, and after the database
+ * insert operations have been executed. Note that the database insert
+ * operations might occur immediately during execution of
+ * {@link EntityManager#persist persist()} or
+ * {@link EntityManager#merge merge()}, or they might occur later when
+ * the persistence context is flushed.
  *
  * <p>Any generated primary key value is available when this callback
  * occurs.
