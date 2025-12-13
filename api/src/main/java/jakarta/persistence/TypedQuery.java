@@ -19,6 +19,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Type;
+
 import java.util.List;
 import java.util.Date;
 import java.util.Calendar;
@@ -59,6 +61,7 @@ public interface TypedQuery<X> extends Query {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Override
     List<X> getResultList();
 
     /**
@@ -96,6 +99,7 @@ public interface TypedQuery<X> extends Query {
      * @see #getResultList()
      * @since 2.2
      */
+    @Override
     default Stream<X> getResultStream() {
         return getResultList().stream();
     }
@@ -127,6 +131,7 @@ public interface TypedQuery<X> extends Query {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
      */
+    @Override
     X getSingleResult();
 
     /**
@@ -158,6 +163,7 @@ public interface TypedQuery<X> extends Query {
      *
      * @since 3.2
      */
+    @Override
     X getSingleResultOrNull();
 
     /**
@@ -166,6 +172,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Override
     TypedQuery<X> setMaxResults(int maxResult);
 
     /**
@@ -175,6 +182,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Override
     TypedQuery<X> setFirstResult(int startPosition);
 
     /**
@@ -215,6 +223,7 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
+    @Override
     TypedQuery<X> setHint(String hintName, Object value);
 
     /**
@@ -226,7 +235,8 @@ public interface TypedQuery<X> extends Query {
      *         does not correspond to a parameter of the
      *         query
      */
-     <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
+    @Override
+    <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
@@ -239,7 +249,7 @@ public interface TypedQuery<X> extends Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     TypedQuery<X> setParameter(Parameter<Calendar> param, 
                                Calendar value,  
                                TemporalType temporalType);
@@ -255,7 +265,7 @@ public interface TypedQuery<X> extends Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     TypedQuery<X> setParameter(Parameter<Date> param, Date value,  
                                TemporalType temporalType);
 
@@ -268,7 +278,41 @@ public interface TypedQuery<X> extends Query {
      *         not correspond to a parameter of the query or if
      *         the argument is of incorrect type
      */
+    @Override
     TypedQuery<X> setParameter(String name, Object value);
+
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null.
+     * @param name  parameter name
+     * @param value  parameter value
+     * @param type  a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> TypedQuery<X> setParameter(String name, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * @param name  parameter name
+     * @param value  parameter value
+     * @param type  the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> TypedQuery<X> setParameter(String name, P value, Type<P> type);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a named parameter.
@@ -282,7 +326,7 @@ public interface TypedQuery<X> extends Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     TypedQuery<X> setParameter(String name, Calendar value, 
                                TemporalType temporalType);
 
@@ -298,7 +342,7 @@ public interface TypedQuery<X> extends Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     TypedQuery<X> setParameter(String name, Date value, 
                                TemporalType temporalType);
 
@@ -311,7 +355,41 @@ public interface TypedQuery<X> extends Query {
      *         correspond to a positional parameter of the
      *         query or if the argument is of incorrect type
      */
+    @Override
     TypedQuery<X> setParameter(int position, Object value);
+
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null.
+     * @param position  position
+     * @param value  parameter value
+     * @param type  a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> TypedQuery<X> setParameter(int position, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * @param position  position
+     * @param value  parameter value
+     * @param type  the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> TypedQuery<X> setParameter(int position, P value, Type<P> type);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a positional
@@ -326,7 +404,7 @@ public interface TypedQuery<X> extends Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     TypedQuery<X> setParameter(int position, Calendar value,  
                                TemporalType temporalType);
 
@@ -343,7 +421,7 @@ public interface TypedQuery<X> extends Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     TypedQuery<X> setParameter(int position, Date value,  
                                TemporalType temporalType);
 
@@ -354,6 +432,7 @@ public interface TypedQuery<X> extends Query {
       * @param flushMode  flush mode
       * @return the same query instance
       */
+     @Override
      TypedQuery<X> setFlushMode(FlushModeType flushMode);
 
      /**
@@ -365,6 +444,7 @@ public interface TypedQuery<X> extends Query {
       *         or a {@link jakarta.persistence.criteria.CriteriaQuery}
       *         query
       */
+     @Override
      TypedQuery<X> setLockMode(LockModeType lockMode);
 
     /**
@@ -375,6 +455,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -385,6 +466,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -396,5 +478,6 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     TypedQuery<X> setTimeout(Integer timeout);
 }
