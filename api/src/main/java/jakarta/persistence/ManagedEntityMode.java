@@ -101,8 +101,8 @@ public enum ManagedEntityMode implements FindOption {
 	 * Specifies that an entity should be loaded in the default
 	 * modifiable mode.
 	 * <p>
-	 * Changes made to modifiable entities are synchronized to
-	 * with the database when the persistence context is flushed.
+	 * Changes made to modifiable entities are synchronized with
+	 * the database when the persistence context is flushed.
 	 */
 	READ_WRITE
 }
