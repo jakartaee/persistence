@@ -853,12 +853,15 @@ public interface EntityManager extends EntityHandler {
      * {@link ReadOnly} annotation for the given instance
      * only. If the given instance has been modified, the
      * modifications are synchronized with the database the
-     * next time the persistence context is flushed.
-     * @param entity a managed instance of a read-only entity class
+     * next time the persistence context is flushed. If this
+     * operation was already applied to the given instance,
+     * the invocation has no effect.
+     * @param entity a managed instance of a read-only entity
+     *               class
      * @throws IllegalArgumentException if the instance is
-     *         not associated with this persistence context,
-     *         or it is not an instance of a read-only entity
-     *         class
+     *         not associated with this persistence context
+     *         or is not a non-null instance of a read-only
+     *         entity class
      * @since 4.0
      * @see ReadOnly
      * @see #flush
