@@ -54,6 +54,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the state of read-only entities whenever it might result
  * in a significant cost to performance.
  *
+ * @see EntityManager#enableFlush(Object)
+ *
  * @since 4.0
  */
 @Documented
