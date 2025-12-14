@@ -847,6 +847,18 @@ public interface EntityManager extends EntityHandler {
     EntityGraph<?> createEntityGraph(String graphName);
 
     /**
+     * Obtain an {@link EntityAgent} which shares the transaction
+     * associated with this {@code EntityManager}. If this as a
+     * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
+     * resource-local entity manager}, the {@link #getTransaction()}
+     * method of the returned agent always returns exactly the same
+     * object as the {@code getTransaction()} method of this entity
+     * manager.
+     * @since 4.0
+     */
+    EntityAgent getAgent();
+
+    /**
      * Return the underlying provider object for the
      * {@link EntityManager}, if available. The result of this
      * method is implementation-specific.
