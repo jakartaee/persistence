@@ -634,7 +634,7 @@ See <<a12382>> and <<a2374>>.
 |===
 
 The following properties correspond to the properties in the `persistence.xml`
-ile. When any of these properties are specified in the `Map` parameter passed
+file. When any of these properties are specified in the `Map` parameter passed
 to the `createEntityManagerFactory` method, their values override the values of
 the corresponding properties in the `persistence.xml` file for the named
 persistence unit. They also override any defaults that the persistence provider
