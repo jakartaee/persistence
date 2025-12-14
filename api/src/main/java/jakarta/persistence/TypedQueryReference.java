@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -80,7 +80,7 @@ import java.util.Map;
  *
  * @param <R> an upper bound on the result type of the query
  *
- * @see EntityManager#createQuery(TypedQueryReference)
+ * @see EntityHandler#createQuery(TypedQueryReference)
  *
  * @since 3.2
  */

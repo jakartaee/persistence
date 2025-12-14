@@ -33,7 +33,7 @@ package jakarta.persistence;
  * <p>Enumerates legal values of the property
  * {@code jakarta.persistence.cache.storeMode}.
  *
- * @see EntityManager#setCacheStoreMode(CacheStoreMode)
+ * @see EntityHandler#setCacheStoreMode(CacheStoreMode)
  * @see Query#setCacheStoreMode(CacheStoreMode)
  *
  * @since 2.0
