@@ -66,5 +66,14 @@ public interface AttributeNode<T> {
      * have been defined
      */
     Map<Class<?>, Subgraph<?>> getKeySubgraphs();
+
+    /**
+     * Specify an {@linkplain FetchOption option} controlling
+     * how this node is fetched.
+     * @param option The option
+     * @return the receiving instance
+     * @since 4.0
+     */
+    AttributeNode<T> addOption(FetchOption option);
 }
 
