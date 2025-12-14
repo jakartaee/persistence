@@ -61,10 +61,6 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
-     * @throws PersistenceException or if the query would return an
-     *         entity which is already loaded in read-only mode,
-     *         and {@link ManagedEntityMode#READ_ONLY} was not
-     *         ser by calling {@link #setManagedEntityMode}
      */
     List<X> getResultList();
 
@@ -133,10 +129,6 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
-     * @throws PersistenceException or if the query would return an
-     *         entity which is already loaded in read-only mode,
-     *         and {@link ManagedEntityMode#READ_ONLY} was not
-     *         ser by calling {@link #setManagedEntityMode}
      */
     X getSingleResult();
 
@@ -166,10 +158,6 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
-     * @throws PersistenceException or if the query would return an
-     *         entity which is already loaded in read-only mode,
-     *         and {@link ManagedEntityMode#READ_ONLY} was not
-     *         ser by calling {@link #setManagedEntityMode}
      *
      * @since 3.2
      */

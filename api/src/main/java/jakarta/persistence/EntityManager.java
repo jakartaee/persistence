@@ -195,7 +195,9 @@ public non-sealed interface EntityManager extends EntityHandler {
      * marked {@link CascadeType#PERSIST cascade=PERSIST}. If the given
      * entity instance is already managed, that is, if it already belongs
      * to this persistence context and has not been marked for removal,
-     * it is itself ignored, but the operation still cascades.
+     * it is itself ignored, but the operation still cascades. If the
+     * given entity is currently loaded in read-only mode, reset its mode
+     * to {@link ManagedEntityMode#READ_WRITE}.
      * @param entity  a new, managed, or removed entity instance
      * @throws EntityExistsException if the given entity is detached
      * (if the entity is detached, the {@code EntityExistsException}
@@ -225,7 +227,9 @@ public non-sealed interface EntityManager extends EntityHandler {
      * entity instance is managed, that is, if it belongs to this
      * persistence context and has not been marked for removal, it is
      * itself ignored, but the operation still cascades, and it is
-     * returned directly.
+     * returned directly. If the returned entity is currently loaded
+     * in read-only mode, reset its mode to
+     * {@link ManagedEntityMode#READ_WRITE}.
      * @param entity  a new, managed, or detached entity instance
      * @return the managed instance that the state was merged to
      * @throws IllegalArgumentException if the instance is not an entity
@@ -245,11 +249,12 @@ public non-sealed interface EntityManager extends EntityHandler {
     /**
      * Mark a managed entity instance as removed, resulting in its deletion
      * from the database when the persistence context is synchronized with
-     * the database. This operation cascades to every entity related by an
-     * association marked {@link CascadeType#REMOVE cascade=REMOVE}. If the
-     * given entity instance is already removed, it is ignored. If the
-     * given entity is new, it is itself ignored, but the operation still
-     * cascades.
+     * the database. If the given entity is currently loaded in read-only
+     * mode, reset its mode to {@link ManagedEntityMode#READ_WRITE}. This
+     * operation cascades to every entity related by an association marked
+     * {@link CascadeType#REMOVE cascade=REMOVE}. If the given entity
+     * instance is already removed, it is ignored. If the given entity is
+     * new, it is itself ignored, but the operation still cascades.
      * @param entity  a managed, new, or removed entity instance
      * @throws IllegalArgumentException if the instance is not an entity
      *         or is a detached entity
@@ -283,8 +288,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         is not a valid type for that entity's primary key or
      *         is null
      * @throws PersistenceException if the record could not be
-     *         read from the database, or if the entity is already
-     *         loaded in read-only mode
+     *         read from the database
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -339,9 +343,8 @@ public non-sealed interface EntityManager extends EntityHandler {
      *        only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class, if the
-     *         record could not be read from the database, or if the
-     *         entity is already loaded in read-only mode
+     *         supported for the given entity class or if the
+     *         record could not be read from the database
      * @since 2.0
      */
     <T> T find(Class<T> entityClass, Object primaryKey,
@@ -431,6 +434,8 @@ public non-sealed interface EntityManager extends EntityHandler {
     /**
      * Lock an entity instance belonging to the persistence context,
      * obtaining the specified {@linkplain LockModeType lock mode}.
+     * If the given entity is currently loaded in read-only mode,
+     * reset its mode to {@link ManagedEntityMode#READ_WRITE}.
      * <p>If a pessimistic lock mode type is specified and the entity
      * contains a version attribute, the persistence provider must 
      * also perform optimistic version checks when obtaining the 
@@ -462,15 +467,16 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class, or if the given
-     *         entity is currently loaded in read-only mode
+     *         supported for the given entity class
      */
     void lock(Object entity, LockModeType lockMode);
 
     /**
      * Lock an entity instance belonging to the persistence context,
      * obtaining the specified {@linkplain LockModeType lock mode},
-     * using the specified properties.
+     * using the specified properties. If the given entity is currently
+     * loaded in read-only mode, reset its mode to
+     * {@link ManagedEntityMode#READ_WRITE}.
      * <p>If a pessimistic lock mode type is specified and the entity
      * contains a version attribute, the persistence provider must 
      * also perform optimistic version checks when obtaining the 
@@ -509,8 +515,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class, or if the given
-     *         entity is currently loaded in read-only mode
+     *         supported for the given entity class
      * @since 2.0
      */
     void lock(Object entity, LockModeType lockMode,
@@ -519,7 +524,9 @@ public non-sealed interface EntityManager extends EntityHandler {
     /**
      * Lock an entity instance belonging to the persistence context,
      * obtaining the specified {@linkplain LockModeType lock mode},
-     * using the specified {@linkplain LockOption options}.
+     * using the specified {@linkplain LockOption options}. If the
+     * given entity is currently loaded in read-only mode, reset its
+     * mode to {@link ManagedEntityMode#READ_WRITE}.
      * <p>If a pessimistic lock mode type is specified and the entity
      * contains a version attribute, the persistence provider must
      * also perform optimistic version checks when obtaining the
@@ -558,8 +565,7 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         only the statement is rolled back
      * @throws PersistenceException if the given
      *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class, or if the given
-     *         entity is currently loaded in read-only mode
+     *         supported for the given entity class
      * @since 3.2
      */
     void lock(Object entity, LockModeType lockMode,
