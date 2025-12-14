@@ -640,7 +640,9 @@ public interface Query {
 
     /**
      * Set the {@link ManagedEntityMode} to be used for entities
-     * loaded during execution of this query.
+     * loaded during execution of this query. Every instance of
+     * {@code Query} is created with the default mode
+     * {@link ManagedEntityMode#READ_ONLY}.
      *
      * @since 4.0
      */

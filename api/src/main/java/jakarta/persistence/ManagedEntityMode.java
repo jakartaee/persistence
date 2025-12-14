@@ -33,42 +33,68 @@ package jakarta.persistence;
  * <p>
  * Changes made to an entity instance currently loaded in
  * read-only mode are not synchronized to the database and
- * do not become persistent.
+ * do not become persistent. The provider is not required
+ * to detect modifications to entities in read-only mode.
  * <p>
- * When {@link #READ_ONLY} is passed as an option or to
+ * When {@link #READ_ONLY} is passed as an option, or when
+ * a query is executed in {@link #READ_ONLY} mode, as
+ * determined by the return value of the method
  * {@link Query#setManagedEntityMode}, every entity loaded
- * into the persistence context during the invocation, or
- * during subsequent execution of the {@link Query}, is
- * loaded in read-only mode, including any eagerly-fetched
- * associated entities.
+ * into the persistence context during the invocation is
+ * loaded in read-only mode, including any eagerly fetched
+ * associated entities. Entities which are already loaded
+ * remain in their predetermined {@link ManagedEntityMode}.
  * <p>
  * On the other hand, when the {@code ManagedEntityMode} of
- * an enity is changed via a call to
+ * an entity is changed via invocation of
  * {@link EntityManager#setManagedEntityMode}, the new mode
  * applies only the given managed entity instance, and does
  * not affect associated entities.
  * <p>
- * If a managed entity loaded in read-only mode would be
- * returned by a method of {@link EntityManager} which does
- * not request {@code READ_ONLY} mode, or among the results
- * of a query which does not request {@code READ_ONLY} mode,
- * a {@link PersistenceException} is thrown.
- * <p>
- * If an entity loaded in read-only mode is passed to
- * {@link EntityManager#refresh}, its mode is automatically
- * reset to {@link #READ_WRITE}. If an entity loaded in
- * read-only mode is passed to {@link EntityManager#remove}
- * or {@link EntityManager#lock}, a {@link PersistenceException}
- * is thrown.
+ * A managed entity in read-only mode has its mode
+ * automatically reset to {@link #READ_WRITE} when:
+ * <ul>
+ * <li>it is directly returned by a call to a method of
+ *     {@link EntityManager}, and {@link #READ_ONLY} was
+ *     not specified as an argument to the method,
+ * <li>it is referenced by the entity returned by a call
+ *     to a method of {@link EntityManager} via an
+ *     association path marked for eager fetching within
+ *     the fetch graph in effect during execution of the
+ *     method, and {@link #READ_ONLY} was not specified as
+ *     an argument to the method,
+ * <li>it occurs directly in the result of a query which
+ *     was executed in {@link #READ_WRITE} mode, as
+ *     determined by the return value of the method
+ *     {@link Query#getManagedEntityMode},
+ * <li>it is referenced via an association path marked
+ *     for eager fetching by an entity occurring directly
+ *     in the result of a query which was executed in
+ *     {@link #READ_WRITE} mode, or
+ * <li>it is passed as an argument to
+ *     {@link EntityManager#refresh refresh()},
+ * 	   {@link EntityManager#lock lock()},
+ * 	   {@link EntityManager#remove persist()}, or
+ * 	   {@link EntityManager#remove remove()}.
+ * </ul>
+ * <p>If an entity in read-only mode is modified, and then the
+ * entity is reset to modifiable mode, either automatically or
+ * explicitly, the behavior is undefined. Such modifications
+ * might be lost; they might be made persistent; or the provider
+ * might throw an exception. Portable applications should not
+ * depend on such behavior.
  *
  * @since 4.0
  */
 public enum ManagedEntityMode implements FindOption {
 	/**
-	 * Specifies that an entity should be loaded in read-only mode.
+	 * Specifies that an entity is loaded with the intention that
+	 * its state is used only for reading, and not for modification,
+	 * enabling the persistence provider to optimize performance.
 	 * <p>
-	 * Read-only entities can be modified, but changes are not
-	 * synchronized with the database.
+	 * If a read-only entity is modified, the modifications are not
+	 * synchronized with the database. The provider is not required
+	 * to detect modifications to entities in read-only mode.
 	 */
 	READ_ONLY,
 	/**
