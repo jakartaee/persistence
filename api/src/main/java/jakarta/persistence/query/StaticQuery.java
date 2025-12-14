@@ -48,21 +48,45 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     @StaticQuery("from Book where isbn = :isbn")
  *     Book getBookWithIsbn(String isbn);
  *
+ *     record Summary(String title, String isbn, LocalDate date) {}
+ *     @StaticQuery("""
+ *         select title, isbn, pubDate
+ *         from Book
+ *         where title like = ?1 and pubDate > ?2
+ *     """)
+ *     List<Summary> retrieveSummaries(String title, LocalDate fromDate);
+ *
  * }
  *}
+ *
  * <p> A method return type <em>agrees</em> with the type returned by the
  * query if either:
  * <ul>
  * <li>it is exactly {@code R}, {@link java.util.List List&lt;R&gt;}, or
- *     {@link java.util.stream.Stream Stream&lt;R&gt;} where the query
- *     return type is assignable to {@code R}, or
+ *     {@link java.util.stream.Stream Stream&lt;R&gt;} for some result
+ *     type {@code R} which is compatible with the query, according to the
+ *     rules specified below, or
  * <li>the method is a Jakarta Data repository method, and its return type
  *     is a legal query method return type for the given query, as specified
  *     by Jakarta Data.
  * </ul>
- * <p> A method parameter type agrees with a query parameter type if it is
- * a type that could be assigned to the corresponding query parameter by
- * passing an instance of the type to {@code setParameter()}. In making
+ * <p>A result type {@code R} is considered <em>compatible</em> with a query
+ * if either:
+ * <ol>
+ * <li>the select list of the query contains only a single item, and the type
+ *     of the item is assignable to the given result class, or
+ * <li>the result class is a non-abstract class or record type that has a
+ *     constructor with the same number of parameters as the query has items
+ *     in its select list, and the constructor parameter types exactly match
+ *     the types of the corresponding items in the select list.
+ * </ol>
+ * <p>In the first case, each query result is returned directly to the caller.
+ * In the second case, each query result is automatically packaged in a new
+ * instance of the result class by calling the matching constructor.
+ *
+ * <p> A method parameter type <em>agrees</em> with a query parameter type if
+ * it is a type that could be assigned to the corresponding query parameter
+ * by passing an instance of the type to {@code setParameter()}. In making
  * this determination, method parameters are correlated with query parameters
  * by position or by name, depending on whether the query uses positional or
  * named parameters.

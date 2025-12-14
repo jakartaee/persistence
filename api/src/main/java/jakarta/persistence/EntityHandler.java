@@ -678,17 +678,32 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
-     * Jakarta Persistence query language statement.
-     * The select list of the query must contain only a single
-     * item, which must be assignable to the type specified by
-     * the {@code resultClass} argument.
+     * Jakarta Persistence query language SELECT statement and
+     * returning instances of the given result class. Either:
+     * <ol>
+     * <li>the select list of the query contains only a single
+     *     item, which must be assignable to the result class,
+     *     or
+     * <li>the result class must be a non-abstract class or
+     *     record type with a constructor with the same number
+     *     of parameters as the query has items in its select
+     *     list, and the constructor parameter types must exactly
+     *     match the types of the corresponding items in the
+     *     select list.
+     * </ol>
+     * <p>In the first case, each query result is returned
+     * directly to the caller. In the second case, each query
+     * result is automatically packaged in a new instance of
+     * the result class by calling the matching constructor.
      * @param qlString A Jakarta Persistence query string
-     * @param resultClass The type of the query result
+     * @param resultClass The result class
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the query result is
      *         found to not be assignable to the specified type
+     *         and the specified type does not have a suitable
+     *         constructor
      * @since 2.0
      */
     <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
