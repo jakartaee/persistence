@@ -25,9 +25,12 @@ package jakarta.persistence;
  *     fetched.
  * <li>The {@link #LAZY} strategy is a hint to the persistence
  *     provider runtime that data should be fetched lazily when
- *     it is first accessed. The implementation is permitted to
- *     eagerly fetch data for which the {@code LAZY} strategy
- *     hint has been specified.
+ *     it is first accessed, in the case of a managed entity
+ *     associated with a persistence context, or on a call to
+ *     {@link EntityAgent#fetch}, in the case of a detached
+ *     entity. The implementation is permitted to eagerly fetch
+ *     data for which the {@code LAZY} strategy hint has been
+ *     specified.
  * </ul>
  *
  * <p>Example:
