@@ -58,6 +58,9 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      */
     List<X> getResultList();
 
