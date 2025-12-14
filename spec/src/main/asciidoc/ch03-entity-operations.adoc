@@ -324,19 +324,29 @@ updates on the owning side, so as to ensure the changes are not lost
 when they are synchronized to the database.
 ====
 
-The persistence provider runtime is permitted
-to perform synchronization to the database at other times as well when a
-transaction is active and the persistence context is joined to the
-transaction. The `flush` method can be used by the application to force
-synchronization. It applies to entities associated with the persistence
-context. The `setFlushMode` methods of the `EntityManager`, `Query`,
-`TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
-control synchronization semantics. The effect of `FlushModeType.AUTO` is
-defined in <<a4374>>. If `FlushModeType.COMMIT` is specified, flushing will occur at
-transaction commit; the persistence provider is permitted, but not
-required, to perform to flush at other times. If there is no transaction
-active or if the persistence context has not been joined to the current
-transaction, the persistence provider must not flush to the database.
+When a transaction is active and the persistence context is joined
+to the transaction, the persistence provider runtime is permitted to
+perform synchronization to the database of modifications made to
+entities associated with the persistence context. This behavior is
+controlled by the `flush()` method of `EntityManager` and by the
+specified `FlushModeType`.
+
+- The `flush()` method can be called by the application to force
+  synchronization of every modification of every entity associated
+  with the persistence context.
+- The `setFlushMode` methods of the `EntityManager`, `Query`,
+  `TypedQuery`, and `StoredProcedureQuery` interfaces can be used
+  to control the behavior  of automatic synchronization.
+  * The effect of `FlushModeType.AUTO` is defined in <<a4374>>.
+  * If `FlushModeType.COMMIT` is specified, the persistence context
+    is flushed when the transaction commits; the persistence provider
+    is permitted, but not required, to flush at other times.
+  * If `FlushMode.EXPLICIT` is specified, the persistence provider
+    must never automatically flush modifications to the database.
+
+If there is no transaction active or if the persistence context has
+not been joined to the current transaction, the persistence provider
+must not flush modifications to the database.
 
 The semantics of the flush operation, applied
 to an entity X are as follows:
@@ -2746,14 +2756,14 @@ The possible flush modes are enumerated by `FlushModeType`.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=49..-1]
 ----
 
 When a query is executed within a transaction:
 
-- If `FlushModeType.AUTO` is set via the `Query`, `TypedQuery`, or
-  `StoredProcedureQuery` object, or if the flush mode setting for
-  the persistence context is `AUTO` (the default) and a flush
+- If `FlushModeType.AUTO` is selected via the `Query`, `TypedQuery`,
+  or `StoredProcedureQuery` object, or if the flush mode setting
+  for the persistence context is `AUTO` (the default) and a flush
   mode setting has not been specified for the query object, the
   persistence provider must ensure that every modification to the
   state of every entity associated with the persistence context
@@ -2762,9 +2772,9 @@ When a query is executed within a transaction:
   implementation might guarantee this by flushing pending updates
   to modified entities to the database before executing the query.
 
-- On the other hand, if `FlushModeType.COMMIT` is set, the effect
-  of updates made to entities in the persistence context on query
-  results is unspecified.
+- If `FlushModeType.COMMIT` or `FlushModeType.EXPLICIT` is selected,
+  the effect on query results of unflushed modifications made to
+  entities held in the persistence context is unspecified.
 
 If there is no transaction active or if the persistence context has
 not been joined to the current transaction, the persistence provider
