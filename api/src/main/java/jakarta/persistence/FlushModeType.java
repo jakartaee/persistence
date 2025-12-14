@@ -35,9 +35,10 @@ package jakarta.persistence;
  *     of the query. The persistence provider implementation might
  *     guarantee this by flushing pending updates to modified
  *     entities to the database before executing the query.
- * <li>Otherwise, if {@link #COMMIT} is set, the effect on the
- *     results of the query of pending modifications to entities
- *     in the persistence context is unspecified.
+ * <li>Otherwise, if {@link #COMMIT} or {@link #EXPLICIT} is set,
+ *     the effect on the results of the query of pending
+ *     modifications to entities in the persistence context is
+ *     unspecified.
  * </ul>
  *
  * <p>When there is no transaction active, or if the persistence
@@ -56,6 +57,15 @@ package jakarta.persistence;
  * @since 1.0
  */
 public enum FlushModeType {
+    /**
+     * Every flush is an explicit operation requested by the application
+     * program. The session is never automatically flushed. Modifications
+     * to entities held in the persistence context might not be visible
+     * to the processing of queries and might never be made persistent.
+     *
+     * @since 4.0
+     */
+    EXPLICIT,
 
     /**
      * Pending modifications to entities associated with a
@@ -64,7 +74,7 @@ public enum FlushModeType {
      * The provider is permitted to flush at other times, but is
      * not required to.
      */
-   COMMIT,
+    COMMIT,
 
     /**
      * Pending modifications to entities associated with a
@@ -82,5 +92,5 @@ public enum FlushModeType {
      * This is the default flush mode for a newly created
      * {@link EntityManager}.
      */
-   AUTO
+    AUTO
 }
