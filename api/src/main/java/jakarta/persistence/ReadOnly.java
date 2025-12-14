@@ -42,12 +42,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * a new or detached instance may be passed to any appropriate
  * operation of {@link EntityAgent}, including {@code insert()},
  * {@code update()}, {@code upsert()}, and {@code delete()}.
- * The {@link ReadOnly} annotation has no effect at all on an
- * {@code EntityAgent}.
  * <p>
  * The effect of this annotation may be selectively disabled
  * for a given managed instance of a read-only entity class by
  * passing the instance to {@link EntityManager#enableFlush}.
+ * The {@link ReadOnly} annotation has no effect at all on an
+ * {@code EntityAgent}.
  * <p>
  * The provider is not required to detect modifications to
  * read-only entities and is encouraged to avoid tracking
