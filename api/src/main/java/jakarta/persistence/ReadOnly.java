@@ -45,6 +45,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The {@link ReadOnly} annotation has no effect at all on an
  * {@code EntityAgent}.
  * <p>
+ * The effect of this annotation may be selectively disabled
+ * for a given managed instance of a read-only entity class by
+ * passing the instance to {@link EntityManager#enableFlush}.
+ * <p>
  * The provider is not required to detect modifications to
  * read-only entities and is encouraged to avoid tracking
  * the state of read-only entities whenever it might result
