@@ -794,6 +794,25 @@ public non-sealed interface EntityManager extends EntityHandler {
     LockModeType getLockMode(Object entity);
 
     /**
+     * Enable tracking of modifications to the given managed
+     * instance of a {@linkplain ReadOnly read-only} entity
+     * class. This operation disables the effect of the
+     * {@link ReadOnly} annotation for the given instance
+     * only. If the given instance has been modified, the
+     * modifications are synchronized with the database the
+     * next time the persistence context is flushed.
+     * @param entity a managed instance of a read-only entity class
+     * @throws IllegalArgumentException if the instance is
+     *         not associated with this persistence context,
+     *         or it is not an instance of a read-only entity
+     *         class
+     * @since 4.0
+     * @see ReadOnly
+     * @see #flush
+     */
+    void enableFlush(Object entity);
+
+    /**
      * Obtain an {@link EntityAgent} which shares the transaction
      * associated with this {@code EntityManager}. If this as a
      * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
