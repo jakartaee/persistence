@@ -82,7 +82,24 @@ public @interface NamedQuery {
      * {@link EntityManager#createNamedQuery(String, Class)}. If
      * the result class of a named query is not specified, the
      * persistence implementation is entitled to default the
-     * result class to {@code Object} or {@code Object[]}.
+     * result class to {@code Object} or {@code Object[]}. On the
+     * other hand, if the result class is explicitly specified,
+     * then either:
+     * <ol>
+     * <li>the select list of the query contains only a single
+     *     item, which must be assignable to the given result
+     *     class, or
+     * <li>the result class must be a non-abstract class or
+     *     record type with a constructor with the same number
+     *     of parameters as the query has items in its select
+     *     list, and the constructor parameter types must exactly
+     *     match the types of the corresponding items in the
+     *     select list.
+     * </ol>
+     * <p>In the first case, each query result is returned
+     * directly to the caller. In the second case, each query
+     * result is automatically packaged in a new instance of
+     * the result class by calling the matching constructor.
      * @since 3.2
      */
     Class<?> resultClass() default void.class;

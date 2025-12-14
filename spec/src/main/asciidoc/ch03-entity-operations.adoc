@@ -2956,6 +2956,31 @@ parameter.
 query.setParameter("names", List.of(name1, name2, name3))
 ----
 
+==== Result classes
+
+The `createQuery()` method of `EntityHandler` accepts, among other
+possibilities, a JPQL query string and a Java class object specifying
+a _result class_.
+
+[source,java]
+----
+<T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
+----
+
+The `TypedQuery` created by this method returns instances of the given
+result class. Either:
+
+- the select list of the query contains only a single item, which must
+  be assignable to the given result class, or
+- the result class must be non-`abstract` class or record type with a
+  constructor with the same number of parameters as the query has items
+  in its select list, and the constructor parameter types must exactly
+  match the types of the corresponding items in the select list.
+
+In the first case, each query result is returned directly to the caller.
+In the second case, each query result is automatically packaged in a new
+instance of the result class by calling the matching constructor.
+
 ==== Named Queries
 
 A _named query_ is:
