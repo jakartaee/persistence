@@ -25,7 +25,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies the entity listener classes associated with the
  * annotated class. This annotation may be applied to an
- * {@linkplain  Entity entity class} or to a
+ * {@linkplain Entity entity class} or to a
  * {@linkplain MappedSuperclass mapped superclass}.
  *
  * <p>Every entity listener class must have a public constructor
@@ -37,16 +37,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  *
  * <p>The specified entity listener classes may have callback
- * methods annotated {@link PrePersist}, {@link PreUpdate},
- * {@link PreRemove}, {@link PostPersist}, {@link PostUpdate},
- * {@link PostRemove}, and/or {@link PostLoad}. A callback
- * method defined by an entity listener class must have the
- * signature {@code void method(E entity)} where {@code E} is
- * an entity class, a mapped superclass, or a supertype of
- * the entity class or mapped superclass to which the entity
- * listener applies. If multiple entity classes are assignable
- * to the type {@code E}, the callback method is invoked for
- * any such class to which the entity listener applies.
+ * methods annotated with any of the standard lifecycle callback
+ * annotations:
+ * <ul>
+ * <li>{@link PostLoad},
+ * <li>{@link PrePersist}, {@link PostPersist},
+ *     {@link PreRemove}, {@link PostRemove}, and {@link PreMerge},
+ * <li>{@link PreInsert}, {@link PostInsert}, {@link PreUpdate},
+ *     {@link PostUpdate}, {@link PreUpsert}, {@link PostUpsert},
+ *     {@link PreDelete}, and {@link PostDelete}.
+ * </ul>
+ * <p>A callback method declared by an entity listener class must
+ * have the signature {@code void method(E entity)} where {@code E}
+ * is an entity class, a mapped superclass, or a supertype of the
+ * entity class or mapped superclass to which the entity listener
+ * applies. If multiple entity classes are assignable to the type
+ * {@code E}, the callback method is invoked for any such class to
+ * which the entity listener applies.
  * {@snippet :
  * class BookObserver {
  *

@@ -1435,8 +1435,7 @@ lifecycle operations:
 * `@PostPersist`
 * `@PreRemove`
 * `@PostRemove`
-* `@PreUpdate`
-* `@PostUpdate`
+* `@PreMerge`
 
 Annotations for callbacks corresponding to database operations:
 
@@ -1480,24 +1479,48 @@ An entity or entity listener may have multiple lifecycle callback methods:
 
 ==== Semantics of the Life Cycle Callback Methods for Entities [[a2202]]
 
-The `@PrePersist` and `@PreRemove` callbacks occur before the
-respective persist and remove operations for an entity are executed.
-For entities to which the `merge()` operation has been applied and
-causes the creation of newly managed instances, the `@PrePersist`
-callback occurs for the managed instance after the entity state has
-been copied to it. The `@PrePersist` and `@PreRemove` callbacks also
-occur for any entity to which these operations cascade. The `@PrePersist`
-and `@PreRemove` methods are always invoked as part of the synchronous
-`persist()`, `merge()`, and `remove()` operations of `EntityManager`.
+A `@PrePersist`, `@PreRemove`, or `@PreMerge` callback occurs before
+the respective persist, remove, or merge operation for an entity is
+executed.
 
-The `@PostPersist` and `@PostRemove` callbacks occur after an entity
-has been made persistent, or after it has been removed, respectively.
-These callbacks also occur for any entity to which these operations
-cascade. The `@PostPersist` and `@PostRemove` methods occur after the
-database insert and delete operations, respectively. The database
-operations might occur directly after invocation of `persist()`,
-`merge()`, or `remove()`, or they might occur during a `flush()`
-operation--which may not happen until the end of the transaction.
+- The `@PrePersist` callback for an entity being made persistent
+  occurs before the entity is marked as managed and associated with
+  the persistence context.
+- The `@PreRemove` callback occurs before the entity being removed
+  is marked as removed in the persistence context.
+- The `@PreMerge` callback for an entity being merged occurs before
+  state is copied from the entity being merged to the corresponding
+  managed entity, when copying is necessary.
+- When the `merge()` operation results in the creation of a new
+  managed instance, the `@PrePersist` callback for the managed
+  instance occurs after the merged entity state has been copied to
+  it.
+
+A `@PrePersist`, `@PreRemove`, or `@PreMerge` method is always
+invoked synchronously during execution of the `persist()`, `remove()`,
+or `merge()` operation of the `EntityManager`.
+
+A `@PostPersist` or `@PostRemove` callback occurs after the effect
+of a respective persist or remove operation for an entity has been
+realized.
+
+- The `@PostPersist` callback for an entity which has been made
+  persistent occurs after the entity has been marked as managed
+  and associated with the persistence context, and after the
+  database insert operations have been executed.
+- The `@PostRemove` callback for an entity which has been removed
+  occurs after the entity has been marked as removed in the
+  persistence context, and after the database delete operations
+  have been executed.
+
+The database insert or delete operations might occur immediately
+during execution of `persist()`, `merge()`, or `remove()`, or they
+might occur later when the persistence context is flushed. The
+persistence context might not be flushed until the end of the
+transaction, or, if the transaction rolls back, it might not be
+flushed at all. If the persistence context is never flushed, and
+as a result the insert or delete operations are never executed,
+the `@PostPersist` or `@PostRemove` callback never occurs.
 
 Generated primary key values might not be available during a `@PrePersist`
 callback.
@@ -1510,12 +1533,18 @@ callback.
 - Generated primary key values are always available in the `@PostPersist`
   method.
 
+When a persist, remove, or merge operation cascades to an associated
+entity, the corresponding `@PrePersist`, `@PreRemove`, or `@PreMerge`,
+and `@PostPersist` or `@PostRemove` callbacks also occur for the associated
+entity.
+
 The `@PreInsert`, `@PostInsert`, `@PreUpdate`, `@PostUpdate`, `@PreDelete`
 and `@PostDelete` callbacks occur before and after database insert, update,
 and delete operations to entity data, respectively. These callbacks occur
 whenever entity state is modified via `EntityManager` or `EntityAgent`,
 and are not tied to the lifecycle of managed entities associated with a
-persistence context.
+persistence context. These callbacks are not triggered when entity data is
+modified by execution of a `Query`.
 
 [NOTE]
 ====
@@ -1526,11 +1555,17 @@ removed within a single transaction. Portable applications should not rely
 on such behavior.
 ====
 
-The `@PostLoad` callback occurs after an entity instance has been loaded
-from the database by any means, or after the `refresh()` operation has
-been applied to an entity instance. The `@PostLoad` method is invoked
-before the newly-loaded query entity is returned or made accessible to
-the application.
+The `@PostLoad` callback occurs:
+
+- after an entity instance has been loaded from the database by any means,
+  or
+- after the `refresh()` operation of `EntityManager` or `EntityAgent` has
+  been applied to an entity instance.
+
+The non-relationship state of an entity is always set to the values just
+retrieved from the database before the `@PostLoad` method is invoked. The
+`@PostLoad` method is invoked before a newly loaded entity is returned
+or made accessible to the application.
 
 [NOTE]
 This specification does not define whether callback methods are invoked
@@ -1779,8 +1814,9 @@ lifecycle callback methods as specified in annotations.
 The `entity-listener` XML descriptor element
 is used to specify the lifecycle listener methods of an entity listener
 class. The lifecycle listener methods are specified by using the
-`pre-persist`, `post-persist`, `pre-remove`, `post-remove`,
-`pre-update`, `post-update`, and/or `post-load` elements.
+`pre-persist`, `post-persist`, `pre-remove`, `post-remove`,`pre-merge`,
+`pre-insert`, `post-insert`, `pre-delete`, `post-delete`, `pre-upsert`,
+`post-upsert`, `pre-update`, `post-update`, and/or `post-load` elements.
 
 ===== Specification of the Binding of Entity Listener Classes to Entities
 

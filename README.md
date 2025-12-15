@@ -11,9 +11,9 @@
 [![Build Status](https://github.com/jakartaee/persistence/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/jakartaee/persistence/actions/workflows/maven.yml?branch=master)
 [![Jakarta Staging (Snapshots)](https://img.shields.io/nexus/s/https/jakarta.oss.sonatype.org/jakarta.persistence/jakarta.persistence-api.svg)](https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/)
 
-[PDF]: https://jakartaee.github.io/persistence/latest/draft.pdf
-[HTML]: https://jakartaee.github.io/persistence/latest/draft.html
-[API]: https://jakartaee.github.io/persistence/latest/api/jakarta.persistence/module-summary.html
+[PDF]: https://jakartaee.github.io/persistence/latest-nightly/nightly.pdf
+[HTML]: https://jakartaee.github.io/persistence/latest-nightly/nightly.html
+[API]: https://jakartaee.github.io/persistence/latest-nightly/api/jakarta.persistence/module-summary.html
 
 Jakarta Persistence defines a standard for management of persistence
 and object/relational mapping in Java(R) environments.

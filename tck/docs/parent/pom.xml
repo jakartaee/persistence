@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.9</version>
+        <version>2.0.0-M1</version>
         <relativePath/>
     </parent>
 
@@ -191,26 +191,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-scm-publish-plugin</artifactId>
-                    <version>3.3.0</version>
-                    <executions>
-                        <execution>
-                            <id>deploy-site</id>
-                            <goals>
-                                <goal>publish-scm</goal>
-                            </goals>
-                            <phase>deploy</phase>
-                            <configuration>
-                                <scmBranch>gh-pages</scmBranch>
-                                <skipDeletedFiles>false</skipDeletedFiles>
-                                <checkinComment>Update site</checkinComment>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
         
@@ -268,17 +248,6 @@
                     <execution>
                         <id>copy-resources</id>
                         <phase>generate-resources</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-scm-publish-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>deploy-site</id>
-                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>

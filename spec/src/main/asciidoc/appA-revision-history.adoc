@@ -9,6 +9,69 @@ This appendix lists the significant changes that have been made during the devel
 
 === Jakarta Persistence 4.0
 
+Added `EntityAgent` and `EntityHandler`, along with new lifecycle events related to SQL execution
+
+Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticQueryReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
+
+Added new API for programmatic SQL result set mappings
+
+Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
+
+Overloaded `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()` on `StoredProcedureQuery` for much better type safety
+
+Added `get()` operation as an alternative to `find()`
+
+Added `@ExcludedFromVersioning`
+
+Added new lifecycle callback types: `@PreMerge`, `@PreInsert`, `@PostInsert`, `@PreUpsert`, `@PostUpsert`, `@PreDelete`, `@PostDelete`
+
+Added `addListener()` to `EntityManagerFactory`
+
+Specify that an entity listener may have multiple callbacks of same type
+
+Added `findMultiple()` to `EntityManager`
+
+Added `getResultCount()` to `Query`
+
+Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
+
+Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
+
+Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference`
+
+`jakarta.annotation.Nonnull` now implies `optional=false`
+
+Allow `value` member of `@JoinColumns` to be defaulted
+
+Specify that entity names must be legal Java identifiers
+
+Made `ELSE` branch in `CASE` expressions optional in JPQL.
+
+Added `jakarta.persistence.jdbc.fetchSize` and `jakarta.persistence.jdbc.batchSize`, and promoted schema export specific properties `jakarta.persistence.database-*` to API
+
+Added `SchemaManager.populate()` and the new schema generation action `populate`.
+
+Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_LOAD_SCRIPT_SOURCE` to `PersistenceConfiguration`
+
+Change default `lockMode` of `EntityResult` to `NONE`
+
+Allow `@EntityResult` as a subelement of `@ConstructorResult` in named SQL result set mappings
+
+Added `comment` member to `@DiscriminatorColumn` and `@CollectionTable`
+
+Fixed some incorrect generic method signatures in `From`
+
+Fixed use of raw types in `AttributeNode`
+
+Deprecate `name` member of `@MapKey` in favor of `value`.
+
+Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
+
+Deleted APIs marked deprecated for removal
+
+Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
+
+Deprecated `EntityManager.getDelegate()` in favor of `unwrap()`.
 
 === Jakarta Persistence 3.2
 

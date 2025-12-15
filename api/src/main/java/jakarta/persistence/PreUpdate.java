@@ -22,12 +22,18 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a callback method for the corresponding lifecycle event.
+ * Declares a callback method for the corresponding lifecycle event.
  * This annotation may be applied to methods of an entity class, a
- * mapped superclass, or a callback listener class. The {@code PreUpdate}
- * callback occurs before the database update operation to entity data.
- * This database operation may occur at the time the entity state is
- * updated, or it may occur at the time state is flushed to the database.
+ * mapped superclass, or a callback listener class.
+ *
+ * <p>The {@code PreUpdate} callback occurs before a database update
+ * operation when an entity is modified via an {@link EntityManager}
+ * or {@link EntityAgent}. When such a modification is made via an
+ * {@link EntityManager}, the database operation might occur at the
+ * time the entity state is modified, or it might occur later when
+ * modifications are flushed to the database. The {@code PreUpdate}
+ * callback is not triggered when entity data is updated by execution
+ * of a {@link Query}.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>

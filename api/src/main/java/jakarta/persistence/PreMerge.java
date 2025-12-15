@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,13 +11,14 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Gavin King      - 4.0
+
 
 package jakarta.persistence;
 
-import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -26,14 +27,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation may be applied to methods of an entity class, a
  * mapped superclass, or a callback listener class.
  *
- * <p>The {@code PostUpdate} callback occurs after a database update
- * operation when an entity is modified via an {@link EntityManager}
- * or {@link EntityAgent}. When such a modification is made via an
- * {@link EntityManager}, the database operation might occur at the
- * time the entity state is modified, or it might occur later when
- * modifications are flushed to the database. The {@code PostUpdate}
- * callback is not triggered when entity data is updated by execution
- * of a {@link Query}.
+ * <p>The {@code @PreMerge} callback for an entity being merged occurs
+ * before state is copied from the entity being merged to the
+ * corresponding managed entity, when copying is necessary. The
+ * {@code @PreMerge} method is always invoked synchronously during
+ * execution of the {@link EntityManager#merge merge()} operation.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>
@@ -52,8 +50,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>It is implementation-dependent whether callback methods are invoked
  * before or after the cascading of the lifecycle events to related entities.
  *
- * @since 1.0
+ * @since 4.0
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface PostUpdate {}
+public @interface PreMerge {}
