@@ -2956,7 +2956,7 @@ parameter.
 query.setParameter("names", List.of(name1, name2, name3))
 ----
 
-==== Result classes
+==== Result Classes for Jakarta Persistence Queries
 
 The `createQuery()` method of `EntityHandler` accepts, among other
 possibilities, a JPQL query string and a Java class object specifying
@@ -3479,6 +3479,32 @@ An instance of `ResultSetMapping` representing a result set mapping
 declared using the `@SqlResultSetMapping` annotation may be obtained
 from the `EntityManagerFactory` by calling `getResultSetMappings()`.
 
+==== Result Classes for SQL Queries
+
+The `createQuery()` method of `EntityHandler` accepts, among other
+possibilities, a SQL query string and a Java class object specifying
+a _result class_.
+
+[source,java]
+----
+<T> TypedQuery<T> createNativeQuery(String sqlString, Class<T> resultClass);
+----
+
+The `TypedQuery` created by this method returns instances of the given
+result class. Either:
+
+- the result class is an entity class and is interpreted as a managed
+  entity result with implicit field mappings determined by the names
+  of the columns in the result set and the object/relational mapping
+  of the entity, as specified above in <<entity-results>>,
+- the result class is the class of a basic type listed in <<a486>> and
+  the result set must have a single column which is interpreted as a
+  scalar result as specified in <<scalar-results>>, or
+- the result class must be non-`abstract` class or record type with a
+  constructor with the same number of parameters as the result set has
+  columns, and is interpreted as a constructor result including all the
+  columns of the result set as specified in <<constructor-results>>.
+
 ===== Restrictions
 
 When an entity is being returned, the SQL
@@ -3509,9 +3535,9 @@ the `NamedStoredProcedureQuery` annotation names a stored procedure that
 exists in the database rather than providing a stored procedure
 definition. The `NamedStoredProcedureQuery` annotation specifies the
 types of all parameters to the stored procedure, their corresponding
-parameter modes (IN, OUT, INOUT, REF_CURSORfootnote:[Note that REF_CURSOR
-parameters are used by some databases to return result sets from stored
-procedures.]), and
+parameter modes (`IN`, `OUT`, `INOUT`, ``REF_CURSOR``footnote:[Note that
+`REF_CURSOR` parameters are used by some databases to return result sets
+from stored procedures.]), and
 how result sets, if any, are to be mapped. The name that is assigned to
 the stored procedure in the `NamedStoredProcedureQuery` annotation is
 passed as an argument to the `createNamedStoredProcedureQuery` method to
@@ -3530,6 +3556,9 @@ result sets and no `resultClasses` or `resultSetMappings` element has
 been specified, any result set will be returned as a list of type
 `Object[]`. The combining of different strategies for the mapping of
 stored procedure result sets is undefined.
+
+Result set mappings and result classes are interpreted according to
+the rules defined above in <<a4427>> for native SQL queries.
 
 `StoredProcedureParameter` metadata needs to
 be provided for all parameters. Parameters must be specified in the

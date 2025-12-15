@@ -17,6 +17,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.sql.ResultSetMapping;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
@@ -67,6 +69,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see StoredProcedureQuery
  * @see StoredProcedureParameter
+ * @see EntityHandler#createNamedStoredProcedureQuery(String)
  *
  * @since 2.1
  */
@@ -94,13 +97,53 @@ public @interface NamedStoredProcedureQuery {
     StoredProcedureParameter[] parameters() default {};
 
     /**
-     * The class or classes that are used to map the results.
+     * The result classes.
+     *
+     * <p>When the result classes are explicitly specified and the
+     * {@linkplain #resultSetMappings result set mappings} are not, either:
+     * <ul>
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
+     * </ul>
+     *
+     * <p>Otherwise, if {@linkplain #resultSetMappings result set mappings}
+     * are specified, each explicitly specified result class must agree with
+     * the type inferred from the corresponding result set mapping.
+     *
+     * <p>If the result classes are not explicitly specified, then they
+     * are inferred from the result set mapping, if any, or default to
+     * {@code Object} or {@code Object[]}. Any result class may be
+     * overridden by explicitly passing a class object to
+     * {@link StoredProcedureQuery#getResultList(Class)},
+     * {@link StoredProcedureQuery#getSingleResult(Class)}, or
+     * {@link StoredProcedureQuery#getSingleResultOrNull(Class)}.
      */
-    Class[] resultClasses() default {}; 
+    Class<?>[] resultClasses() default {};
 
     /**
-     * The names of one or more result set mappings, as defined
-     * in metadata.
+     * The {@linkplain SqlResultSetMapping#name names} of one or more
+     * {@linkplain SqlResultSetMapping result set mappings} declared in
+     * metadata. The named result set mappings are used to interpret the
+     * result sets of the stored procedure.
+     *
+     * <p>Any result set mapping may be overridden by explicitly passing
+     * a {@link ResultSetMapping} to
+     * {@link StoredProcedureQuery#getResultList(ResultSetMapping)},
+     * {@link StoredProcedureQuery#getSingleResult(ResultSetMapping)}, or
+     * {@link StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)}.
+     *
+     * @see SqlResultSetMapping
+     * @see ResultSetMapping
      */
     String[] resultSetMappings() default {};
 
