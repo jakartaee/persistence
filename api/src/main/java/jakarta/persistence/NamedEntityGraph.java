@@ -32,6 +32,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * associated attributes and entities fetched when an operation which
  * retrieves an instance or instances of the root entity is executed.
  *
+ * <p> A well-defined entity graph is a tree. The application program
+ * is responsible for ensuring that every named entity graph is acyclic.
+ * If a named entity graph contains a cycle, the behavior is undefined.
+ * A provider may reject the graph at runtime; it may reject it when
+ * the persistence unit is initialized; or it may transform the graph
+ * into an acyclic graph according to some vendor-specific algorithm.
+ * Portable applications must avoid relying on such behavior.
+ *
  * <p> There are two ways to specify the nodes and subgraphs of a named
  * entity graph defined in annotations:
  * <ul>
@@ -71,12 +79,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * }
  *
- * <p> The root entity of the named graph is identified by it being the
- * unique entity class that is not referenced by the {@code subgraph}
- * memnber of any {@link NamedEntityGraphSubgraph} annotation belonging
- * to the named graph. If there is no such entity class, or it is not
- * unique, the behavior is undefined. An application must ensure that
- * each named entity graph has a unique root entity.
+ * <p> When {@link NamedEntityGraphSubgraph} is used, there might be
+ * multiple entity classes with {@code NamedEntityGraph} annotations
+ * specifying identical values for the {@code name} member. In this
+ * scenario, the root entity of the named graph is identified by it
+ * being the unique entity class that is not referenced by the
+ * {@code subgraph} member of any {@link NamedEntityGraphSubgraph}
+ * annotation belonging to the named graph. If there is no such entity
+ * class, or if it is not unique, the behavior is undefined. An
+ * application must ensure that each named entity graph has a unique
+ * root entity.
  *
  * <p> In the second approach, the definition of the named entity graph
  * is contained entirely within the {@link NamedEntityGraph} annotation.
