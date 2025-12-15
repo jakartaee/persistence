@@ -1543,7 +1543,8 @@ and `@PostDelete` callbacks occur before and after database insert, update,
 and delete operations to entity data, respectively. These callbacks occur
 whenever entity state is modified via `EntityManager` or `EntityAgent`,
 and are not tied to the lifecycle of managed entities associated with a
-persistence context.
+persistence context. These callbacks are not triggered when entity data is
+modified by execution of a `Query`.
 
 [NOTE]
 ====
