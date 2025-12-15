@@ -18,8 +18,9 @@ module jakarta.persistence {
     exports jakarta.persistence;
     exports jakarta.persistence.criteria;
     exports jakarta.persistence.metamodel;
-    exports jakarta.persistence.spi;
     exports jakarta.persistence.sql;
+    exports jakarta.persistence.query;
+    exports jakarta.persistence.spi;
 
     uses jakarta.persistence.spi.PersistenceProvider;
 }
