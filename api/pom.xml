@@ -355,6 +355,13 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                             <packages>jakarta.persistence*</packages>
                         </group>
                     </groups>
+                    <tags>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>a</placement>
+                            <head>API note:</head>
+                        </tag>
+                    </tags>
                 </configuration>
             </plugin>
         </plugins>
