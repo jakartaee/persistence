@@ -284,12 +284,40 @@ public interface StoredProcedureQuery extends Query {
      * Mark this as a call to a stored procedure with a result
      * parameter and register the type of the result parameter
      * This is typically required when calling a stored function.
-     *
+     * The result may be retrieved after execution by calling
+     * {@link #getOutputParameterValue(Parameter)}.
      * @param resultType the type of the result parameter
-     *
      * @since 4.0
      */
-    StoredProcedureQuery registerResultParameter(Class<?> resultType);
+    <T> Parameter<T> registerResultParameter(Class<T> resultType);
+
+    /**
+     * Register a positional parameter. The result of an
+     * {@code OUT} parameter may be retrieved after execution
+     * by calling {@link #getOutputParameterValue(Parameter)}.
+     * All parameters must be registered.
+     * @param position the parameter position
+     * @param type the type of the parameter
+     * @param mode the parameter mode
+     * @return the same query instance
+     * @since 4.0
+     */
+    <T> Parameter<T> registerParameter(int position, Class<T> type,
+                                       ParameterMode mode);
+
+    /**
+     * Register a named parameter. The result of an
+     * {@code OUT} parameter may be retrieved after execution
+     * by calling {@link #getOutputParameterValue(Parameter)}.
+     * @param parameterName the name of the parameter as registered
+     *                      or specified in metadata
+     * @param type the type of the parameter
+     * @param mode the parameter mode
+     * @return the same query instance
+     * @since 4.0
+     */
+    <T> Parameter<T> registerParameter(String parameterName, Class<T> type,
+                                       ParameterMode mode);
 
     /**
      * Register a positional parameter.
@@ -341,6 +369,21 @@ public interface StoredProcedureQuery extends Query {
      *         not an INOUT or OUT parameter
      */
     Object getOutputParameterValue(String parameterName);
+
+    /**
+     * Retrieve a value passed back from the procedure
+     * through an {@code INOUT} or {@code OUT} parameter.
+     * For portability, all results corresponding to result sets
+     * and update counts must be retrieved before the values of
+     * output parameters.
+     * @param parameter the parameter object
+     * @return the result that is passed back through the parameter
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or is
+     *         not an {@code INOUT} or {@code OUT} parameter
+     * @since 4.0
+     */
+    <T> T getOutputParameterValue(Parameter<T> parameter);
 
     /**
      * Return true if the first result corresponds to a result set,
