@@ -41,7 +41,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *                 "FROM Order o, Item i " +
  *                 "WHERE (o.item = i.id) AND (i.name = 'widget')",
  *         resultClass = com.acme.Order.class
- * )}
+ * )
+ * }
  *
  * <p>
  * In more complicated cases, a {@linkplain SqlResultSetMapping
@@ -55,10 +56,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *                 "WHERE (o.quantity > 25) AND (o.item = i.id)",
  *         resultSetMapping = "OrderItemResults"
  * )
- * @SqlResultSetMapping(name="OrderItemResults", entities={
- *     @EntityResult(entityClass=com.acme.Order.class),
- *     @EntityResult(entityClass=com.acme.Item.class)
- * })
+ * @SqlResultSetMapping(
+ *         name = "OrderItemResults",
+ *         entities = {
+ *                 @EntityResult(entityClass=com.acme.Order.class),
+ *                 @EntityResult(entityClass=com.acme.Item.class)
+ *         }
+ * )
  * }
  * or using the elements of this annotation:
  * {@snippet :
@@ -67,8 +71,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         query = "SELECT o.id, o.quantity, o.item, i.id, i.name, i.description " +
  *                 "FROM Order o, Item i " +
  *                 "WHERE (o.quantity > 25) AND (o.item = i.id)",
- *         resultSetMapping = "OrderItemResults");
- *         entities={
+ *         resultSetMapping = "OrderItemResults",
+ *         entities = {
  *                 @EntityResult(entityClass=com.acme.Order.class),
  *                 @EntityResult(entityClass=com.acme.Item.class)
  *         }
