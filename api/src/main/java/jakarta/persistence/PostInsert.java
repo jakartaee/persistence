@@ -26,12 +26,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation may be applied to methods of an entity class, a
  * mapped superclass, or a callback listener class.
  *
- * <p>The {@code PostInsert} callback occurs after any database insert
- * operation to entity data, whenever entity state is inserted via
- * {@link EntityManager} or {@link EntityAgent}. When such a modification
- * is made via an {@link EntityManager}, the database operation might
- * occur at the time the entity state is modified, or it may occur when
- * modifications are flushed to the database.
+ * <p>The {@code PostInsert} callback occurs after a database insert
+ * operation when an entity is inserted via an {@link EntityManager}
+ * or {@link EntityAgent}. When such a modification is made via an
+ * {@link EntityManager}, the database operation might occur at the
+ * time the entity state is modified, or it might occur later when
+ * modifications are flushed to the database. The {@code PostInsert}
+ * callback is not triggered when entity data is inserted by execution
+ * of a {@link Query}.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>

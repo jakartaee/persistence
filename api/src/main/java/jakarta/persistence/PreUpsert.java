@@ -26,12 +26,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation may be applied to methods of an entity class, a
  * mapped superclass, or a callback listener class.
  *
- * <p>The {@code PreUpsert} callback occurs before any database upsert
- * operation to entity data, whenever entity state is modified via
- * {@link EntityManager} or {@link EntityAgent}. When such a modification
- * is made via an {@link EntityManager}, the database operation might
- * occur at the time the entity state is modified, or it may occur when
- * modifications are flushed to the database.
+ * <p>The {@code PreUpsert} callback occurs before a database upsert
+ * operation when an entity is modified via an {@link EntityManager}
+ * or {@link EntityAgent}. When such a modification is made via an
+ * {@link EntityManager}, the database operation might occur at the
+ * time the entity state is modified, or it might occur later when
+ * modifications are flushed to the database. The {@code PreUpsert}
+ * callback is not triggered when entity data is upserted by execution
+ * of a {@link Query}.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>
