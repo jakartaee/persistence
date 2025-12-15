@@ -370,7 +370,7 @@ public interface StoredProcedureQuery extends Query {
      * if the first result is not an update count. The provider calls
      * {@link #execute} if necessary.
      * @return the update count or -1 if there is no pending result
-     * or if the next result is not an update count.
+     *         or if the next result is not an update count.
      * @throws TransactionRequiredException if there is 
      *         no transaction or the persistence context has not
      *         been joined to the transaction
@@ -389,8 +389,8 @@ public interface StoredProcedureQuery extends Query {
      * A {@code REF_CURSOR} result set, if any, is retrieved
      * in the order the {@code REF_CURSOR} parameter was 
      * registered with the query.
-     * @return a list of the results or null is the next item is not 
-     * a result set
+     * @return a list of the results or null if the next item is not
+     *         a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
