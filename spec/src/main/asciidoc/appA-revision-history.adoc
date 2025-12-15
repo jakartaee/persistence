@@ -13,9 +13,11 @@ Added `EntityAgent` and `EntityHandler`, along with new lifecycle events related
 
 Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticQueryReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
-Added new API for programmatic SQL result set mappings
+Added a new API for programmatic SQL result set mappings
 
 Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
+
+Made `select new X(...)` optional in JPQL queries with an explicit result class of type `X`, and allowed the result class of a native SQL query to be interpreted as a constructor result
 
 Overloaded `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()` on `StoredProcedureQuery` for much better type safety
 
