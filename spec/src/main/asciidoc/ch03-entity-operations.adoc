@@ -1496,9 +1496,9 @@ executed.
   instance occurs after the merged entity state has been copied to
   it.
 
-A `@PrePersist`, `@PreRemove`, or `@PreMerge` methods is always
-invoked synchronously during execution of the `persist()`, `merge()`,
-or `remove()` operation of the `EntityManager`.
+A `@PrePersist`, `@PreRemove`, or `@PreMerge` method is always
+invoked synchronously during execution of the `persist()`, `remove()`,
+or `merge()` operation of the `EntityManager`.
 
 A `@PostPersist` or `@PostRemove` callback occurs after the effect
 of a respective persist or remove operation for an entity has been
