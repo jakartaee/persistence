@@ -2039,6 +2039,23 @@ entity graphs. As an alternative to `@NamedAttributeNode` and
 to specify the nodes and subgraphs of a named entity graph declared via
 the `@NamedEntityGraph` annotation.
 
+A well-defined entity graph is a tree. The application program is
+responsible for ensuring that every named entity graph is acyclic. If a
+named graph contains a cycle, the behavior is undefined. A provider may
+reject the graph at runtime; it may reject it when the persistence unit
+is initialized; or it may transform the graph into an acyclic graph
+according to some vendor-specific algorithm. Portable applications must
+avoid relying on such behavior.
+
+When `@NamedEntityGraphSubgraph` is used, there might be multiple entities
+with `@NamedEntityGraph` annotations specifying identical values for the
+`name` member. In this scenario, the root entity of the named graph is
+identified by it being the unique entity class that is not referenced by
+the `subgraph` member of any `NamedEntityGraphSubgraph` annotation
+belonging to the named graph. If there is no such entity class, or if it
+is not unique, the behavior is undefined. An application must ensure that
+each named entity graph has a unique root entity.
+
 The semantics of entity graphs with regard to
 find and query operations are described in <<a2814>>.
 
