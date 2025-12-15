@@ -13,7 +13,7 @@
 
 [PDF]: https://jakartaee.github.io/persistence/latest-nightly/nightly.pdf
 [HTML]: https://jakartaee.github.io/persistence/latest-nightly/nightly.html
-[API]: https://jakartaee.github.io/persistence/atest-nightly/api/jakarta.persistence/module-summary.html
+[API]: https://jakartaee.github.io/persistence/latest-nightly/api/jakarta.persistence/module-summary.html
 
 Jakarta Persistence defines a standard for management of persistence
 and object/relational mapping in Java(R) environments.
