@@ -22,7 +22,7 @@
     <parent>
         <groupId>jakarta.tck</groupId>
         <artifactId>persistence-tck</artifactId>
-        <version>3.2.1-SNAPSHOT</version>
+        <version>4.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>persistence-tck-spec-tests</artifactId>
