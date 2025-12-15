@@ -109,7 +109,7 @@ public @interface NamedStoredProcedureQuery {
      * <li>the result class is the class of a {@linkplain Basic basic}
      *     type and the result set must have a single column which is
      *     interpreted as a {@linkplain ColumnResult scalar result}, or
-     * <li>the result class must be non-abstract class or record type
+     * <li>the result class must be a non-abstract class or record type
      *     with a constructor with the same number of parameters as the
      *     result set has columns, and is interpreted as a
      *     {@linkplain ConstructorResult constructor result} including

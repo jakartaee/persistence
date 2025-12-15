@@ -457,14 +457,14 @@ public interface StoredProcedureQuery extends Query {
      * <li>the result class is the class of a {@linkplain Basic basic}
      *     type and the result set must have a single column which is
      *     interpreted as a {@linkplain ColumnResult scalar result}, or
-     * <li>the result class must be non-abstract class or record type
+     * <li>the result class must be a non-abstract class or record type
      *     with a constructor with the same number of parameters as the
      *     result set has columns, and is interpreted as a
      *     {@linkplain ConstructorResult constructor result} including
      *     all the columns of the result set.
      * </ul>
      * @param resultClass the type of the query result
-     * @return a list of the results or null is the next item is not
+     * @return a list of the results or null if the next item is not
      *         a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -484,7 +484,7 @@ public interface StoredProcedureQuery extends Query {
      * if any, is retrieved in the order the {@code REF_CURSOR} parameter
      * was registered with the query.
      * @param mapping the result set mapping to apply to the results
-     * @return a list of the results or null is the next item is not a
+     * @return a list of the results or null if the next item is not a
      *         result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -512,7 +512,7 @@ public interface StoredProcedureQuery extends Query {
      * <li>the result class is the class of a {@linkplain Basic basic}
      *     type and the result set must have a single column which is
      *     interpreted as a {@linkplain ColumnResult scalar result}, or
-     * <li>the result class must be non-abstract class or record type
+     * <li>the result class must be a non-abstract class or record type
      *     with a constructor with the same number of parameters as the
      *     result set has columns, and is interpreted as a
      *     {@linkplain ConstructorResult constructor result} including
@@ -571,7 +571,7 @@ public interface StoredProcedureQuery extends Query {
      * <li>the result class is the class of a {@linkplain Basic basic}
      *     type and the result set must have a single column which is
      *     interpreted as a {@linkplain ColumnResult scalar result}, or
-     * <li>the result class must be non-abstract class or record type
+     * <li>the result class must be a non-abstract class or record type
      *     with a constructor with the same number of parameters as the
      *     result set has columns, and is interpreted as a
      *     {@linkplain ConstructorResult constructor result} including
@@ -607,7 +607,7 @@ public interface StoredProcedureQuery extends Query {
      * <li>the result class is the class of a {@linkplain Basic basic}
      *     type and the result set must have a single column which is
      *     interpreted as a {@linkplain ColumnResult scalar result}, or
-     * <li>the result class must be non-abstract class or record type
+     * <li>the result class must be a non-abstract class or record type
      *     with a constructor with the same number of parameters as the
      *     result set has columns, and is interpreted as a
      *     {@linkplain ConstructorResult constructor result} including
