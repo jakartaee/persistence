@@ -31,8 +31,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>The {@link #graph} member specifies the name of
  *     the containing graph.
  * <li>The {@link #subgraph} member specifies the name of
- *     a named entity graph whose root is the associated
- *     entity.
+ *     a {@linkplain NamedEntityGraph named entity graph}
+ *     whose root is the associated entity.
  * </ul>
  * <p>Multiple {@code @NamedEntityGraphSubgraph}
  * annotations may be applied to a single attribute, but

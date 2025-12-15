@@ -58,9 +58,13 @@ public @interface NamedAttributeNode {
      * merged into subclass subgraphs.
      *
      * <p> The value of this element is the name of the subgraph as
-     * specified by the {@code name} element of the corresponding
-     * {@link NamedSubgraph} element. If multiple subgraphs are
-     * specified due to inheritance, they are referenced by this name.
+     * specified by the {@link NamedSubgraph#name name} element of the
+     * a {@link NamedSubgraph} annotation. That is, <em>it is not the
+     * name of an {@linkplain EntityGraph entity graph}</em>, but the
+     * name of a {@linkplain NamedSubgraph named subgraph} declared
+     * within the containing {@link NamedEntityGraph} annotation. If
+     * multiple subgraphs are specified due to inheritance, they are
+     * referenced by this name.
      */
     String subgraph() default "";
 

@@ -20,12 +20,12 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares a {@linkplain Subgraph} as a member element of a
- * {@link NamedEntityGraph}. The {@code NamedSubgraph} is only
+ * Declares a {@linkplain Subgraph subgraph} as a member element
+ * of a {@link NamedEntityGraph}. The {@code NamedSubgraph} is only
  * referenceable within its containing {@code @NamedEntityGraph}
  * annotation and cannot be referenced independently.
  *
- * <p>A {@code NamedSubgraph} is referenced {@linkplain #name}
+ * <p>A {@code NamedSubgraph} is referenced by {@linkplain #name}
  * from the {@link NamedAttributeNode#subgraph subgraph} element
  * of a {@link NamedAttributeNode} annotation within the parent
  * {@code NamedEntityGraph}.
@@ -33,8 +33,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>A {@code NamedSubgraph} is reified at runtime as an
  * instance of {@link Subgraph}.
  *
- * @apiNote Alternatively, use {@link NamedEntityGraphSubgraph}
- * to declare a subgraph by annotating a field of the graphed
+ * @apiNote Alternatively, use {@link NamedEntityGraph} to
+ * declare the subgraph, and use {@link NamedEntityGraphSubgraph}
+ * to reference the subgraph by annotating a field of the graphed
  * entity class.
  *
  * @see NamedEntityGraph

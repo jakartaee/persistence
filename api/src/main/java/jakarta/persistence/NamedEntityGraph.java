@@ -71,6 +71,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * }
  *
+ * <p> The root entity of the named graph is identified by it being the
+ * unique entity class that is not referenced by the {@code subgraph}
+ * memnber of any {@link NamedEntityGraphSubgraph} annotation belonging
+ * to the named graph. If there is no such entity class, or it is not
+ * unique, the behavior is undefined. An application must ensure that
+ * each named entity graph has a unique root entity.
+ *
  * <p> In the second approach, the definition of the named entity graph
  * is contained entirely within the {@link NamedEntityGraph} annotation.
  * {@snippet :
