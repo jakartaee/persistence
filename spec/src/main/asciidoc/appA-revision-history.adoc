@@ -23,6 +23,8 @@ Added `get()` operation as an alternative to `find()`
 
 Added `@ExcludedFromVersioning`
 
+Added new lifecycle callback types: `@PreMerge`, `@PreInsert`, `@PostInsert`, `@PreUpsert`, `@PostUpsert`, `@PreDelete`, `@PostDelete`
+
 Added `addListener()` to `EntityManagerFactory`
 
 Specify that an entity listener may have multiple callbacks of same type
