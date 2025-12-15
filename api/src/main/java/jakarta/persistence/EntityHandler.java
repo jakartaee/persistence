@@ -799,15 +799,21 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link TypedQuery} for executing a native
-     * SQL query, returning instances of the given Java class, which
-     * must be an entity class or the class of a basic type.
+     * SQL query, returning instances of the given result class. Either:
      * <ul>
-     * <li>If the given class is an entity class, the object/relational
-     *     mappings for the entity are used to interpret the result set.
-     * <li>Otherwise, the first column of the result set is interpreted
-     *     via the specified basic type.
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
      * </ul>
-     *
      * @param sqlString A native SQL query string
      * @param resultClass The type of the query result
      * @return An instance of {@link Query} which may be used
@@ -825,6 +831,7 @@ public sealed interface EntityHandler extends AutoCloseable
      * @param resultSetMapping The name of the result set mapping
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
+     * @see SqlResultSetMapping
      * @since 1.0
      * @apiNote Use of this overloaded form of the method results in a
      * type cast of each query result in client code. As an alternative,
@@ -883,12 +890,27 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
-     * a stored procedure in the database.
+     * a stored procedure in the database, explicitly specifying the
+     * result class for every result set returned by the stored procedure.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
-     * <p>The {@code resultClass} arguments must be specified in the
-     * order in which the result sets are returned by the stored procedure
-     * invocation.
+     * <p>The given result classes must be specified in the order in which
+     * the corresponding result sets are returned by the stored procedure
+     * invocation. For each given result class, either:
+     * <ul>
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
+     * </ul>
      * @param procedureName The name of the stored procedure in the
      *                      database
      * @param resultClasses The classes to which the result sets
@@ -912,11 +934,14 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
-     * a stored procedure in the database.
+     * a stored procedure in the database, explicitly specifying the
+     * {@linkplain SqlResultSetMapping#name name} of a result set
+     * {@linkplain SqlResultSetMapping mapping} for every result set
+     * returned by the stored procedure.
      * <p>Parameters must be registered before the stored procedure can
      * be executed.
-     * <p>The {@code resultSetMapping} arguments must be specified in
-     * the order in which the result sets are returned by the stored
+     * <p>The given result set mappings must be specified in the order
+     * in which the corresponding result sets are returned by the stored
      * procedure invocation.
      * @param procedureName The name of the stored procedure in the
      *                      database
@@ -928,6 +953,7 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws IllegalArgumentException if a stored procedure or
      *         result set mapping of the given name does not exist
      *         (or the query execution will fail)
+     * @see SqlResultSetMapping
      * @since 2.1
      * @apiNote Use of this overloaded form of the method results
      * in a type cast of each query result in client code. As an

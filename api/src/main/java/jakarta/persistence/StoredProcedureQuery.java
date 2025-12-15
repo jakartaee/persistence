@@ -367,8 +367,8 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Return the update count of -1 if there is no pending result or
-     * if the first result is not an update count.  The provider will
-     * call {@code execute} on the query if needed.
+     * if the first result is not an update count. The provider calls
+     * {@link #execute} if necessary.
      * @return the update count or -1 if there is no pending result
      * or if the next result is not an update count.
      * @throws TransactionRequiredException if there is 
@@ -385,8 +385,7 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve the list of results from the next result set.
-     * The provider will call {@code execute} on the query
-     * if needed.
+     * The provider calls {@link #execute} if necessary.
      * A {@code REF_CURSOR} result set, if any, is retrieved
      * in the order the {@code REF_CURSOR} parameter was 
      * registered with the query.
@@ -407,10 +406,9 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve a single result from the next result set.
-     * The provider will call {@code execute} on the query
-     * if needed.
+     * The provider calls {@link #execute} if necessary.
      * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was 
+     * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
@@ -427,13 +425,12 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Retrieve a single result from the next result set.
-     * The provider will call {@code execute} on the query
-     * if needed.
-     * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was
-     * registered with the query.
-     * @return the result or null if the next item is not a result set
-     *         or if there is no result in the next result set
+     * The provider calls {@link #execute} if necessary.
+     * A {@code REF_CURSOR} result set, if any, is retrieved in the
+     * order the {@code REF_CURSOR} parameter was registered with
+     * the query.
+     * @return the result or null if the next item is not a result
+     *         set or if there is no result in the next result set
      * @throws NonUniqueResultException if more than one result
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -445,19 +442,30 @@ public interface StoredProcedureQuery extends Query {
     Object getSingleResultOrNull();
 
     /**
-     * Retrieve the list of results from the next result set,
-     * returning instances of the given Java class, which
-     * must be an entity class or the class of a basic type,
-     * and which overrides any result set mapping or result
-     * class already specified.
-     * The provider will call {@code execute} on the query
-     * if needed.
-     * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was
-     * registered with the query.
+     * Retrieve the list of results from the next result set, returning
+     * instances of the given result class, which overrides any result
+     * class already specified. The provider calls {@link #execute} if
+     * necessary. A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was registered with
+     * the query.
+     * <p>Either:
+     * <ul>
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
+     * </ul>
      * @param resultClass the type of the query result
      * @return a list of the results or null is the next item is not
-     * a result set
+     *         a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -469,17 +477,15 @@ public interface StoredProcedureQuery extends Query {
     <R> List<R> getResultList(Class<R> resultClass);
 
     /**
-     * Retrieve the list of results from the next result set,
-     * specifying a {@linkplain ResultSetMapping result set mapping}
-     * which overrides any mapping or result class already specified.
-     * The provider will call {@code execute} on the query
-     * if needed.
-     * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was
-     * registered with the query.
+     * Retrieve the list of results from the next result set, specifying
+     * a {@linkplain ResultSetMapping result set mapping} which overrides
+     * any mapping or result class already specified. The provider calls
+     * {@link #execute} if necessary. A {@code REF_CURSOR} result set,
+     * if any, is retrieved in the order the {@code REF_CURSOR} parameter
+     * was registered with the query.
      * @param mapping the result set mapping to apply to the results
-     * @return a list of the results or null is the next item is not
-     * a result set
+     * @return a list of the results or null is the next item is not a
+     *         result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -491,16 +497,27 @@ public interface StoredProcedureQuery extends Query {
     <R> List<R> getResultList(ResultSetMapping<R> mapping);
 
     /**
-     * Retrieve a single result from the next result set,
-     * returning instances of the given Java class, which
-     * must be an entity class or the class of a basic type,
-     * and which overrides any result set mapping or result
-     * class already specified.
-     * The provider will call {@code execute} on the query
-     * if needed.
-     * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was
-     * registered with the query.
+     * Retrieve a single result from the next result set, returning
+     * instances of the given result class, which overrides any result
+     * class already specified. The provider calls {@link #execute} if
+     * necessary. A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was registered with
+     * the query.
+     * <p>Either:
+     * <ul>
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
+     * </ul>
      * @param resultClass the type of the query result
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
@@ -517,14 +534,12 @@ public interface StoredProcedureQuery extends Query {
     <R> R getSingleResult(Class<R> resultClass);
 
     /**
-     * Retrieve a single result from the next result set,
-     * specifying a {@linkplain ResultSetMapping result set mapping}
-     * which overrides any mapping or result class already specified.
-     * The provider will call {@code execute} on the query
-     * if needed.
-     * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was
-     * registered with the query.
+     * Retrieve a single result from the next result set, specifying a
+     * {@linkplain ResultSetMapping result set mapping} which overrides
+     * any mapping or result class already specified. The provider calls
+     * {@link #execute} if necessary. A {@code REF_CURSOR} result set,
+     * if any, is retrieved in the order the {@code REF_CURSOR} parameter
+     * was registered with the query.
      * @param mapping the result set mapping to apply to the results
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
@@ -541,16 +556,27 @@ public interface StoredProcedureQuery extends Query {
     <R> R getSingleResult(ResultSetMapping<R> mapping);
 
     /**
-     * Retrieve a single result from the next result set,
-     * returning instances of the given Java class, which
-     * must be an entity class or the class of a basic type,
-     * and which overrides any result set mapping or result
-     * class already specified.
-     * The provider will call {@code execute} on the query
-     * if needed.
-     * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was
-     * registered with the query.
+     * Retrieve a single result from the next result set, returning
+     * instances of the given result class, which overrides any result
+     * class already specified. The provider calls {@link #execute} if
+     * necessary. A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was registered with
+     * the query.
+     * <p>Either:
+     * <ul>
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
+     * </ul>
      * @param resultClass the type of the query result
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set
@@ -566,14 +592,27 @@ public interface StoredProcedureQuery extends Query {
     <R> R getSingleResultOrNull(Class<R> resultClass);
 
     /**
-     * Retrieve a single result from the next result set,
-     * specifying a {@linkplain ResultSetMapping result set mapping}
-     * which overrides any mapping or result class already specified.
-     * The provider will call {@code execute} on the query
-     * if needed.
-     * A {@code REF_CURSOR} result set, if any, is retrieved
-     * in the order the {@code REF_CURSOR} parameter was
-     * registered with the query.
+     * Retrieve a single result from the next result set, specifying a
+     * {@linkplain ResultSetMapping result set mapping} which overrides
+     * any mapping or result class already specified. The provider calls
+     * {@link #execute} if necessary. A {@code REF_CURSOR} result set,
+     * if any, is retrieved in the order the {@code REF_CURSOR} parameter
+     * was registered with the query.
+     * <p>Either:
+     * <ul>
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
+     * </ul>
      * @param mapping the result set mapping to apply to the results
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set
@@ -591,7 +630,8 @@ public interface StoredProcedureQuery extends Query {
     /**
      * Return true if the next result corresponds to a result set,
      * and false if it is an update count or if there are no results
-     * other than through INOUT and OUT parameters, if any.
+     * other than through {@code INOUT} and {@code OUT} parameters,
+     * if any.
      * @return {@code true} if the next result is a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is

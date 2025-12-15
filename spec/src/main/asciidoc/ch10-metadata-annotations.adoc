@@ -46,7 +46,7 @@ class or mapped superclass.
 @Target({TYPE})
 @Retention(RUNTIME)
 public @interface EntityListeners {
-    Class[] value();
+    Class<?>[] value();
 }
 ----
 
@@ -394,7 +394,7 @@ public @interface NamedNativeQuery {
     String name();
     String query();
     QueryHint[] hints() default {};
-    Class resultClass() default void.class;
+    Class<?> resultClass() default void.class;
     String resultSetMapping() default "";
     EntityResult[] entities() default {};
     ConstructorResult[] classes() default {};
@@ -459,7 +459,7 @@ public @interface NamedStoredProcedureQuery {
     String name();
     String procedureName();
     StoredProcedureParameter[] parameters() default {};
-    Class[] resultClasses() default {};
+    Class<?>[] resultClasses() default {};
     String[] resultSetMappings() default {};
     QueryHint[] hints() default {};
 }

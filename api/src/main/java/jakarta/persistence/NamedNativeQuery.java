@@ -18,6 +18,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.sql.ResultSetMapping;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
@@ -75,7 +77,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p> The {@code NamedNativeQuery} annotation can be applied to
  * an entity class or mapped superclass.
+ *
  * @see SqlResultSetMapping
+ * @see EntityHandler#createNamedQuery(String)
+ * @see EntityHandler#createNamedQuery(String,Class)
  *
  * @since 1.0
  */
@@ -96,26 +101,54 @@ public @interface NamedNativeQuery {
     String query();
 
     /**
-     * The class of each query result. If a {@link #resultSetMapping
-     * result set mapping} is specified, the specified result class
-     * must agree with the type inferred from the result set mapping.
-     * If a {@code resultClass} is not explicitly specified, then it
-     * is inferred from the result set mapping, if any, or defaults
-     * to {@code Object} or {@code Object[]}. The query result class
-     * may be overridden by explicitly passing a class object to
+     * The class of each query result.
+     *
+     * <p>When the result class is explicitly specified and the
+     * {@linkplain #resultSetMapping result set mapping} is not, either:
+     * <ul>
+     * <li>the result class is an entity class and is interpreted as a
+     *     managed {@linkplain EntityResult entity result} with implicit
+     *     field mappings determined by the names of the columns in the
+     *     result set and the object/relational mapping of the entity,
+     * <li>the result class is the class of a {@linkplain Basic basic}
+     *     type and the result set must have a single column which is
+     *     interpreted as a {@linkplain ColumnResult scalar result}, or
+     * <li>the result class must be non-abstract class or record type
+     *     with a constructor with the same number of parameters as the
+     *     result set has columns, and is interpreted as a
+     *     {@linkplain ConstructorResult constructor result} including
+     *     all the columns of the result set.
+     * </ul>
+     *
+     * <p>Otherwise, if a {@linkplain #resultSetMapping result set mapping}
+     * is specified, an explicitly specified result class must agree with
+     * the type inferred from the result set mapping.
+     *
+     * <p>If the result class is not explicitly specified, then it is
+     * inferred from the result set mapping, if any, or defaults to
+     * {@code Object} or {@code Object[]}. The query result class may be
+     * overridden by explicitly passing a class object to
      * {@link EntityManager#createNamedQuery(String, Class)}.
      */
     Class<?> resultClass() default void.class;
 
     /**
-     * The name of a {@link SqlResultSetMapping}, as defined in metadata.
-     * The named result set mapping is used to interpret the result set
-     * of the native SQL query.
+     * The {@linkplain SqlResultSetMapping#name name} of a
+     * {@linkplain SqlResultSetMapping result set mapping} declared in
+     * metadata. The named result set mapping is used to interpret the
+     * result set of the native SQL query.
      *
      * <p>Alternatively, the elements {@link #entities}, {@link #classes},
      * and {@link #columns} may be used to specify a result set mapping.
      * These elements may not be used in conjunction with
      * {@code resultSetMapping}.
+     *
+     * <p>The query result set mapping may be overridden by explicitly
+     * passing a {@link ResultSetMapping} to
+     * {@link EntityManager#createNativeQuery(String, ResultSetMapping)}.
+     *
+     * @see SqlResultSetMapping
+     * @see ResultSetMapping
      */
     String resultSetMapping() default "";
 
