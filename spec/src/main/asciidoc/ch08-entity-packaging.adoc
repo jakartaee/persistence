@@ -513,16 +513,26 @@ Java SE environments when an implementation of Jakarta Validation
 is available:
 
 `jakarta.persistence.validation.group.pre-persist`::
-Bean Validation groups that are targeted for validation upon the
+Jakarta Validation groups that are targeted for validation upon the
 pre-persist event (overrides the default behavior).
-
-`jakarta.persistence.validation.group.pre-update`::
-Bean Validation groups that are targeted for validation upon the
-pre-update event (overrides the default behavior).
-
+`jakarta.persistence.validation.group.pre-merge`::
+Jakarta Validation groups that are targeted for validation upon the
+pre-merge event (overrides the default behavior).
 `jakarta.persistence.validation.group.pre-remove`::
-Bean Validation groups that are targeted for validation upon the
+Jakarta Validation groups that are targeted for validation upon the
 pre-remove event (overrides the default behavior).
+`jakarta.persistence.validation.group.pre-insert`::
+Jakarta Validation groups that are targeted for validation upon the
+pre-insert event (overrides the default behavior).
+`jakarta.persistence.validation.group.pre-update`::
+Jakarta Validation groups that are targeted for validation upon the
+pre-update event (overrides the default behavior).
+`jakarta.persistence.validation.group.pre-upsert`::
+Jakarta Validation groups that are targeted for validation upon the
+pre-upsert event (overrides the default behavior).
+`jakarta.persistence.validation.group.pre-delete`::
+Jakarta Validation groups that are targeted for validation upon the
+pre-delete event (overrides the default behavior).
 
 The following standard properties are intended for use in Java SE
 environments.
