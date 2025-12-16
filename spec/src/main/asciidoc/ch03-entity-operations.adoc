@@ -1930,30 +1930,37 @@ validation.
 
 ===== Requirements for Automatic Validation upon Lifecycle Events [[a2380]]
 
-For each event type, a list of groups is
-targeted for validation. By default, the default Bean Validation group
-(the group `Default`) will be validated upon the pre-persist and
-pre-update lifecycle validation events, and no group will be validated
-upon the pre-remove event.
+Each lifecycle event type has a list of validation groups assigned to it.
+If the list of validation groups for a particular event is nonempty,
+validation is applied; otherwise, no validation is applied during that
+particular event.
+
+By default, only the lists of validation groups for the pre-insert, pre-update
+and pre-upsert lifecycle events contain the `jakarta.validation.groups.Default`
+group (the default Jakarta Validation group).
+The validation group lists for other lifecycle events are empty.
 
 This default validation behavior can be
 overridden by specifying the target groups using the following
-validation properties in the `persistence.xml` file or by passing these
+configuration properties in the `persistence.xml` file or by passing these
 properties in the configuration of the entity manager factory through
 the `createEntityManagerFactory` method:
 
-
 * `jakarta.persistence.validation.group.pre-persist`
-* `jakarta.persistence.validation.group.pre-update`
+* `jakarta.persistence.validation.group.pre-merge`
 * `jakarta.persistence.validation.group.pre-remove`
+* `jakarta.persistence.validation.group.pre-insert`
+* `jakarta.persistence.validation.group.pre-update`
+* `jakarta.persistence.validation.group.pre-upsert`
+* `jakarta.persistence.validation.group.pre-delete`
 
-The value of a validation property must be a
-list of the targeted groups. A targeted group must be specified by its
-fully qualified class name. Names must be separated by a comma.
+The value of a configuration property must be a list of the targeted groups.
+A targeted group must be specified by its fully qualified class name.
+Names must be separated by a comma.
 
-When one of the above events occurs for an
-entity, the persistence provider must validate that entity by obtaining
-a `Validator` instance from the validator factory in use (see <<a2394>>) and
+When a lifecycle event occurs for an entity, the persistence
+provider must validate the entity using a `Validator` instance
+obtained from the validator factory in use (see <<a2394>>) and
 invoking its `validate` method with the targeted groups. If the list of
 targeted groups is empty, no validation is performed. If the set of
 `ConstraintViolation` objects returned by the `validate` method is not
@@ -1969,7 +1976,7 @@ automatic validation upon lifecycle events must use a
 
 * Attributes that have not been loaded must not
 be loaded.
-* Validation cascade (`@Valid`) must not
+* Cascading validation (`@Valid`) must not
 occur for entity associations (single-valued or multi-valued).
 
 These requirements guarantee that no unloaded
@@ -1981,7 +1988,7 @@ if the `Valid` annotation has been specified on them.
 
 It is the responsibility of the persistence
 provider to pass an instance implementing the
-`jakarta.validation.TraversableResolver` interface to the Bean Validation
+`jakarta.validation.TraversableResolver` interface to the Jakarta Validation
 provider by calling
 `ValidatorFactory.usingContext().traversableResolver(tr).getValidator()` where `tr` is the resolver having the behavior described above.
 
