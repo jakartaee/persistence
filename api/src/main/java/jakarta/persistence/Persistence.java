@@ -163,7 +163,7 @@ public final class Persistence {
      *         configuration information is provided or if schema
      *         generation otherwise fails.
      *
-     * @since 7.0
+     * @since 4.0
      */
     public static void generateSchema(PersistenceConfiguration configuration) {
         PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();

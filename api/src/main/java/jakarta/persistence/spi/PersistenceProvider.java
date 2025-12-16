@@ -146,7 +146,7 @@ public interface PersistenceProvider {
      *         configuration information is provided or if schema
      *         generation otherwise fails
      *
-     * @since 7.0
+     * @since 4.0
      */
     boolean generateSchema(PersistenceConfiguration configuration);
 
