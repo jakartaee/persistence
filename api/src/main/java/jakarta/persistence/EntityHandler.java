@@ -618,12 +618,31 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link Query} for executing a
-     * Jakarta Persistence query language statement.
+     * Jakarta Persistence query language statement, usually
+     * an {@code UPDATE} or {@code DELETE} statement.
+     * <p>If the given query is a {@code SELECT} statement,
+     * the query results might be packaged as arrays:
+     * <ul>
+     * <li>if the query contains a single item in its select
+     *     list, each query result is the value of that item,
+     *     or
+     * <li>otherwise, if the query contains multiple items in
+     *     its select list, each query result is packaged in
+     *     an array of type {@code Object[]}, with the array
+     *     elements corresponding by position with the items
+     *     of the select list.
+     * </ul>
      * @param qlString A Jakarta Persistence query string
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
+     * @apiNote This method should be used to execute an
+     * {@code UPDATE} or {@code DELETE} statement. For a
+     * {@code SELECT} statement, an overload which specifies a
+     * {@linkplain #createQuery(String, Class) result class}
+     * or {@linkplain #createQuery(String, EntityGraph)
+     * entity graph} is usually more appropriate.
      */
     Query createQuery(String qlString);
 
@@ -677,24 +696,27 @@ public sealed interface EntityHandler extends AutoCloseable
     Query createQuery(CriteriaDelete<?> deleteQuery);
 
     /**
-     * Create an instance of {@link TypedQuery} for executing a
-     * Jakarta Persistence query language SELECT statement and
-     * returning instances of the given result class. Either:
+     * Create an instance of {@link TypedQuery} for executing
+     * a Jakarta Persistence query language {@code SELECT}
+     * statement and returning instances of the given result
+     * class. Either:
      * <ol>
      * <li>the select list of the query contains only a single
      *     item, which must be assignable to the result class,
-     *     or
-     * <li>the result class must be a non-abstract class or
-     *     record type with a constructor with the same number
-     *     of parameters as the query has items in its select
-     *     list, and the constructor parameter types must exactly
-     *     match the types of the corresponding items in the
-     *     select list.
+     * <li>the result class is {@code Object[].class}, or
+     * <li>the result class is a non-abstract class or record
+     *     type with a constructor with the same number of
+     *     parameters as the query has items in its select list,
+     *     and the constructor parameter types exactly match the
+     *     types of the corresponding items in the select list.
      * </ol>
      * <p>In the first case, each query result is returned
      * directly to the caller. In the second case, each query
-     * result is automatically packaged in a new instance of
-     * the result class by calling the matching constructor.
+     * result is packaged in an array with the array elements
+     * corresponding by position with the items of the query
+     * select list. In the third case, each query result is
+     * automatically packaged in a new instance of the result
+     * class by calling the matching constructor.
      * @param qlString A Jakarta Persistence query string
      * @param resultClass The result class
      * @return An instance of {@link Query} which may be used
@@ -709,12 +731,12 @@ public sealed interface EntityHandler extends AutoCloseable
     <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link TypedQuery} for executing a
-     * Jakarta Persistence query language statement, specifying
-     * an {@link EntityGraph} which is interpreted as a load
-     * graph. The select list of the query must contain only a
-     * single item, which must be assignable to the root type
-     * of the given entity graph.
+     * Create an instance of {@link TypedQuery} for executing
+     * a Jakarta Persistence query language {@code SELECT }
+     * statement, specifying an {@link EntityGraph} which is
+     * interpreted as a load graph. The select list of the
+     * query must contain only a single item, which must be
+     * assignable to the root type of the given entity graph.
      * @param qlString A Jakarta Persistence query string
      * @param resultGraph The {@linkplain EntityGraph load graph}
      * @return An instance of {@link Query} which may be used
@@ -729,8 +751,24 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link Query} for executing a named
-     * query written in the Jakarta Persistence query language or
-     * in native SQL.
+     * query written in the Jakarta Persistence query language,
+     * usually an {@code UPDATE} or {@code DELETE} statement, or
+     * in native SQL, usually an {@code INSERT}, {@code UPDATE},
+     * {@code MERGE}, or {@code DELETE} statement.
+     * <ul>
+     * <li>If the named query is a {@code SELECT} statement
+     *     written in the Jakarta Persistence query language,
+     *     the query results are packaged according to the
+     *     {@linkplain NamedQuery#resultClass result class}
+     *     specified by the {@link NamedQuery} annotation, or
+     * <li>If the named query is written in native SQL and
+     *     returns a result set, the query results are
+     *     interpreted and packaged according to the
+     *     {@linkplain NamedNativeQuery#resultClass result class}
+     *     and {@linkplain NamedNativeQuery#resultSetMapping
+     *     result set mapping} specified by the
+     *     {@link NamedNativeQuery} annotation.
+     * </ul>
      * @param name The name of a query defined in metadata
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
@@ -745,10 +783,19 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
-     * Jakarta Persistence query language named query.
-     * The select list of the query must contain only a single
-     * item, which must be assignable to the type specified by
-     * the {@code resultClass} argument.
+     * named query written in the Jakarta Persistence query language
+     * or in native SQL, returning instances of the given result class.
+     * <ul>
+     * <li>If the named query is written in the Jakarta Persistence
+     *     query language, the result class is interpreted as if it
+     *     were an argument of {@link #createQuery(String, Class)}.
+     * <li>If the named query is written in native SQL, the result
+     *     class is interpreted as if it were an argument of
+     *     {@link #createNativeQuery(String, Class)}.
+     * </ul>
+     * <p>The given result class overrides any result class specified
+     * by the {@link NamedQuery} annotation or {@link NamedNativeQuery}
+     * annotation which declares the named query.
      * @param name The name of a query defined in metadata
      * @param resultClass The type of the query result
      * @return An instance of {@link Query} which may be used
@@ -763,8 +810,22 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
-     * named query written in the Jakarta Persistence query
-     * language or in native SQL.
+     * named query written in the Jakarta Persistence query language
+     * or in native SQL.
+     * <ul>
+     * <li>If the named query is a {@code SELECT} statement
+     *     written in the Jakarta Persistence query language,
+     *     the query results are packaged according to the
+     *     {@linkplain NamedQuery#resultClass result class}
+     *     specified by the {@link NamedQuery} annotation, or
+     * <li>If the named query is written in native SQL and
+     *     returns a result set, the query results are
+     *     interpreted and packaged according to the
+     *     {@linkplain NamedNativeQuery#resultClass result class}
+     *     and {@linkplain NamedNativeQuery#resultSetMapping
+     *     result set mapping} specified by the
+     *     {@link NamedNativeQuery} annotation.
+     * </ul>
      * @param reference A reference to the query defined in metadata
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
@@ -780,26 +841,41 @@ public sealed interface EntityHandler extends AutoCloseable
     <T> TypedQuery<T> createQuery(TypedQueryReference<T> reference);
 
     /**
-     * Create an instance of {@link Query} for executing a native
-     * SQL statement, e.g., for update or delete.
-     *
-     * <p>If the query is not an update or delete query, query
-     * execution will result in each row of the SQL result being
-     * returned as a result of type {@code Object[]} (or a result
-     * of type {@code Object} if there is only one column in the
-     * select list.) Column values are returned in the order of
-     * their occurrence in the select list and default JDBC type
-     * mappings are applied.
+     * Create an instance of {@link Query} for executing a
+     * native SQL statement, usually an {@code INSERT},
+     * {@code UPDATE}, {@code MERGE}, or {@code DELETE}
+     * statement.
+     * <p>If the given query produces a result set, the query
+     * results might be packaged as arrays:
+     * <ul>
+     * <li>if the query contains a single column in its result
+     *     set, each query result is the value of that column,
+     *     or
+     * <li>otherwise, if the query contains multiple columns
+     *     in its result set, each query result is packaged in
+     *     an array of type {@code Object[]}, with the array
+     *     elements corresponding by position with the columns
+     *     of the select list.
+     * </ul>
+     * <p>Column values are obtained according to the default
+     * type mappings defined by the JDBC specification.
      * @param sqlString A native SQL query string
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
      * @since 1.0
+     * @apiNote This overload is most appropriate when used to
+     * execute a statement which returns a row count. For a
+     * {@code SELECT} statement, an overload which specifies a
+     * {@linkplain #createNativeQuery(String, Class) result class}
+     * or {@linkplain #createNativeQuery(String, ResultSetMapping)
+     * result set mapping} is usually more appropriate.
      */
     Query createNativeQuery(String sqlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a native
-     * SQL query, returning instances of the given result class. Either:
+     * SQL query which produces a result set, returning instances of the
+     * given result class. Either:
      * <ul>
      * <li>the result class is an entity class and is interpreted as a
      *     managed {@linkplain EntityResult entity result} with implicit
@@ -807,12 +883,18 @@ public sealed interface EntityHandler extends AutoCloseable
      *     result set and the object/relational mapping of the entity,
      * <li>the result class is the class of a {@linkplain Basic basic}
      *     type and the result set must have a single column which is
-     *     interpreted as a {@linkplain ColumnResult scalar result}, or
-     * <li>the result class must be a non-abstract class or record type
-     *     with a constructor with the same number of parameters as the
-     *     result set has columns, and is interpreted as a
+     *     interpreted as a {@linkplain ColumnResult scalar result},
+     * <li>the result class is a non-{@code abstract} class or record
+     *     type with a constructor with the same number of parameters
+     *     as the result set has columns, and is interpreted as a
      *     {@linkplain ConstructorResult constructor result} including
-     *     all the columns of the result set.
+     *     all the columns of the result set, or
+     * <li>the result class is {@code Object[].class} and each query
+     *     result is packaged in an array of type {@code Object[]},
+     *     with the array elements corresponding by position with the
+     *     columns of the select list and column values obtained
+     *     according to the default type mappings defined by the JDBC
+     *     specification.
      * </ul>
      * @param sqlString A native SQL query string
      * @param resultClass The type of the query result
