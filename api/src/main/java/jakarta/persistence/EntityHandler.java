@@ -1036,8 +1036,9 @@ public sealed interface EntityHandler extends AutoCloseable
      * The {@code EntityTransaction} instance may be used serially
      * to begin and commit multiple transactions.
      * @return An instance of {@link EntityTransaction}
-     * @throws IllegalStateException if invoked on a JTA entity
-     *         manager
+     * @throws IllegalStateException if invoked on a
+     *         {@linkplain PersistenceUnitTransactionType#JTA JTA}
+     *         entity manager or entity agent
      * @since 1.0
      */
     EntityTransaction getTransaction();
