@@ -31,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>The {@code NamedStoredProcedureQuery} annotation can be applied to an 
  * entity or mapped superclass.
  *
- * <p>The {@code name} element is the name that is passed as an argument
+ * <p>The {@link #name} element is the name that is passed as an argument
  * to the {@link EntityManager#createNamedStoredProcedureQuery} method to
  * create an executable {@link StoredProcedureQuery} object. Names are
  * scoped to the persistence unit.
@@ -59,7 +59,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@code Object[]}. The combining of different strategies for the mapping
  * of stored procedure result sets is undefined.
  *
- * <p>The {@code hints} element may be used to specify query properties
+ * <p>The {@link #hints} element may be used to specify query properties
  * and hints. Properties defined by this specification must be observed
  * by the provider. Vendor-specific hints that are not recognized by a
  * provider must be ignored.
@@ -108,12 +108,18 @@ public @interface NamedStoredProcedureQuery {
      *     result set and the object/relational mapping of the entity,
      * <li>the result class is the class of a {@linkplain Basic basic}
      *     type and the result set must have a single column which is
-     *     interpreted as a {@linkplain ColumnResult scalar result}, or
-     * <li>the result class must be a non-abstract class or record type
+     *     interpreted as a {@linkplain ColumnResult scalar result},
+     * <li>the result class is a non-abstract class or record type
      *     with a constructor with the same number of parameters as the
      *     result set has columns, and is interpreted as a
      *     {@linkplain ConstructorResult constructor result} including
-     *     all the columns of the result set.
+     *     all the columns of the result set, or
+     * <li>the result class is {@code Object[].class} and each query
+     *     result is packaged in an array of type {@code Object[]},
+     *     with the array elements corresponding by position with the
+     *     columns of the select list and column values obtained
+     *     according to the default type mappings defined by the JDBC
+     *     specification.
      * </ul>
      *
      * <p>Otherwise, if {@linkplain #resultSetMappings result set mappings}

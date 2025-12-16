@@ -2988,15 +2988,19 @@ The `TypedQuery` created by this method returns instances of the given
 result class. Either:
 
 - the select list of the query contains only a single item, which must
-  be assignable to the given result class, or
-- the result class must be a non-`abstract` class or record type with a
+  be assignable to the given result class,
+- the result class is `Object[].class`, or
+- the result class is a non-`abstract` class or record type with a
   constructor with the same number of parameters as the query has items
-  in its select list, and the constructor parameter types must exactly
-  match the types of the corresponding items in the select list.
+  in its select list, and the constructor parameter types exactly match
+  the types of the corresponding items in the select list.
 
 In the first case, each query result is returned directly to the caller.
-In the second case, each query result is automatically packaged in a new
-instance of the result class by calling the matching constructor.
+In the second case, each query result is packaged in an array with the
+array elements corresponding by position with the items of the query
+select list. In the third case, each query result is automatically
+packaged in a new instance of the result class by calling the matching
+constructor.
 
 ==== Named Queries
 
@@ -3516,11 +3520,16 @@ result class. Either:
   of the entity, as specified above in <<entity-results>>,
 - the result class is the class of a basic type listed in <<a486>> and
   the result set must have a single column which is interpreted as a
-  scalar result as specified in <<scalar-results>>, or
-- the result class must be a non-`abstract` class or record type with a
+  scalar result as specified in <<scalar-results>>,
+- the result class is a non-`abstract` class or record type with a
   constructor with the same number of parameters as the result set has
   columns, and is interpreted as a constructor result including all the
-  columns of the result set as specified in <<constructor-results>>.
+  columns of the result set as specified in <<constructor-results>>, or
+- the result class is `Object[].class` and each query result is packaged
+  in an array of type `Object[]`,  with the array elements corresponding
+  by position with the columns of the select list and column values
+  obtained according to the default type mappings defined by the JDBC
+  specification.
 
 ===== Restrictions
 

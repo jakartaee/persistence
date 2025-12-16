@@ -90,19 +90,22 @@ public @interface NamedQuery {
      * then either:
      * <ol>
      * <li>the select list of the query contains only a single
-     *     item, which must be assignable to the given result
-     *     class, or
-     * <li>the result class must be a non-abstract class or
-     *     record type with a constructor with the same number
-     *     of parameters as the query has items in its select
-     *     list, and the constructor parameter types must exactly
+     *     item, which must be assignable to the result class,
+     *     <li>the result class is {@code Object[].class}, or
+     * <li>the result class is a non-abstract class or record
+     *     type with a constructor with the same number of
+     *     parameters as the query has items in its select list,
+     *     and the constructor parameter types must exactly
      *     match the types of the corresponding items in the
      *     select list.
      * </ol>
      * <p>In the first case, each query result is returned
      * directly to the caller. In the second case, each query
-     * result is automatically packaged in a new instance of
-     * the result class by calling the matching constructor.
+     * result is packaged in an array with the array elements
+     * corresponding by position with the items of the query
+     * select list. In the third case, each query result is
+     * automatically packaged in a new instance of the result
+     * class by calling the matching constructor.
      * @since 3.2
      */
     Class<?> resultClass() default void.class;
