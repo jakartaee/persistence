@@ -104,7 +104,7 @@ import java.util.List;
  *
  * @since 2.1
  */
-public interface StoredProcedureQuery extends Query {
+public interface StoredProcedureQuery extends Query, AutoCloseable {
 
     /**
      * Set a query property or hint. The hints elements may be used 
@@ -714,4 +714,17 @@ public interface StoredProcedureQuery extends Query {
      */
     int getUpdateCount();
 
+    /**
+     * Immediately destroy all resources associated with this query.
+     * If the client does not call this method before the end of the
+     * current transaction, the behavior is undefined. A provider
+     * might release resources when all query results are exhausted,
+     * at the end of the current transaction, or when the entity
+     * manager or entity agent is closed.
+     * <p>After invocation of {@code close()}, every method of the
+     * {@code StoredProcedureQuery} throws {@code IllegalStateException}.
+     * @since 4.0
+     */
+    @Override
+    void close();
 }
