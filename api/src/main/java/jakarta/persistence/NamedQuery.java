@@ -91,7 +91,7 @@ public @interface NamedQuery {
      * <ol>
      * <li>the select list of the query contains only a single
      *     item, which must be assignable to the result class,
-     *     <li>the result class is {@code Object[].class}, or
+     * <li>the result class is {@code Object[].class}, or
      * <li>the result class is a non-abstract class or record
      *     type with a constructor with the same number of
      *     parameters as the query has items in its select list,
