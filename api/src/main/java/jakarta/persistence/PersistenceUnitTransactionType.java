@@ -16,16 +16,25 @@ package jakarta.persistence;
 
 /**
  * Enumerates the possible approaches to transaction management in Jakarta
- * Persistence. An {@link EntityManager} may be a JTA entity manager, where
- * transaction management is done via JTA, or it may be a resource-local
- * entity manager, where transaction management is performed via the
- * {@link EntityTransaction} interface.
+ * Persistence. The approach to transaction management is determined by the
+ * {@linkplain PersistenceConfiguration#transactionType() configuration of
+ * a persistence unit}, and is common across all entity managers and entity
+ * agents for the given persistence unit. An {@link EntityHandler} may be
+ * either:
+ * <ul>
+ * <li>a {@linkplain #JTA} entity manager or entity agent, where transaction
+ *     management is done via JTA (Jakarta Transactions), or
+ * <li>a {@linkplain #RESOURCE_LOCAL resource-local} entity manager or entity
+ *     agent, where transaction management is a responsibility of the
+ *     persistence provider and the transaction lifecycle is controlled via
+ *     the {@link EntityTransaction} interface.
+ * </ul>
  *
  * @since 3.2
  */
 public enum PersistenceUnitTransactionType {
     /**
-     * Transaction management via JTA.
+     * Transaction management via JTA (Jakarta Transactions).
      */
     JTA,
     /**

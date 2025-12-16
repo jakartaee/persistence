@@ -177,10 +177,10 @@ entity manager factory.
 
 ===== transaction-type [[a12296]]
 
-The `transaction-type` attribute specifies whether entity managers created by
-the entity manager factory for the persistence unit are JTA entity managers or
-resource-local entity managers. The value of this element must be `JTA` or
-`RESOURCE_LOCAL`:
+The `transaction-type` attribute specifies whether entity managers and entity
+agents created by the entity manager factory for the persistence unit are
+JTA entity managers and entity agents or resource-local entity managers and
+entity agents. The value of this element must be `JTA` or `RESOURCE_LOCAL`:
 
 - `JTA` means that a JTA data source is provided—either as specified by the
   `jta-data-source` element, or by the container.

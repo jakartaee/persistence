@@ -11,7 +11,7 @@ entity instances in which for any persistent entity identity there is a
 unique entity instance. Within the persistence context, the entity
 instances and their lifecycle are managed by the entity manager.
 
-In Jakarta EE environments, a JTA transaction
+In Jakarta EE environments, a JTA (Jakarta Transactions) transaction
 typically involves calls across multiple components. Such components may
 often need to access the same persistence context within a single
 transaction. To facilitate such use of entity managers in Jakarta EE
