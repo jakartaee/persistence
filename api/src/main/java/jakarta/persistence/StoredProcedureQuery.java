@@ -287,6 +287,9 @@ public interface StoredProcedureQuery extends Query {
      * The result may be retrieved after execution by calling
      * {@link #getOutputParameterValue(Parameter)}.
      * @param resultType the type of the result parameter
+     * @return an object representing the parameter, which may
+     *         be passed to {@link #setParameter(Parameter, Object)}
+     *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
     <T> Parameter<T> registerResultParameter(Class<T> resultType);
@@ -299,7 +302,9 @@ public interface StoredProcedureQuery extends Query {
      * @param position the parameter position
      * @param type the type of the parameter
      * @param mode the parameter mode
-     * @return the same query instance
+     * @return an object representing the parameter, which may
+     *         be passed to {@link #setParameter(Parameter, Object)}
+     *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
     <T> Parameter<T> registerParameter(int position, Class<T> type,
@@ -313,7 +318,9 @@ public interface StoredProcedureQuery extends Query {
      *                      or specified in metadata
      * @param type the type of the parameter
      * @param mode the parameter mode
-     * @return the same query instance
+     * @return an object representing the parameter, which may
+     *         be passed to {@link #setParameter(Parameter, Object)}
+     *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
     <T> Parameter<T> registerParameter(String parameterName, Class<T> type,
