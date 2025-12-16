@@ -298,7 +298,7 @@ public interface StoredProcedureQuery extends Query {
 
     /**
      * Mark this as a call to a stored procedure with a result
-     * parameter and register the type of the result parameter
+     * parameter and register the type of the result parameter.
      * This is typically required when calling a stored function.
      * The result may be retrieved after execution by calling
      * {@link #getOutputParameterValue(Parameter)}.
