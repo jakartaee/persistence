@@ -49,6 +49,8 @@ Specify that entity names must be legal Java identifiers
 
 Made `ELSE` branch in `CASE` expressions optional in JPQL.
 
+Overloaded `Persistence.generateSchema()` to accept `PersistenceConfiguration` and added related functionality to `PersistenceConfiguration`: `exportSchema()`, `schemaManagementDatabaseAction()`, `schemaManagementScriptsAction()`, `SchemaManagementAction`
+
 Added `jakarta.persistence.jdbc.fetchSize` and `jakarta.persistence.jdbc.batchSize`, and promoted schema export specific properties `jakarta.persistence.database-*` to API
 
 Added `SchemaManager.populate()` and the new schema generation action `populate`.
