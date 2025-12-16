@@ -47,7 +47,8 @@ public interface PersistenceProvider {
      * the {@code persistence.xml} file or specify values for
      * properties not specified in the {@code persistence.xml}
      * (and may be null if no properties are specified).
-     * @return EntityManagerFactory for the persistence unit, 
+     * @return a newly created {@link EntityManagerFactory}
+     *         for the persistence unit,
      * or null if the provider is not the right provider
      *
      * @see Persistence#createEntityManagerFactory(String, Map)
@@ -58,10 +59,12 @@ public interface PersistenceProvider {
      * Called by {@link Persistence} class when an
      * {@link EntityManagerFactory} is to be created.
      *
-     * @param configuration  the configuration of the persistence unit
-     * @return EntityManagerFactory for the persistence unit,
+     * @param configuration the configuration of the persistence unit
+     * @return a newly created {@link EntityManagerFactory}
+     *         for the persistence unit,
      * or null if the provider is not the right provider
-     * @throws IllegalStateException if required configuration is missing
+     * @throws IllegalStateException if any required configuration
+     *                               is missing
      *
      * @see Persistence#createEntityManagerFactory(PersistenceConfiguration)
      *
@@ -75,7 +78,7 @@ public interface PersistenceProvider {
      *
      * @param info  metadata for use by the persistence provider
      * @param map  a Map of integration-level properties for use 
-     * by the persistence provider (may be null if no properties
+     * by the persistence provider (might be null if no properties
      * are specified). These properties may include properties to
      * control schema generation. If a Bean Validation provider is
      * present in the classpath, the container must pass the
@@ -84,8 +87,8 @@ public interface PersistenceProvider {
      * containing archive is a bean archive, the container must
      * pass the {@code BeanManager} instance in the map with the
      * key {@code "jakarta.persistence.bean.manager"}.
-     * @return {@link EntityManagerFactory} for the persistence unit
-     * specified by the metadata
+     * @return a newly created {@link EntityManagerFactory}
+     *         for the persistence unit configured by the metadata
      */
     EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo info, Map<?, ?> map);
 
@@ -95,14 +98,14 @@ public interface PersistenceProvider {
      * scripts as determined by the supplied properties.
      * <p>
      * Called by the container when schema generation is to
-     * occur as a separate phase from creation of the entity
+     * occur as a separate phase from the creation of the entity
      * manager factory.
-     * <p>
+     *
      * @param info metadata for use by the persistence provider
-     * @param map properties for schema generation;  these may
+     * @param map properties for schema generation; these may
      *            also include provider-specific properties
      * @throws PersistenceException if insufficient or inconsistent
-     *         configuration information is provided of if schema
+     *         configuration information is provided or if schema
      *         generation otherwise fails
      *
      * @since 2.1
@@ -116,13 +119,13 @@ public interface PersistenceProvider {
      * Called by the {@link Persistence} class when schema generation
      * is to occur as a separate phase from creation of the entity
      * manager factory.
-     * <p>
+     *
      * @param persistenceUnitName the name of the persistence unit
-     * @param map properties for schema generation;  these may
-     *            also contain provider-specific properties.  The
-     *            value of these properties override any values that
+     * @param map properties for schema generation; these may
+     *            also contain provider-specific properties. The
+     *            values of these properties override any values that
      *            may have been configured elsewhere.
-     * @return true  if schema was generated, otherwise false
+     * @return true if the schema was generated, otherwise false
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
      *         generation otherwise fails
@@ -139,9 +142,9 @@ public interface PersistenceProvider {
      * Called by the {@link Persistence} class when schema generation
      * is to occur as a separate phase from creation of the entity
      * manager factory.
-     * <p>
-     * @param configuration  the configuration of the persistence unit
-     * @return true  if schema was generated, otherwise false
+     *
+     * @param configuration the configuration of the persistence unit
+     * @return true if the schema was generated, otherwise false
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
      *         generation otherwise fails
@@ -183,8 +186,8 @@ public interface PersistenceProvider {
      * is not required to call this method.
      * @return  provider-supplied transformer that the
      * container invokes at class-(re)definition time
-     * @param info  metadata for use by the persistence provider
-     * @param map  a Map of integration-level properties for use
+     * @param info metadata for use by the persistence provider
+     * @param map a {@code Map} of integration-level properties for use
      * by the persistence provider, which will not usually contain
      * a {@code ValidatorFactory} or {@code BeanManager}.
      * @since 4.0
