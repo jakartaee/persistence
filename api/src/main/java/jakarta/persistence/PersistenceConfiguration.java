@@ -35,7 +35,6 @@ import java.util.Objects;
  * <p>If injection of the {@link EntityManagerFactory} is required, a CDI
  * {@code Producer} may be used to make the {@link EntityManagerFactory}
  * available as a CDI managed bean.
- *
  * {@snippet :
  * @Produces @ApplicationScoped @Documents
  * EntityManagerFactory configure() {
@@ -51,7 +50,6 @@ import java.util.Objects;
  * a CDI {@code Producer} method/{@code Disposer} method pair may be
  * used to make the {@link EntityManager} available as a CDI managed
  * bean.
- *
  * {@snippet :
  * @Produces @TransactionScoped @Documents
  * EntityManager create(@Documents EntityManagerFactory factory) {
