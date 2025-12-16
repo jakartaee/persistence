@@ -90,8 +90,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </ul>
  * <p>By default:
  * <ul>
- * <li>fields or properties of basic type, one-to-one associations, and
- *     many-to-one associations are fetched eagerly, but
+ * <li>fields or properties of basic or embedded type, one-to-one 
+ *     associations, and many-to-one associations are fetched eagerly, but
  * <li>element collections, one-to-many associations, and many-to-many
  *     associations are fetched lazily.
  * </ul>
