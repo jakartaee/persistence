@@ -20,7 +20,7 @@ import jakarta.persistence.CacheStoreMode;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.Timeout;
-import jakarta.persistence.TypedQueryReference;
+import jakarta.persistence.QueryReference;
 
 import java.util.List;
 import java.util.Map;
@@ -35,15 +35,12 @@ import static java.util.Collections.emptyMap;
  * {@linkplain jakarta.persistence.metamodel.StaticMetamodel
  * static metamodel} for the annotated program element.
  *
- * @param <R> The result type of the query
- *
  * @since 4.0
  */
-public class StaticQueryReference<R>
-        implements TypedQueryReference<R> {
+public class StaticQueryReference
+        implements QueryReference {
     private final Class<?> annotatedClass;
     private final String annotatedMemberName;
-    private final Class<R> resultType;
     private final String name;
     private final List<Class<?>> parameterTypes;
     private final List<String> parameterNames;
@@ -87,7 +84,6 @@ public class StaticQueryReference<R>
             String queryName,
             Class<?> annotatedClass,
             String annotatedMemberName,
-            Class<R> resultType,
             List<Class<?>> parameterTypes,
             List<String> parameterNames,
             List<Object> arguments,
@@ -101,7 +97,6 @@ public class StaticQueryReference<R>
         this.name = queryName;
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
-        this.resultType = resultType;
         this.parameterTypes = parameterTypes;
         this.parameterNames = parameterNames;
         this.arguments = arguments;
@@ -199,11 +194,6 @@ public class StaticQueryReference<R>
     }
 
     @Override
-    public Class<? extends R> getResultType() {
-        return resultType;
-    }
-
-    @Override
     public Map<String, Object> getHints() {
         return hints;
     }
@@ -266,12 +256,11 @@ public class StaticQueryReference<R>
         if (obj == this) {
             return true;
         }
-        else if ((!(obj instanceof StaticQueryReference<?> that))) {
+        else if ((!(obj instanceof StaticQueryReference that))) {
             return false;
         }
         else {
-            return Objects.equals(this.resultType, that.resultType)
-                && Objects.equals(this.name, that.name)
+            return Objects.equals(this.name, that.name)
                 && Objects.equals(this.parameterTypes, that.parameterTypes)
                 && Objects.equals(this.parameterNames, that.parameterNames)
                 && Objects.equals(this.arguments, that.arguments)
@@ -292,7 +281,6 @@ public class StaticQueryReference<R>
     @Override
     public String toString() {
         return "StaticQueryReference["
-                + "resultType=" + resultType + ", "
                 + "name=" + name + ", "
                 + "parameterNames=" + parameterNames + ", "
                 + "arguments=" + arguments + ", "

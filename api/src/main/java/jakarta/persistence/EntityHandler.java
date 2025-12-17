@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -64,13 +64,13 @@ import java.util.Map;
  * from the persistence context, without directly accessing
  * the database. However, any such operation must respect:
  * <ul>
- * <li>any {@linkplain LockModeType lock mode} requested as
- *     an argument to the operation or by calling
- *     {@link Query#setLockMode(LockModeType)}, as well as
+ * <li>any {@linkplain LockModeType lock mode} requested as an
+ *     argument to the operation or by calling
+ *     {@link TypedQuery#setLockMode(LockModeType)}, as well as
  * <li>any {@linkplain CacheRetrieveMode cache mode} given
- *     as an {@linkplain FindOption optional argument} or
- *     by calling {@link #setCacheRetrieveMode} or
- *     {@link Query#setCacheRetrieveMode}.
+ *     as an {@linkplain FindOption optional argument} or by
+ *     calling {@link #setCacheRetrieveMode} or
+ *     {@link TypedQuery#setCacheRetrieveMode}.
  * </ul>
  * <p>Thus, access to the database might be required even when
  * the entity is available in the persistence context or in the
@@ -771,6 +771,23 @@ public interface EntityHandler extends AutoCloseable {
     <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
+     * Create an instance of {@link Query} for executing a named
+     * query written in the Jakarta Persistence query language or
+     * in native SQL.
+     * @param reference a reference to the query defined in metadata
+     * @return the new query instance
+     * @throws IllegalArgumentException if a query has not been
+     *         defined, or if the query string is found to be
+     *         invalid, or if the query result is found to not be
+     *         assignable to the specified type
+     * @see EntityManagerFactory#getNamedQueries()
+     * @see NamedQuery
+     * @see NamedNativeQuery
+     * @since 4.0
+     */
+    Query createQuery(QueryReference reference);
+
+    /**
      * Create an instance of {@link TypedQuery} for executing a
      * named query written in the Jakarta Persistence query language
      * or in native SQL.
@@ -789,7 +806,7 @@ public interface EntityHandler extends AutoCloseable {
      *     {@link NamedNativeQuery} annotation.
      * </ul>
      * @param reference A reference to the query defined in metadata
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if a query has not been
      *         defined, if the query string is found to be
