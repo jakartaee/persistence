@@ -148,6 +148,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
                                       Calendar value, 
                                       TemporalType temporalType);
@@ -164,6 +165,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Date> param,
                                       Date value,
                                       TemporalType temporalType);
