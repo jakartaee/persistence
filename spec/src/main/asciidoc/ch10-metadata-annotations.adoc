@@ -326,11 +326,33 @@ The `query` element must specify a query string itself, written in the
 Jakarta Persistence query language.
 
 The `resultClass` element specifies the Java class of each query result.
-The query result class may be overridden by explicitly passing a `Class`
-object to `EntityManager.createNamedQuery(String, Class)`. If the
-`resultClass` element of a `NamedQuery` annotation is not specified, the
-persistence implementation is entitled to default the result class to
-`Object` or `Object[]`.
+When the result class is explicitly specified, either:
+
+1. the select list of the query contains only a single item, which must
+   be assignable to the result class,
+2. the result class is `Object[].class`, or
+3. the result class is a non-abstract class or record type with a
+   constructor with the same number of parameters as the query has
+   items in its select list, and the constructor parameter types must
+   exactly match the types of the corresponding items in the select
+   list.
+
+In the first case, each query result is returned directly to the caller.
+In the second case, each query result is packaged in an array, with the
+array elements corresponding by position with the items of the query
+select list. In the third case, each query result is automatically
+packaged in a new instance of the result class by calling the matching
+constructor.
+
+If the result class of a named query is not specified, it defaults to
+`Object` if the query has a single item in its select list or to
+`Object[]` if the query has multiple items in its select list. When
+generating the canonical static metamodel for a named query, the
+generator is permitted to infer a more precise type from the items in
+the select list.
+
+The result class may be overridden by explicitly passing a class
+object to `EntityManager.createNamedQuery(String, Class)`.
 
 The `lockMode` element specifies a lock mode for the entity instances in
 results returned by the query. If a lock mode other than `NONE` is
@@ -384,19 +406,48 @@ public @interface NamedQueries {
 
 The `NamedNativeQuery` annotation defines a named native SQL query.
 
-The `name` element assigns a name to the query, which is used to identify
-the query in calls to `EntityManager.createNamedQuery()`.
+The `name` element assigns a name to the query, which is used to
+identify the query in calls to `EntityManager.createNamedQuery()`.
 
-The `query` element must specify the query string itself, written in the
-native SQL dialect of the database.
+The `query` element must specify the query string itself, written
+in the native SQL dialect of the database.
 
-The `resultClass` element specifies the class of each query result. If a
-result set mapping is specified, the specified result class must agree
-with the type inferred from the result set mapping. If a `resultClass` is
-not explicitly specified, then it is inferred from the result set mapping,
-if any, or defaults to `Object` or `Object[]`. The query result class may
-be overridden by explicitly passing a `Class` object to
-`EntityManager.createNamedQuery(String, Class)`.
+The `resultClass` element specifies the class of each query result.
+When the result class is explicitly specified and the result set
+mapping is not, either:
+
+* the result class is an entity class and is interpreted as a managed
+  entity result with implicit field mappings determined by the names
+  of the columns in the result set and the object/relational mapping
+  of the entity,
+* the result class is the class of a basic type and the result set
+  must have a single column which is interpreted as a scalar result,
+* the result class is a non-abstract class or record type with a
+  constructor with the same number of parameters as the result set
+  has columns, and is interpreted as a constructor result including
+  all the columns of the result set, or
+* the result class is `Object[].class` and each query result is
+  packaged in an array of type `Object[]`, with the array elements
+  corresponding by position with the columns of the select list and
+  column values obtained according to the default type mappings
+  defined by the JDBC specification.
+
+Otherwise, if a result set mapping is specified, an explicitly
+specified result class must agree with the type inferred from the
+result set mapping.
+
+If the result class is not explicitly specified, then:
+
+* it is inferred from the result set mapping, if any, or
+* it defaults to `Object` if the result set has a single column or
+  `Object[]` if the result set has multiple columns.
+
+When neither result class nor result set mapping is specified,
+column values are obtained according to the default type mappings
+defined by the JDBC specification.
+
+The result class may be overridden by explicitly passing a class
+object to `EntityManager.createNamedQuery(String, Class)`.
 
 The `resultSetMapping` element specifies the name of a `SqlResultSetMapping`
 specification defined elsewhere in metadata. The named `SqlResultSetMapping`
