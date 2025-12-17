@@ -80,14 +80,9 @@ public @interface NamedQuery {
     String query();
 
     /**
-     * (Optional) The class of each query result. The result class
-     * may be overridden by explicitly passing a class object to
-     * {@link EntityManager#createNamedQuery(String, Class)}. If
-     * the result class of a named query is not specified, the
-     * persistence implementation is entitled to default the
-     * result class to {@code Object} or {@code Object[]}. On the
-     * other hand, if the result class is explicitly specified,
-     * then either:
+     * (Optional) The class of each query result.
+     *
+     * <p>When the result class is explicitly specified, either:
      * <ol>
      * <li>the select list of the query contains only a single
      *     item, which must be assignable to the result class,
@@ -106,6 +101,19 @@ public @interface NamedQuery {
      * select list. In the third case, each query result is
      * automatically packaged in a new instance of the result
      * class by calling the matching constructor.
+     *
+     * <p>If the result class of a named query is not specified:
+     * it defaults to {@code Object} if the query has a single
+     * item in its select list or to {@code Object[]} if the
+     * query has multiple items in its select list. When
+     * generating the canonical static metamodel for a named
+     * query, the generator is permitted to infer a more precise
+     * type from the items in the select list.
+     *
+     * <p>The result class may be overridden by explicitly
+     * passing a class object to
+     * {@link EntityManager#createNamedQuery(String, Class)}.
+     *
      * @since 3.2
      */
     Class<?> resultClass() default void.class;

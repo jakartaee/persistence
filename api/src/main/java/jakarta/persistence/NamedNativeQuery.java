@@ -134,11 +134,20 @@ public @interface NamedNativeQuery {
      * is specified, an explicitly specified result class must agree with
      * the type inferred from the result set mapping.
      *
-     * <p>If the result class is not explicitly specified, then it is
-     * inferred from the result set mapping, if any, or defaults to
-     * {@code Object} or {@code Object[]}. The query result class may be
-     * overridden by explicitly passing a class object to
-     * {@link EntityManager#createNamedQuery(String, Class)}.
+     * <p>If the result class is not explicitly specified, then:
+     * <ul>
+     * <li>it is inferred from the {@linkplain #resultSetMapping result
+     *     set mapping}, if any, or
+     * <li>it defaults to {@code Object} if the result set has a single
+     *     column or {@code Object[]} if the result set has multiple
+     *     columns.
+     * </ul>
+     * <p>When neither result class nor result set mapping is specified,
+     * column values are obtained according to the default type mappings
+     * defined by the JDBC specification.
+     *
+     * <p>The result class may be overridden by explicitly passing a class
+     * object to {@link EntityManager#createNamedQuery(String, Class)}.
      */
     Class<?> resultClass() default void.class;
 
