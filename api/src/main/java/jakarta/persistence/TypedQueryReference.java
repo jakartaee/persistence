@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A reference to a named query declared via the
+ * A reference to a typed named query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
  * or using {@link jakarta.persistence.query.StaticQuery} or
  * {@link jakarta.persistence.query.StaticNativeQuery}. An
@@ -77,6 +77,14 @@ import java.util.Map;
  *     {@link #getArguments()}, {@link #getParameterNames()},
  *     and {@link #getParameterTypes()}.
  * </ul>
+ *
+ * <p>In the Jakarta Persistence query language, only SELECT
+ * queries are typed queries, since only a SELECT query can
+ * return a result. A DELETE or UPDATE query is not a typed
+ * query, and is always represented by an untyped instance
+ * of {@link QueryReference}. On the other hand, a native
+ * SQL query is considered a typed query if it returns a
+ * result set.
  *
  * @param <R> an upper bound on the result type of the query
  *

@@ -464,6 +464,15 @@ public interface EntityManagerFactory extends AutoCloseable {
     <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
 
     /**
+     * A map keyed by {@linkplain NamedQuery#name query name}, containing
+     * {@linkplain QueryReference references} to every named query.
+     * @return a map keyed by query name
+     *
+     * @since 4.0
+     */
+    Map<String, QueryReference> getNamedQueries();
+
+    /**
      * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
      * every named {@linkplain EntityGraph entity graph} whose entity type is
      * assignable to the given Java type.
