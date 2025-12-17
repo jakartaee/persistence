@@ -49,7 +49,7 @@ typically used.
 
 In Java SE environments and in Jakarta EE
 application client containers, only application-managed entity managers
-are required to be footnote:[Note that the use of
+are required to be supportedfootnote:[Note that the use of
 JTA is not required to be supported in application client containers.].
 
 === Obtaining an EntityManager
