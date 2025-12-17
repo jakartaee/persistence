@@ -732,7 +732,7 @@ public sealed interface EntityHandler extends AutoCloseable
 
     /**
      * Create an instance of {@link TypedQuery} for executing
-     * a Jakarta Persistence query language {@code SELECT }
+     * a Jakarta Persistence query language {@code SELECT}
      * statement, specifying an {@link EntityGraph} which is
      * interpreted as a load graph. The select list of the
      * query must contain only a single item, which must be
