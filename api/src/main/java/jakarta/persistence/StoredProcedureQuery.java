@@ -120,6 +120,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
+    @Override
     StoredProcedureQuery setHint(String hintName, Object value);
 
     /**
@@ -130,7 +131,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      */
-    <T> StoredProcedureQuery setParameter(Parameter<T> param, 
+    @Override
+    <T> StoredProcedureQuery setParameter(Parameter<T> param,
                                           T value);
 
     /**
@@ -145,6 +147,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
                                       Calendar value, 
                                       TemporalType temporalType);
@@ -161,6 +164,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Date> param,
                                       Date value,
                                       TemporalType temporalType);
@@ -174,6 +178,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not correspond to a parameter of the query or if the
      *         argument is of incorrect type
      */
+    @Override
     StoredProcedureQuery setParameter(String name, Object value);
 
     /**
@@ -189,7 +194,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(String name, 
+    @Override
+    StoredProcedureQuery setParameter(String name,
                                       Calendar value, 
                                       TemporalType temporalType);
 
@@ -206,7 +212,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(String name, 
+    @Override
+    StoredProcedureQuery setParameter(String name,
                                       Date value, 
                                       TemporalType temporalType);
 
@@ -219,6 +226,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         correspond to a positional parameter of the query
      *         or if the argument is of incorrect type
      */
+    @Override
     StoredProcedureQuery setParameter(int position, Object value);
 
     /**
@@ -235,7 +243,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(int position, 
+    @Override
+    StoredProcedureQuery setParameter(int position,
                                       Calendar value,  
                                       TemporalType temporalType);
 
@@ -252,7 +261,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(int position, 
+    @Override
+    StoredProcedureQuery setParameter(int position,
                                       Date value,  
                                       TemporalType temporalType);
 
@@ -263,6 +273,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @param flushMode  flush mode
      * @return the same query instance
      */
+    @Override
     StoredProcedureQuery setFlushMode(FlushModeType flushMode);
 
     /**
@@ -273,6 +284,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -283,6 +295,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -294,6 +307,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     StoredProcedureQuery setTimeout(Integer timeout);
 
     /**
@@ -439,6 +453,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Override
     int executeUpdate();
 
     /**
@@ -479,6 +494,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Override
     Object getSingleResult();
 
     /**
@@ -497,6 +513,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Override
     Object getSingleResultOrNull();
 
     /**
