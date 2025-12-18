@@ -63,7 +63,9 @@ Change default `lockMode` of `EntityResult` to `NONE`
 
 Allow `@EntityResult` as a subelement of `@ConstructorResult` in named SQL result set mappings
 
-Added `comment` member to `@DiscriminatorColumn` and `@CollectionTable`
+Added `comment` member to `@DiscriminatorColumn`, `@MapKeyColumn`, `@MapKeyJoinColumn`, `@PrimaryKeyJoinColumn` and `@CollectionTable`
+
+Added `check` member to `@MapKeyColumn`, `@MapKeyJoinColumn`, `@PrimaryKeyJoinColumn` and `@CollectionTable`
 
 Fixed some incorrect generic method signatures in `From`
 

@@ -675,6 +675,7 @@ public @interface CollectionTable {
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
+    CheckConstraint[] check() default {};
     String comment() default "";
     String options() default "";
 }
@@ -779,6 +780,12 @@ effect.
 |(Optional) Indexes for the table. These are
 only used if table generation is in effect.
 |No additional indexes
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the table. These are
+only used if table generation is in effect.
+|No check constraint
 
 |String
 |comment

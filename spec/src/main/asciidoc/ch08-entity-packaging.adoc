@@ -635,7 +635,7 @@ managed persistence classes. If a `META-INF/orm.xml` file exists, any
 classes referenced by it and mapping information contained in it are
 used as specified above. Because no provider is specified, the
 persistence unit is assumed to be portable across providers. Because the
-transaction type is not specified, JTA is assumed for Jakarta EE
+transaction type is not specified, `JTA` is assumed for Jakarta EE
 environments. The container must provide the data source (it may be
 specified at application deployment, for example). In Java SE
 environments, the data source may be specified by other means and a
