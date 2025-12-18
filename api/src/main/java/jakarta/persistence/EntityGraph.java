@@ -16,14 +16,21 @@
 package jakarta.persistence;
 
 /**
- * This type represents the root of an entity graph that will be
- * used as a template to define the attribute nodes and boundaries
- * of a graph of entities and entity relationships. The root must
- * be an entity type.
+ * An entity graph is a template that captures the boundaries of an
+ * operation or query. Every entity graph has a <em>root entity</em>.
+ * An instance of {@code EntityGraph} is the root node of a graph and
+ * represents this entity. The child nodes of the root node represent
+ * persistent attributes, embedded objects, or associations to other
+ * entities. A node representing an embedded object or an association
+ * to an entity might be the root of a subgraph with its own child
+ * nodes.
  * <p>
- * The methods to add subgraphs implicitly create the corresponding
- * attribute nodes as well; such attribute nodes should not be
- * redundantly specified.
+ * An entity graph is usually used to control the data fetched from
+ * the database. The {@linkplain AttributeNode attribute nodes} and
+ * {@linkplain Subgraph subgraphs} of an entity graph determine the
+ * limits of the graph of associated attributes and entities fetched
+ * when an operation which retrieves an instance or instances of the
+ * root entity of the graph is executed.
  * <p>
  * When used to specify fetching, an entity graph has two possible
  * interpretations:

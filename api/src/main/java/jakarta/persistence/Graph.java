@@ -24,7 +24,20 @@ import jakarta.persistence.metamodel.PluralAttribute;
 import java.util.List;
 
 /**
- * Declares operations common to {@link EntityGraph} and {@link Subgraph}.
+ * Declares operations common to {@link EntityGraph} and {@link Subgraph},
+ * most importantly, operations for adding and removing attribute nodes
+ * and for creating subgraphs.
+ * <p>
+ * Any method creating a {@linkplain Subgraph subgraph} of the graph also
+ * implicitly creates the {@linkplain AttributeNode attribute node} at
+ * which the subgraph is rooted; it is redundant to separately create such
+ * an attribute node. Removing an attribute node also removes any subgraph
+ * rooted at that node.
+ * <p>
+ * When a graph is to be interpreted as a load graph, it is meaningful to
+ * remove an attribute node which has not been explicitly added to the graph.
+ * This operation is interpreted to suppress the inclusion of an attribute
+ * mapped for eager fetching, which would otherwise be included by default.
  *
  * @see EntityGraph
  * @see Subgraph
