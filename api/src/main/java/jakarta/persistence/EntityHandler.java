@@ -1134,34 +1134,38 @@ public sealed interface EntityHandler extends AutoCloseable
     Metamodel getMetamodel();
 
     /**
-     * Create a new mutable {@link EntityGraph}, allowing dynamic
-     * definition of an entity graph.
-     * @param rootType The root entity class of the graph
-     * @return The new entity graph
+     * Create a new mutable {@link EntityGraph}, allowing programmatic
+     * definition of the graph.
+     * @param rootType the root entity type of the new graph
+     * @return a trivial entity graph with only a root node
+     * @see jakarta.persistence.metamodel.EntityType#createEntityGraph()
      * @since 2.1
      */
     <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
 
     /**
-     * Obtain a mutable copy of a named {@link EntityGraph}, or
-     * return null if there is no entity graph with the given
-     * name.
-     * @param graphName The name of an entity graph
-     * @return A mutable copy of the entity graph, or null
-     * @since 2.1
-     */
-    EntityGraph<?> createEntityGraph(String graphName);
-
-    /**
-     * Obtain a named {@link EntityGraph}. The returned instance
-     * of {@code EntityGraph} should be considered immutable.
-     * @param graphName The name of an existing entity graph
-     * @return An immutable entity graph
+     * Obtain a mutable copy of the named {@link EntityGraph}.
+     * @param graphName the name of an existing entity graph
+     * @return the entity graph with the given name
      * @throws IllegalArgumentException if there is no entity
-     *         of graph with the given name
+     *         graph with the given name
      * @since 2.1
      */
     EntityGraph<?> getEntityGraph(String graphName);
+
+    /**
+     * Obtain a mutable copy of the named {@link EntityGraph}
+     * whose root type is exactly the given entity type.
+     * @param rootType the root entity type of the graph
+     * @param graphName the name of an existing entity graph
+     * @return the entity graph with the given name
+     * @throws IllegalArgumentException if there is no entity
+     *         graph with the given name, or if the entity
+     *         graph with the given name does not have exactly
+     *         the given root entity type
+     * @since 4.0
+     */
+    <T> EntityGraph<T> getEntityGraph(Class<T> rootType, String graphName);
 
     /**
      * Return all named {@link EntityGraph}s that are defined for
