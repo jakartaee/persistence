@@ -1049,30 +1049,6 @@ public sealed interface EntityHandler extends AutoCloseable
             String procedureName, String... resultSetMappings);
 
     /**
-     * Join the current active JTA transaction.
-     * <p>This method should be called on a JTA application-managed
-     * {@code EntityHandler} that was created outside the scope of
-     * the active transaction or on an {@code EntityHandler} of
-     * type {@link SynchronizationType#UNSYNCHRONIZED} to associate
-     * it with the current JTA transaction.
-     * @throws TransactionRequiredException if there is no active
-     *         transaction
-     * @since 1.0
-     */
-    void joinTransaction();
-
-    /**
-     * Determine whether the {@code EntityHandler} is joined to the
-     * current transaction. Returns false if the {@code EntityHandler}
-     * is not joined to the current transaction or if no
-     * transaction is active.
-     * @return True if the {@code EntityHandler} is joined to the
-     *         current transaction, or false otherwise
-     * @since 2.1
-     */
-    boolean isJoinedToTransaction();
-
-    /**
      * Return an object of the specified type to allow access to
      * a provider-specific API. If the provider implementation
      * of {@code EntityHandler} does not support the given type,
