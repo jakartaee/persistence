@@ -546,6 +546,14 @@ public interface Query {
 
     /**
      * Set the lock mode type to be used for the query execution.
+     * Affects every entity occurring as an item in the SELECT
+     * clause, including entities occurring as arguments to
+     * constructors. The effect on association join tables,
+     * collection tables, and primary and secondary tables of
+     * join fetched entities is determined by the specified
+     * {@linkplain #getLockScope lock scope}. If no lock scope
+     * was explicitly specified, the lock scope defaults to
+     * {@link PessimisticLockScope#NORMAL NORMAL}.
      * @param lockMode  lock mode
      * @return the same query instance
      * @throws IllegalStateException if the query is not a Jakarta
