@@ -3346,6 +3346,8 @@ public @interface MapKeyColumn {
     int length() default 255;
     int precision() default 0; // decimal precision
     int scale() default 0; // decimal scale
+    CheckConstraint[] check() default {};
+    String comment() default "";
 }
 ----
 
@@ -3448,6 +3450,18 @@ is the value of the map.
  scale should be inferred.
 |0
 
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
+
 |===
 
 *Example:*
@@ -3535,6 +3549,8 @@ public @interface MapKeyJoinColumn {
     String options() default "";
     String table() default "";
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    CheckConstraint[] check() default {};
+    String comment() default "";
 }
 ----
 
@@ -3662,6 +3678,18 @@ name of the primary table of the entity that is the value of the map.
 specification for the join column. This is used only if table generation
 is in effect.
 |Provider's default
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example 1:*
@@ -4632,6 +4660,8 @@ public @interface PrimaryKeyJoinColumn {
     String columnDefinition() default "";
     String options() default "";
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    CheckConstraint[] check() default {};
+    String comment() default "";
 }
 ----
 
@@ -4677,6 +4707,18 @@ a OneToOne primary key association.
 specification for the join column. This is used only if table generation
 is in effect.
 |Provider's default
+
+|CheckConstraint[]
+|check
+|(Optional) Check constraints for the column. These are
+only used if table generation is in effect.
+|No check constraint
+
+|String
+|comment
+|(Optional) Comment for the column. This is
+only used if table generation is in effect.
+|No comment
 |===
 
 *Example:* Customer and ValuedCustomer subclass
