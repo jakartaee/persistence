@@ -18,6 +18,7 @@ package jakarta.persistence.query;
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
 import jakarta.persistence.LockModeType;
+import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.QueryHint;
 
 import java.lang.annotation.Retention;
@@ -93,6 +94,12 @@ public @interface ReadQueryOptions {
      * @see jakarta.persistence.Query#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
+
+    /**
+     * (Optional) The pessimistic lock scope to use in query execution
+     * if a pessimistic lock mode is specified via {@link #lockMode}.
+     */
+    PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
 
     /**
      * The name of an {@link jakarta.persistence.NamedEntityGraph}
