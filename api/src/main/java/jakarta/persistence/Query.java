@@ -189,8 +189,21 @@ public interface Query {
     Object getSingleResultOrNull();
 
     /**
-     * Execute an update or delete statement.
-     * @return the number of entities updated or deleted
+     * Execute a Jakarta Persistence UPDATE or DELETE statement, or
+     * a native SQL statement that returns a row count.
+     * <p>
+     * After execution of a bulk update or delete operation, the
+     * persistence provider is not required to resynchronize state
+     * held in memory with the effects of the operation on data held
+     * in the database. However, when {@link FlushModeType#AUTO} is
+     * in effect, the persistence provider must ensure that every
+     * modification to the state of every entity associated with the
+     * persistence context which could possibly alter the effects of
+     * a bulk update or delete operation is visible to the
+     * processing of the operation.
+     *
+     * @return the number of entities updated or deleted, or the
+     *         row count of the native SQL statement
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language SELECT statement or for
      *         a criteria query
@@ -203,6 +216,9 @@ public interface Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      */
     int executeUpdate();
 
