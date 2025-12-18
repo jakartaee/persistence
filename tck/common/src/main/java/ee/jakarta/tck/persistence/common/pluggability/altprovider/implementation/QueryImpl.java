@@ -28,6 +28,7 @@ import jakarta.persistence.EntityGraph;
 import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
+import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.TypedQuery;
 
@@ -70,6 +71,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public LockModeType getLockMode() {
+		return null;
+	}
+
+	@Override
+	public PessimisticLockScope getLockScope() {
 		return null;
 	}
 
@@ -170,6 +176,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public TypedQuery<X> setLockMode(LockModeType arg0) {
+		return this;
+	}
+
+	@Override
+	public TypedQuery<X> setLockScope(PessimisticLockScope lockScope) {
 		return this;
 	}
 
