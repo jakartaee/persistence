@@ -3200,8 +3200,9 @@ update operation, bypassing optimistic locking checks. Portable
 applications must manually update the value of the version column, if
 desired, and/or manually validate the value of the version column.
 
-The persistence context is not synchronized
-with the result of the bulk update or delete.
+After execution of a bulk update or delete operation, the persistence
+provider is not required to resynchronize state held in memory with
+the effects of the operation on data held in the database.
 
 [NOTE]
 ====
@@ -3210,8 +3211,15 @@ update or delete operations because they may result in inconsistencies
 between the database and the entities in the active persistence context.
 In general, bulk update and delete operations should only be performed
 within a transaction in a new persistence context or before fetching or
-accessing entities whose state might be affected by such operations._
+accessing entities whose state might be affected by such operations.
 ====
+
+However, the usual rules specified in <<a4374>> apply to the processing
+of bulk update and delete operations. In particular, in `FlushMode.AUTO`,
+the persistence provider must ensure that every modification to the state
+of every entity associated with the persistence context which could
+possibly alter the effects of a bulk update or delete operation is visible
+to the processing of the operation.
 
 Examples:
 
