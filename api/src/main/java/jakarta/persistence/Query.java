@@ -546,7 +546,7 @@ public interface Query {
 
     /**
      * Set the lock mode type to be used for the query execution.
-     * Affects every entity occurring as an item in the SELECT
+     * <p>Affects every entity occurring as an item in the SELECT
      * clause, including entities occurring as arguments to
      * constructors. The effect on association join tables,
      * collection tables, and primary and secondary tables of
@@ -554,6 +554,14 @@ public interface Query {
      * {@linkplain #getLockScope lock scope}. If no lock scope
      * was explicitly specified, the lock scope defaults to
      * {@link PessimisticLockScope#NORMAL NORMAL}.
+     * <p>If the given lock mode is
+     * {@link LockModeType#PESSIMISTIC_READ PESSIMISTIC_READ},
+     * {@link LockModeType#PESSIMISTIC_WRITE PESSIMISTIC_WRITE},
+     * or {@link LockModeType#PESSIMISTIC_FORCE_INCREMENT
+     * PESSIMISTIC_FORCE_INCREMENT}, the lock also affects every
+     * entity with an attribute reference occurring in the SELECT
+     * clause, except when the attribute reference occurs as an
+     * argument to an aggregate function.
      * @param lockMode  lock mode
      * @return the same query instance
      * @throws IllegalStateException if the query is not a Jakarta
