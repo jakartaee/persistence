@@ -29,7 +29,9 @@ import jakarta.persistence.criteria.CriteriaQuery;
  * <p>An instance of {@code EntityManager} must be obtained from
  * an {@link EntityManagerFactory}, and is only able to manage
  * persistence of entities belonging to the associated persistence
- * unit.
+ * unit. In the Jakarta EE environment, an entity manager with a
+ * lifecycle managed by the container may be obtained by dependency
+ * injection.
  *
  * <ul>
  * <li>An {@code EntityManager} obtained directly from an
