@@ -794,6 +794,30 @@ public non-sealed interface EntityManager extends EntityHandler {
     LockModeType getLockMode(Object entity);
 
     /**
+     * Join the current active JTA transaction.
+     * <p>This method should be called on a JTA application-managed
+     * {@code EntityManager} that was created outside the scope of
+     * the active transaction or on an {@code EntityManager} of
+     * type {@link SynchronizationType#UNSYNCHRONIZED} to associate
+     * it with the current JTA transaction.
+     * @throws TransactionRequiredException if there is no active
+     *         transaction
+     * @since 1.0
+     */
+    void joinTransaction();
+
+    /**
+     * Determine whether the {@code EntityManager} is joined to the
+     * current transaction. Returns false if the {@code EntityManager}
+     * is not joined to the current transaction or if no
+     * transaction is active.
+     * @return True if the {@code EntityManager} is joined to the
+     *         current transaction, or false otherwise
+     * @since 2.1
+     */
+    boolean isJoinedToTransaction();
+
+    /**
      * Return the underlying provider object for the
      * {@link EntityManager}, if available. The result of this
      * method is implementation-specific.
