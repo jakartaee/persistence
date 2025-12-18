@@ -26,13 +26,13 @@
         <relativePath/>
     </parent>
 
-    <groupId>jakarta.tck</groupId>
-    <artifactId>persistence-tck</artifactId>
+    <groupId>jakarta.persistence</groupId>
+    <artifactId>persistence-tck-parent</artifactId>
     <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>persistence</name>
-    <description>persistence tck tests</description>
+    <name>Jakarta Persistence TCK Aggregator</name>
+    <description>Jakarta Persistence TCK (root project pom)</description>
 
     <modules>
         <module>common</module>

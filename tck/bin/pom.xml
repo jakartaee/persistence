@@ -26,9 +26,9 @@
         <relativePath/>
     </parent>
 
-    <groupId>jakarta.tck</groupId>
+    <groupId>jakarta.persistence</groupId>
     <artifactId>persistence-tck-runner</artifactId>
-    <version>3.2.0</version>
+    <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -60,13 +60,13 @@
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <jakarta.tck.common.version>11.0.0-RC5</jakarta.tck.common.version>
         <jakarta.jakartaee-bom.version>11.0.0-M5</jakarta.jakartaee-bom.version>
-        <persistence.tck.version>3.2.0</persistence.tck.version>
+        <persistence.tck.version>4.0.0-SNAPSHOT</persistence.tck.version>
         <arquillian.junit5.version>1.9.1.Final</arquillian.junit5.version>
         <el.version>5.0.0-M1</el.version>
         <hibernate.version>8.0.1.Final</hibernate.version>
         <javadb.lib>${glassfish.toplevel.dir}/javadb/lib</javadb.lib>
         <sql.directory>../sql</sql.directory>
-        <persistence.api.version>3.2.0</persistence.api.version>
+        <persistence.api.version>4.0.0-SNAPSHOT</persistence.api.version>
     </properties>
 
     <dependencyManagement>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.2.0</version>
+            <version>${persistence.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -120,13 +120,13 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>jakarta.tck</groupId>
             <artifactId>common</artifactId>
             <version>${jakarta.ee.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dbprocedures</artifactId>
+            <artifactId>persistence-tck-dbprocedures</artifactId>
             <version>${persistence.tck.version}</version>
             <scope>test</scope>
             <exclusions>
@@ -224,8 +224,8 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>jakarta.tck</groupId>
-                                    <artifactId>dbprocedures</artifactId>
+                                    <groupId>jakarta.persistence</groupId>
+                                    <artifactId>persistence-tck-dbprocedures</artifactId>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>dbprocedures.jar</destFileName>
