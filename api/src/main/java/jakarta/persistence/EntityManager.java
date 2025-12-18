@@ -835,6 +835,18 @@ public non-sealed interface EntityManager extends EntityHandler {
     boolean isJoinedToTransaction();
 
     /**
+     * Obtain a mutable copy of a named {@link EntityGraph} or
+     * return null if there is no entity graph with the given
+     * name.
+     * @param graphName The name of an entity graph
+     * @return A mutable copy of the entity graph, or null
+     * @since 2.1
+     * @deprecated Use {@link #getEntityGraph(String)} instead.
+     */
+    @Deprecated(since = "4.0", forRemoval = true)
+    EntityGraph<?> createEntityGraph(String graphName);
+
+    /**
      * Return the underlying provider object for the
      * {@link EntityManager}, if available. The result of this
      * method is implementation-specific.
