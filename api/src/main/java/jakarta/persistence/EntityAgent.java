@@ -37,6 +37,15 @@ import java.util.List;
  * and since the entities themselves are detached, modifications to
  * the entities are never automatically detected and made persistent.
  *
+ * <p>In the Jakarta EE environment, a container-managed
+ * {@link EntityAgent} may be obtained by dependency injection,
+ * using {@link PersistenceAgent}.
+ * {@snippet :
+ * // inject the container-managed entity agent
+ * @PersistenceAgent(unitName="orderMgt")
+ * EntityAgent entityAgent;
+ * }
+ *
  * @since 4.0
  *
  * @see EntityManager
