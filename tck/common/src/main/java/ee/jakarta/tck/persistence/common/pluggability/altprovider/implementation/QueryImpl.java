@@ -24,6 +24,7 @@ import java.util.Set;
 
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
@@ -122,7 +123,12 @@ public class QueryImpl<X> implements TypedQuery<X> {
 		return null;
 	}
 
-	@Override
+    @Override
+    public long getResultCount() {
+        return 0;
+    }
+
+    @Override
 	public X getSingleResult() {
 		return null;
 	}
@@ -138,22 +144,32 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	}
 
 	@Override
-	public TypedQuery setFirstResult(int arg0) {
+	public TypedQuery<X> setFirstResult(int arg0) {
+		return this;
+	}
+
+    @Override
+    public TypedQuery<X> setEntityGraph(EntityGraph<? super X> entityGraph) {
+        return this;
+    }
+
+    @Override
+    public EntityGraph<? super X> getEntityGraph() {
+        return null;
+    }
+
+    @Override
+	public TypedQuery<X> setFlushMode(FlushModeType arg0) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setFlushMode(FlushModeType arg0) {
+	public TypedQuery<X> setHint(String arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setHint(String arg0, Object arg1) {
-		return this;
-	}
-
-	@Override
-	public TypedQuery setLockMode(LockModeType arg0) {
+	public TypedQuery<X> setLockMode(LockModeType arg0) {
 		return this;
 	}
 
@@ -188,37 +204,37 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	}
 
 	@Override
-	public TypedQuery setMaxResults(int arg0) {
+	public TypedQuery<X> setMaxResults(int arg0) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(String arg0, Object arg1) {
+	public TypedQuery<X> setParameter(String arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(int arg0, Object arg1) {
+	public TypedQuery<X> setParameter(int arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(String arg0, Calendar arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(String arg0, Calendar arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(String arg0, Date arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(String arg0, Date arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(int arg0, Calendar arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(int arg0, Calendar arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(int arg0, Date arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(int arg0, Date arg1, TemporalType arg2) {
 		return this;
 	}
 
@@ -228,17 +244,17 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	}
 
 	@Override
-	public <T> TypedQuery setParameter(Parameter<T> arg0, T arg1) {
+	public <T> TypedQuery<X> setParameter(Parameter<T> arg0, T arg1) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(Parameter<Calendar> arg0, Calendar arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(Parameter<Calendar> arg0, Calendar arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery setParameter(Parameter arg0, Date arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(Parameter arg0, Date arg1, TemporalType arg2) {
 		return this;
 	}
 

@@ -26,11 +26,12 @@ import java.util.Set;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceConfiguration;
+import jakarta.persistence.PersistenceUnitTransactionType;
+import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.LoadState;
 import jakarta.persistence.spi.PersistenceProviderResolver;
 import jakarta.persistence.spi.PersistenceProviderResolverHolder;
 import jakarta.persistence.spi.PersistenceUnitInfo;
-import jakarta.persistence.spi.PersistenceUnitTransactionType;
 import jakarta.persistence.spi.ProviderUtil;
 
 public class PersistenceProvider
@@ -156,10 +157,22 @@ public class PersistenceProvider
 		return null;
 	}
 
+    @Override
+    public boolean generateSchema(PersistenceConfiguration configuration) {
+        callLogger("Called generateSchema()");
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 	public ProviderUtil getProviderUtil() {
 		callLogger("Called getProviderUtil()");
 		return provider;
 	}
+
+    @Override
+    public ClassTransformer getClassTransformer(PersistenceUnitInfo info, Map<?, ?> map) {
+        callLogger("Called getClassTransformer()");
+        return null;
+    }
 
 	public LoadState isLoaded(Object entity) {
 		callLogger("Called isLoaded()");

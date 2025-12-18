@@ -40,10 +40,10 @@ import ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation
 import ee.jakarta.tck.persistence.common.pluggability.util.LogFileProcessor;
 import ee.jakarta.tck.persistence.common.pluggability.util.LogRecordEntry;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.SharedCacheMode;
 import jakarta.persistence.ValidationMode;
 import jakarta.persistence.spi.PersistenceUnitInfo;
-import jakarta.persistence.spi.PersistenceUnitTransactionType;
 
 public class Client extends PMClientBase {
 

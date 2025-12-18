@@ -23,11 +23,11 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.SharedCacheMode;
 import jakarta.persistence.ValidationMode;
 import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.PersistenceUnitInfo;
-import jakarta.persistence.spi.PersistenceUnitTransactionType;
 
 public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 
@@ -104,7 +104,12 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 		return managedClassNames;
 	}
 
-	@Override
+    @Override
+    public List<String> getAllManagedClassNames() {
+        return getManagedClassNames();
+    }
+
+    @Override
 	public List<String> getMappingFileNames() {
 		logger.log("Called PersistenceUnitInfoImpl.getMappingFileNames()");
 		return mappingFileNames;

@@ -49,6 +49,7 @@ import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.Query;
 import jakarta.persistence.SharedCacheMode;
 import jakarta.persistence.SynchronizationType;
+import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.ValidationMode;
@@ -58,7 +59,6 @@ import jakarta.persistence.metamodel.Bindable.BindableType;
 import jakarta.persistence.metamodel.PluralAttribute.CollectionType;
 import jakarta.persistence.metamodel.Type.PersistenceType;
 import jakarta.persistence.spi.LoadState;
-import jakarta.persistence.spi.PersistenceUnitTransactionType;
 
 public class Client extends PMClientBase {
 
