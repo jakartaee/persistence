@@ -96,8 +96,8 @@ public @interface ReadQueryOptions {
     LockModeType lockMode() default LockModeType.NONE;
 
     /**
-     * (Optional) The pessimistic lock scope to use in query execution
-     * if a pessimistic lock mode is specified via {@link #lockMode}.
+     * The pessimistic lock scope to use in query execution if a
+     * pessimistic lock mode is specified via {@link #lockMode}.
      */
     PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
 
