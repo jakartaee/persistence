@@ -132,8 +132,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p> A reference to a named entity graph may be obtained by
  * calling {@link EntityManagerFactory#getNamedEntityGraphs(Class)}
- * or {@link EntityManager#getEntityGraph(String)} and may be passed
- * to {@link EntityManager#find(EntityGraph, Object, FindOption...)}.
+ * or {@link EntityHandler#getEntityGraph(String)} and may be passed
+ * to {@link EntityHandler#find(EntityGraph, Object, FindOption...)}
+ * or {@link EntityHandler#get(EntityGraph, Object, FindOption...)}.
  * {@snippet :
  * Object employee =
  *         em.find(em.getEntityGraph("EmployeeWithProjects"),
@@ -145,7 +146,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * EntityGraph<Employee> graph =
  *         emf.getNamedEntityGraphs(Employee.class)
- *             .get("EmployeeWithProjects")>
+ *             .get("EmployeeWithProjects")
  * Employee employee = em.find(graph, employeeId);
  * }
  *
@@ -171,8 +172,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedEntityGraph {
 
     /**
-     * (Optional) The name used to identify the entity graph in calls to
-     * {@link EntityManager#getEntityGraph(String)}. If no name is explicitly
+     * (Optional) The name used to identify this entity graph in calls to
+     * {@link EntityHandler#getEntityGraph(String)}. If no name is explicitly
      * specified, the name defaults to the entity name of the annotated root
      * entity.
      * <p>Entity graph names must be unique within a given persistence unit.
