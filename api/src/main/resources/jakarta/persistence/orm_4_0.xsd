@@ -512,6 +512,7 @@
     </xsd:annotation>
     <xsd:sequence>
       <xsd:sequence>
+        <xsd:element name="comment" type="xsd:string" minOccurs="0" />
         <xsd:element name="join-column" type="orm:join-column"
                      minOccurs="0" maxOccurs="unbounded"/>
         <xsd:element name="foreign-key" type="orm:foreign-key"
@@ -520,6 +521,8 @@
       <xsd:element name="unique-constraint" type="orm:unique-constraint"
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="index" type="orm:index"
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="check-constraint" type="orm:check-constraint"
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
@@ -692,6 +695,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="discriminator-type" type="orm:discriminator-type"/>
     <xsd:attribute name="column-definition" type="xsd:string"/>
@@ -1538,6 +1544,11 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
+      <xsd:element name="check-constraint" type="orm:check-constraint"
+                   minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="unique" type="xsd:boolean"/>
     <xsd:attribute name="nullable" type="xsd:boolean"/>
@@ -1575,8 +1586,11 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:element name="foreign-key" type="orm:foreign-key"
                    minOccurs="0"/>
+      <xsd:element name="check-constraint" type="orm:check-constraint"
+                   minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="referenced-column-name" type="xsd:string"/>
@@ -1987,6 +2001,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="nullable" type="xsd:boolean"/>
     <xsd:attribute name="insertable" type="xsd:boolean"/>
@@ -2151,8 +2168,11 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:element name="foreign-key" type="orm:foreign-key"
                    minOccurs="0"/>
+      <xsd:element name="check-constraint" type="orm:check-constraint"
+                   minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="referenced-column-name" type="xsd:string"/>
