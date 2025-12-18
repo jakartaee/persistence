@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,10 +11,15 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
 package jakarta.persistence.metamodel;
+
+import jakarta.persistence.EntityGraph;
+
+import java.util.Map;
 
 /**
  * An instance of {@code EntityType} represents
@@ -33,4 +38,23 @@ public interface EntityType<X>
      * @return entity name
      */
     String getName();
+
+    /**
+     * Create a new mutable {@link EntityGraph} with this given root entity type,
+     * allowing programmatic definition of the graph.
+     * @return a trivial entity graph with only a root node
+     * @see jakarta.persistence.EntityHandler#createEntityGraph(Class)
+     * @since 4.0
+     */
+    EntityGraph<X> createEntityGraph();
+
+    /**
+     * A map keyed by {@linkplain jakarta.persistence.NamedEntityGraph#name
+     * graph name}, containing every named {@linkplain EntityGraph entity graph}
+     * whose root entity type is exactly this type.
+     * @return a map keyed by graph name
+     * @see jakarta.persistence.EntityManagerFactory#getNamedEntityGraphs(Class)
+     * @since 4.0
+     */
+    Map<String, EntityGraph<X>> getNamedEntityGraphs();
 }

@@ -149,7 +149,7 @@ an operation which retrieves an instance or instances of the root entity is
 executed.
 
 The `name` element assigns a name to the entity graph, and is used to
-identify the entity graph in calls to `EntityManager.getEntityGraph()`.
+identify the entity graph in calls to `EntityHandler.getEntityGraph()`.
 If no name is explicitly specified, the name defaults to the entity name
 of the annotated root entity. Entity graph names must be unique within the
 persistence unit.
