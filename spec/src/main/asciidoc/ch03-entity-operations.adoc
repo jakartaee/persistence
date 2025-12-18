@@ -887,7 +887,7 @@ using a lock with `LockModeType.PESSIMISTIC_WRITE` or
 that same transaction may modify or delete
 that entity instance.
 
-The `PessimisticLockScope` enum be found in <<_pessimisticlockscope_>>
+The `PessimisticLockScope` enum found in <<_pessimisticlockscope_>>
 controls how a pessimistic lock applied to an entity affects associated
 collections and relationships.
 
