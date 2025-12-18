@@ -199,7 +199,7 @@ public interface EntityManagerFactory extends AutoCloseable {
     EntityManager createEntityManager(Map<?, ?> properties);
 
     /**
-     * Create a new application-managed JTA  {@link EntityManager} with
+     * Create a new application-managed JTA {@link EntityManager} with
      * the specified {@linkplain SynchronizationType synchronization
      * type} and given property settings. This method returns a new
      * {@code EntityManager} instance each time it is invoked. The

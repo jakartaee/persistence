@@ -20,8 +20,13 @@ package jakarta.persistence;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
+
+import static jakarta.persistence.PersistenceContextType.TRANSACTION;
+import static jakarta.persistence.SynchronizationType.SYNCHRONIZED;
 import static java.lang.annotation.ElementType.*;
 import java.lang.annotation.Retention;
+import java.util.Map;
+
 import static java.lang.annotation.RetentionPolicy.*;
 
 /**
@@ -35,7 +40,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  * When the annotation occurs on a managed bean class, it assigns a
  * name to the {@code EntityManager} in the environment referencing
  * context {@code java:comp/env} of the containing module.
- *{@snippet :
+ * {@snippet :
  * @PersistenceContext(name = "LibraryManager")
  * class Bean
  *     ...
@@ -44,6 +49,8 @@ import static java.lang.annotation.RetentionPolicy.*;
  *                     .lookup("java:comp/env/LibraryManager");
  *     ...
  * }
+ * <p>
+ * Every container-manager entity manager is a JTA entity manager.
  *
  * @since 1.0
  */
@@ -73,7 +80,7 @@ public @interface PersistenceContext {
      * (Optional) Specifies whether a transaction-scoped or extended
      * persistence context is required.
      */
-    PersistenceContextType type() default PersistenceContextType.TRANSACTION;
+    PersistenceContextType type() default TRANSACTION;
 
     /**
      * (Optional) Specifies whether the persistence context is always
@@ -82,14 +89,16 @@ public @interface PersistenceContext {
      * transaction by means of the {@link EntityManager#joinTransaction}
      * method.
      * @since 2.1
+     * @see EntityManagerFactory#createEntityManager(SynchronizationType, Map)
      */
-    SynchronizationType synchronization() default SynchronizationType.SYNCHRONIZED;
+    SynchronizationType synchronization() default SYNCHRONIZED;
 
     /**
      * (Optional) Properties for the container or persistence provider.
      * Vendor-specific properties may be included in this set of
      * properties. Properties that are not recognized by a vendor are
      * ignored.
-     */ 
+     * @see EntityManagerFactory#createEntityManager(SynchronizationType, Map)
+     */
     PersistenceProperty[] properties() default {};
 }
