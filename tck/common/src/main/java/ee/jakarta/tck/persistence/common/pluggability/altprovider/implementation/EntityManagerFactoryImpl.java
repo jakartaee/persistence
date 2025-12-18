@@ -16,21 +16,27 @@
 
 package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import jakarta.persistence.Cache;
+import jakarta.persistence.EntityAgent;
 import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityHandler;
+import jakarta.persistence.EntityListenerRegistration;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.PersistenceUnitUtil;
 import jakarta.persistence.Query;
 import jakarta.persistence.SchemaManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.spi.PersistenceUnitInfo;
+import jakarta.persistence.sql.ResultSetMapping;
 
 public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManagerFactory {
 
@@ -65,6 +71,11 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 
 	public void addNamedQuery(String s, Query q) {
 	}
+
+    @Override
+    public <R> TypedQueryReference<R> addNamedQuery(String name, TypedQuery<R> query) {
+        return null;
+    }
 
 	public void close() {
 		verifyOpen();
@@ -102,6 +113,16 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		em.properties = new java.util.HashMap(properties);
 		return em;
 	}
+
+    @Override
+    public EntityAgent createEntityAgent() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public EntityAgent createEntityAgent(Map<?, ?> map) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 	public EntityManager createEntityManager(jakarta.persistence.SynchronizationType st, Map map) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager(Map)");
@@ -163,7 +184,17 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		return null;
 	}
 
-	@Override
+    @Override
+    public <R> Map<String, ResultSetMapping<R>> getResultSetMappings(Class<R> resultType) {
+        return Map.of();
+    }
+
+    @Override
+    public <E> EntityListenerRegistration addListener(Class<E> entityType, Class<? extends Annotation> callbackType, Consumer<? super E> listener) {
+        return null;
+    }
+
+    @Override
 	public void runInTransaction(Consumer<EntityManager> work) {
 
 	}
@@ -172,6 +203,16 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 	public <R> R callInTransaction(Function<EntityManager, R> work) {
 		return null;
 	}
+
+    @Override
+    public <H extends EntityHandler> void runInTransaction(Class<H> handlerClass, Consumer<H> work) {
+
+    }
+
+    @Override
+    public <R, H extends EntityHandler> R callInTransaction(Class<H> handlerClass, Function<H, R> work) {
+        return null;
+    }
 
 	public boolean isOpen() {
 		return isOpen;

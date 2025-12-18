@@ -18,6 +18,7 @@ package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementatio
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
@@ -41,6 +42,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaSelect;
 import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.metamodel.Metamodel;
+import jakarta.persistence.sql.ResultSetMapping;
 
 public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	/**
@@ -109,7 +111,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public Query createNativeQuery(String arg0, Class arg1) {
+    public <T> TypedQuery<T> createNativeQuery(String arg0, Class<T> arg1) {
 		QueryImpl query = new QueryImpl();
 		query.nativeSQL = arg0;
 		query.queryOnClass = arg1;
@@ -124,7 +126,15 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 		return query;
 	}
 
-	@Override
+    @Override
+    public <T> TypedQuery<T> createNativeQuery(String sqlString, ResultSetMapping<T> resultSetMapping) {
+        QueryImpl<T> query = new QueryImpl<>();
+        query.nativeSQL = sqlString;
+        query.resultsetMapping = Objects.toString(resultSetMapping);
+        return query;
+    }
+
+    @Override
 	public Query createQuery(String arg0) {
 		QueryImpl query = new QueryImpl();
 		query.jpQL = arg0;
@@ -149,7 +159,14 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 		return (TypedQuery<T>) query;
 	}
 
-	@Override
+    @Override
+    public <T> TypedQuery<T> createQuery(String qlString, EntityGraph<T> resultGraph) {
+        QueryImpl<T> query = new QueryImpl<>();
+        query.jpQL = qlString;
+        return query;
+    }
+
+    @Override
 	public Query createQuery(CriteriaDelete arg) {
 		return null;
 	}
@@ -184,7 +201,37 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 
 	}
 
-	@Override
+    @Override
+    public <T> T get(Class<T> entityClass, Object id) {
+        return null;
+    }
+
+    @Override
+    public <T> T get(Class<T> entityClass, Object id, LockModeType lockMode) {
+        return null;
+    }
+
+    @Override
+    public <T> T get(Class<T> entityClass, Object id, FindOption... options) {
+        return null;
+    }
+
+    @Override
+    public <T> T get(EntityGraph<T> graph, Object id, FindOption... options) {
+        return null;
+    }
+
+    @Override
+    public <T> List<T> getMultiple(Class<T> entityClass, List<?> ids, FindOption... options) {
+        return List.of();
+    }
+
+    @Override
+    public <T> List<T> getMultiple(EntityGraph<T> graph, List<?> ids, FindOption... options) {
+        return List.of();
+    }
+
+    @Override
 	public <T> T find(Class<T> arg0, Object arg1) {
 		return null;
 	}
@@ -214,7 +261,17 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 		return null;
 	}
 
-	@Override
+    @Override
+    public <T> List<T> findMultiple(Class<T> entityClass, List<?> ids, FindOption... options) {
+        return List.of();
+    }
+
+    @Override
+    public <T> List<T> findMultiple(EntityGraph<T> graph, List<?> ids, FindOption... options) {
+        return List.of();
+    }
+
+    @Override
 	public void flush() {
 
 	}
