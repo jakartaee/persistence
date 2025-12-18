@@ -21,15 +21,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>jakarta.tck</groupId>
-        <artifactId>persistence-tck</artifactId>
+        <groupId>jakarta.persistence</groupId>
+        <artifactId>persistence-tck-parent</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>dbprocedures</artifactId>
+    <artifactId>persistence-tck-dbprocedures</artifactId>
 
-    <name>Persistence</name>
-    <description>Persistence DB procedures</description>
+    <name>Jakarta Persistence TCK DB procedures</name>
+    <description>Jakarta Persistence TCK DB procedures</description>
 
     <properties>
         <tck.version>${project.version}</tck.version>

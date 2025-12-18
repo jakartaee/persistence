@@ -21,73 +21,75 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>jakarta.tck</groupId>
-        <artifactId>persistence-tck</artifactId>
+        <groupId>jakarta.persistence</groupId>
+        <artifactId>persistence-tck-parent</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>persistence-tck-dist</artifactId>
+    <name>Jakarta Persistence TCK Distribution</name>
+    <description>Jakarta Persistence TCK Distribution</description>
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>persistence-tck</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>persistence-tck-parent</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
+            <groupId>jakarta.persistence</groupId>
             <artifactId>persistence-tck-common</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
+            <groupId>jakarta.persistence</groupId>
             <artifactId>persistence-tck-spec-tests</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>dbprocedures</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>persistence-tck-dbprocedures</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
+            <groupId>jakarta.persistence</groupId>
             <artifactId>persistence-tck-common</artifactId>
             <version>${project.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
+            <groupId>jakarta.persistence</groupId>
             <artifactId>persistence-tck-spec-tests</artifactId>
             <version>${project.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>dbprocedures</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>persistence-tck-dbprocedures</artifactId>
             <version>${project.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
+            <groupId>jakarta.persistence</groupId>
             <artifactId>persistence-tck-common</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
+            <groupId>jakarta.persistence</groupId>
             <artifactId>persistence-tck-spec-tests</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>dbprocedures</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>persistence-tck-dbprocedures</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
             <optional>true</optional>

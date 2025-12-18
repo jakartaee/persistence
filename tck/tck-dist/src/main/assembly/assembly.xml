@@ -90,10 +90,10 @@
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>jakarta.tck:persistence-tck</include>
-                <include>jakarta.tck:persistence-tck-common</include>
-                <include>jakarta.tck:persistence-tck-spec-tests</include>
-                <include>jakarta.tck:dbprocedures</include>
+                <include>jakarta.persistence:persistence-tck-parent</include>
+                <include>jakarta.persistence:persistence-tck-common</include>
+                <include>jakarta.persistence:persistence-tck-spec-tests</include>
+                <include>jakarta.persistence:persistence-tck-dbprocedures</include>
             </includes>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <outputDirectory>artifacts</outputDirectory>
