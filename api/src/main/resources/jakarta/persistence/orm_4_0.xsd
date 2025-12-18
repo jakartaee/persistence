@@ -1356,7 +1356,25 @@
     </xsd:restriction>
   </xsd:simpleType>
 
-<!-- **************************************************** -->
+  <!-- **************************************************** -->
+
+  <xsd:simpleType name="pessimistic-lock-scope">
+    <xsd:annotation>
+      <xsd:documentation>
+
+        public enum PessimisticLockScope implements FindOption, RefreshOption, LockOption { NORMAL, EXTENDED, FETCHED }
+
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="NORMAL"/>
+      <xsd:enumeration value="EXTENDED"/>
+      <xsd:enumeration value="FETCHED"/>
+
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- **************************************************** -->
 
 <xsd:complexType name="many-to-many">
     <xsd:annotation>
@@ -1737,6 +1755,7 @@
       <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="query" type="xsd:string"/>
       <xsd:element name="lock-mode" type="orm:lock-mode-type" minOccurs="0"/>
+      <xsd:element name="lock-scope" type="orm:pessimistic-lock-scope" minOccurs="0"/>
       <xsd:element name="hint" type="orm:query-hint"
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
