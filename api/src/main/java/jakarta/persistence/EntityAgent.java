@@ -23,10 +23,18 @@ import java.util.List;
  * control over interaction with the database than what is
  * possible with {@link EntityManager}.
  *
- * <p>An instance of {@code EntityAgent} must be obtained from
- * an {@link EntityManagerFactory} and is able to execute
- * persistence-related operations for entity types belonging to the
- * associated persistence unit.
+ * <ul>
+ * <li>An {@code EntityAgent} obtained directly from an
+ *     {@code EntityManagerFactory} is never thread safe, and
+ *     it is always wrong to share a reference to such an entity
+ *     agent between multiple concurrently executing threads.
+ * <li>On the other hand, in the Jakarta EE container environment,
+ *     a reference to a container-managed, transaction-scoped
+ *     entity agent obtained by injection is safe to invoke
+ *     concurrently from distinct threads. The container
+ *     redirects invocations to distinct instances of
+ *     {@code EntityAgent} based on transaction affinity.
+ * </ul>
  *
  * <p>An {@code EntityAgent} has no associated persistence context,
  * and works only with detached entity instances. When a method of

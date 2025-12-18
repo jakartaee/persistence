@@ -31,6 +31,21 @@ import jakarta.persistence.criteria.CriteriaQuery;
  * persistence of entities belonging to the associated persistence
  * unit.
  *
+ * <ul>
+ * <li>An {@code EntityManager} obtained directly from an
+ *     {@code EntityManagerFactory} is never thread safe, and it is
+ *     always wrong to share a reference to such an entity manager
+ *     between multiple concurrently executing threads.
+ * <li>On the other hand, in the Jakarta EE container environment,
+ *     a reference to a container-managed, transaction-scoped
+ *     entity manager obtained by injection is safe to invoke
+ *     concurrently from distinct threads. The container redirects
+ *     invocations to distinct instances of {@code EntityManager}
+ *     based on transaction affinity. Even in this scenario, the
+ *     underlying persistence context must never be shared between
+ *     threads.
+ * </ul>
+ *
  * <p>An application-managed {@code EntityManager} may be created
  * via a call to {@link EntityManagerFactory#createEntityManager()}.
  * The {@code EntityManager} must be explicitly closed via a call
