@@ -64,9 +64,25 @@ public interface Query {
      * or a native SQL query which returns a result set.
      * @param resultType The Java class of the query result type
      * @param <R> The query result type
+     * @throws IllegalArgumentException if the given result type is
+     *         not a supertype of the result type of this query
      * @since 4.0
      */
     <R> TypedQuery<R> ofType(Class<R> resultType);
+
+    /**
+     * Obtain a {@link TypedQuery} with the given entity graph,
+     * which must be rooted at a supertype of the result type of
+     * this query. This query must be a Jakarta Persistence
+     * {@code SELECT} query which returns a single entity type.
+     * @param graph The entity graph, interpreted as a load graph
+     * @param <R> The query result type
+     * @throws IllegalArgumentException if the given graph type is
+     *         not rooted at a supertype of the result type of this
+     *         query
+     * @since 4.0
+     */
+    <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
 
     /**
      * Execute a SELECT query and return the query results as an untyped
