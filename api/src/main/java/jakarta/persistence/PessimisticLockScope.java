@@ -101,5 +101,5 @@ public enum PessimisticLockScope implements FindOption, RefreshOption, LockOptio
      *
      * @since 4.0
      */
-    CASCADED
+    FETCHED
 }
