@@ -911,7 +911,7 @@ The persistence provider must lock the row or rows of:
 - join tables mapped by associations owned by the entity, and
 - collection tables mapped by collections belonging to the entity.
 
-`CASCADED`::
+`FETCHED`::
 The persistence provider must lock the row or rows of:
 - the primary and secondary tables mapped by the entity, including all
   rows in tables mapped by the entity superclasses of the entity in the
