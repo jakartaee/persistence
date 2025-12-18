@@ -170,6 +170,7 @@
                 <version>1.6.0</version>
                 <configuration>
                     <flattenMode>ossrh</flattenMode>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
                 </configuration>
                 <executions>
                     <!-- enable flattening -->
