@@ -173,6 +173,14 @@ public @interface CollectionTable {
     Index[] indexes() default {};
 
     /**
+     * (Optional) Check constraints to be applied to the table.
+     * These are only used if table generation is in effect.
+     *
+     * @since 4.0
+     */
+    CheckConstraint[] check() default {};
+
+    /**
      * (Optional) A comment to be applied to the table.
      * This is only used if table generation is in effect.
      *
