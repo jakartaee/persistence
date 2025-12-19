@@ -30,6 +30,7 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.metamodel.Type;
 
 public class QueryImpl<X> implements TypedQuery<X> {
 	public String jpQL;
@@ -235,6 +236,26 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public TypedQuery<X> setParameter(int arg0, Date arg1, TemporalType arg2) {
+		return this;
+	}
+
+	@Override
+	public <P> TypedQuery<X> setParameter(String name, P value, Type<P> type) {
+		return this;
+	}
+
+	@Override
+	public <P> TypedQuery<X> setParameter(int position, P value, Type<P> type) {
+		return this;
+	}
+
+	@Override
+	public <P> TypedQuery<X> setParameter(String name, P value, Class<P> type) {
+		return this;
+	}
+
+	@Override
+	public <P> TypedQuery<X> setParameter(int position, P value, Class<P> type) {
 		return this;
 	}
 
