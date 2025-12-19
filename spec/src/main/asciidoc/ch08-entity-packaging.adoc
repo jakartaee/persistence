@@ -480,6 +480,11 @@ is in effect for the persistence unit. See <<a3065>>.
 The `validation-mode` element determines whether automatic lifecycle
 event time validation is in effect. See <<a2374>>.
 
+===== default-fetch-type
+
+The `default-fetch-type` element determines the default fetch type for
+one-to-one and many-to-one associations.
+
 ===== properties [[a12384]]
 
 The `properties` element is used to specify both standard and
@@ -493,9 +498,6 @@ intended for use in both Jakarta EE and Java SE environments:
 The pessimistic lock timeout in milliseconds. This is a hint only.
 `jakarta.persistence.query.timeout`::
 The query timeout in milliseconds. This is a hint only.
-`jakarta.persistence.defaultFetchType`::
-Specifies whether associations mapped `fetch=DEFAULT` should be
-treated as `LAZY` or `EAGER` (by default, they are `EAGER`).
 `jakarta.persistence.validation.group.pre-persist`::
 Bean Validation groups that are targeted for validation upon the
 pre-persist event (overrides the default behavior).

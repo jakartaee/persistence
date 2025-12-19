@@ -3045,13 +3045,13 @@ cascaded to the target of the association.
 |FetchType
 |fetch
 |(Optional) Whether the association should be
-lazily loaded or must be eagerly fetched. The EAGER strategy is a
+lazily loaded or must be eagerly fetched. The `EAGER` strategy is a
 requirement on the persistence provider runtime that the associated
-entity must be eagerly fetched. The LAZY strategy is a hint to the
-persistence provider runtime.  The DEFAULT strategy selects between
-EAGER and LAZY depending on the value of the property
-_jakarta.persistence.defaultFetchType_.
-|DEFAULT
+entity must be eagerly fetched. The `LAZY` strategy is a hint to the
+persistence provider runtime. The `DEFAULT` strategy selects between
+`EAGER` and `LAZY` depending on the default fetch type of the
+persistence unit for one-to-one and many-to-one associations.
+|`DEFAULT`
 
 |boolean
 |optional
@@ -4215,14 +4215,14 @@ and the value of the `optional` annotation member is ignored.
 |FetchType
 |fetch
 |(Optional) Whether the association should be
-lazily loaded or must be eagerly fetched. The EAGER strategy is a
+lazily loaded or must be eagerly fetched. The `EAGER` strategy is a
 requirement on the persistence provider runtime that the associated
-entity must be eagerly fetched. The LAZY strategy is a hint to the
-persistence provider runtime. The DEFAULT strategy selects between
-EAGER and LAZY depending on the value of the property
-_jakarta.persistence.defaultFetchType_.
+entity must be eagerly fetched. The `LAZY` strategy is a hint to the
+persistence provider runtime. The `DEFAULT` strategy selects between
+`EAGER` and `LAZY` depending on the default fetch type of the
+persistence unit for one-to-one and many-to-one associations.
 _
-|DEFAULT
+|`DEFAULT`
 
 |boolean
 |optional

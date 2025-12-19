@@ -23,10 +23,11 @@ import java.util.List;
 import java.util.Properties;
 import java.net.URL;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.SharedCacheMode;
 import jakarta.persistence.ValidationMode;
-import jakarta.persistence.EntityManagerFactory;
 
 /**
  * Interface implemented by the container and used by the persistence
@@ -206,6 +207,17 @@ public interface PersistenceUnitInfo {
      * @since 2.0
      */
     ValidationMode getValidationMode();
+
+    /**
+     * Returns the {@linkplain FetchType#DEFAULT default fetch type}
+     * for one-to-one and many-to-one associations. The default fetch
+     * type corresponds to the {@code default-fetch-type} element in
+     * the {@code persistence.xml} file.
+     * @return the default fetch type for the persistence unit
+     *
+     * @since 4.0
+     */
+    FetchType getDefaultFetchType();
 
     /**
      * Returns a properties object. Each property corresponds to a

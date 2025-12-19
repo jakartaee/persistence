@@ -60,9 +60,10 @@ public enum FetchType {
     EAGER,
 
     /**
-     * Specifies that the fetching strategy depends on the value
-     * of the property {@code jakarta.persistence.defaultFetchType}.
-     * @since 3.2
+     * Specifies that the fetching strategy depends on
+     * the default fetch type of the persistence unit
+     * for one-to-one and many-to-one associations.
+     * @since 4.0
      */
     DEFAULT
 }

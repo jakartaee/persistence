@@ -118,8 +118,10 @@ public @interface ManyToOne {
      *     to the persistence provider runtime.
      * </ul>
      *
-     * <p>The default fetching strategy depends on the value of
-     * the property {@code jakarta.persistence.defaultFetchType}.
+     * <p>When {@code fetch} is not explicitly specified, the
+     * fetching strategy is determined by the default fetch
+     * type of the persistence unit for one-to-one and
+     * many-to-one associations.
      */
     FetchType fetch() default FetchType.DEFAULT;
 
