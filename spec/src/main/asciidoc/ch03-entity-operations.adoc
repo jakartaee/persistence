@@ -2194,12 +2194,13 @@ the `createEntityManagerFactory` method:
 
 The value of a configuration property must be a list of the targeted groups.
 A targeted group must be specified by its fully qualified class name.
-Names must be separated by a comma.
+Each pair of names must be separated by a comma.
+Optional whitespace characters shall be permitted both preceding and following each group name.
 
-When a lifecycle event occurs for an entity, the persistence
+When an entity lifecycle event occurs, the persistence
 provider must validate the entity using a `Validator` instance
 obtained from the validator factory in use (see <<a2394>>) and
-invoking its `validate` method with the targeted groups. If the list of
+invoke its `validate` method with the targeted groups. If the list of
 targeted groups is empty, no validation is performed. If the set of
 `ConstraintViolation` objects returned by the `validate` method is not
 empty, the persistence provider must throw the
@@ -2208,27 +2209,25 @@ to the returned set of `ConstraintViolation` objects, and must mark the
 transaction for rollback if the persistence context is joined to the
 transaction.
 
-The validator instance that is used for
-automatic validation upon lifecycle events must use a
-`TraversableResolver` that has the following behavior:
+The validation process must not have any side effects;
+i.e., validation must not result in the loading of any
+attribute or association which is not already loaded.
+An entity can be validated at most once per flush cycle.
 
-* Attributes that have not been loaded must not
-be loaded.
-* Cascading validation (`@Valid`) must not
-occur for entity associations (single-valued or multi-valued).
+To achieve this, persistence provider must initialize
+the validator instance in use with the traversable resolver
+(`jakarta.validation.TraversableResolver`)
+that matches these behavior requirements, in particular:
 
-These requirements guarantee that no unloaded
-attribute or association will be loaded by side effect and that no
-entity will be validated more than once during a given flush cycle.
+* `TraversableResolver#isReachable(..)` only returns `true`
+for already initialized attributes and associations.
+* `TraversableResolver#isCascadable(..)` only returns `true`
+for properties that are not associations.
 
-Embeddable attributes must be validated only
-if the `Valid` annotation has been specified on them.
-
-It is the responsibility of the persistence
-provider to pass an instance implementing the
-`jakarta.validation.TraversableResolver` interface to the Jakarta Validation
-provider by calling
-`ValidatorFactory.usingContext().traversableResolver(tr).getValidator()` where `tr` is the resolver having the behavior described above.
+A validator instance with such a traversable resolver can be obtained
+from a `jakarta.validation.ValidatorFactory` instance
+by calling `validatorFactory.usingContext().traversableResolver(tr).getValidator()`,
+where `tr` is the resolver.
 
 ==== Providing the ValidatorFactory [[a2394]]
 
