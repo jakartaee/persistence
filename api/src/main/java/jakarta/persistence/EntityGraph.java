@@ -55,7 +55,7 @@ package jakarta.persistence;
  * interpreted as a load graph.
  * {@snippet :
  * // create the root node of an entity graph
- * var employeeGraph = entityManager.createEntityGraph(Employee.class);
+ * var employeeGraph = Employee_.class_.createEntityGraph();
  * // define a subgraph rooted at a @ManyToOne association
  * var employerGraph = employeeGraph.addSubgraph(Employee_.employer);
  * employerGraph.addAttributeNode(Employer_.industry);
