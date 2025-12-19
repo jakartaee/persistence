@@ -36,6 +36,8 @@ package jakarta.persistence;
  * container-managed persistence context is specified by
  * {@link PersistenceContext#type}.
  *
+ * @see PersistenceContext#type
+ *
  * @since 1.0
  */
 public enum PersistenceContextType {
