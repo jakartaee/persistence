@@ -50,7 +50,7 @@ import java.util.Map;
  * name:
  * {@snippet :
  * @NamedQuery(name = "byTitle",
- *             query = "Book b where title like ?1")
+ *             query = "from Book where title like ?1")
  * @Entity class Book { .. }
  * }
  * <p>In this case the {@code TypedQueryReference} obtained from
@@ -80,11 +80,11 @@ import java.util.Map;
  *
  * <p>In the Jakarta Persistence query language, only SELECT
  * queries are typed queries, since only a SELECT query can
- * return a result. A DELETE or UPDATE query is not a typed
- * query, and is always represented by an untyped instance
- * of {@link QueryReference}. On the other hand, a native
- * SQL query is considered a typed query if it returns a
- * result set.
+ * return a result. A DELETE or UPDATE statement is not a
+ * typed query, and is always represented by an untyped
+ * instance of {@link QueryReference}. On the other hand, a
+ * native SQL query is considered a typed query if it returns
+ * a result set.
  *
  * @param <R> an upper bound on the result type of the query
  *
