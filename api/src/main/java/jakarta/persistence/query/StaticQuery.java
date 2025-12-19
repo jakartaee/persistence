@@ -32,8 +32,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </ul>
  * <p> The return type of the method must agree with the type returned by
  * the query. The parameter types of the method must agree with the types
- * of the query parameters. An implementation of Jakarta Persistence or of
- * Jakarta Data may be able to determine if such agreement exists at
+ * of the query parameters. An implementation of Jakarta Persistence or
+ * of Jakarta Data may be able to determine if such agreement exists at
  * compilation time or when the persistence unit is initialized, but this
  * is not required.
  *
@@ -56,11 +56,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     """)
  *     List<Summary> retrieveSummaries(String title, LocalDate fromDate);
  *
+ *     @StaticQuery("delete from Trash")
+ *     @WriteQueryOptions(timeout = 30_000)
+ *     int emptyTrash();
  * }
  *}
  *
- * <p> A method return type <em>agrees</em> with the type returned by the
- * query if either:
+ * <p> A method return type <em>agrees</em> with the type returned by a
+ * {@code SELECT} query if either:
  * <ul>
  * <li>it is exactly {@code R}, {@link java.util.List List&lt;R&gt;}, or
  *     {@link java.util.stream.Stream Stream&lt;R&gt;} for some result
@@ -84,6 +87,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * In the second case, each query result is automatically packaged in a new
  * instance of the result class by calling the matching constructor.
  *
+ * <p> A method return type <em>agrees</em> with the type returned by an
+ * {@code UPDATE} or {@code DELETE} statement if the return type is
+ * {@code void}, {@code int}, or {@code long}.
+ *
  * <p> A method parameter type <em>agrees</em> with a query parameter type if
  * it is a type that could be assigned to the corresponding query parameter
  * by passing an instance of the type to {@code setParameter()}. In making
@@ -97,15 +104,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * annotated class or interface.
  * {@snippet :
  * List<Book> books =
- *         em.createQuery(Library_._findBooksByTitle_)
- *           .setParameter("title", "%Jakarta%")
+ *         em.createQuery(Library_.findBooksByTitle("%Jakarta%"))
  *           .getResultList();
  * }
  * {@snippet :
  * Book book =
- *         em.createQuery(Library_._getBookWithIsbn_)
- *           .setParameter("isbn", isbn)
+ *         em.createQuery(Library_.getBookWithIsbn(isbn))
  *           .getSingleResult();
+ * }
+ * {@snippet :
+ * int deleted =
+ *         em.createQuery(Library_.emptyTrash())
+ *           .executeUpdate();
  * }
  *
  * <p> In addition, the query is treated as a named query, where the query
