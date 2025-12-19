@@ -32,6 +32,7 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.LockOption;
 import jakarta.persistence.Query;
+import jakarta.persistence.QueryReference;
 import jakarta.persistence.RefreshOption;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
@@ -108,6 +109,11 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 		QueryImpl query = new QueryImpl();
 		query.nativeSQL = arg0;
 		return query;
+	}
+
+	@Override
+	public Query createQuery(QueryReference reference) {
+		return null;
 	}
 
 	@Override
