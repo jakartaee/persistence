@@ -789,8 +789,8 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
-     * named query written in the Jakarta Persistence query language
-     * or in native SQL.
+     * typed named query written in the Jakarta Persistence query
+     * language or in native SQL.
      * <ul>
      * <li>If the named query is a {@code SELECT} statement
      *     written in the Jakarta Persistence query language,
