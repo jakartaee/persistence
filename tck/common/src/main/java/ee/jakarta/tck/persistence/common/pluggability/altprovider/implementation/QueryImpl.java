@@ -54,6 +54,16 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	}
 
 	@Override
+	public <R> TypedQuery<R> ofType(Class<R> resultType) {
+		return null;
+	}
+
+	@Override
+	public <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph) {
+		return null;
+	}
+
+	@Override
 	public int executeUpdate() {
 		return 0;
 	}
