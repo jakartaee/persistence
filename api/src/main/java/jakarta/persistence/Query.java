@@ -435,7 +435,7 @@ public interface Query {
     Query setParameter(int position, Object value);
 
     /**
-     * Bind an argument value to a named parameter, explicitly
+     * Bind an argument value to a positional parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the argument might be null, especially in the case of
      * a native SQL query.
@@ -464,7 +464,7 @@ public interface Query {
     <P> Query setParameter(int position, P value, Class<P> type);
 
     /**
-     * Bind an argument value to a named parameter, explicitly
+     * Bind an argument value to a positional parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the binding is affected by an attribute converter.
      * {@snippet :
