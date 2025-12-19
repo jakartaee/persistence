@@ -24,7 +24,7 @@ import java.util.List;
  * possible with {@link EntityManager}.
  *
  * <p>An instance of {@code EntityAgent} must be obtained from
- * an {@link EntityManagerFactory}, and is only able to manage
+ * an {@link EntityManagerFactory} and is only able to manage
  * persistence of entities belonging to the associated persistence
  * unit. In the Jakarta EE environment, an entity agent with a
  * lifecycle managed by the container may be obtained by
