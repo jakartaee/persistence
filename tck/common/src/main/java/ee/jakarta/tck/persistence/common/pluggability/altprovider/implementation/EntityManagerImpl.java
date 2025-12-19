@@ -457,6 +457,11 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 		return null;
 	}
 
+	@Override
+	public <T> EntityGraph<T> getEntityGraph(Class<T> rootType, String graphName) {
+		return null;
+	}
+
 	public <T> EntityGraph<T> createEntityGraph(Class<T> rootType) {
 		return null;
 	}
