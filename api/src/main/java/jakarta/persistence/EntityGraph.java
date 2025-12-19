@@ -53,6 +53,20 @@ package jakarta.persistence;
  * {@link EntityManager#get(EntityGraph, Object, FindOption...)},
  * or {@link TypedQuery#setEntityGraph(EntityGraph)} is
  * interpreted as a load graph.
+ * {@snippet :
+ * // create the root node of an entity graph
+ * var employeeGraph = entityManager.createEntityGraph(Employee.class);
+ * // define a subgraph rooted at a @ManyToOne association
+ * var employerGraph = employeeGraph.addSubgraph(Employee_.employer);
+ * employerGraph.addAttributeNode(Employer_.industry);
+ * // define a subgraph rooted at a @OneToMany association
+ * var projectGraph = employeeGraph.addElementSubgraph(Employee_.projects);
+ * projectGraph.addAttributeNode(Project_.lead);
+ * projectGraph.addAttributeNode(Project_.tasks);
+ * // load an employee, making use of the graph to fetch a tree of
+ * // associated objects (the graph is interpreted as a load graph)
+ * Employee employee = entityManager.get(employeeGraph, employeeId);
+ *}
  * <p>
  * The persistence provider is always permitted to fetch additional
  * entity state beyond that specified by a fetch graph or load graph.
