@@ -325,7 +325,21 @@ public interface Query {
     /**
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
-     * the argument might be null.
+     * the argument might be null, especially in the case of
+     * a native query.
+     * {@snippet :
+     * em.createNativeQuery("update books set pub_date = :date where isbn = :ISBN")
+     *     .setParameter("date", optionalPublicationDate, LocalDate.class)
+     *     .setParameter("ISBN", isbn)
+     *     .executeUpdate();
+     * }
+     * {@snippet :
+     * var books =
+     *     session.createNativeQuery("select * from books where :limit is null or pub_date > :limit",
+     *                               Book.class)
+     *         .setParameter("limit", optionalDateLimit, LocalDate.class)
+     *         .getResultList();
+     * }
      * @param name  parameter name
      * @param value  parameter value
      * @param type  a class object representing the parameter type
@@ -341,6 +355,13 @@ public interface Query {
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the binding is affected by an attribute converter.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < :amount")
+     *         .setParameter("amount", amount, Book_.price.getType())
+     *         .getResultList();
+     * }
      * @param name  parameter name
      * @param value  parameter value
      * @param type  the {@link Type} of the parameter
@@ -398,7 +419,21 @@ public interface Query {
     /**
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
-     * the argument might be null.
+     * the argument might be null, especially in the case of
+     * a native SQL query.
+     * {@snippet :
+     * em.createNativeQuery("update books set pub_date = ?1 where isbn = ?2")
+     *     .setParameter(1, optionalPublicationDate, LocalDate.class)
+     *     .setParameter(2, isbn)
+     *     .executeUpdate();
+     * }
+     * {@snippet :
+     * var books =
+     *     session.createNativeQuery("select * from books where ?1 is null or pub_date > ?1",
+     *                               Book.class)
+     *         .setParameter(1, optionalDateLimit, LocalDate.class)
+     *         .getResultList();
+     * }
      * @param position  position
      * @param value  parameter value
      * @param type  a class object representing the parameter type
@@ -414,6 +449,13 @@ public interface Query {
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the binding is affected by an attribute converter.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < ?1")
+     *         .setParameter(1, amount, Book_.price.getType())
+     *         .getResultList();
+     * }
      * @param position  position
      * @param value  parameter value
      * @param type  the {@link Type} of the parameter
