@@ -247,6 +247,21 @@
 
               <!-- **************************************************** -->
 
+              <xsd:element name="default-fetch-type"
+                           type="persistence:persistence-unit-default-fetch-type"
+                           minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>
+
+                    The default fetch type for one-to-one and many-to-one associations.
+
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+
+
+              <!-- **************************************************** -->
+
               <xsd:element name="properties" minOccurs="0">
                 <xsd:annotation>
                   <xsd:documentation>
@@ -353,7 +368,7 @@
     <xsd:annotation>
       <xsd:documentation>
 
-        public enum ValidationMode { AUTO, CALLBACK, NONE};
+        public enum ValidationMode { AUTO, CALLBACK, NONE };
 
       </xsd:documentation>
     </xsd:annotation>
@@ -361,6 +376,23 @@
       <xsd:enumeration value="AUTO"/>
       <xsd:enumeration value="CALLBACK"/>
       <xsd:enumeration value="NONE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- **************************************************** -->
+
+  <xsd:simpleType name="persistence-unit-default-fetch-type">
+    <xsd:annotation>
+      <xsd:documentation>
+
+        public enum FetchType { LAZY, EAGER, DEFAULT };
+
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="LAZY"/>
+      <xsd:enumeration value="EAGER"/>
+      <!-- no DEFAULT -->
     </xsd:restriction>
   </xsd:simpleType>
 

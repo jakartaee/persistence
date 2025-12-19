@@ -300,6 +300,7 @@ public class PersistenceConfiguration {
     private SharedCacheMode sharedCacheMode = SharedCacheMode.UNSPECIFIED;
     private ValidationMode validationMode = ValidationMode.AUTO;
     private PersistenceUnitTransactionType transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
+    private FetchType defaultFetchType = FetchType.EAGER;
 
     private SchemaManagementAction schemaManagementDatabaseAction = SchemaManagementAction.NONE;
     private SchemaManagementAction schemaManagementScriptsAction = SchemaManagementAction.NONE;
@@ -514,6 +515,27 @@ public class PersistenceConfiguration {
      */
     public ValidationMode validationMode() {
         return validationMode;
+    }
+
+    /**
+     * Specify the {@linkplain FetchType#DEFAULT default fetch type}
+     * for one-to-one and many-to-one associations.
+     * @param defaultFetchType the default fetch type
+     * @return this configuration
+     * @since 4.0
+     */
+    public PersistenceConfiguration defaultFetchType(FetchType defaultFetchType) {
+        this.defaultFetchType = defaultFetchType;
+        return this;
+    }
+
+    /**
+     * The {@linkplain FetchType#DEFAULT default fetch type},
+     * {@link FetchType#EAGER} by default.
+     * @since 4.0
+     */
+    public FetchType defaultFetchType() {
+        return defaultFetchType;
     }
 
     /**

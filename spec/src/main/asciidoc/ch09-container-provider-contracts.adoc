@@ -629,8 +629,12 @@ override any defaults that the persistence provider might have applied.
 | `jakarta.persistence.validation.mode`
 | `String`
 | `validation-mode`
-| Legal values are " `auto` ", " `callback` ", or " `none` ".
+| Legal values are `auto`, `callback`, and `none`.
 See <<a12382>> and <<a2374>>.
+| `jakarta.persistence.defaultFetchType`
+| `String`
+| `default-fetch-type`
+| Legal values are `EAGER` and `LAZY`.
 |===
 
 The following properties correspond to the properties in the `persistence.xml`
@@ -656,12 +660,6 @@ See <<a2132>>.
 | Hint only.
 Value in milliseconds for query timeout.
 See <<a4391>>.
-| `jakarta.persistence.defaultFetchType`
-| `FetchType`
-| `jakarta.persistence.defaultFetchType`
-| Specifies whether associations mapped `fetch=DEFAULT`
-should be treated as `LAZY` or `EAGER` (by default,
-they are `EAGER`).
 | `jakarta.persistence.validation.group.pre-persist`
 | `String`
 | `jakarta.persistence.validation.group.pre-persist`
