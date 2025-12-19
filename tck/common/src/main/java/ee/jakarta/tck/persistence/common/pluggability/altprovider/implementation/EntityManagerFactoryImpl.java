@@ -30,6 +30,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.PersistenceUnitUtil;
 import jakarta.persistence.Query;
+import jakarta.persistence.QueryReference;
 import jakarta.persistence.SchemaManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
@@ -172,6 +173,11 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 
 	public <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph) {
 
+	}
+
+	@Override
+	public Map<String, QueryReference> getNamedQueries() {
+		return null;
 	}
 
 	@Override
