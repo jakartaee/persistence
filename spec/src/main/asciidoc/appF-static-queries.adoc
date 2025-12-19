@@ -31,3 +31,9 @@ include::../../../../api/src/main/java/jakarta/persistence/query/WriteQueryOptio
 ----
 include::../../../../api/src/main/java/jakarta/persistence/query/StaticQueryReference.java[lines=18..-1]
 ----
+
+=== `StaticTypedQueryReference`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/query/StaticTypedQueryReference.java[lines=18..-1]
+----
