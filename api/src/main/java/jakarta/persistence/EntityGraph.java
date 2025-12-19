@@ -29,8 +29,8 @@ package jakarta.persistence;
  * the database. The {@linkplain AttributeNode attribute nodes} and
  * {@linkplain Subgraph subgraphs} of an entity graph determine the
  * limits of the graph of associated attributes and entities fetched
- * when an operation which retrieves an instance or instances of the
- * root entity of the graph is executed.
+ * when an operation retrieves an instance or instances of the root 
+ * entity of the graph.
  * <p>
  * When used to specify fetching, an entity graph has two possible
  * interpretations:
