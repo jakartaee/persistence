@@ -111,7 +111,7 @@ public interface Query {
      *             to execute queries
      */
     @SuppressWarnings("rawtypes")
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     List getResultList();
 
     /**
@@ -149,7 +149,7 @@ public interface Query {
      *             to execute queries
      */
     @SuppressWarnings("rawtypes")
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     default Stream getResultStream() {
         return getResultList().stream();
     }
@@ -183,7 +183,7 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#getSingleResult}
      *             to execute queries
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     Object getSingleResult();
 
     /**
@@ -216,7 +216,7 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#getSingleResult}
      *             to execute queries
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     Object getSingleResultOrNull();
 
     /**
@@ -262,7 +262,7 @@ public interface Query {
      * @throws IllegalArgumentException if the argument is negative
      * @deprecated Use {@link TypedQuery#setMaxResults}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setMaxResults(int maxResult);
 
     /**
@@ -273,7 +273,7 @@ public interface Query {
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getMaxResults}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     int getMaxResults();
 
     /**
@@ -283,7 +283,7 @@ public interface Query {
      * @throws IllegalArgumentException if the argument is negative
      * @deprecated Use {@link TypedQuery#setFirstResult}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setFirstResult(int startPosition);
 
     /**
@@ -294,7 +294,7 @@ public interface Query {
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getFirstResult}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     int getFirstResult();
 
     /**
@@ -612,7 +612,7 @@ public interface Query {
      * @since 2.0
      * @deprecated Use {@link TypedQuery#setLockMode}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setLockMode(LockModeType lockMode);
 
     /**
@@ -626,7 +626,7 @@ public interface Query {
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getLockMode}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     LockModeType getLockMode();
 
     /**
@@ -638,7 +638,7 @@ public interface Query {
      * @since 3.2
      * @deprecated Use {@link TypedQuery#setCacheRetrieveMode}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -650,7 +650,7 @@ public interface Query {
      * @since 3.2
      * @deprecated Use {@link TypedQuery#setCacheStoreMode}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -663,7 +663,7 @@ public interface Query {
      * @since 3.2
      * @deprecated Use {@link TypedQuery#getCacheRetrieveMode}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
@@ -676,7 +676,7 @@ public interface Query {
      * @since 3.2
      * @deprecated Use {@link TypedQuery#getCacheStoreMode}
      */
-    @Deprecated(since = "4.0")
+    @Deprecated(since = "4.0", forRemoval = true)
     CacheStoreMode getCacheStoreMode();
 
     /**
