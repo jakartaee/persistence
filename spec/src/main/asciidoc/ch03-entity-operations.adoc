@@ -655,7 +655,7 @@ with a JTA entity manager and created within the scope of an active
 JTA transaction is automatically joined to that transaction. An
 application-managed JTA persistence context created outside the scope
 of a JTA transaction, or any application-managed persistence context
-created with type `SynchronizationType.UNSYNCHRONIZED` is not enlisted
+created with type `SynchronizationType.UNSYNCHRONIZED`, is not enlisted
 with a transaction until `EntityManager.joinTransaction()` is called.
 
 An application-managed persistence context associated with a
