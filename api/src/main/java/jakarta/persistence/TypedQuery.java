@@ -305,6 +305,13 @@ public interface TypedQuery<X> extends Query {
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the binding is affected by an attribute converter.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < :amount", Book.class)
+     *         .setParameter("amount", amount, Book_.price.getType())
+     *         .getResultList();
+     * }
      * @param name  parameter name
      * @param value  parameter value
      * @param type  the {@link Type} of the parameter
@@ -363,7 +370,7 @@ public interface TypedQuery<X> extends Query {
 
 
     /**
-     * Bind an argument value to a named parameter, explicitly
+     * Bind an argument value to a positional parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the argument might be null.
      * @param position  position
@@ -379,9 +386,16 @@ public interface TypedQuery<X> extends Query {
     <P> TypedQuery<X> setParameter(int position, P value, Class<P> type);
 
     /**
-     * Bind an argument value to a named parameter, explicitly
+     * Bind an argument value to a positional parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the binding is affected by an attribute converter.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < ?1", Book.class)
+     *         .setParameter(1, amount, Book_.price.getType())
+     *         .getResultList();
+     * }
      * @param position  position
      * @param value  parameter value
      * @param type  the {@link Type} of the parameter
