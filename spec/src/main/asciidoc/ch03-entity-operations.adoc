@@ -2813,9 +2813,9 @@ persistence context.
   guarantee this by flushing pending updates to modified entities
   to the database before executing the query.
 
-- Otherwise, if `FlushModeType.COMMIT` is set, the effect on the
-  results of the query of pending modifications to entities in
-  the persistence context is unspecified.
+- Otherwise, if `FlushModeType.COMMIT` is set, it is unspecified
+  how pending modifications to entities in the persistence context
+  affect the results of the query.
 
 When there is no transaction active, or if the persistence context
 has not been joined to the current transaction, the persistence
