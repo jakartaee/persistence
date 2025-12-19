@@ -43,6 +43,7 @@ import java.util.Objects;
  *     return new PersistenceConfiguration()
  *             .name("DocumentData")
  *             .nonJtaDataSource("java:global/jdbc/DocumentDatabase")
+ *             .defaultFetchType(FetchType.LAZY)
  *             .managedClass(Document.class)
  *             .createEntityManagerFactory();
  * }
