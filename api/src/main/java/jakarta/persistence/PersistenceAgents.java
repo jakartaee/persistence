@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,7 @@
  */
 
 // Contributors:
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Gavin King - 4.0
 
 package jakarta.persistence;
 
@@ -32,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface PersistenceAgents {
 
-    /** (Required) One or more {@link PersistenceUnit} annotations. */
+    /** (Required) One or more {@link PersistenceAgent} annotations. */
     PersistenceAgent[] value();
 
 }
