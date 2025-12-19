@@ -51,6 +51,7 @@ package jakarta.persistence;
  *
  * @see EntityManager#setFlushMode(FlushModeType)
  * @see Query#setFlushMode(FlushModeType)
+ * @see SynchronizationType
  *
  * @since 1.0
  */

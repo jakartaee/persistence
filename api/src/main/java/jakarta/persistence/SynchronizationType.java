@@ -47,13 +47,20 @@ package jakarta.persistence;
  * created outside the scope of an active JTA transaction, or any
  * application-managed persistence context created with type
  * {@code UNSYNCHRONIZED}, is not enlisted with a transaction until
- * {@code joinTransaction()} is called.
+ * {@code joinTransaction()} is called. The synchronization type for
+ * an application-managed JTA persistence context is specified via
+ * {@link EntityManagerFactory#createEntityManager(SynchronizationType)}.
  *
  * <p>An application-managed persistence context associated with a
  * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
  * resource-local} entity manager is always automatically joined to
  * any {@linkplain EntityTransaction resource-local transaction}
  * begun for that entity manager.
+ *
+ * @see PersistenceContext#synchronization
+ * @see EntityManagerFactory#createEntityManager(SynchronizationType)
+ * @see FlushModeType
+ * @see PersistenceContextType
  *
  * @since 2.1
  */
