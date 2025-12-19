@@ -23,6 +23,8 @@ Added `registerResultParameter()` to `StoredProcedureQuery`
 
 For much improved type safety, overloaded `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()` on `StoredProcedureQuery`; added `registerParameter()`; and added an overload of `getOutputParameterValue()`
 
+Made `StoredProcedureQuery` a subtype of `AutoCloseable`
+
 Added `get()` operation as an alternative to `find()`
 
 Added `@ExcludedFromVersioning`
@@ -38,6 +40,10 @@ Added `findMultiple()` to `EntityManager`
 Added `getResultCount()` to `Query`
 
 Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
+
+Deprecated `createEntityGraph(String)`, specified that the graph returned by `getEntityGraph()` is now mutable, and added getEntityGraph(Class, String)
+
+Added `createEntityGraph()` and `getNamedEntityGraphs()` to `EntityType`
 
 Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
 
