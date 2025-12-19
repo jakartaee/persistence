@@ -189,18 +189,20 @@ public interface Query {
     Object getSingleResultOrNull();
 
     /**
-     * Execute a Jakarta Persistence UPDATE or DELETE statement, or
-     * a native SQL statement that returns a row count.
+     * Execute a Jakarta Persistence UPDATE or DELETE statement,
+     * or a native SQL statement that returns a row count.
      * <p>
      * After execution of a bulk update or delete operation, the
      * persistence provider is not required to resynchronize state
-     * held in memory with the effects of the operation on data held
-     * in the database. However, when {@link FlushModeType#AUTO} is
-     * in effect, the persistence provider must ensure that every
-     * modification to the state of every entity associated with the
-     * persistence context which could possibly alter the effects of
-     * a bulk update or delete operation is visible to the
-     * processing of the operation.
+     * held in memory with the effects of the operation on data
+     * held in the database. However, when this method is called
+     * within a transaction, the persistence context is joined to
+     * the transaction, and {@link FlushModeType#AUTO} is in effect,
+     * the persistence provider must ensure that every modification
+     * to the state of every entity associated with the persistence
+     * context which could possibly alter the effects of the bulk
+     * update or delete operation is visible to the processing of
+     * the operation.
      *
      * @return the number of entities updated or deleted, or the
      *         row count of the native SQL statement

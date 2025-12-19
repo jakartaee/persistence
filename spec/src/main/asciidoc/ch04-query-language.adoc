@@ -3215,11 +3215,12 @@ accessing entities whose state might be affected by such operations.
 ====
 
 However, the usual rules specified in <<a4374>> apply to the processing
-of bulk update and delete operations. In particular, in `FlushMode.AUTO`,
-the persistence provider must ensure that every modification to the state
-of every entity associated with the persistence context which could
-possibly alter the effects of a bulk update or delete operation is visible
-to the processing of the operation.
+of a bulk update or delete operation executed within a transaction via
+a persistence context joined to the transaction. In particular, when
+`FlushMode.AUTO` is in effect, the persistence provider must ensure
+that every modification to the state of every entity associated with the
+persistence context which could possibly alter the effects of the bulk
+update or delete operation is visible to the processing of the operation.
 
 Examples:
 
