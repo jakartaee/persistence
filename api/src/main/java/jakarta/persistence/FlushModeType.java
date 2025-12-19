@@ -19,27 +19,35 @@ package jakarta.persistence;
 /**
  * Enumerates flush modes recognized by the {@link EntityManager}.
  *
- * <p>When a query is executed within a transaction:
+ * <p>When a Jakarta Persistence or native SQL query is executed
+ * within a transaction via a {@link Query}, {@link TypedQuery},
+ * or {@link StoredProcedureQuery} object obtained from an
+ * {@link EntityManager} joined to the transaction, the effective
+ * flush mode is determined by the {@linkplain Query#getFlushMode
+ * current flush mode of the query object}, which defaults to the
+ * {@linkplain EntityManager#getFlushMode current flush mode of
+ * the persistence context}.
  * <ul>
- * <li>If {@link #AUTO} is set via the {@link Query Query} or
- *     {@link TypedQuery} object, or if the flush mode setting for
- *     the persistence context is {@code AUTO} (the default) and a
- *     flush mode setting has not been specified for the {@code Query}
- *     or {@code TypedQuery} object, the persistence provider must
+ * <li>If {@link #AUTO} is in effect, the persistence provider must
  *     ensure that every modification to the state of every entity
  *     associated with the persistence context which could possibly
  *     affect the result of the query is visible to the processing
  *     of the query. The persistence provider implementation might
  *     guarantee this by flushing pending updates to modified
  *     entities to the database before executing the query.
- * <li>On the other hand, if {@link #COMMIT} is set, the effect of
- *     updates made to entities in the persistence context on query
- *     results is unspecified.
+ * <li>Otherwise, if {@link #COMMIT} is set, the effect on the
+ *     results of the query of pending modifications to entities
+ *     in the persistence context is unspecified.
  * </ul>
  *
- * <p>If there is no transaction active or if the persistence context
- * is not joined to the current transaction, the persistence provider
- * must not flush to the database, regardless of flush mode.
+ * <p>When there is no transaction active, or if the persistence
+ * context has not been joined to the current transaction, the
+ * persistence provider must not flush pending modifications to
+ * the database, regardless of the flush mode.
+ *
+ * <p>An {@link EntityAgent} has no associated persistence context,
+ * and so flush modes have no effect on an entity agent, nor on
+ * {@code Query} objects created by an entity agent.
  *
  * @see EntityManager#setFlushMode(FlushModeType)
  * @see Query#setFlushMode(FlushModeType)
@@ -49,13 +57,29 @@ package jakarta.persistence;
 public enum FlushModeType {
 
     /**
-     * Flushing to occur at transaction commit. The provider may flush
-     * at other times, but is not required to.
+     * Pending modifications to entities associated with a
+     * persistence context joined to the current transaction
+     * are flushed to the database when the transaction commits.
+     * The provider is permitted to flush at other times, but is
+     * not required to.
      */
    COMMIT,
 
     /**
-     * (Default) Flushing to occur at query execution.
+     * Pending modifications to entities associated with a
+     * persistence context joined to the current transaction
+     * are flushed to the database when the transaction commits.
+     * In addition, the persistence provider must ensure that
+     * every modification to the state of every entity associated
+     * with the persistence context which could possibly affect
+     * the result of a query is visible to the processing of the
+     * query. The persistence provider implementation might
+     * guarantee this by flushing pending modifications to the
+     * database before executing the query. The provider is
+     * permitted to flush at other times, but is not required to.
+     * <p>
+     * This is the default flush mode for a newly created
+     * {@link EntityManager}.
      */
    AUTO
 }
