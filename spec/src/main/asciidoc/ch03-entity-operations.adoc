@@ -644,30 +644,25 @@ the application are described further in <<a11894>>.
 
 ==== Synchronization with the Current Transaction
 
-By default, a container-managed persistence
-context is of `SynchronizationType.SYNCHRONIZED` and is automatically
-joined to the current transaction. A persistence context of
-`SynchronizationType.UNSYNCHRONIZED` will not be enlisted in the current
-transaction, unless the `EntityManager` `joinTransaction` method is
-invoked.
+By default, a container-managed persistence context is of type
+`SynchronizationType.SYNCHRONIZED` and is automatically joined to the
+current transaction. A container-managed persistence context of type
+`SynchronizationType.UNSYNCHRONIZED` is not enlisted in the current
+transaction until `EntityManager.joinTransaction()` is called.
 
-By default, an application-managed
-persistence context that is associated with a JTA entity manager and
-that is created within the scope of an active transaction is
-automatically joined to that transaction. An application-managed JTA
-persistence context that is created outside the scope of a transaction
-or an application-managed persistence context of type
-`SynchronizationType.UNSYNCHRONIZED` will not be joined to that
-transaction unless the `EntityManager` `joinTransaction` method is
-invoked.
+By default, an application-managed persistence context associated
+with a JTA entity manager and created within the scope of an active
+JTA transaction is automatically joined to that transaction. An
+application-managed JTA persistence context created outside the scope
+of a JTA transaction, or any application-managed persistence context
+created with type `SynchronizationType.UNSYNCHRONIZED` is not enlisted
+with a transaction until `EntityManager.joinTransaction()` is called.
 
-An application-managed persistence context
-associated with a resource-local entity manager is always automatically
-joined to any resource-local transaction that is begun for that entity
-manager.
+An application-managed persistence context associated with a
+resource-local entity manager is always automatically joined to any
+resource-local transaction begun for that entity manager.
 
-Persistence context synchronization type is
-described further in <<a11797>>.
+Persistence context synchronization type is further described in <<a11797>>.
 
 ==== Transaction Commit
 
@@ -2802,26 +2797,34 @@ The possible flush modes are enumerated by `FlushModeType`.
 include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=18..-1]
 ----
 
-When a query is executed within a transaction:
+When a Jakarta Persistence or native SQL query is executed within
+a transaction via a `Query`, `TypedQuery`, or `StoredProcedureQuery`
+object obtained from an `EntityManager` joined to the transaction,
+the effective flush mode is determined by the current flush mode of
+the `Query` object, if any flush mode has been specified by calling
+`setFlushMode()`, or, otherwise, by the current flush mode of the
+persistence context.
 
-- If `FlushModeType.AUTO` is set via the `Query`, `TypedQuery`, or
-  `StoredProcedureQuery` object, or if the flush mode setting for
-  the persistence context is `AUTO` (the default) and a flush
-  mode setting has not been specified for the query object, the
-  persistence provider must ensure that every modification to the
-  state of every entity associated with the persistence context
-  which could possibly affect the result of the query is visible
-  to the processing of the query. The persistence provider
-  implementation might guarantee this by flushing pending updates
-  to modified entities to the database before executing the query.
+- If `FlushModeType.AUTO` is in effect, the persistence provider
+  must ensure that every modification to the state of every entity
+  associated with the persistence context which could possibly
+  affect the result of the query is visible to the processing of
+  the query. The persistence provider implementation might
+  guarantee this by flushing pending updates to modified entities
+  to the database before executing the query.
 
-- On the other hand, if `FlushModeType.COMMIT` is set, the effect
-  of updates made to entities in the persistence context on query
-  results is unspecified.
+- Otherwise, if `FlushModeType.COMMIT` is set, the effect on the
+  results of the query of pending modifications to entities in
+  the persistence context is unspecified.
 
-If there is no transaction active or if the persistence context has
-not been joined to the current transaction, the persistence provider
-must not flush to the database, regardless of the flush mode.
+When there is no transaction active, or if the persistence context
+has not been joined to the current transaction, the persistence
+provider must not flush pending modifications to the database,
+regardless of the flush mode.
+
+An `EntityAgent` has no associated persistence context, and so
+flush modes have no effect on an entity agent, nor on `Query`
+objects created by an entity agent.
 
 
 ==== Queries and Lock Mode [[a4385]]

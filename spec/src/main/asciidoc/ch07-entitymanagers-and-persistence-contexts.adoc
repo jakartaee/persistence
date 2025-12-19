@@ -477,69 +477,63 @@ joined to that transaction.
 
 ==== Container-managed Transaction-scoped Persistence Context [[a11805]]
 
-The application can obtain a
-container-managed entity manager with transaction-scoped persistence
-context by injection or direct lookup in the JNDI namespace. The
-persistence context type for the entity manager is defaulted or defined
-as `PersistenceContextType.TRANSACTION`.
+The application can obtain a container-managed entity manager with
+transaction-scoped persistence context by injection or direct lookup
+in the JNDI namespace. The persistence context type for the entity
+manager must be defaulted or explicitly specified as
+`PersistenceContextType.TRANSACTION`.
 
-A new persistence context begins when the
-container-managed entity manager is invokedfootnote:[Specifically, when
-one of the methods of the `EntityManager` interface is invoked.] in
-the scope of an active JTA transaction, and there is no current
-persistence context already associated with the JTA transaction. The
-persistence context is created and then associated with the JTA
-transaction. This association of the persistence context with the JTA
-transaction is independent of the synchronization type of the
-persistence context and whether the persistence context has been joined
-to the transaction.
+A new persistence context begins when the container-managed entity
+manager is invokedfootnote:[That is, when a method of the
+`EntityManager` interface is invoked.] in the scope of an active
+JTA transaction, and there is no current persistence context already
+associated with the transaction. The persistence context is created
+and associated with the transaction. This affinity of the persistence
+context with the JTA transaction is independent of the synchronization
+type of the persistence context and of whether the persistence context
+has been joined to the transaction.
 
-The persistence context ends when the
-associated JTA transaction commits or rolls back, and all entities that
-were managed by the `EntityManager` become detached.footnote:[Note that this
-applies to a transaction-scoped persistence context of type
-SynchronizationType.UNSYNCHRONIZED that has not been joined to the
-transaction as well.]
+The persistence context ends when the associated transaction commits or
+rolls back, and all entities that were managed by the `EntityManager`
+become detached.footnote:[This also applies to a transaction-scoped
+persistence context of type `SynchronizationType.UNSYNCHRONIZED` that
+has not been joined to the transaction.]
 
-If the entity manager is invoked outside the
-scope of a transaction, any entities loaded from the database will
-immediately become detached at the end of the method call.
+If the entity manager is invoked outside the scope of a transaction,
+all entities loaded from the database immediately become detached at
+the end of the method call.
 
 ==== Container-managed Extended Persistence Context [[a11810]]
 
-A container-managed extended persistence
-context can only be initiated within the scope of a stateful session
-bean. It exists from the point at which the stateful session bean that
-declares a dependency on an entity manager of type
-`PersistenceContextType.EXTENDED` is created, and is said to be `bound`
-to the stateful session bean. The dependency on the extended persistence
-context is declared by means of the `PersistenceContext` annotation or
-`persistence-context-ref` deployment descriptor element. The association
-of the extended persistence context with the JTA transaction is
-independent of the synchronization type of the persistence context and
-whether the persistence context has been joined to the transaction.
+A container-managed extended persistence context can only be initiated
+within the scope of a stateful session bean which declares as dependency
+on the extended persistence context by means of the `PersistenceContext`
+annotation or `persistence-context-ref` deployment descriptor element.
 
-The persistence context is closed by the
-container when the `@Remove` method of the stateful session bean
-completes (or the stateful session bean instance is otherwise
-destroyed).
+The extended persistence context exists from the point at which the
+stateful session bean declaring a dependency on the persistence context
+is created and is said to be _bound_ to the stateful session bean.
+
+The container destroys the extended persistence context after the
+`@Remove` method of the stateful session bean completes or when the
+stateful session bean instance is otherwise destroyed.
 
 ===== Inheritance of Extended Persistence Context
 
-If a stateful session bean instantiates a
-stateful session bean (executing in the same EJB container instance)
-which also has such an extended persistence context with the same
+If a stateful session bean instantiates a stateful session bean
+(executing in the same EJB container instance) which also declares a
+dependency on an extended persistence context with the same unit and
 synchronization type, the extended persistence context of the first
-stateful session bean is inherited by the second stateful session bean
-and bound to it, and this rule recursively applies—independently of
-whether transactions are active or not at the point of the creation of
-the stateful session beans. If the stateful session beans differ in
-declared synchronization type, the EJBException is thrown by the
-container.
+stateful session bean is inherited by the second stateful session
+bean.
 
-If the persistence context has been inherited
-by any stateful session beans, the container does not close the
-persistence context until all such stateful session beans have been
+This rule applies recursively, independently of whether transactions
+are active at the moment of the creation of the stateful session beans.
+If the stateful session beans differ in declared synchronization type,
+an `EJBException` is thrown by the container.
+
+The container does not destroy an extended persistence context until
+every stateful session bean inheriting the persistence context has been
 removed or otherwise destroyed.
 
 ==== Persistence Context Propagation [[a11816]]
