@@ -366,6 +366,7 @@ public interface TypedQuery<X> extends Query {
       * @throws IllegalStateException if the query is not a Jakarta
       *         Persistence query language SELECT query or a
       *         {@link jakarta.persistence.criteria.CriteriaQuery}
+      * @see #getLockMode
       * @since 2.0
       */
      TypedQuery<X> setLockMode(LockModeType lockMode);
