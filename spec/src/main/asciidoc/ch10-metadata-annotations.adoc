@@ -723,7 +723,7 @@ an entity agent.
 
 The `name` element refers to the name by
 which the entity agent is to be accessed in the environment
-referencing context, and is not needed when dependency injection is
+referencing context and is not needed when dependency injection is
 used.
 
 The optional `unitName` element refers to the
