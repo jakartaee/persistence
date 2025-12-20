@@ -333,7 +333,7 @@ the persistence context is joined to the transaction.
    synchronize every pending modification made to every entity currently
    associated with the persistence context to the database.
 
-- The `setFlushMode` method of the `EntityManager`, `Query`, `Statement`,
+- The `setFlushMode` method of the `EntityManager`, `Query`,
   `TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
   control synchronization initiated automatically by the provider.
   * The effect of `FlushModeType.AUTO` is defined in <<a4374>>.
@@ -2755,9 +2755,8 @@ See <<a2027>> for information about transaction-scoped and extended
 persistence contexts. See <<a11431>> for further discussion of entity
 manager use with no active transaction and persistence context types.
 
-The `execute()` method of `Statement` must not be called without an
-active transaction context. The `executeUpdate()` of `Query` or
-`TypedQuery` must not be called without an active transaction contex.
+The `executeUpdate()` of `Query` or `TypedQuery` must not be called
+without an active transaction contex.
 
 Whether a `StoredProcedureQuery` can be invoked without an active
 transaction context is determined by the transactional semantics and
@@ -2769,9 +2768,9 @@ to the rules for `Query` or `TypedQuery` as described above.
 
 If the persistence context is joined to the transaction, any runtime
 exception thrown by any method not explicitly listed below of `Query`,
-`Statement`,`TypedQuery`, or `StoredProcedureQuery` causes the current
-transaction to be marked for rollback, unless the exception is an
-instance of one of the following exception types:
+`TypedQuery`, or `StoredProcedureQuery` causes the current transaction
+to be marked for rollback, unless the exception is an instance of one
+of the following exception types:
 
 - `NonUniqueResultException` or `NoResultException`, or
 - `QueryTimeoutException` or `LockTimeoutException`.
@@ -2784,8 +2783,8 @@ Certain methods never cause the current transaction to be marked for
 rollback:
 
 - a runtime exception thrown by the following methods of the `Query`,
-  `Statement`, `TypedQuery`, and `StoredProcedureQuery` interfaces do
-  not cause the current transaction to be marked for rollback:
+  `TypedQuery`, and `StoredProcedureQuery` interfaces do not cause the
+  current transaction to be marked for rollback:
   `getLockMode`, `getParameters`, `getParameter`, `getParameterValue`,
   `getOutputParameterValue`, and
 
