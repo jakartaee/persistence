@@ -40,7 +40,7 @@ import java.util.Map;
  *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Author> findAuthorsGivenTitles(String pattern) {
  *         return entityManager.createQuery(Library_.findAuthorsGivenTitles(pattern))
- *                 .getResultList();
+ *                 .getResults();
  *     }
  * }
  * }
@@ -61,7 +61,7 @@ import java.util.Map;
  *         entityManager.createQuery(Book_._byTitle_)
  *                 .setCacheStoreMode(CacheStoreMode.BYPASS)
  *                 .setParameter(1, pattern)
- *                 .getResultList();
+ *                 .getResults();
  * }
  *
  * <p>A {@code TypedQueryReference} may include arguments to

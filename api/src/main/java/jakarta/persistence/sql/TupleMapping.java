@@ -32,7 +32,7 @@ import jakarta.persistence.Tuple;
  *
  * entityManager.createNativeQuery("select isbn, title, pages from Book",
  *                                 tuple(isbn, title, pages))
- *     .getResultList().forEach(tuple -> {
+ *     .getResults().forEach(tuple -> {
  *         String bookIsbn = tuple.get(isbn);
  *         String bookTitle = tuple.get(title);
  *         int bookPages = tuple.get(pages);
