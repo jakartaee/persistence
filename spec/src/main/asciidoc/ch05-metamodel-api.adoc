@@ -242,13 +242,25 @@ following the transformed character is uppercase, and then
 replacing each character which is not a legal Java identifier
 character with an underscore.
 
-* For every named query with name `"n"` and query result class `R`
-declared by annotations of the class `X`, the metamodel class must
-contain a declaration as follows:
+* For every named query declared by annotations of the class `X`, with
+name `"n"` and query result class `R`, the metamodel class must contain
+a declaration as follows:
 +
 [source,java]
 ----
 public static volatile TypedQueryReference<R> _n_;
+----
++
+where `n` is the name `"n"` with every character which is not a legal
+Java identifier character replaced with an underscore.
+
+* For every named query declared by annotations of the class `X`, with
+name `"n"` and no query result class inferrable at compilation time,
+the metamodel class must contain a declaration as follows:
++
+[source,java]
+----
+public static volatile QueryReference _n_;
 ----
 +
 where `n` is the name `"n"` with every character which is not a legal
@@ -282,6 +294,18 @@ or `targetClass` member of the `@ColumnResult`, `@EntityResult`, or
 `@ConstructorResult` annotation, respectively. When there is more than
 one such annotation, the type of the mapped result set is `Object[]`,
 as specified in <<combinations-of-result-types>>.
+
+The result class of a named query may be inferred from the `resultClass`
+member of `@NamedQuery`, from the `resultClass` or result set mapping of
+`@NamedNativeQuery`, from the return type of a method annotated
+`@StaticQuery` or `@StaticNativeQuery`, or, as an extension permitted by
+this specification, by analysis of the query itself. A metamodel generator
+is not required to analyze the query to determine its result class, and
+so applications which require portability between different annotation
+processors should not depend on this capability. When the result class
+cannot be inferred at compile time, the annotation processor generates
+a canonical metamodel class member of type `QueryReference` instead of
+`TypedQueryReference`.
 
 Import statements must be included for the needed `jakarta.persistence`
 and `jakarta.persistence.metamodel` types as appropriate and for all
