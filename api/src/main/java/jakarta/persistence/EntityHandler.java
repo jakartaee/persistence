@@ -579,6 +579,19 @@ public interface EntityHandler extends AutoCloseable {
     Map<String, Object> getProperties();
 
     /**
+     * Create an instance of {@link Statement} for executing a
+     * Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     * statement.
+     * @param qlString A Jakarta Persistence statement string
+     * @return An instance of {@link Statement} which may be
+     *         used to execute the given statement
+     * @throws IllegalArgumentException if the query string is
+     *         found to be invalid
+     * @since 4.0
+     */
+    Statement createStatement(String qlString);
+
+    /**
      * Create an instance of {@link Query} for executing a
      * Jakarta Persistence query language statement, usually
      * an {@code UPDATE} or {@code DELETE} statement.
@@ -599,18 +612,28 @@ public interface EntityHandler extends AutoCloseable {
      *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
-     * @apiNote This method should be used to execute an
-     * {@code UPDATE} or {@code DELETE} statement. For a
-     * {@code SELECT} statement, an overload which specifies a
-     * {@linkplain #createQuery(String, Class) result class}
-     * or {@linkplain #createQuery(String, EntityGraph)
-     * entity graph} is usually more appropriate.
+     * @apiNote For backward compatibility, the returned object
+     * may be used to directly execute any kind of statement or
+     * query via its deprecated methods. Newly written code
+     * should call:
+     * <ul>
+     * <li>{@link #createStatement(String)} to obtain a
+     * {@link Statement},
+     * <li>an overload which specifies a
+     *     {@linkplain #createQuery(String, Class) result class}
+     *     or {@linkplain #createQuery(String, EntityGraph)
+     *     entity graph} obtain a {@link TypedQuery}, or
+     * <li>{@link Query#asStatement asStatement()} or
+     *     {@link Query#ofType(Class) ofType()} to obtain a
+     *     {@link Statement} or {@link TypedQuery}, respectively,
+     *     from the object returned by this method.
+     * </ul>
      */
     Query createQuery(String qlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
-     * criteria query.
+     * {@linkplain CriteriaQuery criteria query}.
      * @param criteriaQuery A criteria query object
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
@@ -622,9 +645,9 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
-     * criteria query, which may be a union or intersection of
-     * top-level queries.
-     * @param selectQuery A criteria query object
+     * {@linkplain CriteriaSelect criteria select}, which may be
+     * a union or intersection of top-level queries.
+     * @param selectQuery A criteria select query object
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the criteria query is
@@ -634,8 +657,8 @@ public interface EntityHandler extends AutoCloseable {
     <T> TypedQuery<T> createQuery(CriteriaSelect<T> selectQuery);
 
     /**
-     * Create an instance of {@link Query} for executing a criteria
-     * update query.
+     * Create an instance of {@link Statement} for executing a
+     * {@linkplain CriteriaUpdate criteria update}.
      * @param updateQuery A criteria update query object
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
@@ -643,11 +666,11 @@ public interface EntityHandler extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    Query createQuery(CriteriaUpdate<?> updateQuery);
+    Statement createQuery(CriteriaUpdate<?> updateQuery);
 
     /**
-     * Create an instance of {@link Query} for executing a criteria
-     * delete query.
+     * Create an instance of {@link Statement} for executing a
+     * {@linkplain CriteriaDelete criteria delete}.
      * @param deleteQuery A criteria delete query object
      * @return An instance of {@link Query} which may be used
      *         to execute the given query
@@ -655,7 +678,7 @@ public interface EntityHandler extends AutoCloseable {
      *         found to be invalid
      * @since 2.1
      */
-    Query createQuery(CriteriaDelete<?> deleteQuery);
+    Statement createQuery(CriteriaDelete<?> deleteQuery);
 
     /**
      * Create an instance of {@link TypedQuery} for executing
@@ -710,6 +733,23 @@ public interface EntityHandler extends AutoCloseable {
      * @since 4.0
      */
     <T> TypedQuery<T> createQuery(String qlString, EntityGraph<T> resultGraph);
+
+    /**
+     * Create an instance of {@link Statement} for executing a
+     * named {@code UPDATE} or {@code DELETE} of statement written
+     * in the Jakarta Persistence query language, or a named native
+     * SQL statememt which returns a row count.
+     * @param name The name of a query defined in metadata
+     * @return An instance of {@link Statement} which may be used
+     *         to execute the named statement
+     * @throws IllegalArgumentException if a query has not been
+     *         defined with the given name, or if the query string
+     *         is found to be invalid
+     * @see NamedQuery
+     * @see NamedNativeQuery
+     * @since 4.0
+     */
+    Statement createNamedStatement(String name);
 
     /**
      * Create an instance of {@link Query} for executing a named
@@ -771,21 +811,19 @@ public interface EntityHandler extends AutoCloseable {
     <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link Query} for executing a named
-     * query written in the Jakarta Persistence query language or
+     * Create an instance of {@link Statement} for executing a named
+     * statement written in the Jakarta Persistence query language or
      * in native SQL.
      * @param reference a reference to the query defined in metadata
      * @return the new query instance
-     * @throws IllegalArgumentException if a query has not been
-     *         defined, or if the query string is found to be
-     *         invalid, or if the query result is found to not be
-     *         assignable to the specified type
-     * @see EntityManagerFactory#getNamedQueries()
+     * @throws IllegalArgumentException if a named query has not been
+     *         defined, or if the query string is found to be invalid
+     * @see EntityManagerFactory#getNamedStatements()
      * @see NamedQuery
      * @see NamedNativeQuery
      * @since 4.0
      */
-    Query createQuery(QueryReference reference);
+    Statement createStatement(StatementReference reference);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -818,6 +856,18 @@ public interface EntityHandler extends AutoCloseable {
      * @since 3.2
      */
     <T> TypedQuery<T> createQuery(TypedQueryReference<T> reference);
+
+    /**
+     * Create an instance of {@link Statement} for executing a
+     * native SQL statement which returns a row count, usually
+     * an {@code INSERT}, {@code UPDATE}, {@code MERGE}, or
+     * {@code DELETE} statement.
+     * @param sqlString A native SQL statement string
+     * @return An instance of {@link Statement} which may be
+     *         used to execute the given statement
+     * @since 4.0
+     */
+    Statement createNativeStatement(String sqlString);
 
     /**
      * Create an instance of {@link Query} for executing a

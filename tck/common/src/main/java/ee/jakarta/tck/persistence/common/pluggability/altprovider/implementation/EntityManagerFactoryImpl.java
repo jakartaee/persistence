@@ -30,7 +30,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.PersistenceUnitUtil;
 import jakarta.persistence.Query;
-import jakarta.persistence.QueryReference;
+import jakarta.persistence.StatementReference;
 import jakarta.persistence.SchemaManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
@@ -176,7 +176,7 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 	}
 
 	@Override
-	public Map<String, QueryReference> getNamedQueries() {
+	public Map<String, StatementReference> getNamedStatements() {
 		return null;
 	}
 
