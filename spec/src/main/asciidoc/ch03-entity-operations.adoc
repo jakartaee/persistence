@@ -3014,7 +3014,7 @@ parameters themselves use the standard JDBC syntax: `?` instead of `?1`.
 
 The use of positional parameters is not supported for criteria queries.
 
-==== Arguments to query parameters  [[a4406]]
+==== Arguments to Query Parameters  [[a4406]]
 
 Arguments are assigned to query parameters by calling `Query.setParameter()`.
 The first parameter of `setParameter()` identifies the named or positional
