@@ -26,7 +26,12 @@ import java.util.stream.Stream;
 
 /**
  * Interface used to control the execution of typed queries.
- *
+ * In the Jakarta Persistence query language, only SELECT
+ * queries are typed queries, since only a SELECT query can
+ * return a result. A DELETE or UPDATE query is not a typed
+ * query, and is always represented by an untyped instance
+ * of {@link Query}. On the other hand, a native SQL query
+ * is considered a typed query if it returns a result set. *
  * @param <X> query result type
  *
  * @see Query
@@ -61,8 +66,42 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @deprecated This method is deprecated in the supertype.
+     *             Use {@link #getResults()} instead.
      */
+    @Deprecated(since = "4.0", forRemoval = true)
+    @Override
+    @SuppressWarnings("removal")
     List<X> getResultList();
+
+    /**
+     * Execute a SELECT query and return the query results as a typed
+     * {@link List List&lt;X&gt;}. If necessary, first synchronize
+     * changes with the database by flushing the persistence context.
+     * @return a list of the results, each of type {@link X}, or an
+     *         empty list if there are no results
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
+     */
+    @Override
+    List<X> getResults();
 
     /**
      * Execute a SELECT query and return the query result as a typed
@@ -99,6 +138,8 @@ public interface TypedQuery<X> extends Query {
      * @see #getResultList()
      * @since 2.2
      */
+    @Override
+    @SuppressWarnings("deprecation")
     default Stream<X> getResultStream() {
         return getResultList().stream();
     }
@@ -130,6 +171,7 @@ public interface TypedQuery<X> extends Query {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
      */
+    @Override
     X getSingleResult();
 
     /**
@@ -161,6 +203,7 @@ public interface TypedQuery<X> extends Query {
      *
      * @since 3.2
      */
+    @Override
     X getSingleResultOrNull();
 
     /**
@@ -169,6 +212,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Override
     TypedQuery<X> setMaxResults(int maxResult);
 
     /**
@@ -178,6 +222,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Override
     TypedQuery<X> setFirstResult(int startPosition);
 
     /**
@@ -218,6 +263,7 @@ public interface TypedQuery<X> extends Query {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
+    @Override
     TypedQuery<X> setHint(String hintName, Object value);
 
     /**
@@ -229,7 +275,8 @@ public interface TypedQuery<X> extends Query {
      *         does not correspond to a parameter of the
      *         query
      */
-     <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
+    @Override
+    <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
@@ -243,7 +290,8 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(Parameter<Calendar> param, 
+    @Override
+    TypedQuery<X> setParameter(Parameter<Calendar> param,
                                Calendar value,  
                                TemporalType temporalType);
 
@@ -259,7 +307,8 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(Parameter<Date> param, Date value,  
+    @Override
+    TypedQuery<X> setParameter(Parameter<Date> param, Date value,
                                TemporalType temporalType);
 
     /**
@@ -271,6 +320,7 @@ public interface TypedQuery<X> extends Query {
      *         not correspond to a parameter of the query or if
      *         the argument is of incorrect type
      */
+    @Override
     TypedQuery<X> setParameter(String name, Object value);
 
     /**
@@ -286,7 +336,8 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(String name, Calendar value, 
+    @Override
+    TypedQuery<X> setParameter(String name, Calendar value,
                                TemporalType temporalType);
 
     /**
@@ -302,7 +353,8 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(String name, Date value, 
+    @Override
+    TypedQuery<X> setParameter(String name, Date value,
                                TemporalType temporalType);
 
     /**
@@ -314,6 +366,7 @@ public interface TypedQuery<X> extends Query {
      *         correspond to a positional parameter of the
      *         query or if the argument is of incorrect type
      */
+    @Override
     TypedQuery<X> setParameter(int position, Object value);
 
     /**
@@ -330,7 +383,8 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(int position, Calendar value,  
+    @Override
+    TypedQuery<X> setParameter(int position, Calendar value,
                                TemporalType temporalType);
 
     /**
@@ -347,7 +401,8 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    TypedQuery<X> setParameter(int position, Date value,  
+    @Override
+    TypedQuery<X> setParameter(int position, Date value,
                                TemporalType temporalType);
 
      /**
@@ -357,6 +412,7 @@ public interface TypedQuery<X> extends Query {
       * @param flushMode  flush mode
       * @return the same query instance
       */
+     @Override
      TypedQuery<X> setFlushMode(FlushModeType flushMode);
 
      /**
@@ -368,6 +424,7 @@ public interface TypedQuery<X> extends Query {
       *         or a {@link jakarta.persistence.criteria.CriteriaQuery}
       *         query
       */
+     @Override
      TypedQuery<X> setLockMode(LockModeType lockMode);
 
     /**
@@ -378,6 +435,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -388,6 +446,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -399,5 +458,6 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     TypedQuery<X> setTimeout(Integer timeout);
 }
