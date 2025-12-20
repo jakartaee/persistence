@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A reference to a named query declared via the
+ * A reference to a typed named query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
  * or using {@link jakarta.persistence.query.StaticQuery} or
  * {@link jakarta.persistence.query.StaticNativeQuery}. An
@@ -45,12 +45,12 @@ import java.util.Map;
  * }
  * }
  *
- * <p>In this example, it is the entity class which is annotated,
+ * <p>In this example, it is the entity class that is annotated,
  * and the {@link NamedQuery} annotation explicitly specifies a
  * name:
  * {@snippet :
  * @NamedQuery(name = "byTitle",
- *             query = "Book b where title like ?1")
+ *             query = "from Book where title like ?1")
  * @Entity class Book { .. }
  * }
  * <p>In this case the {@code TypedQueryReference} obtained from
@@ -78,38 +78,37 @@ import java.util.Map;
  *     and {@link #getParameterTypes()}.
  * </ul>
  *
+ * <p>In the Jakarta Persistence query language, only SELECT
+ * queries are typed queries, since only a SELECT query can
+ * return a result. A DELETE or UPDATE statement is not a
+ * typed query, and is always represented by an untyped
+ * instance of {@link StatementReference}. On the other hand, a
+ * native SQL query is considered a typed query if it returns
+ * a result set.
+ *
  * @param <R> an upper bound on the result type of the query
  *
  * @see EntityHandler#createQuery(TypedQueryReference)
  *
  * @since 3.2
  */
-public interface TypedQueryReference<R> {
-    /**
-     * The name of the query.
-     * Unique within a given persistence unit.
-     */
-    String getName();
+public non-sealed interface TypedQueryReference<R> extends Reference {
 
     /**
-     * The result type of the query.
+     * The result type of the query, as specified by
+     * {@link NamedQuery#resultClass} or
+     * {@link NamedNativeQuery#resultClass}, or as inferred
+     * from the declared return type of the method annotated
+     * {@link jakarta.persistence.query.StaticQuery} or
+     * {@link jakarta.persistence.query.StaticNativeQuery}.
      */
     Class<? extends R> getResultType();
 
     /**
-     * A map keyed by hint name of all hints specified via
-     * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
-     * <p>
-     * Any mutation of the returned map results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @see Query#setHint
-     */
-    Map<String,Object> getHints();
-
-    /**
      * Any {@linkplain FindOption options} controlling
-     * execution of the query.
+     * execution of the query, as provided via annotation
+     * members of {@link NamedQuery}, {@link NamedNativeQuery},
+     * or {@link jakarta.persistence.query.ReadQueryOptions}.
      * <p>
      * Any mutation of the returned list results in an
      * {@link UnsupportedOperationException}.
@@ -118,60 +117,4 @@ public interface TypedQueryReference<R> {
      */
     List<FindOption> getOptions();
 
-    /**
-     * The types of the supplied
-     * {@linkplain #getArguments arguments} to query
-     * parameters, or {@code null} if no arguments were
-     * supplied. Arguments are present when this is a
-     * reference to a query declared using an annotation
-     * of a method.
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @since 4.0
-     */
-    List<Class<?>> getParameterTypes();
-
-    /**
-     * The names assigned to the supplied
-     * {@linkplain #getArguments arguments} to query
-     * parameters, or {@code null} if no arguments were
-     * supplied. Arguments are present when this is a
-     * reference to a query declared using an annotation
-     * of a method. If the query has named parameters,
-     * these are interpreted as the parameter names.
-     * Otherwise, if the query has positional parameters,
-     * they are ignored.
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @since 4.0
-     */
-    List<String> getParameterNames();
-
-    /**
-     * The arguments supplied to the query parameters,
-     * or {@code null} if no arguments were supplied.
-     * Arguments are present when this is a reference to
-     * a query declared using an annotation of a method.
-     * <ul>
-     * <li>If the query has ordinal parameters, the
-     * position of an argument in this array determines
-     * its assignment to a parameter.
-     * <li>If the query has named parameters, this array
-     * is aligned with the {@linkplain #getParameterNames
-     * array of parameter names} to obtain an assignment
-     * of arguments to parameters.
-     * </ul>
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @see Query#setParameter(int, Object)
-     * @see Query#setParameter(String, Object)
-     * @since 4.0
-     */
-    List<Object> getArguments();
 }

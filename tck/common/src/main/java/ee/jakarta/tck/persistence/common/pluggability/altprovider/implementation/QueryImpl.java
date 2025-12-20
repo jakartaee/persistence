@@ -28,6 +28,7 @@ import jakarta.persistence.EntityGraph;
 import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
+import jakarta.persistence.Statement;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.TypedQuery;
 
@@ -46,6 +47,21 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	public QueryImpl() {
 		logger = TSLogger.getInstance();
+	}
+
+	@Override
+	public Statement asStatement() {
+		return null;
+	}
+
+	@Override
+	public <R> TypedQuery<R> ofType(Class<R> resultType) {
+		return null;
+	}
+
+	@Override
+	public <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph) {
+		return null;
 	}
 
 	@Override
