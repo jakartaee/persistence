@@ -22,14 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import jakarta.persistence.CacheRetrieveMode;
-import jakarta.persistence.CacheStoreMode;
-import jakarta.persistence.EntityGraph;
-import jakarta.persistence.FlushModeType;
-import jakarta.persistence.LockModeType;
-import jakarta.persistence.Parameter;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 
 public class QueryImpl<X> implements TypedQuery<X> {
 	public String jpQL;
@@ -46,6 +39,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	public QueryImpl() {
 		logger = TSLogger.getInstance();
+	}
+
+	@Override
+	public Statement asStatement() {
+		return null;
 	}
 
 	@Override

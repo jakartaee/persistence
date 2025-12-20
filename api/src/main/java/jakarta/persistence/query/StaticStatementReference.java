@@ -15,7 +15,7 @@
 
 package jakarta.persistence.query;
 
-import jakarta.persistence.QueryReference;
+import jakarta.persistence.StatementReference;
 
 import java.util.List;
 import java.util.Map;
@@ -30,8 +30,8 @@ import java.util.Objects;
  *
  * @since 4.0
  */
-public class StaticQueryReference
-        implements QueryReference {
+public class StaticStatementReference
+        implements StatementReference {
     private final Class<?> annotatedClass;
     private final String annotatedMemberName;
     private final String name;
@@ -40,7 +40,7 @@ public class StaticQueryReference
     private final List<Object> arguments;
     private final Map<String, Object> hints;
 
-    public StaticQueryReference(
+    public StaticStatementReference(
             String queryName,
             Class<?> annotatedClass,
             String annotatedMemberName,
@@ -95,7 +95,7 @@ public class StaticQueryReference
         if (obj == this) {
             return true;
         }
-        else if ((!(obj instanceof StaticQueryReference that))) {
+        else if ((!(obj instanceof StaticStatementReference that))) {
             return false;
         }
         else {

@@ -93,8 +93,38 @@ public interface TypedQuery<X> extends Query {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     List<X> getResultList();
+
+    /**
+     * Execute a SELECT query that returns a single result.
+     * If necessary, first synchronize changes with the database by
+     * flushing the persistence context.
+     * @return the result, of type {@link X}
+     * @throws NoResultException if there is no result
+     * @throws NonUniqueResultException if more than one result
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
+     */
+    @Override @SuppressWarnings("removal")
+    X getSingleResult();
 
     /**
      * Execute a SELECT query and return the query result as a typed
@@ -129,40 +159,10 @@ public interface TypedQuery<X> extends Query {
      * @see #getResultList()
      * @since 2.2
      */
-    @Override @SuppressWarnings("deprecation")
+    @Override @SuppressWarnings("removal")
     default Stream<X> getResultStream() {
         return getResultList().stream();
     }
-
-    /**
-     * Execute a SELECT query that returns a single result.
-     * If necessary, first synchronize changes with the database by
-     * flushing the persistence context.
-     * @return the result, of type {@link X}
-     * @throws NoResultException if there is no result
-     * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
-     * @throws QueryTimeoutException if the query execution exceeds
-     *         the query timeout value set and only the statement is
-     *         rolled back
-     * @throws TransactionRequiredException if a lock mode other than
-     *         {@code NONE} has been set and there is no transaction
-     *         or the persistence context has not been joined to the
-     *         transaction
-     * @throws PessimisticLockException if pessimistic locking
-     *         fails and the transaction is rolled back
-     * @throws LockTimeoutException if pessimistic locking
-     *         fails and only the statement is rolled back
-     * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction
-     *         is rolled back
-     * @throws PersistenceException if the flush fails
-     * @throws OptimisticLockException if an optimistic locking
-     *         conflict is detected during the flush
-     */
-    @Override
-    X getSingleResult();
 
     /**
      * Execute a SELECT query that returns a single untyped result.
@@ -193,7 +193,7 @@ public interface TypedQuery<X> extends Query {
      *
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     X getSingleResultOrNull();
 
     /**
@@ -202,7 +202,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setMaxResults(int maxResult);
 
     /**
@@ -212,7 +212,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setFirstResult(int startPosition);
 
     /**
@@ -222,7 +222,7 @@ public interface TypedQuery<X> extends Query {
      * @return maximum number of results
      * @since 2.0
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     int getMaxResults();
 
     /**
@@ -232,7 +232,7 @@ public interface TypedQuery<X> extends Query {
      * @return position of the first result
      * @since 2.0
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     int getFirstResult();
 
     /**
@@ -434,7 +434,7 @@ public interface TypedQuery<X> extends Query {
       *         or a {@link jakarta.persistence.criteria.CriteriaQuery}
       *         query
       */
-     @Override
+     @Override @SuppressWarnings("removal")
      TypedQuery<X> setLockMode(LockModeType lockMode);
 
     /**
@@ -447,7 +447,7 @@ public interface TypedQuery<X> extends Query {
      *          query
      * @since 2.0
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     LockModeType getLockMode();
 
     /**
@@ -458,7 +458,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -469,7 +469,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -481,7 +481,7 @@ public interface TypedQuery<X> extends Query {
      *         mode has been explicitly specified for this query.
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
@@ -493,7 +493,7 @@ public interface TypedQuery<X> extends Query {
      *         mode has been explicitly specified for this query.
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     CacheStoreMode getCacheStoreMode();
 
     /**
@@ -514,7 +514,7 @@ public interface TypedQuery<X> extends Query {
      * Any DELETE or UPDATE query should be represented by an
      * untyped instance of {@link Query}.
      */
-    @Deprecated(since = "4.0")
-    @Override
+    @Deprecated(since = "4.0", forRemoval = true)
+    @Override @SuppressWarnings("removal")
     int executeUpdate();
 }

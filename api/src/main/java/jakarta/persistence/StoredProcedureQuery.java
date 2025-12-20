@@ -284,7 +284,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -295,7 +295,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -453,7 +453,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     int executeUpdate();
 
     /**
@@ -473,8 +473,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @deprecated This method returns a raw {@code List}.
      *             Use {@link #getResultList(Class)} instead.
      */
-    @SuppressWarnings("rawtypes")
-    @Deprecated(since = "4.0")
+    @Override @SuppressWarnings({"rawtypes", "removal"})
+    @Deprecated(since = "4.0", forRemoval = true)
     List getResultList();
 
     /**
@@ -494,7 +494,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     Object getSingleResult();
 
     /**
@@ -513,7 +513,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     Object getSingleResultOrNull();
 
     /**
