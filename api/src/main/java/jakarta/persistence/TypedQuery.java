@@ -28,7 +28,12 @@ import java.util.stream.Stream;
 
 /**
  * Interface used to control the execution of typed queries.
- *
+ * In the Jakarta Persistence query language, only SELECT
+ * queries are typed queries, since only a SELECT query can
+ * return a result. A DELETE or UPDATE query is not a typed
+ * query, and is always represented by an untyped instance
+ * of {@link Query}. On the other hand, a native SQL query
+ * is considered a typed query if it returns a result set. *
  * @param <X> query result type
  *
  * @see Query
@@ -63,9 +68,42 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @deprecated This method is deprecated in the supertype.
+     *             Use {@link #getResults()} instead.
+     */
+    @Deprecated(since = "4.0", forRemoval = true)
+    @Override
+    @SuppressWarnings("removal")
+    List<X> getResultList();
+
+    /**
+     * Execute a SELECT query and return the query results as a typed
+     * {@link List List&lt;X&gt;}. If necessary, first synchronize
+     * changes with the database by flushing the persistence context.
+     * @return a list of the results, each of type {@link X}, or an
+     *         empty list if there are no results
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      */
     @Override
-    List<X> getResultList();
+    List<X> getResults();
 
     /**
      * Execute a SELECT query and return the query result as a typed
@@ -103,6 +141,7 @@ public interface TypedQuery<X> extends Query {
      * @since 2.2
      */
     @Override
+    @SuppressWarnings("deprecation")
     default Stream<X> getResultStream() {
         return getResultList().stream();
     }

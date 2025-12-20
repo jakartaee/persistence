@@ -78,6 +78,14 @@ import java.util.Map;
  *     and {@link #getParameterTypes()}.
  * </ul>
  *
+ * <p>In the Jakarta Persistence query language, only SELECT
+ * queries are typed queries, since only a SELECT query can
+ * return a result. A DELETE or UPDATE statement is not a
+ * typed query, and is always represented by an untyped
+ * instance of {@link QueryReference}. On the other hand, a
+ * native SQL query is considered a typed query if it returns
+ * a result set.
+ *
  * @param <R> an upper bound on the result type of the query
  *
  * @see EntityHandler#createQuery(TypedQueryReference)
@@ -86,19 +94,30 @@ import java.util.Map;
  */
 public interface TypedQueryReference<R> {
     /**
-     * The name of the query.
+     * The name of the statement or query, as specified by
+     * {@link NamedQuery#name} or {@link NamedNativeQuery#name},
+     * or as inferred from the name of the method annotated
+     * {@link jakarta.persistence.query.StaticQuery} or
+     * {@link jakarta.persistence.query.StaticNativeQuery}.
      * Unique within a given persistence unit.
      */
     String getName();
 
     /**
-     * The result type of the query.
+     * The result type of the query, as specified by
+     * {@link NamedQuery#resultClass} or
+     * {@link NamedNativeQuery#resultClass}, or as inferred
+     * from the declared return type of the method annotated
+     * {@link jakarta.persistence.query.StaticQuery} or
+     * {@link jakarta.persistence.query.StaticNativeQuery}.
      */
     Class<? extends R> getResultType();
 
     /**
      * A map keyed by hint name of all hints specified via
-     * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
+     * {@link NamedQuery#hints}, {@link NamedNativeQuery#hints},
+     * {@link jakarta.persistence.query.ReadQueryOptions#hints}, or
+     * {@link jakarta.persistence.query.WriteQueryOptions#hints}.
      * <p>
      * Any mutation of the returned map results in an
      * {@link UnsupportedOperationException}.

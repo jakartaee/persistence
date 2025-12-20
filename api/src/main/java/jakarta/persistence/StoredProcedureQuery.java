@@ -148,6 +148,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
                                       Calendar value, 
                                       TemporalType temporalType);
@@ -164,6 +165,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Date> param,
                                       Date value,
                                       TemporalType temporalType);
@@ -618,11 +620,31 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      * @deprecated This method returns a raw {@code List}.
-     *             Use {@link #getResultList(Class)} instead.
+     *             Use {@link #getResultList(Class)} or
+     *             {@link #getResults()} instead.
      */
-    @SuppressWarnings("rawtypes")
-    @Deprecated(since = "4.0") @Override
+    @SuppressWarnings({"rawtypes", "removal"})
+    @Deprecated(since = "4.0", forRemoval = true)
+    @Override
     List getResultList();
+
+    /**
+     * Retrieve the list of results from the next result set.
+     * The provider calls {@link #execute} if necessary.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @return a list of the results or null if the next item is not
+     *         a result set
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    @Override
+    List<?> getResults();
 
     /**
      * Retrieve a single result from the next result set.

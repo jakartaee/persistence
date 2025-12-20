@@ -29,7 +29,23 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * Interface used to control query execution.
+ * Declares common operations of interfaces used to control the
+ * execution of statements and queries written in the Jakarta
+ * Persistence query language or in native SQL.
+ *
+ * <p>If an instance of this interface represents a {@code SELECT}
+ * query, then a {@code TypedQuery} representing the same query may
+ * be obtained by calling {@link #ofType(Class)}, passing the result
+ * type of the query.
+ * {@snippet :
+ * List<Book> books =
+ *         em.createQuery("from Book where extract(year from publicationDate) > :year")
+ *                 .ofType(Book.class)
+ *                 .setParameter("year", Year.of(2000))
+ *                 .setMaxResults(10)
+ *                 .setCacheRetrieveMode(CacheRetrieveMode.BYPASS)
+ *                 .getResultList();
+ * }
  *
  * @see TypedQuery
  * @see StoredProcedureQuery
@@ -38,6 +54,67 @@ import java.util.stream.Stream;
  * @since 1.0
  */
 public interface Query {
+
+    /**
+     * Obtain a {@link TypedQuery} with the given query result type,
+     * which must be a supertype of the result type of this query.
+     * This query must be a Jakarta Persistence {@code SELECT} query
+     * or a native SQL query which returns a result set.
+     * @param resultType The Java class of the query result type
+     * @param <R> The query result type
+     * @throws IllegalArgumentException if the given result type is
+     *         not a supertype of the result type of this query
+     * @throws UnsupportedOperationException if this query is a
+     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     *         statement
+     * @since 4.0
+     */
+    <R> TypedQuery<R> ofType(Class<R> resultType);
+
+    /**
+     * Obtain a {@link TypedQuery} with the given entity graph,
+     * which must be rooted at a supertype of the result type of
+     * this query. This query must be a Jakarta Persistence
+     * {@code SELECT} query which returns a single entity type.
+     * @param graph The entity graph, interpreted as a load graph
+     * @param <R> The query result type
+     * @throws IllegalArgumentException if the given graph type is
+     *         not rooted at a supertype of the result type of this
+     *         query
+     * @throws UnsupportedOperationException if this query is a
+     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     *         statement
+     * @since 4.0
+     */
+    <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
+
+    /**
+     * Execute a SELECT query and return the query results as an untyped
+     * {@link List}. If necessary, first synchronize changes with the
+     * database by flushing the persistence context.
+     * @return a list of the results, or an empty list if there are
+     *         no results
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
+     */
+    List<?> getResults();
 
     /**
      * Execute a SELECT query and return the query results as an untyped
@@ -64,7 +141,12 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @deprecated This method returns a raw {@code List}.
+     *             Use {@link #getResults()} instead. This
+     *             method will be removed in the next major
+     *             release.
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     @SuppressWarnings("rawtypes")
     List getResultList();
 
@@ -125,8 +207,14 @@ public interface Query {
      * @see Stream
      * @see #getResultList()
      * @since 2.2
+     * @deprecated This method returns a raw {@code Stream}.
+     *             Use {@link TypedQuery#getResultStream()}
+     *             instead. The return type of this method
+     *             will be changed to {@code Stream<?>} in
+     *             the next major release.
      */
     @SuppressWarnings("rawtypes")
+    @Deprecated(since = "4.0")
     default Stream getResultStream() {
         return getResultList().stream();
     }
