@@ -54,6 +54,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	}
 
 	@Override
+	public Statement asStatement() {
+		return null;
+	}
+
+	@Override
 	public <R> TypedQuery<R> ofType(Class<R> resultType) {
 		return null;
 	}

@@ -465,12 +465,12 @@ public interface EntityManagerFactory extends AutoCloseable {
 
     /**
      * A map keyed by {@linkplain NamedQuery#name query name}, containing
-     * {@linkplain QueryReference references} to every named query.
+     * {@linkplain StatementReference references} to every named statement.
      * @return a map keyed by query name
      *
      * @since 4.0
      */
-    Map<String, QueryReference> getNamedQueries();
+    Map<String, StatementReference> getNamedStatements();
 
     /**
      * A map keyed by {@linkplain NamedEntityGraph#name graph name}, containing
