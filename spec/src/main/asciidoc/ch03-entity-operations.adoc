@@ -278,31 +278,30 @@ which the remove operation was called.
 
 ==== Synchronization to the Database [[a1955]]
 
-In general, a persistence context will be
-synchronized to the database as described below. However, a persistence
-context of type `SynchronizationType.UNSYNCHRONIZED` or an
-application-managed persistence context that has been created outside
-the scope of the current transaction will only be synchronized to the
-database if it has been joined to the current transaction by the
-application's use of the `EntityManager.joinTransaction` method.
+Usually, a persistence context is synchronized to the database as
+described below. However, as an exception, a persistence context of
+type `SynchronizationType.UNSYNCHRONIZED`, or an application-managed
+persistence context that has been created outside the scope of the
+current transaction, is only synchronized to the database if it has
+been explicitly joined to the current transaction by calling the
+`joinTransaction()` method of `EntityManager`.
 
-The state of persistent entities is
-synchronized to the database at transaction commit. This synchronization
-involves writing to the database any updates to persistent entities and
-their relationships as specified above.
+Assuming that the persistence context is joined to the current
+transaction, the state of its managed entities is synchronized to the
+database at transaction commit. This synchronization involves writing
+to the database any pending modifications to the state of persistent
+entities and their relationships as specified above.
 
-An update to the state of an entity includes
-both the assignment of a new value to a persistent property or field of
-the entity as well as the modification of a mutable value of a
-persistent property or fieldfootnote:[This includes, for
-example. modifications to persistent attributes of type char[\] and
-byte[\].].
+A modification to the state of an entity might include an assignment
+of a new value to a persistent property or field of the entity, or
+even modification of a mutable value of a persistent property or
+fieldfootnote:[This includes, for example, modifications to elements
+of a `char[\]` or `byte[\]` array.].
 
-Synchronization to the database does not
-involve a refresh of any managed entities unless the `refresh` operation
-is explicitly invoked on those entities or cascaded to them as a result
-of the specification of the `cascade=REFRESH` or `cascade=ALL`
-annotation element value.
+Synchronization to the database does not involve refreshing the state
+of managed entities with changes made to the databasefootnote:[The
+`refresh()` method may be used to refresh entity state from the
+database, as described in <<refresh>>.].
 
 Bidirectional relationships between
 managed entities will be persisted based on references held by the
@@ -318,25 +317,33 @@ definition of the object/relational mapping.]
 
 [NOTE]
 ====
-It is particularly important to ensure that
-changes to the inverse side of a relationship result in appropriate
-updates on the owning side, so as to ensure the changes are not lost
-when they are synchronized to the database.
+It is particularly important to ensure that changes made to the inverse
+side of a relationship are reflected by corresponding changes on the
+owning side. The provider is not required to synchronize changes made
+only at the inverse end of an association. Failure to modify the owning
+side of a relationship typically results in the change being lost.
 ====
 
-The persistence provider runtime is permitted
-to perform synchronization to the database at other times as well when a
-transaction is active and the persistence context is joined to the
-transaction. The `flush` method can be used by the application to force
-synchronization. It applies to entities associated with the persistence
-context. The `setFlushMode` methods of the `EntityManager`, `Query`,
-`TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
-control synchronization semantics. The effect of `FlushModeType.AUTO` is
-defined in <<a4374>>. If `FlushModeType.COMMIT` is specified, flushing will occur at
-transaction commit; the persistence provider is permitted, but not
-required, to perform to flush at other times. If there is no transaction
-active or if the persistence context has not been joined to the current
-transaction, the persistence provider must not flush to the database.
+The persistence provider runtime is permitted to perform synchronization
+to the database at other times, as long as a transaction is active and
+the persistence context is joined to the transaction.
+
+- The `flush()` method of `EntityManager` can be used by the application
+   to force synchronization. When `flush()` is called, the provider must
+   synchronize every pending modification made to every entity currently
+   associated with the persistence context to the database.
+
+- The `setFlushMode` method of the `EntityManager`, `Query`, `Statement`,
+  `TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
+  control synchronization initiated automatically by the provider.
+  * The effect of `FlushModeType.AUTO` is defined in <<a4374>>.
+  * If `FlushModeType.COMMIT` is specified, flushing will occur at
+    transaction commit; the persistence provider is permitted, but not
+    required, to perform to flush at other times.
+
+If there is no transaction active or if the persistence context has not
+been joined to the current transaction, the persistence provider must not
+flush to the database.
 
 The semantics of the flush operation, applied
 to an entity X are as follows:
@@ -360,7 +367,7 @@ otherwise, if Y owns the relationships, the behavior is undefined.
 * If X is a removed entity, it is removed from
 the database. No `cascade` options are relevant.
 
-==== Refreshing an Entity Instance
+==== Refreshing an Entity Instance [[refresh]]
 
 The state of a managed entity instance is
 refreshed from the database by invoking the `refresh` method on it or by
@@ -2728,7 +2735,9 @@ The effect of applying `setMaxResults` or
 undefined. The use of `setMaxResults` and `setFirstResult` is not
 supported for stored procedure queries.
 
-Apart from `executeUpdate()`, methods of `Query` and `TypedQuery` may be
+==== Query Execution and Transactions
+
+Except for `executeUpdate()`, methods of `Query` and `TypedQuery` may be
 invoked without an active transaction context, unless a lock mode other
 than `LockModeType.NONE` has been specified for the query. In particular,
 the methods `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()`
@@ -2744,35 +2753,45 @@ specified for a query by calling `setLockMode()` or by specifying the
 
 See <<a2027>> for information about transaction-scoped and extended
 persistence contexts. See <<a11431>> for further discussion of entity
-manager use outside a transaction and persistence context types.
+manager use with no active transaction and persistence context types.
 
-Whether a `StoredProcedureQuery` should be
-invoked in a transaction context should be determined by the
-transactional semantics and/or requirements of the stored procedure
-implementation and the database in use. In particular, problems may
-occur if the stored procedure initiates a transaction and a transaction
-is already in effect. The state of any entities returned by the stored
-procedure query invocation is determined as decribed above.
+The `execute()` method of `Statement` must not be called without an
+active transaction context. The `executeUpdate()` of `Query` or
+`TypedQuery` must not be called without an active transaction contex.
 
-Runtime exceptions other than the
-`NoResultException`, `NonUniqueResultException`,
-`QueryTimeoutException`, and `LockTimeoutException` thrown by the
-methods of the `Query`, `TypedQuery`, and `StoredProcedureQuery`
-interfaces other than those methods specified below cause the current
-transaction to be marked for rollback if the persistence context is
-joined to the transaction. On database platforms on which a query
-timeout causes transaction rollback, the persistence provider must throw
-the `PersistenceException` instead of the `QueryTimeoutException`.
+Whether a `StoredProcedureQuery` can be invoked without an active
+transaction context is determined by the transactional semantics and
+the requirements of the stored procedure implementation and the database.
+In particular, problems may occur if the stored procedure initiates a
+transaction and a transaction is already active. The state of entities
+returned by a stored procedure query invocation is determined according
+to the rules for `Query` or `TypedQuery` as described above.
 
-Runtime exceptions thrown by the following
-methods of the `Query`, `TypedQuery`, and `StoredProcedureQuery`
-interfaces do not cause the current transaction to be marked for
-rollback: `getParameters`, `getParameter`, `getParameterValue`,
-`getOutputParameterValue`, `getLockMode`.
+If the persistence context is joined to the transaction, any runtime
+exception thrown by any method not explicitly listed below of `Query`,
+`Statement`,`TypedQuery`, or `StoredProcedureQuery` causes the current
+transaction to be marked for rollback, unless the exception is an
+instance of one of the following exception types:
 
-Runtime exceptions thrown by the methods of
-the `Tuple`, `TupleElement`, and `Parameter` interfaces do not cause
-the current transaction to be marked for rollback.
+- `NonUniqueResultException` or `NoResultException`, or
+- `QueryTimeoutException` or `LockTimeoutException`.
+
+On any database platform on which a query timeout causes an immediate
+transaction rollback, the persistence provider must throw a
+`PersistenceException` instead of a `QueryTimeoutException`.
+
+Certain methods never cause the current transaction to be marked for
+rollback:
+
+- a runtime exception thrown by the following methods of the `Query`,
+  `Statement`, `TypedQuery`, and `StoredProcedureQuery` interfaces do
+  not cause the current transaction to be marked for rollback:
+  `getLockMode`, `getParameters`, `getParameter`, `getParameterValue`,
+  `getOutputParameterValue`, and
+
+- a runtime exception thrown by a method of the `Tuple`, `TupleElement`,
+  or `Parameter` interface does not cause the current transaction to be
+  marked for rollback.
 
 For example:
 
@@ -2786,7 +2805,7 @@ public List findWithName(String name) {
 }
 ----
 
-==== Queries and Flush Mode [[a4374]]
+==== Queries and the Flush Mode [[a4374]]
 
 The _flush mode_ setting may affect the result of a query.
 The possible flush modes are enumerated by `FlushModeType`.
@@ -2915,9 +2934,9 @@ objects with native queries is not required by this specification. The
 use of `Parameter` objects for native queries will not be portable. The
 mixing of parameter objects with named or positional parameters is invalid.
 
-Portable applications should not attempt to
-reuse a `Parameter` object obtained from a `Query` or `TypedQuery`
-instance in the context of a different `Query` or `TypedQuery` instance.
+A portable application should not attempt to reuse a `Parameter` object
+obtained from one instance of `Query` by passing it to a method of a
+different instance of `Query`.
 
 ==== Named Parameters [[a4401]]
 
@@ -2931,10 +2950,10 @@ identifiers defined in <<a4760>>.
 Named parameters are case-sensitive. The mixing of named and positional
 parameters is invalid.
 
-A named parameter of a Jakarta Persistence query
-language query is an identifier that is prefixed by the " _:_ " symbol.
-The parameter names passed to the `setParameter` methods of the `Query`
-and `TypedQuery` interfaces do not include this " _:_ " prefix.
+A named parameter of a Jakarta Persistence query language query is an
+identifier that is prefixed by the `:` symbol. Parameter names passed
+as arguments to the `setParameter` methods of the `Query` interface do
+not include this prefix.
 
 ==== Positional Parameters [[a4405]]
 
@@ -2942,9 +2961,8 @@ Only positional parameter binding and
 positional access to result items may be portably used for native
 queries, except for stored procedure queries for which named parameters
 have been defined. When binding the values of positional parameters, the
-numbering starts as “ `1` ”. It is assumed that for native queries the
-parameters themselves use the SQL syntax (i.e., “ _?_ ”, rather than “
-_?1_ ”).
+numbering starts at `1`. It is assumed that for native queries the
+parameters themselves use the standard JDBC syntax: `?` instead of `?1`.
 
 The use of positional parameters is not supported for criteria queries.
 
