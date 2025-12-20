@@ -2660,41 +2660,86 @@ and immediately, outside the scope of any persistence context.
 
 === Query APIs [[a3125]]
 
-The `Query` and `TypedQuery` APIs are used
-for the execution of both static queries and dynamic queries. These APIs
-also support parameter binding and pagination control. The
-`StoredProcedureQuery` API is used for the execution of queries that
-invoke stored procedures defined in the database.
+The `Query` and `TypedQuery` interfaces are used to control parameter
+binding and execution for both static statements and queries declared
+in metadata and dynamic statements and queries passed to methods of
+`EntityHandler` as strings. These interfaces also support pagination
+control. The `StoredProcedureQuery` interface is used to call stored
+procedures defined in the database.
 
 These interfaces may be found in <<persistence-api>>.
 
 ==== Query Execution [[query-execution]]
 
-Jakarta Persistence query language, Criteria API, and native SQL
-select queries are executed using the methods `getResultList`,
-`getSingleResult`, and `getSingleResultOrNull`.
-Update and delete operations (update and delete “queries”) are
-executed using the `executeUpdate` method.
+A query or statement written in the Jakarta Persistence query language
+or in native SQL is executed via the `Query` or `TypedQuery` interface.
 
-* For `TypedQuery` instances, the query result
-type is determined in the case of criteria queries by the type of the
-query specified when the `CriteriaQuery` object is created, as described
-in <<a10621>>. In the case of Jakarta Persistence query language queries, the type of the
-result is determined by the `resultClass` argument to the `createQuery`
-or `createNamedQuery` method, and the select list of the query must
-contain only a single item which must be assignable to the specified
-type.
-* For `Query` instances, the elements of a
-query result whose select list consists of more than one select
-expression are of type `Object[]`. If the select list consists of only
-one select expression, the elements of the query result are of type
-`Object`. When native SQL queries are used, the SQL result set mapping
-(see <<a4427>>), determines
-how many items (entities, scalar values, etc.) are returned. If multiple
-items are returned, the elements of the query result are of type
-`Object[]`. If only a single item is returned as a result of the SQL
-result set mapping or if a result class is specified, the elements of
-the query result are of type `Object`.
+- A `SELECT` query specified in the Jakarta Persistence query language
+  or using the Criteria API (as an instance of `CriteriaSelect`) is
+  executed using one of the methods `getResultList()`, `getSingleResult()`,
+  or `getSingleResultOrNull()`.
+
+- Similarly, any native SQL query that returns a result set is executed
+  using `getResultList()`, `getSingleResult()`, or `getSingleResultOrNull()`.
+
+- An `UPDATE` or `DELETE` statement specified in the Jakarta Persistence
+  query language or using the Criteria API (as an instance of
+  `CriteriaUpdate` or `CriteriaDelete`) is executed by calling the method
+  `executeUpdate()`.
+
+- Similarly, any native SQL statement that returns a row count is executed
+  by calling `executeUpdate()`.
+
+Every query executed using `getResultList()`, `getSingleResult()`,
+or `getSingleResultOrNull()` has a well-defined result type.
+
+- For an instance of `TypedQuery` that represents a criteria query,
+  the result type is determined by the type specified when the
+  `CriteriaQuery` object was created, as described in <<a10621>>.
+
+- For an instance of `TypedQuery` that represents a `SELECT` query
+  written in the Jakarta Persistence query language, the result
+  type is determined by the second argument to the `createQuery`
+  or `createNamedQuery` method, which must be the Java `Class`
+  representing the result type or an `EntityGraph` whose root
+  entity type is the result type. In either case, the specified
+  result type must be compatible with the select list of the query,
+  as specified in <<result-class-jakarta-query>>.
+
+- For an instance of `TypedQuery` that represents a native SQL
+  query that returns a result set, the result type is determined
+  by the second argument to the `createNativeQuery` or
+  `createNamedQuery` method, which must be the Java `Class`
+  representing the result type or a `ResultSetMapping` whose
+  `type` member represents the result type. The specified result
+  type must be compatible with the result set actually returned
+  when the native SQL query is executed, as specified in <<a4427>>
+  and <<result-class-native-sql>>.
+
+- For an instance of `Query` which is not a `TypedQuery`, but
+  which represents a Jakarta Persistence `SELECT` query, the
+  result type depends on whether there is more than one item
+  in the select list of the query. If there is more than one
+  item in the select list, the result type is `Object[]`.
+  Otherwise, if there is just one item in the select list,
+  the query result type is just the type of that item.
+
+- For an instance of `Query` which is not a `TypedQuery`, but
+  which represents a native SQL query that returns a result set,
+  the result type depends on whether there is more than one item
+  in the result set mapping, if given, or, if there is no result
+  set mapping given, on whether there is more than one column in
+  the result set itself. If there is more than one item or column,
+  respectively, the result type is `Object[]`. Otherwise, if
+  there is exactly one item or column, the query result type is
+  just `Object`.
+
+For a native SQL query that returns a result set, the SQL result
+set mapping determines the values (entities, scalar values,
+constructor results) returned in each query result, as specified
+in <<a4427>>. If no result set mapping is provided, the default
+type mappings defined by the JDBC specification are used to map
+columns of the result set to unmanaged Java types.
 
 [NOTE]
 ====
@@ -2711,11 +2756,11 @@ result types. Use of other result types, including `Tuple.class`, is not
 portable.
 ====
 
-
-Stored procedure queries can be executed using the `getResultList`,
-`getSingleResult`, `getSingleResultOrNull`, and `execute` methods.
-Stored procedures that perform only updates or deletes can be executed
-using the `executeUpdate` method. Stored procedure query execution is
+A stored procedure query that returns at least one result set can be
+executed by calling one of the `getResultList()`, `getSingleResult()`,
+`getSingleResultOrNull()`, or `execute()` methods of `StoredProcedureQuery`.
+A stored procedure that does not return a result set can be executed
+using the `executeUpdate()` method. Stored procedure query execution is
 described in detail in <<a4625>>.
 
 An `IllegalArgumentException` is thrown if a
@@ -2991,7 +3036,7 @@ parameter.
 query.setParameter("names", List.of(name1, name2, name3))
 ----
 
-==== Result Classes for Jakarta Persistence Queries
+==== Result Classes for Jakarta Persistence Queries [[result-class-jakarta-query]]
 
 The `createQuery()` method of `EntityHandler` accepts, among other
 possibilities, a JPQL query string and a Java class object specifying
@@ -3518,7 +3563,7 @@ An instance of `ResultSetMapping` representing a result set mapping
 declared using the `@SqlResultSetMapping` annotation may be obtained
 from the `EntityManagerFactory` by calling `getResultSetMappings()`.
 
-==== Result Classes for SQL Queries
+==== Result Classes for SQL Queries [[result-class-native-sql]]
 
 The `createNativeQuery()` method of `EntityHandler` accepts, among other
 possibilities, a SQL query string and a Java class object specifying
