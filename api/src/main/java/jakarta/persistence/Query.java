@@ -44,7 +44,7 @@ import java.util.stream.Stream;
  *                 .setParameter("year", Year.of(2000))
  *                 .setMaxResults(10)
  *                 .setCacheRetrieveMode(CacheRetrieveMode.BYPASS)
- *                 .getResultList();
+ *                 .getResults();
  * }
  *
  * @see TypedQuery
@@ -180,7 +180,7 @@ public interface Query {
      * changes with the database by flushing the persistence context.
      *
      * <p>By default, this method delegates to {@code getResultList().stream()},
-     * however persistence provider may choose to override this method
+     * however, persistence provider may choose to override this method
      * to provide additional capabilities.
      *
      * @return a stream of the results, or an empty stream if there

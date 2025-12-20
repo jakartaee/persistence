@@ -82,7 +82,7 @@ import java.lang.annotation.Target;
  *     var ordersForSku =
  *             entityManager.createQuery(OrderQueries_._allOrdersBySku_)
  *                     .setParameter(1, sku)
- *                     .getResultList();
+ *                     .getResults();
  * }
  * <p>Note that the canonical metamodel field for the named query
  * {@code allOrdersBySku} is named {@code _allOrdersBySku_} to avoid

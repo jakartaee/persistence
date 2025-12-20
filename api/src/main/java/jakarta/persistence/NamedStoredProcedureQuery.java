@@ -130,7 +130,7 @@ public @interface NamedStoredProcedureQuery {
      * are inferred from the result set mapping, if any, or default to
      * {@code Object} or {@code Object[]}. Any result class may be
      * overridden by explicitly passing a class object to
-     * {@link StoredProcedureQuery#getResultList(Class)},
+     * {@link StoredProcedureQuery#getResults(Class)},
      * {@link StoredProcedureQuery#getSingleResult(Class)}, or
      * {@link StoredProcedureQuery#getSingleResultOrNull(Class)}.
      */
@@ -144,7 +144,7 @@ public @interface NamedStoredProcedureQuery {
      *
      * <p>Any result set mapping may be overridden by explicitly passing
      * a {@link ResultSetMapping} to
-     * {@link StoredProcedureQuery#getResultList(ResultSetMapping)},
+     * {@link StoredProcedureQuery#getResults(ResultSetMapping)},
      * {@link StoredProcedureQuery#getSingleResult(ResultSetMapping)}, or
      * {@link StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)}.
      *

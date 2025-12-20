@@ -49,10 +49,10 @@ import java.util.List;
  * all required {@code IN} and {@code INOUT} parameters. It is not
  * required to set the values of stored procedure parameters for which
  * default values have been defined by the stored procedure.</li>
- * <li> When {@link #getResultList} and {@link #getSingleResult} are
+ * <li> When {@link #getResults} and {@link #getSingleResult} are
  * called on a {@code StoredProcedureQuery} object, the provider calls
  * {@link #execute} on an unexecuted stored procedure query before
- * processing {@code getResultList} or {@code getSingleResult}.</li>
+ * processing {@code getResults} or {@code getSingleResult}.</li>
  * <li> When {@link #executeUpdate} is called on a
  * {@code StoredProcedureQuery} object, the provider will call
  * {@link #execute} on an unexecuted stored procedure query, followed
@@ -68,7 +68,7 @@ import java.util.List;
  * results other than through {@code INOUT} and {@code OUT} parameters,
  * if any.</li>
  * <li> If the {@code execute} method returns true, the pending result
- * set can be obtained by calling {@link #getResultList} or
+ * set can be obtained by calling {@link #getResults} or
  * {@link #getSingleResult}.</li>
  * <li> The {@link #hasMoreResults} method can then be used to test for
  * further results.</li>
@@ -81,14 +81,14 @@ import java.util.List;
  * <li> For portability, results that correspond to JDBC result sets
  * and update counts need to be processed before the values of any
  * {@code INOUT} or {@code OUT} parameters are extracted.</li>
- * <li> After results returned through {@link #getResultList} and
+ * <li> After results returned through {@link #getResults} and
  * {@link #getUpdateCount} have been exhausted, results returned through
  * {@code INOUT} and {@code OUT} parameters can be retrieved.</li>
  * <li> The {@link #getOutputParameterValue} methods are used to
  * retrieve the values passed back from the procedure through
  * {@code INOUT} and {@code OUT} parameters.</li>
  * <li> When using {@code REF_CURSOR} parameters for result sets the
- * update counts should be exhausted before calling {@link #getResultList}
+ * update counts should be exhausted before calling {@link #getResults}
  * to retrieve the result set. Alternatively, the {@code REF_CURSOR}
  * result set can be retrieved through {@link #getOutputParameterValue}.
  * Result set mappings are applied to results corresponding to
@@ -620,7 +620,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      * @deprecated This method returns a raw {@code List}.
-     *             Use {@link #getResultList(Class)} or
+     *             Use {@link #getResults(Class)} or
      *             {@link #getResults()} instead.
      */
     @SuppressWarnings({"rawtypes", "removal"})
@@ -724,7 +724,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> List<R> getResultList(Class<R> resultClass);
+    <R> List<R> getResults(Class<R> resultClass);
 
     /**
      * Retrieve the list of results from the next result set, specifying
@@ -744,7 +744,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> List<R> getResultList(ResultSetMapping<R> mapping);
+    <R> List<R> getResults(ResultSetMapping<R> mapping);
 
     /**
      * Retrieve a single result from the next result set, returning

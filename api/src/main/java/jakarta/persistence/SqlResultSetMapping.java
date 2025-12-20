@@ -67,7 +67,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *                   WHERE order_total > 25 AND order_item = i.id
  *                 """,
  *                 Order_._orderResults
- *         ).getResultList();
+ *         ).getResults();
  * }
  *
  * <p>In this example, a mapping is specified by annotating a method
@@ -87,7 +87,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * )
  * List<Order> largeOrders(int threshold) {
  *     return entityManager.createQuery(Shop_.largeOrders(threshold))
- *             .getResultList();
+ *             .getResults();
  * }
  * }
  *

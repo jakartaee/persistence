@@ -1021,7 +1021,7 @@ public interface EntityHandler extends AutoCloseable {
      * in a redundant type cast of each query result in client code.
      * Instead, use {@link #createStoredProcedureQuery(String)} and
      * pass each result class individually as an argument to
-     * {@link StoredProcedureQuery#getResultList(Class)},
+     * {@link StoredProcedureQuery#getResults(Class)},
      * {@link StoredProcedureQuery#getSingleResult(Class)}, or
      * {@link StoredProcedureQuery#getSingleResultOrNull(Class)}.
      */
@@ -1055,7 +1055,7 @@ public interface EntityHandler extends AutoCloseable {
      * in a type cast of each query result in client code. As an
      * alternative, use {@link #createStoredProcedureQuery(String)}
      * and pass each result mapping individually as an argument to
-     * {@link StoredProcedureQuery#getResultList(ResultSetMapping)},
+     * {@link StoredProcedureQuery#getResults(ResultSetMapping)},
      * {@link StoredProcedureQuery#getSingleResult(ResultSetMapping)}, or
      * {@link StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)}.
      */

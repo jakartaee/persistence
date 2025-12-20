@@ -71,7 +71,6 @@ public interface TypedQuery<X> extends Query {
      * @deprecated This method is deprecated in the supertype.
      *             Use {@link #getResults()} instead.
      */
-    @Deprecated(since = "4.0", forRemoval = true)
     @Override
     @SuppressWarnings("removal")
     List<X> getResultList();
