@@ -339,7 +339,7 @@ the persistence context is joined to the transaction.
   * The effect of `FlushModeType.AUTO` is defined in <<a4374>>.
   * If `FlushModeType.COMMIT` is specified, flushing will occur at
     transaction commit; the persistence provider is permitted, but not
-    required, to perform to flush at other times.
+    required, to flush at other times.
 
 If there is no transaction active or if the persistence context has not
 been joined to the current transaction, the persistence provider must not
