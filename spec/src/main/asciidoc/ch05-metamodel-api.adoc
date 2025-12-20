@@ -203,8 +203,8 @@ as follows:
 +
 [source,java]
 ----
-public static QueryReference m(T1 p1, T2 p2, ...) {
-    return new StaticQueryReference(
+public static StatementReference m(T1 p1, T2 p2, ...) {
+    return new StaticStatementReference(
             "X.m",
             X.class,
             "m",

@@ -26,10 +26,10 @@ include::../../../../api/src/main/java/jakarta/persistence/query/ReadQueryOption
 include::../../../../api/src/main/java/jakarta/persistence/query/WriteQueryOptions.java[lines=18..-1]
 ----
 
-=== `StaticQueryReference`
+=== `StaticStatementReference`
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/query/StaticQueryReference.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/query/StaticStatementReference.java[lines=18..-1]
 ----
 
 === `StaticTypedQueryReference`
