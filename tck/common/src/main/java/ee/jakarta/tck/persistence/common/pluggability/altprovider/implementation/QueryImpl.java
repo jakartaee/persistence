@@ -22,7 +22,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CacheRetrieveMode;
+import jakarta.persistence.CacheStoreMode;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.FlushModeType;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.Parameter;
+import jakarta.persistence.Statement;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.TypedQuery;
 
 public class QueryImpl<X> implements TypedQuery<X> {
 	public String jpQL;
