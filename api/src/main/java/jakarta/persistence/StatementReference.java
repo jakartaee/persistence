@@ -24,10 +24,8 @@ package jakarta.persistence;
  * from the static metamodel of the annotated type.
  *
  * <p>In this example, a method is annotated, and the name of
- * the query is determined by the name of the annotated method.
- * The annotated query is executed with the given argument to
- * the query parameter named {@code pattern} and with the
- * {@link CacheStoreMode#BYPASS} option:
+ * the statement is determined by the name of the annotated
+ * method:
  * {@snippet :
  * class Filer {
  *     @Inject EntityManager entityManager;
@@ -40,7 +38,7 @@ package jakarta.persistence;
  * }
  * }
  *
- * <p>In this example, it is the entity class which is annotated,
+ * <p>In this example, it is the entity class that is annotated,
  * and the {@link NamedQuery} annotation explicitly specifies a
  * name:
  * {@snippet :
@@ -48,7 +46,7 @@ package jakarta.persistence;
  *             query = "update Book set sales = ?1 where isbn = ?2")
  * @Entity class Book { .. }
  * }
- * <p>In this case the {@code TypedStatementReference} obtained from
+ * <p>In this case the {@code StatementReference} obtained from
  * its static metamodel does not include arguments to the query
  * parameters, and so they must be supplied via {@code setParameter}:
  * {@snippet :

@@ -45,7 +45,7 @@ import java.util.Map;
  * }
  * }
  *
- * <p>In this example, it is the entity class which is annotated,
+ * <p>In this example, it is the entity class that is annotated,
  * and the {@link NamedQuery} annotation explicitly specifies a
  * name:
  * {@snippet :
