@@ -2661,11 +2661,15 @@ and immediately, outside the scope of any persistence context.
 === Query APIs [[a3125]]
 
 The `Query` and `TypedQuery` interfaces are used to control parameter
-binding and execution for both static statements and queries declared
-in metadata and dynamic statements and queries passed to methods of
-`EntityHandler` as strings. These interfaces also support pagination
-control. The `StoredProcedureQuery` interface is used to call stored
-procedures defined in the database.
+binding and execution for both:
+
+- static statements and queries declared in metadata, and
+- dynamic statements and queries passed to methods of `EntityHandler`.
+
+These interfaces also support pagination control and control over locking.
+
+The `StoredProcedureQuery` interface is used to call stored procedures
+defined in the database.
 
 These interfaces may be found in <<persistence-api>>.
 
@@ -2888,13 +2892,13 @@ flush modes have no effect on an entity agent, nor on `Query`
 objects created by an entity agent.
 
 
-==== Queries and Lock Mode [[a4385]]
+==== Queries and the Lock Mode [[a4385]]
 
 The `setLockMode` method of the
 `Query` or `TypedQuery` interface or the `lockMode` element of the
 `NamedQuery` annotation may be used to lock the results of a query. A
 lock is obtained for each entity specified in the query result
-(including entities passed to constructors in the query SELECT
+(including entities passed to constructors in the query `SELECT`
 clause).footnote:[Note that the
 setLockMode method may be called more than once (with different values)
 on a Query or TypedQuery object.]
@@ -2902,7 +2906,7 @@ on a Query or TypedQuery object.]
 If the lock mode type is `PESSIMISTIC_READ`,
 `PESSIMISTIC_WRITE`, or `PESSIMISTIC_FORCE_INCREMENT`, and the query
 returns scalar data (e.g., the values of entity field or properties,
-including scalar data passed to constructors in the query SELECT
+including scalar data passed to constructors in the query `SELECT`
 clause), the underlying database rows will be
 lockedfootnote:[Note that locking
 will not occur for data passed to aggregate functions. Further, queries
