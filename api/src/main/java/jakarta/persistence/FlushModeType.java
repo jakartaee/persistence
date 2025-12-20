@@ -20,13 +20,13 @@ package jakarta.persistence;
  * Enumerates flush modes recognized by the {@link EntityManager}.
  *
  * <p>When a Jakarta Persistence or native SQL query is executed
- * within a transaction via a {@link Query}, {@link TypedQuery},
- * or {@link StoredProcedureQuery} object obtained from an
- * {@link EntityManager} joined to the transaction, the effective
- * flush mode is determined by the {@linkplain Query#getFlushMode
- * current flush mode of the query object}, which defaults to the
- * {@linkplain EntityManager#getFlushMode current flush mode of
- * the persistence context}.
+ * within a transaction via an instance of {@link Query} obtained
+ * from an {@link EntityManager} joined to the transaction, the
+ * effective flush mode is determined by the current
+ * {@linkplain Query#getFlushMode flush mode of the query object},
+ * which defaults to the current
+ * {@linkplain EntityManager#getFlushMode flush mode of the
+ * persistence context}.
  * <ul>
  * <li>If {@link #AUTO} is in effect, the persistence provider must
  *     ensure that every modification to the state of every entity

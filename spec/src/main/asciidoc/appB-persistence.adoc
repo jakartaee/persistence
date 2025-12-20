@@ -57,6 +57,12 @@ include::../../../../api/src/main/java/jakarta/persistence/Cache.java[lines=18..
 include::../../../../api/src/main/java/jakarta/persistence/Query.java[lines=18..-1]
 ----
 
+=== `Statement`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Statement.java[lines=18..-1]
+----
+
 === `TypedQuery`
 [source,java]
 ----
