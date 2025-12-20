@@ -17,7 +17,11 @@
 package jakarta.persistence;
 
 /**
- * Type for query parameter objects.
+ * Represents a parameter of a {@linkplain Query query}.
+ * <p>
+ * A portable application should not attempt to reuse a {@code Parameter}
+ * object obtained from one instance of {@code Query} by passing it to a
+ * method of a different instance of {@code Query}.
  *
  * @param <T> the type of the parameter
  *
