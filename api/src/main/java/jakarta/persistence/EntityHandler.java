@@ -809,8 +809,8 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link Query} for executing a named
-     * statement written in the Jakarta Persistence query language or
-     * in native SQL.
+     * statement or query written in the Jakarta Persistence query
+     * language or in native SQL.
      * @param reference a reference to the query defined in metadata
      * @return the new query instance
      * @throws IllegalArgumentException if a named query has not been
@@ -820,7 +820,7 @@ public interface EntityHandler extends AutoCloseable {
      * @see NamedNativeQuery
      * @since 4.0
      */
-    Query createStatement(QueryReference reference);
+    Query createQuery(QueryReference reference);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
