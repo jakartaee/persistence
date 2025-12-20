@@ -92,15 +92,15 @@ import java.util.Map;
  *
  * @since 3.2
  */
-public interface TypedQueryReference<R> {
-    /**
-     * The name of the query.
-     * Unique within a given persistence unit.
-     */
-    String getName();
+public non-sealed interface TypedQueryReference<R> extends Reference {
 
     /**
-     * The result type of the query.
+     * The result type of the query, as specified by
+     * {@link NamedQuery#resultClass} or
+     * {@link NamedNativeQuery#resultClass}, or as inferred
+     * from the declared return type of the method annotated
+     * {@link jakarta.persistence.query.StaticQuery} or
+     * {@link jakarta.persistence.query.StaticNativeQuery}.
      */
     Class<? extends R> getResultType();
 

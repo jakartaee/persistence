@@ -15,9 +15,6 @@
 
 package jakarta.persistence;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * A reference to an executable named query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
@@ -89,72 +86,4 @@ import java.util.Map;
  *
  * @since 4.0
  */
-public interface StatementReference {
-    /**
-     * The name of the query.
-     */
-    String getName();
-
-    /**
-     * A map keyed by hint name of all hints specified via
-     * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
-     */
-    Map<String,Object> getHints();
-
-    /**
-     * The types of the supplied
-     * {@linkplain #getArguments arguments} to query
-     * parameters, or {@code null} if no arguments were
-     * supplied. Arguments are present when this is a
-     * reference to a query declared using an annotation
-     * of a method.
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @since 4.0
-     */
-    List<Class<?>> getParameterTypes();
-
-    /**
-     * The names assigned to the supplied
-     * {@linkplain #getArguments arguments} to query
-     * parameters, or {@code null} if no arguments were
-     * supplied. Arguments are present when this is a
-     * reference to a query declared using an annotation
-     * of a method. If the query has named parameters,
-     * these are interpreted as the parameter names.
-     * Otherwise, if the query has positional parameters,
-     * they are ignored.
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @since 4.0
-     */
-    List<String> getParameterNames();
-
-    /**
-     * The arguments supplied to the query parameters,
-     * or {@code null} if no arguments were supplied.
-     * Arguments are present when this is a reference to
-     * a query declared using an annotation of a method.
-     * <ul>
-     * <li>If the query has ordinal parameters, the
-     * position of an argument in this array determines
-     * its assignment to a parameter.
-     * <li>If the query has named parameters, this array
-     * is aligned with the {@linkplain #getParameterNames
-     * array of parameter names} to obtain an assignment
-     * of arguments to parameters.
-     * </ul>
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @see Query#setParameter(int, Object)
-     * @see Query#setParameter(String, Object)
-     * @since 4.0
-     */
-    List<Object> getArguments();
-}
+public non-sealed interface StatementReference extends Reference {}
