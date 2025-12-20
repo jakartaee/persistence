@@ -82,7 +82,7 @@ import java.util.Map;
  * queries are typed queries, since only a SELECT query can
  * return a result. A DELETE or UPDATE statement is not a
  * typed query, and is always represented by an untyped
- * instance of {@link QueryReference}. On the other hand, a
+ * instance of {@link StatementReference}. On the other hand, a
  * native SQL query is considered a typed query if it returns
  * a result set.
  *
