@@ -180,8 +180,8 @@ public interface Query {
      * changes with the database by flushing the persistence context.
      *
      * <p>By default, this method delegates to {@code getResultList().stream()},
-     * however, persistence provider may choose to override this method
-     * to provide additional capabilities.
+     * however, the persistence provider may choose to override this
+     * default implementation to provide additional capabilities.
      *
      * @return a stream of the results, or an empty stream if there
      *         are no results
