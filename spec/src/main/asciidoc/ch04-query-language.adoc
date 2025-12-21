@@ -1293,8 +1293,8 @@ The following sections describe operators used in specific expressions.
 The syntax for the use of comparison
 expressions in a conditional expression is as
 followsfootnote:[Note that queries
-that contain subqueries on both sides of a comparison operation will not
-be portable across all databases.]:
+that contain subqueries on both sides of a comparison operation are
+not portable across all databases.]:
 
 ----
 comparison_expression ::=
@@ -2365,7 +2365,7 @@ function or a user-defined function. The function may be a scalar
 function or an aggregate function.
 
 Applications that use the
-`function_invocation` syntax will not be portable across databases.
+`function_invocation` syntax are not portable across databases.
 
 Example:
 
@@ -2890,8 +2890,8 @@ result type must not return a null value.
 
 If the result of a query corresponds to an
 identification variable or state field whose value is an embeddable, the
-embeddable instance returned by the query will not be in the managed
-state (i.e., it will not be part of the state of any managed entity).
+embeddable instance returned by the query is not in the managed
+state (i.e., it is not part of the state of any managed entity).
 
 In the following example, the `Address`
 instances returned by the query will reference `Phone` instances. While
