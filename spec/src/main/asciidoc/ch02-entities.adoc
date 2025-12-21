@@ -133,22 +133,87 @@ same interface type.
 
 ==== Persistent Attribute Type
 
-The enumeration `jakarta.persistence.metamodel.Attribute.PersistentAttributeType`
-defines a classification of persistent entity attributes: `BASIC` for
-basic attributes, `EMBEDDED` for embedded attributes, `ELEMENT_COLLECTION`
-for element collections, and `MANY_TO_ONE`, `ONE_TO_ONE`, `ONE_TO_MANY`,
-and `MANY_TO_MANY` for associations of the indicated multiplicity.
+Every persistent field or property of an entity is either:
+
+- an attribute of _basic type_, as defined in <<a486>>, or of a type
+  converted to a basic type through use of a _converter_, as defined
+  in <<a2999>>,
+- an _embedded attribute_ whose type is a fine-grained embeddable
+  class, as defined <<a487>>,
+- an _element collection_, that is, a collection whose elements are
+  instances of a basic type or embeddable class,
+- a _relationship_ (or _association_) with another entity type,
+  which is further classified by its multiplicity: one-to-one,
+  many-to-one, one-to-many, or many-to-many.
+
+The enumeration
+`jakarta.persistence.metamodel.Attribute.PersistentAttributeType`
+defines a classification of persistent entity attributes:
+
+- `BASIC` for basic attributes,
+- `EMBEDDED` for embedded attributes,
+- `ELEMENT_COLLECTION` for element collections, and
+- `MANY_TO_ONE`, `ONE_TO_ONE`, `ONE_TO_MANY`, and `MANY_TO_MANY` for
+  associations of the indicated multiplicity.
+
 Each persistent attribute of an entity belongs to exactly one of the
 listed types.
 
-It is an error for an attribute of an entity to be annotated with
-mapping annotations indicating conflicting persistent attribute types.
-For example, a field must not be annotated `@Basic @Embedded`,
+An attribute of an entity must not have with mapping annotations
+indicating conflicting persistent attribute types. For example, a
+field must not be annotated `@Basic @Embedded`,
 `@ManyToOne @ElementCollection`, or `@OneToOne @ManyToMany`. The
 persistence provider must detect such contradictory combinations of
 mapping annotations and report the error.footnote:[A persistence
 provider is permitted--but not required--to accept the combinations
 `@Basic @ElementCollection` and `@Embedded @ElementCollection`.]
+
+==== Value Types and Reference Types [[value-type-reference-type]]
+
+In the Java language, an instance of a non-primitive type has a
+well-defined object identity unique to the instance and is passed
+_by reference_, meaning that assignment of the instance to a field,
+local variable, or method parameter, followed by later access to
+the assigned value, preserves the identity of the instance.
+
+In general, operations performed by a persistence provider are not
+required to preserve the object identity of a value stored in an
+attribute of an entity. The provider is permitted to modify the
+value held in the attribute to a new value with a distinct object
+identity. Such modifications should never alter the _persistent_
+representation of the entity because the Java object identity of
+a value held in an attribute is never part of the persistent
+state of the entity.
+
+In particular:
+
+- A basic type, an embeddable class, or any collection type is
+  considered a _value type_, and the provider is not required
+  to respect the integrity of shared references to an instance
+  of such a type. If multiple fields referenced the same instance
+  of a value type when an entity was made persistent, those fields
+  hold references to distinct instances of the value type when the
+  entity is reloaded from the database.
+- An entity type is considered a _reference type_, and, instead of
+  object identity, every managed instance of an entity type has a
+  well-defined _persistent identity_. The persistence provider must
+  respect its persistent identity by:
+
+  * preserving the persistent identity of an instance when it is
+    made persistent and then later reloaded from the database,
+    and
+  * ensuring that, within a single persistence context, at most
+    one object represents the state of each distinct persistent
+    identity, thus preserving the integrity of shared references
+    to entities belonging to the given persistence context.
+
++
+This requirement notwithstanding, the container is permitted to
+introduce an indirection or _proxy_ between the object which
+represents the state of an entity and attributes which hold
+references to the entity. Thus, object identity might still not
+be respected in a strict sense, not even for a reference type.
+
 
 ==== Property Access
 
@@ -1304,9 +1369,10 @@ a map.
 An embedded object belongs strictly to its owning entity instance and
 is not sharable across persistent entity instances; sharing of an
 embedded object across multiple managed entity instances has undefined
-semantics. A persistence provider is not required to preserve the
-identity of the shared state, and this identity is typically not made
-persistent in the database.
+semantics. As described above in <<value-type-reference-type>>, the
+persistence provider is not required to respect the object identity of
+a value type, and this identity is typically not made persistent in
+the database.
 
 An embeddable class must be annotated as `Embeddable` or designated as
 `embeddable` in its XML descriptor. The access type for an embedded
