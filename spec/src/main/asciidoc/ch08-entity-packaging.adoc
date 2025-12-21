@@ -116,14 +116,17 @@ See <<a12305>>.
 The root element of the `persistence.xml` file is the `persistence` element.
 The `persistence` element consists of one or more `persistence-unit` elements.
 
-The `persistence-unit` element consists of the `name` and `transaction-type`
-attributes and the following sub-elements:
-`description`, `provider`,
-`jta-data-source`, `non-jta-data-source`,
-`mapping-file`, `jar-file`, `class`,
-`exclude-unlisted-classes`,
-`shared-cache-mode`, `validation-mode`,
-and `properties`.
+The `persistence-unit` element consists of:
+
+- the `name` and `transaction-type` attributes and
+- the following sub-elements:
+  `description`, `provider`,
+  `qualifier`, `scope`
+  `jta-data-source`, `non-jta-data-source`,
+  `mapping-file`, `jar-file`, `class`,
+  `exclude-unlisted-classes`,
+  `shared-cache-mode`, `validation-mode`,
+  and `properties`.
 
 The `name` attribute is required; the other attributes and elements are optional.
 Their semantics are described in the following subsections.
