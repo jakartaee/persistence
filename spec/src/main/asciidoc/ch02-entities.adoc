@@ -1581,10 +1581,10 @@ when the persistence unit is initialized.
 Every relationship (or association) between two entity types has
 well-defined _multiplicity_, either:
 
-- one-to-one,
-- one-to-many / many-to-one (depending on which side the relationship
+- **one-to-one**,
+- **one-to-many** / **many-to-one** (depending on which side the relationship
   is viewed from), or
-- many-to-many.
+- **many-to-many**.
 
 An attribute which represents one side of such an association must
 be annotated with a _relationship modeling annotation_:
