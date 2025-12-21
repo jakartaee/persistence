@@ -2832,7 +2832,7 @@ the `cascade` element applies to the map `value`.
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface ManyToMany {
-    Class targetEntity() default void.class;
+    Class<?> targetEntity() default void.class;
     CascadeType[] cascade() default {};
     FetchType fetch() default LAZY;
     String mappedBy() default "";
@@ -3005,7 +3005,7 @@ for the `ManyToOne` annotation and their default values.
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface ManyToOne {
-    Class targetEntity() default void.class;
+    Class<?> targetEntity() default void.class;
     CascadeType[] cascade() default {};
     FetchType fetch() default EAGER;
     boolean optional() default true;
@@ -3984,7 +3984,7 @@ owner of the relationship.
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface OneToMany {
-    Class targetEntity() default void.class;
+    Class<?> targetEntity() default void.class;
     CascadeType[] cascade() default {};
     FetchType fetch() default LAZY;
     String mappedBy() default "";
@@ -4155,7 +4155,7 @@ for the `OneToOne` annotation and their default values.
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface OneToOne {
-    Class targetEntity() default void.class;
+    Class<?> targetEntity() default void.class;
     CascadeType[] cascade() default {};
     FetchType fetch() default EAGER;
     boolean optional() default true;
