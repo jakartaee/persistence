@@ -131,7 +131,7 @@ at any time, any reference held by an entity to a collection instantiated by
 the application with a different provider-specific object implementing the
 same interface type.
 
-==== Persistent Attribute Type
+==== Persistent Attribute Type [[categories]]
 
 Every persistent field or property of an entity is either:
 
@@ -148,7 +148,7 @@ Every persistent field or property of an entity is either:
 
 The enumeration
 `jakarta.persistence.metamodel.Attribute.PersistentAttributeType`
-defines a classification of persistent entity attributes:
+defines a categorization of persistent entity attributes:
 
 - `BASIC` for basic attributes,
 - `EMBEDDED` for embedded attributes,
@@ -158,6 +158,16 @@ defines a classification of persistent entity attributes:
 
 Each persistent attribute of an entity belongs to exactly one of the
 listed types.
+
+- An attribute annotated `@Basic` is a basic attribute.
+- An attribute annotated `@Embedded` is an embedded attribute.
+- An attribute annotated `@ElementCollection` is an element collection.
+- An attribute annotated `@ManyToOne`, `@OneToOne`, `@OneToMany`, or
+  `@ManyToMany` is an association of the indicated multiplicity.
+
+If none of the above annotations occur on a persistent attribute,
+the defaulting rules specified below in <<a511>> determine which
+category it belongs to.
 
 An attribute of an entity must not have with mapping annotations
 indicating conflicting persistent attribute types. For example, a
@@ -1340,7 +1350,7 @@ The following Java types are considered _basic types_:
   Newly-written programs should use the date/time types defined in the package
   `java.time`.],
 - `Date`, `Time`, or `Timestamp` from `java.sql` footnote:[The use of date/time
-  types defined in the package `java.sql` is strongly discouraged. Newly-written
+  types defined in the package `java.sql` is strongly discouraged. Newly written
   programs should use the date/time types defined in `java.time`.],
 - `byte[]` or `char[]`.
 - any Java `enum` type,
@@ -1422,27 +1432,42 @@ If the `ElementCollection` annotation (or XML equivalent) is not
 specified for a collection-valued field or property, the rules of
 <<a511>> apply.
 
+An element collection must have declared type `java.util.Collection`,
+`java.util.Set`, `java.util.List`, or `java.util.Map`. Collections of
+type `Map` are special, and are described below in <<map-collections>>.
+
+When an element collection has declared type `Collection<E>`, `Set<E>`,
+or `List<E>`, the type argument `E` is taken, by default, to be its
+element type. The element type may be explicitly specified using the
+`targetClass` member of the `ElementCollection` annotation. If an
+element collection is declared with a raw type, the `targetClass`
+member must be explicitly specified.
+
 An element collection maps to a _collection table_, as defined in
 <<a14250>>.
 
-An embeddable class, including an embeddable class embedded within
-another embeddable class, that is contained, directly or indirectly,
-within an element collection:
+If an embeddable class, including an embeddable class embedded
+within another embeddable class, is contained, directly or
+indirectly, within an element collection:
 
-- must not have its own element collection;
-- must not have a one-to-many or many-to-many relationship to an
-  entity;
+- it must not have its own element collection;
+- it must not have a one-to-many or many-to-many relationship to
+  an entity;
 - but it may have a many-to-one or one-to-one association to an
   entity if the relationship is represented by a foreign key
   mapping, as defined in <<a516>>.
 
-=== Map Collections
+=== Map Collections [[map-collections]]
 
-Element collections and entity relationships can be represented as
-`java.util.Map` collections. Every such map collection has a key
-type and a value type. A key or value type may be a basic type,
-an embeddable class, or an entity type. The key type and map type
-are completely independent of each other.
+An element collection may be of type `java.util.Map`. Such a map
+collection has two different element types:
+
+- a _key type_ and
+- a _value type_.
+
+A key or value type may be a basic type, an embeddable class,
+or an entity type. The key type and map type are completely
+independent of one another.
 
 A map collection must be declared using an `ElementCollection`,
 `OneToMany`, or `ManyToMany` annotation:
@@ -1455,215 +1480,281 @@ A map collection must be declared using an `ElementCollection`,
 If a relationship is bidirectional relationship, only one side of
 the relationship may be of type `java.util.Map`.
 
-==== Map Keys
-
-If the map key type is a basic type, the
-`MapKeyColumn` annotation can be used to specify the column mapping for
-the map key. If the `MapKeyColumn` annotation is not specified, the
-default values of the `MapKeyColumn` annotation apply as described in <<a15367>>.
-
-If the map key type is an embeddable class,
-the mappings for the map key columns are defaulted according to the
-default column mappings for the embeddable class. (See <<a14330>>). The
-`AttributeOverride` and `AttributeOverrides` annotations can be used to
-override these mappings, as described in <<a14084>> and <<a14178>>. If an
-embeddable class is used as a map key, the embeddable class must
-implement the `hashCode` and `equals` methods consistently with the
-database columns to which the embeddable is
-mappedfootnote:[Note that when an
-embeddable instance is used as a map key, these attributes represent its
-identity. Changes to embeddable instances used as map keys have
-undefined behaviour and should be avoided.].
-
-If the map key type is an entity, the
-`MapKeyJoinColumn` and `MapKeyJoinColumns` annotations are used to
-specify the column mappings for the map key. If the primary key of the
-referenced entity is a simple primary key and the `MapKeyJoinColumn`
-annotation is not specified, the default values of the
-`MapKeyJoinColumn` annotation apply as described in <<a15450>>.
-
-If Java generic types are not used in the
-declaration of a relationship attribute of type `java.util.Map`, the
-`MapKeyClass` annotation must be used to specify the type of the key of
-the map.
-
-The `MapKey` annotation is used to specify
-the special case where the map key is itself the primary key or a
-persistent field or property of the entity that is the value of the map.
-The `MapKeyClass` annotation is not used when `MapKey` is specified.
-
 ==== Map Values
 
-When the value type of the map is a basic
-type or an embeddable class, a collection table is used to map the map.
-If Java generic types are not used, the `targetClass` element of the
-`ElementCollection` annotation must be used to specify the value type
-for the map. The default column mappings for the map value are derived
-according to the default mapping rules for the `CollectionTable`
-annotation defined in <<a14250>>. The `Column` annotation is used to override
-these defaults for a map value of basic type. The `AttributeOverride(s)` and `AssociationOverride(s)` annotations are used to override
-the mappings for a map value that is an embeddable class.
+When an element collection has declared type `Map<K,V>`, the type
+argument `V` is taken, by default, to be its value type. The value
+type may be explicitly specified using the `targetClass` member of
+the `ElementCollection` annotation. If an element collection is
+declared with a raw type, the `targetClass` member must be explicitly
+specified.
 
-When the value type of the map is an entity,
-a join table is used to map the map for a many-to-many relationship or,
-by default, for a one-to-many unidirectional relationship. If the
-relationship is a bidirectional one-to-many/many-to-one relationship, by
-default the map is mapped in the table of the entity that is the value
-of the map. If Java generic types are not used, the `targetEntity`
-element of the `OneToMany` or `ManyToMany` annotation must be used to
-specify the value type for the map. Default mappings are described in
-<<a538>>.
+When the value type of the map is a basic type or an embeddable class,
+the map maps to a collection table. The default column mappings for the
+map value are derived according to the default mapping rules for the
+`CollectionTable` annotation, as defined in <<a14250>>.
+
+- If the map value type is a basic type, the `Column` annotation is
+  used to override the default column mappings.
+
+- If the map value type is an embeddable class, the `AttributeOverride`
+  and `AssociationOverride` annotations are used to override the default
+  column mappings, as described in <<a14084>> and <<a13942>>.
+
+When the value type of a map is an entity type:
+
+- the map maps to a join table if the map represents a many-to-many
+  relationship or, by default, if it represents a unidirectional
+  one-to-many relationship, but
+- if the map represents the collection-valued side of a bidirectional
+  one-to-many/many-to-one relationship, then, by default, the map maps
+  to the primary table of the value entity type.
+
+In this case, default mappings are described in <<a538>>.
+
+==== Map Keys
+
+When an element collection has declared type `Map<K,V>`, the type
+argument `A` is taken, by default, to be its key type. The key type
+may be explicitly specified using the `MapKeyClass` annotation. If
+an element collection is declared with a raw type, the `MapKeyClass`
+annotation is required.
+
+When the map value type is an entity type, the `MapKey` annotation
+specifies that the map key is itself the primary key or a persistent
+field or property of the map value entity.
+
+The `MapKey` and `MapKeyClass` annotations are mutually exclusive;
+an element collection may have either a `@MapKey` or `@MapKeyClass`
+annotation, or neither, but not both.
+
+Dedicated annotations are provided for specifying column mappings
+for map keys:
+
+- If the map key type is a basic type, the `MapKeyColumn` annotation
+  is used to specify the column mapping for the map key. If the
+  `MapKeyColumn` annotation is not specified, the default values of
+  the `MapKeyColumn` annotation apply as described in <<a15367>>.
+
+- If the map key type is an embeddable class, the mappings for the
+  map key columns are defaulted according to the default column
+  mappings for the embeddable class. (See <<a14330>>). The
+  `AttributeOverride` annotation can be used to override these
+  default mappings, as described in <<a14084>>.
+
+- If the map key type is an entity type, the `MapKeyJoinColumn`
+  and `MapKeyJoinColumns` annotations are used to specify its
+  column mappings. If the primary key of the referenced entity
+  is a simple primary key and the `MapKeyJoinColumn` annotation
+  is not specified, the default values of the `MapKeyJoinColumn`
+  annotation apply as specified in <<a15450>>.
+
+When the map key type is an embeddable class, the embeddable class
+must implement the `hashCode` and `equals` methods consistently
+with the semantics of equality for the database columns to which
+the embeddable is mappedfootnote:[Note that when an embeddable
+instance is used as a map key, these attributes represent its
+identity. Modification of an embeddable instance used as a map key
+has undefined semantics and should be avoided.].
 
 === Mapping Defaults for Non-Relationship Fields or Properties [[a511]]
 
-If a persistent field or property other than a relationship property is
-_not_ annotated with one of the mapping annotations defined in <<a13915>>
-(and no equivalent mapping information is specified in any XML descriptor),
-the following default mapping rules are applied in order:
+If a persistent field or property other than a relationship property
+is _not_ annotated with one of the mapping annotations listed above in
+<<categories>>, and if no equivalent mapping information is supplied in
+any XML descriptor, the following defaulting rules are applied in order:
 
-- If the type of the field or property is a class annotated with the
-  `Embeddable` annotation, the field or property is mapped as if it were
-  annotated with the `Embedded` annotation. See <<a14634>> and <<a14672>>.
-- Otherwise, if the type of the field or property is one of the one of
-  the basic types listed in <<a486>>, it is mapped in the same way as if
-  it were annotated as `Basic`. See <<a14205>>, <<a14719>>, <<a15087>>,
-  and <<a16361>>.
+1. If the type of the field or property is a class annotated with the
+   `Embeddable` annotation, the field or property is treated as if it
+   were annotated with the `Embedded` annotation, as defined in <<a14634>>
+   and <<a14672>>.
+2. Otherwise, if the type of the field or property is one of the basic
+   types listed in <<a486>>, it is treated as if it were annotated as
+   `Basic`, as defined in <<a14205>>, <<a14719>>, <<a15087>>, and <<a16361>>.
 
-It is an error if no annotation is present and neither of the above rules
-apply.
+If no annotation is present and neither of the above rules is applicable,
+the behavior is undefined. A persistence provider might report an error
+when the persistence unit is initialized.
 
 === Entity Relationships [[a516]]
 
-Relationships among entities may be
-one-to-one, one-to-many, many-to-one, or many-to-many. Relationships are
-polymorphic.
+Every relationship (or association) between two entity types has
+well-defined _multiplicity_, either:
 
-If there is an association between two
-entities, one of the following relationship modeling annotations must be
-applied to the corresponding persistent property or field of the
-referencing entity: `OneToOne`, `OneToMany`, `ManyToOne`,
-`ManyToMany`. For associations that do not specify the target type
-(e.g., where Java generic types are not used for collections), it is
-necessary to specify the entity that is the target of the
-relationship.footnote:[For associations of
-type `java.util.Map`, _target type_ refers to the type that is the Map
-`value`.] Equivalent XML elements may be used
-as an alternative to these mapping annotations.
+- one-to-one,
+- one-to-many / many-to-one (depending on which side the relationship
+  is viewed from), or
+- many-to-many.
 
-_These annotations mirror common practice in
-relational database schema modeling. The use of the relationship
-modeling annotations allows the object/relationship mapping of
-associations to the relational database schema to be fully defaulted, to
-provide an ease-of-development facility. This is described in <<a538>>._
+An attribute which represents one side of such an association must
+be annotated with a _relationship modeling annotation_:
 
-Relationships may be bidirectional or
-unidirectional. A bidirectional relationship has both an owning side and
-an inverse (non-owning) side. A unidirectional relationship has only an
-owning side. The owning side of a relationship determines the updates to
-the relationship in the database, as described in <<a1955>>.
+- `OneToOne` if the association has one-to-one multiplicity--in
+  which case the declared type of the attribute must be an entity
+  type,
+- `ManyToOne` if the association has many-to-one multiplicity
+  and the declared type of the attribute is an entity type--that
+  is, if it is the many-valued (child) side of the association,
+- `OneToMany` if the association has one-to-many multiplicity
+  and the declared type of the attribute is a collection type--that
+  is, if it is the single-valued (parent) side of the association, or
+- `ManyToMany` if the association has many-to-many multiplicity--in
+  which case the declared type of the attribute must be a collection
+  type.
 
-The following rules apply to bidirectional
-relationships:
+[NOTE]
+These annotations mirror common practice in relational database schema
+modeling. The use of the relationship modeling annotations allows the
+object/relationship mapping of associations to the relational database
+schema to be fully defaulted, to provide an ease-of-development facility.
+This is described in <<a538>>.
 
-The inverse side of a bidirectional
-relationship must refer to its owning side by use of the `mappedBy`
-element of the `OneToOne`, `OneToMany`, or `ManyToMany` annotation.
-The `mappedBy` element designates the property or field in the entity
-that is the owner of the relationship.
+For an attribute annotated `OneToOne` or `ManyToOne`, the declared
+type of the attribute is taken to be the associated entity type. If
+the declared type is not an entity type, the `targetClass` member
+must be explicitly specified, or this information must be supplied
+in the XML descriptor.
 
-* The many side of one-to-many / many-to-one
-bidirectional relationships must be the owning side, hence the
-`mappedBy` element cannot be specified on the `ManyToOne` annotation.
-* For one-to-one bidirectional relationships,
-the owning side corresponds to the side that contains the corresponding
-foreign key.
-* For many-to-many bidirectional relationships
-either side may be the owning side.
+For an attribute annotated `OneToMany` or `ManyToMany`, the type of
+the attribute is a collection type.
 
-The relationship modeling annotation
-constrains the use of the `cascade=REMOVE` specification. The
-`cascade=REMOVE` specification should only be applied to associations
-that are specified as `OneToOne` or `OneToMany`. Applications that
-apply `cascade=REMOVE` to other associations are not portable.
+- If the attribute has declared type `Collection<E>`, `Set<E>`, or
+  `List<E>`, the associated entity type is taken to be the type
+  argument `E`.
+- If the attribute has declared type `Map<K,V>`, the associated
+  entity type is taken to be the second type argument `V`.
 
-Associations that are specified as `OneToOne`
-or `OneToMany` support use of the `orphanRemoval` option. The following
-behaviors apply when `orphanRemoval` is in effect:
+If the inferred type `E` or `V` is not an entity type, or if the
+declared type of the attribute is a raw type, the `targetClass`
+member must be explicitly specified, or this information must be
+supplied in the XML descriptor.
 
-* If an entity that is the target of the
-relationship is removed from the relationship (by setting the
-relationship to null or removing the entity from the relationship
-collection), the remove operation will be applied to the entity being
-orphaned. The remove operation is applied at the time of the flush
-operation. The `orphanRemoval` functionality is intended for entities
-that are privately “owned” by their parent entity. Portable applications
-must otherwise not depend upon a specific order of removal, and must not
-reassign an entity that has been orphaned to another relationship or
-otherwise attempt to persist it. If the entity being orphaned is a
-detached, new, or removed entity, the semantics of `orphanRemoval` do
-not apply.
-* If the remove operation is applied to a
-managed source entity, the remove operation will be cascaded to the
-relationship target in accordance with the rules of <<a1946>>,
-(and hence it is not necessary to specify `cascade=REMOVE` for the
-relationship)footnote:[If the parent is
-detached or new or was previously removed before the orphan was
-associated with it, the remove operation is not applied to the entity
-being orphaned.].
+Relationships are polymorphic. A relationship to an entity which has
+entity subclasses may be populated with an instance or instances of
+the subclass.
 
-<<a538>>, defines relationship mapping defaults
-for entity relationships. Additional mapping annotations (e.g., column
-and table mapping annotations) may be specified to override or further
-refine the default mappings and mapping strategies described in <<a538>>.
+A relationship may be _bidirectional_ or _unidirectional_.
 
-In addition, this specification also requires
-support for the following alternative mapping strategies:
+- Every bidirectional relationship has both an _owning_ side and an
+  _inverse_ (or _non-owning_, or _unowned_) side.
+- A unidirectional relationship has only an owning side.
 
-* The mapping of unidirectional one-to-many
-relationships by means of foreign key mappings. The `JoinColumn`
-annotation or corresponding XML element must be used to specify such
-non-default mappings. See <<a14922>>.
-* The mapping of unidirectional and
-bidirectional one-to-one relationships, bidirectional
-many-to-one/one-to-many relationships, and unidirectional many-to-one
-relationships by means of join table mappings. The `JoinTable`
-annotation or corresponding XML element must be used to specify such
-non-default mappings. See <<a15022>>.
+Modifications to the owning side of a relationship determine the
+updates made to the relationship in the database, as described in
+<<a1955>>. If the inverse side of an association is modified without
+a corresponding modification to the owning side, the behavior is
+undefined. The persistence provider is permitted to ignore any
+modification made only to the inverse side of a bidirectional
+association.
 
-Such mapping annotations must be specified on
-the owning side of the relationship. Any overriding of mapping defaults
-must be consistent with the relationship modeling annotation that is
-specified. For example, if a many-to-one relationship mapping is
-specified, it is not permitted to specify a unique key constraint on the
-foreign key for the relationship.
+The following rules apply to bidirectional relationships:
 
-The persistence provider handles the
-object/relational mapping of the relationships, including their loading
-and storing to the database as specified in the metadata of the entity
-class, and the referential integrity of the relationships as specified
-in the database (e.g., by foreign key constraints).
+The inverse side of a bidirectional relationship must identify the
+owning side by specifying the `mappedBy` element of the `OneToOne`,
+`OneToMany`, or `ManyToMany` annotation. The `mappedBy` element
+specifies the name of the property or field of the associated entity
+that represents the owning side of the relationship.
+
+* The many-valued side of one-to-many / many-to-one bidirectional
+  relationships must be the owning side; therefore, the `ManyToOne`
+  annotation does not have a `mappedBy` element.
+* The owning side of a one-to-one bidirectional relationship is
+  declared by the entity mapped to the table that contains the
+  corresponding foreign key column, unless the relationship
+  maps to a join table, in which case either side may be declared
+  as the owning side.
+* A many-to-many bidirectional relationship always maps to a join
+  table, and so either side may be declared as the owning side.
+
+The `cascade` member of a relationship modeling annotation specifies
+a list of persistence operations which should be cascaded to the
+associated entity, as specified below in <<a1929>>. An attribute
+annotated `ManyToOne` or `ManyToMany` must not specify `REMOVE`
+among its cascaded operation types. An application which specifies
+`cascade=REMOVE` for a `ManyToOne` or `ManyToMany` associations is
+not portable.
+
+The `orphanRemoval` member of the `OneToOne` and `OneToMany`
+controls the enablement of _orphan removal_; `orphanRemoval=true`
+activates the following behaviors:
+
+* If a managed entity instance is removed from the relationship by setting
+  the relationship attribute to `null` or by removing the entity from the
+  relationship collection, the remove operation is applied to the orphaned
+  entity. The remove operation occurs when the persistence context is flushed,
+  as defined below in <<a1955>>. If an entity being orphaned is a detached,
+  new, or removed entity, it is ignored by orphan removal.
+* If the remove operation is applied to a managed entity, the remove operation
+  is cascaded to the relationship target in accordance with the rules of <<a1946>>,
+  and it is not therefore necessary to explicitly specify `cascade=REMOVE` for
+  a relationship declared with `orphanRemoval=true`.footnote:[If the parent is
+  detached or new, or was previously removed before the orphan was associated
+  with it, the remove operation is not applied to the entity being orphaned.]
+
+The `orphanRemoval` functionality is intended for child entities that are
+privately owned by their parent entity. Portable applications must not depend
+on a specific timing of the removal operation and must not reassign an entity
+that has been orphaned to another relationship, nor otherwise attempt to make it
+persistent, reversing the effect of orphan removal.
+
+This specification recognizes two basic strategies for mapping an association:
+
+- In a _foreign key mapping_, the relationship is mapped to a foreign key
+  column in a (primary or secondary) table of one of the participating
+  entities, known as the _child entity_.
+- In a _join table mapping_, the relationship is mapped to a dedicated
+  intermediate join table that represents the association itself.
+
+<<a538>> specifies default mappings for entity relationships. These defaulted
+mappings may be customized through the use of mapping annotations or via an XML
+descriptor. Furthermore, this specification requires support for the following
+additional mapping strategies:
+
+* A unidirectional one-to-many relationship may be mapped to a foreign key
+  column of the primary table of the target entity. The `JoinColumn`
+  annotation found in <<a14922>> or equivalent XML element must be used to
+  indicate this mapping strategy.
+
+* A unidirectional or bidirectional one-to-one relationship,
+  bidirectional many-to-one/one-to-many relationship, or unidirectional
+  many-to-one relationships may be mapped to a join table. The `JoinTable`
+  annotation found in <<a15022>> or corresponding XML element must be used
+  to indicate this mapping strategy.
+
+Annotations which customize the mapping of a relationship must be specified
+on the owning side of a bidirectional relationship. If a mapping annotation
+is specified on the inverse side of a bidirectional relationship, the
+behavior is undefined. A persistence provider might produce an error when
+the persistence unit is initialized.
+
+Any overriding of mapping defaults must be consistent with the multiplicity
+implied by relationship modeling annotation. For example, a `ManyToMany`
+association must not be mapped to a join table with a unique key constraint
+on a foreign key.
+
+The persistence provider handles the object/relational mapping of a
+relationship, including their persistence in the database, according to the
+metadata provided along with the entity class and the referential integrity
+constraints existing in the database (e.g., foreign key constraints).
 
 [NOTE]
 ====
-Note that it is the application that bears
-responsibility for maintaining the consistency of runtime
-relationships—for example, for insuring that the “one” and the “many”
-sides of a bidirectional relationship are consistent with one another
-when the application updates the relationship at runtime.
+The application bears responsibility for maintaining the consistency of
+relationships--for example, the application must ensure that the “one” and
+“many” sides of a bidirectional relationship are consistent with one another
+when the application modifies either side at runtime.
 ====
 
-If there are no associated entities for a
-multi-valued relationship of an entity fetched from the database, the
-persistence provider is responsible for returning an empty collection as
-the value of the relationship.
+When a `OneToMany` or `ManyToMany` relationship has no associated entities,
+the persistence provider must populate the attribute with an empty collection
+when loading an entity from the database.
 
 === Relationship Mapping Defaults [[a538]]
 
-This section defines the mapping defaults
-that apply to the use of the `OneToOne`, `OneToMany`, `ManyToOne`,
-and `ManyToMany` relationship modeling annotations. The same mapping
-defaults apply when the XML descriptor is used to denote the
-relationship cardinalities.
+This section defines the mapping defaults that apply to entity associations
+declared using the relationship modeling annotations defined above in <<a516>>.
+These mapping defaults also apply when the XML descriptor is used to declare
+a relationship.
 
 ==== Bidirectional OneToOne Relationships
 
@@ -2161,33 +2252,32 @@ primary key column of table `PATENT`.
 
 === Inheritance [[a765]]
 
-An entity may inherit from another entity
-class. Entities support inheritance, polymorphic associations, and
-polymorphic queries.
+An entity class might inherit another entity class. If this is the case,
+then:
 
-Both abstract and concrete classes can be
-entities. Both abstract and concrete classes can be annotated with the
-`Entity` annotation, mapped as entities, and queried for as entities.
+- any association targeting the second entity class is by nature a
+  polymorphic association, and may reference an instance of the first
+  entity class, and
+- any Jakarta Persistence query against the second entity class is also
+  polymorphic and may return an instance of the first entity class.
 
-Entities can extend non-entity classes and
-non-entity classes can extend entity classes.
+An abstract class may be annotated `Entity` or declared as an `entity`
+in its XML descriptor. An abstract entity class may participate in a
+relationship, and may occur in the `from` clause of a query.
 
-These concepts are described further in the
-following sections.
+An entity might extend a non-entity class, and a non-entity class might
+extend an entity class.
+
+These concepts are described further in the following sections.
 
 ==== Abstract Entity Classes
 
-An abstract class can be specified as an
-entity. An abstract entity differs from a concrete entity only in that
-it cannot be directly instantiated. An abstract entity is mapped as an
-entity and can be the target of queries (which will operate over and/or
-retrieve instances of its concrete subclasses).
+An abstract entity differs from a concrete entity only in that it cannot
+be directly instantiated. This specification defines no special restrictions
+applying only to abstract entity classes.
 
-An abstract entity class is annotated with
-the `Entity` annotation or denoted in the XML descriptor as an entity.
-
-The following example shows the use of an
-abstract entity class in the entity inheritance hierarchy.
+The following example shows the use of an abstract entity class in an entity
+inheritance hierarchy.
 
 *Example: Abstract class as an Entity*
 
@@ -2237,40 +2327,45 @@ public class PartTimeEmployee extends Employee {
 
 ==== Mapped Superclasses
 
-An entity may inherit from a superclass that
-provides persistent entity state and mapping information, but which is
-not itself an entity. Typically, the purpose of such a mapped superclass
-is to define state and mapping information that is common to multiple
-entity classes.
+An entity might inherit a superclass that declares persistent entity state and
+mapping information, but which is not itself an entity. Typically, the purpose
+of such a _mapped superclass_ is to define state and mapping information that
+is common across multiple entity classes but which maps to disparate, unrelated
+database tables.
 
-A mapped superclass, unlike an entity, is not
-queryable and must not be passed as an argument to `EntityManager`, `EntityAgent`, or
-`Query` operations. Persistent relationships defined by a mapped
-superclass must be unidirectional.
+A mapped superclass must be annotated with the `MappedSuperclass` annotation or
+declares as a `mapped-superclass` in its XML descriptor.
 
-Both abstract and concrete classes may be
-specified as mapped superclasses. The `MappedSuperclass` annotation (or
-`mapped-superclass` XML descriptor element) is used to designate a
-mapped superclass.
+A mapped superclass might be an abstract class or a concrete class.
 
-A class designated as a mapped superclass has
-no separate table defined for it. Its mapping information is applied to
-the entities that inherit from it.
+A mapped superclass, unlike an entity, is not queryable and must not be passed
+as an argument to `EntityManager`, `EntityAgent`, or `Query` operations.
+
+Persistent relationships involving by a mapped superclass must be unidirectional.
+
+- A mapped superclass may declare a unidirectional association to an entity
+  class, but
+- the mapped superclass must not be the target of an association declared by
+  any other class.
+
+A mapped superclass never maps to a database table. The persistent state
+inherited by an entity from a mapped superclass maps to a table determined
+by the entity itself, as if the attributes of the mapped superclass were
+declared by the entity which most directly inherits the mapped superclass.
 
 The persistent attributes of a mapped superclass may be mapped in the same
-way as the attributes of an entity class. Such mappings apply only to the
-entity subclasses of the mapped superclass, since no table exists for the
-mapped superclass itself. When applied to a subclass, the inherited mappings
-are interpreted in the context of the tables mapped by subclass. Mapping
-information inherited from a mapped superclass can be overridden in such
-subclasses using the `AttributeOverride` and `AssociationOverride`
-annotations or corresponding XML elements.
+way as the attributes of an entity class. Such mappings are meaningful only
+in the context of an entity subclass of the mapped superclass, since no table
+exists for the mapped superclass itself. From the point of view of such an
+entity subclass, the inherited mappings are interpreted in the context of the
+tables mapped by the subclass. Mapping information inherited from a mapped
+superclass can be overridden in such subclasses using the `AttributeOverride`
+and `AssociationOverride` annotations or corresponding XML elements.
 
-All other entity mapping defaults apply
-equally to a class designated as a mapped superclass.
+All other entity mapping defaults apply equally to a mapped superclass.
 
-The following example illustrates the
-definition of a concrete class as a mapped superclass.
+The following example illustrates the use of a concrete class as a mapped
+superclass.
 
 *Example: Concrete class as a mapped superclass*
 
@@ -2334,27 +2429,26 @@ public class PartTimeEmployee extends Employee {
 
 ==== Non-Entity Classes in the Entity Inheritance Hierarchy
 
-An entity can have a non-entity
-superclass, which may be either a concrete or abstract
-class.footnote:[The superclass must
-not be an embeddable class or id class.]
+An entity might inherit a non-entity superclass, which might be concrete
+or abstract.footnote:[The superclass must not be an embeddable class or
+id class.]
 
-The non-entity superclass serves for
-inheritance of behavior only. The state of a non-entity superclass is
-not persistent. Any state inherited from non-entity superclasses is
-non-persistent in an inheriting entity class. This non-persistent state
-is not managed by the entity managerfootnote:[If a
-transaction-scoped persistence context is used, it is not required to be
-retained across transactions.]. Any
-annotations on such superclasses are ignored.
+The non-entity superclass serves for inheritance of behavior only. The
+state of a non-entity superclass is not persistent. Any state inherited
+from a non-entity superclass is treated as if it were declared `@Transient`
+by the inheriting entity class. This non-persistent state is not managed by
+the entity managerfootnote:[If a transaction-scoped persistence context is
+used, it is not required to be retained across transactions.].
 
-Non-entity classes cannot be passed as
-arguments to methods of the `EntityManager`, `EntityAgent`, or `Query`
-interfacesfootnote:[This includes
-instances of a non-entity class that extends an entity class.] and cannot bear mapping information.
+When a non-entity class is annotated with an annotation type defined by this
+specification, the behavior is undefined. The persistence provider might simply
+ignore such annotations.
 
-The following example illustrates the use of
-a non-entity class as a superclass of an entity.
+A non-entity class cannot be passed as an argument to a method of the `EntityManager`, `EntityAgent`, or `Query` interfacefootnote:[This includes
+instances of a non-entity class that extends an entity class.].
+
+The following example illustrates the use of a non-entity class as a superclass
+of an entity class.
 
 *Example: Non-entity superclass*
 
@@ -2400,7 +2494,8 @@ public class ShoppingCart extends Cart {
 
 === Inheritance Mapping Strategies [[a966]]
 
-The mapping of class hierarchies is specified through metadata.
+The mapping of entity class hierarchies to database tables is specified
+through metadata.
 
 There are three basic strategies which may be used when mapping an
 entity class hierarchy to tables in a relational database.
@@ -2416,90 +2511,88 @@ entity class hierarchy to tables in a relational database.
   declared by its superclass. Table joins may be used to retrieve all
   fields declared and inherited by the subclass.
 
-An implementation is required to support the single table per class
-hierarchy inheritance mapping strategy and the joined subclass strategy.
+These mapping strategies are enumerated by `jakarta.persistence.InheritanceType`,
+and the mapping strategy for an entity class hierarchy may be specified by
+the `Inheritance` annotation or `inheritance` element of an XML descriptor.
+
+An implementation of this specification is required to support the single
+table per class hierarchy inheritance mapping strategy and the joined
+subclass strategy.
 
 [NOTE]
 ====
 Support for the table per concrete class inheritance mapping strategy
 is optional in this release. Applications that use this mapping strategy
 are not portable between all providers.
-
-Support for the combination of inheritance strategies within a single entity
-inheritance hierarchy is not required by this specification.
 ====
+
+Support for the combination of inheritance strategies within a single
+entity inheritance hierarchy is not required by this specification.
 
 ==== Single Table per Class Hierarchy Strategy
 
-In this strategy, all the classes in a
-hierarchy are mapped to a single table. The table has a column that
-serves as a “discriminator column”, that is, a column whose value
-identifies the specific subclass to which the instance that is
-represented by the row belongs.
+In this strategy, all classes in a hierarchy mapp to the same table.
+The table has a column serving as a _discriminator column_, that is,
+a column whose value identifies the specific subclass to which the
+entity instance that is represented by a row of the table belongs.
 
-This mapping strategy provides good support
-for polymorphic relationships between entities and for queries that
-range over the class hierarchy.
+This mapping strategy provides good support for polymorphic relationships
+between entities and for queries that range over the class hierarchy.
 
-It has the drawback, however, that it
-requires that the columns that correspond to state specific to the
+Its drawback is that it requires that columns mapped by attributes of
 subclasses be nullable.
 
 ==== Joined Subclass Strategy
 
-In the joined subclass strategy, the root of
-the class hierarchy is represented by a single table. Each subclass is
-represented by a separate table that contains those fields that are
-specific to the subclass (not inherited from its superclass), as well as
-the column(s) that represent its primary key. The primary key column(s)
-of the subclass table serves as a foreign key to the primary key of the
-superclass table.
+In this strategy:
 
-This strategy provides support for
-polymorphic relationships between entities.
+- The root of the class hierarchy is represented by a table with
+  columns mapped by attributes declared by the root class.
+- Each subclass is represented by a separate table containing
+  only those columns that are mapped by attributes declared by that
+  subclass (and not inherited from its superclass), along with the
+  column or columns holding its primary key. The primary key of the
+  subclass table doubles as a foreign key of the superclass table.
 
-It has the drawback that it requires that one
-or more join operations be performed to instantiate instances of a
-subclass. In deep class hierarchies, this may lead to unacceptable
-performance. Queries that range over the class hierarchy likewise
-require joins.
+This strategy provides good support for polymorphic relationships
+between entities and is very well normalized.
+
+Its drawback is that it requires at least one `JOIN` operation to
+retrieve instances of a subclass. In a very deep class hierarchy,
+this might lead to poor performance. Queries that range over the
+class hierarchy likewise require joins.
 
 ==== Table per Concrete Class Strategy
 
-In this mapping strategy, each class is
-mapped to a separate table. All properties of the class, including
-inherited properties, are mapped to columns of the table for the class.
+In this mapping strategy, each concrete class in the hierarchy is
+mapped to a completely separate table. Every attribute of the class,
+including inherited attributes, maps to a column or columns of the
+table belonging to the concrete class.
 
 This strategy has the following drawbacks:
 
-* It provides poor support for polymorphic relationships.
-* It typically requires that SQL `UNION` queries
-(or a separate SQL query per subclass) be issued for queries that are
-intended to range over the class hierarchy.
+* It provides very poor support for polymorphic relationships.
+* It requires the use of a SQL `UNION` queries (or multiple SQL queries)
+  when a query ranges over the class hierarchy.
+
+This inheritance mapping strategy is not required in the current
+release of this specification.
 
 === Naming of Database Objects [[a988]]
 
-Many annotations and annotation elements
-contain names of database objects or assume default names for database
-objects.
+This specification defines many annotations with elements referencing
+database objects by name, and rules defining the default name when such
+an annotation element is not explicitly specified. These names include
+the names of tables, columns, sequences, stored procedures, and so on.
 
-This specification requires the following
-with regard to the interpretation of the names referencing database
-objects. These names include the names of tables, columns, and other
-database elements. Such names also include names that result from
-defaulting (e.g., a table name that is defaulted from an entity name or
-a column name that is defaulted from a field or property name).
+By default, the name of a database object must be treated as an
+undelimited (unquoted) identifier and passed to the database as such.
 
-By default, the names of database objects
-must be treated as undelimited identifiers and passed to the database as
-such.
-
-For example, assuming the use of an English
-locale, the following must be passed to the database as undelimited
-identifiers so that they will be treated as equivalent for all databases
-that comply with the SQL Standard's requirements for the treatment of
-“regular identifiers” (undelimited identifiers) and “delimited
-identifiers” <<a19494>>:
+For example, assuming the use of an English locale, the following
+table names must be passed to the database as undelimited identifiers
+so that they will be treated as equivalent by all databases that comply
+with the requirements of the SQL Standard for the treatment of
+“regular identifiers” and “delimited identifiers” <<a19494>>:
 
 [source,java]
 ----
@@ -2508,7 +2601,7 @@ identifiers” <<a19494>>:
 @Table(name="cUsTomer")
 ----
 
-Similarly, the following must be treated as equivalent:
+Similarly, the following column names should be treated as equivalent:
 
 [source,java]
 ----
@@ -2521,26 +2614,34 @@ Similarly, the following must be treated as equivalent:
 @ManyToOne Customer customer;
 ----
 
-To specify delimited identifiers, one of the
-following approaches must be used:
+This behavior relieves the developer of the need to explicitly specify
+a table or column name when the name of differs only in case from the
+defaulted name derived from the name of the mapped entity or attribute.
 
-* It is possible to specify that all database
-identifiers in use for a persistence unit be treated as delimited
-identifiers by specifying the `<delimited-identifiers/>` element within
-the `<persistence-unit-defaults>` element of the object/relational XML
-mapping file. If the `<delimited-identifiers/>` element is specified, it
-cannot be overridden.
-* It is possible to specify on a per-name basis
-that a name for a database object is to be interpreted as a delimited
-identifier as follows:
-** Using annotations, a name is specified as a
-delimited identifier by enclosing the name within double quotes, whereby
-the inner quotes are escaped, e.g., `@Table(name="\"customer\"")`.
-** When using XML, a name is specified as
-a delimited identifier by use of double quotes, e.g., `<table name="\&quot;customer\&quot;"/>` footnote:[If
-<delimited-identifiers> is specified and individual annotations or XML
-elements or attributes use escaped double quotes, the double-quotes
-appear in the name of the database identifier.]
+There are two ways to specify that a delimited (quoted) identifier
+should be passed to the database.
+
+- The `<delimited-identifiers/>` element within the
+  `<persistence-unit-defaults>` element of the object/relational XML
+  mapping file specifies that all database identifiers in use by a
+  persistence unit must be treated as delimited identifiers. If the
+  `<delimited-identifiers/>` element is specified, it cannot be
+  overridden.
+
+- Alternatively, when the `<delimited-identifiers>` element is not
+  specified, and the name of a database object given by an annotation
+  member or in an XML mapping is enclosed within escaped double quotes,
+  for example,
+
+  * `@Table(name="\"customer\"")`, or
+  * `<table name="\&quot;customer\&quot;"/>`,
+
++
+the name is treated as a delimited identifier.
+
+When `<delimited-identifiers>` is specified, every escaped double quote
+within an annotation member or XML element or attribute is interpreted
+literally as part of the name of the database identifier.
 
 The following annotations contain elements
 whose values correspond to names of database identifiers and for which
