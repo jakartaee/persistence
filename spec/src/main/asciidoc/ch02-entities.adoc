@@ -135,14 +135,14 @@ same interface type.
 
 Every persistent field or property of an entity is either:
 
-- an attribute of _basic type_, as defined in <<a486>>, or of a type
+- an attribute of **basic type**, as defined in <<a486>>, or of a type
   converted to a basic type through use of a _converter_, as defined
   in <<a2999>>,
-- an _embedded attribute_ whose type is a fine-grained embeddable
+- an **embedded attribute** whose type is a fine-grained embeddable
   class, as defined <<a487>>,
-- an _element collection_, that is, a collection whose elements are
+- an **element collection**, that is, a collection whose elements are
   instances of a basic type or embeddable class,
-- a _relationship_ (or _association_) with another entity type,
+- a **relationship** (or **association**) with another entity type,
   which is further classified by its multiplicity: one-to-one,
   many-to-one, one-to-many, or many-to-many.
 
