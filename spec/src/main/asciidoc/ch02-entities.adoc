@@ -2504,13 +2504,13 @@ through metadata.
 There are three basic strategies which may be used when mapping an
 entity class hierarchy to tables in a relational database.
 
-* With a _single table per class hierarchy_, every field declared by
+* With a **single table per class hierarchy**, every field declared by
   any class in the hierarchy maps to a column of the same table.
   A subclass shares the table of its superclasses.
-* With a _table per concrete entity class_, every field declared or
+* With a **table per concrete entity class**, every field declared or
   inherited by a given subclass is mapped to the same table, but each
   concrete class in the hierarchy has its own separate table.
-* For the _joined subclass_ strategy, any field which is declared by
+* For the **joined subclass** strategy, any field which is declared by
   a subclass is mapped to a separate table from the fields which are
   declared by its superclass. Table joins may be used to retrieve all
   fields declared and inherited by the subclass.
