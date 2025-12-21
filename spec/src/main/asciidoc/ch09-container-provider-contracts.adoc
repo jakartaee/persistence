@@ -248,58 +248,64 @@ classloader hierarchy at a given time.
 
 === Schema Generation [[a12917]]
 
-In cases where a preconfigured database (or a
-“legacy” database) is not used or is not available, the Jakarta Persistence
-schema generation facility may be used to generate the tables and other
-database artifacts required by the persistence application. Whether
-schema generation entails the creation of schemas proper in the database
-is determined by the environment and the configuration of the schema
-generation process, as described below.
+In cases where a preconfigured database (or “legacy” database) is not
+in use or is not available, the Jakarta Persistence schema generation
+facility may be used to generate the tables and other database artifacts
+required by the persistence application. Whether schema generation entails
+the creation of schemas proper in the database is determined by the
+environment and by the configuration of the schema generation process,
+as described below.
 
-Schema generation may happen either prior to
-application deployment or when the entity manager factory is created as
-part of the application deployment and initialization process.
+Schema generation may happen either prior to application deployment or
+when the `EntityManagerFactory` is created as part of the application
+deployment and initialization process.
 
-* In Jakarta EE environments, the container may
-call the `PersistenceProvider` `generateSchema` method separately from
-and/or prior to the creation of the entity manager factory for the
-persistence unit, or the container may pass additional information to
-the `createContainerEntityManagerFactory` call to cause schema
-generation to happen as part of the entity manager factory creation and
-application initialization process. The information passed to these
-methods controls whether the generation occurs directly in the target
-database, whether DDL scripts for schema generation are created, or
-both.
-* In Java SE environments, the application may
-call the `Persistence` `generateSchema` method separately from and/or
-prior to the creation of the entity manager factory or may pass
-information to the `createEntityManagerFactory` method to cause schema
-generation to occur as part of the entity manager factory creation.
+* In Jakarta EE environments, the container may call the static method
+  `PersistenceProvider.generateSchema()` separately from and/or prior
+  to the creation of the entity manager factory for a persistence unit,
+  or the container may pass additional information to the
+  `createContainerEntityManagerFactory()` call that causes schema
+  generation to happen as part of the entity manager factory creation
+  and application initialization process.
+* In Java SE environments, the application may call the static method
+  `Persistence.generateSchema()` method separately from and/or prior
+  to the creation of the entity manager factory or may pass information
+  to the `createEntityManagerFactory()` method to cause schema
+  generation to occur as part of the entity manager factory creation.
 
-The application may provide DDL scripts to be
-used for schema generation as described in <<a12384>>. The application developer
-may package these scripts as part of the persistence unit or may specify
-strings corresponding to file URLs for the location of such scripts. In
-Jakarta EE environments, such scripts may be executed by the container, or
-the container may direct the persistence provider to execute the
-scripts. In Java SE environments, the execution of the scripts is the
-responsibility of the persistence provider. In the absence of the
-specification of scripts, schema generation, if requested, is
-determined by the object/relational metadata of the persistence unit.
+The information passed to these methods in the form of property settings
+controls whether:
 
-The following standard properties are defined
-for configuring the schema generation process. In Jakarta EE environments
-these properties are passed by the container in the `Map` argument to
-either the `PersistenceProvider` `generateSchema` method or the
-`createContainerEntityManagerFactory` method. In Java SE environments,
-they are passed in the `Map` argument to either the `Persistence`
-`generateSchema` method or `createEntityManagerFactory` method.
+- generation occurs directly in the target database,
+- DDL scripts for schema generation are created as files,
+- or both.
 
-In Jakarta EE environments, any strings
-corresponding to file URLs for script sources or targets must specify
-absolute paths (not relative). In Jakarta EE environments, all source and
-target file locations must be accessible to the application server
-deploying the persistence unit.
+The application may provide DDL scripts to be used for schema generation,
+as described in <<a12384>>. The application developer may package these
+scripts as part of the persistence unit or may specify file URLs identifying
+the location of such scripts as strings.
+
+- In Jakarta EE environments, such scripts may be executed by the container,
+  or the container may direct the persistence provider to execute the scripts.
+- In Java SE environments, execution of the scripts is the responsibility of
+  the persistence provider.
+
+In the absence of the specification of scripts, schema generation, if requested,
+is determined by the object/relational metadata of the persistence unit.
+
+The following standard properties are defined for configuring the schema
+generation process.
+
+- In Jakarta EE environments these properties are passed by the container
+  in the `Map` argument to either `PersistenceProvider.generateSchema()`
+  or `createContainerEntityManagerFactory()`.
+- In Java SE environments, they are passed in the `Map` argument to either
+  the `Persistence.generateSchema()` or `createEntityManagerFactory()`.
+
+In Jakarta EE environments, any strings identifying file URLs of script
+sources or targets must specify absolute paths (not relative), and all
+source and target file locations must be accessible to the application
+server deploying the persistence unit.
 
 [NOTE]
 ====
