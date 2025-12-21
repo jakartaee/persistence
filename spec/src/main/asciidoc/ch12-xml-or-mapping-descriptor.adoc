@@ -622,10 +622,10 @@ The `attributes` element groups the mapping
 subelements for the fields and properties of the entity. It may be
 sparsely populated to include only a subset of the fields and
 properties. If the value of `metadata-complete` is `true`, the
-remainder of the attributes will be defaulted according to the default
+remainder of the attributes are defaulted according to the default
 rules. If `metadata-complete` is not specified, or is `false`, the
 mappings for only those properties and fields that are explicitly
-specified will be overridden.
+specified are overridden.
 
 ====== id
 
@@ -788,10 +788,10 @@ The `attributes` element groups the mapping
 subelements for the fields and properties defined by the mapped
 superclass. It may be sparsely populated to include only a subset of the
 fields and properties. If the value of `metadata-complete` is `true`,
-the remainder of the attributes will be defaulted according to the
+the remainder of the attributes are defaulted according to the
 default rules. If `metadata-complete` is not specified, or is `false`,
 the mappings for only those properties and fields that are explicitly
-specified will be overridden.
+specified are overridden.
 
 ====== id
 
@@ -908,10 +908,10 @@ The `attributes` element groups the mapping
 subelements for the fields and properties defined by the embeddable
 class. It may be sparsely populated to include only a subset of the
 fields and properties. If the value of `metadata-complete` is `true`,
-the remainder of the attributes will be defaulted according to the
+the remainder of the attributes are defaulted according to the
 default rules. If `metadata-complete` is not specified, or is `false`,
 the mappings for only those properties and fields that are explicitly
-specified will be overridden.
+specified are overridden.
 
 ====== basic
 
