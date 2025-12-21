@@ -1507,7 +1507,7 @@ to specify the value of the discriminator column for entities of the
 given type. The `DiscriminatorValue` annotation can only be specified on
 a concrete entity class. If the `DiscriminatorValue` annotation is not
 specified and a discriminator column is used, a provider-specific
-function will be used to generate a value representing the entity type.
+function is used to generate a value representing the entity type.
 
 The inheritance strategy and the
 discriminator column are only specified in the root of an entity class
@@ -1913,7 +1913,7 @@ public class Employee {
 If the status property is mapped to a column
 of integer type, and the payscale property to a column of varchar type,
 an instance that has a status of `PART_TIME` and a pay rate of `JUNIOR`
-will be stored with `STATUS` set to 1 and `PAYSCALE` set to _"JUNIOR"_.
+is stored with `STATUS` set to 1 and `PAYSCALE` set to _"JUNIOR"_.
 
 ==== EnumeratedValue Annotation [[a14720]]
 
@@ -1977,7 +1977,7 @@ transactions modify the same entity instance, and that no
 The `ForeignKey` annotation is used to
 specify the handling of foreign key constraints when schema generation
 is in effect. If this annotation is not specified, the persistence
-provider's default foreign key strategy will be used.
+provider's default foreign key strategy is used.
 
 [source,java]
 ----
@@ -2271,7 +2271,7 @@ public class Employee {
 
 The `Index` annotation is used in schema
 generation. Note that it is not necessary to specify an index for a
-primary key, as the primary key index will be created automatically,
+primary key, as the primary key index is created automatically,
 however, the Index annotation may be used to specify the ordering of the
 columns in the index for the primary key.
 
@@ -2421,7 +2421,7 @@ referenced table.
 
 Support for referenced columns that are not
 primary key columns of the referenced table is optional. Applications
-that use such mappings will not be portable.
+that use such mappings are not portable.
 
 The `foreignKey` annotation element is used
 to specify or control the generation of a foreign key constraint when
@@ -3626,13 +3626,13 @@ If the `referencedColumnName` element is
 missing, the foreign key is assumed to refer to the primary key of the
 referenced table. Support for referenced columns that are not primary
 key columns of the referenced table is optional. Applications that use
-such mappings will not be portable.
+such mappings are not portable.
 
 The `foreignKey` element is used to specify
 or control the generation of a foreign key constraint for the map key
 join column when table generation is in effect. If the `foreignKey`
 element is not specified, the persistence provider's default foreign key
-strategy will be used.
+strategy is used.
 
 If more than one `MapKeyJoinColumn`
 annotation is applied to a field or property, both the `name` and the
@@ -4052,12 +4052,12 @@ the `cascade` element and the `orphanRemoval` element apply to the map
 If `orphanRemoval` is `true` and an entity
 that is the target of the relationship is removed from the relationship
 (either by removal from the collection or by setting the relationship to
-null), the remove operation will be applied to the entity being
+null), the remove operation is applied to the entity being
 orphaned. If the entity being orphaned is a detached, new, or removed
 entity, the semantics of `orphanRemoval` do not apply.
 
 If `orphanRemoval` is `true` and the remove
-operation is applied to the source entity, the remove operation will be
+operation is applied to the source entity, the remove operation is
 cascaded to the relationship target in accordance with the rules of
 <<a1946>>, (and hence it is not
 necessary to specify `cascade=REMOVE` for the
@@ -4219,13 +4219,13 @@ defined by the `CascadeType` enum, defined in <<a15100>>.
 
 If `orphanRemoval` is `true` and an entity
 that is the target of the relationship is removed from the relationship
-(by setting the relationship to null), the remove operation will be
+(by setting the relationship to null), the remove operation is
 applied to the entity being orphaned. If the entity being orphaned is a
 detached, new, or removed entity, the semantics of `orphanRemoval` do
 not apply.
 
 If `orphanRemoval` is `true` and the remove
-operation is applied to the source entity, the remove operation will be
+operation is applied to the source entity, the remove operation is
 cascaded to the relationship target in accordance with the rules of
 <<a1946>>, (and hence it is not
 necessary to specify `cascade=REMOVE` for the
@@ -4434,7 +4434,7 @@ or property.
 
 The `OrderBy` annotation may be applied to an
 element collection. When `OrderBy` is applied to an element collection
-of basic type, the ordering will be by value of the basic objects and
+of basic type, the ordering is by value of the basic objects and
 the `property_or_field_name` is not used.footnote:[In all other cases
 when OrderBy is applied to an element collection, the
 `property_or_field_name` must be specified.] When
@@ -5990,7 +5990,7 @@ for simple (i.e., non-composite) primary keys.
 
 The `JoinColumn` annotation is typically used
 in specifying a foreign key mapping. In general, the foreign key
-definitions created will be provider-dependent and database-dependent.
+definitions created are provider-dependent and database-dependent.
 Applications that are sensitive to the exact mapping that is used should
 use the `foreignKey` element of the `JoinColumn` annotation or include
 DDL files that specify how the database schemas are to be generated.

@@ -134,9 +134,9 @@ The `CriteriaQuery<Object> createQuery()`
 method supports both the case where the `select` or `multiselect` method
 specifies only a single selection item and where the `multiselect`
 method specifies multiple selection items. If only a single item is
-specified, an instance of type `Object` will be returned for each result
+specified, an instance of type `Object` is returned for each result
 of the query execution. If multiple selection items are specified, an
-instance of type `Object[]` will be instantiated and returned for each
+instance of type `Object[]` is instantiated and returned for each
 result of the execution.
 
 See <<a10945>> for further discussion of the specification
@@ -398,7 +398,7 @@ WHERE e.contactInfo.address.zipcode = '95054'
 
 In this example, the `photos` attribute
 corresponds to a map from photo label to filename. The map key is a
-string, the value an object. The result of this query will be returned
+string, the value an object. The result of this query is returned
 as a `Tuple` object whose elements are of types `String` and `Object`.
 The `multiselect` method, described further in <<a10945>>, is used to
 specify that the query returns multiple selection items.
@@ -790,12 +790,10 @@ defined.
 
 [NOTE]
 ====
-Users should note that the semantics of the
-SQL division operation are not standard across databases. In particular,
-when both operands are of integral types, the result of the division
-operation will be an integral type in some databases, and an
-non-integral type in others. Portable applications should not assume a
-particular result type.
+The semantics of the SQL division operation are not standard across databases.
+In particular, when both operands are of integral types, the result of the division
+operation is an integral type in some databases, and a non-integral type in others.
+Portable applications should not assume a particular result type.
 ====
 
 ==== Literals
@@ -889,7 +887,7 @@ interface. The arguments to the `select` and `multiselect` methods are
 ====
 Portable applications should use the `select`
 or `multiselect` method to specify the query's selection list.
-Applications that do not use one of these methods will not be portable.
+Applications that do not use one of these methods are not portable.
 ====
 
 The `select` method takes a single
@@ -1251,8 +1249,8 @@ sq.select(account.get(Account_.balance));
 q.where(cb.lt(cb.literal(10000), cb.all(sq)));
 ----
 
-The first of these queries will return orders
-that are not associated with customers, whereas the second will not. The
+The first of these queries returns orders
+that are not associated with customers, whereas the second does not. The
 corresponding Jakarta Persistence query language queries are the following:
 
 [source,sql]

@@ -681,7 +681,7 @@ The `name` element specifies the name of the column in the SELECT list.
 
 The `type` element specifies the Java type to which the column type is
 to be mapped. If the `type` element is not specified, the default JDBC
-type mapping for the column will be used.
+type mapping for the column is used.
 
 === References to EntityManager and EntityManagerFactory
 
