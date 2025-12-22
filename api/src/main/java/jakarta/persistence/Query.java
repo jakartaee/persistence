@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * Declares common operations of interfaces used to control the
+ * Declares common operations for controlling the
  * execution of statements and queries written in the Jakarta
  * Persistence query language or in native SQL.
  * <ul>
