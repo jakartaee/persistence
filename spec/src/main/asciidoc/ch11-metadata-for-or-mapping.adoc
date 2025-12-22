@@ -2272,29 +2272,35 @@ public Long getId() { return id; }
 
 ==== IdClass Annotation [[a14836]]
 
-The `IdClass` annotation is applied to an
-entity class or a mapped superclass to specify a composite primary key
-class that is mapped to multiple fields or properties of the entity.
+The `IdClass` annotation specifies a composite primary key class, as
+defined in <<composite-primary-keys>>, for the annotated entity class
+or mapped superclass. The `IdClass` annotation is used when--and only
+when--the primary key encompasses multiple fields or properties of the
+entity, as specified by <<a132>>. If a composite primary key is mapped
+by an `EmbeddedId`, the `IdClass` annotation must not be applied to the
+entity class.
 
-The names of the fields or properties in the
-primary key class and the primary key fields or properties of the entity
-must correspond and their types must match according to the rules
-specified in <<a132>> and <<a149>>.
+When a composite primary key class is specified via `IdClass`:
 
-The `Id` annotation must also be applied to
-the corresponding fields or properties of the entity.
+- The `Id` annotation must be applied to the primary key fields or
+  properties of the entity class, and
+- the names of the fields or properties in the primary key class and the
+  primary key fields or properties of the entity must correspond, and
+  their types must match according to the rules specified in <<a132>> and
+  <<a149>>.
 
 [source,java]
 ----
 @Target({TYPE})
 @Retention(RUNTIME)
 public @interface IdClass {
-    Class value();
+    Class<?> value();
 }
 ----
 
-<<a14847>> lists the annotation elements that may be specified
-for the `IdClass` annotation.
+The `IdClass` annotation has only a `value` member, as listed in <<a14847>>.
+The specified class must be a legal primary key class, according to the rules
+specified in <<composite-primary-keys>>.
 
 .IdClass Annotation Elements
 [#a14847,options="header"]
