@@ -19,6 +19,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Type;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -339,6 +341,57 @@ public interface Query {
     Query setParameter(String name, Object value);
 
     /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null, especially in the case of
+     * a native query.
+     * {@snippet :
+     * em.createNativeQuery("update books set pub_date = :date where isbn = :ISBN")
+     *     .setParameter("date", optionalPublicationDate, LocalDate.class)
+     *     .setParameter("ISBN", isbn)
+     *     .executeUpdate();
+     * }
+     * {@snippet :
+     * var books =
+     *     session.createNativeQuery("select * from books where :limit is null or pub_date > :limit",
+     *                               Book.class)
+     *         .setParameter("limit", optionalDateLimit, LocalDate.class)
+     *         .getResultList();
+     * }
+     * @param name  parameter name
+     * @param value  parameter value
+     * @param type  a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(String name, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < :amount")
+     *         .setParameter("amount", amount, Book_.price.getType())
+     *         .getResultList();
+     * }
+     * @param name  parameter name
+     * @param value  parameter value
+     * @param type  the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(String name, P value, Type<P> type);
+
+    /**
      * Bind an instance of {@link java.util.Calendar} to a named parameter.
      * @param name  parameter name
      * @param value  parameter value
@@ -380,6 +433,57 @@ public interface Query {
      *         query or if the argument is of incorrect type
      */
     Query setParameter(int position, Object value);
+
+    /**
+     * Bind an argument value to a positional parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null, especially in the case of
+     * a native SQL query.
+     * {@snippet :
+     * em.createNativeQuery("update books set pub_date = ?1 where isbn = ?2")
+     *     .setParameter(1, optionalPublicationDate, LocalDate.class)
+     *     .setParameter(2, isbn)
+     *     .executeUpdate();
+     * }
+     * {@snippet :
+     * var books =
+     *     session.createNativeQuery("select * from books where ?1 is null or pub_date > ?1",
+     *                               Book.class)
+     *         .setParameter(1, optionalDateLimit, LocalDate.class)
+     *         .getResultList();
+     * }
+     * @param position  position
+     * @param value  parameter value
+     * @param type  a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(int position, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a positional parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < ?1")
+     *         .setParameter(1, amount, Book_.price.getType())
+     *         .getResultList();
+     * }
+     * @param position  position
+     * @param value  parameter value
+     * @param type  the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setParameter(int position, P value, Type<P> type);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a positional
