@@ -263,7 +263,7 @@ public @interface NamedSubgraph {
 }
 ----
 
-=== NamedEntityGraphAttributeNode
+==== NamedEntityGraphAttributeNode
 
 The `NamedEntityGraphAttributeNode` annotation is an alternative to
 `NamedAttributeNode`. It may be placed on the persistent attribute
@@ -284,7 +284,7 @@ The `graph` member specifies the name of the entity graph to which
 the node belongs. It defaults to the entity name of the annotated
 entity class.
 
-=== NamedEntityGraphSubgraph
+==== NamedEntityGraphSubgraph
 
 The `NamedEntityGraphSubgraph` annotation is an alternative to
 `NamedSubgraph`. It may be placed on the association represented
@@ -853,3 +853,108 @@ annotation (or corresponding XML element).
 If there is more than one converter defined for the same target type,
 the `Convert` annotation must be used to explicitly specify which
 converter applies.
+
+=== Annotations for Static Queries
+
+These annotations are used to declare queries associated with methods.
+In the context of Jakarta Data, they are used to declare repository
+query methods.
+
+==== StaticQuery Annotation
+
+Specifies a query expressed in the Jakarta Persistence Query Language.
+This annotation may be applied to:
+
+- any method of any class or interface belonging to the persistence unit,
+  or
+- a query method of a Jakarta Data repository with an implementation backed
+  by Jakarta Persistence.
+
+The `value` member specifies the query.
+
+[source,java]
+----
+@Target(METHOD)
+@Retention(RUNTIME)
+public @interface StaticQuery {
+    String value();
+}
+----
+
+The semantics of this annotation are defined by its Javadoc, and in
+<<canonical-metamodel>>.
+
+==== StaticNativeQuery Annotation
+
+Specifies a query expressed in the native SQL dialect of the database.
+This annotation may be applied to:
+
+- any method of any class or interface belonging to the persistence unit,
+  or
+- a query method of a Jakarta Data repository with an implementation backed
+  by Jakarta Persistence.
+
+The `value` member specifies the query.
+
+[source,java]
+----
+@Target(METHOD)
+@Retention(RUNTIME)
+public @interface StaticNativeQuery {
+    String value();
+}
+----
+
+The semantics of this annotation are defined by its Javadoc, and in
+<<canonical-metamodel>>.
+
+==== ReadQueryOptions Annotation
+
+Configures options that affect the execution of a database read
+operation. This annotation may be applied to:
+
+- a method with a `StaticQuery` or Jakarta Data
+  `jakarta.data.repository.Query` annotation whose `value` member
+  specifies a `SELECT` statement,
+- a method with a `StaticNativeQuery` annotation whose `value`
+  member specifies a SQL operation which returns a result set, or
+- a Jakarta Data repository method annotated
+  `jakarta.data.repository.Find`.
+
+[source,java]
+----
+@Target(METHOD)
+@Retention(RUNTIME)
+public @interface ReadQueryOptions {
+    CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
+    CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
+    int timeout() default -1;
+    QueryHint[] hints() default {};
+    LockModeType lockMode() default LockModeType.NONE;
+    String entityGraph() default "";
+}
+----
+
+==== WriteQueryOptions Annotation
+
+Configures options that affect the execution of a database write
+operation. This annotation may be applied to:
+
+- a method with a `StaticQuery` or Jakarta Data
+  `jakarta.data.repository.Query` annotation whose `value` member
+  specifies an `UPDATE` or `DELETE` statement,
+- a method with a `StaticNativeQuery` annotation whose `value`
+  member specifies a SQL operation which returns a row count, or
+- a Jakarta Data repository method annotated
+  `jakarta.data.repository.Delete` that uses the
+  parameter-based automatic query pattern.
+
+[source,java]
+----
+@Target(METHOD)
+@Retention(RUNTIME)
+public @interface WriteQueryOptions {
+    int timeout() default -1;
+    QueryHint[] hints() default {};
+}
+----
