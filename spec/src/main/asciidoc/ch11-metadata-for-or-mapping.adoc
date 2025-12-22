@@ -3958,16 +3958,20 @@ public @interface MappedSuperclass {}
 
 ==== MapsId Annotation
 
-The `MapsId` annotation is used to designate
-a `ManyToOne` or `OneToOne` relationship attribute that provides the
-mapping for an `EmbeddedId` primary key, an attribute within an
-`EmbeddedId` primary key, or a simple primary key of the parent entity.
+The `MapsId` annotation is used to designate a `ManyToOne` or `OneToOne`
+relationship attribute that provides the mapping for:
 
-The `value` element specifies the attribute
-within a composite key to which the relationship attribute corresponds.
-If the entity's primary key is of the same Java type as the primary key
-of the entity referenced by the relationship, the `value` attribute is
-not specified.
+- an `EmbeddedId` primary key,
+- an attribute within an `EmbeddedId` primary key, or
+- a simple primary key of the parent entity,
+
+as defined in <<a149>> and <<a155>>.
+
+The `value` element listed in <<a15615>> specifies the attribute within a
+composite key class to which the relationship attribute corresponds. If
+the primary key of the entity is of the same Java type as the primary key
+of the entity referenced by the relationship, the `value` attribute is not
+specified.
 
 [source,java]
 ----
@@ -3978,9 +3982,6 @@ public @interface MapsId {
 }
 ----
 
-<<a15615>> lists the annotation elements that may be specified
-for the `MapsId` annotation.
-
 .MapsId Annotation Elements
 [#a15615,options="header"]
 |===
@@ -3988,9 +3989,9 @@ for the `MapsId` annotation.
 
 |String
 |value
-|(Optional) The name of the attribute within
-the composite key to which the relationship attribute corresponds.
-|The relationship maps the entity's primary key.
+|(Optional) The name of an attribute within the composite
+key class to which the relationship attribute corresponds.
+|The relationship maps the primary key of the entity.
 |===
 
 *Example:*
@@ -5598,10 +5599,8 @@ public class EmploymentPeriod {
 
 ==== Transient Annotation
 
-The `Transient` annotation is used to
-annotate a property or field of an entity class, mapped superclass, or
-embeddable class. It specifies that the property or field is not
-persistent.
+The `Transient` annotation specifies that the annotated property or field of
+an entity class, mapped superclass, or embeddable class is not persistent.
 
 [source,java]
 ----
