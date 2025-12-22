@@ -2721,7 +2721,7 @@ SELECT o.lineItems FROM Order AS o
 ----
 
 The `DISTINCT`
-keyword is used to specify that duplicate values must be eliminated from
+keyword specifies that duplicate values must be eliminated from
 the query result.
 
 If `DISTINCT` is not specified, duplicate
