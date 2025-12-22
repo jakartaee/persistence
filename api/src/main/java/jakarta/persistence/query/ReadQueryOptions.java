@@ -35,7 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>a method with a {@link StaticQuery} or Jakarta Data
  *     {@code jakarta.data.repository.Query} annotation
  *     whose {@code value} member specifies a {@code SELECT}
- *     statement,</li>
+ *     statement,
  * <li>a method with a {@link StaticNativeQuery} annotation
  *     whose {@code value} member specifies a SQL operation
  *     which returns a result set, or
