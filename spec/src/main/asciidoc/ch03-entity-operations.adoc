@@ -2552,11 +2552,13 @@ is determined by:
 
 - the annotations of the entity class, and
 - the value specified for the `shared-cache-mode` element of the
-  `persistence.xml` file or by the configuration property
+  `persistence.xml` file, by the `sharedCacheMode()` of the
+  `PersistenceConfiguration`, or by the configuration property
   `jakarta.persistence.sharedCache.mode`.
 
 The value of the property `jakarta.persistence.sharedCache.mode` takes
-precedence over the value of the `shared-cache-mode` element.
+precedence over the value of the `shared-cache-mode` element or
+`sharedCacheMode()` of the `PersistenceConfiguration`.
 
 The `shared-cache-mode` element takes one of five possible values,
 which are enumerated by `jakarta.persistence.SharedCacheMode`:
