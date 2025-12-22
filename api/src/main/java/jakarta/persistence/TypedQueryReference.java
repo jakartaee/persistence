@@ -81,7 +81,7 @@ import java.util.Map;
  * <p>In the Jakarta Persistence query language, only SELECT
  * queries are typed queries, since only a SELECT query can
  * return a result. A DELETE or UPDATE statement is not a
- * typed query, and is always represented by an untyped
+ * typed query and is always represented by an untyped
  * instance of {@link StatementReference}. On the other hand, a
  * native SQL query is considered a typed query if it returns
  * a result set.
