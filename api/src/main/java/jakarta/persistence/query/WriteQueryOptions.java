@@ -31,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>a method with a {@link StaticQuery} or Jakarta Data
  *     {@code jakarta.data.repository.Query} annotation
  *     whose {@code value} member suplies an {@code UPDATE}
- *     or {@code DELETE} statement,</li>
+ *     or {@code DELETE} statement,
  * <li>a method with a {@link StaticNativeQuery} annotation
  *     whose {@code value} member specifies a SQL operation
  *     that returns a row count, or

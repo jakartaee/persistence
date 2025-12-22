@@ -2473,6 +2473,7 @@ other annotations:
 * `Table(name, catalog, schema *elements*)`
 * `TableGenerator(table, catalog, schema, pkColumnName, valueColumnName *elements*)`
 * `UniqueConstraint(name, columnNames *elements*)`
+* `CheckConstraint(name *elements*)`
 
 The following XML elements and types contain
 elements or attributes whose values correspond to names of database
