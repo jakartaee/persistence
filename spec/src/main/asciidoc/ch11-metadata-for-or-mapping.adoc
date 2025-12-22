@@ -1128,14 +1128,16 @@ public BigDecimal getCost() {
 ==== Convert Annotation [[a14398]]
 
 The `Convert` annotation specifies how the values of a field or property
-are converted to a basic type, enabling a converter which was defined
-`autoApply=false`, overriding the use of a converter which was defined
-`autoApply=true` (see <<a13903>>), or overriding the use of a converter
-specified by a field or property of an embedded type or inherited mapped
-superclass.
+are converted to a basic type:
 
-When persistent properties are used, the `Convert` annotation is applied
-to the getter method.
+- enabling a converter which was defined `autoApply=false`,
+- overriding the use of a converter which was defined `autoApply=true`
+  (see <<a13903>>), or
+- overriding the use of a converter specified by a field or property of
+  an embedded type or inherited mapped superclass.
+
+When property access is used, the `Convert` must be applied to the getter
+method.
 
 It is not necessary to use the `Basic` annotation or corresponding XML
 element to specify the converted basic type. Nor is it usually necessary
