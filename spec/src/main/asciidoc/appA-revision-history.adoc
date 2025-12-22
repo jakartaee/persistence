@@ -43,6 +43,8 @@ Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
 
 Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference`
 
+Added `FETCHED` to `PessimisticLockScope`, `lockScope` to `@NamedQuery`, and `setLockScope()` to `Query`
+
 `jakarta.annotation.Nonnull` now implies `optional=false`
 
 Allow `value` member of `@JoinColumns` to be defaulted
