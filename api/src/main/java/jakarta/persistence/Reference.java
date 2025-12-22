@@ -46,6 +46,9 @@ public sealed interface Reference
      * {@link NamedQuery#hints}, {@link NamedNativeQuery#hints},
      * {@link jakarta.persistence.query.ReadQueryOptions#hints}, or
      * {@link jakarta.persistence.query.WriteQueryOptions#hints}.
+     * <p>
+     * Any attempted mutation of the returned map results in an
+     * {@link UnsupportedOperationException}.
      */
     Map<String,Object> getHints();
 
@@ -82,7 +85,7 @@ public sealed interface Reference
     List<String> getParameterNames();
 
     /**
-     * The arguments supplied to the parameters if the statement
+     * The arguments supplied to the parameters of the statement
      * or query, or {@code null} if no arguments were supplied.
      * Arguments are present when this is a reference to a query
      * declared using an annotation of a method.
