@@ -933,7 +933,7 @@ public @interface Column {
     int precision() default 0; // decimal precision
     int scale() default 0; // decimal scale
     int secondPrecision() default -1; //fractional second precision
-    CheckConstraint[] check() default {}
+    CheckConstraint[] check() default {};
     String comment() default "";
 }
 ----
@@ -2102,7 +2102,7 @@ enum:
 
 [source,java]
 ----
-public enum GenerationType { TABLE, SEQUENCE, IDENTITY, UUID, AUTO };
+public enum GenerationType { TABLE, SEQUENCE, IDENTITY, UUID, AUTO }
 ----
 
 The `TABLE` generator type value indicates that the persistence
@@ -2365,7 +2365,7 @@ enumerated by the `InheritanceType` enum:
 
 [source,java]
 ----
-public enum InheritanceType { SINGLE_TABLE, JOINED, TABLE_PER_CLASS };
+public enum InheritanceType { SINGLE_TABLE, JOINED, TABLE_PER_CLASS }
 ----
 
 If the root entity of an entity class hierarchy is not annotated with
@@ -2469,7 +2469,7 @@ public @interface JoinColumn {
     String options() default "";
     String table() default "";
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
-    CheckConstraint[] check() default {}
+    CheckConstraint[] check() default {};
     String comment() default "";
 }
 ----
@@ -2720,7 +2720,7 @@ public @interface JoinTable {
     ForeignKey inverseForeignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
-    CheckConstraint[] check() default {}
+    CheckConstraint[] check() default {};
     String comment() default "";
     String options() default "";
 }
@@ -2900,7 +2900,7 @@ operations that are cascadable are defined by the `CascadeType` enum:
 
 [source,java]
 ----
-public enum CascadeType {ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH};
+public enum CascadeType {ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH}
 ----
 
 The value `cascade=ALL` is equivalent to
@@ -4492,7 +4492,7 @@ public class Course {
 
     @ManyToMany
     @OrderBy("lastname ASC")
-    public List<Student> getStudents() { ... };
+    public List<Student> getStudents() { ... }
 
     // ...
 }
@@ -4508,7 +4508,7 @@ public class Student {
 
     @ManyToMany(mappedBy="students")
     @OrderBy // PK is assumed
-    public List<Course> getCourses() { ... };
+    public List<Course> getCourses() { ... }
 
     // ...
 }
@@ -4524,7 +4524,7 @@ public class Person {
 
     @ElementCollection
     @OrderBy("zipcode.zip, zipcode.plusFour")
-    public Set<Address> getResidences() { ... };
+    public Set<Address> getResidences() { ... }
 
     // ...
 }
@@ -4659,7 +4659,7 @@ public class Course {
 
     @ManyToMany
     @JoinTable(name="COURSE_ENROLLMENT")
-    public Set<Student> getStudents() { ... };
+    public Set<Student> getStudents() { ... }
 
     // ...
 
@@ -4674,7 +4674,7 @@ public class Student {
     // ...
 
     @ManyToMany(mappedBy="students")
-    public Set<Course> getCourses() { ... };
+    public Set<Course> getCourses() { ... }
 
     // ...
 }
@@ -4962,7 +4962,7 @@ public @interface SecondaryTable {
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
-    CheckConstraint[] check() default {}
+    CheckConstraint[] check() default {};
     String comment() default "";
     String options() default "";
 }
@@ -5268,7 +5268,7 @@ public @interface Table {
     String schema() default "";
     UniqueConstraint[] uniqueConstraints() default {};
     Index[] indexes() default {};
-    CheckConstraint[] check() default {}
+    CheckConstraint[] check() default {};
     String comment() default "";
     String options() default "";
 }
