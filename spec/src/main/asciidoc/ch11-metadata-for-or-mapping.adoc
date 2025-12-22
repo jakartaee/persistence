@@ -2062,7 +2062,7 @@ the provider must not generate a foreign key constraint.
 ==== GeneratedValue Annotation [[a14790]]
 
 The `GeneratedValue` annotation specifies a generation strategy for the
-values of primary keys. The `GeneratedValue` annotation may be applied
+values of a primary key. The `GeneratedValue` annotation may be applied
 to a primary key property or field of an entity or mapped superclass in
 conjunction with the `Id` annotation.footnote:[Portable applications
 should not use the `GeneratedValue` annotation on other persistent
@@ -3264,8 +3264,8 @@ public class Employee {
 ==== MapKeyClass Annotation
 
 The `MapKeyClass` annotation is used to
-specify the type of the map key for associations of type `java.util.Map`
-. The map key can be a basic type, an embeddable class, or an entity. If
+specify the type of the map key for associations of type `java.util.Map`.
+The map key can be a basic type, an embeddable class, or an entity. If
 the map is specified using Java generics, the `MapKeyClass` annotation
 and associated type need not be specified; otherwise they must be
 specified.
