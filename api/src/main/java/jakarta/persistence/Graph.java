@@ -202,11 +202,12 @@ public interface Graph<T> {
     void addAttributeNodes(Attribute<? super T, ?>... attribute);
 
     /**
-     * Add a node to the graph that corresponds to a managed
-     * type. This allows for construction of multi-node entity graphs
+     * Add a node to the graph that corresponds to a managed type.
+     * This allows for construction of multi-node entity graphs
      * that include related managed types.
      *
-     * @param attribute  attribute
+     * @param attribute the attribute
+     * @param <X> the managed type of the attribute
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target 
      *         type is not a managed type
@@ -217,13 +218,14 @@ public interface Graph<T> {
 
     /**
      * Add a node to the graph that corresponds to a managed
-     * type with inheritance.  This allows for multiple subclass
+     * type with inheritance. This allows for multiple subclass
      * subgraphs to be defined for this node of the entity
      * graph. Subclass subgraphs will automatically include the
      * specified attributes of superclass subgraphs.
      *
-     * @param attribute  attribute
-     * @param type  entity subclass
+     * @param attribute the attribute
+     * @param type an entity subclass of the attribute type
+     * @param <Y> the type of the subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target
      *         type is not a managed type
@@ -239,7 +241,8 @@ public interface Graph<T> {
      * This allows for construction of multi-node entity graphs
      * that include related managed types.
      *
-     * @param attributeName  name of the attribute 
+     * @param attributeName the name of the attribute
+     * @param <X> the managed type of the attribute
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute is not an 
      *         attribute of this managed type.
@@ -252,13 +255,14 @@ public interface Graph<T> {
 
     /**
      * Add a node to the graph that corresponds to a managed
-     * type with inheritance.  This allows for multiple subclass
+     * type with inheritance. This allows for multiple subclass
      * subgraphs to be defined for this node of the entity
      * graph. Subclass subgraphs will automatically include the
      * specified attributes of superclass subgraphs
      *
-     * @param attributeName  name of the attribute 
-     * @param type  entity subclass
+     * @param attributeName the name of the attribute
+     * @param type an entity subclass of the collection element type
+     * @param <X> the type of the subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute is not 
      *         an attribute of this managed type.
@@ -274,7 +278,8 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attribute  attribute
+     * @param attribute the attribute
+     * @param <E> the managed type of the collection element
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute's target type
      *         is not an entity
@@ -290,7 +295,8 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attribute  attribute
+     * @param attribute the attribute
+     * @param <E> the managed type of the collection element
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute's target type
      *         is not an entity
@@ -306,7 +312,8 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attributeName  name of the attribute
+     * @param attributeName the name of the attribute
+     * @param <X> the managed type of the collection element
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute is not an
      *         attribute of this entity.
@@ -322,8 +329,9 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attributeName  name of the attribute
-     * @param type  entity subclass
+     * @param attributeName the name of the attribute
+     * @param type an entity subclass of the collection element type
+     * @param <X> the type of the subclass
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute is not an
      *         attribute of this entity.
@@ -339,7 +347,8 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attribute  attribute
+     * @param attribute the attribute
+     * @param <K> the managed type of the map key
      * @return subgraph for the key attribute
      * @throws IllegalArgumentException if the attribute's target
      *         type is not a managed type entity
@@ -352,11 +361,12 @@ public interface Graph<T> {
      * Add a node to the graph that corresponds to a map key
      * that is a managed type with inheritance. This allows for
      * construction of multi-node entity graphs that include related
-     * managed types.  Subclass subgraphs will automatically include
+     * managed types. Subclass subgraphs will automatically include
      * the specified attributes of superclass subgraphs
      *
-     * @param attribute  attribute
-     * @param type  entity subclass
+     * @param attribute the attribute
+     * @param type an entity subclass of the map key type
+     * @param <K> the type of the subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute's target
      *         type is not a managed type entity
@@ -370,7 +380,8 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attributeName  name of the attribute
+     * @param attributeName the name of the attribute
+     * @param <X> the managed type of the map key
      * @return subgraph for the key attribute
      * @throws IllegalArgumentException if the attribute is not an 
      *         attribute of this entity.
@@ -385,11 +396,12 @@ public interface Graph<T> {
      * Add a node to the graph that corresponds to a map key
      * that is a managed type with inheritance. This allows for
      * construction of multi-node entity graphs that include related
-     * managed types.  Subclass subgraphs will include the specified
+     * managed types. Subclass subgraphs will include the specified
      * attributes of superclass subgraphs
      *
-     * @param attributeName  name of the attribute
-     * @param type  entity subclass
+     * @param attributeName the name of the attribute
+     * @param type an entity subclass of the map key type
+     * @param <X> the type of the subclass
      * @return subgraph for the attribute
      * @throws IllegalArgumentException if the attribute is not an 
      *         attribute of this entity.
