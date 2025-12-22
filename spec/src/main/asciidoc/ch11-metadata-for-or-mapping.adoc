@@ -1394,42 +1394,53 @@ Address address;
 
 ==== DiscriminatorColumn Annotation [[a14530]]
 
-For the `SINGLE_TABLE` mapping strategy, and
-typically also for the `JOINED` strategy, the persistence provider will
-use a type discriminator column. The `DiscriminatorColumn` annotation is
-used to define the discriminator column for the `SINGLE_TABLE` and `JOINED`
-inheritance mapping strategies.
+Depending on the inheritance mapping strategy, as defined in <<a966>>,
+for an entity class hierarchy, a discriminator column might be used to
+determine the entity subclass which represents a given row in the
+database.
 
-The strategy and the discriminator
-column are only specified in the root of an entity class hierarchy or
-subhierarchy in which a different inheritance strategy is
-applied.footnote:[The combination of
-inheritance strategies within a single entity inheritance hierarchy is
-not defined by this specification.]
+- For the `SINGLE_TABLE` mapping strategy, a discriminator column is
+  always necessary.
+- For the `JOINED` strategy, some persistence providers require the
+  use of a discriminator column.
+- For the `TABLE_PER_CLASS` strategy, a discriminator column is never
+  necessary.
 
-The `DiscriminatorColumn` annotation can be
-specified on an entity class (including on an abstract entity class).
+The `DiscriminatorColumn` annotation declares a discriminator column.
 
-If the `DiscriminatorColumn` annotation is
-missing, and a discriminator column is required, the name of the
-discriminator column defaults to `DTYPE` and the discriminator type to
-`STRING`.
+The inheritance mapping strategy, and discriminator column, if any, are
+determined by the mapping metadata for the root entity of an entity class
+hierarchyfootnote:[Or of the subhierarchy in which a distinct inheritance
+mapping strategy is used. The combination of inheritance strategies within
+a single entity inheritance hierarchy is not defined by this specification.]
+Therefore, the `DiscriminatorColumn` annotation must be applied to a root
+entity class in an entity class hierarchy, even if the root class is an
+`abstract` class.
 
-<<a14548>> lists the annotation elements
-that may be specified for the `DiscriminatorColumn` annotation and their
-default values.
-
-The supported discriminator types are defined
-by the `DiscriminatorType` enum:
+Every discriminator column has a well-defined type. The discriminator
+types allowed by this specification are enumerated by `DiscriminatorType`:
 
 [source,java]
 ----
-public enum DiscriminatorType { STRING, CHAR, INTEGER };
+public enum DiscriminatorType { STRING, CHAR, INTEGER }
 ----
 
-The type of the discriminator column, if
-specified in the optional `columnDefinition` element, must be consistent
-with the discriminator type.
+If the type of a discriminator column is not explicitly specified by the
+`DiscriminatorColumn` annotation or equivalent XML element, the type
+defaults to `STRING`.
+
+If the `DiscriminatorColumn` annotation is missing, and a discriminator
+column is required by the mapping strategy and persistence provider:
+
+- the name of the discriminator column defaults to `DTYPE` and
+- the discriminator type defaults to `STRING`.
+
+<<a14548>> lists the annotation elements that may be specified for the
+`DiscriminatorColumn` annotation, along with their default values.
+
+The type of the discriminator column, if specified in the optional
+`columnDefinition` element, must be consistent with the discriminator
+type.
 
 [source,java]
 ----
@@ -1502,27 +1513,36 @@ public class ValuedCustomer extends Customer { ... }
 
 ==== DiscriminatorValue Annotation
 
-The `DiscriminatorValue` annotation is used
-to specify the value of the discriminator column for entities of the
-given type. The `DiscriminatorValue` annotation can only be specified on
-a concrete entity class. If the `DiscriminatorValue` annotation is not
-specified and a discriminator column is used, a provider-specific
-function is used to generate a value representing the entity type.
+The `DiscriminatorValue` annotation is used to specify the value of a
+discriminator column for rows represented by entities of a given type.
+This annotation must be applied to a concrete entity class.
 
-The inheritance strategy and the
-discriminator column are only specified in the root of an entity class
-hierarchy or subhierarchy in which a different inheritance strategy is
-applied. The discriminator value, if not defaulted, should be specified
-for each entity class in the hierarchy.
+If the `DiscriminatorValue` annotation is not specified for a given
+concrete entity subclass in an entity inheritance hierarchy which
+makes use of a discriminator column:
 
-<<a14585>> lists the annotation elements
-that may be specified for the `DiscriminatorValue` annotation and their
-default values.
+- if the discriminator type is `STRING`, the discriminator value defaults
+  to the entity name, as defined in <<entity-annotation>>, or
+- otherwise, a provider-specific function is used to generate a default
+  value representing the entity type.
 
-The discriminator value must be consistent in
-type with the discriminator type of the specified or defaulted
-discriminator column. If the discriminator type is an integer, the value
-specified must be able to be converted to an integer value (e.g., "`1`").
+A portable application should explicitly specify the `DiscriminatorValue`
+for every entity subclass when the discriminator type is anything other
+than `STRING`.
+
+The inheritance mapping strategy, and discriminator column, if any, are
+determined by the mapping metadata for the root entity of an entity class
+hierarchyfootnote:[Or of the subhierarchy in which a distinct inheritance
+mapping strategy is used]. On the other hand, the discriminator value, if
+not defaulted, must be specified for every entity class in the hierarchy.
+
+The `DiscriminatorValue` annotation has only a `value` member, as listed
+below in <<a14585>>. A discriminator value must be consistent in type with
+the discriminator type (see <<a14530>>) of the discriminator column for the
+entity class hierarchy. The `value` member of `DiscriminatorValue` accepts
+a string which is interpreted as a literal value of the discriminator type.
+If the discriminator type is `INTEGER`, the specified `value` string must
+convertable to an integer value by calling `Integer.parseInt()`.
 
 [source,java]
 ----
@@ -1567,12 +1587,13 @@ public class ValuedCustomer extends Customer { ... }
 
 ==== ElementCollection Annotation
 
-The `ElementCollection` annotation
-defines a collection of instances of a basic type or embeddable class.
+The `ElementCollection` annotation declares an element collection, as
+defined in <<a494>>. The elements of the collection must be instances
+of a basic type or embeddable class.
+
 The `ElementCollection` annotation (or equivalent XML element) must be
-specified if the collection is to be mapped by means of a collection
-table.footnote:[If it is not
-specified, the rules of <<a511>> apply.]
+explicitly specified if such a collection maps to a collection
+table.footnote:[If it is not specified, the rules of <<a511>> apply.]
 
 [source,java]
 ----
@@ -1584,9 +1605,8 @@ public @interface ElementCollection {
 }
 ----
 
-<<a14614>> lists the annotation elements
-that may be specified for the `ElementCollection` annotation and their
-default values.
+<<a14614>> lists the annotation elements that may be specified for the
+`ElementCollection` annotation, along with their default values.
 
 .ElementCollection Annotation Elements
 [#a14614,options="header"]
@@ -1631,9 +1651,10 @@ persistence provider runtime.
 
 ==== Embeddable Annotation [[a14634]]
 
-The `Embeddable` annotation is used to
-specify a class whose instances are stored as an intrinsic part of an
-owning entity and share the identity of the entity.
+The `Embeddable` annotation declares that the annotated class is an
+embeddable class, as defined in <<a487>>, whose instances are stored
+as an intrinsic part of an owning entity and share the persistent
+identity of the owning entity.
 
 [source,java]
 ----
@@ -1708,25 +1729,26 @@ public class Zipcode {
 
 ==== Embedded Annotation [[a14672]]
 
-The `Embedded` annotation is used to
-specify a persistent field or property of an entity or embeddable class
-whose value is an instance of an embeddable
-class.footnote:[If the embeddable
-class is used as a primary key, the `EmbeddedId` rather than the
-`Embedded` annotation is used.] Each of the persistent properties or
-fields of the embedded object is mapped to the database table for the
-entity or embeddable class. The embeddable class must be annotated as
-`Embeddable`.footnote:[Use of the
-`Embedded` annotation is not required. See <<a511>>.]
+The `Embedded` annotation specifies that a persistent field or property
+of an entity or embeddable class is an instance of an embeddable
+class.footnote:[If the embeddable class is used as a primary key, the
+`EmbeddedId` rather than the `Embedded` annotation must be used.] Each
+of the persistent properties or fields of the embedded object is mapped
+to the database table for the entity or embeddable class. The embeddable
+class must be annotated as `Embeddable`.footnote:[Use of the `Embedded`
+annotation is not required. See <<a511>>.]
 
-The `AttributeOverride`,
-`AttributeOverrides`, `AssociationOverride`, and
-`AssociationOverrides` annotations may be used to override mappings
+The `AttributeOverride`, `AttributeOverrides`, `AssociationOverride`,
+and `AssociationOverrides` annotations may be used to override mappings
 declared or defaulted by the embeddable class.
 
-Implementations are not required to support
-embedded objects that are mapped across more than one table (e.g., split
-across primary and secondary tables or multiple secondary tables).
+An implementation is not required to support embedded objects mapped
+across more than one table. An entity which splits the attributes of a
+single embeddable object across its primary and secondary tables, or
+across multiple distinct secondary tables, is not considered portable.
+Therefore, all `AttributeOverride` and `AssociationOverride` annotations
+for a given embedded attribute should specify columns belonging to the
+same `table`.
 
 [source,java]
 ----
@@ -1749,29 +1771,30 @@ public EmploymentPeriod getEmploymentPeriod() { ... }
 
 ==== EmbeddedId Annotation [[a14687]]
 
-The `EmbeddedId` annotation is applied to a
-persistent field or property of an entity class or mapped superclass to
-denote a composite primary key that is an embeddable class. The
-embeddable class must be annotated as `Embeddable`.footnote:[Note that the `Id`
-annotation is not used in the embeddable class.] Relationship mappings defined within an
-embedded id class are not supported.
+The `EmbeddedId` annotation identifies a persistent field or property of
+an entity class or mapped superclass as holding a composite primary key
+represented as an embeddable class, as defined in <<a132>>. The embeddable
+class must be annotated as `Embeddable`.footnote:[The `Id` annotation is
+not applied to any field or property of the embeddable class.]
 
-There must be only one `EmbeddedId`
-annotation and no `Id` annotation when the `EmbeddedId` annotation is
-used.
+An embedded id class must not declare a field or property representing an
+relationship, in the sense of <<a516>>, with another entity.
 
-The `AttributeOverride` annotation may be
-used to override the column mappings declared within the embeddable
-class.
+In a given entity class:
 
-The `MapsId` annotation may be used in
-conjunction with the `EmbeddedId` annotation to specify a derived
-primary key. See <<a149>> and <<a15583>>.
+- there must be at most one field or property annotated `EmbeddedId`, and
+- if there is a field or property annotated `EmbeddedId`, there must be
+  no field or property annotated `Id`.
 
-If the entity has a derived primary key, the
-`AttributeOverride` annotation may only be used to override those
-attributes of the embedded id that do not correspond to the relationship
-to the parent entity.
+The `AttributeOverride` annotation may be used to override the column
+mappings declared within the embeddable class.
+
+The `MapsId` annotation may be used in conjunction with the `EmbeddedId`
+annotation to specify a derived primary key, as defined in <<a149>>.
+
+If an entity has a derived primary key, the`AttributeOverride` annotation
+may only be used to override those attributes of the embedded id that do
+not correspond to the relationship with the parent entity.
 
 [source,java]
 ----
@@ -2332,35 +2355,32 @@ included in the index.
 
 ==== Inheritance Annotation [[a14891]]
 
-The `Inheritance` annotation defines the
-inheritance strategy to be used for an entity class hierarchy. It is
-specified on the entity class that is the root of the entity class
-hierarchy.
+The `Inheritance` annotation specifies the inheritance mapping strategy,
+as defined in <<a966>>, for an entity class hierarchy. This annotation,
+if it is specified, must be applied to the entity class that is the root
+of the entity class hierarchy.
 
-If the `Inheritance` annotation is not
-specified or if no inheritance type is specified for an entity class
-hierarchy, the `SINGLE_TABLE` mapping strategy is used.
-
-Support for the combination of inheritance
-strategies is not required by this specification. Portable applications
-should only use a single inheritance strategy within an entity
-hierarchy.
-
-The three inheritance mapping strategies are
-the single table per class hierarchy, joined subclass, and table per
-concrete class strategies. See <<a966>> for a more detailed discussion of
-inheritance strategies.
-
-The inheritance strategy options are defined
-by the `InheritanceType` enum:
+The inheritance mapping strategies defined by this specification are
+enumerated by the `InheritanceType` enum:
 
 [source,java]
 ----
 public enum InheritanceType { SINGLE_TABLE, JOINED, TABLE_PER_CLASS };
 ----
 
-Support for the `TABLE_PER_CLASS` mapping
-strategy is optional in this release.
+If the root entity of an entity class hierarchy is not annotated with
+the `Inheritance` annotation, and if no inheritance mapping strategy
+is specified for an entity class hierarchy by an XML descriptor, the
+inheritance mapping strategy for the entity class hierarchy defaults to
+the `SINGLE_TABLE` mapping strategy.
+
+This specification does not require support for mixing inheritance
+mapping strategies within a single entity class hierarchy. Therefore,
+a portable application must not apply the `Inheritance` annotation to
+a non-root entity in an entity class hierarchy.
+
+This specification does not require support for the `TABLE_PER_CLASS`
+mapping strategy in this release.
 
 <<a14907>> lists the annotation elements that may be specified
 for the `Inheritance` annotation and their default values.
