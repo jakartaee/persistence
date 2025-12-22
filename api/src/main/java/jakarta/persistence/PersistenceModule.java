@@ -31,7 +31,8 @@ import static jakarta.persistence.ValidationMode.AUTO;
 
 /**
  * Declares that the annotated module defines a persistence unit
- * and specifies static configuration for the persistence unit.
+ * with the same name as the module itself and specifies static
+ * configuration for the persistence unit.
  * <p>For example, the following annotation declares a persistence
  * unit named {@code org.example.library} with resouce-local
  * transaction management:
@@ -53,18 +54,17 @@ import static jakarta.persistence.ValidationMode.AUTO;
  * <p>
  * Configuration more specific to a given deployment of the unit
  * may be provided in a standard Java properties file located at
- * {@code META-INF/org.example.persistenceModule.properties},
- * where {@code org.example.persistenceModule} is the name of the
- * unit, as specified by the {@link #name} attribute. Properties
- * settings specified in this file override setting specified by
- * this annotation.
+ * for example, {@code META-INF/org.example.library.properties},
+ * where {@code org.example.library} is the name of the unit
+ * (the module name). Properties settings specified in this file
+ * override setting specified by this annotation.
  * <p>
  * This annotation is an alternative to declaring the persistence
  * unit by means of the {@code <persistence-unit>} element of the
  * venerable {@code META-INF/persistence.xml} file.
  * <p>
  * An entity manager factory may be created for the persistence
- * unit by passing the {@linkplain #name} of the unit to
+ * unit by passing the unit/module name to
  * {@link Persistence#createEntityManagerFactory(String)}.
  * @see Persistence#createEntityManagerFactory(String)
  * @see Persistence#createEntityManagerFactory(String,java.util.Map)
@@ -74,11 +74,6 @@ import static jakarta.persistence.ValidationMode.AUTO;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.MODULE)
 public @interface PersistenceModule {
-    /**
-     * The name of the persistence unit.
-     * <p>Defaults to the module name.
-     */
-    String name() default "";
 
     /**
      * The transaction type of the persistence unit.

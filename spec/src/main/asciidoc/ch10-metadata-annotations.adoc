@@ -15,10 +15,8 @@ These annotations and types are in the package `jakarta.persistence`.
 === PersistenceModule [[persistence-module]]
 
 The `PersistenceModule` annotation declares a persistence unit identified
-with the annotated `module`.
-
-The `name` annotation element specifies the name of the persistence unit,
-and defaults to the name of the module.
+with the annotated `module`. The name of the persistence unit is identical
+to the name of the module.
 
 The remaining annotation elements are interpreted identically to the
 similarly named XML elements of the `persistence.xml` file, as defined in
@@ -29,7 +27,6 @@ similarly named XML elements of the `persistence.xml` file, as defined in
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.MODULE)
 public @interface PersistenceModule {
-    String name() default "";
     PersistenceUnitTransactionType transactionType() default JTA;
     String description() default "";
     String provider() default "";
