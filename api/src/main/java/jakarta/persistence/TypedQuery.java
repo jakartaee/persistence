@@ -69,8 +69,10 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
-     * @deprecated This method is deprecated in the supertype.
-     *             Use {@link #getResults()} instead.
+     * @apiNote This method is deprecated in the supertype where
+     *          it returns a raw {@code List}, but this override
+     *          is not deprecated. Nevertheless, new code might
+     *          prefer {@link #getResults()}.
      */
     @Override
     @SuppressWarnings("removal")

@@ -142,9 +142,9 @@ public interface Query {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
      * @deprecated This method returns a raw {@code List}.
-     *             Use {@link #getResults()} instead. This
-     *             method will be removed in the next major
-     *             release.
+     *             Use {@link #getResults()} instead. This method
+     *             will be removed in the next major release or
+     *             its return type will change to {@code List<?>}.
      */
     @Deprecated(since = "4.0", forRemoval = true)
     @SuppressWarnings("rawtypes")
