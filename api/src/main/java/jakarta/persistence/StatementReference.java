@@ -16,7 +16,8 @@
 package jakarta.persistence;
 
 /**
- * A reference to an executable named query declared via the
+ * A reference to an executable named statement for an operation
+ * that returns a row count. The named statement is declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
  * or using {@link jakarta.persistence.query.StaticQuery} or
  * {@link jakarta.persistence.query.StaticNativeQuery}. An
@@ -38,7 +39,7 @@ package jakarta.persistence;
  * }
  * }
  *
- * <p>In this example, it is the entity class that is annotated,
+ * <p>In this example, the entity class is annotated,
  * and the {@link NamedQuery} annotation explicitly specifies a
  * name:
  * {@snippet :
@@ -72,7 +73,7 @@ package jakarta.persistence;
  * </ul>
  *
  * <p>In the Jakarta Persistence query language, a DELETE or
- * UPDATE statement is not a typed query, and is always
+ * UPDATE statement is not a typed query and is always
  * represented by an instance of {@link StatementReference}.
  * A native SQL query is represented by an instance of
  * {@link StatementReference} if it returns a row count. A
