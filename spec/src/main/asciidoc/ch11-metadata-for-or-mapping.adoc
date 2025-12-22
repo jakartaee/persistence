@@ -65,7 +65,7 @@ in <<a16944>>.
 
 ==== Access Annotation [[a13941]]
 
-The `Access` annotation is used to specify an
+The `Access` annotation specifies an
 access type to be applied to an entity class, mapped superclass, or
 embeddable class, or to a specific attribute of such a class.
 
@@ -137,8 +137,8 @@ relationship (but never both).]
 The `joinColumns` element refers to the table
 for the class that contains the annotation.
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the columns
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the columns
 corresponding to the `joinColumns` element when table generation is in
 effect. If both this element and the `foreignKey` element of any of the
 `joinColumns` elements are specified, the behavior is undefined.
@@ -800,8 +800,8 @@ the default values for the columns corresponding to those references may
 be overridden by means of the `AssociationOverride` and/or
 `AssociationOverrides` annotations.
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the columns
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the columns
 corresponding to the `joinColumns` element when table generation is in
 effect. If both this element and the `foreignKey` element of any of the
 `joinColumns` elements are specified, the behavior is undefined. If no
@@ -939,7 +939,7 @@ public class WealthyPerson extends Person {
 
 ==== Column Annotation [[a14330]]
 
-The `Column` annotation is used to specify a
+The `Column` annotation specifies a
 mapped column for a persistent property or field.
 
 <<a14349>> lists the annotation elements that may be specified
@@ -1547,7 +1547,7 @@ public class ValuedCustomer extends Customer { ... }
 
 ==== DiscriminatorValue Annotation
 
-The `DiscriminatorValue` annotation is used to specify the value of a
+The `DiscriminatorValue` annotation specifies the value of a
 discriminator column for rows represented by entities of a given type.
 This annotation must be applied to a concrete entity class.
 
@@ -2721,8 +2721,8 @@ The name of the join table is assumed to be
 the table names of the associated primary tables concatenated together
 (owning side first) using an underscore.
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the columns
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the columns
 corresponding to the `joinColumns` element when table generation is in
 effect. If both this element and the `foreignKey` element of any of the
 `joinColumns` elements are specified, the behavior is undefined. If no
@@ -3208,7 +3208,7 @@ public class ProgramManager {
 
 ==== MapKey Annotation
 
-The `MapKey` annotation is used to specify
+The `MapKey` annotation specifies
 the map key for associations of type `java.util.Map` when the map key is
 itself the primary key or a persistent field or property of the entity
 that is the value of the map.
@@ -3682,8 +3682,8 @@ referenced table. Support for referenced columns that are not primary
 key columns of the referenced table is optional. Applications that use
 such mappings are not portable.
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the map key
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the map key
 join column when table generation is in effect. If the `foreignKey`
 element is not specified, the persistence provider's default foreign key
 strategy is used.
@@ -3887,8 +3887,8 @@ When the `MapKeyJoinColumns` annotation is
 used, both the `name` and the `referencedColumnName` elements must be
 specified in each of the grouped `MapKeyJoinColumn` annotations.
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the columns
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the columns
 corresponding to the `MapKeyJoinColumn` elements referenced by the
 `value` element when table generation is in effect. If both this element
 and the `foreignKey` element of any of the `MapKeyJoinColumn` elements
@@ -4742,8 +4742,8 @@ entityfootnote:[The derived id
 mechanisms described in <<a155>> are now to be preferred over
 PrimaryKeyJoinColumn for the OneToOne mapping case.].
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the primary
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the primary
 key join column when table generation is in effect. If the `foreignKey`
 element is not specified, the persistence provider's default foreign key
 strategy will apply.
@@ -4862,8 +4862,8 @@ public @interface PrimaryKeyJoinColumns {
 }
 ----
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the columns
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the columns
 corresponding to the `PrimaryKeyJoinColumn` elements referenced by the
 `value` element when table generation is in effect. If both this element
 and the `foreignKey` element of any of the `PrimaryKeyJoinColumn`
@@ -4972,8 +4972,8 @@ the join columns are assumed to reference the primary key columns of the
 primary table, and have the same names and types as the referenced
 primary key columns of the primary table.
 
-The `foreignKey` element is used to specify
-or control the generation of a foreign key constraint for the columns
+The `foreignKey` element specifies
+or controls the generation of a foreign key constraint for the columns
 corresponding to the `pkJoinColumns` element when table generation is in
 effect. If both this element and the `foreignKey` element of any of the
 `pkJoinColumns` elements are specified, the behavior is undefined. If no
@@ -5278,7 +5278,7 @@ The `Table` annotation specifies the
 primary table for the annotated entity. Additional tables may be
 specified by using the `SecondaryTable` or `SecondaryTables`
 annotation.footnote:[When a `JOINED`
-inheritance strategy is used, the `Table` annotation is used to specify a
+inheritance strategy is used, the `Table` annotation specifies a
 primary table for the subclass-specific state if the default is not
 used.]
 
@@ -5989,8 +5989,8 @@ columns are the constituents of database primary keys.
 
 ===== Id
 
-The `Id` annotation (which may be used used
-in conjunction with the `IdClass` annotation) is used to specify
+The `Id` annotation (which may be used
+in conjunction with the `IdClass` annotation) declares
 attributes whose database columns correspond to a primary key. Use of
 the `Id` annotation results in the creation of a primary key consisting
 of the corresponding column or columns. Rules for the `Id` annotation
