@@ -64,8 +64,8 @@ public interface Query {
      * @param <R> The query result type
      * @throws IllegalArgumentException if the given result type is
      *         not a supertype of the result type of this query
-     * @throws UnsupportedOperationException if this query is a
-     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     * @throws IllegalStateException if this query is a Jakarta
+     *         Persistence {@code UPDATE} or {@code DELETE}
      *         statement
      * @since 4.0
      */
@@ -81,8 +81,8 @@ public interface Query {
      * @throws IllegalArgumentException if the given graph type is
      *         not rooted at a supertype of the result type of this
      *         query
-     * @throws UnsupportedOperationException if this query is a
-     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     * @throws IllegalStateException if this query is a Jakarta
+     *         Persistence {@code UPDATE} or {@code DELETE}
      *         statement
      * @since 4.0
      */
@@ -94,8 +94,8 @@ public interface Query {
      * database by flushing the persistence context.
      * @return a list of the results, or an empty list if there are
      *         no results
-     * @throws UnsuportedOperationException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     * @throws IllegalStateException if this query is a Jakarta
+     *         Persistence {@code UPDATE} or {@code DELETE} statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
