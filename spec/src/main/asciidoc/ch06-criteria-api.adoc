@@ -915,7 +915,7 @@ the following:
 of the invocation of the _CriteriaBuilder construct_ method.
 
 The `distinct` method of the `CriteriaQuery`
-interface is used to specify that duplicate values must be eliminated
+interface specifies that duplicate values must be eliminated
 from the query result. If the `distinct` method is not used or
 `distinct(false)` is invoked on the criteria query object, duplicate
 values are not eliminated. When `distinct(true)` is used, and the select

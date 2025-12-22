@@ -1207,7 +1207,7 @@ which can be selectively overridden by use in the methods of the
 above. When this hint is not specified, database timeout values are
 assumed to apply.
 
-A timeout value of `0` is used to specify “no wait” locking.
+A timeout value of `0` is interpreted to mean “no wait” locking.
 
 Portable applications should not rely on this
 hint. Depending on the database in use and the locking mechanisms used
@@ -1810,7 +1810,7 @@ lifecycle callback methods as specified in annotations.
 ===== Specification of Callback Listeners
 
 The `entity-listener` XML descriptor element
-is used to specify the lifecycle listener methods of an entity listener
+specifies the lifecycle listener methods of an entity listener
 class. The lifecycle listener methods are specified by using the
 `pre-persist`, `post-persist`, `pre-remove`, `post-remove`,`pre-merge`,
 `pre-insert`, `post-insert`, `pre-delete`, `post-delete`, `pre-upsert`,
@@ -1819,11 +1819,11 @@ class. The lifecycle listener methods are specified by using the
 ===== Specification of the Binding of Entity Listener Classes to Entities
 
 The `entity-listeners` subelement of the
-`persistence-unit-defaults` element is used to specify the default
+`persistence-unit-defaults` element specifies the default
 entity listeners for the persistence unit.
 
 The `entity-listeners` subelement of the
-`entity` or `mapped-superclass` element is used to specify the entity
+`entity` or `mapped-superclass` element specifies the entity
 listener classes for the respective entity or mapped superclass and its
 subclasses.
 

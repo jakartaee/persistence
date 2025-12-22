@@ -631,9 +631,9 @@ native SQL query is executed.
 The `fields` element is used to map the columns specified in the SELECT
 list of the query to the properties or fields of the entity class.
 
-The `discriminatorColumn` element is used to specify the column name
-(or alias) of the column in the SELECT list that is used to determine
-the type of the entity instance.
+The `discriminatorColumn` element specifies the column name or alias
+of the column in the SELECT list that is used to determine the type of
+the entity instance.
 
 [source,java]
 ----
