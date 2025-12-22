@@ -736,7 +736,7 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link Statement} for executing a
-     * named {@code UPDATE} or {@code DELETE} of statement written
+     * named {@code UPDATE} or {@code DELETE} statement written
      * in the Jakarta Persistence query language, or a named native
      * SQL statememt which returns a row count.
      * @param name The name of a query defined in metadata
