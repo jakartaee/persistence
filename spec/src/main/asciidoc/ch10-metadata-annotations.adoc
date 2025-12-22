@@ -552,8 +552,8 @@ public @interface NamedStoredProcedureQueries {
 }
 ----
 
-All parameters of a named stored procedure
-query must be specified using the `StoredProcedureParameter` annotation.
+Every parameter of a named stored procedure
+query must be declared using the `StoredProcedureParameter` annotation.
 The `name` element refers to the name of the parameter as defined by the
 stored procedure in the database. If a parameter name is not specified,
 it is assumed that the stored procedure uses positional parameters. The
@@ -616,7 +616,7 @@ respectively.
 @Target({})
 @Retention(RUNTIME)
 public @interface EntityResult {
-    Class entityClass();
+    Class<?> entityClass();
     LockModeType lockMode() default LockModeType.NONE;
     FieldResult[] fields() default {};
     String discriminatorColumn() default "";
@@ -656,7 +656,7 @@ the SELECT list—i.e., column alias, if applicable.
 @Target(value={})
 @Retention(RUNTIME)
 public @interface ConstructorResult {
-    Class targetClass();
+    Class<?> targetClass();
     ColumnResult[] columns();
 }
 ----
@@ -673,7 +673,7 @@ list to the arguments of the intended constructor.
 @Retention(RUNTIME)
 public @interface ColumnResult {
     String name();
-    Class type() default void.class;
+    Class<?> type() default void.class;
 }
 ----
 
