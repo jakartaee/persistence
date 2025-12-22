@@ -165,14 +165,14 @@ where `K` is the type of the key of the map in class `X`
 
 The metamodel class for any eligible class `X` is generated as follows:
 
-* For every method `m` of return type `R` and with parameters `p1`, `p2`,
-etc., of types `T1`, `T2`, etc., annotated with a static query annotation,
-the metamodel class must contain a declaration as follows:
+* For every method `m` of non-primitive return type `R` and with parameters
+`p1`, `p2`, etc., of types `T1`, `T2`, etc., annotated with a static query
+annotation, the metamodel class must contain a declaration as follows:
 +
 [source,java]
 ----
 public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
-    return new StaticQueryReference(
+    return new StaticTypedQueryReference(
             "X.m",
             X.class,
             "m",
@@ -196,6 +196,35 @@ portable between different processors.footnote:[A future version of this
 specification might define how an annotation processor treats a method
 parameter which does not correspond to a parameter of the query.]
 
+* For every method `m` of return type `void`, `int`, or `long`, and with
+parameters `p1`, `p2`, etc., of types `T1`, `T2`, etc., annotated with a
+static query annotation, the metamodel class must contain a declaration
+as follows:
++
+[source,java]
+----
+public static QueryReference m(T1 p1, T2 p2, ...) {
+    return new StaticQueryReference(
+            "X.m",
+            X.class,
+            "m",
+            List.of(T1.class, T2.class, ... ),
+            List.of("p1", "p2", ... ),
+            List.of(p1, p2, ... ),
+            Map.of("h1", v1, "h2", v2, ...),
+            o1, o2, o3, ...
+    );
+}
+----
++
+where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
+are options specified by any `@ReadQueryOptions` or `@WriteQueryOptions`
+annotation of `m`. If the annotated method has more parameters than the
+query specified by the annotation `value` member, the annotation processor
+is permitted to ignore the method parameters which do not correspond to
+parameters of the query, but this behavior is not required and is not
+portable between different processors.
+
 * For every named query, named entity graph, or SQL result set mapping
 with name `"n"` declared by annotations of the class `X`, the metamodel
 class must contain a declaration as follows:
@@ -213,13 +242,25 @@ following the transformed character is uppercase, and then
 replacing each character which is not a legal Java identifier
 character with an underscore.
 
-* For every named query with name `"n"` and query result class `R`
-declared by annotations of the class `X`, the metamodel class must
-contain a declaration as follows:
+* For every named query declared by annotations of the class `X`, with
+name `"n"` and query result class `R`, the metamodel class must contain
+a declaration as follows:
 +
 [source,java]
 ----
 public static volatile TypedQueryReference<R> _n_;
+----
++
+where `n` is the name `"n"` with every character which is not a legal
+Java identifier character replaced with an underscore.
+
+* For every named query declared by annotations of the class `X`, with
+name `"n"` and no query result class inferrable at compilation time,
+the metamodel class must contain a declaration as follows:
++
+[source,java]
+----
+public static volatile QueryReference _n_;
 ----
 +
 where `n` is the name `"n"` with every character which is not a legal
@@ -253,6 +294,18 @@ or `targetClass` member of the `@ColumnResult`, `@EntityResult`, or
 `@ConstructorResult` annotation, respectively. When there is more than
 one such annotation, the type of the mapped result set is `Object[]`,
 as specified in <<combinations-of-result-types>>.
+
+The result class of a named query may be inferred from the `resultClass`
+member of `@NamedQuery`, from the `resultClass` or result set mapping of
+`@NamedNativeQuery`, from the return type of a method annotated
+`@StaticQuery` or `@StaticNativeQuery`, or, as an extension permitted by
+this specification, by analysis of the query itself. A metamodel generator
+is not required to analyze the query to determine its result class, and
+so applications which require portability between different annotation
+processors should not depend on this capability. When the result class
+cannot be inferred at compile time, the annotation processor generates
+a canonical metamodel class member of type `QueryReference` instead of
+`TypedQueryReference`.
 
 Import statements must be included for the needed `jakarta.persistence`
 and `jakarta.persistence.metamodel` types as appropriate and for all

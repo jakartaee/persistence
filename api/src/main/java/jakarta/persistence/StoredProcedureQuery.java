@@ -48,10 +48,10 @@ import java.util.List;
  * all required {@code IN} and {@code INOUT} parameters. It is not
  * required to set the values of stored procedure parameters for which
  * default values have been defined by the stored procedure.</li>
- * <li> When {@link #getResultList} and {@link #getSingleResult} are
+ * <li> When {@link #getResults} and {@link #getSingleResult} are
  * called on a {@code StoredProcedureQuery} object, the provider calls
  * {@link #execute} on an unexecuted stored procedure query before
- * processing {@code getResultList} or {@code getSingleResult}.</li>
+ * processing {@code getResults} or {@code getSingleResult}.</li>
  * <li> When {@link #executeUpdate} is called on a
  * {@code StoredProcedureQuery} object, the provider will call
  * {@link #execute} on an unexecuted stored procedure query, followed
@@ -67,7 +67,7 @@ import java.util.List;
  * results other than through {@code INOUT} and {@code OUT} parameters,
  * if any.</li>
  * <li> If the {@code execute} method returns true, the pending result
- * set can be obtained by calling {@link #getResultList} or
+ * set can be obtained by calling {@link #getResults} or
  * {@link #getSingleResult}.</li>
  * <li> The {@link #hasMoreResults} method can then be used to test for
  * further results.</li>
@@ -80,14 +80,14 @@ import java.util.List;
  * <li> For portability, results that correspond to JDBC result sets
  * and update counts need to be processed before the values of any
  * {@code INOUT} or {@code OUT} parameters are extracted.</li>
- * <li> After results returned through {@link #getResultList} and
+ * <li> After results returned through {@link #getResults} and
  * {@link #getUpdateCount} have been exhausted, results returned through
  * {@code INOUT} and {@code OUT} parameters can be retrieved.</li>
  * <li> The {@link #getOutputParameterValue} methods are used to
  * retrieve the values passed back from the procedure through
  * {@code INOUT} and {@code OUT} parameters.</li>
  * <li> When using {@code REF_CURSOR} parameters for result sets the
- * update counts should be exhausted before calling {@link #getResultList}
+ * update counts should be exhausted before calling {@link #getResults}
  * to retrieve the result set. Alternatively, the {@code REF_CURSOR}
  * result set can be retrieved through {@link #getOutputParameterValue}.
  * Result set mappings are applied to results corresponding to
@@ -120,6 +120,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
+    @Override
     StoredProcedureQuery setHint(String hintName, Object value);
 
     /**
@@ -130,7 +131,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      */
-    <T> StoredProcedureQuery setParameter(Parameter<T> param, 
+    @Override
+    <T> StoredProcedureQuery setParameter(Parameter<T> param,
                                           T value);
 
     /**
@@ -145,6 +147,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
                                       Calendar value, 
                                       TemporalType temporalType);
@@ -161,6 +164,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Date> param,
                                       Date value,
                                       TemporalType temporalType);
@@ -174,6 +178,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not correspond to a parameter of the query or if the
      *         argument is of incorrect type
      */
+    @Override
     StoredProcedureQuery setParameter(String name, Object value);
 
     /**
@@ -189,7 +194,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(String name, 
+    @Override
+    StoredProcedureQuery setParameter(String name,
                                       Calendar value, 
                                       TemporalType temporalType);
 
@@ -206,7 +212,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(String name, 
+    @Override
+    StoredProcedureQuery setParameter(String name,
                                       Date value, 
                                       TemporalType temporalType);
 
@@ -219,6 +226,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         correspond to a positional parameter of the query
      *         or if the argument is of incorrect type
      */
+    @Override
     StoredProcedureQuery setParameter(int position, Object value);
 
     /**
@@ -235,7 +243,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(int position, 
+    @Override
+    StoredProcedureQuery setParameter(int position,
                                       Calendar value,  
                                       TemporalType temporalType);
 
@@ -252,7 +261,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    StoredProcedureQuery setParameter(int position, 
+    @Override
+    StoredProcedureQuery setParameter(int position,
                                       Date value,  
                                       TemporalType temporalType);
 
@@ -263,6 +273,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @param flushMode  flush mode
      * @return the same query instance
      */
+    @Override
     StoredProcedureQuery setFlushMode(FlushModeType flushMode);
 
     /**
@@ -273,6 +284,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -283,6 +295,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -294,6 +307,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     StoredProcedureQuery setTimeout(Integer timeout);
 
     /**
@@ -439,6 +453,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Override
     int executeUpdate();
 
     /**
@@ -456,11 +471,30 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      * @deprecated This method returns a raw {@code List}.
-     *             Use {@link #getResultList(Class)} instead.
+     *             Use {@link #getResults(Class)} or
+     *             {@link #getResults()} instead.
      */
-    @SuppressWarnings("rawtypes")
-    @Deprecated(since = "4.0")
+    @SuppressWarnings({"rawtypes", "removal"})
+    @Deprecated(since = "4.0", forRemoval = true)
     List getResultList();
+
+    /**
+     * Retrieve the list of results from the next result set.
+     * The provider calls {@link #execute} if necessary.
+     * A {@code REF_CURSOR} result set, if any, is retrieved
+     * in the order the {@code REF_CURSOR} parameter was
+     * registered with the query.
+     * @return a list of the results or null if the next item is not
+     *         a result set
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     */
+    @Override
+    List<?> getResults();
 
     /**
      * Retrieve a single result from the next result set.
@@ -479,6 +513,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Override
     Object getSingleResult();
 
     /**
@@ -497,6 +532,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
+    @Override
     Object getSingleResultOrNull();
 
     /**
@@ -538,7 +574,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> List<R> getResultList(Class<R> resultClass);
+    <R> List<R> getResults(Class<R> resultClass);
 
     /**
      * Retrieve the list of results from the next result set, specifying
@@ -558,7 +594,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> List<R> getResultList(ResultSetMapping<R> mapping);
+    <R> List<R> getResults(ResultSetMapping<R> mapping);
 
     /**
      * Retrieve a single result from the next result set, returning

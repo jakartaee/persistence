@@ -45,7 +45,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * List<Customer> customers =
  *         em.createNamedQuery("findAllCustomersWithName", Customer.class)
  *             .setParameter("custName", "Smith")
- *             .getResultList();
+ *             .getResults();
  * }
  *
  * <p> Alternatively, a reference to a named query may be obtained
@@ -54,7 +54,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * List<Customer> customers =
  *         em.createQuery(Customer_._findAllCustomersWithName_)
  *             .setParameter("custName", "Smith")
- *             .getResultList();
+ *             .getResults();
  * }
  *
  * @see EntityHandler#createNamedQuery(String)
