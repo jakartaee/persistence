@@ -522,7 +522,8 @@ metamodel API defined in <<a6072>> is undefined and unportable.
 
 Every entity must have a primary key. The value of its primary key uniquely
 identifies an entity instance within a persistence context and to operations
-of the `EntityManager` or `EntityAgent`, as described in <<a1060>>.
+of the `EntityManager` or `EntityAgent`, as described in <<a1060>>, and
+represents the _persistent identity_ of the instance.
 
 The primary key must be declared by:
 
@@ -531,6 +532,11 @@ The primary key must be declared by:
   entity classes in the entity hierarchy.
 
 A primary key must be defined exactly once in each entity hierarchy.
+
+[NOTE]
+Terminology Note: In the community, the primary key of an entity is usually
+called its _identifier_, but for historical reasons that term is not used
+in this specification.
 
 A primary key comprises one or more fields or properties (attributes)
 of the entity class.
