@@ -674,6 +674,48 @@ be cached.
 |true
 |===
 
+==== CheckConstraint Annotation
+
+The `CheckConstraint` annotation is used to specify a SQL check
+constraint on a column or table when schema generation is in effect.
+
+[source,java]
+----
+@Target({})
+@Retention(RUNTIME)
+public @interface CheckConstraint {
+    String name() default "";
+    String constraint();
+    String options() default "";
+}
+----
+
+The `name` element specifies a name for the check constraint.
+
+The `constraint` member specifies a SQL expression written in the
+native SQL dialect of the database.
+
+.CheckConstraint Annotation Elements
+[#a1224,options="header"]
+|===
+|Type |Name |Description |Default
+
+|String
+|name
+|(Optional) Constraint name.
+|A provider-chosen name.
+
+|String[]
+|constraint
+|(Required) The native SQL expression to be checked.
+|
+
+|String
+|options
+|(Optional) A SQL fragment appended to the generated DDL.
+|Nothing appended.
+|===
+
 ==== CollectionTable Annotation [[a14250]]
 
 The `CollectionTable` annotation is used in
