@@ -595,7 +595,7 @@ persistent, the behavior is undefined.footnote:[The implementation may, but
 is not required to, throw an exception. Portable applications must not rely
 on any such specific behavior.]
 
-==== Composite primary keys
+==== Composite Primary Keys [[composite-primary-keys]]
 
 The following rules apply to composite primary keys:
 
