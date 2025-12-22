@@ -18,16 +18,22 @@
 package jakarta.persistence;
 
 /**
- * Controls how a {@linkplain LockModeType pessimistic lock} applied to
- * an entity affects associated collections and relationships.
+ * Controls how a {@linkplain LockModeType pessimistic lock}
+ * applied to an entity affects associated collections and
+ * relationships.
  * <p>
- * A {@code PessimisticLockScope} may be passed as a {@link FindOption}
- * {@link RefreshOption}, or {@link LockOption}. Alternatively, it may
- * be specified via the property {@code jakarta.persistence.lock.scope}.
- * This property may be passed as an argument to methods of
- * {@link EntityManager} which accept a {@link LockModeType} or to 
- * {@link Query#setHint}, or it may be used in the {@link NamedQuery}
- * annotation.
+ * A {@code PessimisticLockScope} may be passed:
+ * <ul>
+ * <li>as a {@link FindOption}, {@link RefreshOption},
+ *     or {@link LockOption},
+ * <li>as an argument to {@link Query#setLockScope}, or
+ * <li>as the value of {@link NamedQuery#lockScope}.
+ * </ul>
+ * <p>Alternatively, it may be specified via the configuration
+ * property {@code jakarta.persistence.lock.scope}. This property
+ * may be passed as an argument to methods of {@link EntityManager}
+ * which accept a {@link LockModeType}, or to {@link Query#setHint},
+ * or it may be specified via {@link NamedQuery#hints}.
  *
  * @since 2.0
  */
