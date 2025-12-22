@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import jakarta.persistence.FetchType;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.SharedCacheMode;
 import jakarta.persistence.ValidationMode;
@@ -193,6 +194,12 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	public ValidationMode getValidationMode() {
 		logger.log("Called PersistenceUnitInfoImpl.getValidationMode()");
 		return ValidationMode.NONE;
+	}
+
+	@Override
+	public FetchType getDefaultFetchType() {
+		logger.log("Called PersistenceUnitInfoImpl.getDefaultFetchType()");
+		return FetchType.EAGER;
 	}
 
 	/**

@@ -118,9 +118,12 @@ public @interface ManyToOne {
      *     to the persistence provider runtime.
      * </ul>
      *
-     * <p>If not specified, defaults to {@code EAGER}.
+     * <p>When {@code fetch} is not explicitly specified, the
+     * fetching strategy is determined by the default fetch
+     * type of the persistence unit for one-to-one and
+     * many-to-one associations.
      */
-    FetchType fetch() default FetchType.EAGER;
+    FetchType fetch() default FetchType.DEFAULT;
 
     /** 
      * (Optional) Whether the association is optional. If set to
