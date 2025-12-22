@@ -94,7 +94,7 @@ public interface Query {
      * database by flushing the persistence context.
      * @return a list of the results, or an empty list if there are
      *         no results
-     * @throws IllegalStateException if called for a Jakarta
+     * @throws UnsuportedOperationException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is

@@ -33,7 +33,8 @@ import java.util.stream.Stream;
  * return a result. A DELETE or UPDATE query is not a typed
  * query, and is always represented by an untyped instance
  * of {@link Query}. On the other hand, a native SQL query
- * is considered a typed query if it returns a result set. *
+ * is considered a typed query if it returns a result set.
+ *
  * @param <X> query result type
  *
  * @see Query
