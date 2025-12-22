@@ -638,12 +638,19 @@ that some other representation is preferred.
 
 ==== Cacheable Annotation
 
-The `Cacheable` annotation
-specifies whether an entity should be cached if caching is enabled when
-the value of the `persistence.xml` `shared-cache-mode` element is
-`ENABLE_SELECTIVE` or `DISABLE_SELECTIVE`. The value of the `Cacheable`
-annotation is inherited by subclasses; it can be overridden by
-specifying `Cacheable` on a subclass.
+The `Cacheable` annotation specifies whether an entity should be cached
+in the second-level cache, as defined in <<a3061>>, when:
+
+- the persistence provider offers a second-level cache,
+- caching is enabled, and
+- the `SharedCacheMode` specified by the `shared-cache-mode` element
+  in `persistence.xml`, by the `sharedCacheMode()` of the
+  `PersistenceConfiguration` object, or by the configuration property
+  `jakarta.persistence.sharedCache.mode`, is set to `ENABLE_SELECTIVE`
+  or `DISABLE_SELECTIVE`, as described in <<a3065>>.
+
+The value of the `Cacheable` annotation is inherited by subclasses;
+it can be overridden by explicitly specifying `Cacheable` on a subclass.
 
 [source,java]
 ----
@@ -654,14 +661,30 @@ public @interface Cacheable {
 }
 ----
 
-`Cacheable(false)` means that the entity and
-its state must not be cached by the provider.
+A persistence provider is never _required_ to store an entity in the
+second-level cache.
 
-If the `shared-cache-mode` element is not
-specified in the `persistence.xml` file and the
-`jakarta.persistence.sharedCache.mode` property is not specified when the
-entity manager factory for the persistence unit is created, the
-semantics of the `Cacheable` annotation are undefined.
+- `Cachable(true)` (or simply `Cacheable`) means that the entity and its
+  state may be cached in the second-level cache, at the discretion of the
+  provider, even if `ENABLE_SELECTIVE` is specified or if the superclass
+  of the entity is not cacheable.
+
+- `Cacheable(false)` means that the entity and its state must not be cached
+  in the second-level cache, even if `DISABLE_SELECTIVE` is specified, or if
+  the superclass of the entity is cacheable.
+
+When the shared cache mode is `ALL` or `NONE`, the `Cacheable` annotation
+must be ignored by the provider.
+
+The semantics of the `Cacheable` annotation are undefined when:
+
+- the `shared-cache-mode` element is not specified in the `persistence.xml`
+  file or the `sharedCacheMode()` of the `PersistenceConfiguration` is
+  `UNSPECIFIED`, and
+- the property `jakarta.persistence.sharedCache.mode` is not specified
+  when the entity manager factory for the persistence unit is created.
+
+In this case, the behavior is specific to the persistence provider.
 
 .Cacheable Annotation Elements
 [options="header"]
@@ -715,6 +738,15 @@ native SQL dialect of the database.
 |(Optional) A SQL fragment appended to the generated DDL.
 |Nothing appended.
 |===
+
+[NOTE]
+The semantics of the second-level cache are extremely vendor-specific.
+Portable applications should not rely on any specific behavior connected
+with the second-level cache. Most implementations of this specification
+require additional configuration beyond the use of the `Cacheable`
+annotation to make use of the second-level cache. This specification does
+not even require that a persistence provider provide a second-level
+cache.
 
 ==== CollectionTable Annotation [[a14250]]
 
