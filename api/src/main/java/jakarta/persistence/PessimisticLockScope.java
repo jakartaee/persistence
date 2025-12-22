@@ -25,8 +25,8 @@ package jakarta.persistence;
  * {@link RefreshOption}, or {@link LockOption}. Alternatively, it may
  * be specified via the property {@code jakarta.persistence.lock.scope}.
  * This property may be passed as an argument to methods of
- * {@link EntityManager}, {@link Query}, and {@link TypedQuery} which
- * accept a {@link LockModeType} or it may be used in the {@link NamedQuery}
+ * {@link EntityManager} which accept a {@link LockModeType} or to 
+ * {@link Query#setHint}, or it may be used in the {@link NamedQuery}
  * annotation.
  *
  * @since 2.0
