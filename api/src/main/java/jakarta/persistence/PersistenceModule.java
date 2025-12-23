@@ -37,6 +37,12 @@ import static jakarta.persistence.ValidationMode.AUTO;
  * unit named {@code org.example.library} with resouce-local
  * transaction management:
  * {@snippet :
+ * import jakarta.persistence.PersistenceModule;
+ * import jakarta.persistence.PersistenceProperty;
+ * import static jakarta.persistence.TransactionType.RESOURCE_LOCAL;
+ * import static jakarta.persistence.PersistenceConfiguration.*;
+ * import static jakarta.persistence.PersistenceConfiguration.SchemaManagementAction.VALIDATE;
+ *
  * @PersistenceModule(
  *     transactionType = RESOURCE_LOCAL,
  *     classes = {Book.class, Author.class, Publisher.class},
@@ -45,8 +51,8 @@ import static jakarta.persistence.ValidationMode.AUTO;
  *     qualifiers = Library.class,
  *     schemaManagementDatabaseAction = VALIDATE,
  *     properties = {
- *         @PersistenceProperty(name="jakarta.persistence.jdbc.batchSize", value="20"),
- *         @PersistenceProperty(name="jakarta.persistence.jdbc.fetchSize", value="1000")
+ *         @PersistenceProperty(name = JDBC_BATCH_SIZE, value = "20"),
+ *         @PersistenceProperty(name = JDBC_FETCH_SIZE, value = "1000")
  *     }
  * )
  * module org.example.library { ... }
