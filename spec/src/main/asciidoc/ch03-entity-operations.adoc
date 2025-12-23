@@ -2087,84 +2087,68 @@ it to be applied to that entity or mapped superclass and its subclasses.
 In the case of multiple callback methods for
 a single lifecycle event, the invocation order rules described in <<a2251>> apply.
 
-=== Bean Validation [[a2366]]
+=== Jakarta Validation [[a2366]]
 
-This specification defines support for use of
-Bean Validation <<a19498>> within Jakarta Persistence
-applications.
+Jakarta Persistence integrates with Jakarta Validation <<a19498>>
+and specifies additional validation points for managed types
+(i.e. entities, mapped superclasses, and embeddable classes)
+at the entity lifecycle events described in <<a2202>>.
 
-Managed classes (entities, mapped
-superclasses, and embeddable classes) may be configured to include Bean
-Validation constraints.
-
-Automatic validation using these constraints
-is achieved by specifying that Jakarta Persistence delegate validation to
-the Bean Validation implementation upon the pre-persist, pre-update, and
-pre-remove entity lifecycle events described in <<a2202>>.
-
-Validation can also be achieved by the
-application calling the `validate` method of a `Validator` instance upon
-an instance of a managed class, as described in the Bean Validation
-specification <<a19498>>.
+Jakarta Persistence provider may automatically trigger validation of the managed objects
+as defined by the Jakarta Validation specification <<a19498>>.
 
 ==== Automatic Validation Upon Lifecycle Events
 
-This specification supports the use of bean
-validation for the automatic validation of entities upon the
-`pre-persist`, `pre-update`, and `pre-remove` lifecycle validation events.
-These lifecycle validation events occur immediately after the point at
-which all the `PrePersist`, `PreUpdate`, and `PreRemove` lifecycle
-callback method invocations respectively have been completed, or
-immediately after the point at which such lifecycle callback methods
-would have been completed (in the event that such callback methods are
-not present).
+If enabled, the automatic validation of entities
+upon lifecycle validation events must occur immediately after the point at
+which all the corresponding lifecycle callback method invocations have been completed,
+or immediately after the point at which such lifecycle callback methods
+would have been completed (if such callback methods are absent).
 
 [NOTE]
 ====
-In the case where an entity is persisted and
-subsequently modified in a single transaction or when an entity is
-modified and subsequently removed in a single transaction, it is
-implementation dependent as to whether the pre-update validation event
-occurs. Portable applications should not rely on this behavior.
+In the same way as with entity lifecycle events (<<a2202>>),
+the number of times automatic validation is triggered
+for an entity within a single transaction,
+when multiple operations are performed on the same entity,
+depends on the Jakarta Persistence provider.
+
+For example, whether a pre-update validation event occurs
+after an entity is persisted and then modified,
+or after it is modified and then removed within the same transaction,
+is implementation-dependent.
+
+Portable applications must not rely on the occurrence or order
+of such automatic validation events.
 ====
 
 ===== Enabling Automatic Validation [[a2374]]
 
-The `validation-mode` element of the
-`persistence.xml` file determines whether the automatic lifecycle event
-validation is in effect. The values of the `validation-mode` element are
-`AUTO`, `CALLBACK`, `NONE`. The default validation mode is `AUTO`.
+This specification defines the following validation modes:
 
-If the application creates the entity manager
-factory using the `Persistence.createEntityManagerFactory` method, the
-validation mode can be specified using the
-`jakarta.persistence.validation.mode` map key, which will override the
-value specified (or defaulted) in the `persistence.xml` file. The map
-values for this key are `auto`, `callback`, `none`.
+* `auto` -- if the Jakarta Validation _provider_ is obtainable,
+then the persistence provider must perform the automatic validation of entities
+as described in <<a2380>>.
+Otherwise, no lifecycle event validation takes place.
+This is the default validation mode.
+* `callback` -- the persistence provider must perform the automatic validation of entities
+as described in <<a2380>>. If no Jakarta Validation _provider_ is available,
+the persistence provider must throw the `PersistenceException`.
+* `none` -- the persistence provider must not perform any lifecycle event validation.
 
-If the auto validation mode is specified by
-the `validation-mode` element or the `jakarta.persistence.validation.mode`
-property, or if neither the `validation-mode` element nor the
-`jakarta.persistence.validation.mode` property is specified, and a Bean
-Validation provider is present in the environment, the persistence
-provider must perform the automatic validation of entities as described
-in <<a2380>>. If no Bean Validation provider is
-present in the environment, no lifecycle event validation takes place.
+[NOTE]
+====
+The Jakarta Validation _provider_ is obtained via the `jakarta.validation.ValidatorFactory` (<<a2394>>).
+====
 
-If the callback validation mode is specified
-by the `validation-mode` element or the
-`jakarta.persistence.validation.mode` property, the persistence provider
-must perform the lifecycle event validation as described in <<a2380>>.
-It is an error if there is no Bean Validation
-provider present in the environment, and the provider must throw the
-`PersistenceException` if the `jakarta.persistence.validation.mode`
-property value `callback` has been passed to the
-`Persistence.createEntityManagerFactory` method.
+The validation mode may be specified via the `validation-mode` element
+of the `persistence.xml` file.
+Allowed values for the `validation-mode` element are `AUTO`, `CALLBACK`, `NONE`.
 
-If the none validation mode is specified by
-the `validation-mode` element or the `jakarta.persistence.validation.mode`
-property, the persistence provider must not perform lifecycle event
-validation.
+The validation mode value derived from the `persistence.xml`
+may be overridden by the `jakarta.persistence.validation.mode` configuration property
+(e.g. passed to the  `Persistence.createEntityManagerFactory` factory method).
+Expected values for this property are _"auto"_, _"callback"_, _"none"_.
 
 ===== Requirements for Automatic Validation upon Lifecycle Events [[a2380]]
 
@@ -2231,7 +2215,7 @@ where `tr` is the resolver.
 
 ==== Providing the ValidatorFactory [[a2394]]
 
-In Jakarta EE environments, a `ValidatorFactory`
+In Jakarta EE environments, a `jakarta.validation.ValidatorFactory`
 instance is made available by the Jakarta EE container. The container is
 responsible for passing this validator factory to the persistence
 provider via the map that is passed as an argument to the
@@ -2244,10 +2228,10 @@ pass the `ValidatorFactory` instance via the map that is passed as an
 argument to the `Persistence.createEntityManagerFactory` call. The map
 key used must be the standard property name
 `jakarta.persistence.validation.factory`. If no `ValidatorFactory`
-instance is provided by the application, and if a Bean Validation
+instance is provided by the application, and if a Jakarta Validation
 provider is present in the classpath, the persistence provider must
 instantiate the `ValidatorFactory` using the default bootstrapping
-approach defined by the Bean Validation specification
+approach defined by the Jakarta Validation specification
 <<a19498>>, namely `Validation.buildDefaultValidatorFactory()`.
 
 === Entity Graphs [[a2397]]
