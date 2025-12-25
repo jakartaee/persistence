@@ -617,6 +617,13 @@ results are undefined and the dropping of database artifacts may fail.
 If scripts are to be generated, the target
 locations for the writing of these scripts must be specified. These
 targets are specified as strings corresponding to file URLs.
+`jakarta.persistence.schema-generation.create-database-schemas` ::
+Specifies whether the persistence provider creates database schemas
+in addition to creating database objects such as tables, sequences,
+constraints, and so on. The value `true` specifies that the persistence
+provider creates schemas in the database or generates DDL containing
+`CREATE SCHEMA` commands. If this property is not supplied, the provider
+does not create database schemas.
 
 If a persistence provider does not recognize a property (other than a
 property defined by this specification), the provider must ignore it.
