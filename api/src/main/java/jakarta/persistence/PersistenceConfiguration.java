@@ -188,7 +188,7 @@ public class PersistenceConfiguration {
      * The provider-generated SQL script which creates the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
      * <p>
-     * An instance of `{@link java.io.Writer} or a string specifying
+     * An instance of {@link java.io.Writer} or a string specifying
      * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_CREATE_TARGET = "jakarta.persistence.schema-generation.scripts.create-target";
@@ -196,10 +196,23 @@ public class PersistenceConfiguration {
      * The provider-generated SQL script which drops the schema
      * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
      * <p>
-     * An instance of `{@link java.io.Writer} or a string specifying
+     * An instance of {@link java.io.Writer} or a string specifying
      * the file URL of the DDL script.
      */
     public static final String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.scripts.drop-target";
+
+    /**
+     * Specifies whether the persistence provider creates database schemas
+     * in addition to creating database objects such as tables, sequences,
+     * constraints, and so on. The value {@code true} specifies that the
+     * persistence provider creates schemas in the database or generates
+     * DDL containing {@code CREATE SCHEMA} commands.
+     * <p>
+     * If this property is not supplied, the provider does not create database
+     * schemas.
+     * @since 4.0
+     */
+    public static final String SCHEMAGEN_CREATE_SCHEMAS = "jakarta.persistence.schema-generation.create-database-schemas";
 
     /**
      * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseProductName()},
