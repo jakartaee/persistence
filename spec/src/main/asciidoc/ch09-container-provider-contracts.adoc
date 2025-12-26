@@ -639,7 +639,7 @@ default value assigned by the persistence provider.
 | `jakarta.persistence.validation.mode`
 | `String`
 | `validation-mode`
-| Legal values are " `auto` ", " `callback` ", or " `none` ".
+| Legal values are `auto`, `callback`, or `none`.
 See <<a12382>> and <<a2374>>.
 |===
 
