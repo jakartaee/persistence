@@ -764,6 +764,8 @@ persistence unit.
 | Hint to enable JDBC statement batching by setting a batch size.
 | `jakarta.persistence.validation.factory`
 | Instance of `jakarta.validation.ValidatorFactory`.
+| `jakarta.persistence.bean.manager`
+| Instance of `jakarta.enterprise.inject.spi.BeanManager`.
 |===
 
 Any number of vendor-specific properties may
