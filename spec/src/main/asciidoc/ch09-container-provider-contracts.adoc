@@ -325,8 +325,8 @@ must delete or truncate any file existing at a script target location.
 `jakarta.persistence.schema-generation.database.action` ::
 The `jakarta.persistence.schema-generation.database.action` property specifies
 the action to be taken by the persistence provider with regard to the
-database artifacts. The values for this property are _"none"_,
-_"create"_, _"drop-and-create"_, _"drop"_, _"validate"_, _"populate"_. If the
+database artifacts. The values for this property are `none`,
+`create`, `drop-and-create`, `drop`, `validate`, `populate`. If the
 `jakarta.persistence.schema-generation.database.action` property is not
 specified, no schema generation actions must be taken on the database.
 `jakarta.persistence.schema-generation.scripts.action` ::

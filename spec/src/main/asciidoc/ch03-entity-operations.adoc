@@ -1901,7 +1901,7 @@ factory using the `Persistence.createEntityManagerFactory` method, the
 validation mode can be specified using the
 `jakarta.persistence.validation.mode` map key, which will override the
 value specified (or defaulted) in the `persistence.xml` file. The map
-values for this key are _"auto"_, _"callback"_, _"none"_.
+values for this key are `auto`, `callback`, `none`.
 
 If the auto validation mode is specified by
 the `validation-mode` element or the `jakarta.persistence.validation.mode`
@@ -1919,7 +1919,7 @@ must perform the lifecycle event validation as described in <<a2380>>.
 It is an error if there is no Bean Validation
 provider present in the environment, and the provider must throw the
 `PersistenceException` if the `jakarta.persistence.validation.mode`
-property value _"callback"_ has been passed to the
+property value `callback` has been passed to the
 `Persistence.createEntityManagerFactory` method.
 
 If the none validation mode is specified by
