@@ -499,32 +499,43 @@ The recognized standard properties are listed below in <<persistence-xml-propert
 
 ==== Persistence Unit Properties [[persistence-xml-properties]]
 
-The following properties and hints defined by this specification are
-intended for use in both Jakarta EE and Java SE environments:
+The following standard hints are intended for use in both Jakarta EE
+and Java SE environments:
 
 `jakarta.persistence.lock.timeout`::
-The pessimistic lock timeout in milliseconds. This is a hint only.
+Hint specifying a preferred pessimistic lock timeout in milliseconds.
+
 `jakarta.persistence.query.timeout`::
-The query timeout in milliseconds. This is a hint only.
+Hint specifying a preferred query timeout in milliseconds.
+
+The following properties are intended for use in Jakarta EE and
+Java SE environments when an implementation of Jakarta Validation
+is available:
+
 `jakarta.persistence.validation.group.pre-persist`::
 Bean Validation groups that are targeted for validation upon the
 pre-persist event (overrides the default behavior).
+
 `jakarta.persistence.validation.group.pre-update`::
 Bean Validation groups that are targeted for validation upon the
 pre-update event (overrides the default behavior).
+
 `jakarta.persistence.validation.group.pre-remove`::
 Bean Validation groups that are targeted for validation upon the
 pre-remove event (overrides the default behavior).
 
-The following properties defined by this specification are intended
-for use in Java SE environments.
+The following standard properties are intended for use in Java SE
+environments.
 
 `jakarta.persistence.jdbc.driver`::
 Fully qualified name of the JDBC driver class.
+
 `jakarta.persistence.jdbc.url`::
 Driver-specific connection URL.
+
 `jakarta.persistence.jdbc.user`::
 Username for database connection authentication.
+
 `jakarta.persistence.jdbc.password`::
 Password for database connection authentication
 
@@ -532,95 +543,92 @@ The following properties are relevant in both SE and EE environments.
 
 `jakarta.persistence.jdbc.fetchSize`::
 Override the default JDBC fetch size.
+
 `jakarta.persistence.jdbc.batchSize`::
 Hint to enable JDBC statement batching by setting a batch size.
 
-
-Scripts for use in schema generation may be specified using the
-`jakarta.persistence.schema-generation.create-script-source` and
-`jakarta.persistence.schema-generation.drop-script-source` properties.
-A script to specify SQL for the bulk loading of data may be specified
-by the `jakarta.persistence.sql-load-script-source` property. These
-properties are intended for use in both Jakarta EE and Java SE
-environments:
+Scripts for use in schema generation, as defined in <<a12917>>, or for
+bulk loading of data, defined in <<a12918>>, may be specified using the
+following properties. These properties are intended for use in both
+Jakarta EE and Java SE environments. Each property specifies the name of
+a script packaged as part of the persistence application, or a file URL
+identifying a script.
 
 `jakarta.persistence.schema-generation.create-script-source`::
-Name of a script packaged as part of the persistence application or
-a string identifying a file URL that designates a script.
+A DDL script which creates database objects.
+
 `jakarta.persistence.schema-generation.drop-script-source`::
-Name of a script packaged as part of the persistence application or
-a string identifying a file URL that designates a script.
+A DDL script which drops database objects.
+
 `jakarta.persistence.sql-load-script-source`::
-Name of a script packaged as part of the persistence unit or a string
-identifying a file URL that designates a script.
+A DML script used for bulk data loading.
 
 When scripts are packaged as part of the persistence application, these
 properties must specify locations relative to the root of the persistence
-unit. When scripts are provided externally (or when schema generation is
-configured to write script files, as described below), strings identifying
-file URLs must be specified. In Jakarta EE environments, such file URLs
-must be absolute paths. In Jakarta EE environments, all source and target
-file locations must be accessible to the application server deploying the
-persistence unit.
+unit. When scripts are provided externally, or when schema generation is
+configured to write script files, as described below, strings identifying
+file URLs must be specified. In a Jakarta EE environment, such file URLs
+must be absolute paths, and all source and target file locations must be
+accessible to the application server deploying the persistence unit.
 
 In general, it is expected that schema generation will be initiated by
 means of the APIs described in <<a12917>>. However, schema generation
-actions may also be specified by means of the following properties used
-in the `persistence.xml` file.
+actions may also be controlled using the following properties in the
+`persistence.xml` file.
 
 `jakarta.persistence.schema-generation.database.action` ::
-The `jakarta.persistence.schema-generation.database.action` property specifies
-the action to be taken by the persistence provider with regard to the
-database artifacts. The values for this property are `none`, `create`,
-`drop-and-create`, `drop`, `validate`, `populate`. If this property is not specified,
-it is assumed that schema generation is not needed or will be initiated by
-other means, and, by default, no schema generation actions will be taken
-on the database. (See <<a12917>>.)
+This property specifies the schema management action to be performed by the
+persistence provider on database artifacts. The values for this property are
+`none`, `create`, `drop-and-create`, `drop`, `validate`, `populate`. If this
+property is not specified, the provider must not perform schema management
+actions on the database. (See <<a12917>>.)
+
 `jakarta.persistence.schema-generation.scripts.action` ::
-The `jakarta.persistence.schema-generation.scripts.action` property specifies
-which scripts are to be generated by the persistence provider. The
-values for this property are `none`, `create`, `drop-and-create`,
-`drop`. A script will only be generated if the script target is
-specified. If this property is not specified, it is assumed that script
-generation is not needed or will be initiated by other means, and, by
-default, no scripts will be generated. (See <<a12917>>.)
+This property specifies which scripts are to be generated by the persistence
+provider. Legal values for this property are `none`, `create`, `drop-and-create`,
+`drop`. If this property is not specified, no DDL scripts are generated.
+(See <<a12917>>.)
+
 `jakarta.persistence.schema-generation.create-source` ::
-The `jakarta.persistence.schema-generation.create-source` property specifies
-whether the creation of database artifacts is to occur on the basis of
-the object/relational mapping metadata, DDL script, or a combination of
-the two. The values for this property are `metadata`, `script`,
-`metadata-then-script`, `script-then-metadata`. If this property is
-not specified, and a script is specified by the
-`jakarta.persistence.schema-generation.create-script-source` property, the
-script (only) will be used for schema generation; otherwise if this
-property is not specified, schema generation will occur on the basis of
-the object/relational mapping metadata (only). The
-`metadata-then-script` and `script-then-metadata` values specify that a
-combination of metadata and script is to be used and the order in which
-this use is to occur. If either of these values is specified and the
-resulting database actions are not disjoint, the results are undefined
-and schema generation may fail.
+This property specifies whether the creation of database artifacts is based
+on the object/relational mapping metadata, a DDL script, or a combination.
+Legal values for this property are `metadata`, `script`, `metadata-then-script`,
+`script-then-metadata`. When this property is not specified:
++
+* if a script is specified by the property
+`jakarta.persistence.schema-generation.create-script-source`, the script
+(only) is executed to create database artifacts;
+* otherwise, if that property is not specified, the provider infers a schema
+from the object/relational mapping metadata (only) and creates the artifacts
+of the inferred schema.
+
++
+The values `metadata-then-script` and `script-then-metadata` specify that a
+combination of metadata and script is used and the order in which this use
+occurs. If either of these values is specified and the resulting database
+actions are not disjoint, the results are undefined and the creation of
+database artefacts might fail.
+
 `jakarta.persistence.schema-generation.drop-source` ::
-The `jakarta.persistence.schema-generation.drop-source` property specifies
-whether the dropping of database artifacts is to occur on the basis of
-the object/relational mapping metadata, DDL script, or a combination of
-the two. The values for this property are `metadata`, `script`,
-`metadata-then-script`, `script-then-metadata`. If this property is
-not specified, and a script is specified by the
-`jakarta.persistence.schema-generation.drop-script-source` property, the
-script (only) will be used for the dropping of database artifacts;
-otherwise if this property is not specified, the dropping of database
-artifacts will occur on the basis of the object/relational mapping
-metadata (only). The `metadata-then-script` and `script-then-metadata`
-values specify that a combination of metadata and script is to be used
-and the order in which this use is to occur. If either of these values
-is specified and the resulting database actions are not disjoint, the
-results are undefined and the dropping of database artifacts may fail.
-`jakarta.persistence.schema-generation.scripts.create-target`, ::
-`jakarta.persistence.schema-generation.scripts.drop-target` ::
-If scripts are to be generated, the target
-locations for the writing of these scripts must be specified. These
-targets are specified as strings corresponding to file URLs.
+This property specifies whether the dropping of database artifacts is based
+on the object/relational mapping metadata, a DDL script, or a combination.
+Legal values for this property are `metadata`, `script`, `metadata-then-script`,
+`script-then-metadata`. When this property is not specified:
++
+* if a script is specified by the property
+`jakarta.persistence.schema-generation.drop-script-source`, the script (only)
+is executed to drop database artifacts;
+* otherwise, if that property is not specified, the provider infers a schema
+from the object/relational mapping metadata (only) and drops the artifacts
+of the inferred schema.
+
++
+The values `metadata-then-script` and `script-then-metadata` specify that a
+combination of metadata and script is to be used and the order in which this
+use occurs. If either of these values is specified and the resulting database
+actions are not disjoint, the results are undefined and the dropping of
+database artifacts may fail.
+
 `jakarta.persistence.schema-generation.create-database-schemas` ::
 Specifies whether the persistence provider creates database schemas
 in addition to creating database objects such as tables, sequences,
@@ -629,23 +637,30 @@ provider creates schemas in the database or generates DDL containing
 `CREATE SCHEMA` commands. If this property is not supplied, the provider
 does not create database schemas.
 
-Ordinarily, the persistence provider automatically determines the database in use by querying the JDBC database metadata or other vendor-specific heuristics.
-In some environments, JDBC metadata is unavailable, and information about the database must be explicitly specified.
+`jakarta.persistence.schema-generation.scripts.create-target`, ::
+`jakarta.persistence.schema-generation.scripts.drop-target` ::
+If scripts are generated, these properties must specify the target locations
+where the scripts are written. Each property specifies a string designating
+the file URL of the DDL script. The properties should only be specified if
+scripts are generated.
+
+Ordinarily, the persistence provider automatically determines the database in
+use by querying the JDBC database metadata or other vendor-specific heuristics.
+In some environments, JDBC metadata is unavailable, and information about the
+database must be explicitly specified.
 
 `jakarta.persistence.database-product-name`, ::
 `jakarta.persistence.database-major-version`, ::
 `jakarta.persistence.database-minor-version` ::
-In situations where JDBC metadata is not available, the `jakarta.persistence.database-product-name` property must be
-specified. The value of this property should be the value returned for
-the target database by the JDBC `DatabaseMetaData` method
-`getDatabaseProductName`. If sufficient database version information is
-not included in the result of this method, the
-`jakarta.persistence.database-major-version` and
-`jakarta.persistence.database-minor-version` properties should be
-specified as needed. These should contain the values returned by the
-JDBC `getDatabaseMajorVersion` and `getDatabaseMinorVersion` methods
-respectively.
-
+In situations where JDBC metadata is not available, the property
+`jakarta.persistence.database-product-name` must be specified. The value of
+this property should be the value returned for the target database by the
+method `getDatabaseProductName` of the JDBC `DatabaseMetaData` object. If
+sufficient database version information is not included in the result of
+this method, the `jakarta.persistence.database-major-version` and
+`jakarta.persistence.database-minor-version` properties should be specified
+as needed. These should specify the values returned by the `DatabaseMetaData`
+methods `getDatabaseMajorVersion` and `getDatabaseMinorVersion` respectively.
 
 If a persistence provider does not recognize a property (other than a
 property defined by this specification), the provider must ignore it.

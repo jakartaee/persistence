@@ -380,11 +380,12 @@ schemas in addition to creating database objects such as tables, sequences,
 constraints, and so on. The value `true` specifies that the persistence
 provider creates schemas in the database or generates DDL containing
 `CREATE SCHEMA` commands. If this property is not supplied, the provider
-must not attempt to create database schemas.footnote:[In Jakarta EE
-environments, it is anticipated that the Jakarta EE platform provider may
-wish to control the creation of database schemas rather than delegate this
-task to the persistence provider. This property may also be specified in
-Java SE environments.]
+must not create database schemas.footnote:[In Jakarta EE environments,
+it is anticipated that the Jakarta EE platform provider may wish to control
+the creation of database schemas rather than delegate this task to the
+persistence provider. This property may also be specified in Java SE
+environments.]
+
 `jakarta.persistence.schema-generation.scripts.create-target`, ::
 `jakarta.persistence.schema-generation.scripts.drop-target` ::
 If scripts are generated, these properties must specify the target locations
@@ -409,7 +410,7 @@ methods `getDatabaseMajorVersion` and `getDatabaseMinorVersion` respectively.
 
 `jakarta.persistence.schema-generation.create-script-source`, ::
 `jakarta.persistence.schema-generation.drop-script-source` ::
-These properties are used for script execution.footnote:[In Jakarta EE container
+These properties specify executable DDL scripts.footnote:[In Jakarta EE container
 environments, it is generally expected that the container is responsible for
 executing DDL scripts, although the container is permitted to delegate this task
 to the persistence provider. If DDL scripts are executed in a Java SE environment,
@@ -429,8 +430,7 @@ sufficient for the persistence provider to carry out the requested actions.] If
 this property is not specified, the persistence provider uses the `DataSource`
 configured for use by the persistence unit to obtain a JDBC connection.
 
-[[a12918]]
-==== Data Loading
+==== Data Loading [[a12918]]
 
 Data loading via execution of a SQL DML script may occur as part of the
 schema generation process, after the creation of the database artifacts,
