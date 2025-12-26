@@ -187,7 +187,7 @@ EntityManager em = emf.createEntityManager();
 
 The class `PersistenceConfiguration` described in <<a13444>> may be
 used to programmatically define and configure a persistence unit
-(see <<a12235>>), as an alternative to packaging a `persistence.xml`
+(see <<a12229>>), as an alternative to packaging a `persistence.xml`
 file, mapping files, and classes inside an archive as described in
 <<a12236>>.
 
