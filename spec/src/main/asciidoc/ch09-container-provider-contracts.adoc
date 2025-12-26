@@ -726,6 +726,10 @@ See <<a4391>>.
 | `String`
 | `jakarta.persistence.schema-generation.scripts.drop-target`
 | See <<a12384>>.
+| `jakarta.persistence.schema-generation.create-database-schemas`
+| `String`
+| `jakarta.persistence.schema-generation.create-database-schemas`
+| See <<a12384>>.
 | `jakarta.persistence.database-product-name`
 | `String`
 | `jakarta.persistence.database-product-name`
