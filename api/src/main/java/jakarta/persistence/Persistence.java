@@ -239,4 +239,304 @@ public final class Persistence {
         }
     }
 
+    /**
+     * Properties used to override elements the configuration of a persistence unit
+     * in {@code persistence.xml}. Clients of the {@link PersistenceConfiguration}
+     * class should not use these properties.
+     * @since 4.0
+     */
+    public interface UnitProperties {
+        /**
+         * The name of a class implementing {@link PersistenceProvider}.
+         */
+        String PERSISTENCE_PROVIDER = "jakarta.persistence.provider";
+
+        /**
+         * String specifying a {@link PersistenceUnitTransactionType}.
+         */
+        String PERSISTENCE_UNIT_TRANSACTION_TYPE = "jakarta.persistence.transactionType";
+
+        /**
+         * The JNDI name of a JTA data source used by the persistence provider to obtain database
+         * connections.
+         */
+        String PERSISTENCE_UNIT_JTA_DATASOURCE = "jakarta.persistence.jtaDataSource";
+
+        /**
+         * The JNDI name of a non-JTA data source used by the persistence provider to obtain database
+         * connections.
+         */
+        String PERSISTENCE_UNIT_NON_JTA_DATASOURCE = "jakarta.persistence.nonJtaDataSource";
+
+        /**
+         * The fully-qualified class name of an annotation annotated {@code jakarta.inject.Qualifier}.
+         * This qualifier annotation may be used to disambiguate the persistence unit for the
+         * purposes of dependency injection.
+         */
+        String PERSISTENCE_UNIT_BEAN_QUALIFIERS = "jakarta.persistence.qualifiers";
+
+        /**
+         * The fully-qualified class name of an annotation annotated {@code jakarta.inject.Scope}
+         * or {@code jakarta.enterprise.context.NormalScope}. This scope annotation may be used to
+         * determine the scope of a persistence context for the purposes of dependency injection.
+         */
+        String PERSISTENCE_UNIT_BEAN_SCOPE = "jakarta.persistence.scope";
+    }
+
+    /**
+     * Properties used to configure the second-level cache.
+     * @since 4.0
+     */
+    public interface CacheProperties {
+        /**
+         * String specifying a {@link SharedCacheMode}.
+         *
+         * <p>Defined for use with
+         * {@link Persistence#createEntityManagerFactory(String, Map)}.
+         * Clients of the {@link PersistenceConfiguration} class
+         * should use {@link PersistenceConfiguration#sharedCacheMode(SharedCacheMode)}.
+         */
+        String CACHE_MODE = "jakarta.persistence.sharedCache.mode";
+    }
+
+    /**
+     * Properties used to configure the interaction with JDBC.
+     * @since 4.0
+     */
+    public interface JdbcProperties {
+        /**
+         * Fully qualified name of the JDBC driver class.
+         */
+        String JDBC_DRIVER = "jakarta.persistence.jdbc.driver";
+
+        /**
+         * JDBC URL.
+         */
+        String JDBC_URL = "jakarta.persistence.jdbc.url";
+
+        /**
+         * Username for JDBC authentication.
+         */
+        String JDBC_USER = "jakarta.persistence.jdbc.user";
+
+        /**
+         * Password for JDBC authentication.
+         */
+        String JDBC_PASSWORD = "jakarta.persistence.jdbc.password";
+
+        /**
+         * An instance of {@code javax.sql.DataSource}.
+         */
+        String JDBC_DATASOURCE = "jakarta.persistence.dataSource";
+
+        /**
+         * Override the default {@linkplain java.sql.Statement#setFetchSize JDBC fetch size}.
+         * @since 4.0
+         */
+        String JDBC_FETCH_SIZE = "jakarta.persistence.jdbc.fetchSize";
+
+        /**
+         * Enable {@linkplain java.sql.Statement#executeBatch JDBC statement batching}
+         * by setting a batch size.
+         * <p>This setting is a hint.
+         * @since 4.0
+         */
+        String JDBC_BATCH_SIZE = "jakarta.persistence.jdbc.batchSize";
+
+        /**
+         * Default pessimistic lock timeout hint.
+         */
+        String LOCK_TIMEOUT = "jakarta.persistence.lock.timeout";
+
+        /**
+         * Default query timeout hint.
+         */
+        String QUERY_TIMEOUT = "jakarta.persistence.query.timeout";
+    }
+
+    /**
+     * Properties used to specify the database platform when JDBC metadata is not available.
+     * @since 4.0
+     */
+    public interface DatabaseProperties {
+        /**
+         * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseProductName()},
+         * for use when JDBC metadata is not available.
+         * @since 4.0
+         */
+        String DATABASE_PRODUCT_NAME = "jakarta.persistence.database-product-name";
+
+        /**
+         * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseMajorVersion()},
+         * for use when JDBC metadata is not available.
+         * @since 4.0
+         */
+        String DATABASE_MAJOR_VERSION = "jakarta.persistence.database-major-version";
+
+        /**
+         * The value returned by {@link java.sql.DatabaseMetaData#getDatabaseMinorVersion()},
+         * for use when JDBC metadata is not available.
+         * @since 4.0
+         */
+        String DATABASE_MINOR_VERSION = "jakarta.persistence.database-minor-version";
+    }
+
+    /**
+     * Properties used to control the schema management tooling.
+     * @since 4.0
+     */
+    public interface SchemaManagementProperties {
+        /**
+         * The action to be performed against the database.
+         *
+         * <p>Standard actions are: {@code none}, {@code create},
+         * {@code drop}, {@code drop-and-create}, {@code validate},
+         * {@code populate}.
+         *
+         * @see SchemaManagementAction
+         * @see PersistenceConfiguration#schemaManagementDatabaseAction(SchemaManagementAction)
+         */
+        String SCHEMAGEN_DATABASE_ACTION = "jakarta.persistence.schema-generation.database.action";
+
+        /**
+         * The action to be generated as a SQL script.
+         *
+         * <p>The script is generated in the location specified by
+         * {@value #SCHEMAGEN_CREATE_TARGET} or {@value #SCHEMAGEN_DROP_TARGET}.
+         *
+         * <p>Standard actions are: {@code none}, {@code create},
+         * {@code drop}, {@code drop-and-create}.
+         *
+         * @see SchemaManagementAction
+         * @see PersistenceConfiguration#schemaManagementScriptsAction(SchemaManagementAction)
+         */
+        String SCHEMAGEN_SCRIPTS_ACTION = "jakarta.persistence.schema-generation.scripts.action";
+
+        /**
+         * The source of artifacts to be created.
+         *
+         * <p>Standard sources are: {@code metadata}, {@code script},
+         * {@code metadata-then-script}, {@code script-then-metadata}.
+         *
+         * <p>The location of the script source is specified by
+         * {@value #SCHEMAGEN_CREATE_SCRIPT_SOURCE}.
+         */
+        String SCHEMAGEN_CREATE_SOURCE = "jakarta.persistence.schema-generation.create-source";
+
+        /**
+         * The source of artifacts to be dropped.
+         *
+         * <p>Standard sources are: {@code metadata}, {@code script},
+         * {@code metadata-then-script}, {@code script-then-metadata}.
+         *
+         * <p>The location of the script source is specified by
+         * {@value #SCHEMAGEN_DROP_SCRIPT_SOURCE}.
+         */
+        String SCHEMAGEN_DROP_SOURCE = "jakarta.persistence.schema-generation.drop-source";
+
+        /**
+         * An application-provided SQL script to be executed when the
+         * schema is created.
+         * <p>
+         * An instance of {@link java.io.Reader} or a string specifying
+         * the file URL of the DDL script.
+         */
+        String SCHEMAGEN_CREATE_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.create-script-source";
+
+        /**
+         * An application-provided SQL script to be executed when the
+         * schema is dropped.
+         * <p>
+         * An instance of {@link java.io.Reader} or a string specifying
+         * the file URL of the DDL script.
+         */
+        String SCHEMAGEN_DROP_SCRIPT_SOURCE = "jakarta.persistence.schema-generation.drop-script-source";
+
+        /**
+         * An application-provided SQL script to be executed after the
+         * schema is created, typically used for loading data.
+         * <p>
+         * An instance of {@link java.io.Reader} or a string specifying
+         * the file URL of the DML script.
+         */
+        String SCHEMAGEN_LOAD_SCRIPT_SOURCE = "jakarta.persistence.sql-load-script-source";
+
+        /**
+         * The provider-generated SQL script which creates the schema
+         * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+         * <p>
+         * An instance of {@link java.io.Writer} or a string specifying
+         * the file URL of the DDL script.
+         */
+        String SCHEMAGEN_CREATE_TARGET = "jakarta.persistence.schema-generation.scripts.create-target";
+
+        /**
+         * The provider-generated SQL script which drops the schema
+         * when {@value SCHEMAGEN_SCRIPTS_ACTION} is set.
+         * <p>
+         * An instance of {@link java.io.Writer} or a string specifying
+         * the file URL of the DDL script.
+         */
+        String SCHEMAGEN_DROP_TARGET = "jakarta.persistence.schema-generation.scripts.drop-target";
+
+        /**
+         * Specifies whether the persistence provider creates database schemas
+         * in addition to creating database objects such as tables, sequences,
+         * constraints, and so on. The value {@code true} specifies that the
+         * persistence provider creates schemas in the database or generates
+         * DDL containing {@code CREATE SCHEMA} commands.
+         * <p>
+         * If this property is not supplied, the provider does not create database
+         * schemas.
+         * @since 4.0
+         */
+        String SCHEMAGEN_CREATE_SCHEMAS = "jakarta.persistence.schema-generation.create-database-schemas";
+    }
+
+    /**
+     * Properties used to control the integration with Bean Validation.
+     * @since 4.0
+     */
+    public interface ValidationProperties {
+        /**
+         * An instance of {@code jakarta.validation.ValidatorFactory}.
+         */
+        String VALIDATION_FACTORY = "jakarta.persistence.validation.factory";
+
+        /**
+         * Target groups for validation at {@link PrePersist}.
+         */
+        String VALIDATION_GROUP_PRE_PERSIST = "jakarta.persistence.validation.group.pre-persist";
+
+        /**
+         * Target groups for validation at {@link PreUpdate}.
+         */
+        String VALIDATION_GROUP_PRE_UPDATE = "jakarta.persistence.validation.group.pre-update";
+
+        /**
+         * Target groups for validation at {@link PreRemove}.
+         */
+        String VALIDATION_GROUP_PRE_REMOVE = "jakarta.persistence.validation.group.pre-remove";
+
+        /**
+         * String specifying a {@link ValidationMode}.
+         *
+         * <p>Defined for use with
+         * {@link Persistence#createEntityManagerFactory(String, Map)}.
+         * Clients of the {@link PersistenceConfiguration} class
+         * should use {@link PersistenceConfiguration#validationMode(ValidationMode)}.
+         */
+        String VALIDATION_MODE = "jakarta.persistence.validation.mode";
+    }
+
+    /**
+     * Properties used to control the integration with CDI.
+     * @since 4.0
+     */
+    public interface BeanManagementProperties {
+        /**
+         * An instance of {@code jakarta.enterprise.inject.spi.BeanManager}.
+         */
+        String BEAN_MANAGER = "jakarta.persistence.bean.manager";
+    }
 }
