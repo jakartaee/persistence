@@ -717,7 +717,7 @@ described above.
 
 [source,xml]
 ----
-<persistence-unit name="OrderManagement4" transaction-type=RESOURCE_LOCAL>
+<persistence-unit name="OrderManagement4" transaction-type="RESOURCE_LOCAL">
     <non-jta-data-source>java:app/jdbc/MyDB</non-jta-data-source>
     <mapping-file>order-mappings.xml</mapping-file>
     <class>com.acme.Order</class>
