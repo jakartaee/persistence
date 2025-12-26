@@ -4,11 +4,7 @@
 
 == Entity Packaging [[a12229]]
 
-This chapter describes the packaging of persistence units.
-
-=== Persistence Unit [[a12235]]
-
-A persistence unit is a logical grouping that includes:
+A _persistence unit_ is a logical grouping that includes:
 
 - an entity manager factory and its entity managers, together with
   their configuration information,
@@ -17,6 +13,8 @@ A persistence unit is a logical grouping that includes:
   and
 - mapping metadata (in the form of metadata annotations and/or XML
   metadata) specifying the mapping of these classes to the database.
+
+This chapter describes the packaging of persistence units.
 
 === Persistence Unit Packaging [[a12236]]
 
@@ -78,7 +76,7 @@ of a Java SE application, it is necessary to explicitly list the managed
 persistence classes included in the persistence unit using the `class`
 element of the `persistence.xml` file. See <<a12305>>.
 
-==== persistence.xml file [[a12237]]
+=== persistence.xml file [[a12237]]
 
 A `persistence.xml` file defines a persistence unit. The `persistence.xml`
 file is located in the `META-INF` directory of the root of the persistence
@@ -112,6 +110,8 @@ The managed persistence classes may be:
 - specified by any combination of these means.
 
 See <<a12305>>.
+
+==== Elements of persistence.xml
 
 The root element of the `persistence.xml` file is the `persistence` element.
 The `persistence` element consists of one or more `persistence-unit` elements.
@@ -491,9 +491,13 @@ type for one-to-one and many-to-one associations, as specified in
 
 ===== properties [[a12384]]
 
-The `properties` element is used to specify both standard and
-vendor-specific properties and hints that apply to the persistence unit
-and its entity manager factory configuration.
+The `properties` element lists settings for both standard and
+vendor-specific properties and hints that affect the configuration of
+the persistence unit and creation of its `EntityManagerFactory`.
+
+The recognized standard properties are listed below in <<persistence-xml-properties>>.
+
+==== Persistence Unit Properties [[persistence-xml-properties]]
 
 The following properties and hints defined by this specification are
 intended for use in both Jakarta EE and Java SE environments:
@@ -651,6 +655,8 @@ Vendors should define properties in vendor-specific namespaces, (e.g
 is reserved for use by this specification, and must not be used to
 define vendor-specific properties.
 
+==== Example Persistence Unit Configurations
+
 The following are sample contents of a `persistence.xml` file.
 
 *Example 1:*
@@ -774,7 +780,7 @@ contained in `order.jar` is not used to augment the persistence unit
 is `order.jar`.
 ====
 
-==== Persistence Unit Scope [[a12459]]
+=== Persistence Unit Scope [[a12459]]
 
 An EJB-JAR, WAR, application client JAR, or EAR can define a persistence
 unit. When referencing a persistence unit using the `unitName` annotation
