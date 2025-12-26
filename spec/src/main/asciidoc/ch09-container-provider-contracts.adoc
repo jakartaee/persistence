@@ -715,6 +715,14 @@ See <<a4391>>.
 | `String`
 | `jakarta.persistence.schema-generation.scripts.drop-target`
 | See <<a12384>>.
+| `jakarta.persistence.database-major-version`
+| The value returned for the target database by the JDBC method
+`getDatabaseMajorVersion` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
+| `jakarta.persistence.database-minor-version`
+| The value returned for the target database by the JDBC method
+`getDatabaseMinorVersion` of `DatabaseMetaData`, for use in
+situations where JDBC metadata is not available.
 |===
 
 The following additional standard properties are defined by this specification
@@ -744,14 +752,6 @@ persistence unit.
 | `jakarta.persistence.database-product-name`
 | The value returned for the target database by the JDBC method
 `getDatabaseProductName` of `DatabaseMetaData`, for use in
-situations where JDBC metadata is not available.
-| `jakarta.persistence.database-major-version`
-| The value returned for the target database by the JDBC method
-`getDatabaseMajorVersion` of `DatabaseMetaData`, for use in
-situations where JDBC metadata is not available.
-| `jakarta.persistence.database-minor-version`
-| The value returned for the target database by the JDBC method
-`getDatabaseMinorVersion` of `DatabaseMetaData`, for use in
 situations where JDBC metadata is not available.
 |===
 

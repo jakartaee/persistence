@@ -625,6 +625,24 @@ provider creates schemas in the database or generates DDL containing
 `CREATE SCHEMA` commands. If this property is not supplied, the provider
 does not create database schemas.
 
+Ordinarily, the persistence provider automatically determines the database in use by querying the JDBC database metadata or other vendor-specific heuristics.
+In some environments, JDBC metadata is unavailable, and information about the database must be explicitly specified.
+
+`jakarta.persistence.database-product-name`, ::
+`jakarta.persistence.database-major-version`, ::
+`jakarta.persistence.database-minor-version` ::
+In situations where JDBC metadata is not available, the `jakarta.persistence.database-product-name` property must be
+specified. The value of this property should be the value returned for
+the target database by the JDBC `DatabaseMetaData` method
+`getDatabaseProductName`. If sufficient database version information is
+not included in the result of this method, the
+`jakarta.persistence.database-major-version` and
+`jakarta.persistence.database-minor-version` properties should be
+specified as needed. These should contain the values returned by the
+JDBC `getDatabaseMajorVersion` and `getDatabaseMinorVersion` methods
+respectively.
+
+
 If a persistence provider does not recognize a property (other than a
 property defined by this specification), the provider must ignore it.
 
