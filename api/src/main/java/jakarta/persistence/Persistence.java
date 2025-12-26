@@ -491,6 +491,16 @@ public final class Persistence {
          * @since 4.0
          */
         String SCHEMAGEN_CREATE_SCHEMAS = "jakarta.persistence.schema-generation.create-database-schemas";
+
+        /**
+         * Supplies a JDBC {@code Connection} to use for executing schema
+         * management {@linkplain #SCHEMAGEN_DATABASE_ACTION actions} on the
+         * database. If not specified, the persistence provider uses the
+         * {@code DataSource} configured for use by the persistence unit to
+         * obtain a JDBC connection.
+         * @since 4.0
+         */
+        String SCHEMAGEN_CONNECTION = "jakarta.persistence.schema-generation.connection";
     }
 
     /**
