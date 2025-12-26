@@ -280,6 +280,8 @@ controls whether:
 - DDL scripts for schema generation are created as files,
 - or both.
 
+==== Properties for Schema Generation
+
 The application may provide DDL scripts to be used for schema generation,
 as described in <<a12384>>. The application developer may package these
 scripts as part of the persistence unit or may specify file URLs identifying
@@ -296,16 +298,21 @@ is determined by the object/relational metadata of the persistence unit.
 The following standard properties are defined for configuring the schema
 generation process.
 
-- In Jakarta EE environments these properties are passed by the container
-  in the `Map` argument to either `PersistenceProvider.generateSchema()`
-  or `createContainerEntityManagerFactory()`.
-- In Java SE environments, they are passed in the `Map` argument to either
-  the `Persistence.generateSchema()` or `createEntityManagerFactory()`.
+- In Jakarta EE, these properties are passed by the container in the `Map`
+  argument of either the `generateSchema()` method or the
+  `createContainerEntityManagerFactory()` method of `PersistenceProvider`.
+- In Java SE, they are passed in the `Map` argument of either the
+  `generateSchema()` method or the `createEntityManagerFactory` method
+  of `Persistence`.
 
-In Jakarta EE environments, any strings identifying file URLs of script
-sources or targets must specify absolute paths (not relative), and all
-source and target file locations must be accessible to the application
-server deploying the persistence unit.
+In Jakarta EE environments:
+
+- Every string representing the file URL of a script source or target
+  must specify an absolute path. If a file URL is specified as a relative
+  path, the behavior is undefined.
+- Every source file and target file location must be accessible to the
+  application server deploying the persistence unit.
+
 
 [NOTE]
 ====
@@ -579,8 +586,8 @@ provider is not required to implement this interface.
 The `Persistence` class may be found in <<_persistence_>>.
 
 The `Persistence` class is used to obtain an `EntityManagerFactory` instance
-in Java SE environments. It may also be used for schema generation—i.e., to
-create database schemas and/or tables and/or to create DDL scripts.
+in Java SE environments. It may also be used for schema generation, that is,
+to create database schemas and/or DDL scripts, as specified above in <<a12917>>.
 
 The `Persistence` class is also available in a Jakarta EE container environment;
 however, support for the Java SE bootstrapping APIs is not required in container
@@ -589,17 +596,21 @@ environments.
 The `Persistence` class is used to obtain a `PersistenceUtil` instance in both
 Jakarta EE and Java SE environments.
 
-The `properties` argument passed to the `createEntityManagerFactory`
-method is used to specify both standard and vendor-specific properties
-and hints intended for use in creating the entity manager factory and
-controlling its behavior.
+==== Properties for Java SE Bootstrap
+
+In a Java SE environment, any standard or vendor-specific property or hint used
+during the creation of the `EntityManagerFactory` may be specified:
+
+- by including it as an entry in a `Map` passed as the second argument to the
+  `createEntityManagerFactory()` method of `Persistence`, or
+- by calling the `property()` method of `PersistenceConfiguration`.
 
 The following properties correspond to the elements and attributes in the
-`persistence.xml` file. When any of these properties are specified in the
-`Map` parameter passed to the `createEntityManagerFactory` method, their
-values override the values of the corresponding elements and attributes
-in the `persistence.xml` file for the named persistence unit. They also
-override any defaults that the persistence provider might have applied.
+`persistence.xml` file. When one of these properties is specified via the
+`Map` parameter of the `createEntityManagerFactory()` method, its value
+overrides the value of any corresponding element or attribute specified in
+the `persistence.xml` file for the named persistence unit, along with any
+default value assigned by the persistence provider.
 
 [cols="40,10,25,~"]
 |===
@@ -644,12 +655,12 @@ See <<a12382>> and <<a2374>>.
 See <<fetching-policies>>
 |===
 
-The following properties correspond to the properties in the `persistence.xml`
-file. When any of these properties are specified in the `Map` parameter passed
-to the `createEntityManagerFactory` method, their values override the values of
-the corresponding properties in the `persistence.xml` file for the named
-persistence unit. They also override any defaults that the persistence provider
-might have applied.
+The following properties correspond to properties in the `persistence.xml`
+file. When one of these properties is specified via the `Map` parameter of
+the `createEntityManagerFactory` method, its value overrides the value of
+any corresponding `<property>` in the `persistence.xml` file for the named
+persistence unit, along with any default value assigned by the persistence
+provider.
 
 [cols="35,10,35,~"]
 |===
