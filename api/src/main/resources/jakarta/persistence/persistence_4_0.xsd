@@ -58,7 +58,7 @@
     <xsd:complexType>
       <xsd:sequence>
 
-        <xsd:element name="jta-data-source"
+        <xsd:element name="jta-data-source-definition"
                      minOccurs="0" maxOccurs="unbounded">
           <xsd:complexType>
             <xsd:complexContent>
@@ -75,7 +75,7 @@
           </xsd:complexType>
         </xsd:element>
 
-        <xsd:element name="non-jta-data-source"
+        <xsd:element name="non-jta-data-source-definition"
                      minOccurs="0" maxOccurs="unbounded">
           <xsd:complexType>
             <xsd:complexContent>
@@ -160,42 +160,54 @@
               </xsd:element>
 
               <!-- **************************************************** -->
+              <xsd:choice minOccurs="0">
+                <xsd:element name="jta-data-source" type="xsd:string">
+                  <xsd:annotation>
+                    <xsd:documentation>
 
-              <xsd:element name="data-source"
-                           type="persistence:data-source-definition-type"
-                           minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                  <xsd:documentation>
-                    A data source.
-                  </xsd:documentation>
-                </xsd:annotation>
-              </xsd:element>
+                      The container-specific name of the JTA datasource to use.
+
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:element>
+
+                <xsd:element name="jta-data-source-definition"
+                             type="persistence:data-source-definition-type">
+                  <xsd:annotation>
+                    <xsd:documentation>
+
+                      Definition of the JTA datasource to use.
+
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:element>
+              </xsd:choice>
 
               <!-- **************************************************** -->
+              <xsd:choice minOccurs="0">
+                <xsd:element name="non-jta-data-source" type="xsd:string"
+                             minOccurs="0">
+                  <xsd:annotation>
+                    <xsd:documentation>
 
-              <xsd:element name="jta-data-source" type="xsd:string"
-                           minOccurs="0">
-                <xsd:annotation>
-                  <xsd:documentation>
+                      The container-specific name of a non-JTA datasource to use.
 
-                    The container-specific name of the JTA datasource to use.
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:element>
 
-                  </xsd:documentation>
-                </xsd:annotation>
-              </xsd:element>
+                <xsd:element name="non-jta-data-source-definition"
+                             type="persistence:data-source-definition-type"
+                             minOccurs="0">
+                  <xsd:annotation>
+                    <xsd:documentation>
 
-              <!-- **************************************************** -->
+                      Definition of the non-JTA datasource to use.
 
-              <xsd:element name="non-jta-data-source" type="xsd:string"
-                           minOccurs="0">
-                <xsd:annotation>
-                  <xsd:documentation>
-
-                    The container-specific name of a non-JTA datasource to use.
-
-                  </xsd:documentation>
-                </xsd:annotation>
-              </xsd:element>
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:element>
+              </xsd:choice>
 
               <!-- **************************************************** -->
 
