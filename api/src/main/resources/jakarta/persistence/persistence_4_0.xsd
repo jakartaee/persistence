@@ -58,13 +58,39 @@
     <xsd:complexType>
       <xsd:sequence>
 
-        <xsd:element name="jta-data-source" 
-                     type="persistence:data-source-definition-type" 
-                     minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="jta-data-source"
+                     minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:extension base="persistence:data-source-definition-type">
+                <xsd:attribute name="name" type="xsd:string" use="required">
+                  <xsd:annotation>
+                    <xsd:documentation>
+                      JNDI name by which the data source will be registered.
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
 
-        <xsd:element name="non-jta-data-source" 
-                     type="persistence:data-source-definition-type" 
-                     minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="non-jta-data-source"
+                     minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:extension base="persistence:data-source-definition-type">
+                <xsd:attribute name="name" type="xsd:string" use="required">
+                  <xsd:annotation>
+                    <xsd:documentation>
+                      JNDI name by which the data source will be registered.
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
 
         <!-- **************************************************** -->
 
@@ -468,13 +494,6 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
-      <xsd:element name="name" type="xsd:string">
-        <xsd:annotation>
-          <xsd:documentation>
-            JNDI name by which the data source will be registered.
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
       <xsd:element name="description" type="xsd:string" minOccurs="0">
         <xsd:annotation>
           <xsd:documentation>
