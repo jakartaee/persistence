@@ -86,7 +86,8 @@ unit. It may be used to specify:
 
 - managed persistence classes included in the persistence unit,
 - object/relational mapping information for those classes,
-- scripts for use in schema generation and bulk loading of data, and
+- scripts for use in schema generation and bulk loading of data,
+- container-managed datasources used by the persistence unit, and
 - other configuration information for the persistence unit and for the
   entity managers and entity manager factory of the persistence unit.
 
@@ -106,7 +107,7 @@ The object/relational mapping information can take the form of:
 The managed persistence classes may be:
 
 - contained within the root of the persistence unit,
-- specified by reference—that is, by naming the classes, class archives, or
+- specified by reference--that is, by naming the classes, class archives, or
   XML mapping files (which in turn reference classes) that are accessible on
   the application classpath, or
 - specified by any combination of these means.
@@ -114,7 +115,151 @@ The managed persistence classes may be:
 See <<a12305>>.
 
 The root element of the `persistence.xml` file is the `persistence` element.
-The `persistence` element consists of one or more `persistence-unit` elements.
+It may contain:
+
+- any number of child `persistence-unit` elements, along with
+- any number of child `jta-datasource` and `non-jta-datasource` elements.
+
+Each `persistence-unit` element declares a persistence unit, as specified
+below in <<persistence-unit-definitions>>. Each `jta-datasource` or
+`non-jta-datasource` element declares a named datasource, as specified below
+in <<data-source-definitions>>. The schema for the `peristence.xml` file may
+be found below in <<persistence-xml-schema>>.
+
+==== Data Source Definitions [[data-source-definitions]]
+
+There are two ways to declare a `DataSource`:
+
+- an explicitly named datasource bound to JNDI may be declared as a direct child
+  of the `persistence` element, or
+- a datasource may be declared as a child of the `persistence-unit` element, in
+  which case it may or may not be bound to JNDI, and its name, if any, is assigned
+  by the container or persistence provider, as specified below in
+  <<child-data-source-definition>>.
+
+===== jta-data-source-definition and non-jta-data-source-definition
+
+A `jta-data-source` or `non-jta-data-source` element occurring as a direct child
+of the root `persistence` element of the `persistence.xml` file declares a
+named container-managed `DataSource` bound to JNDI. This declaration is identical
+in semantics to the annotation `jakarta.annotation.sql.DataSourceDefinition`.
+
+===== name
+
+The `name` attribute specifies the JNDI name by which the data source will
+be registered. It may be defined to be in any valid Jakarta EE namespace,
+which will determine the accessibility of the data source from other components.
+
+===== description
+
+The `description` element provides optional descriptive information about the
+data source.
+
+===== class-name
+
+The `class-name` element specifies the name of a `DataSource` class that
+implements `javax.sql.DataSource`, `javax.sql.XADataSource`, or
+`javax.sql.ConnectionPoolDataSource`.
+
+===== url
+
+The `url` element specifies a JDBC URL.  If the url annotation element contains
+a `DataSource` property that was also specified using a `property` element, the
+precedence order is undefined and implementation specific.
+
+===== user
+
+The `user` element specifies the username to use for connection authentication.
+
+===== password
+
+The `password` element specifies the password to use for connection authentication.
+
+===== database-name
+
+The `database-name` element specifies the name of a database on a server.
+
+===== port-number
+
+The `port-number` element specifies the port number where a server is listening
+for requests.
+
+===== server-name
+
+The `server-name` element specifies the database server name.
+
+===== isolation-level
+
+The `isolation-level` element specifies the isolation level for connections.
+The value of this element must be one of: `TRANSACTION_NONE`,
+`TRANSACTION_READ_UNCOMMITTED`, `TRANSACTION_READ_COMMITTED`,
+`TRANSACTION_REPEATABLE_READ`, `TRANSACTION_SERIALIZABLE`. The interpretation
+of these transaction isolation levels is provided by the JDBC specification.
+
+Default is vendor-specific.
+
+===== transactional
+
+The `transactional` element specifies whether connections should participate
+in transactions.
+
+By default, a connection is enlisted in a transaction whenever a transaction
+is active or becomes active.
+
+===== initial-pool-size
+
+The `initial-pool-size` element specifies the number of connections that should
+be created when a connection pool is initialized.
+
+Default is vendor-specific.
+
+===== max-pool-size
+
+The `max-pool-size` element specifies the maximum number of connections that
+should be concurrently allocated for a connection pool.
+
+Default is vendor-specific.
+
+===== min-pool-size
+
+The `min-pool-size` element specifies the minimum number of connections that
+should be allocated for a connection pool.
+
+Default is vendor-specific.
+
+===== max-idle-time
+
+The `max-idle-time` element specifies the number of seconds that a physical
+connection should remain unused in the pool before the connection is closed.
+
+Default is vendor-specific.
+
+===== max-statements
+
+The `max-statements` element specifies the total number of statements that a
+connection pool should keep open. A value of 0 indicates that the caching of statements is disabled for a connection pool.
+
+Default is vendor-specific.
+
+===== login-timeout
+
+The `login-timeout` element specifies the maximum time in seconds that the
+data source will wait while attempting to connect to a database. A value of
+0 specifies that the timeout is the default system timeout if there is one;
+otherwise, it specifies that there is no timeout.
+
+Default is vendor-specific.
+
+===== property
+
+The `property` element is used to specify vendor-specific properties and less
+commonly used `DataSource` properties.
+
+==== Persistence Unit Definitions [[persistence-unit-definitions]]
+
+A `persistence-unit` element declares a named persistence unit.
+
+===== persistence-unit
 
 The `persistence-unit` element consists of the `name` and `transaction-type`
 attributes and the following sub-elements:
@@ -223,7 +368,7 @@ purposes of dependency injection.
 
 ===== jta-data-source, non-jta-data-source [[a12302]]
 
-In Jakarta EE environments:
+In a Jakarta EE environment:
 
 - the `jta-data-source` element specifies the JNDI name of a JTA data source,
   and/or
@@ -237,6 +382,23 @@ source at deployment, or a default data source must be provided by the container
 In Java SE environments, these elements may be used, or the data source
 information may be specified by other means, depending upon the requirements
 of the provider.
+
+===== jta-data-source-definition, non-jta-data-source-definition [[child-data-source-definition]]
+
+A `jta-data-source-definition` or `non-jta-data-source-definition` element
+occurring as a child of a `persistence-unit` element declares a `DataSource`
+managed by:
+
+- the Jakarta EE container, in a Jakarta EE environment, or
+- the persistence provider, in a Java SE environment.
+
+The container or persistence provider is not required to make this `DataSource`
+available in JNDI. If it does make the `DataSource` available in JNDI, the JNDI
+name is a vendor-specific name assigned by the container or provider, and is not
+portable between containers and persistence providers.
+
+The subelements of `jta-data-source-definition` and `non-jta-data-source-definition`
+are defined above in <<data-source-definitions>>.
 
 ===== mapping-file, jar-file, class, exclude-unlisted-classes [[a12305]]
 
@@ -780,7 +942,7 @@ unit with:
   `persistence.xml` file, and
 - root given by the relative path name `../lib/persistenceUnitRoot.jar`.
 
-=== persistence.xml Schema
+=== persistence.xml Schema [[persistence-xml-schema]]
 
 This section provides the XML schema for the `persistence.xml` file.
 
