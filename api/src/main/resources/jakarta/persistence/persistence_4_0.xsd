@@ -322,7 +322,8 @@
 
               <!-- **************************************************** -->
 
-              <xsd:element name="properties" minOccurs="0">
+              <xsd:element name="properties" minOccurs="0"
+                           type="persistence:properties-type">
                 <xsd:annotation>
                   <xsd:documentation>
 
@@ -331,24 +332,6 @@
 
                   </xsd:documentation>
                 </xsd:annotation>
-                <xsd:complexType>
-                  <xsd:sequence>
-                    <xsd:element name="property"
-                                 minOccurs="0" maxOccurs="unbounded">
-                      <xsd:annotation>
-                        <xsd:documentation>
-                          A name-value pair.
-                        </xsd:documentation>
-                      </xsd:annotation>
-                      <xsd:complexType>
-                        <xsd:attribute name="name" type="xsd:string"
-                                       use="required"/>
-                        <xsd:attribute name="value" type="xsd:string"
-                                       use="required"/>
-                      </xsd:complexType>
-                    </xsd:element>
-                  </xsd:sequence>
-                </xsd:complexType>
               </xsd:element>
 
               <xsd:any namespace="##other" processContents="lax"
@@ -657,25 +640,42 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="property" minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="properties" minOccurs="0"
+                   type="persistence:properties-type">
         <xsd:annotation>
           <xsd:documentation>
+
             Used to specify vendor-specific properties and less commonly
             used DataSource properties.
 
             If a DataSource property is specified in the properties element
             and the annotation element for the property is also specified,
             the annotation element value takes precedence.
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="properties-type">
+    <xsd:sequence>
+      <xsd:element name="property"
+                   minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>
+            A name-value pair.
           </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="name" type="xsd:string"/>
-            <xsd:element name="value" type="xsd:string"/>
-          </xsd:sequence>
+          <xsd:attribute name="name" type="xsd:string"
+                         use="required"/>
+          <xsd:attribute name="value" type="xsd:string"
+                         use="required"/>
         </xsd:complexType>
       </xsd:element>
     </xsd:sequence>
   </xsd:complexType>
+
 
 </xsd:schema>

@@ -250,7 +250,7 @@ otherwise, it specifies that there is no timeout.
 
 Default is vendor-specific.
 
-===== property
+===== properties
 
 The `property` element is used to specify vendor-specific properties and less
 commonly used `DataSource` properties.
