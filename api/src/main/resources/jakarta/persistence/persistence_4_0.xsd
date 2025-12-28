@@ -488,13 +488,13 @@
   <xsd:complexType name="data-source-definition-type">
     <xsd:annotation>
       <xsd:documentation>
-        Annotation used to define a container DataSource to
-        be registered with JNDI. The DataSource may be configured
-        by setting the annotation elements for commonly used DataSource
-        properties. Additional standard and vendor-specific properties
-        may be specified using the properties element.
+        Declares a container DataSource to be registered with JNDI. The
+        DataSource may be configured by setting the child elements for
+        commonly used DataSource properties. Additional standard and
+        vendor-specific properties may be specified using the properties
+        element.
 
-        The data source will be registered under the name specified in
+        The data source will be registered under the name specified by
         the name element. It may be defined to be in any valid Jakarta
         EE namespace, which will determine the accessibility of the
         data source from other components.
@@ -524,7 +524,7 @@
       <xsd:element name="url" type="xsd:string" minOccurs="0">
         <xsd:annotation>
           <xsd:documentation>
-            A JDBC URL.  If the url annotation element contains a DataSource
+            A JDBC URL. If the url annotation element contains a DataSource
             property that was also specified using the corresponding
             annotation element, the precedence order is undefined and
             implementation specific.
