@@ -118,15 +118,14 @@ The root element of the `persistence.xml` file is the `persistence` element.
 It may contain:
 
 - any number of child `persistence-unit` elements, along with
-- any number of child `jta-datasource` and `non-jta-datasource` elements.
+- any number of child `data-source` elements.
 
 Each `persistence-unit` element declares a persistence unit, as specified
-below in <<persistence-unit-definitions>>. Each `jta-datasource` or
-`non-jta-datasource` element declares a named datasource, as specified below
-in <<data-source-definitions>>. The schema for the `peristence.xml` file may
-be found below in <<persistence-xml-schema>>.
+below in <<persistence-unit-definitions>>. Each `data-source` element declares
+a named datasource, as specified below in <<data-source>>. The schema for the
+`peristence.xml` file may be found below in <<persistence-xml-schema>>.
 
-==== Data Source Definitions [[data-source-definitions]]
+==== Data Source Definitions [[data-source]]
 
 There are two ways to declare a `DataSource`:
 
@@ -135,14 +134,14 @@ There are two ways to declare a `DataSource`:
 - a datasource may be declared as a child of the `persistence-unit` element, in
   which case it may or may not be bound to JNDI, and its name, if any, is assigned
   by the container or persistence provider, as specified below in
-  <<child-data-source-definition>>.
+  <<child-data-source>>.
 
-===== jta-data-source-definition and non-jta-data-source-definition
+===== data-source
 
-A `jta-data-source` or `non-jta-data-source` element occurring as a direct child
-of the root `persistence` element of the `persistence.xml` file declares a
-named container-managed `DataSource` bound to JNDI. This declaration is identical
-in semantics to the annotation `jakarta.annotation.sql.DataSourceDefinition`.
+A `data-source` element occurring as a direct child of the root `persistence`
+element of the `persistence.xml` file declares a named container-managed
+`DataSource` bound to JNDI. This declaration is identical in semantics to the
+`data-source` element of the Jakarta EE `application.xml` file.
 
 ===== name
 
@@ -264,7 +263,7 @@ A `persistence-unit` element declares a named persistence unit.
 The `persistence-unit` element consists of the `name` and `transaction-type`
 attributes and the following sub-elements:
 `description`, `provider`,
-`jta-data-source`, `non-jta-data-source`,
+`jta-data-source`, `non-jta-data-source`, data-source
 `mapping-file`, `jar-file`, `class`,
 `exclude-unlisted-classes`,
 `shared-cache-mode`, `validation-mode`,
@@ -383,11 +382,10 @@ In Java SE environments, these elements may be used, or the data source
 information may be specified by other means, depending upon the requirements
 of the provider.
 
-===== jta-data-source-definition, non-jta-data-source-definition [[child-data-source-definition]]
+===== data-source [[child-data-source]]
 
-A `jta-data-source-definition` or `non-jta-data-source-definition` element
-occurring as a child of a `persistence-unit` element declares a `DataSource`
-managed by:
+A `data-source` element occurring as a child of a `persistence-unit` element
+declares a `DataSource` managed by:
 
 - the Jakarta EE container, in a Jakarta EE environment, or
 - the persistence provider, in a Java SE environment.
@@ -397,8 +395,7 @@ available in JNDI. If it does make the `DataSource` available in JNDI, the JNDI
 name is a vendor-specific name assigned by the container or provider, and is not
 portable between containers and persistence providers.
 
-The subelements of `jta-data-source-definition` and `non-jta-data-source-definition`
-are defined above in <<data-source-definitions>>.
+The subelements of `data-source` are defined above in <<data-source>>.
 
 ===== mapping-file, jar-file, class, exclude-unlisted-classes [[a12305]]
 

@@ -639,63 +639,63 @@ See <<fetching-policies>>
 | `jakarta.persistence.data-source.class-name`
 | `String`
 | `class-name`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.url`
 | `String`
 | `url`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.user`
 | `String`
 | `user`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.password`
 | `String`
 | `password`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.database-name`
 | `String`
 | `database-name`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.port-number`
 | `String`
 | `port-number`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.server-name`
 | `String`
 | `server-name`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.isolation-level`
 | `String`
 | `isolation-level`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.transactional`
 | `String`
 | `transactional`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.initial-pool-size`
 | `String`
 | `initial-pool-size`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.max-pool-size`
 | `String`
 | `max-pool-size`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.min-pool-size`
 | `String`
 | `min-pool-size`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.max-idle-time`
 | `String`
 | `max-idle-time`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.max-statements`
 | `String`
 | `max-statements`
-| See <<data-source-definitions>>
+| See <<data-source>>
 | `jakarta.persistence.data-source.login-timeout`
 | `String`
 | `login-timeout`
-| See <<data-source-definitions>>
+| See <<data-source>>
 |===
 
 The following properties correspond to the properties in the `persistence.xml`
