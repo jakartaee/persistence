@@ -58,28 +58,11 @@
     <xsd:complexType>
       <xsd:sequence>
 
-        <xsd:element name="jta-data-source-definition"
+        <xsd:element name="data-source"
                      minOccurs="0" maxOccurs="unbounded">
           <xsd:complexType>
             <xsd:complexContent>
-              <xsd:extension base="persistence:data-source-definition-type">
-                <xsd:attribute name="name" type="xsd:string" use="required">
-                  <xsd:annotation>
-                    <xsd:documentation>
-                      JNDI name by which the data source will be registered.
-                    </xsd:documentation>
-                  </xsd:annotation>
-                </xsd:attribute>
-              </xsd:extension>
-            </xsd:complexContent>
-          </xsd:complexType>
-        </xsd:element>
-
-        <xsd:element name="non-jta-data-source-definition"
-                     minOccurs="0" maxOccurs="unbounded">
-          <xsd:complexType>
-            <xsd:complexContent>
-              <xsd:extension base="persistence:data-source-definition-type">
+              <xsd:extension base="persistence:data-source-type">
                 <xsd:attribute name="name" type="xsd:string" use="required">
                   <xsd:annotation>
                     <xsd:documentation>
@@ -160,54 +143,43 @@
               </xsd:element>
 
               <!-- **************************************************** -->
-              <xsd:choice minOccurs="0">
-                <xsd:element name="jta-data-source" type="xsd:string">
-                  <xsd:annotation>
-                    <xsd:documentation>
 
-                      The container-specific name of the JTA datasource to use.
+              <xsd:element name="data-source"
+                           type="persistence:data-source-type"
+                           minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>
 
-                    </xsd:documentation>
-                  </xsd:annotation>
-                </xsd:element>
+                    Definition of the datasource to use.
 
-                <xsd:element name="jta-data-source-definition"
-                             type="persistence:data-source-definition-type">
-                  <xsd:annotation>
-                    <xsd:documentation>
-
-                      Definition of the JTA datasource to use.
-
-                    </xsd:documentation>
-                  </xsd:annotation>
-                </xsd:element>
-              </xsd:choice>
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
 
               <!-- **************************************************** -->
-              <xsd:choice minOccurs="0">
-                <xsd:element name="non-jta-data-source" type="xsd:string"
-                             minOccurs="0">
-                  <xsd:annotation>
-                    <xsd:documentation>
 
-                      The container-specific name of a non-JTA datasource to use.
+              <xsd:element name="jta-data-source" type="xsd:string"
+                           minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>
 
-                    </xsd:documentation>
-                  </xsd:annotation>
-                </xsd:element>
+                    The container-specific name of the JTA datasource to use.
 
-                <xsd:element name="non-jta-data-source-definition"
-                             type="persistence:data-source-definition-type"
-                             minOccurs="0">
-                  <xsd:annotation>
-                    <xsd:documentation>
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
 
-                      Definition of the non-JTA datasource to use.
+              <!-- **************************************************** -->
+              <xsd:element name="non-jta-data-source" type="xsd:string"
+                           minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>
 
-                    </xsd:documentation>
-                  </xsd:annotation>
-                </xsd:element>
-              </xsd:choice>
+                    The container-specific name of a non-JTA datasource to use.
+
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
 
               <!-- **************************************************** -->
 
@@ -468,7 +440,7 @@
 
   <!-- **************************************************** -->
 
-  <xsd:complexType name="data-source-definition-type">
+  <xsd:complexType name="data-source-type">
     <xsd:annotation>
       <xsd:documentation>
         Declares a container DataSource to be registered with JNDI. The

@@ -305,8 +305,7 @@ public class PersistenceConfiguration {
     private SchemaManagementAction schemaManagementDatabaseAction = SchemaManagementAction.NONE;
     private SchemaManagementAction schemaManagementScriptsAction = SchemaManagementAction.NONE;
 
-    private DataSourceConfiguration jtaDataSourceConfiguration;
-    private DataSourceConfiguration nonJtaDataSourceConfiguration;
+    private DataSourceConfiguration dataSourceConfiguration;
 
     private final List<Class<?>> managedClasses = new ArrayList<>();
     private final List<String> mappingFileNames = new ArrayList<>();
@@ -383,7 +382,7 @@ public class PersistenceConfiguration {
      * Specify the JNDI name of a JTA {@code javax.sql.DataSource}.
      * @param dataSourceJndiName the JNDI name of a JTA datasource
      * @return this configuration
-     * @see #jtaDataSourceConfiguration(DataSourceConfiguration)
+     * @see #dataSource(DataSourceConfiguration)
      */
     public PersistenceConfiguration jtaDataSource(String dataSourceJndiName) {
         this.jtaDataSource = dataSourceJndiName;
@@ -402,7 +401,7 @@ public class PersistenceConfiguration {
      * Specify the JNDI name of a non-JTA {@code javax.sql.DataSource}.
      * @param dataSourceJndiName the JNDI name of a non-JTA datasource
      * @return this configuration
-     * @see #nonJtaDataSourceConfiguration(DataSourceConfiguration)
+     * @see #dataSource(DataSourceConfiguration)
      */
     public PersistenceConfiguration nonJtaDataSource(String dataSourceJndiName) {
         this.nonJtaDataSource = dataSourceJndiName;
@@ -623,43 +622,25 @@ public class PersistenceConfiguration {
     }
 
     /**
-     * Specify a JTA data source configuration.
-     * Takes precedence over {@link #jtaDataSource()}.
+     * Specify a datasource configuration.
+     * Takes precedence over {@link #jtaDataSource()} and
+     * {@link #nonJtaDataSource()}.
      * @param jtaDataSource A {@link DataSourceConfiguration}
      * @since 4.0
      */
-    public void jtaDataSourceConfiguration(DataSourceConfiguration jtaDataSource) {
-        this.jtaDataSourceConfiguration = jtaDataSource;
+    public void dataSource(DataSourceConfiguration jtaDataSource) {
+        this.dataSourceConfiguration = jtaDataSource;
     }
 
     /**
-     * The JTA data source configuration, if any.
-     * Takes precedence over {@link #jtaDataSource()}.
+     * The datasource configuration, if any.
+     * Takes precedence over {@link #jtaDataSource()} and
+     * {@link #nonJtaDataSource()}.
      * @return A {@link DataSourceConfiguration}
      * @since 4.0
      */
-    public DataSourceConfiguration jtaDataSourceConfiguration() {
-        return jtaDataSourceConfiguration;
-    }
-
-    /**
-     * Specify a non-JTA data source configuration.
-     * Takes precedence over {@link #nonJtaDataSource()} if non-null.
-     * @param nonJtaDataSource A {@link DataSourceConfiguration}
-     * @since 4.0
-     */
-    public void nonJtaDataSourceConfiguration(DataSourceConfiguration nonJtaDataSource) {
-        this.nonJtaDataSourceConfiguration = nonJtaDataSource;
-    }
-
-    /**
-     * The non-JTA data source configuration, if any.
-     * Takes precedence over {@link #nonJtaDataSource()} if non-null.
-     * @return A {@link DataSourceConfiguration}
-     * @since 4.0
-     */
-    public DataSourceConfiguration nonJtaDataSourceConfiguration() {
-        return nonJtaDataSourceConfiguration;
+    public DataSourceConfiguration dataSource() {
+        return dataSourceConfiguration;
     }
 
     /**
@@ -670,7 +651,7 @@ public class PersistenceConfiguration {
      * {@snippet :
      * var entityManagerFactory =
      *         new PersistenceConfiguration("DocumentData")
-     *             .nonJtaDataSource(new DataSourceConfiguration()
+     *             .dataSource(new DataSourceConfiguration()
      *                 .className("org.postgresql.Driver")
      *                 .url("jdbc:postgresql://localhost/documents")
      *                 .user("gavin")
@@ -679,8 +660,7 @@ public class PersistenceConfiguration {
      *             .createEntityManagerFactory();
      * }
      *
-     * @see #jtaDataSourceConfiguration(DataSourceConfiguration)
-     * @see #nonJtaDataSourceConfiguration(DataSourceConfiguration)
+     * @see #dataSource(DataSourceConfiguration)
      *
      * @since 4.0
      */
