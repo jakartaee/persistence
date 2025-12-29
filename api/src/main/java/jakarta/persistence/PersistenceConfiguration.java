@@ -40,8 +40,7 @@ import java.util.Objects;
  * {@snippet :
  * @Produces @ApplicationScoped @Documents
  * EntityManagerFactory configure() {
- *     return new PersistenceConfiguration()
- *             .name("DocumentData")
+ *     return new PersistenceConfiguration("DocumentData")
  *             .nonJtaDataSource("java:global/jdbc/DocumentDatabase")
  *             .defaultToOneFetchType(FetchType.LAZY)
  *             .managedClass(Document.class)
