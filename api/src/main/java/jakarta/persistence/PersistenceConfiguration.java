@@ -305,6 +305,9 @@ public class PersistenceConfiguration {
     private SchemaManagementAction schemaManagementDatabaseAction = SchemaManagementAction.NONE;
     private SchemaManagementAction schemaManagementScriptsAction = SchemaManagementAction.NONE;
 
+    private DataSourceConfiguration jtaDataSourceConfiguration;
+    private DataSourceConfiguration nonJtaDataSourceConfiguration;
+
     private final List<Class<?>> managedClasses = new ArrayList<>();
     private final List<String> mappingFileNames = new ArrayList<>();
     private final Map<String,Object> properties = new HashMap<>();
@@ -380,6 +383,7 @@ public class PersistenceConfiguration {
      * Specify the JNDI name of a JTA {@code javax.sql.DataSource}.
      * @param dataSourceJndiName the JNDI name of a JTA datasource
      * @return this configuration
+     * @see #jtaDataSourceConfiguration(DataSourceConfiguration)
      */
     public PersistenceConfiguration jtaDataSource(String dataSourceJndiName) {
         this.jtaDataSource = dataSourceJndiName;
@@ -398,6 +402,7 @@ public class PersistenceConfiguration {
      * Specify the JNDI name of a non-JTA {@code javax.sql.DataSource}.
      * @param dataSourceJndiName the JNDI name of a non-JTA datasource
      * @return this configuration
+     * @see #nonJtaDataSourceConfiguration(DataSourceConfiguration)
      */
     public PersistenceConfiguration nonJtaDataSource(String dataSourceJndiName) {
         this.nonJtaDataSource = dataSourceJndiName;
@@ -615,5 +620,468 @@ public class PersistenceConfiguration {
      */
     public Map<String, Object> properties() {
         return properties;
+    }
+
+    /**
+     * Specify a JTA data source configuration.
+     * Takes precedence over {@link #jtaDataSource()}.
+     * @param jtaDataSource A {@link DataSourceConfiguration}
+     * @since 4.0
+     */
+    public void jtaDataSourceConfiguration(DataSourceConfiguration jtaDataSource) {
+        this.jtaDataSourceConfiguration = jtaDataSource;
+    }
+
+    /**
+     * The JTA data source configuration, if any.
+     * Takes precedence over {@link #jtaDataSource()}.
+     * @return A {@link DataSourceConfiguration}
+     * @since 4.0
+     */
+    public DataSourceConfiguration jtaDataSourceConfiguration() {
+        return jtaDataSourceConfiguration;
+    }
+
+    /**
+     * Specify a non-JTA data source configuration.
+     * Takes precedence over {@link #nonJtaDataSource()} if non-null.
+     * @param nonJtaDataSource A {@link DataSourceConfiguration}
+     * @since 4.0
+     */
+    public void nonJtaDataSourceConfiguration(DataSourceConfiguration nonJtaDataSource) {
+        this.nonJtaDataSourceConfiguration = nonJtaDataSource;
+    }
+
+    /**
+     * The non-JTA data source configuration, if any.
+     * Takes precedence over {@link #nonJtaDataSource()} if non-null.
+     * @return A {@link DataSourceConfiguration}
+     * @since 4.0
+     */
+    public DataSourceConfiguration nonJtaDataSourceConfiguration() {
+        return nonJtaDataSourceConfiguration;
+    }
+
+    /**
+     * Represents a data source configuration, allowing programmatic definition
+     * of a data source. The configuration options available via this API reflect
+     * the attributes of the {@code jakarta.annotation.sql.DataSourceDefinition}
+     * annotation.
+     * {@snippet :
+     * var entityManagerFactory =
+     *         new PersistenceConfiguration("DocumentData")
+     *             .nonJtaDataSource(new DataSourceConfiguration()
+     *                 .className("org.postgresql.Driver")
+     *                 .url("jdbc:postgresql://localhost/documents")
+     *                 .user("gavin")
+     *                 .password("pandemuert0"))
+     *             .managedClass(Document.class)
+     *             .createEntityManagerFactory();
+     * }
+     *
+     * @see #jtaDataSourceConfiguration(DataSourceConfiguration)
+     * @see #nonJtaDataSourceConfiguration(DataSourceConfiguration)
+     *
+     * @since 4.0
+     */
+    public static class DataSourceConfiguration {
+
+        private String className;
+        private String description = "";
+        private String url = "";
+        private String user = "";
+        private String password = "";
+        private String databaseName = "";
+        private int portNumber = -1;
+        private String serverName = "localhost";
+        private int isolationLevel = -1;
+        private boolean transactional = true;
+        private int initialPoolSize = -1;
+        private int maxPoolSize = -1;
+        private int minPoolSize = -1;
+        private int maxIdleTime = -1;
+        private int maxStatements = -1;
+        private int loginTimeout = 0;
+
+        private final Map<String, Object> properties = new HashMap<>();
+
+        /**
+         * Specify the name of a DataSource class that implements
+         * {@code javax.sql.DataSource}, {@code javax.sql.XADataSource},
+         * or {@code javax.sql.ConnectionPoolDataSource}.
+         * <p>This setting must always be specified explicitly.
+         * @param className the DataSource implementation class name
+         * @return this configuration
+         */
+        public DataSourceConfiguration className(String className) {
+            this.className = className;
+            return this;
+        }
+
+        /**
+         * Name of a DataSource class that implements
+         * {@code javax.sql.DataSource}, {@code javax.sql.XADataSource},
+         * or {@code javax.sql.ConnectionPoolDataSource}.
+         * @return the DataSource implementation class name
+         */
+        public String className() {
+            return className;
+        }
+
+        /**
+         * Description of this data source.
+         * @param description the description
+         * @return this configuration
+         */
+        public DataSourceConfiguration description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * Description of this data source.
+         * @return the description
+         */
+        public String description() {
+            return description;
+        }
+
+        /**
+         * Specify the JDBC URL. If the {@code url} property is specified
+         * along with other standard properties such as {@link #serverName()},
+         * {@link #portNumber()}, and {@link #databaseName()}, the precedence
+         * is implementation-specific.
+         * @param url the JDBC URL
+         * @return this configuration
+         */
+        public DataSourceConfiguration url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * The JDBC URL. If the {@code url} property is specified along
+         * with other standard properties such as {@link #serverName()},
+         * {@link #portNumber()}, and {@link #databaseName()}, the
+         * precedence is implementation-specific.
+         * @return the JDBC URL
+         */
+        public String url() {
+            return url;
+        }
+
+        /**
+         * Set the username to use for connection authentication.
+         * @param user the username
+         * @return this configuration
+         */
+        public DataSourceConfiguration user(String user) {
+            this.user = user;
+            return this;
+        }
+
+        /**
+         * Username to use for connection authentication.
+         * @return the username
+         */
+        public String user() {
+            return user;
+        }
+
+        /**
+         * Set the password to use for connection authentication.
+         * @param password the password
+         * @return this configuration
+         */
+        public DataSourceConfiguration password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        /**
+         * Password to use for connection authentication.
+         * @return the password
+         */
+        public String password() {
+            return password;
+        }
+
+        /**
+         * Name of a database on the server.
+         * @param databaseName the database name
+         * @return this configuration
+         */
+        public DataSourceConfiguration databaseName(String databaseName) {
+            this.databaseName = databaseName;
+            return this;
+        }
+
+        /**
+         * Name of a database on the server.
+         * @return the database name
+         */
+        public String databaseName() {
+            return databaseName;
+        }
+
+        /**
+         * Port number where a server is listening for requests.
+         * @param portNumber the port number
+         * @return this configuration
+         */
+        public DataSourceConfiguration portNumber(int portNumber) {
+            this.portNumber = portNumber;
+            return this;
+        }
+
+        /**
+         * Port number where a server is listening for requests.
+         * @return the port number
+         */
+        public int portNumber() {
+            return portNumber;
+        }
+
+        /**
+         * Database server name.
+         * @param serverName the server name
+         * @return this configuration
+         */
+        public DataSourceConfiguration serverName(String serverName) {
+            this.serverName = serverName;
+            return this;
+        }
+
+        /**
+         * Database server name.
+         * @return the server name
+         */
+        public String serverName() {
+            return serverName;
+        }
+
+        /**
+         * Isolation level for connections. The isolation level must be one
+         * of the following values:
+         * <ul>
+         * <li>{@link java.sql.Connection#TRANSACTION_NONE}
+         * <li>{@link java.sql.Connection#TRANSACTION_READ_UNCOMMITTED}
+         * <li>{@link java.sql.Connection#TRANSACTION_READ_COMMITTED}
+         * <li>{@link java.sql.Connection#TRANSACTION_REPEATABLE_READ}
+         * <li>{@link java.sql.Connection#TRANSACTION_SERIALIZABLE}
+         * </ul>
+         * <p>Default is vendor-specific.
+         * @param isolationLevel the isolation level
+         * @return this configuration
+         * @see java.sql.Connection
+         */
+        public DataSourceConfiguration isolationLevel(int isolationLevel) {
+            this.isolationLevel = isolationLevel;
+            return this;
+        }
+
+        /**
+         * Isolation level for connections. The isolation level is one of
+         * the following values:
+         * <ul>
+         * <li>{@link java.sql.Connection#TRANSACTION_NONE}
+         * <li>{@link java.sql.Connection#TRANSACTION_READ_UNCOMMITTED}
+         * <li>{@link java.sql.Connection#TRANSACTION_READ_COMMITTED}
+         * <li>{@link java.sql.Connection#TRANSACTION_REPEATABLE_READ}
+         * <li>{@link java.sql.Connection#TRANSACTION_SERIALIZABLE}
+         * </ul>
+         * <p>Default is vendor-specific.
+         * @return the isolation level
+         * @see java.sql.Connection
+         */
+        public int isolationLevel() {
+            return isolationLevel;
+        }
+
+        /**
+         * Specifies whether connections should participate in transactions.
+         * @return this configuration
+         */
+        public DataSourceConfiguration transactional(boolean transactional) {
+            this.transactional = transactional;
+            return this;
+        }
+
+        /**
+         * Whether connections should participate in transactions.
+         * <p>By default, a connection is enlisted in a transaction whenever
+         * a transaction is active or becomes active.
+         * @return whether connections participate in transactions
+         */
+        public boolean transactional() {
+            return transactional;
+        }
+
+        /**
+         * Specify the number of connections that should be created when a
+         * connection pool is initialized.
+         * <p>Default is vendor-specific.
+         * @param initialPoolSize the initial pool size
+         * @return this configuration
+         */
+        public DataSourceConfiguration initialPoolSize(int initialPoolSize) {
+            this.initialPoolSize = initialPoolSize;
+            return this;
+        }
+
+        /**
+         * The number of connections that should be created when a connection
+         * pool is initialized.
+         * <p>Default is vendor-specific.
+         * @return the initial pool size
+         */
+        public int initialPoolSize() {
+            return initialPoolSize;
+        }
+
+        /**
+         * Specify the maximum number of connections that may be concurrently
+         * allocated by a connection pool.
+         * <p>Default is vendor-specific.
+         * @param maxPoolSize the maximum pool size
+         * @return this configuration
+         */
+        public DataSourceConfiguration maxPoolSize(int maxPoolSize) {
+            this.maxPoolSize = maxPoolSize;
+            return this;
+        }
+
+        /**
+         * The maximum number of connections that may be concurrently
+         * allocated by a connection pool.
+         * <p>Default is vendor-specific.
+         * @return the maximum pool size
+         */
+        public int maxPoolSize() {
+            return maxPoolSize;
+        }
+
+        /**
+         * Specify the minimum number of connections that should be allocated
+         * by a connection pool.
+         * <p>Default is vendor-specific.
+         * @param minPoolSize the minimum pool size
+         * @return this configuration
+         */
+        public DataSourceConfiguration minPoolSize(int minPoolSize) {
+            this.minPoolSize = minPoolSize;
+            return this;
+        }
+
+        /**
+         * The minimum number of connections that should be allocated by a
+         * connection pool.
+         * <p>Default is vendor-specific.
+         * @return the minimum pool size
+         */
+        public int minPoolSize() {
+            return minPoolSize;
+        }
+
+        /**
+         * Specify the number of seconds that a physical connection should
+         * remain unused in the connection pool before the connection is
+         * closed.
+         * A value of 0 indicates that there is no limit.
+         * @param maxIdleTime maximum idle time in seconds
+         * @return this configuration
+         */
+        public DataSourceConfiguration maxIdleTime(int maxIdleTime) {
+            this.maxIdleTime = maxIdleTime;
+            return this;
+        }
+
+        /**
+         * The number of seconds that a physical connection should remain
+         * unused in the connection pool before the connection is closed.
+         * A value of 0 indicates that there is no limit.
+         * <p>Default is vendor-specific.
+         * @return maximum idle time in seconds
+         */
+        public int maxIdleTime() {
+            return maxIdleTime;
+        }
+
+        /**
+         * Specify the total number of statements that a connection pool
+         * should keep open. A value of 0 indicates that statement caching
+         * is disabled.
+         * @param maxStatements the maximum number of statements
+         * @return this configuration
+         */
+        public DataSourceConfiguration maxStatements(int maxStatements) {
+            this.maxStatements = maxStatements;
+            return this;
+        }
+
+        /**
+         * The total number of statements that a connection pool should
+         * keep open. A value of 0 indicates that statement caching is
+         * disabled.
+         * <p>Default is vendor-specific.
+         * @return the maximum number of statements
+         */
+        public int maxStatements() {
+            return maxStatements;
+        }
+
+        /**
+         * Set a property of this DataSource.
+         * @param name the property name
+         * @param value the property value
+         * @return this configuration
+         */
+        public DataSourceConfiguration property(String name, Object value) {
+            properties.put(name, value);
+            return this;
+        }
+
+        /**
+         * Set multiple properties of this DataSource.
+         * @param properties the properties
+         * @return this configuration
+         */
+        public DataSourceConfiguration properties(Map<String,?> properties) {
+            this.properties.putAll(properties);
+            return this;
+        }
+
+        /**
+         * Vendor-specific and less commonly used DataSource properties.
+         * @return vendor-specific properties
+         */
+        public Map<String, Object> properties() {
+            return properties;
+        }
+
+        /**
+         * Specify the maximum time in seconds that this data source will
+         * wait while attempting to connect to a database. A value of 0
+         * specifies that the timeout is the default system timeout if
+         * there is one; otherwise, it specifies that there is no timeout.
+         * @param loginTimeout the login timeout in seconds
+         * @return this configuration
+         */
+        public DataSourceConfiguration loginTimeout(int loginTimeout) {
+            this.loginTimeout = loginTimeout;
+            return this;
+        }
+
+        /**
+         * Maximum time in seconds that this data source will wait while
+         * attempting to connect to a database. A value of 0 specifies
+         * that the timeout is the default system timeout if there is one;
+         * otherwise, it specifies that there is no timeout.
+         * <p>Default is 0.
+         * @return the login timeout in seconds
+         */
+        public int loginTimeout() {
+            return loginTimeout;
+        }
     }
 }
