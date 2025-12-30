@@ -108,7 +108,7 @@ public interface TypedQueryReference<R> {
     Map<String,Object> getHints();
 
     /**
-     * Any {@linkplain FindOption options} controlling
+     * Any {@linkplain QueryOption options} controlling
      * execution of the query.
      * <p>
      * Any mutation of the returned list results in an
@@ -116,7 +116,7 @@ public interface TypedQueryReference<R> {
      *
      * @since 4.0
      */
-    List<FindOption> getOptions();
+    List<QueryOption> getOptions();
 
     /**
      * The types of the supplied

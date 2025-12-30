@@ -696,6 +696,15 @@ public interface Query {
     Integer getTimeout();
 
     /**
+     * Set a query option. Usually used for provider-specific
+     * options.
+     * @param option Any instance of {@link QueryOption}
+     * @return the same query instance
+     * @since 4.0
+     */
+    Query setOption(QueryOption option);
+
+    /**
      * Return an object of the specified type to allow access to 
      * a provider-specific API. If the provider implementation of
      * {@code Query} does not support the given type, the

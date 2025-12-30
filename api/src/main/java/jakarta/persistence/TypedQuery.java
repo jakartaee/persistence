@@ -415,4 +415,13 @@ public interface TypedQuery<X> extends Query {
      * @since 3.2
      */
     TypedQuery<X> setTimeout(Integer timeout);
+
+    /**
+     * Set a query option. Usually used for provider-specific
+     * options.
+     * @param option Any instance of {@link QueryOption}
+     * @return the same query instance
+     * @since 4.0
+     */
+    TypedQuery<X> setOption(QueryOption option);
 }

@@ -15,7 +15,7 @@
 
 package jakarta.persistence.query;
 
-import jakarta.persistence.FindOption;
+import jakarta.persistence.QueryOption;
 import jakarta.persistence.TypedQueryReference;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class StaticQueryReference<R>
     private final List<Class<?>> parameterTypes;
     private final List<String> parameterNames;
     private final List<Object> arguments;
-    private final List<FindOption> options;
+    private final List<QueryOption> options;
     private final Map<String, Object> hints;
 
     public StaticQueryReference(
@@ -54,7 +54,7 @@ public class StaticQueryReference<R>
             List<String> parameterNames,
             List<Object> arguments,
             Map<String, Object> hints,
-            FindOption... options) {
+            QueryOption... options) {
         this.name = queryName;
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
@@ -82,7 +82,7 @@ public class StaticQueryReference<R>
     }
 
     @Override
-    public List<FindOption> getOptions() {
+    public List<QueryOption> getOptions() {
         return options;
     }
 

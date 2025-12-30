@@ -36,7 +36,7 @@ package jakarta.persistence;
  *
  * @since 2.0
  */
-public enum CacheRetrieveMode implements FindOption {
+public enum CacheRetrieveMode implements FindOption, QueryOption {
 
     /**
      * Specifies that data may be read from the second-level cache

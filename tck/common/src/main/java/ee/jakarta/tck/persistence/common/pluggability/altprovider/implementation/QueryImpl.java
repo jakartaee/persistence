@@ -29,6 +29,7 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
+import jakarta.persistence.QueryOption;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.TypedQuery;
 
@@ -206,6 +207,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public TypedQuery<X> setTimeout(Integer timeout) {
+		return null;
+	}
+
+	@Override
+	public TypedQuery<X> setOption(QueryOption option) {
 		return null;
 	}
 
