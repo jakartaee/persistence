@@ -520,12 +520,15 @@ public class PersistenceConfiguration {
 
     /**
      * Specify the {@linkplain FetchType#DEFAULT default fetch type}
-     * for one-to-one and many-to-one associations.
+     * for one-to-one and many-to-one associations. The given fetch type
+     * value must be {@link FetchType#EAGER} or {@link FetchType#LAZY}.
      * @param defaultFetchType the default fetch type
      * @return this configuration
      * @since 4.0
      */
     public PersistenceConfiguration defaultFetchType(FetchType defaultFetchType) {
+        if (defaultFetchType == FetchType.DEFAULT)
+            throw new IllegalArgumentException("defaultFetchType: " + FetchType.DEFAULT);
         this.defaultFetchType = defaultFetchType;
         return this;
     }
