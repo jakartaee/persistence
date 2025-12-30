@@ -100,36 +100,12 @@ public sealed interface EntityHandler extends AutoCloseable
      * @throws PersistenceException if the record could not be
      *         read from the database
      *
+     * @apiNote Conceptually the same as {@linkplain #find}, except this
+     * form throws {@linkplain EntityNotFoundException} rather than return null.
+     *
      * @since 4.0
      */
     <T> T get(Class<T> entityClass, Object id);
-
-    /**
-     * Retrieve an entity representing the record with the
-     * given identifier, obtaining the lock level specified
-     * by the given {@linkplain LockModeType lock mode}.
-     *
-     * @param entityClass The class of the entity to retrieve
-     * @param id The identifier of the entity to retrieve
-     * @param lockMode The lock level to obtain
-     *
-     * @return an entity instance with the given identifier
-     *
-     * @throws IllegalArgumentException if the given class is
-     *         not an entity class belonging to the persistence
-     *         unit, or if the given identifier is not a
-     *         non-null instance of the identifier type of the
-     *         given entity class
-     * @throws EntityNotFoundException if no record with the
-     *         given identifier exists in the database
-     * @throws PersistenceException if the given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
-     *
-     * @since 4.0
-     */
-    <T> T get(Class<T> entityClass, Object id, LockModeType lockMode);
 
     /**
      * Retrieve an entity representing the record with the
@@ -163,6 +139,9 @@ public sealed interface EntityHandler extends AutoCloseable
      *         {@linkplain LockModeType lock mode type} is not
      *         supported for the given entity class or if the
      *         record could not be read from the database
+     *
+     * @apiNote Conceptually the same as {@linkplain #find}, except this
+     * form throws {@linkplain EntityNotFoundException} rather than return null.
      *
      * @since 4.0
      */
@@ -203,6 +182,9 @@ public sealed interface EntityHandler extends AutoCloseable
      *         supported for the given entity class or if the
      *         record could not be read from the database
      *
+     * @apiNote Conceptually the same as {@linkplain #find}, except this
+     * form throws {@linkplain EntityNotFoundException} rather than return null.
+     *
      * @since 4.0
      */
     <T> T get(EntityGraph<T> graph, Object id, FindOption... options);
@@ -241,6 +223,9 @@ public sealed interface EntityHandler extends AutoCloseable
      *         {@linkplain LockModeType lock mode type} is not
      *         supported for the given entity class or if a
      *         record could not be read from the database
+     *
+     * @apiNote Conceptually the same as {@linkplain #findMultiple}, except this
+     * form throws {@linkplain EntityNotFoundException} rather than return nulls.
      *
      * @since 4.0
      */
@@ -282,6 +267,9 @@ public sealed interface EntityHandler extends AutoCloseable
      *         supported for the given entity class or if a
      *         record could not be read from the database
      *
+     * @apiNote Conceptually the same as {@linkplain #findMultiple}, except this
+     * form throws {@linkplain EntityNotFoundException} rather than return nulls.
+     *
      * @since 4.0
      */
     <T> List<T> getMultiple(EntityGraph<T> graph, List<?> ids,
@@ -309,46 +297,6 @@ public sealed interface EntityHandler extends AutoCloseable
      * @since 1.0
      */
     <T> T find(Class<T> entityClass, Object id);
-
-    /**
-     * Retrieve an entity representing the record with the
-     * given identifier, obtaining the lock level specified
-     * by the given {@linkplain LockModeType lock mode}, or
-     * return {@code null} if there is no such record in the
-     * database.
-     *
-     * @param entityClass The class of the entity to retrieve
-     * @param id The identifier of the entity to retrieve
-     * @param lockMode The lock level to obtain
-     * @return an entity instance with the given identifier,
-     *         or {@code null} if there is no matching record
-     *         in the database
-     *
-     * @throws IllegalArgumentException if the given class is
-     *         not an entity class belonging to the persistence
-     *         unit, or if the given identifier is not a
-     *         non-null instance of the identifier type of the
-     *         given entity class
-     * @throws TransactionRequiredException if any lock mode
-     *         other than {@link LockModeType#NONE NONE} is
-     *         specified and there is no transaction
-     *         associated with this handler
-     * @throws OptimisticLockException if an optimistic version
-     *         check fails
-     * @throws PessimisticLockException if a pessimistic lock
-     *         could not be obtained and the transaction is
-     *         rolled back
-     * @throws LockTimeoutException if a pessimistic lock
-     *         could not be obtained and only the statement
-     *         is rolled back
-     * @throws PersistenceException if the given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
-     *
-     * @since 1.0
-     */
-    <T> T find(Class<T> entityClass, Object id, LockModeType lockMode);
 
     /**
      * Retrieve an entity representing the record with the
