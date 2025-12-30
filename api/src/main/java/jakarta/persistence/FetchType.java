@@ -56,7 +56,7 @@ package jakarta.persistence;
  * Set<String> topics;
  * }
  * <p>The use of {@code fetch = EAGER} often leads to fetching of
- * unwanted data, and is therefore discouraged. Eager fetching
+ * unwanted data and is therefore discouraged. Eager fetching
  * may be explicitly requested precisely where needed using an
  * {@link EntityGraph} or a query with {@code left join fetch}.
  *
