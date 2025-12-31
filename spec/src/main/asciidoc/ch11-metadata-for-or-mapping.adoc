@@ -603,10 +603,11 @@ is implied, and the value of the `optional` annotation member is ignored.
 |Type |Name |Description |Default
 |FetchType |fetch
 |(Optional) Whether the value of the field or
-property should be lazily loaded or must be eagerly fetched. The EAGER
-strategy is a requirement on the persistence provider runtime that the
-value must be eagerly fetched. The LAZY strategy is a hint to the
-persistence provider runtime. |EAGER
+property should be lazily loaded or must be eagerly fetched. The `EAGER`
+policy is a requirement on the persistence provider runtime that the
+value must be eagerly fetched. The `LAZY` policy is a hint to the
+persistence provider runtime.
+|EAGER
 |boolean |optional
 |(Optional) Whether the value of the field or property may be null.
 May be used in schema generation. Ignored if the field or property
@@ -1562,10 +1563,11 @@ of the collection when defined using generics.
 |FetchType
 |fetch
 | (Optional) Whether the collection should be
-lazily loaded or must be eagerly fetched. The EAGER strategy is a
+lazily loaded or must be eagerly fetched. The `EAGER` policy is a
 requirement on the persistence provider runtime that the collection
-elements must be eagerly fetched. The LAZY strategy is a hint to the
-persistence provider runtime. |LAZY
+elements must be eagerly fetched. The `LAZY` policy is a hint to the
+persistence provider runtime.
+|LAZY
 |===
 
 *Example:*
@@ -2857,13 +2859,6 @@ public @interface ManyToMany {
 }
 ----
 
-The `EAGER` strategy is a requirement on the
-persistence provider runtime that the associated entity must be eagerly
-fetched. The `LAZY` strategy is a `hint` to the persistence provider
-runtime that the associated entity should be fetched lazily when it is
-first accessed. The implementation is permitted to eagerly fetch
-associations for which the `LAZY` strategy hint has been specified.
-
 .ManyToMany Annotation Elements
 [#a15119,options="header"]
 |===
@@ -2886,9 +2881,9 @@ cascaded to the target of the association.
 |FetchType
 |fetch
 |(Optional) Whether the association should be
-lazily loaded or must be eagerly fetched. The EAGER strategy is a
+lazily loaded or must be eagerly fetched. The `EAGER` policy is a
 requirement on the persistence provider runtime that the associated
-entities must be eagerly fetched. The LAZY strategy is a hint to the
+entities must be eagerly fetched. The `LAZY` policy is a hint to the
 persistence provider runtime.
 |LAZY
 
@@ -3033,13 +3028,6 @@ public @interface ManyToOne {
 The operations that can be cascaded are
 defined by the `CascadeType` enum, defined in <<a15100>>.
 
-The `EAGER` strategy is a requirement on the
-persistence provider runtime that the associated entity must be eagerly
-fetched. The `LAZY` strategy is a `hint` to the persistence provider
-runtime that the associated entity should be fetched lazily when it is
-first accessed. The implementation is permitted to eagerly fetch
-associations for which the `LAZY` strategy hint has been specified.
-
 If the annotated field or property is also annotated with
 `jakarta.annotation.Nonnull`, then `optional=false` is implied
 and the value of the `optional` annotation member is ignored.
@@ -3063,10 +3051,10 @@ cascaded to the target of the association.
 |FetchType
 |fetch
 |(Optional) Whether the association should be
-lazily loaded or must be eagerly fetched. The `EAGER` strategy is a
+lazily loaded or must be eagerly fetched. The `EAGER` policy is a
 requirement on the persistence provider runtime that the associated
-entity must be eagerly fetched. The `LAZY` strategy is a hint to the
-persistence provider runtime. The `DEFAULT` strategy selects between
+entity must be eagerly fetched. The `LAZY` policy is a hint to the
+persistence provider runtime. The `DEFAULT` policy selects between
 `EAGER` and `LAZY` depending on the default fetch type of the
 persistence unit for one-to-one and many-to-one associations.
 |`DEFAULT`
@@ -4070,9 +4058,9 @@ otherwise.
 |FetchType
 |fetch
 |(Optional) Whether the association should be
-lazily loaded or must be eagerly fetched. The EAGER strategy is a
+lazily loaded or must be eagerly fetched. The `EAGER` policy is a
 requirement on the persistence provider runtime that the associated
-entities must be eagerly fetched. The LAZY strategy is a hint to the
+entities must be eagerly fetched. The `LAZY` policy is a hint to the
 persistence provider runtime.
 |LAZY
 
@@ -4233,10 +4221,10 @@ and the value of the `optional` annotation member is ignored.
 |FetchType
 |fetch
 |(Optional) Whether the association should be
-lazily loaded or must be eagerly fetched. The `EAGER` strategy is a
+lazily loaded or must be eagerly fetched. The `EAGER` policy is a
 requirement on the persistence provider runtime that the associated
-entity must be eagerly fetched. The `LAZY` strategy is a hint to the
-persistence provider runtime. The `DEFAULT` strategy selects between
+entity must be eagerly fetched. The `LAZY` policy is a hint to the
+persistence provider runtime. The `DEFAULT` policy selects between
 `EAGER` and `LAZY` depending on the default fetch type of the
 persistence unit for one-to-one and many-to-one associations.
 _
