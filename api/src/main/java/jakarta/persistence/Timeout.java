@@ -65,4 +65,20 @@ public class Timeout implements FindOption, RefreshOption, LockOption {
     public int milliseconds() {
         return milliseconds;
     }
+
+    @Override
+    public String toString() {
+        return "Timeout[" + milliseconds + " ms]";
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof Timeout that
+            && this.milliseconds == that.milliseconds;
+    }
+
+    @Override
+    public int hashCode() {
+        return milliseconds;
+    }
 }
