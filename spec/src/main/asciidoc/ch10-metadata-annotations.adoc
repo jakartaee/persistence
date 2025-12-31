@@ -857,7 +857,7 @@ converter applies.
 === Annotations for Static Queries
 
 These annotations are used to declare queries associated with methods.
-In the context of Jakarta Data, they are used to declare repository
+In the context of Jakarta Data<<a19502>>, they are used to declare repository
 query methods.
 
 ==== StaticQuery Annotation
