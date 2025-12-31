@@ -201,7 +201,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
  * 
  * @since 1.0
  */
-public non-sealed interface EntityManager extends EntityHandler {
+public interface EntityManager extends EntityHandler {
 
     /**
      * Make a new entity instance managed and persistent, resulting in

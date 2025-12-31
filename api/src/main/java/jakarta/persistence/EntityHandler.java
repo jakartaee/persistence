@@ -78,8 +78,7 @@ import java.util.Map;
  *
  * @since 4.0
  */
-public sealed interface EntityHandler extends AutoCloseable
-        permits EntityManager, EntityAgent {
+public interface EntityHandler extends AutoCloseable {
 
     /**
      * Retrieve an entity representing the record with the
