@@ -515,7 +515,7 @@ public class Client2 extends UtilCustAliasProductData {
 				Selection[] s = { cust.get("id"), cust.get("name") };
 				cquery.select(qbuilder.tuple(s));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery<Tuple> q = getEntityManager().createQuery(cquery);
 
 				List result = q.getResultList();
 				if (result.size() == 1) {
@@ -595,7 +595,7 @@ public class Client2 extends UtilCustAliasProductData {
 			cquery.select(cbuilder.array(customer.get(Customer_.getSingularAttribute("id", String.class)),
 					customer.get(Customer_.getSingularAttribute("name", String.class))));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery q = getEntityManager().createQuery(cquery);
 
 			List<Object[]> result = q.getResultList();
 
@@ -2951,7 +2951,7 @@ public class Client2 extends UtilCustAliasProductData {
 
 				cquery.select(customer.get(Customer_.getSingularAttribute("id", String.class)));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery q = getEntityManager().createQuery(cquery);
 
 				List result = q.getResultList();
 
@@ -2994,7 +2994,7 @@ public class Client2 extends UtilCustAliasProductData {
 				cquery.multiselect(customer.get(Customer_.getSingularAttribute("id", String.class)),
 						customer.get(Customer_.getSingularAttribute("name", String.class)));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery q = getEntityManager().createQuery(cquery);
 
 				List<Object[]> result = q.getResultList();
 
@@ -3082,7 +3082,7 @@ public class Client2 extends UtilCustAliasProductData {
 				cquery.multiselect(spouse1.get(Spouse1_.getSingularAttribute("id", String.class)),
 						spouse2.get(Spouse2_.getSingularAttribute("id", String.class)));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery q = getEntityManager().createQuery(cquery);
 
 				List<Object[]> result = q.getResultList();
 

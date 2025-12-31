@@ -96,7 +96,7 @@ public class Client3 extends UtilCustomerData {
 			cquery.multiselect(customer.get(Customer_.getSingularAttribute("id", String.class)),
 					customer.get(Customer_.getSingularAttribute("name", String.class)));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Tuple> q = getEntityManager().createQuery(cquery);
 
 			List result = q.getResultList();
 
@@ -151,7 +151,7 @@ public class Client3 extends UtilCustomerData {
 
 			cquery.multiselect(list);
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Tuple> q = getEntityManager().createQuery(cquery);
 
 			List result = q.getResultList();
 
@@ -201,7 +201,7 @@ public class Client3 extends UtilCustomerData {
 			cquery.where(cbuilder.equal(customer.get(Customer_.getSingularAttribute("name", String.class)),
 					"Robert E. Bissett"));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Customer> q = getEntityManager().createQuery(cquery);
 
 			List result = q.getResultList();
 			int expectedResultSize = 1;
@@ -799,7 +799,7 @@ public class Client3 extends UtilCustomerData {
 
 			cquery.distinct(true);
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<String> q = getEntityManager().createQuery(cquery);
 
 			List<String> actual = q.getResultList();
 			Collections.sort(actual);
@@ -856,7 +856,7 @@ public class Client3 extends UtilCustomerData {
 
 			cquery.distinct(false);
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<String> q = getEntityManager().createQuery(cquery);
 
 			List<String> actual = q.getResultList();
 			Collections.sort(actual);
@@ -925,7 +925,7 @@ public class Client3 extends UtilCustomerData {
 			cquery.select(customer.get(Customer_.getSingularAttribute("country", Country.class))
 					.get(Country_.getSingularAttribute("code", String.class)));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<String> q = getEntityManager().createQuery(cquery);
 
 			List<String> actual = q.getResultList();
 			Collections.sort(actual);
@@ -1196,7 +1196,7 @@ public class Client3 extends UtilCustomerData {
 			cquery.select(customer);
 			cquery.where(cbuilder.equal(customer.get(Customer_.getSingularAttribute("name", String.class)),
 					"Robert E. Bissett"));
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery q = getEntityManager().createQuery(cquery);
 
 			List<Customer> result = q.getResultList();
 			for (Customer c : result) {

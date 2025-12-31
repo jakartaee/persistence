@@ -92,7 +92,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 
 	@Override
 	public <T> TypedQuery<T> createNamedQuery(String arg0, Class<T> arg1) {
-		QueryImpl query = new QueryImpl();
+		TypedQueryImpl query = new TypedQueryImpl();
 		query.name = arg0;
 		query.queryOnClass = arg1;
 		return (TypedQuery<T>) query;
@@ -112,7 +112,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 
 	@Override
     public <T> TypedQuery<T> createNativeQuery(String arg0, Class<T> arg1) {
-		QueryImpl query = new QueryImpl();
+		TypedQueryImpl query = new TypedQueryImpl();
 		query.nativeSQL = arg0;
 		query.queryOnClass = arg1;
 		return query;
@@ -128,7 +128,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 
     @Override
     public <T> TypedQuery<T> createNativeQuery(String sqlString, ResultSetMapping<T> resultSetMapping) {
-        QueryImpl<T> query = new QueryImpl<>();
+        TypedQueryImpl<T> query = new TypedQueryImpl<>();
         query.nativeSQL = sqlString;
         query.resultsetMapping = Objects.toString(resultSetMapping);
         return query;
@@ -153,7 +153,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 
 	@Override
 	public <T> TypedQuery<T> createQuery(String arg0, Class<T> arg1) {
-		QueryImpl query = new QueryImpl();
+		TypedQueryImpl query = new TypedQueryImpl();
 		query.jpQL = arg0;
 		query.queryOnClass = arg1;
 		return (TypedQuery<T>) query;
@@ -161,7 +161,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 
     @Override
     public <T> TypedQuery<T> createQuery(String qlString, EntityGraph<T> resultGraph) {
-        QueryImpl<T> query = new QueryImpl<>();
+        TypedQueryImpl<T> query = new TypedQueryImpl<>();
         query.jpQL = qlString;
         return query;
     }

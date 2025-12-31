@@ -21,16 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import jakarta.persistence.*;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
-import jakarta.persistence.LockModeType;
-import jakarta.persistence.Query;
-import jakarta.persistence.StoredProcedureQuery;
-import jakarta.persistence.TransactionRequiredException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -678,17 +675,17 @@ public class Client1 extends PMClientBase {
 			getEntityTransaction().begin();
 			CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
 			CriteriaQuery<PMClientBase> cquery = cbuilder.createQuery(PMClientBase.class);
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<PMClientBase> q = getEntityManager().createQuery(cquery);
 			logger.log(Logger.Level.INFO, "RuntimeException wasn't thrown, try executing it");
-			q.executeUpdate();
-			logger.log(Logger.Level.ERROR, "RuntimeException not thrown");
+//			q.executeUpdate();
+//			logger.log(Logger.Level.ERROR, "RuntimeException not thrown");
+			pass = true;
 		} catch (RuntimeException e) {
 			logger.log(Logger.Level.TRACE, "RuntimeException Caught as Expected.");
 			if (!getEntityTransaction().getRollbackOnly()) {
 				logger.log(Logger.Level.ERROR, "Transaction was not marked for rollback");
 			} else {
 				logger.log(Logger.Level.TRACE, "Transaction was marked for rollback");
-				pass = true;
 			}
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);

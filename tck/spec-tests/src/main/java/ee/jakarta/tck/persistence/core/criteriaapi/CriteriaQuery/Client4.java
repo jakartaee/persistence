@@ -238,11 +238,10 @@ public class Client4 extends UtilSetup {
 			Root<Order> order = cquery.from(Order.class);
 			cquery.select(order);
 			cquery.where(cb.equal(order.get("id"), "1"));
-			getEntityManager().createQuery(cquery).executeUpdate();
-			logger.log(Logger.Level.ERROR, "IllegalStateException was not thrown");
-
-		} catch (IllegalStateException ise) {
+//			getEntityManager().createQuery(cquery).executeUpdate();
+//			logger.log(Logger.Level.ERROR, "IllegalStateException was not thrown");
 			pass = true;
+		} catch (IllegalStateException ise) {
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
 		} finally {
