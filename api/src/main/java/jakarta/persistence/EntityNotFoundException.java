@@ -31,7 +31,6 @@ import java.util.List;
  * has been joined to it, will be marked for rollback.
  * 
  * @see EntityHandler#get(Class, Object)
- * @see EntityHandler#get(Class, Object, LockModeType)
  * @see EntityHandler#get(Class, Object, FindOption...)
  * @see EntityHandler#get(EntityGraph, Object, FindOption...)
  * @see EntityHandler#getMultiple(Class, List, FindOption...)

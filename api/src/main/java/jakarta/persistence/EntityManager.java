@@ -171,7 +171,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
  * {@link LockModeType}. Some operations of this interface,
  * including the methods {@link #lock(Object, LockModeType)},
  * {@link #refresh(Object, LockModeType)}, and
- * {@link #find(Class, Object, LockModeType)}, accept an explicit
+ * {@link #find(Class, Object, FindOption...)}, accept an explicit
  * {@link LockModeType}, allowing the client to request a specific
  * type of lock.
  *
@@ -279,50 +279,6 @@ public non-sealed interface EntityManager extends EntityHandler {
      *         deferred until changes are flushed to the database)
      */
     void remove(Object entity);
-
-    /**
-     * Retrieve an entity representing the record with the
-     * given identifier, obtaining the lock level specified
-     * by the given {@linkplain LockModeType lock mode}, or
-     * return {@code null} if there is no such record in the
-     * database.
-     *
-     * @param entityClass The class of the entity to retrieve
-     * @param id The identifier of the entity to retrieve
-     * @param lockMode The lock level to obtain
-     * @return an entity instance with the given identifier,
-     *         or {@code null} if there is no matching record
-     *         in the database
-     *
-     * @throws IllegalArgumentException if the given class is
-     *         not an entity class belonging to the persistence
-     *         unit, or if the given identifier is not a
-     *         non-null instance of the identifier type of the
-     *         given entity class
-     * @throws TransactionRequiredException if any lock mode
-     *         other than {@link LockModeType#NONE NONE} is
-     *         specified and there is no transaction
-     *         associated with this handler
-     * @throws OptimisticLockException if an optimistic version
-     *         check fails
-     * @throws PessimisticLockException if a pessimistic lock
-     *         could not be obtained and the transaction is
-     *         rolled back
-     * @throws LockTimeoutException if a pessimistic lock
-     *         could not be obtained and only the statement
-     *         is rolled back
-     * @throws PersistenceException if the given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the
-     *         record could not be read from the database
-     *
-     * @since 1.0
-     *
-     * @deprecated Use {@linkplain #find(Class, Object, FindOption...)} instead as
-     * {@linkplain LockModeType} is itself a {@linkplain FindOption}.
-     */
-    @Deprecated
-    <T> T find(Class<T> entityClass, Object id, LockModeType lockMode);
 
     /**
      * Find by primary key, using the specified properties.
