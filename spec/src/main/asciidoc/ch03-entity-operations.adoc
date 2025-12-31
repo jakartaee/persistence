@@ -1853,64 +1853,74 @@ a single lifecycle event, the invocation order rules described in <<a2251>> appl
 
 Jakarta Persistence integrates with Jakarta Validation <<a19498>>
 and specifies additional validation points for managed types
-(i.e. entities, mapped superclasses, and embeddable classes)
-at the entity lifecycle events described in <<a2202>>.
+(entities, mapped superclasses, and embeddable classes) at the
+entity lifecycle events described in <<a2202>>.
 
-Jakarta Persistence provider may automatically trigger validation of the managed objects
-as defined by the Jakarta Validation specification <<a19498>>.
+The Jakarta Persistence provider may automatically enforce the
+Jakarta Validation constraints <<a19498>> defined on managed objects
+(<<a2374>>). This process occurs internally within the persistence
+lifecycle, ensuring that validation is performed without requiring
+additional application-side logic beyond the definition of the
+constraints themselves.
 
 ==== Automatic Validation Upon Lifecycle Events
 
-If enabled, the automatic validation of entities
-upon lifecycle validation events must occur immediately after the point at
-which all the corresponding lifecycle callback method invocations have been completed,
-or immediately after the point at which such lifecycle callback methods
-would have been completed (if such callback methods are absent).
+_Automatic validation_ of entities is specified in terms of their
+lifecycle events defined in <<a2202>>.
+
+If enabled, automatic validation of entities must occur immediately
+after the point at which all corresponding lifecycle callback method
+invocations complete, or immediately after the point at which such
+lifecycle callback methods would have completed if there were any
+such callback methods present.
 
 [NOTE]
 ====
-In the same way as with entity lifecycle events (<<a2202>>),
-the number of times automatic validation is triggered
-for an entity within a single transaction,
-when multiple operations are performed on the same entity,
-depends on the Jakarta Persistence provider.
+Automatic validation is triggered as an immediate post-action of
+a lifecycle callback. When multiple operations are applied to a
+single entity within the scope of a single transaction, the number
+of automatic validation events is implementation-dependent and may
+vary across Jakarta Persistence providers.
 
-For example, whether a pre-update validation event occurs
-after an entity is persisted and then modified,
-or after it is modified and then removed within the same transaction,
-is implementation-dependent.
+For example, it is provider-specific whether a `PreUpdate` callback
+is invoked if an entity is persisted and subsequently modified, or
+modified and subsequently removed, within the same transaction <<a2202>>.
+Consequently, the automatic validation associated to the pre-update
+lifecycle callback may or may not occur in these scenarios.
 
-Portable applications must not rely on the occurrence or order
-of such automatic validation events.
+Portable applications must not rely on the specific timing or ordering
+of automatic validation events.
 ====
 
 ===== Enabling Automatic Validation [[a2374]]
 
-This specification defines the following validation modes:
+This specification defines the following _validation modes_:
 
-* `auto` -- if the Jakarta Validation _provider_ is obtainable,
-then the persistence provider must perform the automatic validation of entities
-as described in <<a2380>>.
-Otherwise, no lifecycle event validation takes place.
-This is the default validation mode.
-* `callback` -- the persistence provider must perform the automatic validation of entities
-as described in <<a2380>>. If no Jakarta Validation _provider_ is available,
-the persistence provider must throw the `PersistenceException`.
-* `none` -- the persistence provider must not perform any lifecycle event validation.
+* `auto` -- if the Jakarta Validation provider is obtainable, then the
+  persistence provider must perform automatic validation of entities
+  as described in <<a2380>>. Otherwise, no lifecycle event validation
+  takes place. This is the default validation mode.
+* `callback` -- the persistence provider must perform the automatic validation
+  of entities as described in <<a2380>>. If no Jakarta Validation provider is
+  available, the persistence provider must throw a `PersistenceException`.
+* `none` -- the persistence provider must not perform any automatic validation.
 
 [NOTE]
 ====
-The Jakarta Validation _provider_ is obtained via the `jakarta.validation.ValidatorFactory` (<<a2394>>).
+The Jakarta Validation provider is obtained via the `jakarta.validation.ValidatorFactory` (<<a2394>>).
 ====
 
-The validation mode may be specified via the `validation-mode` element
-of the `persistence.xml` file.
-Allowed values for the `validation-mode` element are `AUTO`, `CALLBACK`, `NONE`.
+The validation mode may be specified via the `validation-mode` element of the
+`persistence.xml` file. Allowed values for the `validation-mode` element are
+`AUTO`, `CALLBACK`, `NONE`.
 
-The validation mode value derived from the `persistence.xml`
-may be overridden by the `jakarta.persistence.validation.mode` configuration property
-(e.g. passed to the  `Persistence.createEntityManagerFactory` factory method).
-Expected values for this property are _"auto"_, _"callback"_, _"none"_.
+The validation mode value specified in `persistence.xml` may be overridden by
+the configuration property `jakarta.persistence.validation.mode` which may be
+passed to `Persistence.createEntityManagerFactory` or
+`PersistenceProvider.createContainerEntityManagerFactory`, as defined in
+<<a13443>> and <<a12802>>.
+Expected values for this property are `auto`, `callback`, `none`.
+
 
 ===== Requirements for Automatic Validation upon Lifecycle Events [[a2380]]
 
@@ -1924,11 +1934,10 @@ and pre-upsert lifecycle events contain the `jakarta.validation.groups.Default`
 group (the default Jakarta Validation group).
 The validation group lists for other lifecycle events are empty.
 
-This default validation behavior can be
-overridden by specifying the target groups using the following
-configuration properties in the `persistence.xml` file or by passing these
-properties in the configuration of the entity manager factory through
-the `createEntityManagerFactory` method:
+This default validation behavior can be overridden by specifying the target
+groups using the following configuration properties in the `persistence.xml`
+file or by passing these properties in the configuration of the entity manager
+factory through the `createEntityManagerFactory` method:
 
 * `jakarta.persistence.validation.group.pre-persist`
 * `jakarta.persistence.validation.group.pre-merge`
@@ -1938,22 +1947,20 @@ the `createEntityManagerFactory` method:
 * `jakarta.persistence.validation.group.pre-upsert`
 * `jakarta.persistence.validation.group.pre-delete`
 
-The value of a configuration property must be a list of the targeted groups.
-A targeted group must be specified by its fully qualified class name.
-Each pair of names must be separated by a comma.
-Optional whitespace characters shall be permitted both preceding and following each group name.
+The value of a configuration property must be a list of the targeted
+groups. A targeted group must be specified by its fully qualified class
+name. Each pair of names must be separated by a comma. Optional whitespace
+characters shall be permitted both preceding and following each group name.
 
-When an entity lifecycle event occurs, the persistence
-provider must validate the entity using a `Validator` instance
-obtained from the validator factory in use (see <<a2394>>) and
-invoke its `validate` method with the targeted groups. If the list of
-targeted groups is empty, no validation is performed. If the set of
-`ConstraintViolation` objects returned by the `validate` method is not
-empty, the persistence provider must throw the
-`jakarta.validation.ConstraintViolationException` containing a reference
-to the returned set of `ConstraintViolation` objects, and must mark the
-transaction for rollback if the persistence context is joined to the
-transaction.
+When an entity lifecycle event occurs, the persistence provider must validate
+the entity using a `Validator` instance obtained from the validator factory
+in use (see <<a2394>>) and invoke its `validate` method with the targeted groups.
+If the list of targeted groups is empty, no validation is performed. If the
+set of `ConstraintViolation` objects returned by the `validate` method is not
+empty, the persistence provider must throw the `jakarta.validation.ConstraintViolationException`
+containing a reference to the returned set of `ConstraintViolation` objects,
+and must mark the transaction for rollback if the persistence context is joined
+to the transaction.
 
 The validation process must not have any side effects;
 i.e., validation must not result in the loading of any
@@ -1963,38 +1970,37 @@ An entity can be validated at most once per flush cycle.
 To achieve this, persistence provider must initialize
 the validator instance in use with the traversable resolver
 (`jakarta.validation.TraversableResolver`)
-that matches these behavior requirements, in particular:
+that matches these behavior requirements. In particular:
 
-* `TraversableResolver#isReachable(..)` only returns `true`
-for already initialized attributes and associations.
-* `TraversableResolver#isCascadable(..)` only returns `true`
-for properties that are not associations.
+* `TraversableResolver.isReachable(..)` only returns `true`
+  for attributes and associations which are already loaded.
+* `TraversableResolver.isCascadable(..)` only returns `true`
+  for attributes that are not associations.
 
 A validator instance with such a traversable resolver can be obtained
-from a `jakarta.validation.ValidatorFactory` instance
-by calling `validatorFactory.usingContext().traversableResolver(tr).getValidator()`,
+from a `jakarta.validation.ValidatorFactory` instance by calling
+`validatorFactory.usingContext().traversableResolver(tr).getValidator()`,
 where `tr` is the resolver.
 
 ==== Providing the ValidatorFactory [[a2394]]
 
 In Jakarta EE environments, a `jakarta.validation.ValidatorFactory`
-instance is made available by the Jakarta EE container. The container is
-responsible for passing this validator factory to the persistence
+instance is made available by the Jakarta EE container. The container
+is responsible for passing this validator factory to the persistence
 provider via the map that is passed as an argument to the
 `createContainerEntityManagerFactory` call. The map key used by the
 container must be the standard property name
 `jakarta.persistence.validation.factory`.
 
-In Java SE environments, the application can
-pass the `ValidatorFactory` instance via the map that is passed as an
-argument to the `Persistence.createEntityManagerFactory` call. The map
-key used must be the standard property name
-`jakarta.persistence.validation.factory`. If no `ValidatorFactory`
-instance is provided by the application, and if a Jakarta Validation
-provider is present in the classpath, the persistence provider must
-instantiate the `ValidatorFactory` using the default bootstrapping
-approach defined by the Jakarta Validation specification
-<<a19498>>, namely `Validation.buildDefaultValidatorFactory()`.
+In Java SE environments, the application can pass the `ValidatorFactory`
+instance via the map that is passed as an argument to the
+`Persistence.createEntityManagerFactory` call. The map key used must
+be the standard property name `jakarta.persistence.validation.factory`.
+If no `ValidatorFactory` instance is provided by the application, and
+if a Jakarta Validation provider is present in the classpath, the
+persistence provider must instantiate the `ValidatorFactory` using
+the default bootstrapping approach defined by the Jakarta Validation
+specification <<a19498>>, namely `Validation.buildDefaultValidatorFactory()`.
 
 === Entity Graphs [[a2397]]
 
