@@ -41,7 +41,6 @@ import java.util.List;
  * rollback when this exception is thrown.
  * 
  * @see EntityHandler#get(Class, Object)
- * @see EntityHandler#get(Class, Object, LockModeType)
  * @see EntityHandler#get(Class, Object, FindOption...)
  * @see EntityHandler#get(EntityGraph, Object, FindOption...)
  * @see EntityHandler#getMultiple(Class, List, FindOption...)

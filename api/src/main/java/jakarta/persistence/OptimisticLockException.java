@@ -27,7 +27,6 @@ import java.util.List;
  * the transaction is automatically marked for rollback when this
  * exception is thrown.
  *
- * @see EntityHandler#find(Class, Object, LockModeType)
  * @see EntityHandler#find(Class, Object, FindOption...)
  * @see EntityHandler#find(EntityGraph, Object, FindOption...)
  * @see EntityHandler#findMultiple(Class, List, FindOption...)

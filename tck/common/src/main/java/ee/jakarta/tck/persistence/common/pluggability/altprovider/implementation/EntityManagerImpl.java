@@ -207,11 +207,6 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
     }
 
     @Override
-    public <T> T get(Class<T> entityClass, Object id, LockModeType lockMode) {
-        return null;
-    }
-
-    @Override
     public <T> T get(Class<T> entityClass, Object id, FindOption... options) {
         return null;
     }
@@ -238,11 +233,6 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 
 	@Override
 	public <T> T find(Class<T> arg0, Object arg1, Map<String, Object> arg2) {
-		return null;
-	}
-
-	@Override
-	public <T> T find(Class<T> arg0, Object arg1, LockModeType arg2) {
 		return null;
 	}
 
