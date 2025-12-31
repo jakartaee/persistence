@@ -631,10 +631,11 @@ override any defaults that the persistence provider might have applied.
 | `validation-mode`
 | Legal values are `auto`, `callback`, and `none`.
 See <<a12382>> and <<a2374>>.
-| `jakarta.persistence.defaultFetchType`
+| `jakarta.persistence.defaultToOneFetchType`
 | `String`
-| `default-fetch-type`
+| `default-to-one-fetch-type`
 | Legal values are `EAGER` and `LAZY`.
+See <<fetching-policies>>
 |===
 
 The following properties correspond to the properties in the `persistence.xml`

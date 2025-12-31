@@ -480,10 +480,11 @@ is in effect for the persistence unit. See <<a3065>>.
 The `validation-mode` element determines whether automatic lifecycle
 event time validation is in effect. See <<a2374>>.
 
-===== default-fetch-type
+===== default-to-one-fetch-type
 
-The `default-fetch-type` element determines the default fetch type for
-one-to-one and many-to-one associations.
+The `default-to-one-fetch-type` element determines the default fetch
+type for one-to-one and many-to-one associations, as specified in
+<<fetching-policies>>.
 
 ===== properties [[a12384]]
 

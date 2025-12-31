@@ -43,7 +43,7 @@ import java.util.Objects;
  *     return new PersistenceConfiguration()
  *             .name("DocumentData")
  *             .nonJtaDataSource("java:global/jdbc/DocumentDatabase")
- *             .defaultFetchType(FetchType.LAZY)
+ *             .defaultToOneFetchType(FetchType.LAZY)
  *             .managedClass(Document.class)
  *             .createEntityManagerFactory();
  * }
@@ -301,7 +301,7 @@ public class PersistenceConfiguration {
     private SharedCacheMode sharedCacheMode = SharedCacheMode.UNSPECIFIED;
     private ValidationMode validationMode = ValidationMode.AUTO;
     private PersistenceUnitTransactionType transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
-    private FetchType defaultFetchType = FetchType.EAGER;
+    private FetchType defaultToOneFetchType = FetchType.EAGER;
 
     private SchemaManagementAction schemaManagementDatabaseAction = SchemaManagementAction.NONE;
     private SchemaManagementAction schemaManagementScriptsAction = SchemaManagementAction.NONE;
@@ -522,14 +522,14 @@ public class PersistenceConfiguration {
      * Specify the {@linkplain FetchType#DEFAULT default fetch type}
      * for one-to-one and many-to-one associations. The given fetch type
      * value must be {@link FetchType#EAGER} or {@link FetchType#LAZY}.
-     * @param defaultFetchType the default fetch type
+     * @param defaultToOneFetchType the default fetch type
      * @return this configuration
      * @since 4.0
      */
-    public PersistenceConfiguration defaultFetchType(FetchType defaultFetchType) {
-        if (defaultFetchType == FetchType.DEFAULT)
-            throw new IllegalArgumentException("defaultFetchType: " + FetchType.DEFAULT);
-        this.defaultFetchType = defaultFetchType;
+    public PersistenceConfiguration defaultToOneFetchType(FetchType defaultToOneFetchType) {
+        if (defaultToOneFetchType == FetchType.DEFAULT)
+            throw new IllegalArgumentException("defaultToOneFetchType: " + FetchType.DEFAULT);
+        this.defaultToOneFetchType = defaultToOneFetchType;
         return this;
     }
 
@@ -538,8 +538,8 @@ public class PersistenceConfiguration {
      * {@link FetchType#EAGER} by default.
      * @since 4.0
      */
-    public FetchType defaultFetchType() {
-        return defaultFetchType;
+    public FetchType defaultToOneFetchType() {
+        return defaultToOneFetchType;
     }
 
     /**

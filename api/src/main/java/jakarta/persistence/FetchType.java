@@ -18,27 +18,27 @@
 package jakarta.persistence;
 
 /**
- * Defines strategies for fetching data from the database.
+ * Defines policies for fetching data from the database.
  * <ul>
- * <li>The {@link #EAGER} strategy is a requirement on the
+ * <li>The {@link #EAGER} policy is a requirement on the
  *     persistence provider runtime that data must be eagerly
  *     fetched.
- * <li>The {@link #LAZY} strategy is a hint to the persistence
+ * <li>The {@link #LAZY} policy is a hint to the persistence
  *     provider runtime that data should be fetched lazily when
  *     it is first accessed, in the case of a managed entity
  *     associated with a persistence context, or on a call to
  *     {@link EntityAgent#fetch}, in the case of a detached
  *     entity. The implementation is permitted to eagerly fetch
- *     data for which the {@code LAZY} strategy hint has been
+ *     data for which the {@code LAZY} policy hint has been
  *     specified.
  * <li>A {@link #DEFAULT} value specifies that the fetching
- *     strategy depends on the <em>default fetch type of the
+ *     policy depends on the <em>default fetch type of the
  *     persistence unit for one-to-one and many-to-one
- *     associations</em>. This default fetch type is
- *     controlled via the {@code default-fetch-type} element in
+ *     associations</em>. This default fetch type is controlled
+ *     via the {@code default-to-one-fetch-type} element in
  *     the {@code persistence.xml} file or by setting the
- *     {@link PersistenceConfiguration#defaultFetchType()
- *     defaultFetchType} of the {@link PersistenceConfiguration},
+ *     {@link PersistenceConfiguration#defaultToOneFetchType()
+ *     defaultToOneFetchType} of the {@link PersistenceConfiguration},
  *     and defaults to {@link FetchType#EAGER} for backward
  *     compatibility.
  * </ul>
@@ -86,7 +86,7 @@ public enum FetchType {
     EAGER,
 
     /**
-     * Specifies that the fetching strategy depends on
+     * Specifies that the fetching policy depends on
      * the default fetch type of the persistence unit
      * for one-to-one and many-to-one associations.
      * @apiNote It is very strongly recommended that

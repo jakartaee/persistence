@@ -19,6 +19,41 @@ observed.
 The use of object/relational mapping metadata
 to control schema generation is specified in <<a16444>>.
 
+=== Fetching Policies [[fetching-policies]]
+
+The `FetchType` enum defines policies for fetching associated data from
+the database:
+
+[source,java]
+----
+public enum FetchType { LAZY, EAGER, DEFAULT }
+----
+
+- The `EAGER` policy is a requirement on the persistence provider
+  runtime that data must be eagerly fetched.
+
+- The `LAZY` policy is a _hint_ to the persistence provider runtime
+  that data should be fetched lazily when it is first accessed, in the
+  case of a managed entity associated with a persistence context, or
+  on a call to the `fetch()` method of `EntityAgent`, in the case of a
+  detached entity. The implementation is permitted to eagerly fetch
+  data for which the `LAZY` policy hint has been specified.footnote:[In
+  particular, lazy fetching might only be available for `Basic` mappings
+  for which property-based access is used.]
+
+- A `DEFAULT` value specifies that the fetching policy depends on the
+  _default fetch type of the persistence unit for one-to-one and
+  many-to-one associations_. This default fetch type is controlled via
+  the `default-to-one-fetch-type` element in the `persistence.xml` file
+  or by setting the `defaultToOneFetchType` of the
+  `PersistenceConfiguration` object used to bootstrap the persistence
+  unit, and defaults to `EAGER` for backward compatibility.
+
+[NOTE]
+It is very strongly recommended that new applications set the default
+fetch type for one-to-one and many-to-one associations to `LAZY` to
+avoid accidental fetching of unnecessary data.
+
 === Annotations for Object/Relational Mapping
 
 These annotations and types are in the
@@ -557,23 +592,6 @@ public @interface Basic {
 
 <<a14218>> lists the annotation elements that may be specified
 for the `Basic` annotation and their default values.
-
-The `FetchType` enum defines strategies for
-fetching data from the database:
-
-[source,java]
-----
-public enum FetchType { LAZY, EAGER };
-----
-
-The `EAGER` strategy is a requirement on the
-persistence provider runtime that data must be eagerly fetched. The
-`LAZY` strategy is a _hint_ to the persistence provider runtime that
-data should be fetched lazily when it is first accessed. The
-implementation is permitted to eagerly fetch data for which the `LAZY`
-strategy hint has been specified. In particular, lazy fetching might
-only be available for `Basic` mappings for which property-based access
-is used.
 
 If the annotated field or property is of primitive type, or if it is
 also annotated with `jakarta.annotation.Nonnull`, then `optional=false`

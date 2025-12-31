@@ -547,8 +547,8 @@ until the end of the transaction.
 ==== Load State [[a2019]]
 
 An entity is considered to be loaded if all
-attributes with `FetchType.EAGER` —whether explictly specified or by
-default—(including relationship and other collection-valued attributes)
+attributes with `FetchType.EAGER` -- whether explicitly specified or by
+default -- (including relationship and other collection-valued attributes)
 have been loaded from the database or assigned by the application.
 Attributes with `FetchType.LAZY` may or may not have been loaded. The
 available state of the entity instance and associated instances is as
