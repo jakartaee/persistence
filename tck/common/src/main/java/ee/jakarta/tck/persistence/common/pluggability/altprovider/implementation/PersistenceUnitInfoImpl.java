@@ -197,8 +197,8 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
-	public FetchType getDefaultFetchType() {
-		logger.log("Called PersistenceUnitInfoImpl.getDefaultFetchType()");
+	public FetchType getDefaultToOneFetchType() {
+		logger.log("Called PersistenceUnitInfoImpl.getDefaultToOneFetchType()");
 		return FetchType.EAGER;
 	}
 
