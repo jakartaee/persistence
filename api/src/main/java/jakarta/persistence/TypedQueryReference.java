@@ -108,17 +108,6 @@ public interface TypedQueryReference<R> {
     Map<String,Object> getHints();
 
     /**
-     * Any {@linkplain FindOption options} controlling
-     * execution of the query.
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @since 4.0
-     */
-    List<FindOption> getOptions();
-
-    /**
      * The types of the supplied
      * {@linkplain #getArguments arguments} to query
      * parameters, or {@code null} if no arguments were
@@ -174,4 +163,72 @@ public interface TypedQueryReference<R> {
      * @since 4.0
      */
     List<Object> getArguments();
+
+    /**
+     * The specified {@link CacheRetrieveMode}, if any,
+     * or {@code null} when the default mode of the
+     * {@link EntityHandler} should be used.
+     *
+     * @see Query#setCacheRetrieveMode
+     * @see jakarta.persistence.query.ReadQueryOptions#cacheRetrieveMode
+     * @since 4.0
+     */
+    CacheRetrieveMode getCacheRetrieveMode();
+
+    /**
+     * The specified {@link CacheStoreMode}, if any,
+     * or {@code null} when the default mode of the
+     * {@link EntityHandler} should be used.
+     *
+     * @see Query#setCacheStoreMode
+     * @see jakarta.persistence.query.ReadQueryOptions#cacheStoreMode
+     * @since 4.0
+     */
+    CacheStoreMode getCacheStoreMode();
+
+    /**
+     * The specified {@link LockModeType}, if any,
+     * oo {@link LockModeType#NONE} if no lock mode
+     * was specified.
+     *
+     * @see Query#setLockMode
+     * @see NamedQuery#lockMode
+     * @see jakarta.persistence.query.ReadQueryOptions#lockMode
+     * @since 4.0
+     */
+    LockModeType getLockMode();
+
+    /**
+     * The specified {@link PessimisticLockScope},
+     * if any, or {@link PessimisticLockScope#NORMAL}
+     * if no lock scope was specified.
+     *
+     * @see Query#setLockScope
+     * @see NamedQuery#lockScope
+     * @see jakarta.persistence.query.ReadQueryOptions#lockScope
+     * @since 4.0
+     */
+    PessimisticLockScope getPessimisticLockScope();
+
+    /**
+     * The specified {@link Timeout}, if any, or
+     * {@code null} if no timeout was specified.
+     *
+     * @see Query#setTimeout
+     * @see jakarta.persistence.query.ReadQueryOptions#timeout
+     * @since 4.0
+     */
+    Timeout getTimeout();
+
+    /**
+     * The specified entity graph name, if any,
+     * or {@code null} if no entity graph was
+     * specified.
+     *
+     * @see TypedQuery#setEntityGraph
+     * @see NamedQuery#entityGraph
+     * @see jakarta.persistence.query.ReadQueryOptions#entityGraph
+     * @since 4.0
+     */
+    String getEntityGraphName();
 }

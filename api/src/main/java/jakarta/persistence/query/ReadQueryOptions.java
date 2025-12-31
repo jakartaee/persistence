@@ -102,7 +102,7 @@ public @interface ReadQueryOptions {
     PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
 
     /**
-     * The name of an {@link jakarta.persistence.NamedEntityGraph}
+     * The name of a {@link jakarta.persistence.NamedEntityGraph}
      * {@linkplain jakarta.persistence.TypedQuery#setEntityGraph
      * applied} to the entity returned by the query. By default,
      * no entity graph is applied. The named entity graph must be

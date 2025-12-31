@@ -297,6 +297,14 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     StoredProcedureQuery setTimeout(Integer timeout);
 
     /**
+     * Set the query timeout. This is a hint.
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 4.0
+     */
+    StoredProcedureQuery setTimeout(Timeout timeout);
+
+    /**
      * Mark this as a call to a stored procedure with a result
      * parameter and register the type of the result parameter.
      * This is typically required when calling a stored function.
