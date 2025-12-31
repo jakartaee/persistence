@@ -415,4 +415,12 @@ public interface TypedQuery<X> extends Query {
      * @since 3.2
      */
     TypedQuery<X> setTimeout(Integer timeout);
+
+    /**
+     * Set the query timeout. This is a hint.
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 4.0
+     */
+    TypedQuery<X> setTimeout(Timeout timeout);
 }

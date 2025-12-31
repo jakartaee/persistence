@@ -690,7 +690,15 @@ public interface Query {
     Query setTimeout(Integer timeout);
 
     /**
-     * The query timeout.
+     * Set the query timeout. This is a hint.
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 4.0
+     */
+    Query setTimeout(Timeout timeout);
+
+    /**
+     * The query timeout, in milliseconds, or null for no timeout.
      * @since 3.2
      */
     Integer getTimeout();

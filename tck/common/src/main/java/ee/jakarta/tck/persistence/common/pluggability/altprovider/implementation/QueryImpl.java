@@ -30,6 +30,7 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
 
 public class QueryImpl<X> implements TypedQuery<X> {
@@ -206,6 +207,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public TypedQuery<X> setTimeout(Integer timeout) {
+		return null;
+	}
+
+	@Override
+	public TypedQuery<X> setTimeout(Timeout timeout) {
 		return null;
 	}
 
