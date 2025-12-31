@@ -13,3 +13,4 @@
 - [[[a19499,6]]] Jakarta EE Platform, v. 11.0. _https://jakarta.ee/specifications/platform/11/_.
 - [[[a19500,7]]] Jakarta Contexts and Dependency Injection, v. 4.1. _https://jakarta.ee/specifications/cdi/4.1/_.
 - [[[a19501,8]]] Jakarta Transactions, v. 2.0. _https://jakarta.ee/specifications/transactions/2.0/_.
+- [[[a19502,9]]] Jakarta Data, v. 1.0. _https://jakarta.ee/specifications/data/1.0/_.
