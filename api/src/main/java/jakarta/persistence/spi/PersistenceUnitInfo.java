@@ -211,9 +211,10 @@ public interface PersistenceUnitInfo {
     /**
      * Returns the {@linkplain FetchType#DEFAULT default fetch type}
      * for one-to-one and many-to-one associations. The default fetch
-     * type corresponds to the {@code default-fetch-type} element in
-     * the {@code persistence.xml} file.
-     * @return the default fetch type for the persistence unit
+     * type corresponds to the {@code default-to-one-fetch-type}
+     * element in the {@code persistence.xml} file.
+     * @return the default fetch type for one-to-one and many-to-one
+     *         associations for the persistence unit
      *
      * @since 4.0
      */

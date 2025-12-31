@@ -66,10 +66,10 @@ public @interface ElementCollection {
      * (Optional) Whether the collection should be lazily loaded
      * or must be eagerly fetched.
      * <ul>
-     * <li>The {@link FetchType#EAGER EAGER} strategy is a
+     * <li>The {@link FetchType#EAGER EAGER} policy is a
      *     requirement on the persistence provider runtime
      *     that the associated entity must be eagerly fetched.
-     * <li>The {@link FetchType#LAZY LAZY} strategy is a hint
+     * <li>The {@link FetchType#LAZY LAZY} policy is a hint
      *     to the persistence provider runtime.
      * </ul>
      *
