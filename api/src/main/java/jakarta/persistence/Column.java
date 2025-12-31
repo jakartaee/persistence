@@ -186,4 +186,15 @@ public @interface Column {
      * @since 3.2
      */
     String comment() default "";
+
+    /**
+     * Determines if this column is validated as part of the
+     * schema {@linkplain SchemaManager#validate validation}
+     * process. By default, the column is validated. If the
+     * column should be excluded from validation, specify
+     * {@code validated=false}.
+     *
+     * @since 4.0
+     */
+    boolean validated() default true;
 }
