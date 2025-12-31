@@ -218,7 +218,7 @@ public interface PersistenceUnitInfo {
      *
      * @since 4.0
      */
-    FetchType getDefaultFetchType();
+    FetchType getDefaultToOneFetchType();
 
     /**
      * Returns a properties object. Each property corresponds to a
