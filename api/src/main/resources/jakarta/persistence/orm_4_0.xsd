@@ -1752,18 +1752,21 @@
 
   <xsd:complexType name="named-query">
     <xsd:annotation>
-      <xsd:documentation>
+      <xsd:documentation><![CDATA[
 
         @Repeatable(NamedQueries.class)
         @Target({TYPE}) @Retention(RUNTIME)
         public @interface NamedQuery {
           String name();
           String query();
+          Class<?> resultClass() default void.class;
           LockModeType lockMode() default LockModeType.NONE;
+          PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
           QueryHint[] hints() default {};
+          String entityGraph() default "";
         }
 
-      </xsd:documentation>
+      ]]></xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
       <xsd:element name="description" type="xsd:string" minOccurs="0"/>
@@ -1772,8 +1775,10 @@
       <xsd:element name="lock-scope" type="orm:pessimistic-lock-scope" minOccurs="0"/>
       <xsd:element name="hint" type="orm:query-hint"
                    minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="entity-graph" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="result-class" type="xsd:string"/>
 </xsd:complexType>
 
 <!-- **************************************************** -->
