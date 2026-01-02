@@ -78,11 +78,19 @@ package jakarta.persistence;
 public enum FetchType {
     /**
      * Specifies that data can be lazily fetched.
+     * <p>
+     * This fetching policy is a hint to the provider.
+     * A persistence provider is always permitted to
+     * eagerly fetch more data than what is explicitly
+     * requested by the application.
      */
     LAZY,
 
     /**
      * Specifies that data must be eagerly fetched.
+     * <p>
+     * This fetching policy is a requirement on the
+     * persistence provider.
      */
     EAGER,
 
