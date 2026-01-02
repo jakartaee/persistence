@@ -63,7 +63,10 @@ be unique within a given EJB-JAR file, within a given WAR file, within a
 given application client JAR, or within an EAR. See <<a12459>>.
 
 The `persistence.xml` file may be used to define more than one persistence
-unit within the same scope.
+unit within the same scope. Alternatively, if the jar file contains a Java
+module, `PersistenceModule` annotation described in <<persistence-module>>
+may be used to define exactly one persistence unit which is identified with
+the module itself.
 
 All persistence classes defined at the level of the Jakarta EE EAR must be
 accessible to other Jakarta EE components in the application—that is, to
@@ -77,6 +80,21 @@ described in the following sections can be used. To ensure the portability
 of a Java SE application, it is necessary to explicitly list the managed
 persistence classes included in the persistence unit using the `class`
 element of the `persistence.xml` file. See <<a12305>>.
+
+==== Persistence Properties Files
+
+A persistence unit may have a Java properties file located in the `META-INF`
+directory. The name of the properties file is obtained by concatenating the
+name of the persistence unit with the standard extension `.properties`. For
+example, if the name of the persistence unit is `org.example`, the properties
+file is `META-INF/org.example.properties`.
+
+Property settings supplied in the properties file belonging to a persistence
+unit augment and override any properties specified in `persistence.xml` or
+by the `PersistenceModule` annotation. Any of the properties defined in
+<<a13443>> may be included in the properties file belonging to a persistence
+unit, and may override information specified in `persistence.xml` or via
+annotations members of `PersistenceModule`.
 
 ==== persistence.xml file [[a12237]]
 
