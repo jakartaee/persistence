@@ -105,79 +105,11 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
     Class<? extends R> getResultType();
 
     /**
-     * A map keyed by hint name of all hints specified via
-     * {@link NamedQuery#hints} or {@link NamedNativeQuery#hints}.
-     * <p>
-     * Any mutation of the returned map results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @see Query#setHint
-     */
-    Map<String,Object> getHints();
-
-    /**
-     * The types of the supplied
-     * {@linkplain #getArguments arguments} to query
-     * parameters, or {@code null} if no arguments were
-     * supplied. Arguments are present when this is a
-     * reference to a query declared using an annotation
-     * of a method.
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @since 4.0
-     */
-    List<Class<?>> getParameterTypes();
-
-    /**
-     * The names assigned to the supplied
-     * {@linkplain #getArguments arguments} to query
-     * parameters, or {@code null} if no arguments were
-     * supplied. Arguments are present when this is a
-     * reference to a query declared using an annotation
-     * of a method. If the query has named parameters,
-     * these are interpreted as the parameter names.
-     * Otherwise, if the query has positional parameters,
-     * they are ignored.
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @since 4.0
-     */
-    List<String> getParameterNames();
-
-    /**
-     * The arguments supplied to the query parameters,
-     * or {@code null} if no arguments were supplied.
-     * Arguments are present when this is a reference to
-     * a query declared using an annotation of a method.
-     * <ul>
-     * <li>If the query has ordinal parameters, the
-     * position of an argument in this array determines
-     * its assignment to a parameter.
-     * <li>If the query has named parameters, this array
-     * is aligned with the {@linkplain #getParameterNames
-     * array of parameter names} to obtain an assignment
-     * of arguments to parameters.
-     * </ul>
-     * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
-     *
-     * @see Query#setParameter(int, Object)
-     * @see Query#setParameter(String, Object)
-     * @since 4.0
-     */
-    List<Object> getArguments();
-
-    /**
      * The specified {@link CacheRetrieveMode}, if any,
      * or {@code null} when the default mode of the
      * {@link EntityHandler} should be used.
      *
-     * @see Query#setCacheRetrieveMode
+     * @see TypedQuery#setCacheRetrieveMode
      * @see jakarta.persistence.query.ReadQueryOptions#cacheRetrieveMode
      * @since 4.0
      */
@@ -188,7 +120,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * or {@code null} when the default mode of the
      * {@link EntityHandler} should be used.
      *
-     * @see Query#setCacheStoreMode
+     * @see TypedQuery#setCacheStoreMode
      * @see jakarta.persistence.query.ReadQueryOptions#cacheStoreMode
      * @since 4.0
      */
@@ -199,7 +131,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * oo {@link LockModeType#NONE} if no lock mode
      * was specified.
      *
-     * @see Query#setLockMode
+     * @see TypedQuery#setLockMode
      * @see NamedQuery#lockMode
      * @see jakarta.persistence.query.ReadQueryOptions#lockMode
      * @since 4.0
@@ -211,22 +143,12 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * if any, or {@link PessimisticLockScope#NORMAL}
      * if no lock scope was specified.
      *
-     * @see Query#setLockScope
+     * @see TypedQuery#setLockScope
      * @see NamedQuery#lockScope
      * @see jakarta.persistence.query.ReadQueryOptions#lockScope
      * @since 4.0
      */
     PessimisticLockScope getPessimisticLockScope();
-
-    /**
-     * The specified {@link Timeout}, if any, or
-     * {@code null} if no timeout was specified.
-     *
-     * @see Query#setTimeout
-     * @see jakarta.persistence.query.ReadQueryOptions#timeout
-     * @since 4.0
-     */
-    Timeout getTimeout();
 
     /**
      * The specified entity graph name, if any,

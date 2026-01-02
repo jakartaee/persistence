@@ -107,4 +107,15 @@ public sealed interface Reference
      * @since 4.0
      */
     List<Object> getArguments();
+    
+    /**
+     * The specified {@link Timeout}, if any, or
+     * {@code null} if no timeout was specified.
+     *
+     * @see Query#setTimeout(Timeout) 
+     * @see jakarta.persistence.query.ReadQueryOptions#timeout
+     * @see jakarta.persistence.query.WriteQueryOptions#timeout
+     * @since 4.0
+     */
+    Timeout getTimeout();
 }
