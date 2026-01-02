@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
 import jakarta.persistence.EntityGraph;
@@ -29,6 +30,7 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
+import jakarta.persistence.Query;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
@@ -273,6 +275,18 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public <P> TypedQuery<X> setParameter(int position, P value, Class<P> type) {
+		return this;
+	}
+
+	@Override
+	public <P> Query setConvertedParameter(String name, P value,
+										   Class<? extends AttributeConverter<P, ?>> converter) {
+		return this;
+	}
+
+	@Override
+	public <P> Query setConvertedParameter(int position, P value,
+										   Class<? extends AttributeConverter<P, ?>> converter) {
 		return this;
 	}
 
