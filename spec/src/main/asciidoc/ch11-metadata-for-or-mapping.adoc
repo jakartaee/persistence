@@ -705,7 +705,7 @@ native SQL dialect of the database.
 |(Optional) Constraint name.
 |A provider-chosen name.
 
-|String[]
+|String
 |constraint
 |(Required) The native SQL expression to be checked.
 |
