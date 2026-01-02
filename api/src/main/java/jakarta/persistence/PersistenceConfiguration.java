@@ -75,7 +75,7 @@ import java.util.Objects;
  */
 public class PersistenceConfiguration
         implements Persistence.JdbcProperties,
-                   Persistence.TimeoutProperties,
+                   Persistence.ConnectionProperties,
                    Persistence.DatabaseProperties,
                    Persistence.SchemaManagementProperties,
                    Persistence.ValidationProperties,
