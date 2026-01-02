@@ -187,14 +187,14 @@ public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
 ----
 +
 where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@ReadQueryOptions` or `@WriteQueryOptions`
-annotation of `m`. If the annotated method has more parameters than the
-query specified by the annotation `value` member, the annotation processor
-is permitted to ignore the method parameters which do not correspond to
-parameters of the query, but this behavior is not required and is not
-portable between different processors.footnote:[A future version of this
-specification might define how an annotation processor treats a method
-parameter which does not correspond to a parameter of the query.]
+are options specified by any `@ReadQueryOptions` annotation of `m`. If the
+annotated method has more parameters than the query specified by the
+annotation `value` member, the annotation processor is permitted to ignore
+the method parameters which do not correspond to parameters of the query,
+but this behavior is not required and is not portable between different
+processors.footnote:[A future version of this specification might define
+how an annotation processor treats a method parameter which does not
+correspond to a parameter of the query.]
 
 * For every method `m` of return type `void`, `int`, or `long`, and with
 parameters `p1`, `p2`, etc., of types `T1`, `T2`, etc., annotated with a
@@ -211,19 +211,19 @@ public static StatementReference m(T1 p1, T2 p2, ...) {
             List.of(T1.class, T2.class, ... ),
             List.of("p1", "p2", ... ),
             List.of(p1, p2, ... ),
-            Map.of("h1", v1, "h2", v2, ...),
-            o1, o2, o3, ...
+            o1, o2, o3, ... ,
+            Map.of("h1", v1, "h2", v2, ...)
     );
 }
 ----
 +
 where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@ReadQueryOptions` or `@WriteQueryOptions`
-annotation of `m`. If the annotated method has more parameters than the
-query specified by the annotation `value` member, the annotation processor
-is permitted to ignore the method parameters which do not correspond to
-parameters of the query, but this behavior is not required and is not
-portable between different processors.
+are options specified by any `@WriteQueryOptions` annotation of `m`. If
+the annotated method has more parameters than the query specified by the
+annotation `value` member, the annotation processor is permitted to ignore
+the method parameters which do not correspond to parameters of the query,
+but this behavior is not required and is not portable between different
+processors.
 
 * For every named query, named entity graph, or SQL result set mapping
 with name `"n"` declared by annotations of the class `X`, the metamodel
