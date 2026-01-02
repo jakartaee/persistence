@@ -848,20 +848,6 @@ public interface Query {
     LockModeType getLockMode();
 
     /**
-     * The pessimistic lock scope to use in query execution if a
-     * pessimistic lock mode is specified via {@link #setLockMode}.
-     * If the query is executed without a pessimistic lock mode,
-     * the pessimistic lock scope has no effect.
-     * @since 4.0
-     * @param lockScope the scope of the pessimistic lock
-     * @return the same query instance
-     * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
-     *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     */
-    Query setLockScope(PessimisticLockScope lockScope);
-
-    /**
      * The current {@linkplain PessimisticLockScope pessimistic
      * lock scope} for the query or {@code null} if a scope has
      * not been set.
