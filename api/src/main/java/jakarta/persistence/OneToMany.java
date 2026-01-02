@@ -113,11 +113,18 @@ public @interface OneToMany {
      */
     CascadeType[] cascade() default {};
 
-    /** (Optional) Whether the association should be lazily loaded or
-     * must be eagerly fetched. The EAGER strategy is a requirement on
-     * the persistence provider runtime that the associated entities
-     * must be eagerly fetched.  The LAZY strategy is a hint to the
-     * persistence provider runtime.
+    /**
+     * (Optional) Whether the association should be lazily
+     * loaded or must be eagerly fetched.
+     * <ul>
+     * <li>The {@link FetchType#EAGER EAGER} policy is a
+     *     requirement on the persistence provider runtime
+     *     that the associated entity must be eagerly fetched.
+     * <li>The {@link FetchType#LAZY LAZY} policy is a hint
+     *     to the persistence provider runtime.
+     * </ul>
+     *
+     * <p>If not specified, defaults to {@code LAZY}.
      */
     FetchType fetch() default FetchType.LAZY;
 
