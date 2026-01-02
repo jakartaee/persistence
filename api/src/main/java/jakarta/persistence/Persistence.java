@@ -342,7 +342,13 @@ public final class Persistence {
          * @since 4.0
          */
         String JDBC_BATCH_SIZE = "jakarta.persistence.jdbc.batchSize";
+    }
 
+    /**
+     * Properties specifying timeouts applying to interactions with the database.
+     * @since 4.0
+     */
+    public interface TimeoutProperties {
         /**
          * Default pessimistic lock timeout hint.
          */
