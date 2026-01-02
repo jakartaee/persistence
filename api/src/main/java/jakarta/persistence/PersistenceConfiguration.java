@@ -527,8 +527,9 @@ public class PersistenceConfiguration {
      * @since 4.0
      */
     public PersistenceConfiguration defaultToOneFetchType(FetchType defaultToOneFetchType) {
-        if (defaultToOneFetchType == FetchType.DEFAULT)
-            throw new IllegalArgumentException("defaultToOneFetchType: " + FetchType.DEFAULT);
+        if (defaultToOneFetchType == null || defaultToOneFetchType == FetchType.DEFAULT) {
+            throw new IllegalArgumentException("defaultToOneFetchType: " + defaultToOneFetchType);
+        }
         this.defaultToOneFetchType = defaultToOneFetchType;
         return this;
     }
