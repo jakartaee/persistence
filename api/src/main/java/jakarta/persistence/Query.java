@@ -392,6 +392,30 @@ public interface Query {
     <P> Query setParameter(String name, P value, Type<P> type);
 
     /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying an {@linkplain AttributeConverter attribute
+     * converter} to use.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < :amount")
+     *         .setConvertedParameter("amount", amount,
+     *                 MonetaryAmountConverter.class)
+     *         .getResultList();
+     * }
+     * @param name  parameter name
+     * @param value  parameter value
+     * @param converter  class of the attribute converter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setConvertedParameter(String name, P value,
+                                    Class<? extends AttributeConverter<P,?>> converter);
+
+    /**
      * Bind an instance of {@link java.util.Calendar} to a named parameter.
      * @param name  parameter name
      * @param value  parameter value
@@ -484,6 +508,30 @@ public interface Query {
      * @since 4.0
      */
     <P> Query setParameter(int position, P value, Type<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying an {@linkplain AttributeConverter attribute
+     * converter} to use.
+     * {@snippet :
+     * var amount = MonetaryAmount.of(priceLimit, currency);
+     * var affordableBooks =
+     *     em.createQuery("from Book where price < ?1")
+     *         .setConvertedParameter(1, amount,
+     *                 MonetaryAmountConverter.class)
+     *         .getResultList();
+     * }
+     * @param position  position
+     * @param value  parameter value
+     * @param converter  class of the attribute converter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    <P> Query setConvertedParameter(int position, P value,
+                                    Class<? extends AttributeConverter<P,?>> converter);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a positional
