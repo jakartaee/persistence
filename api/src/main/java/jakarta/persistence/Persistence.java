@@ -300,10 +300,10 @@ public final class Persistence {
     }
 
     /**
-     * Properties used to configure the interaction with JDBC.
+     * Properties used to connect to the database via JDBC in Java SE.
      * @since 4.0
      */
-    public interface JdbcProperties {
+    public interface ConnectionProperties {
         /**
          * Fully qualified name of the JDBC driver class.
          */
@@ -328,7 +328,13 @@ public final class Persistence {
          * An instance of {@code javax.sql.DataSource}.
          */
         String JDBC_DATASOURCE = "jakarta.persistence.dataSource";
+    }
 
+    /**
+     * Properties used to optimize the interaction with JDBC.
+     * @since 4.0
+     */
+    public interface JdbcProperties {
         /**
          * Override the default {@linkplain java.sql.Statement#setFetchSize JDBC fetch size}.
          * @since 4.0
@@ -342,20 +348,14 @@ public final class Persistence {
          * @since 4.0
          */
         String JDBC_BATCH_SIZE = "jakarta.persistence.jdbc.batchSize";
-    }
 
-    /**
-     * Properties specifying timeouts applying to interactions with the database.
-     * @since 4.0
-     */
-    public interface TimeoutProperties {
         /**
          * Default pessimistic lock timeout hint.
          */
         String LOCK_TIMEOUT = "jakarta.persistence.lock.timeout";
 
         /**
-         * Default query timeout hint.
+         * Default {@linkplain java.sql.Statement#setQueryTimeout query timeout} hint.
          */
         String QUERY_TIMEOUT = "jakarta.persistence.query.timeout";
     }
