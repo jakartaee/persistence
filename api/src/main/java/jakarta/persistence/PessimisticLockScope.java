@@ -26,7 +26,7 @@ package jakarta.persistence;
  * <ul>
  * <li>as a {@link FindOption}, {@link RefreshOption},
  *     or {@link LockOption},
- * <li>as an argument to {@link Query#setLockScope}, or
+ * <li>as an argument to {@link TypedQuery#setLockScope}, or
  * <li>as the value of {@link NamedQuery#lockScope}.
  * </ul>
  * <p>Alternatively, it may be specified via the configuration
