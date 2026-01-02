@@ -29,23 +29,41 @@ import jakarta.persistence.sql.ResultSetMapping;
 
 /**
  * Interface used to interact with the persistence unit, and to
- * create new instances of {@link EntityManager}.
+ * create new instances of {@link EntityManager} and
+ * {@link EntityAgent}.
  *
- * <p>A persistence unit defines the set of all classes that are
- * related or grouped by the application, and which must be
- * colocated in their mapping to a single database. If two entity
- * types participate in an association, then they must belong to
- * the same persistence unit.
+ * <p>A persistence unit defines a set of managed classes that are
+ * interrelated or grouped by the application and which map to a
+ * single database. If two entity types participate in an association,
+ * then they must belong to the same persistence unit. If two entity
+ * types are stored in different databases, they belong to distinct
+ * persistence units.
  *
- * <p>A persistence unit may be defined by a {@code persistence.xml}
- * file, or it may be defined at runtime via the
- * {@link PersistenceConfiguration} API.
+ * <p>A persistence unit may be:
+ * <ul>
+ * <li>declared by a {@code <persistence-unit>} element of a
+ *     {@code META-INF/persistence.xml} file, or
+ * <li>be defined at runtime via the {@link PersistenceConfiguration}
+ *     API.
+ * </ul>
+ * <p>Every persistence unit has a {@linkplain #getName name}. The
+ * name of the persistence unit must be unique within the module to
+ * which it belongs. In the Jakarta EE environment the name must be
+ * unique within a given EJB-JAR file, within a given WAR file,
+ * within a given application client JAR, or within an EAR.
  *
- * <p>Every persistence unit has a <em>transaction type</em>,
- * either {@link PersistenceUnitTransactionType#JTA JTA}, or
- * {@link PersistenceUnitTransactionType#RESOURCE_LOCAL RESOURCE_LOCAL}.
- * Resource-local transactions are managed programmatically via the
- * {@link EntityTransaction} interface.
+ * <p>Every persistence unit has a
+ * {@linkplain #getTransactionType transaction type}, either:
+ * <ul>
+ * <li>{@linkplain PersistenceUnitTransactionType#JTA JTA}, meaning
+ *     that transactions are managed by Jakarta Transactions, and
+ *     demarcated either declaratively or programmatically via the
+ *     {@code UserTransaction} interface, or
+ * <li>{@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
+ *     resource-local}, meaning that transactions are managed by
+ *     the Persistence provider, and programmatically demarcated by
+ *     the application via the {@link EntityTransaction} interface.
+ * </ul>
  *
  * <p>An {@link EntityManagerFactory} with a lifecycle managed by
  * the application may be created using the static operations of
@@ -59,36 +77,56 @@ import jakarta.persistence.sql.ResultSetMapping;
  * <li>if the persistence unit was defined using
  *     {@link PersistenceConfiguration}, an entity manager factory
  *     may be created by calling
- *     {@link Persistence#createEntityManagerFactory(PersistenceConfiguration)}.
+ *     {@link PersistenceConfiguration#createEntityManagerFactory()}.
  * </ul>
  *
  * <p>Usually, there is exactly one {@code EntityManagerFactory} for
- * each persistence unit:
+ * each persistence unit, created at system initialization time:
  * {@snippet :
- * // create a factory at initialization time
+ * // Create a factory for the persistence unit named 'Library',
+ * // reading its configuration from META-INF/persistence.xml
  * static final EntityManagerFactory entityManagerFactory =
- *         Persistence.createEntityManagerFactory("orderMgt");
+ *         Persistence.createEntityManagerFactory("Library");
  * }
- *
+ * {@snippet :
+ * // Create a factory for a persistence unit named 'Library',
+ * // specifying its configuration programmatically
+ * static final EntityManagerFactory entityManagerFactory =
+        new PersistenceConfiguration("Library")
+ *             .nonJtaDataSource("java:global/jdbc/LibraryDatabase")
+ *             .managedClass(Book.class)
+ *             .managedClass(Author.class)
+ *             .createEntityManagerFactory();
+ * }
  * <p>Alternatively, in the Jakarta EE environment, a
  * container-managed {@code EntityManagerFactory} may be obtained
  * by dependency injection, using {@link PersistenceUnit}.
  * {@snippet :
- * // inject the container-managed factory
- * @PersistenceUnit(unitName="orderMgt")
+ * // Inject the container-managed factory
+ * @PersistenceUnit(unitName="Library")
  * EntityManagerFactory entityManagerFactory;
  * }
  *
- * <p>An application-managed {@code EntityManager} may be created
- * via a call to {@link #createEntityManager()}. However, this
- * approach places complete responsibility for cleanup and exception
- * management on the client, and is thus considered error-prone. It
- * is much safer to use the methods {@link #runInTransaction} and
- * {@link #callInTransaction} to obtain {@code EntityManager}s.
- * Alternatively, in the Jakarta EE environment, a container-managed
+ * <p>An {@code EntityManager} or {@code EntityAgent} may be created
+ * via a call to, respectively, {@link #createEntityManager()} or
+ * {@link #createEntityAgent()}. However, this approach places complete
+ * responsibility for cleanup and exception management on the client and
+ * is thus considered error-prone. It is much safer to use the methods
+ * {@link #runInTransaction} and {@link #callInTransaction} to obtain
+ * entity managers and entity agents.
+ * {@snippet :
+ * entityManagerFactory.runInTransaction(entityManager -> entityManager.merge(book));
+ * }
+ *
+ * <p>Alternatively, in the Jakarta EE environment, a container-managed
  * {@link EntityManager} may be obtained by dependency injection,
  * using {@link PersistenceContext}, and the application need not
  * interact with the {@code EntityManagerFactory} directly.
+ * {@snippet :
+ * // Inject the container-managed entity manager
+ * @PersistenceContext(unitName="Library")
+ * EntityManagerFactory entityManagerFactory;
+ * }
  *
  * <p>The {@code EntityManagerFactory} provides access to certain
  * other useful APIs:
@@ -114,8 +152,9 @@ import jakarta.persistence.sql.ResultSetMapping;
  * should {@linkplain #close} the entity manager factory. If
  * necessary, a {@link java.lang.ref.Cleaner} may be used:
  * {@snippet :
- * // factory should be destroyed before program terminates
- * Cleaner.create().register(entityManagerFactory, entityManagerFactory::close);
+ * // Destroy factory before program terminates
+ * Cleaner.create()
+ *         .register(entityManagerFactory, entityManagerFactory::close);
  * }
  * Once an {@code EntityManagerFactory} has been closed, all its
  * entity managers are considered to be in the closed state.

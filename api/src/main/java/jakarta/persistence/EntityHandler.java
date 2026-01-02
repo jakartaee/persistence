@@ -76,6 +76,16 @@ import java.util.Map;
  * the entity is available in the persistence context or in the
  * second-level cache.
  *
+ * <p>Outside the Jakarta EE container environment, the safest
+ * and simplest way to obtain an {@code EntityHandler} is by
+ * calling {@link EntityManagerFactory#runInTransaction} or
+ * {@link EntityManagerFactory#callInTransaction}.
+ * {@snippet :
+ * Book book =
+ *         factory.callInTransaction(EntityAgent.class,
+ *                 agent -> agent.get(Book.class, isbn))
+ * }
+ *
  * @since 4.0
  */
 public interface EntityHandler extends AutoCloseable {
@@ -1187,6 +1197,13 @@ public interface EntityHandler extends AutoCloseable {
      * not close the connection itself, nor commit or roll back the transaction. If
      * the given action throws an exception, the persistence provider must mark the
      * transaction for rollback.
+     * {@snippet :
+     * entityManager.runWithConnection((Connection connection) -> {
+     *     try (var statement = connection.createStatement()) {
+     *         statement.execute("set constraints all deferred");
+     *     }
+     * });
+     * }
      * @param action The action to execute
      * @param <C> The connection type, usually {@code java.sql.Connection}
      * @throws PersistenceException wrapping the checked {@link Exception} thrown by
@@ -1205,6 +1222,17 @@ public interface EntityHandler extends AutoCloseable {
      * any resources it creates but should not close the connection itself, nor
      * commit or roll back the transaction. If the given action throws an exception,
      * the persistence provider must mark the transaction for rollback.
+     * {@snippet :
+     * LocalTime currentTimeOnServer =
+     *         entityManager.callWithConnection((Connection connection) -> {
+     *             try (var statement = connection.createStatement()) {
+     *                 try (var resultSet = statement.executeQuery("select current_time")) {
+     *                     resultSet.next();
+     *                     return resultSet.getObject(1, LocalTime.class);
+     *                 }
+     *             }
+     *         });
+     * }
      * @param function The function to call
      * @param <C> The connection type, usually {@code java.sql.Connection}
      * @param <T> The type of result returned by the function

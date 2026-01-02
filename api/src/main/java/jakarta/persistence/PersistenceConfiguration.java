@@ -26,7 +26,7 @@ import java.util.Objects;
 /**
  * Represents a configuration of a persistence unit, allowing programmatic
  * creation of an {@link EntityManagerFactory}. The configuration options
- * available via this API reflect the similarly-named elements of the
+ * available via this API reflect the similarly named elements of the
  * {@code persistence.xml} file.
  *
  * <p>This API may not be used to configure a container-managed persistence
@@ -40,8 +40,7 @@ import java.util.Objects;
  * {@snippet :
  * @Produces @ApplicationScoped @Documents
  * EntityManagerFactory configure() {
- *     return new PersistenceConfiguration()
- *             .name("DocumentData")
+ *     return new PersistenceConfiguration("DocumentData")
  *             .nonJtaDataSource("java:global/jdbc/DocumentDatabase")
  *             .defaultToOneFetchType(FetchType.LAZY)
  *             .managedClass(Document.class)
