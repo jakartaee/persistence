@@ -58,6 +58,23 @@
     <xsd:complexType>
       <xsd:sequence>
 
+        <xsd:element name="data-source"
+                     minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:extension base="persistence:data-source-type">
+                <xsd:attribute name="name" type="xsd:string" use="required">
+                  <xsd:annotation>
+                    <xsd:documentation>
+                      JNDI name by which the data source will be registered.
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+
         <!-- **************************************************** -->
 
         <xsd:element name="persistence-unit"
@@ -127,6 +144,20 @@
 
               <!-- **************************************************** -->
 
+              <xsd:element name="data-source"
+                           type="persistence:data-source-type"
+                           minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>
+
+                    Definition of the datasource to use.
+
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+
+              <!-- **************************************************** -->
+
               <xsd:element name="jta-data-source" type="xsd:string"
                            minOccurs="0">
                 <xsd:annotation>
@@ -139,7 +170,6 @@
               </xsd:element>
 
               <!-- **************************************************** -->
-
               <xsd:element name="non-jta-data-source" type="xsd:string"
                            minOccurs="0">
                 <xsd:annotation>
@@ -264,7 +294,8 @@
 
               <!-- **************************************************** -->
 
-              <xsd:element name="properties" minOccurs="0">
+              <xsd:element name="properties" minOccurs="0"
+                           type="persistence:properties-type">
                 <xsd:annotation>
                   <xsd:documentation>
 
@@ -273,24 +304,6 @@
 
                   </xsd:documentation>
                 </xsd:annotation>
-                <xsd:complexType>
-                  <xsd:sequence>
-                    <xsd:element name="property"
-                                 minOccurs="0" maxOccurs="unbounded">
-                      <xsd:annotation>
-                        <xsd:documentation>
-                          A name-value pair.
-                        </xsd:documentation>
-                      </xsd:annotation>
-                      <xsd:complexType>
-                        <xsd:attribute name="name" type="xsd:string"
-                                       use="required"/>
-                        <xsd:attribute name="value" type="xsd:string"
-                                       use="required"/>
-                      </xsd:complexType>
-                    </xsd:element>
-                  </xsd:sequence>
-                </xsd:complexType>
               </xsd:element>
 
               <xsd:any namespace="##other" processContents="lax"
@@ -412,5 +425,229 @@
       <xsd:enumeration value="NONE"/>
     </xsd:restriction>
   </xsd:simpleType>
+
+  <!-- **************************************************** -->
+
+  <xsd:simpleType name="isolation-level-type">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="TRANSACTION_NONE"/>
+      <xsd:enumeration value="TRANSACTION_READ_UNCOMMITTED"/>
+      <xsd:enumeration value="TRANSACTION_READ_COMMITTED"/>
+      <xsd:enumeration value="TRANSACTION_REPEATABLE_READ"/>
+      <xsd:enumeration value="TRANSACTION_SERIALIZABLE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- **************************************************** -->
+
+  <xsd:complexType name="data-source-type">
+    <xsd:annotation>
+      <xsd:documentation>
+        Declares a container DataSource to be registered with JNDI. The
+        DataSource may be configured by setting the child elements for
+        commonly used DataSource properties. Additional standard and
+        vendor-specific properties may be specified using the properties
+        element.
+
+        The data source will be registered under the name specified by
+        the name element. It may be defined to be in any valid Jakarta
+        EE namespace, which will determine the accessibility of the
+        data source from other components.
+
+        A JDBC driver implementation class of the appropriate type,
+        either DataSource, ConnectionPoolDataSource, or XADataSource,
+        must be indicated by the className element. The availability
+        of the driver class will be assumed at runtime.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Description of this data source.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="class-name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            Name of a DataSource class that implements javax.sql.DataSource,
+            javax.sql.XADataSource, or javax.sql.ConnectionPoolDataSource.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="url" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            A JDBC URL. If the url annotation element contains a DataSource
+            property that was also specified using the corresponding
+            annotation element, the precedence order is undefined and
+            implementation specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="user" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            User name to use for connection authentication.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="password" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Password to use for connection authentication.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="database-name" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Name of a database on a server.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="port-number" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Port number where a server is listening for requests.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="server-name" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Database server name.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isolation-level" type="persistence:isolation-level-type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Isolation level for connections. The Isolation level
+            must be one of the following:
+
+            TRANSACTION_NONE
+            TRANSACTION_READ_UNCOMMITTED
+            TRANSACTION_READ_COMMITTED
+            TRANSACTION_REPEATABLE_READ
+            TRANSACTION_SERIALIZABLE
+
+            Default is vendor-specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="transactional" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Set to false if connections should not participate
+            in transactions.
+
+            Default is to enlist in a transaction when one is active or
+            becomes active.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="initial-pool-size" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Number of connections that should be created when a connection
+            pool is initialized.
+
+            Default is vendor-specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="max-pool-size" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Maximum number of connections that should be concurrently
+            allocated for a connection pool.
+
+            Default is vendor-specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="min-pool-size" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Minimum number of connections that should be allocated for a
+            connection pool.
+
+            Default is vendor-specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="max-idle-time" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            The number of seconds that a physical connection should remain
+            unused in the pool before the connection is closed for a
+            connection pool.
+
+            Default is vendor-specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="max-statements" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            The total number of statements that a connection pool should
+            keep open. A value of 0 indicates that the caching of statements
+            is disabled for a connection pool.
+
+            Default is vendor-specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="login-timeout" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Sets the maximum time in seconds that this data source will
+            wait while attempting to connect to a database. A value of zero
+            specifies that the timeout is the default system timeout if
+            there is one; otherwise, it specifies that there is no timeout.
+
+            Default is vendor-specific.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="properties" minOccurs="0"
+                   type="persistence:properties-type">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            Used to specify vendor-specific properties and less commonly
+            used DataSource properties.
+
+            If a DataSource property is specified in the properties element
+            and the annotation element for the property is also specified,
+            the annotation element value takes precedence.
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="properties-type">
+    <xsd:sequence>
+      <xsd:element name="property"
+                   minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>
+            A name-value pair.
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:attribute name="name" type="xsd:string"
+                         use="required"/>
+          <xsd:attribute name="value" type="xsd:string"
+                         use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
 
 </xsd:schema>
