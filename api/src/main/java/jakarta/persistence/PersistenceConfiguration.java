@@ -227,18 +227,49 @@ public class PersistenceConfiguration {
      * An instance of {@code jakarta.validation.ValidatorFactory}.
      */
     public static final String VALIDATION_FACTORY = "jakarta.persistence.validation.factory";
+
     /**
      * Target groups for validation at {@link PrePersist}.
      */
     public static final String VALIDATION_GROUP_PRE_PERSIST = "jakarta.persistence.validation.group.pre-persist";
+
     /**
-     * Target groups for validation at {@link PreUpdate}.
+     * Target groups for validation at {@link PreMerge}.
+     *
+     * @since 4.0
      */
-    public static final String VALIDATION_GROUP_PRE_UPDATE = "jakarta.persistence.validation.group.pre-update";
+    public static final String VALIDATION_GROUP_PRE_MERGE = "jakarta.persistence.validation.group.pre-merge";
+
     /**
      * Target groups for validation at {@link PreRemove}.
      */
     public static final String VALIDATION_GROUP_PRE_REMOVE = "jakarta.persistence.validation.group.pre-remove";
+
+    /**
+     * Target groups for validation at {@link PreInsert}.
+     *
+     * @since 4.0
+     */
+    public static final String VALIDATION_GROUP_PRE_INSERT = "jakarta.persistence.validation.group.pre-insert";
+
+    /**
+     * Target groups for validation at {@link PreUpdate}.
+     */
+    public static final String VALIDATION_GROUP_PRE_UPDATE = "jakarta.persistence.validation.group.pre-update";
+
+    /**
+     * Target groups for validation at {@link PreUpsert}.
+     *
+     * @since 4.0
+     */
+    public static final String VALIDATION_GROUP_PRE_UPSERT = "jakarta.persistence.validation.group.pre-upsert";
+
+    /**
+     * Target groups for validation at {@link PreDelete}.
+     *
+     * @since 4.0
+     */
+    public static final String VALIDATION_GROUP_PRE_DELETE = "jakarta.persistence.validation.group.pre-delete";
 
     /**
      * String specifying a {@link SharedCacheMode}.
