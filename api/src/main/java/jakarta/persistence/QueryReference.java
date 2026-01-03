@@ -106,4 +106,14 @@ public interface QueryReference {
      * @since 4.0
      */
     List<Object> getArguments();
+
+    /**
+     * The specified {@link Timeout}, if any, or
+     * {@code null} if no timeout was specified.
+     *
+     * @see Query#setTimeout
+     * @see jakarta.persistence.query.WriteQueryOptions#timeout
+     * @since 4.0
+     */
+    Timeout getTimeout();
 }
