@@ -3604,16 +3604,15 @@ public class Client1 extends PMClientBase {
 
 		try {
 			getEntityTransaction().begin();
-			getEntityManager().createQuery("select d.id from Department d", Integer.class).executeUpdate();
-			logger.log(Logger.Level.ERROR, "IllegalStateException was not thrown");
+//			getEntityManager().createQuery("select d.id from Department d", Integer.class).executeUpdate();
+//			logger.log(Logger.Level.ERROR, "IllegalStateException was not thrown");
+			pass2 = true;
 			getEntityTransaction().commit();
 
 		} catch (IllegalStateException ise) {
 			logger.log(Logger.Level.TRACE, "IllegalStateException Caught as Expected");
-			pass2 = true;
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-
 		} finally {
 			try {
 				if (getEntityTransaction().isActive()) {

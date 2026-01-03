@@ -30,13 +30,12 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
-import jakarta.persistence.Query;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.metamodel.Type;
 
-public class QueryImpl implements Query {
+public class TypedQueryImpl<X> implements TypedQuery<X> {
 	public String jpQL;
 
 	public String name;
@@ -49,7 +48,7 @@ public class QueryImpl implements Query {
 
 	protected TSLogger logger;
 
-	public QueryImpl() {
+	public TypedQueryImpl() {
 		logger = TSLogger.getInstance();
 	}
 
@@ -139,12 +138,12 @@ public class QueryImpl implements Query {
     }
 
     @Override
-	public Object getSingleResult() {
+	public X getSingleResult() {
 		return null;
 	}
 
 	@Override
-	public Object getSingleResultOrNull() {
+	public X getSingleResultOrNull() {
 		return null;
 	}
 
@@ -154,47 +153,47 @@ public class QueryImpl implements Query {
 	}
 
 	@Override
-	public Query setFirstResult(int arg0) {
+	public TypedQuery<X> setFirstResult(int arg0) {
 		return this;
 	}
 
     @Override
-    public Query setEntityGraph(EntityGraph<? super Object> entityGraph) {
+    public TypedQuery<X> setEntityGraph(EntityGraph<? super X> entityGraph) {
         return this;
     }
 
     @Override
-    public EntityGraph<? super Object> getEntityGraph() {
+    public EntityGraph<? super X> getEntityGraph() {
         return null;
     }
 
     @Override
-	public Query setFlushMode(FlushModeType arg0) {
+	public TypedQuery<X> setFlushMode(FlushModeType arg0) {
 		return this;
 	}
 
 	@Override
-	public Query setHint(String arg0, Object arg1) {
+	public TypedQuery<X> setHint(String arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public Query setLockMode(LockModeType arg0) {
+	public TypedQuery<X> setLockMode(LockModeType arg0) {
 		return this;
 	}
 
 	@Override
-	public Query setLockScope(PessimisticLockScope lockScope) {
+	public TypedQuery<X> setLockScope(PessimisticLockScope lockScope) {
 		return this;
 	}
 
 	@Override
-	public Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode) {
+	public TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode) {
 		return null;
 	}
 
 	@Override
-	public Query setCacheStoreMode(CacheStoreMode cacheStoreMode) {
+	public TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode) {
 		return null;
 	}
 
@@ -209,12 +208,12 @@ public class QueryImpl implements Query {
 	}
 
 	@Override
-	public Query setTimeout(Integer timeout) {
+	public TypedQuery<X> setTimeout(Integer timeout) {
 		return null;
 	}
 
 	@Override
-	public Query setTimeout(Timeout timeout) {
+	public TypedQuery<X> setTimeout(Timeout timeout) {
 		return null;
 	}
 
@@ -224,69 +223,37 @@ public class QueryImpl implements Query {
 	}
 
 	@Override
-	public Query setMaxResults(int arg0) {
+	public TypedQuery<X> setMaxResults(int arg0) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(String arg0, Object arg1) {
+	public TypedQuery<X> setParameter(String arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(int arg0, Object arg1) {
+	public TypedQuery<X> setParameter(int arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(String arg0, Calendar arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(String arg0, Calendar arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(String arg0, Date arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(String arg0, Date arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(int arg0, Calendar arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(int arg0, Calendar arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(int arg0, Date arg1, TemporalType arg2) {
-		return this;
-	}
-
-	@Override
-	public <P> Query setParameter(String name, P value, Type<P> type) {
-		return this;
-	}
-
-	@Override
-	public <P> Query setParameter(int position, P value, Type<P> type) {
-		return this;
-	}
-
-	@Override
-	public <P> Query setParameter(String name, P value, Class<P> type) {
-		return this;
-	}
-
-	@Override
-	public <P> Query setParameter(int position, P value, Class<P> type) {
-		return this;
-	}
-
-	@Override
-	public <P> Query setConvertedParameter(String name, P value,
-										   Class<? extends AttributeConverter<P, ?>> converter) {
-		return this;
-	}
-
-	@Override
-	public <P> Query setConvertedParameter(int position, P value,
-										   Class<? extends AttributeConverter<P, ?>> converter) {
+	public TypedQuery<X> setParameter(int arg0, Date arg1, TemporalType arg2) {
 		return this;
 	}
 
@@ -296,32 +263,47 @@ public class QueryImpl implements Query {
 	}
 
 	@Override
-	public <T> Query setParameter(Parameter<T> arg0, T arg1) {
+	public <T> TypedQuery<X> setParameter(Parameter<T> arg0, T arg1) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(Parameter<Calendar> arg0, Calendar arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(Parameter<Calendar> arg0, Calendar arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public Query setParameter(Parameter arg0, Date arg1, TemporalType arg2) {
+	public TypedQuery<X> setParameter(Parameter arg0, Date arg1, TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public <R> TypedQuery<R> ofType(Class<R> resultType) {
-		return null;
+	public <P> TypedQuery<X> setParameter(String name, P value, Class<P> type) {
+		return this;
 	}
 
 	@Override
-	public <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph) {
-		return null;
+	public <P> TypedQuery<X> setParameter(String name, P value, Type<P> type) {
+		return this;
 	}
 
 	@Override
-	public int executeUpdate() {
-		return 0;
+	public <P> TypedQuery<X> setConvertedParameter(String name, P value, Class<? extends AttributeConverter<P, ?>> converter) {
+		return this;
+	}
+
+	@Override
+	public <P> TypedQuery<X> setParameter(int position, P value, Class<P> type) {
+		return this;
+	}
+
+	@Override
+	public <P> TypedQuery<X> setParameter(int position, P value, Type<P> type) {
+		return this;
+	}
+
+	@Override
+	public <P> TypedQuery<X> setConvertedParameter(int position, P value, Class<? extends AttributeConverter<P, ?>> converter) {
+		return this;
 	}
 }

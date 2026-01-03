@@ -89,7 +89,7 @@ public class Client1 extends UtilOrderData {
 			cquery.where(cbuilder.not(cbuilder.lt(order.get(Order_.getSingularAttribute("totalPrice", Double.class)),
 					expectedTotalPrice)));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Order> q = getEntityManager().createQuery(cquery);
 
 			List result = q.getResultList();
 			int expectedResultSize = 3;
@@ -159,7 +159,7 @@ public class Client1 extends UtilOrderData {
 			cquery.where(cbuilder.not(
 					cbuilder.lt(p.get(Order_.getSingularAttribute("totalPrice", Double.class)), expectedTotalPrice)));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Order> q = getEntityManager().createQuery(cquery);
 
 			List result = q.getResultList();
 			int expectedResultSize = 3;
@@ -218,7 +218,7 @@ public class Client1 extends UtilOrderData {
 			cquery.where(cbuilder.not(cbuilder.lt(order.get(Order_.getSingularAttribute("totalPrice", Double.class)),
 					expectedTotalPrice)));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Order> q = getEntityManager().createQuery(cquery);
 
 			List result = q.getResultList();
 			int expectedResultSize = 3;

@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import jakarta.persistence.TypedQuery;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,7 +101,7 @@ public class Client2 extends Client {
 
 				cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 
 				q.setParameter("num", 1);
 				List<Employee> result = q.getResultList();
@@ -168,7 +169,7 @@ public class Client2 extends Client {
 
 				cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 
 				q.setParameter("sid", "1");
 				List<Employee> result = q.getResultList();
@@ -238,7 +239,7 @@ public class Client2 extends Client {
 
 				cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 
 				q.setParameter("sid", "1");
 				List<Employee> result = q.getResultList();
@@ -306,7 +307,7 @@ public class Client2 extends Client {
 
 				cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-				Query q = getEntityManager().createQuery(cquery);
+				TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 
 				q.setParameter("sid", "1");
 				List<Employee> result = q.getResultList();

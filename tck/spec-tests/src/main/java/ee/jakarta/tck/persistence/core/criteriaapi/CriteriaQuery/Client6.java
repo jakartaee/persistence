@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import jakarta.persistence.TypedQuery;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 
@@ -76,7 +77,7 @@ public class Client6 extends UtilProductData {
 			Root<Product> product = cquery.from(Product.class);
 			cquery.where(cbuilder.and(cbuilder.equal(product.type(), HardwareProduct.class)));
 			cquery.select(product);
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Product> q = getEntityManager().createQuery(cquery);
 
 			List<Product> result = q.getResultList();
 			for (Product p : result) {

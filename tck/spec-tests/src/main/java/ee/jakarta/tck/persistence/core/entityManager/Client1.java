@@ -23,21 +23,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import jakarta.persistence.*;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
-import jakarta.persistence.CacheRetrieveMode;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.LockModeType;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceException;
-import jakarta.persistence.Query;
-import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.metamodel.Metamodel;
@@ -892,7 +884,7 @@ public class Client1 extends PMClientBase {
 		try {
 			CriteriaBuilder qbuilder = getEntityManagerFactory().getCriteriaBuilder();
 			CriteriaQuery cquery = qbuilder.createQuery(null);
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery q = getEntityManager().createQuery(cquery);
 			logger.log(Logger.Level.INFO, "IllegalArgumentException was not thrown");
 			try {
 				q.getResultList();

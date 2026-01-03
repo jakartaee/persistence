@@ -20,6 +20,7 @@ import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.TypedQuery;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -119,7 +120,7 @@ public class Client1 extends Client {
 
 			cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 
 			List<Object> list = new ArrayList<Object>(q.getParameters());
 			for (int i = 0; i < list.size(); i++) {
@@ -218,7 +219,7 @@ public class Client1 extends Client {
 
 			cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 
 			List<Object> list = new ArrayList<Object>(q.getParameters());
 			for (int i = 0; i < list.size(); i++) {
@@ -291,7 +292,7 @@ public class Client1 extends Client {
 
 			cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 
 			List<Object> list = new ArrayList<Object>(q.getParameters());
 			for (int i = 0; i < list.size(); i++) {
@@ -365,7 +366,7 @@ public class Client1 extends Client {
 
 			cquery.where(qbuilder.or(criteria.toArray(new Predicate[0])));
 
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Employee> q = getEntityManager().createQuery(cquery);
 			List<Object> list = new ArrayList<Object>(q.getParameters());
 			for (int i = 0; i < list.size(); i++) {
 				Parameter p = (Parameter) list.get(i);

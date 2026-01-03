@@ -20,6 +20,7 @@ import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.TypedQuery;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +72,7 @@ public class Client7 extends UtilDepartmentEmployeeData {
 			d.fetch(Department_.lastNameEmployees, JoinType.LEFT);
 			cquery.where(cbuilder.equal(d.get(Department_.id), 1)).select(d);
 			cquery.distinct(true);
-			Query q = getEntityManager().createQuery(cquery);
+			TypedQuery<Department> q = getEntityManager().createQuery(cquery);
 			List<Department> result = q.getResultList();
 
 			List<Integer> expected = new ArrayList<Integer>();

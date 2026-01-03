@@ -24,12 +24,26 @@ import jakarta.persistence.metamodel.Type;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * Interface used to control query execution.
+ * Interface used to control execution of a query when either the
+ * query does not return a result or when the type of the result
+ * was not explicitly specified and is not known at compile time.
+ *
+ * <p>If an instance of this interface represents a {@code SELECT}
+ * query, then a {@link TypedQuery} representing the same query may
+ * be obtained by calling {@link #ofType(Class)}, passing the result
+ * type of the query.
+ * {@snippet :
+ * List<Book> books =
+ *         em.createQuery("from Book where extract(year from publicationDate) > :year")
+ *                 .ofType(Book.class)
+ *                 .setParameter("year", Year.of(2000))
+ *                 .setMaxResults(10)
+ *                 .setCacheRetrieveMode(CacheRetrieveMode.BYPASS)
+ *                 .getResults();
+ * }
  *
  * @see TypedQuery
  * @see StoredProcedureQuery
@@ -37,7 +51,40 @@ import java.util.stream.Stream;
  *
  * @since 1.0
  */
-public interface Query {
+public interface Query extends TypedQuery<Object> {
+
+    /**
+     * Obtain a {@link TypedQuery} with the given query result type,
+     * which must be a supertype of the result type of this query.
+     * This query must be a Jakarta Persistence {@code SELECT} query
+     * or a native SQL query which returns a result set.
+     * @param resultType The Java class of the query result type
+     * @param <R> The query result type
+     * @throws IllegalArgumentException if the given result type is
+     *         not a supertype of the result type of this query
+     * @throws IllegalStateException if this query is a Jakarta
+     *         Persistence {@code UPDATE} or {@code DELETE}
+     *         statement
+     * @since 4.0
+     */
+    <R> TypedQuery<R> ofType(Class<R> resultType);
+
+    /**
+     * Obtain a {@link TypedQuery} with the given entity graph,
+     * which must be rooted at a supertype of the result type of
+     * this query. This query must be a Jakarta Persistence
+     * {@code SELECT} query which returns a single entity type.
+     * @param graph The entity graph, interpreted as a load graph
+     * @param <R> The query result type
+     * @throws IllegalArgumentException if the given graph type is
+     *         not rooted at a supertype of the result type of this
+     *         query
+     * @throws IllegalStateException if this query is a Jakarta
+     *         Persistence {@code UPDATE} or {@code DELETE}
+     *         statement
+     * @since 4.0
+     */
+    <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
 
     /**
      * Execute a SELECT query and return the query results as an untyped
@@ -64,33 +111,13 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @deprecated This method returns a raw {@code List}. Use
+     * {@link #ofType ofType(X.class).getResultList()} instead.
+     * This override might be removed in the next major release.
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Deprecated(since = "4.0") @Override
     List getResultList();
-
-    /**
-     * <p>Determine the maximum number of results that could in
-     * principle be returned by the query if no
-     * {@linkplain #getFirstResult() offset} or
-     * {@linkplain #getMaxResults() limit} were applied.</p>
-     *
-     * <p>The {@code getResultCount} method should not cause query
-     * results to be fetched from the database.</p>
-     *
-     * @return the maximum number of results that could in principle
-     *         be returned by the query if no offset or limit were
-     *         applied
-     * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
-     * @throws QueryTimeoutException if the query execution exceeds
-     *         the query timeout value set and only the statement is
-     *         rolled back
-     * @throws PersistenceException if the query execution exceeds
-     *         the query timeout value set and the transaction
-     *         is rolled back
-     * @since 4.0
-     */
-    long getResultCount();
 
     /**
      * Execute a SELECT query and return the query results as an untyped
@@ -125,70 +152,15 @@ public interface Query {
      * @see Stream
      * @see #getResultList()
      * @since 2.2
+     * @deprecated This method returns a raw {@code Stream}. Use
+     * {@link #ofType ofType(X.class).getResultStream()} instead.
+     * This override might be removed in the next major release.
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Deprecated(since = "4.0") @Override
     default Stream getResultStream() {
         return getResultList().stream();
     }
-
-    /**
-     * Execute a SELECT query that returns a single untyped result.
-     * If necessary, first synchronize changes with the database by
-     * flushing the persistence context.
-     * @return the result
-     * @throws NoResultException if there is no result
-     * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
-     * @throws QueryTimeoutException if the query execution exceeds
-     *         the query timeout value set and only the statement is
-     *         rolled back
-     * @throws TransactionRequiredException if a lock mode other than
-     *         {@code NONE} has been set and there is no transaction
-     *         or the persistence context has not been joined to the
-     *         transaction
-     * @throws PessimisticLockException if pessimistic locking
-     *         fails and the transaction is rolled back
-     * @throws LockTimeoutException if pessimistic locking
-     *         fails and only the statement is rolled back
-     * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction
-     *         is rolled back
-     * @throws PersistenceException if the flush fails
-     * @throws OptimisticLockException if an optimistic locking
-     *         conflict is detected during the flush
-     */
-    Object getSingleResult();
-
-    /**
-     * Execute a SELECT query that returns a single untyped result.
-     * If necessary, first synchronize changes with the database by
-     * flushing the persistence context.
-     * @return the result, or null if there is no result
-     * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
-     * @throws QueryTimeoutException if the query execution exceeds
-     *         the query timeout value set and only the statement is
-     *         rolled back
-     * @throws TransactionRequiredException if a lock mode other than
-     *         {@code NONE} has been set and there is no transaction
-     *         or the persistence context has not been joined to the
-     *         transaction
-     * @throws PessimisticLockException if pessimistic locking
-     *         fails and the transaction is rolled back
-     * @throws LockTimeoutException if pessimistic locking
-     *         fails and only the statement is rolled back
-     * @throws PersistenceException if the query execution exceeds
-     *         the query timeout value set and the transaction
-     *         is rolled back
-     * @throws PersistenceException if the flush fails
-     * @throws OptimisticLockException if an optimistic locking
-     *         conflict is detected during the flush
-     *
-     * @since 3.2
-     */
-    Object getSingleResultOrNull();
 
     /**
      * Execute a Jakarta Persistence UPDATE or DELETE statement,
@@ -232,16 +204,8 @@ public interface Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Override
     Query setMaxResults(int maxResult);
-
-    /**
-     * The maximum number of results the query object was set to retrieve.
-     * Returns {@link Integer#MAX_VALUE} if {@link #setMaxResults} was not
-     * applied to the query object.
-     * @return maximum number of results
-     * @since 2.0
-     */
-    int getMaxResults();
 
     /**
      * Set the position of the first result to retrieve.
@@ -249,16 +213,8 @@ public interface Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
+    @Override
     Query setFirstResult(int startPosition);
-
-    /**
-     * The position of the first result the query object was set to
-     * retrieve. Returns {@code 0} if {@code setFirstResult} was not
-     * applied to the query object.
-     * @return position of the first result
-     * @since 2.0
-     */
-    int getFirstResult();
 
     /**
      * Set a query property or hint. The hints elements may be used 
@@ -275,15 +231,8 @@ public interface Query {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
+    @Override
     Query setHint(String hintName, Object value);
-
-    /**
-     * Get the properties and hints and associated values that are in
-     * effect for the query instance.
-     * @return query properties and hints
-     * @since 2.0
-     */
-    Map<String, Object> getHints();
 
     /**
      * Bind the value of a {@code Parameter} object.
@@ -295,6 +244,7 @@ public interface Query {
      *         query
      * @since 2.0
      */
+    @Override
     <T> Query setParameter(Parameter<T> param, T value);
 
     /**
@@ -309,7 +259,7 @@ public interface Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     Query setParameter(Parameter<Calendar> param, Calendar value, 
                        TemporalType temporalType);
 
@@ -325,7 +275,7 @@ public interface Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     Query setParameter(Parameter<Date> param, Date value, 
                        TemporalType temporalType);
 
@@ -338,6 +288,7 @@ public interface Query {
      *         not correspond to a parameter of the query or if
      *         the argument is of incorrect type
      */
+    @Override
     Query setParameter(String name, Object value);
 
     /**
@@ -367,6 +318,7 @@ public interface Query {
      *         the argument is of incorrect type
      * @since 4.0
      */
+    @Override
     <P> Query setParameter(String name, P value, Class<P> type);
 
     /**
@@ -389,6 +341,7 @@ public interface Query {
      *         the argument is of incorrect type
      * @since 4.0
      */
+    @Override
     <P> Query setParameter(String name, P value, Type<P> type);
 
     /**
@@ -412,6 +365,7 @@ public interface Query {
      *         the argument is of incorrect type
      * @since 4.0
      */
+    @Override
     <P> Query setConvertedParameter(String name, P value,
                                     Class<? extends AttributeConverter<P,?>> converter);
 
@@ -427,7 +381,7 @@ public interface Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     Query setParameter(String name, Calendar value, 
                        TemporalType temporalType);
 
@@ -443,7 +397,7 @@ public interface Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     Query setParameter(String name, Date value, 
                        TemporalType temporalType);
 
@@ -456,6 +410,7 @@ public interface Query {
      *         correspond to a positional parameter of the
      *         query or if the argument is of incorrect type
      */
+    @Override
     Query setParameter(int position, Object value);
 
     /**
@@ -485,6 +440,7 @@ public interface Query {
      *         query or if the argument is of incorrect type
      * @since 4.0
      */
+    @Override
     <P> Query setParameter(int position, P value, Class<P> type);
 
     /**
@@ -507,6 +463,7 @@ public interface Query {
      *         query or if the argument is of incorrect type
      * @since 4.0
      */
+    @Override
     <P> Query setParameter(int position, P value, Type<P> type);
 
     /**
@@ -530,6 +487,7 @@ public interface Query {
      *         the argument is of incorrect type
      * @since 4.0
      */
+    @Override
     <P> Query setConvertedParameter(int position, P value,
                                     Class<? extends AttributeConverter<P,?>> converter);
 
@@ -546,7 +504,7 @@ public interface Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     Query setParameter(int position, Calendar value,  
                        TemporalType temporalType);
 
@@ -563,138 +521,9 @@ public interface Query {
      * @deprecated Newly-written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2")
+    @Deprecated(since = "3.2") @Override
     Query setParameter(int position, Date value,  
                        TemporalType temporalType);
-
-    /**
-     * Get the parameter objects corresponding to the declared
-     * parameters of the query.
-     * Returns empty set if the query has no parameters.
-     * This method is not required to be supported for native
-     * queries.
-     * @return set of the parameter objects
-     * @throws IllegalStateException if invoked on a native
-     *         query when the implementation does not support
-     *         this use
-     * @since 2.0
-     */
-    Set<Parameter<?>> getParameters();
-
-    /**
-     * Get the parameter object corresponding to the declared
-     * parameter of the given name.
-     * This method is not required to be supported for native
-     * queries.
-     * @param name  parameter name
-     * @return parameter object
-     * @throws IllegalArgumentException if the parameter of the
-     *         specified name does not exist
-     * @throws IllegalStateException if invoked on a native
-     *         query when the implementation does not support
-     *         this use
-     * @since 2.0
-     */
-    Parameter<?> getParameter(String name);
-
-    /**
-     * Get the parameter object corresponding to the declared
-     * parameter of the given name and type.
-     * This method is required to be supported for criteria queries
-     * only.
-     * @param name  parameter name
-     * @param type  type
-     * @return parameter object
-     * @throws IllegalArgumentException if the parameter of the
-     *         specified name does not exist or is not assignable
-     *         to the type
-     * @throws IllegalStateException if invoked on a native
-     *         query or Jakarta Persistence query language query when
-     *         the implementation does not support this use
-     * @since 2.0
-     */
-    <T> Parameter<T> getParameter(String name, Class<T> type);
-
-    /**
-     * Get the parameter object corresponding to the declared
-     * positional parameter with the given position.
-     * This method is not required to be supported for native
-     * queries.
-     * @param position  position
-     * @return parameter object
-     * @throws IllegalArgumentException if the parameter with the
-     *         specified position does not exist
-     * @throws IllegalStateException if invoked on a native
-     *         query when the implementation does not support
-     *         this use
-     * @since 2.0
-     */
-    Parameter<?> getParameter(int position);
-
-    /**
-     * Get the parameter object corresponding to the declared
-     * positional parameter with the given position and type.
-     * This method is not required to be supported by the provider.
-     * @param position  position
-     * @param type  type
-     * @return parameter object
-     * @throws IllegalArgumentException if the parameter with the
-     *         specified position does not exist or is not assignable
-     *         to the type
-     * @throws IllegalStateException if invoked on a native
-     *         query or Jakarta Persistence query language query when
-     *         the implementation does not support this use
-     * @since 2.0
-     */
-    <T> Parameter<T> getParameter(int position, Class<T> type);
-
-    /**
-     * Return a boolean indicating whether a value has been bound 
-     * to the parameter.
-     * @param param parameter object
-     * @return boolean indicating whether parameter has been bound
-     * @since 2.0
-     */
-    boolean isBound(Parameter<?> param);
-
-    /**
-     * Return the input value bound to the parameter.
-     * (Note that OUT parameters are unbound.)
-     * @param param parameter object
-     * @return parameter value
-     * @throws IllegalArgumentException if the parameter is not 
-     *         a parameter of the query
-     * @throws IllegalStateException if the parameter has not
-     *         been bound
-     * @since 2.0
-     */
-    <T> T getParameterValue(Parameter<T> param);
-
-    /**
-     * Return the input value bound to the named parameter.
-     * (Note that OUT parameters are unbound.)
-     * @param name  parameter name
-     * @return parameter value
-     * @throws IllegalStateException if the parameter has not
-     *         been bound
-     * @throws IllegalArgumentException if the parameter of the
-     *         specified name does not exist
-     * @since 2.0
-     */
-    Object getParameterValue(String name);
-
-    /**
-     * Return the input value bound to the positional parameter.
-     * (Note that OUT parameters are unbound.)
-     * @param position  position
-     * @return parameter value
-     * @throws IllegalStateException if the parameter has not
-     *          been bound
-     * @throws IllegalArgumentException if the parameter with the
-     *          specified position does not exist
-     * @since 2.0
-     */
-    Object getParameterValue(int position);
 
     /**
      * Set the flush mode type to be used for the query execution.
@@ -703,16 +532,8 @@ public interface Query {
      * @param flushMode  flush mode
      * @return the same query instance
      */
+    @Override
     Query setFlushMode(FlushModeType flushMode);
-
-    /**
-     * Get the flush mode in effect for the query execution. 
-     * If a flush mode has not been set for the query object, 
-     * returns the flush mode in effect for the entity manager.
-     * @return flush mode
-     * @since 2.0
-     */
-    FlushModeType getFlushMode();
 
     /**
      * Set the lock mode type to be used for the query execution.
@@ -724,35 +545,8 @@ public interface Query {
      * @see #getLockMode
      * @since 2.0
      */
+    @Override
     Query setLockMode(LockModeType lockMode);
-
-    /**
-     * The current {@linkplain LockModeType lock mode} for the
-     * query or {@code null} if a lock mode has not been set.
-     * <p>The lock mode affects every entity occurring as an
-     * item in the SELECT clause, including entities occurring
-     * as arguments to constructors. The effect on association
-     * join tables, collection tables, and primary and secondary
-     * tables of join fetched entities is determined by the
-     * specified {@linkplain #getLockScope lock scope}. If no
-     * lock scope was explicitly specified, the lock scope
-     * defaults to {@link PessimisticLockScope#NORMAL NORMAL}.
-     * <p>If the given lock mode is
-     * {@link LockModeType#PESSIMISTIC_READ PESSIMISTIC_READ},
-     * {@link LockModeType#PESSIMISTIC_WRITE PESSIMISTIC_WRITE},
-     * or {@link LockModeType#PESSIMISTIC_FORCE_INCREMENT
-     * PESSIMISTIC_FORCE_INCREMENT}, the lock also affects every
-     * entity with an attribute reference occurring in the SELECT
-     * clause, except when the attribute reference occurs as an
-     * argument to an aggregate function.
-     * @return lock mode
-     * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
-     *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     * @see #getLockScope
-     * @since 2.0
-     */
-    LockModeType getLockMode();
 
     /**
      * The pessimistic lock scope to use in query execution if a
@@ -766,27 +560,8 @@ public interface Query {
      *         Persistence query language SELECT query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      */
+    @Override
     Query setLockScope(PessimisticLockScope lockScope);
-
-    /**
-     * The current {@linkplain PessimisticLockScope pessimistic
-     * lock scope} for the query or {@code null} if a scope has
-     * not been set.
-     * <p>The lock scope determines the effect of
-     * {@linkplain #getLockMode locking} on association join
-     * tables, collection tables, and primary and secondary tables
-     * of join fetched entities. If no lock scope was explicitly
-     * specified, locking behaves as if the lock scope were set
-     * to {@link PessimisticLockScope#NORMAL NORMAL}.
-     * <p>The pessimistic lock scope has no effect if the lock
-     * mode is {@code null} or {@link LockModeType#NONE NONE}.
-     * @return pessimistic lock scope
-     * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
-     *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     * @since 4.0
-     */
-    PessimisticLockScope getLockScope();
 
     /**
      * Set the cache retrieval mode that is in effect during query
@@ -796,6 +571,7 @@ public interface Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -806,29 +582,8 @@ public interface Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
-
-    /**
-     * The cache retrieval mode that will be in effect during query
-     * execution.
-     * @return The cache retrieval mode set by calling
-     *         {@link #setCacheRetrieveMode} or the cache retrieval
-     *         mode of the persistence context if no cache retrieval
-     *         mode has been explicitly specified for this query.
-     * @since 3.2
-     */
-    CacheRetrieveMode getCacheRetrieveMode();
-
-    /**
-     * The cache storage mode that will be in effect during query
-     * execution.
-     * @return The cache storage mode set by calling
-     *         {@link #setCacheStoreMode} or the cache storage
-     *         mode of the persistence context if no cache storage
-     *         mode has been explicitly specified for this query.
-     * @since 3.2
-     */
-    CacheStoreMode getCacheStoreMode();
 
     /**
      * Set the query timeout, in milliseconds. This is a hint,
@@ -839,6 +594,7 @@ public interface Query {
      * @return the same query instance
      * @since 3.2
      */
+    @Override
     Query setTimeout(Integer timeout);
 
     /**
@@ -847,27 +603,7 @@ public interface Query {
      * @return the same query instance
      * @since 4.0
      */
+    @Override
     Query setTimeout(Timeout timeout);
 
-    /**
-     * The query timeout, in milliseconds, or null for no timeout.
-     * @since 3.2
-     */
-    Integer getTimeout();
-
-    /**
-     * Return an object of the specified type to allow access to 
-     * a provider-specific API. If the provider implementation of
-     * {@code Query} does not support the given type, the
-     * {@link PersistenceException} is thrown.
-     * @param cls  the type of the object to be returned.
-     *             This is usually either the underlying class
-     *             implementing {@code Query} or an interface it
-     *             implements.
-     * @return an instance of the specified class
-     * @throws PersistenceException if the provider does not support
-     *         the given type
-     * @since 2.0
-     */
-    <T> T unwrap(Class<T> cls);
 }
