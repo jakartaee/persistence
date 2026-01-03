@@ -21,11 +21,12 @@ package jakarta.persistence;
 /**
  * Thrown by the persistence provider when a problem occurs.
  *
- * <p>All instances of {@code PersistenceException}, except for instances
- * of {@link NoResultException}, {@link NonUniqueResultException},
- * {@link LockTimeoutException}, and {@link QueryTimeoutException},
- * cause the current transaction, if one is active and if the persistence
- * context has been joined to it, to be marked for rollback.
+ * <p>Any instance of {@code PersistenceException} thrown by an
+ * {@link EntityManager} causes the current activetransaction to
+ * be marked for rollback if the persistence context is joined to
+ * the transaction, unless the exception is also an instance of
+ * {@link NoResultException},  {@link NonUniqueResultException},
+ * {@link LockTimeoutException}, or  {@link QueryTimeoutException}.
  *
  * @since 1.0
  */

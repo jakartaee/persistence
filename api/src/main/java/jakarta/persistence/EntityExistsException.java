@@ -19,15 +19,15 @@ package jakarta.persistence;
 
 /**
  * Thrown by the persistence provider when {@link EntityManager#persist(Object)}
- * is called and the entity already exists. The current transaction, if one is
- * active, will be marked for rollback.
+ * is called and the entity already exists.
  *
  * <p>If the entity already exists, the {@code EntityExistsException} may be
  * thrown when the persist operation is invoked, or the {@code EntityExistsException}
  * or another {@link PersistenceException} may be thrown at flush or commit time.
  *
- * <p>The current transaction, if one is active and the persistence context
- * has been joined to it, will be marked for rollback.
+ * <p> If the persistence context is joined to an active transaction,
+ * the transaction is automatically marked for rollback when this exception
+ * is thrown.
  *
  * @see EntityManager#persist(Object)
  * 

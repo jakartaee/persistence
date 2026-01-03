@@ -20,9 +20,12 @@ import java.util.List;
 
 /**
  * Thrown by the persistence provider when a pessimistic locking conflict
- * occurs. This exception may be thrown as part of an API call, a flush or
- * at commit time. The current transaction, if one is active, is marked
- * for rollback.
+ * occurs. This exception may be thrown by an API call, during flush, or
+ * when the transaction commits.
+ *
+ * <p> If the persistence context is joined to an active transaction,
+ * the transaction is automatically marked for rollback when this
+ * exception is thrown.
  *
  * @see EntityHandler#find(Class, Object, LockModeType)
  * @see EntityHandler#find(Class, Object, FindOption...)
