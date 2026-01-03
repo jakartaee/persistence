@@ -505,6 +505,8 @@
           ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
           UniqueConstraint[] uniqueConstraints() default {};
           Index[] indexes() default {};
+          CheckConstraint[] check() default {};
+          String comment() default "";
           String options() default "";
         }
 
@@ -512,6 +514,7 @@
     </xsd:annotation>
     <xsd:sequence>
       <xsd:sequence>
+        <xsd:element name="comment" type="xsd:string" minOccurs="0" />
         <xsd:element name="join-column" type="orm:join-column"
                      minOccurs="0" maxOccurs="unbounded"/>
         <xsd:element name="foreign-key" type="orm:foreign-key"
@@ -520,6 +523,8 @@
       <xsd:element name="unique-constraint" type="orm:unique-constraint"
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="index" type="orm:index"
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="check-constraint" type="orm:check-constraint"
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
@@ -688,10 +693,14 @@
           String columnDefinition() default "";
           String options() default "";
           int length() default 31;
+          String comment() default "";
         }
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="discriminator-type" type="orm:discriminator-type"/>
     <xsd:attribute name="column-definition" type="xsd:string"/>
@@ -1534,10 +1543,17 @@
           int length() default 255;
           int precision() default 0; // decimal precision
           int scale() default 0; // decimal scale
+          CheckConstraint[] check() default {};
+          String comment() default "";
         }
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
+      <xsd:element name="check-constraint" type="orm:check-constraint"
+                   minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="unique" type="xsd:boolean"/>
     <xsd:attribute name="nullable" type="xsd:boolean"/>
@@ -1570,13 +1586,18 @@
           String options() default "";
           String table() default "";
           ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
+          CheckConstraint[] check() default {};
+          String comment() default "";
         }
 
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:element name="foreign-key" type="orm:foreign-key"
                    minOccurs="0"/>
+      <xsd:element name="check-constraint" type="orm:check-constraint"
+                   minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="referenced-column-name" type="xsd:string"/>
@@ -1738,18 +1759,21 @@
 
   <xsd:complexType name="named-query">
     <xsd:annotation>
-      <xsd:documentation>
+      <xsd:documentation><![CDATA[
 
         @Repeatable(NamedQueries.class)
         @Target({TYPE}) @Retention(RUNTIME)
         public @interface NamedQuery {
           String name();
           String query();
+          Class<?> resultClass() default void.class;
           LockModeType lockMode() default LockModeType.NONE;
+          PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
           QueryHint[] hints() default {};
+          String entityGraph() default "";
         }
 
-      </xsd:documentation>
+      ]]></xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
       <xsd:element name="description" type="xsd:string" minOccurs="0"/>
@@ -1758,8 +1782,10 @@
       <xsd:element name="lock-scope" type="orm:pessimistic-lock-scope" minOccurs="0"/>
       <xsd:element name="hint" type="orm:query-hint"
                    minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="entity-graph" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="result-class" type="xsd:string"/>
 </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1983,10 +2009,14 @@
           boolean updatable() default true;
           String columnDefinition() default "";
           String options() default "";
+          String comment() default "";
         }
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="nullable" type="xsd:boolean"/>
     <xsd:attribute name="insertable" type="xsd:boolean"/>
@@ -2146,13 +2176,18 @@
           String columnDefinition() default "";
           String options() default "";
           ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+          CheckConstraint[] check() default {};
+          String comment() default "";
         }
 
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" />
       <xsd:element name="foreign-key" type="orm:foreign-key"
                    minOccurs="0"/>
+      <xsd:element name="check-constraint" type="orm:check-constraint"
+                   minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="referenced-column-name" type="xsd:string"/>
