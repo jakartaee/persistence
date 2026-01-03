@@ -353,7 +353,8 @@ public interface TypedQuery<X> extends Query {
      * @since 4.0
      */
     @Override
-    <P> TypedQuery<X> setConvertedParameter(String name, P value, Class<? extends AttributeConverter<P, ?>> converter);
+    <P> TypedQuery<X> setConvertedParameter(String name, P value,
+                                            Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
      * Bind an instance of {@link java.util.Calendar} to a named parameter.
