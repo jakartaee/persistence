@@ -25,6 +25,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Tuple;
 
 /**
@@ -927,6 +929,14 @@ public interface CriteriaBuilder {
      */
     <T> ParameterExpression<T> parameter(Class<T> paramClass, String name);
 
+    /**
+     * Create a parameter expression whose value is bound via a
+     * {@linkplain AttributeConverter converter}.
+     * @param converter the class of the attribute converter
+     * @return parameter expression
+     * @since 4.0
+     */
+    <T> ParameterExpression<T> convertedParameter(Class<? extends AttributeConverter<T,?>> converter);
 
     //collection operations:
 	

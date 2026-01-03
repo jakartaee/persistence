@@ -279,13 +279,13 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	}
 
 	@Override
-	public <P> Query setConvertedParameter(String name, P value,
+	public <P> TypedQuery<X> setConvertedParameter(String name, P value,
 										   Class<? extends AttributeConverter<P, ?>> converter) {
 		return this;
 	}
 
 	@Override
-	public <P> Query setConvertedParameter(int position, P value,
+	public <P> TypedQuery<X> setConvertedParameter(int position, P value,
 										   Class<? extends AttributeConverter<P, ?>> converter) {
 		return this;
 	}

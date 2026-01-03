@@ -17,6 +17,7 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ResultSetMapping;
 
 import java.util.Calendar;
@@ -257,6 +258,110 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
                                       TemporalType temporalType);
 
     /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null.
+     *
+     * @param name  parameter name
+     * @param value parameter value
+     * @param type  a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> StoredProcedureQuery setParameter(String name, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     *
+     * @param name  parameter name
+     * @param value parameter value
+     * @param type  the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> StoredProcedureQuery setParameter(String name, P value, Type<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying an {@linkplain AttributeConverter attribute
+     * converter} to use.
+     *
+     * @param name      parameter name
+     * @param value     parameter value
+     * @param converter class of the attribute converter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> StoredProcedureQuery setConvertedParameter(String name, P value,
+                                                   Class<? extends AttributeConverter<P, ?>> converter);
+
+    /**
+     * Bind an argument value to a positional parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null.
+     *
+     * @param position position
+     * @param value    parameter value
+     * @param type     a class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> StoredProcedureQuery setParameter(int position, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a positional parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     *
+     * @param position position
+     * @param value    parameter value
+     * @param type     the {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if position does not
+     *         correspond to a positional parameter of the
+     *         query or if the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> StoredProcedureQuery setParameter(int position, P value, Type<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying an {@linkplain AttributeConverter attribute
+     * converter} to use.
+     *
+     * @param position  position
+     * @param value     parameter value
+     * @param converter class of the attribute converter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query or if
+     *         the argument is of incorrect type
+     * @since 4.0
+     */
+    @Override
+    <P> StoredProcedureQuery setConvertedParameter(int position, P value,
+                                                   Class<? extends AttributeConverter<P, ?>> converter);
+
+    /**
      * Set the flush mode type to be used for the query execution.
      * The flush mode type applies to the query regardless of the
      * flush mode type in use for the entity manager.
@@ -349,6 +454,42 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      */
     <T> Parameter<T> registerParameter(String parameterName, Class<T> type,
                                        ParameterMode mode);
+
+    /**
+     * Register a positional parameter whose value is bound via
+     * a {@linkplain AttributeConverter converter}. The result of
+     * an {@code OUT} parameter may be retrieved after execution
+     * by calling {@link #getOutputParameterValue(Parameter)}.
+     * All parameters must be registered.
+     * @param position the parameter position
+     * @param converter the class of the attribute converter
+     * @param mode the parameter mode
+     * @return an object representing the parameter, which may
+     *         be passed to {@link #setParameter(Parameter, Object)}
+     *         and {@link #getOutputParameterValue(Parameter)}
+     * @since 4.0
+     */
+    <T> Parameter<T> registerConvertedParameter(int position,
+                                                Class<? extends AttributeConverter<T,?>> converter,
+                                                ParameterMode mode);
+
+    /**
+     * Register a named parameter whose value is bound via a
+     * {@linkplain AttributeConverter converter}. The result of
+     * an {@code OUT} parameter may be retrieved after execution
+     * by calling {@link #getOutputParameterValue(Parameter)}.
+     * @param parameterName the name of the parameter as registered
+     *                      or specified in metadata
+     * @param converter the class of the attribute converter
+     * @param mode the parameter mode
+     * @return an object representing the parameter, which may
+     *         be passed to {@link #setParameter(Parameter, Object)}
+     *         and {@link #getOutputParameterValue(Parameter)}
+     * @since 4.0
+     */
+    <T> Parameter<T> registerConvertedParameter(String parameterName,
+                                                Class<? extends AttributeConverter<T,?>> converter,
+                                                ParameterMode mode);
 
     /**
      * Register a positional parameter.
