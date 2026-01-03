@@ -171,7 +171,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
  * {@link LockModeType}. Some operations of this interface,
  * including the methods {@link #lock(Object, LockModeType)},
  * {@link #refresh(Object, LockModeType)}, and
- * {@link #find(Class, Object, LockModeType)}, accept an explicit
+ * {@link #find(Class, Object, FindOption...)}, accept an explicit
  * {@link LockModeType}, allowing the client to request a specific
  * type of lock.
  *
