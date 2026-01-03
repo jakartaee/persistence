@@ -81,7 +81,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * List<Book> books =
  *         em.createQuery(Library_.findBooksByTitle("%Jakarta%"))
- *           .getResultList();
+ *           .getResults();
  * }
  * {@snippet :
  * Book book =
