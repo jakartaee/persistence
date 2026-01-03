@@ -93,7 +93,7 @@ public interface Query {
      * statement, or any native SQL statement that returns a row
      * count. The executable statement may be executed by calling
      * {@link Statement#execute}.
-     * @throws UnsupportedOperationException if this query is a
+     * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code SELECT} query
      * @since 4.0
      */
@@ -108,7 +108,7 @@ public interface Query {
      * @param <R> The query result type
      * @throws IllegalArgumentException if the given result type is
      *         not a supertype of the result type of this query
-     * @throws UnsupportedOperationException if this query is a
+     * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
      *         statement
      * @since 4.0
@@ -125,7 +125,7 @@ public interface Query {
      * @throws IllegalArgumentException if the given graph type is
      *         not rooted at a supertype of the result type of this
      *         query
-     * @throws UnsupportedOperationException if this query is a
+     * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
      *         statement
      * @since 4.0
