@@ -17,10 +17,11 @@
 package jakarta.persistence;
 
 /**
- * Thrown by the persistence provider when a query times out
- * and only the statement is rolled back.
- * The current transaction, if one is active, will be not
- * be marked for rollback.
+ * Thrown by the persistence provider when a query times out and
+ * only the statement is rolled back.
+ *
+ * <p> When this exception is thrown, the current transaction is
+ * not automatically marked for rollback.
  *
  * @since 2.0
  */

@@ -15,6 +15,7 @@
 //     Linda DeMichiel - 2.0
 
 package jakarta.persistence;
+
 /**
  * Thrown by the persistence provider when
  * {@link EntityTransaction#commit()} fails.
