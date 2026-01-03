@@ -37,9 +37,9 @@ import java.util.List;
  *     or {@link ParameterMode#REF_CURSOR REF_CURSOR}.
  * </ul>
  * <p>
- * Each parameter is registered by calling
- * {@link #registerStoredProcedureParameter(int, Class, ParameterMode)}
- * or {@link #registerStoredProcedureParameter(String, Class, ParameterMode)},
+ * Each parameter is registered by calling a registration method
+ * such as {@link #registerParameter(int, Class, ParameterMode)}
+ * or {@link #registerParameter(String, Class, ParameterMode)},
  * depending on whether it is a positional or named parameter.
  * <p>
  * Stored procedure query execution may be controlled in accordance with 
