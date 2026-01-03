@@ -20,15 +20,24 @@ package jakarta.persistence;
 import java.util.List;
 
 /**
- * Thrown by the persistence provider when an entity reference obtained by
- * {@link EntityManager#getReference EntityManager.getReference}
- * is accessed but the entity does not exist. Thrown when
- * {@link EntityManager#refresh EntityManager.refresh} is called and the
- * object no longer exists in the database. 
- * Thrown when {@link EntityManager#lock EntityManager.lock} is used with
- * pessimistic locking is used and the entity no longer exists in the database.
- * <p> The current transaction, if one is active and the persistence context
- * has been joined to it, will be marked for rollback.
+ * Thrown by the persistence provider when:
+ * <ul>
+ * <li>{@link EntityHandler#get} cannot return an instance of
+ *     the requested entity type because there is no matching
+ *     record in the database,
+ * <li>an entity reference obtained by calling
+ *     {@link EntityManager#getReference} is accessed but the
+ *     reference has no corresponding record in the database,
+ * <li>an entity is passed to {@link EntityManager#refresh}
+ *     and its record no longer exists in the database,
+ * <li>an entity is passed to {@link EntityManager#lock},
+ *     a pessimistic lock mode is requested, and the record
+ *     no longer exists in the database.
+ * </ul>
+ *
+ * <p> If the persistence context is joined to an active
+ * transaction, the transaction is automatically marked for
+ * rollback when this exception is thrown.
  * 
  * @see EntityHandler#get(Class, Object)
  * @see EntityHandler#get(Class, Object, LockModeType)

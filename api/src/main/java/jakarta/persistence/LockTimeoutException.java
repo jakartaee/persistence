@@ -19,9 +19,11 @@ package jakarta.persistence;
 /**
  * Thrown by the persistence provider when a pessimistic locking
  * conflict occurs that does not result in transaction rollback.
- * This exception may be thrown as part of an API call, at, flush
- * or at commit time. The current transaction, if one is active,
- * will be not be marked for rollback.
+ * This exception may be thrown by an API call, during flush, or
+ * when the transaction commits.
+ *
+ * <p> When this exception is thrown, the current transaction is
+ * not automatically marked for rollback.
  *
  * @since 2.0
  */
