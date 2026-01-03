@@ -43,7 +43,7 @@ Added `getResultCount()` to `Query`
 
 Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
 
-Deprecated `createEntityGraph(String)`, specified that the graph returned by `getEntityGraph()` is now mutable, and added getEntityGraph(Class, String)
+Deprecated `createEntityGraph(String)`, specified that the graph returned by `getEntityGraph()` is now mutable, and added `getEntityGraph(Class, String)`
 
 Added `createEntityGraph()` and `getNamedEntityGraphs()` to `EntityType`
 
@@ -52,6 +52,8 @@ Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
 Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference`
 
 Added `FETCHED` to `PessimisticLockScope`, `lockScope` to `@NamedQuery`, and `setLockScope()` to `Query`
+
+Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`
 
 `jakarta.annotation.Nonnull` now implies `optional=false`
 
