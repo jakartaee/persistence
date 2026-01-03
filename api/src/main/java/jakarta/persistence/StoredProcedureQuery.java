@@ -443,6 +443,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * Register a named parameter. The result of an
      * {@code OUT} parameter may be retrieved after execution
      * by calling {@link #getOutputParameterValue(Parameter)}.
+     * All parameters must be registered.
      * @param parameterName the name of the parameter as registered
      *                      or specified in metadata
      * @param type the type of the parameter
@@ -478,6 +479,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * {@linkplain AttributeConverter converter}. The result of
      * an {@code OUT} parameter may be retrieved after execution
      * by calling {@link #getOutputParameterValue(Parameter)}.
+     * All parameters must be registered.
      * @param parameterName the name of the parameter as registered
      *                      or specified in metadata
      * @param converter the class of the attribute converter
@@ -504,6 +506,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
 
     /**
      * Register a named parameter.
+     * All parameters must be registered.
      * @param parameterName  name of the parameter as registered or
      *            specified in metadata
      * @param type  type of the parameter
