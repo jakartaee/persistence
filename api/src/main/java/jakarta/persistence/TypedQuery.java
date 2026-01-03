@@ -540,6 +540,7 @@ public interface TypedQuery<X> extends Query {
      *         Persistence query language SELECT query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      */
+    @Override
     TypedQuery<X> setLockScope(PessimisticLockScope lockScope);
 
     /**
@@ -582,5 +583,6 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 4.0
      */
+    @Override
     TypedQuery<X> setTimeout(Timeout timeout);
 }
