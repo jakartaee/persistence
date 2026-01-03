@@ -825,9 +825,9 @@ public interface Query {
      * as arguments to constructors. The effect on association
      * join tables, collection tables, and primary and secondary
      * tables of join fetched entities is determined by the
-     * specified {@linkplain #getLockScope lock scope}. If no
-     * lock scope was explicitly specified, the lock scope
-     * defaults to {@link PessimisticLockScope#NORMAL NORMAL}.
+     * lock scope in effect. If no lock scope was explicitly
+     * specified, the lock scope defaults to
+     * {@link PessimisticLockScope#NORMAL NORMAL}.
      * <p>If the given lock mode is
      * {@link LockModeType#PESSIMISTIC_READ PESSIMISTIC_READ},
      * {@link LockModeType#PESSIMISTIC_WRITE PESSIMISTIC_WRITE},
@@ -840,32 +840,11 @@ public interface Query {
      * @throws IllegalStateException if the query is not a Jakarta
      *         Persistence query language SELECT query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     * @see #getLockScope
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getLockMode}
      */
     @Deprecated(since = "4.0", forRemoval = true)
     LockModeType getLockMode();
-
-    /**
-     * The current {@linkplain PessimisticLockScope pessimistic
-     * lock scope} for the query or {@code null} if a scope has
-     * not been set.
-     * <p>The lock scope determines the effect of
-     * {@linkplain #getLockMode locking} on association join
-     * tables, collection tables, and primary and secondary tables
-     * of join fetched entities. If no lock scope was explicitly
-     * specified, locking behaves as if the lock scope were set
-     * to {@link PessimisticLockScope#NORMAL NORMAL}.
-     * <p>The pessimistic lock scope has no effect if the lock
-     * mode is {@code null} or {@link LockModeType#NONE NONE}.
-     * @return pessimistic lock scope
-     * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
-     *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     * @since 4.0
-     */
-    PessimisticLockScope getLockScope();
 
     /**
      * Set the cache retrieval mode that is in effect during query

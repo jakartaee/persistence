@@ -593,17 +593,53 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setLockScope(PessimisticLockScope lockScope);
 
     /**
-     * Get the current lock mode for the query. Returns null if a
-     * lock mode has not been set on the query object.
+     * The current {@linkplain LockModeType lock mode} for the
+     * query or {@code null} if a lock mode has not been set.
+     * <p>The lock mode affects every entity occurring as an
+     * item in the SELECT clause, including entities occurring
+     * as arguments to constructors. The effect on association
+     * join tables, collection tables, and primary and secondary
+     * tables of join fetched entities is determined by the
+     * specified {@linkplain #getLockScope lock scope}. If no
+     * lock scope was explicitly specified, the lock scope
+     * defaults to {@link PessimisticLockScope#NORMAL NORMAL}.
+     * <p>If the given lock mode is
+     * {@link LockModeType#PESSIMISTIC_READ PESSIMISTIC_READ},
+     * {@link LockModeType#PESSIMISTIC_WRITE PESSIMISTIC_WRITE},
+     * or {@link LockModeType#PESSIMISTIC_FORCE_INCREMENT
+     * PESSIMISTIC_FORCE_INCREMENT}, the lock also affects every
+     * entity with an attribute reference occurring in the SELECT
+     * clause, except when the attribute reference occurs as an
+     * argument to an aggregate function.
      * @return lock mode
-     * @throws IllegalStateException if the query is found not to
-     *          be a Jakarta Persistence query language SELECT query
-     *          or a {@link jakarta.persistence.criteria.CriteriaQuery}
-     *          query
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
+     * @see #getLockScope
      * @since 2.0
      */
     @Override @SuppressWarnings("removal")
     LockModeType getLockMode();
+
+    /**
+     * The current {@linkplain PessimisticLockScope pessimistic
+     * lock scope} for the query or {@code null} if a scope has
+     * not been set.
+     * <p>The lock scope determines the effect of
+     * {@linkplain #getLockMode locking} on association join
+     * tables, collection tables, and primary and secondary tables
+     * of join fetched entities. If no lock scope was explicitly
+     * specified, locking behaves as if the lock scope were set
+     * to {@link PessimisticLockScope#NORMAL NORMAL}.
+     * <p>The pessimistic lock scope has no effect if the lock
+     * mode is {@code null} or {@link LockModeType#NONE NONE}.
+     * @return pessimistic lock scope
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
+     * @since 4.0
+     */
+    PessimisticLockScope getLockScope();
 
     /**
      * Set the cache retrieval mode that is in effect during
