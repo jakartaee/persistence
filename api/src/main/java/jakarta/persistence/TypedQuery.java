@@ -284,11 +284,17 @@ public interface TypedQuery<X> extends Query {
     @Override
     TypedQuery<X> setParameter(String name, Object value);
 
-
     /**
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the argument might be null.
+     * {@snippet :
+     * var books =
+     *     session.createNativeQuery("select * from books where :limit is null or pub_date > :limit",
+     *                               Book.class)
+     *         .setParameter("limit", optionalDateLimit, LocalDate.class)
+     *         .getResultList();
+     * }
      * @param name  parameter name
      * @param value  parameter value
      * @param type  a class object representing the parameter type
@@ -331,7 +337,7 @@ public interface TypedQuery<X> extends Query {
      * {@snippet :
      * var amount = MonetaryAmount.of(priceLimit, currency);
      * var affordableBooks =
-     *     em.createQuery("from Book where price < :amount")
+     *     em.createQuery("from Book where price < :amount", Book.class)
      *         .setConvertedParameter("amount", amount,
      *                 MonetaryAmountConverter.class)
      *         .getResultList();
@@ -393,11 +399,17 @@ public interface TypedQuery<X> extends Query {
     @Override
     TypedQuery<X> setParameter(int position, Object value);
 
-
     /**
      * Bind an argument value to a positional parameter, explicitly
      * specifying the parameter type. This is most useful when
      * the argument might be null.
+     * {@snippet :
+     * var books =
+     *     session.createNativeQuery("select * from books where ?1 is null or pub_date > ?1",
+     *                               Book.class)
+     *         .setParameter(1, optionalDateLimit, LocalDate.class)
+     *         .getResultList();
+     * }
      * @param position  position
      * @param value  parameter value
      * @param type  a class object representing the parameter type
@@ -440,7 +452,7 @@ public interface TypedQuery<X> extends Query {
      * {@snippet :
      * var amount = MonetaryAmount.of(priceLimit, currency);
      * var affordableBooks =
-     *     em.createQuery("from Book where price < ?1")
+     *     em.createQuery("from Book where price < ?1", Book.class)
      *         .setConvertedParameter(1, amount,
      *                 MonetaryAmountConverter.class)
      *         .getResultList();
