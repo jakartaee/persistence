@@ -29,8 +29,55 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * Interface used to control query execution.
+ * Declares common operations for controlling the
+ * execution of statements and queries written in the Jakarta
+ * Persistence query language or in native SQL.
+ * <ul>
+ * <li>For a Jakarta Persistence {@code UPDATE} or {@code DELETE}
+ *     statement, or for a native SQL statement that returns a row
+ *     count, an instance {@link Statement} should be used to
+ *     execute the statement.
+ * <li>For a Jakarta Persistence {@code SELECT} query or for any
+ *     native SQL query that returns a result set, an instance of
+ *     {@link TypedQuery} should be used.
+ * <li>For a stored procedure call, a {@link StoredProcedureQuery}
+ *     should be used.
+ * </ul>
+ * <p>If an instance of this interface represents an {@code UPDATE}
+ * or {@code DELETE} statement, then a {@code Statement} representing
+ * the same statement may be obtained by calling {@link #asStatement()}.
+ * {@snippet :
+ * int updated =
+ *         em.createQuery("delete from Temporary where timestamp > ?1")
+ *                 .asStatement()
+ *                 .setParameter(1, cutoffDateTime)
+ *                 .execute();
+ * }
+ * <p>If an instance of this interface represents a {@code SELECT}
+ * query, then a {@code TypedQuery} representing the same query may
+ * be obtained by calling {@link #ofType(Class)}, passing the result
+ * type of the query.
+ * {@snippet :
+ * List<Book> books =
+ *         em.createQuery("from Book where extract(year from publicationDate) > :year")
+ *                 .ofType(Book.class)
+ *                 .setParameter("year", Year.of(2000))
+ *                 .setMaxResults(10)
+ *                 .setCacheRetrieveMode(CacheRetrieveMode.BYPASS)
+ *                 .getResultList();
+ * }
+ * <p>These operations may be viewed as a sort of type cast to a
+ * given subtype of this interface.
  *
+ * @apiNote Every operation only relevant to {@code SELECT} queries,
+ * for example, {@link #getResultList} and {@link #setMaxResults},
+ * is now declared deprecated by this interface. Such operations
+ * should be invoked via the {@link TypedQuery} interface. Similarly,
+ * the operation {@link #executeUpdate}, which was only used to
+ * execute statements, is declared as deprecated; the new operation
+ * {@link Statement#execute} should be used instead.
+ *
+ * @see Statement
  * @see TypedQuery
  * @see StoredProcedureQuery
  * @see Parameter
@@ -38,6 +85,52 @@ import java.util.stream.Stream;
  * @since 1.0
  */
 public interface Query {
+
+    /**
+     * Obtain a {@link Statement} representing this query, which
+     * must be some kind of executable statement, that is, a
+     * Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     * statement, or any native SQL statement that returns a row
+     * count. The executable statement may be executed by calling
+     * {@link Statement#execute}.
+     * @throws IllegalStateException if this query is a
+     *         Jakarta Persistence {@code SELECT} query
+     * @since 4.0
+     */
+    Statement asStatement();
+
+    /**
+     * Obtain a {@link TypedQuery} with the given query result type,
+     * which must be a supertype of the result type of this query.
+     * This query must be a Jakarta Persistence {@code SELECT} query
+     * or a native SQL query which returns a result set.
+     * @param resultType The Java class of the query result type
+     * @param <R> The query result type
+     * @throws IllegalArgumentException if the given result type is
+     *         not a supertype of the result type of this query
+     * @throws IllegalStateException if this query is a
+     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     *         statement
+     * @since 4.0
+     */
+    <R> TypedQuery<R> ofType(Class<R> resultType);
+
+    /**
+     * Obtain a {@link TypedQuery} with the given entity graph,
+     * which must be rooted at a supertype of the result type of
+     * this query. This query must be a Jakarta Persistence
+     * {@code SELECT} query which returns a single entity type.
+     * @param graph The entity graph, interpreted as a load graph
+     * @param <R> The query result type
+     * @throws IllegalArgumentException if the given graph type is
+     *         not rooted at a supertype of the result type of this
+     *         query
+     * @throws IllegalStateException if this query is a
+     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     *         statement
+     * @since 4.0
+     */
+    <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
 
     /**
      * Execute a SELECT query and return the query results as an untyped
@@ -64,43 +157,20 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @deprecated Use {@link TypedQuery#getResultList}
+     *             to execute queries
      */
     @SuppressWarnings("rawtypes")
+    @Deprecated(since = "4.0", forRemoval = true)
     List getResultList();
-
-    /**
-     * <p>Determine the maximum number of results that could in
-     * principle be returned by the query if no
-     * {@linkplain #getFirstResult() offset} or
-     * {@linkplain #getMaxResults() limit} were applied.</p>
-     *
-     * <p>The {@code getResultCount} method should not cause query
-     * results to be fetched from the database.</p>
-     *
-     * @return the maximum number of results that could in principle
-     *         be returned by the query if no offset or limit were
-     *         applied
-     * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
-     * @throws QueryTimeoutException if the query execution exceeds
-     *         the query timeout value set and only the statement is
-     *         rolled back
-     * @throws PersistenceException if the query execution exceeds
-     *         the query timeout value set and the transaction
-     *         is rolled back
-     * @since 4.0
-     */
-    long getResultCount();
 
     /**
      * Execute a SELECT query and return the query results as an untyped
      * {@link java.util.stream.Stream}. If necessary, first synchronize
      * changes with the database by flushing the persistence context.
-     *
      * <p>By default, this method delegates to {@code getResultList().stream()},
-     * however persistence provider may choose to override this method
-     * to provide additional capabilities.
-     *
+     * The persistence provider may choose to override this method to
+     * provide additional capabilities.
      * @return a stream of the results, or an empty stream if there
      *         are no results
      * @throws IllegalStateException if called for a Jakarta
@@ -125,8 +195,11 @@ public interface Query {
      * @see Stream
      * @see #getResultList()
      * @since 2.2
+     * @deprecated Use {@link TypedQuery#getResultStream}
+     *             to execute queries
      */
     @SuppressWarnings("rawtypes")
+    @Deprecated(since = "4.0", forRemoval = true)
     default Stream getResultStream() {
         return getResultList().stream();
     }
@@ -157,7 +230,10 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @deprecated Use {@link TypedQuery#getSingleResult}
+     *             to execute queries
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     Object getSingleResult();
 
     /**
@@ -187,7 +263,10 @@ public interface Query {
      *         conflict is detected during the flush
      *
      * @since 3.2
+     * @deprecated Use {@link TypedQuery#getSingleResult}
+     *             to execute queries
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     Object getSingleResultOrNull();
 
     /**
@@ -223,7 +302,9 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
+     * @deprecated Use {@link Statement#execute}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     int executeUpdate();
 
     /**
@@ -231,7 +312,9 @@ public interface Query {
      * @param maxResult  maximum number of results to retrieve
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
+     * @deprecated Use {@link TypedQuery#setMaxResults}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setMaxResults(int maxResult);
 
     /**
@@ -240,7 +323,9 @@ public interface Query {
      * applied to the query object.
      * @return maximum number of results
      * @since 2.0
+     * @deprecated Use {@link TypedQuery#getMaxResults}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     int getMaxResults();
 
     /**
@@ -248,7 +333,9 @@ public interface Query {
      * @param startPosition position of the first result, numbered from 0
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
+     * @deprecated Use {@link TypedQuery#setFirstResult}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setFirstResult(int startPosition);
 
     /**
@@ -257,7 +344,9 @@ public interface Query {
      * applied to the query object.
      * @return position of the first result
      * @since 2.0
+     * @deprecated Use {@link TypedQuery#getFirstResult}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     int getFirstResult();
 
     /**
@@ -723,7 +812,9 @@ public interface Query {
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @see #getLockMode
      * @since 2.0
+     * @deprecated Use {@link TypedQuery#setLockMode}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setLockMode(LockModeType lockMode);
 
     /**
@@ -734,9 +825,9 @@ public interface Query {
      * as arguments to constructors. The effect on association
      * join tables, collection tables, and primary and secondary
      * tables of join fetched entities is determined by the
-     * specified {@linkplain #getLockScope lock scope}. If no
-     * lock scope was explicitly specified, the lock scope
-     * defaults to {@link PessimisticLockScope#NORMAL NORMAL}.
+     * lock scope in effect. If no lock scope was explicitly
+     * specified, the lock scope defaults to
+     * {@link PessimisticLockScope#NORMAL NORMAL}.
      * <p>If the given lock mode is
      * {@link LockModeType#PESSIMISTIC_READ PESSIMISTIC_READ},
      * {@link LockModeType#PESSIMISTIC_WRITE PESSIMISTIC_WRITE},
@@ -749,44 +840,11 @@ public interface Query {
      * @throws IllegalStateException if the query is not a Jakarta
      *         Persistence query language SELECT query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     * @see #getLockScope
      * @since 2.0
+     * @deprecated Use {@link TypedQuery#getLockMode}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     LockModeType getLockMode();
-
-    /**
-     * The pessimistic lock scope to use in query execution if a
-     * pessimistic lock mode is specified via {@link #setLockMode}.
-     * If the query is executed without a pessimistic lock mode,
-     * the pessimistic lock scope has no effect.
-     * @since 4.0
-     * @param lockScope the scope of the pessimistic lock
-     * @return the same query instance
-     * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
-     *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     */
-    Query setLockScope(PessimisticLockScope lockScope);
-
-    /**
-     * The current {@linkplain PessimisticLockScope pessimistic
-     * lock scope} for the query or {@code null} if a scope has
-     * not been set.
-     * <p>The lock scope determines the effect of
-     * {@linkplain #getLockMode locking} on association join
-     * tables, collection tables, and primary and secondary tables
-     * of join fetched entities. If no lock scope was explicitly
-     * specified, locking behaves as if the lock scope were set
-     * to {@link PessimisticLockScope#NORMAL NORMAL}.
-     * <p>The pessimistic lock scope has no effect if the lock
-     * mode is {@code null} or {@link LockModeType#NONE NONE}.
-     * @return pessimistic lock scope
-     * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
-     *         {@link jakarta.persistence.criteria.CriteriaQuery}
-     * @since 4.0
-     */
-    PessimisticLockScope getLockScope();
 
     /**
      * Set the cache retrieval mode that is in effect during query
@@ -795,7 +853,9 @@ public interface Query {
      * @param cacheRetrieveMode cache retrieval mode
      * @return the same query instance
      * @since 3.2
+     * @deprecated Use {@link TypedQuery#setCacheRetrieveMode}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -805,7 +865,9 @@ public interface Query {
      * @param cacheStoreMode cache storage mode
      * @return the same query instance
      * @since 3.2
+     * @deprecated Use {@link TypedQuery#setCacheStoreMode}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -816,7 +878,9 @@ public interface Query {
      *         mode of the persistence context if no cache retrieval
      *         mode has been explicitly specified for this query.
      * @since 3.2
+     * @deprecated Use {@link TypedQuery#getCacheRetrieveMode}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
@@ -827,7 +891,9 @@ public interface Query {
      *         mode of the persistence context if no cache storage
      *         mode has been explicitly specified for this query.
      * @since 3.2
+     * @deprecated Use {@link TypedQuery#getCacheStoreMode}
      */
+    @Deprecated(since = "4.0", forRemoval = true)
     CacheStoreMode getCacheStoreMode();
 
     /**
