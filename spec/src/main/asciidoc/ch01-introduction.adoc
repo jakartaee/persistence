@@ -10,7 +10,16 @@ platforms. The technical objective of this work is to provide a standard
 object/relational mapping facility for the Java application developer using
 a Java domain model to manage data held in a relational database.
 
-- The Jakarta Persistence 3.1 specification is the first release with new
+- Jakarta Persistence 4.0 is a major revision of the APIs, adding the
+  `EntityAgent`, programmatic result set mappings, support for static
+  queries, enhancements to entity graphs and `StoredProcedureQuery`, and
+  new lifecycle events. Its feature set is targeted to support usage with
+  Jakarta Data.
+
+- The Jakarta Persistence 3.2 specification began the process of modernizing
+  and updating the APIs for ease of use and greater type safety.
+
+- The Jakarta Persistence 3.1 specification was the first release with new
   features and enhancements after the specification was moved to the Eclipse
   Foundation.
 
