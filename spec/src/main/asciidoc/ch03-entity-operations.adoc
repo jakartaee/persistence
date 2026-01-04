@@ -304,7 +304,7 @@ of managed entities with changes made to the databasefootnote:[The
 database, as described in <<refresh>>.].
 
 Bidirectional relationships between
-managed entities will be persisted based on references held by the
+managed entities are persisted based on references held by the
 owning side of the relationship. It is the developer's responsibility to
 keep the in-memory references held on the owning side and those held on
 the inverse side consistent with each other when they change. In the
@@ -326,18 +326,19 @@ side of a relationship typically results in the change being lost.
 
 The persistence provider runtime is permitted to perform synchronization
 to the database at other times, as long as a transaction is active and
-the persistence context is joined to the transaction.
+the persistence context is joined to the transaction. The application
+can influence the timing of synchronization via the `flush()` method of
+`EntityManager` or by setting the `FlushModeType`.
 
-- The `flush()` method of `EntityManager` can be used by the application
-   to force synchronization. When `flush()` is called, the provider must
-   synchronize every pending modification made to every entity currently
-   associated with the persistence context.
+- When the `flush()` method is called, the provider must synchronize
+  every pending modification made to every entity currently associated
+  with the persistence context.
 
-- The `setFlushMode` method of the `EntityManager`, `Query`,
+- The `setFlushMode()` methods of the `EntityManager`, `Query`,
   `TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
   control synchronization initiated automatically by the provider.
   * The effect of `FlushModeType.AUTO` is defined in <<a4374>>.
-  * If `FlushModeType.COMMIT` is specified, flushing will occur at
+  * If `FlushModeType.COMMIT` is specified, synchronization occurs at
     transaction commit; the persistence provider is permitted, but not
     required, to flush at other times.
 
@@ -2697,8 +2698,8 @@ or in native SQL is executed via the `Query` or `TypedQuery` interface.
 - Similarly, any native SQL statement that returns a row count is executed
   by calling `executeUpdate()`.
 
-Every query executed using `getResultList()`, `getResultStream()`, 
-`getSingleResult()`, or `getSingleResultOrNull()` has a well-defined 
+Every query executed using `getResultList()`, `getResultStream()`,
+`getSingleResult()`, or `getSingleResultOrNull()` has a well-defined
 result type.
 
 - For an instance of `TypedQuery` that represents a criteria query,
