@@ -8,8 +8,8 @@
 
 # Jakarta Persistence project
 
-[![Build Status](https://github.com/jakartaee/persistence/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/jakartaee/persistence/actions/workflows/maven.yml?branch=master)
-[![Jakarta Staging (Snapshots)](https://img.shields.io/nexus/s/https/jakarta.oss.sonatype.org/jakarta.persistence/jakarta.persistence-api.svg)](https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/)
+[![Build Status](https://github.com/jakartaee/persistence/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/jakartaee/persistence/actions/workflows/maven.yml?branch=main)
+[![Jakarta Staging (Snapshots)](https://central.sonatype.com/repository/maven-snapshots/jakarta/persistence/jakarta.persistence-api/)](https://central.sonatype.com/repository/maven-snapshots/jakarta/persistence/jakarta.persistence-api/)
 
 [PDF]: https://jakartaee.github.io/persistence/latest-nightly/nightly.pdf
 [HTML]: https://jakartaee.github.io/persistence/latest-nightly/nightly.html
