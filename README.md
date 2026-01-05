@@ -10,6 +10,7 @@
 
 [![Build Status](https://github.com/jakartaee/persistence/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/jakartaee/persistence/actions/workflows/maven.yml?branch=main)
 [![Maven Central (Snapshots)](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fjakarta%2Fpersistence%2Fjakarta.persistence-api%2Fmaven-metadata.xml&color=green)](https://central.sonatype.com/repository/maven-snapshots/jakarta/persistence/jakarta.persistence-api/)
+[![Reproducible Builds](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/jvm-repo-rebuild/reproducible-central/master/content/jakarta/persistence/jakarta.persistence-api/badge.json)](https://github.com/jvm-repo-rebuild/reproducible-central/blob/master/content/jakarta/persistence/jakarta.persistence-api/README.md)
 
 
 [PDF]: https://jakartaee.github.io/persistence/latest-nightly/nightly.pdf
