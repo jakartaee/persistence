@@ -69,6 +69,11 @@ pipeline {
 									sh 'gpg --batch --import "${KEYRING}"'
 									sh 'for fpr in $(gpg --list-keys --with-colons  | awk -F: \'/fpr:/ {print $10}\' | sort -u); do echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust; done'
 
+									// First we pre-build API module so that the current snapshot build of it
+									// is available to the TCK build:
+									sh "mvn clean install -f api -DskipTests=true"
+									// Then with the API snapshot build present in the local Maven repo
+									// build and deploy the TCK:
 									sh "mvn clean deploy -f tck -Poss-release -Psnapshots -DskipTests=true"
 								}
 							}
