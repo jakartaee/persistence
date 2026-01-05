@@ -1500,11 +1500,14 @@
 
         @Target({METHOD, FIELD}) @Retention(RUNTIME)
         public @interface MapKey {
+          String value() default "";
+          @Deprecated
           String name() default "";
         }
 
       </xsd:documentation>
     </xsd:annotation>
+    <!-- no need to reflect annotation member name change here -->
     <xsd:attribute name="name" type="xsd:string"/>
   </xsd:complexType>
 
