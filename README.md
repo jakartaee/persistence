@@ -16,7 +16,10 @@
 [PDF]: https://jakartaee.github.io/persistence/latest-nightly/nightly.pdf
 [HTML]: https://jakartaee.github.io/persistence/latest-nightly/nightly.html
 [API]: https://jakartaee.github.io/persistence/latest-nightly/api/jakarta.persistence/module-summary.html
+[3.2]: https://jakarta.ee/specifications/persistence/3.2/
 [4.0]: https://jakarta.ee/specifications/persistence/4.0/
+[EclipseLink]: https://eclipse.dev/eclipselink/
+[Hibernate]: https://hibernate.org/orm/
 
 Jakarta Persistence defines the industry standard for management of 
 persistence and object/relational mapping in Java&reg; environments.
@@ -27,6 +30,10 @@ programming language.
 This specification was originally developed by the Java Community
 Process and was known as JPA (the Java Persistence API) prior to it 
 being made open source and donated to the Eclipse Foundation.
+
+The current release is [Jakarta Persistence 3.2][3.2]. Compatible 
+open source implementations include [EclipseLink 5][EclipseLink] and 
+[Hibernate ORM 7][Hibernate].
 
 [Jakarta Persistence 4.0][4.0] is a major revision of the specification
 and is currently under very active development with release targeted
