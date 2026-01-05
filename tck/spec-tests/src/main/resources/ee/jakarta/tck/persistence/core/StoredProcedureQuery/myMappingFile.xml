@@ -20,8 +20,8 @@
 <entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
-    https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
-    version="3.2">
+    https://jakarta.ee/xml/ns/persistence/orm/orm_4_0.xsd"
+    version="4.0">
 
     <named-stored-procedure-query name="tobeoverridden1" procedure-name="GetEmpFirstNameFromOut">
         <parameter mode="IN" class="java.lang.Integer"/>
