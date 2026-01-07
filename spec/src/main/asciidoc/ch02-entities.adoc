@@ -2454,12 +2454,21 @@ by the inheriting entity class. This non-persistent state is not managed by
 the entity managerfootnote:[If a transaction-scoped persistence context is
 used, it is not required to be retained across transactions.].
 
-When a non-entity class is annotated with an annotation type defined by this
-specification, the behavior is undefined. The persistence provider might simply
-ignore such annotations.
+When a non-entity class is annotated with an annotation type defined by
+this specification, the behavior is undefined. The persistence provider
+might simply ignore such annotations.
 
-A non-entity class cannot be passed as an argument to a method of the `EntityManager`, `EntityAgent`, or `Query` interfacefootnote:[This includes
-instances of a non-entity class that extends an entity class.].
+A non-entity type may not be used as an entity type, even if it inherits
+an entity type:
+
+- A non-entity class cannot be passed as an argument to a parameter of a
+  method of `EntityManager` or `EntityAgent` which expects an entity type.
+- If `object.getClass()` return a non-entity class, then `object` cannot
+  be passed as an argument to a parameter of a method that expects an
+  instance of an entity type, even if `object` is assignable to an entity
+  type.
+- A non-entity type may not be used in JPQL as the abstract schema type of
+  a range variable declaration, as defined in <<a4766>>.
 
 The following example illustrates the use of a non-entity class as a superclass
 of an entity class.
