@@ -1571,7 +1571,8 @@ has undefined semantics and should be avoided.].
 If a persistent field or property other than a relationship property
 is _not_ annotated with one of the mapping annotations listed above in
 <<categories>>, and if no equivalent mapping information is supplied in
-any XML descriptor, the following defaulting rules are applied in order:
+any XML descriptor, nor via any provider-specific mechanism, the 
+following defaulting rules are applied in order:
 
 1. If the type of the field or property is a class annotated with the
    `Embeddable` annotation, the field or property is treated as if it
@@ -1695,7 +1696,7 @@ additional mapping strategies:
 
 * A unidirectional or bidirectional one-to-one relationship,
   bidirectional many-to-one/one-to-many relationship, or unidirectional
-  many-to-one relationships may be mapped to a join table. The `JoinTable`
+  many-to-one relationship may be mapped to a join table. The `JoinTable`
   annotation found in <<a15022>> or corresponding XML element must be used
   to indicate this mapping strategy.
 
