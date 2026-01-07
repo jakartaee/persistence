@@ -1576,7 +1576,7 @@ the discriminator type (see <<a14530>>) of the discriminator column for the
 entity class hierarchy. The `value` member of `DiscriminatorValue` accepts
 a string which is interpreted as a literal value of the discriminator type.
 If the discriminator type is `INTEGER`, the specified `value` string must
-convertable to an integer value by calling `Integer.parseInt()`.
+be convertable to an integer value by calling `Integer.parseInt()`.
 
 [source,java]
 ----
@@ -1811,7 +1811,7 @@ represented as an embeddable class, as defined in <<a132>>. The embeddable
 class must be annotated as `Embeddable`.footnote:[The `Id` annotation is
 not applied to any field or property of the embeddable class.]
 
-An embedded id class must not declare a field or property representing an
+An embedded id class must not declare a field or property representing a
 relationship, in the sense of <<a516>>, with another entity.
 
 In a given entity class:
