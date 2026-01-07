@@ -2527,7 +2527,8 @@ entity class hierarchy to tables in a relational database.
 
 These mapping strategies are enumerated by `jakarta.persistence.InheritanceType`,
 and the mapping strategy for an entity class hierarchy may be specified by
-the `Inheritance` annotation or `inheritance` element of an XML descriptor.
+the `@Inheritance` annotation or `inheritance` element of an XML descriptor,
+as defined by <<a14891>>.
 
 An implementation of this specification is required to support the single
 table per class hierarchy inheritance mapping strategy and the joined
