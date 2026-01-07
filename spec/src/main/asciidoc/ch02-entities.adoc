@@ -190,7 +190,7 @@ In general, operations performed by a persistence provider are not
 required to preserve the object identity of a value stored in an
 attribute of an entity. The provider is permitted to modify the
 value held in the attribute to a new value with a distinct object
-identity. Such modifications should never alter the _persistent_
+identity. But such modifications never alter the _persistent_
 representation of the entity because the Java object identity of
 a value held in an attribute is never part of the persistent
 state of the entity.
@@ -1383,7 +1383,7 @@ An embeddable type may even be used to represent the key or value of
 a map.
 
 An embedded object belongs strictly to its owning entity instance and
-is not sharable across persistent entity instances; sharing of an
+is not shareable across persistent entity instances; sharing of an
 embedded object across multiple managed entity instances has undefined
 semantics. As described above in <<value-type-reference-type>>, the
 persistence provider is not required to respect the object identity of
@@ -1447,7 +1447,10 @@ or `List<E>`, the type argument `E` is taken, by default, to be its
 element type. The element type may be explicitly specified using the
 `targetClass` member of the `ElementCollection` annotation. If an
 element collection is declared with a raw type, the `targetClass`
-member must be explicitly specified.
+member must be explicitly specified. Otherwise, if the element
+collection is not declared with a raw type, the `targetClass` is
+optional, and it must specify an entity type which is assignable 
+to the type argument `E`.
 
 An element collection maps to a _collection table_, as defined in
 <<a14250>>.
@@ -1592,7 +1595,7 @@ well-defined _multiplicity_, either:
   is viewed from), or
 - **many-to-many**.
 
-An attribute representing one side of such an association must
+Every attribute representing one side of such an association must
 be annotated with a _relationship modeling annotation_:
 
 - `OneToOne` if the association has one-to-one multiplicity--in
