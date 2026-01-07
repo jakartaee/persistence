@@ -38,7 +38,7 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * 
  * @since 2.0
  */
-@Target( { METHOD, FIELD })
+@Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface MapKeyJoinColumns {
 	/**
