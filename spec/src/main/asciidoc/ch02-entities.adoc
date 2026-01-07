@@ -169,7 +169,7 @@ If none of the above annotations occur on a persistent attribute,
 the defaulting rules specified below in <<a511>> determine which
 category it belongs to.
 
-An attribute of an entity must not have with mapping annotations
+An attribute of an entity must not have mapping annotations
 indicating conflicting persistent attribute types. For example, a
 field must not be annotated `@Basic @Embedded`,
 `@ManyToOne @ElementCollection`, or `@OneToOne @ManyToMany`. The
@@ -202,8 +202,8 @@ In particular:
   to respect the integrity of shared references to an instance
   of such a type. If multiple fields referenced the same instance
   of a value type when an entity was made persistent, those fields
-  hold references to distinct instances of the value type when the
-  entity is reloaded from the database.
+  may hold references to distinct instances of the value type when 
+  the entity is reloaded from the database.
 - An entity type is considered a _reference type_, and, instead of
   object identity, every managed instance of an entity type has a
   well-defined _persistent identity_. The persistence provider must
@@ -1472,7 +1472,7 @@ collection has two different element types:
 - a _value type_.
 
 A key or value type may be a basic type, an embeddable class,
-or an entity type. The key type and map type are completely
+or an entity type. The key type and value type are completely
 independent of one another.
 
 A map collection must be declared using an `ElementCollection`,
@@ -1592,7 +1592,7 @@ well-defined _multiplicity_, either:
   is viewed from), or
 - **many-to-many**.
 
-An attribute which represents one side of such an association must
+An attribute representing one side of such an association must
 be annotated with a _relationship modeling annotation_:
 
 - `OneToOne` if the association has one-to-one multiplicity--in
@@ -2344,14 +2344,14 @@ is common across multiple entity classes but which maps to disparate, unrelated
 database tables.
 
 A mapped superclass must be annotated with the `MappedSuperclass` annotation or
-declares as a `mapped-superclass` in its XML descriptor.
+declared as a `mapped-superclass` in its XML descriptor.
 
 A mapped superclass might be an abstract class or a concrete class.
 
 A mapped superclass, unlike an entity, is not queryable and must not be passed
 as an argument to `EntityManager`, `EntityAgent`, or `Query` operations.
 
-Persistent relationships involving by a mapped superclass must be unidirectional.
+Persistent relationships involving a mapped superclass must be unidirectional.
 
 - A mapped superclass may declare a unidirectional association to an entity
   class, but
@@ -2625,7 +2625,7 @@ Similarly, the following column names should be treated as equivalent:
 ----
 
 This behavior relieves the developer of the need to explicitly specify
-a table or column name when the name of differs only in case from the
+a table or column name when the name differs only in case from the
 defaulted name derived from the name of the mapped entity or attribute.
 
 There are two ways to specify that a delimited (quoted) identifier
