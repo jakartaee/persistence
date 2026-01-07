@@ -1524,7 +1524,7 @@ In this case, default mappings are described in <<a538>>.
 ==== Map Keys
 
 When an element collection has declared type `Map<K,V>`, the type
-argument `A` is taken, by default, to be its key type. The key type
+argument `K` is taken, by default, to be its key type. The key type
 may be explicitly specified using the `MapKeyClass` annotation. If
 an element collection is declared with a raw type, the `MapKeyClass`
 annotation is required.
