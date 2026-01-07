@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A reference to a named statememt or query declared via the
+ * A reference to a named statement or query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
  * or using {@link jakarta.persistence.query.StaticQuery} or
  * {@link jakarta.persistence.query.StaticNativeQuery}. An
