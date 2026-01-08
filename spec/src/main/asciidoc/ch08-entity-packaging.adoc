@@ -263,7 +263,7 @@ A `persistence-unit` element declares a named persistence unit.
 The `persistence-unit` element consists of the `name` and `transaction-type`
 attributes and the following sub-elements:
 `description`, `provider`,
-`jta-data-source`, `non-jta-data-source`, data-source
+`data-source`, `jta-data-source`, `non-jta-data-source`
 `mapping-file`, `jar-file`, `class`,
 `exclude-unlisted-classes`,
 `shared-cache-mode`, `validation-mode`,
