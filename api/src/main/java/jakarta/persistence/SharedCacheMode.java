@@ -19,41 +19,51 @@ package jakarta.persistence;
 import jakarta.persistence.spi.PersistenceUnitInfo;
 
 /**
- * Specifies how the provider must use a second-level cache for the
- * persistence unit. Corresponds to the value of the {@code persistence.xml}
- * {@code shared-cache-mode} element, and returned as the result of
- * {@link PersistenceUnitInfo#getSharedCacheMode()}.
- * 
+ * Enumerates policies which control how the provider determines if
+ * an entity type is eligible for storage in the second-level cache.
+ * <p>
+ * A {@code SharedCacheMode} may be specified by the
+ * {@code <shared-cache-mode>} element of {@code persistence.xml}
+ * or by calling
+ * {@link PersistenceConfiguration#sharedCacheMode(SharedCacheMode)}.
+ *
+ * @see PersistenceUnitInfo#getSharedCacheMode()
+ * @see PersistenceConfiguration#sharedCacheMode()
+ *
  * @since 2.0
  */
 public enum SharedCacheMode {
 
     /**
-     * All entities and entity-related state and data are cached.
+     * Every entity type associated with the persistence unit and all
+     * entity-related state and data is eligible for storage in the
+     * second-level cache.
      */
     ALL, 
 
     /**
-     * Caching is disabled for the persistence unit.
+     * The second-level cache is disabled for the whole persistence unit.
+     * No entity type is eligible for storage in the second-level cache.
      */
     NONE, 
 
     /**
-     * Caching is enabled for all entities for which
-     * {@link Cacheable Cacheable(true)} is specified. All other
-     * entities are not cached.
+     * An entity type is eligible for storage in the second-level cache
+     * if and only if it is annotated {@link Cacheable Cacheable} or
+     * {@link Cacheable Cacheable(true)}.
      */
     ENABLE_SELECTIVE, 
 
     /**
-     * Caching is enabled for all entities except those for which
-     * {@link Cacheable Cacheable(false)} is specified. Entities
-     * for which {@code Cacheable(false)} is specified are not cached.
+     * An entity type is eligible for storage in the second-level cache
+     * if and only if it is not annotated {@link Cacheable Cacheable(false)}.
      */
     DISABLE_SELECTIVE, 
 
     /**
-     * Caching behavior is undefined: provider-specific defaults may apply.
+     * The persistence provider determines if an entity type is eligible
+     * for storage in the second-level cache, according to vendor-specific
+     * semantics.
      */
     UNSPECIFIED
 }
