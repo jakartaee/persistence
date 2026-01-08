@@ -24,7 +24,6 @@ import java.util.List;
  * at commit time. The current transaction, if one is active, will be marked
  * for rollback.
  *
- * @see EntityHandler#find(Class, Object, LockModeType)
  * @see EntityHandler#find(Class, Object, FindOption...)
  * @see EntityHandler#find(EntityGraph, Object, FindOption...)
  * @see EntityHandler#findMultiple(Class, List, FindOption...)
