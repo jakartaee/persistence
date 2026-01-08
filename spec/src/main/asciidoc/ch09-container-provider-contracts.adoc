@@ -533,28 +533,28 @@ application.
 
 The `PersistenceUnitInfo` interface may be found in <<_persistenceunitinfo_>>.
 
-The enum `jakarta.persistence.PersistenceUnitTransactionType`
-defines whether the entity managers created by the factory will be
-JTA or resource-local entity managers.
+The enum `PersistenceUnitTransactionType` lists options which determine
+whether entity managers created by the factory are JTA or resource-local
+entity managers.
 
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/PersistenceUnitTransactionType.java[lines=18..-1]
 ----
 
-The enum `jakarta.persistence.SharedCacheMode`
-defines the use of caching. The `persistence.xml` `shared-cache-mode`
-element has no default value. The `getSharedCacheMode` method must
-return `UNSPECIFIED` if the `shared-cache-mode` element has not been
-specified for the persistence unit.
+The enum `SharedCacheMode` lists policies which control how the provider
+determines if an entity type is eligible for storage in the second-level
+cache, as defined in <<a3065>>. The `shared-cache-mode` element in
+`persistence.xml` has no default value. The `getSharedCacheMode` method
+must return `UNSPECIFIED` when the `shared-cache-mode` element is left
+unspecified.
 
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/SharedCacheMode.java[lines=18..-1]
 ----
 
-The enum `jakarta.persistence.ValidationMode`
-defines the validation mode.
+The enum `ValidationMode` lists the validation modes defined in <<a2374>>.
 
 [source,java]
 ----

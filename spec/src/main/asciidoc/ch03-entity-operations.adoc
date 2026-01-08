@@ -2554,18 +2554,20 @@ precedence over the value of the `shared-cache-mode` element.
 The `shared-cache-mode` element takes one of five possible values,
 which are enumerated by `jakarta.persistence.SharedCacheMode`:
 
-- `ALL` specifies that every entity and all its state may be cached.
+- `ALL` specifies that every entity type associated with the persistence
+  unit and all entity-related state and data is eligible for storage in
+  the second-level cache.
 
-- `NONE` specifies that caching is disabled for the persistence unit,
-  and that the persistence provider must not cache any entity data.
+- `NONE` specifies that the second-level cache is disabled for the whole
+  persistence unit and that no entity type is eligible for storage in the
+  second-level cache.
 
-- `ENABLE_SELECTIVE` specifies that an entity may be cached if the
-  entity class is explicitly annotated `@Cacheable` or `@Cacheable(true)`,
-  or if the equivalent setting is specified in XML.
+- `ENABLE_SELECTIVE` specifies that an entity type is eligible for storage
+  in the second-level cache if and only if it is annotated `Cacheable` or
+  `Cacheable(true)`, or if the equivalent setting is specified in XML.
 
-- `DISABLE_SELECTIVE` specifies that an entity may be cached unless
-  the entity class is explicitly annotated `@Cacheable(false)`, or
-  unless the equivalent setting is specified in XML.
+- `DISABLE_SELECTIVE` specifies that an entity type is eligible for storage
+  in the second-level cache if and only if it is not annotated `Cacheable(false)`.
 
 - `UNSPECIFIED` selects the provider-specific default behavior.
 
