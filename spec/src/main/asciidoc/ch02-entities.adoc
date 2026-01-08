@@ -2278,14 +2278,18 @@ then:
 
 An abstract class may be annotated `Entity` or declared as an `entity`
 in its XML descriptor. An abstract entity class may participate in a
-relationship, and may occur in the `from` clause of a query.
+relationship, and may occur in the `from` clause of a query. Abstract
+entity classes are discussed below in <<abstract-entity-classes>>.
 
 An entity might extend a non-entity class, and a non-entity class might
-extend an entity class.
+extend an entity class. Such a non-entity class might be declared as a
+mapped superclass defining common persistent state and object/relational
+mapping information inherited by its entity subclasses, as discussed
+below in <<mapped-superclasses>>, but, as described below in
+<<non-entity-classes>>, it is not required to be. If a non-entity class
+defines persistent state, it must be declared as a mapped superclass.
 
-These concepts are described further in the following sections.
-
-==== Abstract Entity Classes
+==== Abstract Entity Classes [[abstract-entity-classes]]
 
 An abstract entity differs from a concrete entity only in that it cannot
 be directly instantiated. This specification defines no special restrictions
@@ -2340,7 +2344,7 @@ public class PartTimeEmployee extends Employee {
 }
 ----
 
-==== Mapped Superclasses
+==== Mapped Superclasses [[mapped-superclasses]]
 
 An entity might inherit a superclass that declares persistent entity state and
 mapping information, but which is not itself an entity. Typically, the purpose
@@ -2442,7 +2446,7 @@ public class PartTimeEmployee extends Employee {
 }
 ----
 
-==== Non-Entity Classes in the Entity Inheritance Hierarchy
+==== Non-Entity Classes in the Entity Inheritance Hierarchy [[non-entity-classes]]
 
 An entity might inherit a non-entity superclass, which might be concrete
 or abstract.footnote:[The superclass must not be an embeddable class or
