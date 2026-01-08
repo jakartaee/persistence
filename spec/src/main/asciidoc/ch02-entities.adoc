@@ -2534,10 +2534,13 @@ entity class hierarchy to tables in a relational database.
   declared by its superclass. Table joins may be used to retrieve all
   fields declared and inherited by the subclass.
 
-These mapping strategies are enumerated by `jakarta.persistence.InheritanceType`,
-and the mapping strategy for an entity class hierarchy may be specified by
-the `@Inheritance` annotation or `inheritance` element of an XML descriptor,
-as defined by <<a14891>>.
+These mapping strategies are enumerated by `InheritanceType`, and the
+mapping strategy for an entity class hierarchy may be specified by the
+`@Inheritance` annotation or `inheritance` element of an XML descriptor,
+as defined by <<a14891>>. The inheritance strategy for the whole entity
+class hierarchy is determined by the mapping of the root class of the
+hierarchy. If the `@Inheritance` annotation is used, it must be placed
+on the root class.
 
 An implementation of this specification is required to support the single
 table per class hierarchy inheritance mapping strategy and the joined
