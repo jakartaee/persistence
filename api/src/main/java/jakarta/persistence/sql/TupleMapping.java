@@ -42,6 +42,14 @@ import static java.util.Objects.requireNonNull;
  *     });
  * }
  *
+ * <p>Each result {@link Tuple} contains an entry for each
+ * {@linkplain #elements element} of the {@code TupleMapping}.
+ * The index and alias of a tuple entry are determined by the
+ * position of the element in {@code TupleMapping} and the
+ * {@linkplain MappingElement#getAlias alias} of the element,
+ * respectively.
+ *
+ *
  * @param elements Mappings for the elements of the tuple
  *
  * @see CompoundMapping
