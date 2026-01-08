@@ -91,7 +91,7 @@ property access or field access is used:
   `Transient` annotation is persistent.
 
 Mapping annotations must not be applied to a field or property marked `static`,
-`transient`, or `@Transient`, since the field or property is not persistent.
+`transient`, or `@Transient`, such a field or property is not persistent.
 
 Whether property access, field access, or a mix of the two options is used by
 the provider to access the persistent state of a given entity class or entity
