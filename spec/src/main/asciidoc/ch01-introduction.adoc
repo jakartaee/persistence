@@ -52,12 +52,14 @@ Persistence project at the Eclipse Foundation.
 Regular serif font is used for information that is prescriptive under this
 specification.
 
-_Italic serif font_ is used for paragraphs that contain descriptive information,
-such as notes describing typical use, or notes clarifying the text with
-prescriptive specification.
+Admonitions are used for paragraphs that contain descriptive information
+clarifications, explanations, and recommendations.
 
 `Monospaced font` is used for code examples and to specify the BNF of the
 Jakarta Persistence query language.
+
+Java types belonging to the namespace `jakarta.persistence` are usually
+referred to by their unqualified names when there is no ambiguity.
 
 This document defines the semantics of a set of Java language annotations.
 An XML descriptor (as specified in <<a16944>>) may be used as an alternative

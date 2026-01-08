@@ -2562,7 +2562,7 @@ precedence over the value of the `shared-cache-mode` element or
 `sharedCacheMode()` of the `PersistenceConfiguration`.
 
 The `shared-cache-mode` element takes one of five possible values,
-which are enumerated by `jakarta.persistence.SharedCacheMode`:
+which are enumerated by `SharedCacheMode`:
 
 - `ALL` specifies that every entity type associated with the persistence
   unit and all entity-related state and data is eligible for storage in
