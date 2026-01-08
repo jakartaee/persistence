@@ -131,7 +131,7 @@ at any time, any reference held by an entity to a collection instantiated by
 the application with a different provider-specific object implementing the
 same interface type.
 
-==== Persistent Attribute Type [[categories]]
+==== Persistent Attribute Type [[attribute-categories]]
 
 Every persistent field or property of an entity is either:
 
@@ -1570,9 +1570,9 @@ has undefined semantics and should be avoided.].
 
 If a persistent field or property other than a relationship property
 is _not_ annotated with one of the mapping annotations listed above in
-<<categories>>, and if no equivalent mapping information is supplied in
-any XML descriptor, nor via any provider-specific mechanism, the 
-following defaulting rules are applied in order:
+<<attribute-categories>>, and if no equivalent mapping information is
+supplied in any XML descriptor, nor via any provider-specific mechanism,
+the following defaulting rules are applied in order:
 
 1. If the type of the field or property is a class annotated with the
    `Embeddable` annotation, the field or property is treated as if it
