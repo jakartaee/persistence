@@ -681,7 +681,8 @@ public interface EntityHandler extends AutoCloseable {
      * <ol>
      * <li>the select list of the query contains only a single
      *     item, which must be assignable to the result class,
-     * <li>the result class is {@code Object[].class}, or
+     * <li>the result class is {@code Object[].class} or
+     *     {@link Tuple Tuple.class}, or
      * <li>the result class is a non-abstract class or record
      *     type with a constructor with the same number of
      *     parameters as the query has items in its select list,
@@ -692,7 +693,10 @@ public interface EntityHandler extends AutoCloseable {
      * directly to the caller. In the second case, each query
      * result is packaged in an array with the array elements
      * corresponding by position with the items of the query
-     * select list. In the third case, each query result is
+     * select list or in an instance of {@link Tuple} with the
+     * indices and aliases of the tuple elements determined by
+     * the positions and aliases of the corresponding items in
+     * the select list. In the third case, each query result is
      * automatically packaged in a new instance of the result
      * class by calling the matching constructor.
      * @param qlString A Jakarta Persistence query string

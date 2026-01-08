@@ -39,7 +39,7 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0
  */
 public record EntityMapping<T>
-        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
+        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields, String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
     public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields) {
@@ -72,11 +72,22 @@ public record EntityMapping<T>
     }
 
     /**
-     * Always returns {@code null}.
+     * Return the alias specified via {@link #withAlias},
+     * which may be used to retrieve an entity instance using
+     * {@link jakarta.persistence.Tuple#get(String, Class)}
+     * @return the explicitly specified alias or {@code null}
      */
     @Override
     public String getAlias() {
-        return null;
+        return alias;
+    }
+
+    /**
+     * Specify an alias for this entity in the result set.
+     * @param alias The alias
+     */
+    public EntityMapping<T> withAlias(String alias) {
+        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, alias);
     }
 
     /**
@@ -87,7 +98,7 @@ public record EntityMapping<T>
      */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, LockModeType.NONE, null, fields);
+        return new EntityMapping<>(entityClass, LockModeType.NONE, null, fields, null);
     }
 
     /**
@@ -102,7 +113,7 @@ public record EntityMapping<T>
      */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields);
+        return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields, null);
     }
 
     /**
@@ -118,7 +129,7 @@ public record EntityMapping<T>
      */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields);
+        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, null);
     }
 
     /**
