@@ -2269,11 +2269,12 @@ primary key column of table `PATENT`.
 An entity class might inherit another entity class. If this is the case,
 then:
 
-- any association targeting the second entity class is by nature a
-  polymorphic association, and may reference an instance of the first
-  entity class, and
-- any Jakarta Persistence query against the second entity class is also
-  polymorphic and may return an instance of the first entity class.
+- any association targeting the inherited entity class is by nature a
+  polymorphic association, and may hold a reference to an instance of
+  the inheriting entity class, and
+- any Jakarta Persistence query against the inherited entity class is
+  also polymorphic and may return an instance of the inheriting entity
+  class.
 
 An abstract class may be annotated `Entity` or declared as an `entity`
 in its XML descriptor. An abstract entity class may participate in a
