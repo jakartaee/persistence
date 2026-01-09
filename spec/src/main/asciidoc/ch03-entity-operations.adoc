@@ -2682,11 +2682,12 @@ or in native SQL is executed via the `Query` or `TypedQuery` interface.
 
 - A `SELECT` query specified in the Jakarta Persistence query language
   or using the Criteria API (as an instance of `CriteriaSelect`) is
-  executed using one of the methods `getResultList()`, `getSingleResult()`,
-  or `getSingleResultOrNull()`.
+  executed by calling `getResultList()`, `getResultStream()`,
+  `getSingleResult()`, or `getSingleResultOrNull()`.
 
 - Similarly, any native SQL query that returns a result set is executed
-  using `getResultList()`, `getSingleResult()`, or `getSingleResultOrNull()`.
+  by calling `getResultList()`, `getResultStream()`, `getSingleResult()`,
+  or `getSingleResultOrNull()`.
 
 - An `UPDATE` or `DELETE` statement specified in the Jakarta Persistence
   query language or using the Criteria API (as an instance of
@@ -2705,8 +2706,8 @@ or `getSingleResultOrNull()` has a well-defined result type.
 
 - For an instance of `TypedQuery` that represents a `SELECT` query
   written in the Jakarta Persistence query language, the result
-  type is determined by the second argument to the `createQuery`
-  or `createNamedQuery` method, which must be the Java `Class`
+  type is determined by the second argument to the `createQuery()`
+  or `createNamedQuery()` method, which must be the Java `Class`
   representing the result type or an `EntityGraph` whose root
   entity type is the result type. In either case, the specified
   result type must be compatible with the select list of the query,
@@ -2714,8 +2715,8 @@ or `getSingleResultOrNull()` has a well-defined result type.
 
 - For an instance of `TypedQuery` that represents a native SQL
   query that returns a result set, the result type is determined
-  by the second argument to the `createNativeQuery` or
-  `createNamedQuery` method, which must be the Java `Class`
+  by the second argument to the `createNativeQuery()` or
+  `createNamedQuery()` method, which must be the Java `Class`
   representing the result type or a `ResultSetMapping` whose
   `type` member represents the result type. The specified result
   type must be compatible with the result set actually returned
@@ -3595,7 +3596,7 @@ result class. Either:
   columns, and is interpreted as a constructor result including all the
   columns of the result set as specified in <<constructor-results>>, or
 - the result class is `Object[].class` and each query result is packaged
-  in an array of type `Object[]`,  with the array elements corresponding
+  in an array of type `Object[]`, with the array elements corresponding
   by position with the columns of the select list and column values
   obtained according to the default type mappings defined by the JDBC
   specification.
