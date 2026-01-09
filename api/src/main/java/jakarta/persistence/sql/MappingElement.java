@@ -30,4 +30,9 @@ import jakarta.persistence.TupleElement;
  */
 public sealed interface MappingElement<T> extends TupleElement<T>
         permits EntityMapping, ColumnMapping, ConstructorMapping  {
+    /**
+     * Specify an alias for this element of the result set.
+     * @param alias The alias
+     */
+    MappingElement<T> withAlias(String alias);
 }

@@ -86,6 +86,7 @@ public record EntityMapping<T>
      * Specify an alias for this entity in the result set.
      * @param alias The alias
      */
+    @Override
     public EntityMapping<T> withAlias(String alias) {
         return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, alias);
     }
