@@ -71,9 +71,10 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
     }
 
     /**
-     * Specify an alias for this entity in the result set.
+     * Specify an alias for this constructor result in the result set.
      * @param alias The alias
      */
+    @Override
     public ConstructorMapping<T> withAlias(String alias) {
         return new ConstructorMapping<>(targetClass, arguments, alias);
     }
