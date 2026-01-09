@@ -2902,7 +2902,7 @@ lock is obtained for each entity specified in the query result
 (including entities passed to constructors in the query `SELECT`
 clause).footnote:[Note that the
 setLockMode method may be called more than once (with different values)
-on a Query or TypedQuery object.]
+on a `Query` or `TypedQuery` object.]
 
 If the lock mode type is `PESSIMISTIC_READ`,
 `PESSIMISTIC_WRITE`, or `PESSIMISTIC_FORCE_INCREMENT`, and the query
@@ -2997,7 +2997,7 @@ identifiers defined in <<a4760>>.
 Named parameters are case-sensitive. The mixing of named and positional
 parameters is invalid.
 
-A named parameter of a Jakarta Persistence query language query is an
+A named parameter of a JPQL query is an
 identifier that is prefixed by the `:` symbol. Parameter names passed
 as arguments to the `setParameter` methods of the `Query` interface do
 not include this prefix.
