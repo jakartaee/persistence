@@ -66,10 +66,15 @@ import jakarta.persistence.metamodel.SingularAttribute;
  * @see jakarta.persistence.StoredProcedureQuery#getSingleResult(ResultSetMapping)
  * @see jakarta.persistence.StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)
  *
+ * @see CompoundMapping
+ * @see TupleMapping
+ * @see EntityMapping
+ * @see ConstructorMapping
+ * @see ColumnMapping
+ *
  * @since 4.0
  */
-public sealed interface ResultSetMapping<T>
-        permits CompoundMapping, TupleMapping, EntityMapping, ConstructorMapping, ColumnMapping {
+public interface ResultSetMapping<T> {
     /**
      * The result type of the mapping.
      */
