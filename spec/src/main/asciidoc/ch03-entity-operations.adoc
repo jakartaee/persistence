@@ -2833,8 +2833,8 @@ Certain methods never cause the current transaction to be marked for
 rollback:
 
 - a runtime exception thrown by the following methods of the `Query`,
-  `TypedQuery`, and `StoredProcedureQuery` interfaces do not cause the
-  current transaction to be marked for rollback:
+  `TypedQuery`, and `StoredProcedureQuery` interfaces does not cause
+  the current transaction to be marked for rollback:
   `getLockMode`, `getParameters`, `getParameter`, `getParameterValue`,
   `getOutputParameterValue`, and
 
@@ -2999,10 +2999,9 @@ identifiers defined in <<a4760>>.
 Named parameters are case-sensitive. The mixing of named and positional
 parameters is invalid.
 
-A named parameter of a JPQL query is an
-identifier that is prefixed by the `:` symbol. Parameter names passed
-as arguments to the `setParameter` methods of the `Query` interface do
-not include this prefix.
+A named parameter of a JPQL query is an identifier prefixed by the `:`
+symbol. Parameter names passed as arguments to the `setParameter` methods
+of the `Query` interface do not include this prefix.
 
 ==== Positional Parameters [[a4405]]
 
