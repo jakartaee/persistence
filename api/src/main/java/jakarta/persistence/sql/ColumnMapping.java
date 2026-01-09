@@ -67,7 +67,7 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      * @param columnName The name of the mapped column of the result set
      */
     public static ColumnMapping<Object> of(String columnName) {
-        return new ColumnMapping<>(columnName, Object.class, null);
+        return new ColumnMapping<>(columnName, Object.class, columnName);
     }
 
     /**
@@ -77,6 +77,6 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      * @param <T> The type of the resulting scalar value
      */
     public static <T> ColumnMapping<T> of(String columnName, Class<T> type) {
-        return new ColumnMapping<>(columnName, type, null);
+        return new ColumnMapping<>(columnName, type, columnName);
     }
 }
