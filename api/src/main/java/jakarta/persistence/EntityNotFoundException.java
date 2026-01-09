@@ -29,7 +29,8 @@ import java.util.List;
  *     {@link EntityManager#getReference} is accessed but the
  *     reference has no corresponding record in the database,
  * <li>an entity is passed to {@link EntityManager#refresh}
- *     and its record no longer exists in the database,
+ *     or {@link EntityAgent#refresh} and its record no longer
+ *     exists in the database,
  * <li>an entity is passed to {@link EntityManager#lock},
  *     a pessimistic lock mode is requested, and the record
  *     no longer exists in the database.

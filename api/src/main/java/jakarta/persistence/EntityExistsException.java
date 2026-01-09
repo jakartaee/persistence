@@ -18,12 +18,19 @@
 package jakarta.persistence;
 
 /**
- * Thrown by the persistence provider when {@link EntityManager#persist(Object)}
- * is called and the entity already exists.
+ * Thrown by the persistence provider when:
+ * <ul>
+ * <li>a detached instance of an entity type is passed to
+ *     {@link EntityManager#persist(Object)}, or
+ * <li>an instance of an entity type with an identifier assigned by the
+ *     application is passed to {@link EntityAgent#insert(Object)}, and
+ *     a record with the assigned identifier already exists in the database.
+ * </ul>
  *
- * <p>If the entity already exists, the {@code EntityExistsException} may be
- * thrown when the persist operation is invoked, or the {@code EntityExistsException}
- * or another {@link PersistenceException} may be thrown at flush or commit time.
+ * <p>If a detached instance is passed to the persist operation, an
+ * {@code EntityExistsException} may be immediately thrown by
+ * {@code persist()}, or the {@code EntityExistsException} or another
+ * {@link PersistenceException} may be thrown at flush or commit time.
  *
  * <p> If the persistence context is joined to an active transaction,
  * the transaction is automatically marked for rollback when this exception
