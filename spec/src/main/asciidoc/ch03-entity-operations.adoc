@@ -290,7 +290,7 @@ Assuming that the persistence context is joined to the current
 transaction, the state of its managed entities is synchronized to the
 database at transaction commit. This synchronization involves writing
 to the database any pending modifications to the state of persistent
-entities and their relationships as specified above.
+entities and their relationships.
 
 A modification to the state of an entity might include an assignment
 of a new value to a persistent property or field of the entity, or
