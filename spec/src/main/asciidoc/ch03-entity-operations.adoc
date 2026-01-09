@@ -2695,8 +2695,9 @@ or in native SQL is executed via the `Query` or `TypedQuery` interface.
 - Similarly, any native SQL statement that returns a row count is executed
   by calling `executeUpdate()`.
 
-Every query executed using `getResultList()`, `getSingleResult()`,
-or `getSingleResultOrNull()` has a well-defined result type.
+Every query executed using `getResultList()`, `getResultStream()`, 
+`getSingleResult()`, or `getSingleResultOrNull()` has a well-defined 
+result type.
 
 - For an instance of `TypedQuery` that represents a criteria query,
   the result type is determined by the type specified when the
@@ -2788,10 +2789,11 @@ supported for stored procedure queries.
 Except for `executeUpdate()`, methods of `Query` and `TypedQuery` may be
 invoked without an active transaction context, unless a lock mode other
 than `LockModeType.NONE` has been specified for the query. In particular,
-the methods `getResultList()`, `getSingleResult()`, and `getSingleResultOrNull()`
-may be called when no transaction is activefootnote:[A lock mode may be
-specified for a query by calling `setLockMode()` or by specifying the
-`lockMode` member of the `@NamedQuery` annotation.].
+if no lock is requested, the methods `getResultList()`, `getSingleResult()`,
+and `getSingleResultOrNull()` may be called when no transaction is
+activefootnote:[A lock mode may be specified for a query by calling
+`setLockMode()` or by specifying the `lockMode` member of the `@NamedQuery`
+annotation.].
 
 - If the `Query` or `TypedQuery` object was obtained from an `EntityAgent`
   or from an `EntityManager` with a transaction-scoped persistence context,
