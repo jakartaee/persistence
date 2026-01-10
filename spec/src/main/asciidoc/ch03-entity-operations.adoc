@@ -2664,7 +2664,7 @@ and immediately, outside the scope of any persistence context.
 
 === Query APIs [[a3125]]
 
-The `Query` `Statement`, and `TypedQuery` interfaces are used to control
+The `Query`, `Statement`, and `TypedQuery` interfaces are used to control
 parameter binding and execution for both:
 
 - static statements and queries declared in metadata, and
@@ -2815,8 +2815,9 @@ See <<a2027>> for information about transaction-scoped and extended
 persistence contexts. See <<a11431>> for further discussion of entity
 manager use with no active transaction and persistence context types.
 
-The `executeUpdate()` of `Query` or `TypedQuery` must not be called
-without an active transaction contex.
+The `execute()` method of `Statement` must not be called without an
+active transaction context. The `executeUpdate()` of `Query` or
+`TypedQuery` must not be called without an active transaction context.
 
 Whether a `StoredProcedureQuery` can be invoked without an active
 transaction context is determined by the transactional semantics and
@@ -2828,9 +2829,9 @@ to the rules for `Query` or `TypedQuery` as described above.
 
 If the persistence context is joined to the transaction, any runtime
 exception thrown by any method not explicitly listed below of `Query`,
-`TypedQuery`, or `StoredProcedureQuery` causes the current transaction
-to be marked for rollback, unless the exception is an instance of one
-of the following exception types:
+`Statement`, `TypedQuery`, or `StoredProcedureQuery` causes the current
+transaction to be marked for rollback, unless the exception is an
+instance of one of the following exception types:
 
 - `NonUniqueResultException` or `NoResultException`, or
 - `QueryTimeoutException` or `LockTimeoutException`.
@@ -2843,8 +2844,8 @@ Certain methods never cause the current transaction to be marked for
 rollback:
 
 - a runtime exception thrown by the following methods of the `Query`,
-  `TypedQuery`, and `StoredProcedureQuery` interfaces does not cause
-  the current transaction to be marked for rollback:
+  `Statement`, TypedQuery`, and `StoredProcedureQuery` interfaces does
+  not cause the current transaction to be marked for rollback:
   `getLockMode`, `getParameters`, `getParameter`, `getParameterValue`,
   `getOutputParameterValue`, and
 
