@@ -18,8 +18,8 @@ package jakarta.persistence.sql;
 import jakarta.persistence.Tuple;
 
 /**
- * Maps a JDBC {@link java.sql.ResultSet} to a tuple of values
- * packaged as an instance of {@link Tuple}.
+ * Map columns of a JDBC {@link java.sql.ResultSet} to entries
+ * in a tuple of values packaged as an instance of {@link Tuple}.
  *
  * <p>{@snippet :
  * import static jakarta.persistence.sql.ResultSetMapping.*;
@@ -39,6 +39,14 @@ import jakarta.persistence.Tuple;
  *         ...
  *     });
  * }
+ *
+ * <p>Each result {@link Tuple} contains an entry for each
+ * {@linkplain #elements element} of the {@code TupleMapping}.
+ * The index and alias of a tuple entry are determined by the
+ * position of the element in {@code TupleMapping} and the
+ * {@linkplain MappingElement#getAlias alias} of the element,
+ * respectively.
+ *
  *
  * @param elements Mappings for the elements of the tuple
  *

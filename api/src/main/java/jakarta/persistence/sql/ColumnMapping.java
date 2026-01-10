@@ -27,7 +27,7 @@ package jakarta.persistence.sql;
  *
  * @since 4.0
  */
-public record ColumnMapping<T>(String columnName, Class<T> type)
+public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
     /**
@@ -47,11 +47,20 @@ public record ColumnMapping<T>(String columnName, Class<T> type)
     }
 
     /**
+     * Specify an alias for this column in the result set.
+     * @param alias The alias
+     */
+    @Override
+    public ColumnMapping<T> withAlias(String alias) {
+        return new ColumnMapping<>(columnName, type, alias);
+    }
+
+    /**
      * Construct a new instance.
      * @param columnName The name of the mapped column of the result set
      */
     public static ColumnMapping<Object> of(String columnName) {
-        return new ColumnMapping<>(columnName, Object.class);
+        return new ColumnMapping<>(columnName, Object.class, columnName);
     }
 
     /**
@@ -61,6 +70,6 @@ public record ColumnMapping<T>(String columnName, Class<T> type)
      * @param <T> The type of the resulting scalar value
      */
     public static <T> ColumnMapping<T> of(String columnName, Class<T> type) {
-        return new ColumnMapping<>(columnName, type);
+        return new ColumnMapping<>(columnName, type, columnName);
     }
 }
