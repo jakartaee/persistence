@@ -324,11 +324,11 @@ only at the inverse end of an association. Failure to modify the owning
 side of a relationship typically results in the change being lost.
 ====
 
-The persistence provider runtime is permitted to perform synchronization
-to the database at other times, as long as a transaction is active and
-the persistence context is joined to the transaction. The application
-can influence the timing of synchronization via the `flush()` method of
-`EntityManager` or by setting the `FlushModeType`.
+When a transaction is active and the persistence context is joined to
+the transaction, the persistence provider runtime is permitted to flush
+pending modifications to the database. The application can influence the
+timing of synchronization via the `flush()` method of `EntityManager` or
+by setting the `FlushModeType`.
 
 - When the `flush()` method is called, the provider must synchronize
   every pending modification made to every entity currently associated
@@ -344,7 +344,7 @@ can influence the timing of synchronization via the `flush()` method of
 
 If there is no transaction active or if the persistence context has not
 been joined to the current transaction, the persistence provider must not
-flush to the database.
+flush modifications to the database.
 
 The semantics of the flush operation, applied
 to an entity X are as follows:
