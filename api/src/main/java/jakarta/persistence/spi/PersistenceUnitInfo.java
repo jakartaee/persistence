@@ -111,7 +111,7 @@ public interface PersistenceUnitInfo {
      * Returns the list of the names of the mapping files that the
      * persistence provider must load to determine the mappings for
      * the entity classes. The mapping files must be in the standard
-     * XML mapping format, be uniquely named and be resource-loadable
+     * XML mapping format, be uniquely named, and be resource-loadable
      * from the application classpath.  Each mapping file name
      * corresponds to a {@code mapping-file} element in the
      * {@code persistence.xml} file.
@@ -127,9 +127,10 @@ public interface PersistenceUnitInfo {
      * for managed classes of the persistence unit. Each URL
      * corresponds to a {@code jar-file} element in the
      * {@code persistence.xml} file. A URL will either be a
-     * file: URL referring to a jar file or referring to a directory
-     * that contains an exploded jar file, or some other URL from
-     * which an InputStream in jar format can be obtained.
+     * {@code file:} URL referring to a jar file or referring to a
+     * directory that contains an exploded jar file, or some other
+     * URL from which an {@code InputStream} in jar format can be
+     * obtained.
      * @return a list of URL objects referring to jar files or
      * directories 
      */
