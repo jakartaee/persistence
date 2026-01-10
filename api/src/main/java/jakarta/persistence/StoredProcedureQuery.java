@@ -587,7 +587,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     boolean execute();
 
     /**
-     * Return the update count of -1 if there is no pending result or
+     * Return the update count or -1 if there is no pending result or
      * if the first result is not an update count. The provider calls
      * {@link #execute} if necessary.
      * @return the update count or -1 if there is no pending result
