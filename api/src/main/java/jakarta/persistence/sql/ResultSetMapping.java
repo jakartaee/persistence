@@ -139,7 +139,7 @@ public sealed interface ResultSetMapping<T>
      */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, MemberMapping<T>... fields) {
-        return EntityMapping.of(entityClass, LockModeType.NONE, "", fields);
+        return EntityMapping.of(entityClass, "", fields);
     }
 
     /**
@@ -154,23 +154,7 @@ public sealed interface ResultSetMapping<T>
      */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
-        return EntityMapping.of(entityClass, LockModeType.NONE, discriminatorColumn, fields);
-    }
-
-    /**
-     * Construct a mapping for an entity class.
-     *
-     * @param entityClass The Java class of the entity
-     * @param lockMode The lock mode acquired by SQL query
-     * @param discriminatorColumn The name of the column holding the discriminator;
-     *        an empty string indicates that there is no discriminator column
-     * @param fields Mappings for fields or properties of the entity
-     *
-     * @see jakarta.persistence.EntityResult
-     */
-    @SafeVarargs
-    static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
-        return EntityMapping.of(entityClass, lockMode, discriminatorColumn, fields);
+        return EntityMapping.of(entityClass, discriminatorColumn, fields);
     }
 
     /**
