@@ -331,7 +331,7 @@ the persistence context is joined to the transaction.
 - The `flush()` method of `EntityManager` can be used by the application
    to force synchronization. When `flush()` is called, the provider must
    synchronize every pending modification made to every entity currently
-   associated with the persistence context to the database.
+   associated with the persistence context.
 
 - The `setFlushMode` method of the `EntityManager`, `Query`,
   `TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
