@@ -116,14 +116,17 @@ See <<a12305>>.
 The root element of the `persistence.xml` file is the `persistence` element.
 The `persistence` element consists of one or more `persistence-unit` elements.
 
-The `persistence-unit` element consists of the `name` and `transaction-type`
-attributes and the following sub-elements:
-`description`, `provider`,
-`jta-data-source`, `non-jta-data-source`,
-`mapping-file`, `jar-file`, `class`,
-`exclude-unlisted-classes`,
-`shared-cache-mode`, `validation-mode`,
-and `properties`.
+The `persistence-unit` element consists of:
+
+- the `name` and `transaction-type` attributes and
+- the following sub-elements:
+  `description`, `provider`,
+  `qualifier`, `scope`
+  `jta-data-source`, `non-jta-data-source`,
+  `mapping-file`, `jar-file`, `class`,
+  `exclude-unlisted-classes`,
+  `shared-cache-mode`, `validation-mode`,
+  and `properties`.
 
 The `name` attribute is required; the other attributes and elements are optional.
 Their semantics are described in the following subsections.
@@ -708,7 +711,7 @@ The annotated `Order`, `Customer` and
 `Item` classes are loaded and are added. No (other) classes contained in
 the root of the persistence unit are added to the list of managed
 persistence classes. The persistence unit assumed to be portable across
-providers. A entity manager factory supplying resource-local entity
+providers. An entity manager factory supplying resource-local entity
 managers will be created. The data source `java:app/jdbc/MyDB` must be
 used.
 
@@ -762,7 +765,7 @@ definition:
   to all components in the application. However, if a persistence unit of
   the same name is defined by an EJB-JAR, WAR, or application JAR file
   within the EAR, the persistence unit of that name defined at EAR level
-  will not be visible to the components defined by that EJB-JAR, WAR, or
+  is not visible to the components defined by that EJB-JAR, WAR, or
   application JAR file, unless the persistence unit reference uses the
   persistence unit name # syntax to specify a path name to disambiguate
   the reference.

@@ -168,29 +168,28 @@ EntityManagerFactory emf;
 
 ==== Obtaining an Entity Manager Factory in a Java SE Environment
 
-Outside a Jakarta EE container environment, the
-`jakarta.persistence.Persistence` class is the bootstrap class that
-provides access to an entity manager factory. The application creates an
-entity manager factory by calling the `createEntityManagerFactory`
-method of the `jakarta.persistence.Persistence` class, described in
-<<a13443>>.
+Outside a Jakarta EE container environment, the `Persistence` class
+described in <<a13443>> is the bootstrap class providing access to
+an entity manager factory. The application creates an entity manager
+factory by calling the `createEntityManagerFactory` method of the
+`Persistence` class.
 
 For example,
 
 [source,java]
 ----
 EntityManagerFactory emf =
-    jakarta.persistence.Persistence.createEntityManagerFactory("Order");
+        Persistence.createEntityManagerFactory("Order");
 EntityManager em = emf.createEntityManager();
 ----
 
 ==== Obtaining an Entity Manager Factory for a programmatically-defined persistence unit
 
-The class `jakarta.persistence.PersistenceConfiguration` described
-in <<a13444>> may be used to programmatically define and configure a
-persistence unit (see <<a12235>>), as an alternative to packaging a
-`persistence.xml` file, mapping files, and classes inside an archive
-as described in <<a12236>>.
+The class `PersistenceConfiguration` described in <<a13444>> may be
+used to programmatically define and configure a persistence unit
+(see <<a12235>>), as an alternative to packaging a `persistence.xml`
+file, mapping files, and classes inside an archive as described in
+<<a12236>>.
 
 An `EntityManagerFactory` may be obtained directly from the
 `PersistenceConfiguration`.

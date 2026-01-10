@@ -552,8 +552,8 @@ public @interface NamedStoredProcedureQueries {
 }
 ----
 
-All parameters of a named stored procedure
-query must be specified using the `StoredProcedureParameter` annotation.
+Every parameter of a named stored procedure
+query must be declared using the `StoredProcedureParameter` annotation.
 The `name` element refers to the name of the parameter as defined by the
 stored procedure in the database. If a parameter name is not specified,
 it is assumed that the stored procedure uses positional parameters. The
@@ -616,7 +616,7 @@ respectively.
 @Target({})
 @Retention(RUNTIME)
 public @interface EntityResult {
-    Class entityClass();
+    Class<?> entityClass();
     LockModeType lockMode() default LockModeType.NONE;
     FieldResult[] fields() default {};
     String discriminatorColumn() default "";
@@ -631,9 +631,9 @@ native SQL query is executed.
 The `fields` element is used to map the columns specified in the SELECT
 list of the query to the properties or fields of the entity class.
 
-The `discriminatorColumn` element is used to specify the column name
-(or alias) of the column in the SELECT list that is used to determine
-the type of the entity instance.
+The `discriminatorColumn` element specifies the column name or alias
+of the column in the SELECT list that is used to determine the type of
+the entity instance.
 
 [source,java]
 ----
@@ -656,7 +656,7 @@ the SELECT list—i.e., column alias, if applicable.
 @Target(value={})
 @Retention(RUNTIME)
 public @interface ConstructorResult {
-    Class targetClass();
+    Class<?> targetClass();
     ColumnResult[] columns();
 }
 ----
@@ -673,7 +673,7 @@ list to the arguments of the intended constructor.
 @Retention(RUNTIME)
 public @interface ColumnResult {
     String name();
-    Class type() default void.class;
+    Class<?> type() default void.class;
 }
 ----
 
@@ -681,7 +681,7 @@ The `name` element specifies the name of the column in the SELECT list.
 
 The `type` element specifies the Java type to which the column type is
 to be mapped. If the `type` element is not specified, the default JDBC
-type mapping for the column will be used.
+type mapping for the column is used.
 
 === References to EntityManager and EntityManagerFactory
 

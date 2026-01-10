@@ -304,7 +304,7 @@ of managed entities with changes made to the databasefootnote:[The
 database, as described in <<refresh>>.].
 
 Bidirectional relationships between
-managed entities will be persisted based on references held by the
+managed entities are persisted based on references held by the
 owning side of the relationship. It is the developer's responsibility to
 keep the in-memory references held on the owning side and those held on
 the inverse side consistent with each other when they change. In the
@@ -324,26 +324,27 @@ only at the inverse end of an association. Failure to modify the owning
 side of a relationship typically results in the change being lost.
 ====
 
-The persistence provider runtime is permitted to perform synchronization
-to the database at other times, as long as a transaction is active and
-the persistence context is joined to the transaction.
+When a transaction is active and the persistence context is joined to
+the transaction, the persistence provider runtime is permitted to flush
+pending modifications to the database. The application can influence the
+timing of synchronization via the `flush()` method of `EntityManager` or
+by setting the `FlushModeType`.
 
-- The `flush()` method of `EntityManager` can be used by the application
-   to force synchronization. When `flush()` is called, the provider must
-   synchronize every pending modification made to every entity currently
-   associated with the persistence context.
+- When the `flush()` method is called, the provider must synchronize
+  every pending modification made to every entity currently associated
+  with the persistence context.
 
-- The `setFlushMode` method of the `EntityManager`, `Query`,
+- The `setFlushMode()` methods of the `EntityManager`, `Query`,
   `TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
   control synchronization initiated automatically by the provider.
   * The effect of `FlushModeType.AUTO` is defined in <<a4374>>.
-  * If `FlushModeType.COMMIT` is specified, flushing will occur at
+  * If `FlushModeType.COMMIT` is specified, synchronization occurs at
     transaction commit; the persistence provider is permitted, but not
     required, to flush at other times.
 
 If there is no transaction active or if the persistence context has not
 been joined to the current transaction, the persistence provider must not
-flush to the database.
+flush modifications to the database.
 
 The semantics of the flush operation, applied
 to an entity X are as follows:
@@ -389,7 +390,7 @@ the `IllegalArgumentException` is thrown.
 An entity instance is removed from the
 persistence context by invoking the `detach` method on it or cascading
 the detach operation. Changes made to the entity, if any (including
-removal of the entity), will not be synchronized to the database after
+removal of the entity), are not synchronized to the database after
 such eviction has taken place.
 
 Applications must use the `flush` method
@@ -1032,7 +1033,7 @@ always prevent the phenomena P1 and P2. For non-versioned objects,
 whether or not `LockModeType.OPTIMISTIC_FORCE_INCREMENT` has any
 additional behavior is vendor-specific. Applications that call
 `lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)` on non-versioned
-objects will not be portable.
+objects are not portable.
 
 For versioned objects, it is permissible for
 an implementation to use `LockModeType.OPTIMISTIC_FORCE_INCREMENT` where
@@ -1157,7 +1158,7 @@ always prevent the phenomena P1 and P2. For non-versioned objects,
 whether or not `LockModeType.PESSIMISTIC_FORCE_INCREMENT` has any
 additional behavior is vendor-specific. Applications that call
 `lock(entity, LockModeType.PESSIMISTIC_FORCE_INCREMENT)` on
-non-versioned objects will not be portable.
+non-versioned objects are not portable.
 
 For versioned objects, it is permissible for
 an implementation to use `LockModeType.PESSIMISTIC_FORCE_INCREMENT`
@@ -1207,7 +1208,7 @@ which can be selectively overridden by use in the methods of the
 above. When this hint is not specified, database timeout values are
 assumed to apply.
 
-A timeout value of `0` is used to specify “no wait” locking.
+A timeout value of `0` is interpreted to mean “no wait” locking.
 
 Portable applications should not rely on this
 hint. Depending on the database in use and the locking mechanisms used
@@ -1249,7 +1250,7 @@ In some cases an `OptimisticLockException`
 will be thrown and wrapped by another exception, such as a
 `RemoteException`, when VM boundaries are crossed. Entities that may be
 referenced in wrapped exceptions should implement `Serializable` so that
-marshalling will not fail.
+marshalling does not fail.
 
 An `OptimisticLockException` always causes
 the transaction to be marked for rollback.
@@ -1661,7 +1662,7 @@ callback methods, most general superclass first. A class is permitted to
 override an inherited callback method of the same callback type, and in
 this case, the overridden method is not invokedfootnote:[If a method overrides
 an inherited callback method but specifies a different lifecycle event
-or is not a lifecycle callback method, the overridden method will not be
+or is not a lifecycle callback method, the overridden method is not
 invoked.].
 
 Callback methods are invoked by the
@@ -1810,7 +1811,7 @@ lifecycle callback methods as specified in annotations.
 ===== Specification of Callback Listeners
 
 The `entity-listener` XML descriptor element
-is used to specify the lifecycle listener methods of an entity listener
+specifies the lifecycle listener methods of an entity listener
 class. The lifecycle listener methods are specified by using the
 `pre-persist`, `post-persist`, `pre-remove`, `post-remove`,`pre-merge`,
 `pre-insert`, `post-insert`, `pre-delete`, `post-delete`, `pre-upsert`,
@@ -1819,11 +1820,11 @@ class. The lifecycle listener methods are specified by using the
 ===== Specification of the Binding of Entity Listener Classes to Entities
 
 The `entity-listeners` subelement of the
-`persistence-unit-defaults` element is used to specify the default
+`persistence-unit-defaults` element specifies the default
 entity listeners for the persistence unit.
 
 The `entity-listeners` subelement of the
-`entity` or `mapped-superclass` element is used to specify the entity
+`entity` or `mapped-superclass` element specifies the entity
 listener classes for the respective entity or mapped superclass and its
 subclasses.
 
@@ -2487,9 +2488,9 @@ supported except for the following: Id attributes (including the
 attributes of embedded ids and derived identities), version attributes,
 relationship attributes, and attributes explicitly annotated as
 `Enumerated` or `Temporal` or designated as such in the XML descriptor.
-Auto-apply converters will not be applied to such attributes, and
+Auto-apply converters are not applied to such attributes, and
 applications that apply converters to such attributes through use of the
-`Convert` annotation will not be portable.
+`Convert` annotation are not portable.
 
 Type conversion may be specified at the level
 of individual attributes by means of the `Convert` annotation. The
@@ -2552,14 +2553,16 @@ is determined by:
 
 - the annotations of the entity class, and
 - the value specified for the `shared-cache-mode` element of the
-  `persistence.xml` file or by the configuration property
+  `persistence.xml` file, by the `sharedCacheMode()` of the
+  `PersistenceConfiguration`, or by the configuration property
   `jakarta.persistence.sharedCache.mode`.
 
 The value of the property `jakarta.persistence.sharedCache.mode` takes
-precedence over the value of the `shared-cache-mode` element.
+precedence over the value of the `shared-cache-mode` element or
+`sharedCacheMode()` of the `PersistenceConfiguration`.
 
 The `shared-cache-mode` element takes one of five possible values,
-which are enumerated by `jakarta.persistence.SharedCacheMode`:
+which are enumerated by `SharedCacheMode`:
 
 - `ALL` specifies that every entity type associated with the persistence
   unit and all entity-related state and data is eligible for storage in
@@ -2695,8 +2698,8 @@ or in native SQL is executed via the `Query` or `TypedQuery` interface.
 - Similarly, any native SQL statement that returns a row count is executed
   by calling `executeUpdate()`.
 
-Every query executed using `getResultList()`, `getResultStream()`, 
-`getSingleResult()`, or `getSingleResultOrNull()` has a well-defined 
+Every query executed using `getResultList()`, `getResultStream()`,
+`getSingleResult()`, or `getSingleResultOrNull()` has a well-defined
 result type.
 
 - For an instance of `TypedQuery` that represents a criteria query,
@@ -2912,10 +2915,10 @@ returns scalar data (e.g., the values of entity field or properties,
 including scalar data passed to constructors in the query `SELECT`
 clause), the underlying database rows will be
 lockedfootnote:[Note that locking
-will not occur for data passed to aggregate functions. Further, queries
+does not occur for data passed to aggregate functions. Further, queries
 involving aggregates with pessimistic locking may not be supported on
 all database platforms.], but the version columns (if any) for any
-entities corresponding to such scalar data will not be updated unless
+entities corresponding to such scalar data are not updated unless
 the entities themselves are also otherwise retrieved and updated.
 
 If the lock mode type is `OPTIMISTIC` or
@@ -2980,7 +2983,7 @@ queries and for Jakarta Persistence query language queries.
 Implementations may support the use of
 `Parameter` objects for native queries, however support for `Parameter`
 objects with native queries is not required by this specification. The
-use of `Parameter` objects for native queries will not be portable. The
+use of `Parameter` objects for native queries is not portable. The
 mixing of parameter objects with named or positional parameters is invalid.
 
 A portable application should not attempt to reuse a `Parameter` object
@@ -3828,7 +3831,7 @@ NoResultException::
 
 The `NoResultException` is thrown by the persistence provider when
 `Query.getSingleResult` is invoked and there is no result to return.
-This exception will not cause the current transaction, if one is
+This exception does not cause the current transaction, if one is
 active, to be marked for rollback.
 
 NonUniqueResultException::
@@ -3836,7 +3839,7 @@ NonUniqueResultException::
 The `NonUniqueResultException` is thrown by the persistence provider
 when `Query.getSingleResult` or `Query.getSingleResultOrNull` is
 invoked and there is more than one result from the query. This
-exception will not cause the current transaction, if one is active,
+exception does not cause the current transaction, if one is active,
 to be marked for rollback.
 
 QueryTimeoutException::
