@@ -81,6 +81,14 @@ public record EntityMapping<T>
     }
 
     /**
+     * Specify the lock mode obtained on this entity.
+     * @param lockMode The lock mode
+     */
+    public EntityMapping<T> withLockMode(LockModeType lockMode) {
+        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, alias);
+    }
+
+    /**
      * Construct a new instance.
      * @param entityClass The entity class
      * @param fields Mappings for fields or properties of the entity
@@ -104,22 +112,6 @@ public record EntityMapping<T>
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
         return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields, null);
-    }
-
-    /**
-     * Construct a new instance.
-     * @param entityClass The entity class
-     * @param lockMode The lock mode acquired by the SQL query
-     * @param discriminatorColumn The name of the column holding the
-     *        {@linkplain jakarta.persistence.DiscriminatorColumn
-     *        discriminator}; a {@code null} value indicates that
-     *        there is no discriminator column.
-     * @param fields Mappings for fields or properties of the entity
-     * @param <T> The entity type
-     */
-    @SafeVarargs
-    public static <T> EntityMapping<T> of(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, null);
     }
 
     /**
