@@ -340,6 +340,8 @@ the persistence context is joined to the transaction.
   * If `FlushModeType.COMMIT` is specified, flushing will occur at
     transaction commit; the persistence provider is permitted, but not
     required, to flush at other times.
+  * If `FlushMode.EXPLICIT` is specified, the persistence provider
+    must never automatically flush modifications to the database.
 
 If there is no transaction active or if the persistence context has not
 been joined to the current transaction, the persistence provider must not
@@ -2695,8 +2697,8 @@ or in native SQL is executed via the `Query` or `TypedQuery` interface.
 - Similarly, any native SQL statement that returns a row count is executed
   by calling `executeUpdate()`.
 
-Every query executed using `getResultList()`, `getResultStream()`, 
-`getSingleResult()`, or `getSingleResultOrNull()` has a well-defined 
+Every query executed using `getResultList()`, `getResultStream()`,
+`getSingleResult()`, or `getSingleResultOrNull()` has a well-defined
 result type.
 
 - For an instance of `TypedQuery` that represents a criteria query,
@@ -2862,7 +2864,7 @@ The possible flush modes are enumerated by `FlushModeType`.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=49..-1]
 ----
 
 When a Jakarta Persistence or native SQL query is executed within
