@@ -28,16 +28,47 @@ import java.util.stream.Stream;
 
 /**
  * Interface used to control the execution of typed queries.
+ * In the Jakarta Persistence query language, only SELECT
+ * queries are typed queries, since only a SELECT query can
+ * return a result. A DELETE or UPDATE query is not a typed
+ * query, and is always represented by an untyped instance
+ * of {@link Query}. On the other hand, a native SQL query
+ * is considered a typed query if it returns a result set.
  *
  * @param <X> query result type
  *
  * @see Query
  * @see Parameter
+ * @see Query#ofType(Class)
  *
  * @since 2.0
  */
 public interface TypedQuery<X> extends Query {
-	
+
+    /**
+     * <p>Determine the maximum number of results that could in
+     * principle be returned by the query if no
+     * {@linkplain #getFirstResult() offset} or
+     * {@linkplain #getMaxResults() limit} were applied.</p>
+     *
+     * <p>The {@code getResultCount} method should not cause query
+     * results to be fetched from the database.</p>
+     *
+     * @return the maximum number of results that could in principle
+     *         be returned by the query if no offset or limit were
+     *         applied
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @since 4.0
+     */
+    long getResultCount();
+
     /**
      * Execute a SELECT query and return the query results as a typed
      * {@link List List&lt;X&gt;}. If necessary, first synchronize
@@ -64,19 +95,47 @@ public interface TypedQuery<X> extends Query {
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     List<X> getResultList();
+
+    /**
+     * Execute a SELECT query that returns a single result.
+     * If necessary, first synchronize changes with the database by
+     * flushing the persistence context.
+     * @return the result, of type {@link X}
+     * @throws NoResultException if there is no result
+     * @throws NonUniqueResultException if more than one result
+     * @throws IllegalStateException if called for a Jakarta
+     *         Persistence query language UPDATE or DELETE statement
+     * @throws QueryTimeoutException if the query execution exceeds
+     *         the query timeout value set and only the statement is
+     *         rolled back
+     * @throws TransactionRequiredException if a lock mode other than
+     *         {@code NONE} has been set and there is no transaction
+     *         or the persistence context has not been joined to the
+     *         transaction
+     * @throws PessimisticLockException if pessimistic locking
+     *         fails and the transaction is rolled back
+     * @throws LockTimeoutException if pessimistic locking
+     *         fails and only the statement is rolled back
+     * @throws PersistenceException if the query execution exceeds
+     *         the query timeout value set and the transaction
+     *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
+     */
+    @Override @SuppressWarnings("removal")
+    X getSingleResult();
 
     /**
      * Execute a SELECT query and return the query result as a typed
      * {@link java.util.stream.Stream Stream&lt;X&gt;}. If necessary,
      * first synchronize changes with the database by flushing the
      * persistence context.
-     *
      * <p>By default, this method delegates to {@link List#stream()
      * getResultList().stream()}. The persistence provider may choose
      * to override this method to provide additional capabilities.
-     *
      * @return a stream of the results, each of type {@link X}, or an
      *         empty stream if there are no results
      * @throws IllegalStateException if called for a Jakarta
@@ -102,40 +161,10 @@ public interface TypedQuery<X> extends Query {
      * @see #getResultList()
      * @since 2.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     default Stream<X> getResultStream() {
         return getResultList().stream();
     }
-
-    /**
-     * Execute a SELECT query that returns a single result.
-     * If necessary, first synchronize changes with the database by
-     * flushing the persistence context.
-     * @return the result, of type {@link X}
-     * @throws NoResultException if there is no result
-     * @throws NonUniqueResultException if more than one result
-     * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
-     * @throws QueryTimeoutException if the query execution exceeds
-     *         the query timeout value set and only the statement is
-     *         rolled back
-     * @throws TransactionRequiredException if a lock mode other than
-     *         {@code NONE} has been set and there is no transaction
-     *         or the persistence context has not been joined to the
-     *         transaction
-     * @throws PessimisticLockException if pessimistic locking
-     *         fails and the transaction is rolled back
-     * @throws LockTimeoutException if pessimistic locking
-     *         fails and only the statement is rolled back
-     * @throws PersistenceException if the query execution exceeds 
-     *         the query timeout value set and the transaction
-     *         is rolled back
-     * @throws PersistenceException if the flush fails
-     * @throws OptimisticLockException if an optimistic locking
-     *         conflict is detected during the flush
-     */
-    @Override
-    X getSingleResult();
 
     /**
      * Execute a SELECT query that returns a single untyped result.
@@ -166,7 +195,7 @@ public interface TypedQuery<X> extends Query {
      *
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     X getSingleResultOrNull();
 
     /**
@@ -175,7 +204,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setMaxResults(int maxResult);
 
     /**
@@ -185,8 +214,28 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setFirstResult(int startPosition);
+
+    /**
+     * The maximum number of results the query object was set to retrieve.
+     * Returns {@link Integer#MAX_VALUE} if {@link #setMaxResults} was not
+     * called.
+     * @return maximum number of results
+     * @since 2.0
+     */
+    @Override @SuppressWarnings("removal")
+    int getMaxResults();
+
+    /**
+     * The position of the first result the query object was set to
+     * retrieve. Returns {@code 0} if {@link #setFirstResult} was not
+     * called.
+     * @return position of the first result
+     * @since 2.0
+     */
+    @Override @SuppressWarnings("removal")
+    int getFirstResult();
 
     /**
      * Specify an {@link EntityGraph} to be applied to the entity
@@ -254,7 +303,7 @@ public interface TypedQuery<X> extends Query {
      */
     @Deprecated(since = "3.2") @Override
     TypedQuery<X> setParameter(Parameter<Calendar> param, 
-                               Calendar value,  
+                               Calendar value,
                                TemporalType temporalType);
 
     /**
@@ -269,7 +318,7 @@ public interface TypedQuery<X> extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    TypedQuery<X> setParameter(Parameter<Date> param, Date value,  
+    TypedQuery<X> setParameter(Parameter<Date> param, Date value,
                                TemporalType temporalType);
 
     /**
@@ -526,12 +575,12 @@ public interface TypedQuery<X> extends Query {
       * @see #getLockMode
       * @since 2.0
       */
-     @Override
+     @Override @SuppressWarnings("removal")
      TypedQuery<X> setLockMode(LockModeType lockMode);
 
     /**
-     * The pessimistic lock scope to use in query execution if a
-     * pessimistic lock mode is specified via {@link #setLockMode}.
+     * Set the pessimistic lock scope to use in query execution if
+     * a pessimistic lock mode is specified via {@link #setLockMode}.
      * If the query is executed without a pessimistic lock mode,
      * the pessimistic lock scope has no effect.
      * @since 4.0
@@ -541,8 +590,56 @@ public interface TypedQuery<X> extends Query {
      *         Persistence query language SELECT query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      */
-    @Override
     TypedQuery<X> setLockScope(PessimisticLockScope lockScope);
+
+    /**
+     * The current {@linkplain LockModeType lock mode} for the
+     * query or {@code null} if a lock mode has not been set.
+     * <p>The lock mode affects every entity occurring as an
+     * item in the SELECT clause, including entities occurring
+     * as arguments to constructors. The effect on association
+     * join tables, collection tables, and primary and secondary
+     * tables of join fetched entities is determined by the
+     * specified {@linkplain #getLockScope lock scope}. If no
+     * lock scope was explicitly specified, the lock scope
+     * defaults to {@link PessimisticLockScope#NORMAL NORMAL}.
+     * <p>If the given lock mode is
+     * {@link LockModeType#PESSIMISTIC_READ PESSIMISTIC_READ},
+     * {@link LockModeType#PESSIMISTIC_WRITE PESSIMISTIC_WRITE},
+     * or {@link LockModeType#PESSIMISTIC_FORCE_INCREMENT
+     * PESSIMISTIC_FORCE_INCREMENT}, the lock also affects every
+     * entity with an attribute reference occurring in the SELECT
+     * clause, except when the attribute reference occurs as an
+     * argument to an aggregate function.
+     * @return lock mode
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
+     * @see #getLockScope
+     * @since 2.0
+     */
+    @Override @SuppressWarnings("removal")
+    LockModeType getLockMode();
+
+    /**
+     * The current {@linkplain PessimisticLockScope pessimistic
+     * lock scope} for the query or {@code null} if a scope has
+     * not been set.
+     * <p>The lock scope determines the effect of
+     * {@linkplain #getLockMode locking} on association join
+     * tables, collection tables, and primary and secondary tables
+     * of join fetched entities. If no lock scope was explicitly
+     * specified, locking behaves as if the lock scope were set
+     * to {@link PessimisticLockScope#NORMAL NORMAL}.
+     * <p>The pessimistic lock scope has no effect if the lock
+     * mode is {@code null} or {@link LockModeType#NONE NONE}.
+     * @return pessimistic lock scope
+     * @throws IllegalStateException if the query is not a Jakarta
+     *         Persistence query language SELECT query or a
+     *         {@link jakarta.persistence.criteria.CriteriaQuery}
+     * @since 4.0
+     */
+    PessimisticLockScope getLockScope();
 
     /**
      * Set the cache retrieval mode that is in effect during
@@ -552,7 +649,7 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -563,8 +660,32 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
+
+    /**
+     * The cache retrieval mode that will be in effect during query
+     * execution.
+     * @return The cache retrieval mode set by calling
+     *         {@link #setCacheRetrieveMode} or the cache retrieval
+     *         mode of the persistence context if no cache retrieval
+     *         mode has been explicitly specified for this query.
+     * @since 3.2
+     */
+    @Override @SuppressWarnings("removal")
+    CacheRetrieveMode getCacheRetrieveMode();
+
+    /**
+     * The cache storage mode that will be in effect during query
+     * execution.
+     * @return The cache storage mode set by calling
+     *         {@link #setCacheStoreMode} or the cache storage
+     *         mode of the persistence context if no cache storage
+     *         mode has been explicitly specified for this query.
+     * @since 3.2
+     */
+    @Override @SuppressWarnings("removal")
+    CacheStoreMode getCacheStoreMode();
 
     /**
      * Set the query timeout, in milliseconds. This is a hint,
@@ -586,4 +707,14 @@ public interface TypedQuery<X> extends Query {
      */
     @Override
     TypedQuery<X> setTimeout(Timeout timeout);
+
+    /**
+     * @deprecated
+     * This operation should never be called on a {@code TypedQuery}.
+     * Any DELETE or UPDATE query should be represented by an
+     * untyped instance of {@link Query}.
+     */
+    @Deprecated(since = "4.0", forRemoval = true)
+    @Override @SuppressWarnings("removal")
+    int executeUpdate();
 }

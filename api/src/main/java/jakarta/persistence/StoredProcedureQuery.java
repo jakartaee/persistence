@@ -148,6 +148,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Calendar> param,
                                       Calendar value, 
                                       TemporalType temporalType);
@@ -164,6 +165,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
+    @Override
     StoredProcedureQuery setParameter(Parameter<Date> param,
                                       Date value,
                                       TemporalType temporalType);
@@ -193,7 +195,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    StoredProcedureQuery setParameter(String name, 
+    StoredProcedureQuery setParameter(String name,
                                       Calendar value, 
                                       TemporalType temporalType);
 
@@ -210,7 +212,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    StoredProcedureQuery setParameter(String name, 
+    StoredProcedureQuery setParameter(String name,
                                       Date value, 
                                       TemporalType temporalType);
 
@@ -240,7 +242,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    StoredProcedureQuery setParameter(int position, 
+    StoredProcedureQuery setParameter(int position,
                                       Calendar value,  
                                       TemporalType temporalType);
 
@@ -257,7 +259,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    StoredProcedureQuery setParameter(int position, 
+    StoredProcedureQuery setParameter(int position,
                                       Date value,  
                                       TemporalType temporalType);
 
@@ -383,7 +385,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
@@ -394,7 +396,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @since 3.2
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
@@ -585,7 +587,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     boolean execute();
 
     /**
-     * Return the update count of -1 if there is no pending result or
+     * Return the update count or -1 if there is no pending result or
      * if the first result is not an update count. The provider calls
      * {@link #execute} if necessary.
      * @return the update count or -1 if there is no pending result
@@ -600,7 +602,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     int executeUpdate();
 
     /**
@@ -620,8 +622,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @deprecated This method returns a raw {@code List}.
      *             Use {@link #getResultList(Class)} instead.
      */
-    @SuppressWarnings("rawtypes")
-    @Deprecated(since = "4.0") @Override
+    @Override @SuppressWarnings({"rawtypes", "removal"})
+    @Deprecated(since = "4.0", forRemoval = true)
     List getResultList();
 
     /**
@@ -641,7 +643,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     Object getSingleResult();
 
     /**
@@ -660,7 +662,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         the query timeout value set and the transaction
      *         is rolled back
      */
-    @Override
+    @Override @SuppressWarnings("removal")
     Object getSingleResultOrNull();
 
     /**

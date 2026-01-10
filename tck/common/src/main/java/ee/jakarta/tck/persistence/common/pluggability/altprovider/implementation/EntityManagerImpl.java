@@ -33,6 +33,8 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.LockOption;
 import jakarta.persistence.Query;
 import jakarta.persistence.RefreshOption;
+import jakarta.persistence.Statement;
+import jakarta.persistence.StatementReference;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
@@ -111,6 +113,26 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
+	public Statement createStatement(StatementReference reference) {
+		return null;
+	}
+
+	@Override
+	public Statement createNamedStatement(String name) {
+		return null;
+	}
+
+	@Override
+	public Statement createNativeStatement(String sqlString) {
+		return null;
+	}
+
+	@Override
+	public Statement createStatement(String qlString) {
+		return null;
+	}
+
+	@Override
     public <T> TypedQuery<T> createNativeQuery(String arg0, Class<T> arg1) {
 		QueryImpl query = new QueryImpl();
 		query.nativeSQL = arg0;
@@ -167,12 +189,12 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
     }
 
     @Override
-	public Query createQuery(CriteriaDelete arg) {
+	public Statement createQuery(CriteriaDelete arg) {
 		return null;
 	}
 
 	@Override
-	public Query createQuery(CriteriaUpdate arg) {
+	public Statement createQuery(CriteriaUpdate arg) {
 		return null;
 	}
 

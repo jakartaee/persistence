@@ -11,7 +11,7 @@ This appendix lists the significant changes that have been made during the devel
 
 Added `EntityAgent` and `EntityHandler`, along with new lifecycle events related to SQL execution
 
-Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticQueryReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
+Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticStatementReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
 Added a new API for programmatic SQL result set mappings
 
