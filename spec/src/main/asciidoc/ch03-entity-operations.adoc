@@ -2775,9 +2775,9 @@ portable.
 A stored procedure query that returns at least one result set can be
 executed by calling one of the `getResultList()`, `getSingleResult()`,
 `getSingleResultOrNull()`, or `execute()` methods of `StoredProcedureQuery`.
-A stored procedure that does not return a result set can be executed
-using the `executeUpdate()` method. Stored procedure query execution is
-described in detail in <<a4625>>.
+A stored procedure that does not return a result set can be executed using
+the `execute()` or `executeUpdate()` method. Stored procedure query
+execution is described in detail in <<a4625>>.
 
 An `IllegalArgumentException` is thrown if a
 parameter instance is specified that does not correspond to a parameter
