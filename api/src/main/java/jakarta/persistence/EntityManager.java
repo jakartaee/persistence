@@ -623,47 +623,6 @@ public interface EntityManager extends EntityHandler {
     /**
      * Refresh the state of the given managed entity instance from
      * the database, overwriting unflushed changes made to the entity,
-     * if any, and obtain the given {@linkplain LockModeType lock mode}.
-     * This operation cascades to every entity related by an association
-     * marked {@link CascadeType#REFRESH cascade=REFRESH}.
-     * <p>If the lock mode type is pessimistic, and the entity instance
-     * is found but cannot be locked:
-     * <ul>
-     * <li>the {@link PessimisticLockException} is thrown if the
-     *     database locking failure causes transaction-level rollback
-     * <li>the {@link LockTimeoutException} is thrown if the database
-     *     locking failure causes only statement-level rollback.
-     * </ul>
-     * @param entity  a managed entity instance
-     * @param lockMode  lock mode
-     * @throws IllegalArgumentException if the instance is not an entity
-     *         or if the entity is not managed
-     * @throws TransactionRequiredException if invoked on a 
-     *         container-managed entity manager of type
-     *         {@link PersistenceContextType#TRANSACTION} when there is
-     *         no transaction; if invoked on an extended entity manager
-     *         when there is no transaction and a lock mode other than
-     *         {@link LockModeType#NONE} was specified; or if invoked
-     *         on an extended entity manager that has not been joined
-     *         to the current transaction and any lock mode other than
-     *         {@code NONE} was specified
-     * @throws EntityNotFoundException if the entity no longer exists
-     *         in the database
-     * @throws PessimisticLockException if pessimistic locking fails
-     *         and the transaction is rolled back
-     * @throws LockTimeoutException if pessimistic locking fails and
-     *         only the statement is rolled back
-     * @throws PersistenceException if the given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if the record
-     *         could not be read from the database
-     * @since 2.0
-     */
-    void refresh(Object entity, LockModeType lockMode);
-
-    /**
-     * Refresh the state of the given managed entity instance from
-     * the database, overwriting unflushed changes made to the entity,
      * if any, and obtain the given {@linkplain LockModeType lock mode},
      * using the specified properties. This operation cascades to every
      * entity related by an association marked {@link CascadeType#REFRESH
