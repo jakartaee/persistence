@@ -24,6 +24,7 @@
     <baseDirectory>persistence-tck</baseDirectory>
     <formats>
         <format>zip</format>
+        <format>tar.gz</format>
     </formats>
 
     <files>
