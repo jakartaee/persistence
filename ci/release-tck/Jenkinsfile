@@ -80,7 +80,7 @@ pipeline {
 
 							// commit and tag the "release version":
 							sh "git commit -a -m '[Jenkins release job] Preparing TCK release ${params.RELEASE_VERSION}'"
-							sh "git tag -a -m 'Release TCK ${params.RELEASE_VERSION}' ${params.RELEASE_VERSION}"
+							sh "git tag -a -m 'Release TCK ${params.RELEASE_VERSION}' ${params.RELEASE_VERSION}-tck"
 
 							// deploy to Maven Central:
 							sh "mvn clean deploy -Poss-release -DskipTests=true -f tck"
