@@ -38,5 +38,5 @@ jobs:
       # GH runs against the merge done in the current year, so let's just check modified files do have some copyright
       # For the TCK, we just check that the subproject can pass a build (skipping the tests)
       run: |
-          mvn -f api -B -U -C -V clean install org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Poss-release -Dgpg.skip=true -Dcopyright.ignoreyear=true
-          mvn -f tck -B -U -C -V clean install -Poss-release -Dgpg.skip=true -DskipTests
+          mvn -B -U -C -V clean install -Poss-release -Dgpg.skip=true -DskipTests
+          mvn org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Poss-release -Dgpg.skip=true -Dcopyright.ignoreyear=true -pl api
