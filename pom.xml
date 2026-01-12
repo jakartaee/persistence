@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2018, 2025 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0 which is available at
+    http://www.eclipse.org/legal/epl-2.0,
+    or the Eclipse Distribution License v. 1.0 which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.eclipse.ee4j</groupId>
+        <artifactId>project</artifactId>
+        <version>2.0.0-M1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>jakarta.persistence</groupId>
+    <artifactId>jakarta.persistence-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>4.0.0-SNAPSHOT</version>
+
+    <name>Jakarta Persistence Parent</name>
+    <url>https://github.com/jakartaee/persistence</url>
+
+    <modules>
+        <module>api</module>
+        <module>tck</module>
+        <module>spec</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:git://github.com/jakartaee/persistence.git</connection>
+        <developerConnection>scm:git:git@github.com:jakartaee/persistence.git</developerConnection>
+        <url>https://github.com/jakartaee/persistence.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License v. 2.0</name>
+            <url>http://www.eclipse.org/legal/epl-2.0</url>
+            <distribution>repo</distribution>
+            <comments>Standard Eclipse Licence</comments>
+        </license>
+        <license>
+            <name>Eclipse Distribution License v. 1.0</name>
+            <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
+            <distribution>repo</distribution>
+            <comments>Standard Eclipse Distribution License</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>gavinking</id>
+            <name>Gavin King</name>
+            <organization>IBM</organization>
+            <roles>
+                <role>lead</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>lukasj</id>
+            <name>Lukas Jungmann</name>
+            <organization>Oracle, Inc.</organization>
+            <roles>
+                <role>lead</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>IssueTracker</system>
+        <url>https://github.com/jakartaee/persistence/issues</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>Community discussions</name>
+            <subscribe>https://accounts.eclipse.org/mailing-list/jpa-dev</subscribe>
+            <unsubscribe>https://accounts.eclipse.org/mailing-list/jpa-dev</unsubscribe>
+            <post>jpa-dev@eclipse.org</post>
+            <archive>https://dev.eclipse.org/mhonarc/lists/jpa-dev/</archive>
+            <otherArchives>
+                <otherArchive>http://dev.eclipse.org/mhonarc/lists/jpa-dev/maillist.rss</otherArchive>
+            </otherArchives>
+        </mailingList>
+    </mailingLists>
+
+    <properties>
+        <version.flatten-maven-plugin>1.7.3</version.flatten-maven-plugin>
+        <version.buildhelper.plugin>3.6.1</version.buildhelper.plugin>
+
+        <project.build.outputTimestamp>2025-04-10T08:59:19Z</project.build.outputTimestamp>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${version.flatten-maven-plugin}</version>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}</outputDirectory>
+                        <!-- Keep things like url, inceptionYear, authors...
+                             everything that's required by Maven Central repository -->
+                        <flattenMode>ossrh</flattenMode>
+                        <pomElements>
+                            <!-- We have some SNAPSHOT repositories,
+                                but there's no point in keeping it listed in the published POM files. -->
+                            <repositories>remove</repositories>
+                        </pomElements>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten-pom</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <autoPublish>${autoPublish}</autoPublish>
+                        <deploymentName>${project.name} ${project.version}</deploymentName>
+                        <publishingServerId>central</publishingServerId>
+                        <waitUntil>published</waitUntil>
+                        <centralBaseUrl>https://central.sonatype.com</centralBaseUrl>
+                        <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/
+                        </centralSnapshotsUrl>
+                        <excludeArtifacts>
+                            <excludeArtifact>persistence-spec</excludeArtifact>
+                            <excludeArtifact>jakarta.persistence-parent</excludeArtifact>
+                            <excludeArtifact>persistence-tck-parent</excludeArtifact>
+                            <excludeArtifact>persistence-tck-user-guide-parent</excludeArtifact>
+                        </excludeArtifacts>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${version.buildhelper.plugin}</version>
+                <executions>
+                    <execution>
+                        <id>parse-project-version</id>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                        <configuration>
+                            <propertyPrefix>parsed-version.jakarta.persistence</propertyPrefix>
+                            <versionString>${project.version}</versionString>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
