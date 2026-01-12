@@ -119,6 +119,7 @@
                             <escapeString>\</escapeString>
                             <appendAssemblyId>false</appendAssemblyId>
                             <finalName>${bundle-name}-${project.version}</finalName>
+                            <outputDirectory>${project.build.directory}/dist-archive</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
