@@ -59,13 +59,11 @@ jobs:
           mv ./www/latest/persistence-spec/*.pdf ./www/latest/draft.pdf
           mv ./www/latest/persistence-spec/images ./www/latest/
           rm -rf ./www/latest/persistence-spec || true
-          echo Building nightly javadoc
-          mvn -B -U -C -V -f api/pom.xml package -Poss-release -Dcopyright.ignoreyear=true
+          echo Building nightly javadoc and specification
+          mvn -B -U -C -V clean package -Poss-release -Dcopyright.ignoreyear=true -Dstatus=DRAFT -am -pl :jakarta.persistence-api,:persistence-spec
           rm -rf ./www/latest-nightly/api || true
           mkdir -p ./www/latest-nightly/api
           unzip -q -d ./www/latest-nightly/api "./api/target/jakarta.persistence-api-*javadoc.jar" -x "META-INF/*"
-          echo Building nightly specification
-          mvn -B -U -C -V -f spec/pom.xml package -Dstatus=DRAFT
           mv ./spec/target/generated-docs/images ./www/latest-nightly/
           mv ./spec/target/generated-docs/*.html ./www/latest-nightly/nightly.html
           mv ./spec/target/generated-docs/*.pdf ./www/latest-nightly/nightly.pdf
