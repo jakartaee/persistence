@@ -17,6 +17,8 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.Tuple;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Maps a JDBC {@link java.sql.ResultSet} to a tuple of values
  * packaged as an instance of {@link Tuple}.
@@ -49,6 +51,17 @@ import jakarta.persistence.Tuple;
  */
 public record TupleMapping(MappingElement<?>[] elements)
         implements ResultSetMapping<Tuple> {
+
+    public TupleMapping {
+        requireNonNull(elements, "elements are required");
+        if (elements.length == 0) {
+            throw new IllegalArgumentException("at least one element is required");
+        }
+        for (var element : elements) {
+            requireNonNull(element, "element is required");
+        }
+    }
+
     /**
      * Construct a new instance.
      * @param elements Mappings for the elements of the tuple

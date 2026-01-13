@@ -15,6 +15,8 @@
 
 package jakarta.persistence.sql;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Maps columns of a JDBC {@link java.sql.ResultSet} to parameters
  * of the constructor of a Java class.
@@ -30,6 +32,17 @@ package jakarta.persistence.sql;
 
 public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] arguments)
         implements MappingElement<T>, ResultSetMapping<T> {
+
+    public ConstructorMapping {
+        requireNonNull(targetClass, "targetClass is required");
+        requireNonNull(arguments, "arguments are required");
+        if (arguments.length == 0) {
+            throw new IllegalArgumentException("at least one argument is required");
+        }
+        for (var element : arguments) {
+            requireNonNull(element, "argument is required");
+        }
+    }
 
     /**
      * The Java class which declares the constructor.

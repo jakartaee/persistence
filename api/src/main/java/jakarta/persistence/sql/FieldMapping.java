@@ -17,6 +17,8 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.metamodel.SingularAttribute;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Maps a column of a JDBC {@link java.sql.ResultSet} to a given
  * field or column of an entity or embeddable type.
@@ -35,6 +37,13 @@ import jakarta.persistence.metamodel.SingularAttribute;
 public record FieldMapping<C,T>
         (Class<C> container, Class<T> type, String name, String columnName)
         implements MemberMapping<C> {
+
+    public FieldMapping {
+        requireNonNull(container, "container is required");
+        requireNonNull(type, "type is required");
+        requireNonNull(name, "name is required");
+        requireNonNull(columnName, "columnName is required");
+    }
 
     /**
      * Construct a new instance.

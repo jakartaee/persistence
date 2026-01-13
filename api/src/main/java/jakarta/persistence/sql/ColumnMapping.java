@@ -15,6 +15,8 @@
 
 package jakarta.persistence.sql;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Maps a column of a JDBC {@link java.sql.ResultSet} to a scalar
  * value in the result returned by the query.
@@ -29,6 +31,11 @@ package jakarta.persistence.sql;
  */
 public record ColumnMapping<T>(String columnName, Class<T> type)
         implements MappingElement<T>, ResultSetMapping<T> {
+
+    public ColumnMapping {
+        requireNonNull(columnName, "columnName is required");
+        requireNonNull(type, "type is required");
+    }
 
     /**
      * The Java type of the scalar value.
