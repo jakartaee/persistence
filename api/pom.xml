@@ -90,12 +90,6 @@
     </mailingLists>
 
     <properties>
-        <copyright.exclude>${project.basedir}/copyright-exclude</copyright.exclude>
-        <copyright.ignoreyear>false</copyright.ignoreyear>
-        <copyright.scmonly>true</copyright.scmonly>
-        <copyright.template>${project.basedir}/copyright-template</copyright.template>
-        <copyright.update>false</copyright.update>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spec.non.final>false</spec.non.final>
         <spec.version>4.0</spec.version>
@@ -157,11 +151,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.10.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.glassfish.copyright</groupId>
-                    <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>2.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -234,21 +223,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.glassfish.copyright</groupId>
-                <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                <configuration>
-                    <templateFile>${copyright.template}</templateFile>
-                    <excludeFile>${copyright.exclude}</excludeFile>
-                    <!-- skip files not under SCM-->
-                    <scmOnly>${copyright.scmonly}</scmOnly>
-                    <!-- for use with repair -->
-                    <update>${copyright.update}</update>
-                    <!-- check that year is correct -->
-                    <ignoreYear>${copyright.ignoreyear}</ignoreYear>
-                    <quiet>false</quiet>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.glassfish.build</groupId>

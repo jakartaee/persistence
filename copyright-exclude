@@ -1,0 +1,11 @@
+copyright-exclude
+copyright-template
+LICENSE.md
+MAINTAINERS.md
+www
+ci
+tck/docs
+LICENSE_EFTL.md
+LICENSE_EPL.md
+tck/tck-dist/src/main/resources/eftl-1.1.adoc
+spec/LICENSE
