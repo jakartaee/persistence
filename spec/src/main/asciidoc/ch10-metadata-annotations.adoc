@@ -12,6 +12,41 @@ The XML schema defined in chapter
 
 These annotations and types are in the package `jakarta.persistence`.
 
+=== PersistenceModule [[persistence-module]]
+
+The `PersistenceModule` annotation declares a persistence unit identified
+with the annotated `module`. The name of the persistence unit is identical
+to the name of the module.
+
+The remaining annotation elements are interpreted identically to the
+similarly named XML elements of the `persistence.xml` file, as defined in
+<<a12237>>.
+
+[source,java]
+----
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.MODULE)
+public @interface PersistenceModule {
+    PersistenceUnitTransactionType transactionType() default JTA;
+    String description() default "";
+    String provider() default "";
+    Class<? extends Annotation> scope() default Annotation.class;
+    Class<? extends Annotation>[] qualifiers() default {};
+    String jtaDataSource() default "";
+    String nonJtaDataSource() default "";
+    String[] jarFileUrls() default {};
+    String[] mappingFileNames() default {};
+    String[] classes() default {};
+    boolean excludeUnlistedClasses() default false;
+    SharedCacheMode sharedCacheMode() default UNSPECIFIED;
+    ValidationMode validationMode() default AUTO;
+//    FetchType defaultFetchType() default LAZY;
+    SchemaManagementAction schemaManagementDatabaseAction() default NONE;
+    SchemaManagementAction schemaManagementScriptsAction() default NONE;
+    PersistenceProperty[] properties() default {};
+}
+----
+
 === Entity [[entity-annotation]]
 
 The `Entity` annotation specifies that the annotated class is an entity.
