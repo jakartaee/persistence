@@ -49,10 +49,6 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>signaturetest</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
