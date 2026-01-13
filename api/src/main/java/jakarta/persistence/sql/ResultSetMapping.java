@@ -139,7 +139,7 @@ public sealed interface ResultSetMapping<T>
      */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, MemberMapping<T>... fields) {
-        return EntityMapping.of(entityClass, LockModeType.NONE, "", fields);
+        return EntityMapping.of(entityClass, fields);
     }
 
     /**
@@ -154,7 +154,7 @@ public sealed interface ResultSetMapping<T>
      */
     @SafeVarargs
     static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
-        return EntityMapping.of(entityClass, LockModeType.NONE, discriminatorColumn, fields);
+        return EntityMapping.of(entityClass, discriminatorColumn, fields);
     }
 
     /**
@@ -194,7 +194,7 @@ public sealed interface ResultSetMapping<T>
      */
     @SafeVarargs
     static <C,T> EmbeddedMapping<C,T> embedded(SingularAttribute<C,T> embedded, MemberMapping<T>... fields) {
-        return EmbeddedMapping.of(embedded.getDeclaringType().getJavaType(), embedded.getJavaType(), embedded.getName(), fields);
+        return EmbeddedMapping.of(embedded, fields);
     }
 
     /**
@@ -220,6 +220,6 @@ public sealed interface ResultSetMapping<T>
      * @see jakarta.persistence.FieldResult
      */
     static <C,T> FieldMapping<C,T> field(SingularAttribute<C,T> attribute, String columnName) {
-        return FieldMapping.of(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), columnName);
+        return FieldMapping.of(attribute, columnName);
     }
 }

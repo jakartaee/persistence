@@ -17,6 +17,8 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.metamodel.SingularAttribute;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Maps columns of a JDBC {@link java.sql.ResultSet} to a given
  * {@linkplain jakarta.persistence.Embedded embedded object}.
@@ -34,6 +36,16 @@ import jakarta.persistence.metamodel.SingularAttribute;
 public record EmbeddedMapping<C,T>
         (Class<C> container, Class<T> embeddableClass, String name, MemberMapping<?>[] fields)
         implements MemberMapping<C> {
+
+    public EmbeddedMapping {
+        requireNonNull(container, "container is required");
+        requireNonNull(embeddableClass, "embeddableClass is required");
+        requireNonNull(name, "name is required");
+        requireNonNull(fields, "fields are required");
+        for (var field : fields) {
+            requireNonNull(field, "field is required");
+        }
+    }
 
     /**
      * Construct a new instance.

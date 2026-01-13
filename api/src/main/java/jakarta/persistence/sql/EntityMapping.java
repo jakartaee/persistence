@@ -17,6 +17,8 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.LockModeType;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Maps columns of a JDBC {@link java.sql.ResultSet} to a given
  * {@linkplain jakarta.persistence.Entity entity} class.
@@ -37,6 +39,15 @@ import jakarta.persistence.LockModeType;
 public record EntityMapping<T>
         (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
         implements MappingElement<T>, ResultSetMapping<T> {
+
+    public EntityMapping {
+        requireNonNull(entityClass, "entityClass is required");
+        requireNonNull(lockMode, "lockMode is required");
+        requireNonNull(fields, "fields are required");
+        for (var field : fields) {
+            requireNonNull(field, "field is required");
+        }
+    }
 
     /**
      * The entity class.
@@ -62,7 +73,7 @@ public record EntityMapping<T>
      */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, LockModeType.NONE, "", fields);
+        return new EntityMapping<>(entityClass, LockModeType.NONE, null, fields);
     }
 
     /**

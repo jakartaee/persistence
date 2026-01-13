@@ -15,6 +15,8 @@
 
 package jakarta.persistence.sql;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Maps a JDBC {@link java.sql.ResultSet} to a tuple of values
  * packaged as an object array.
@@ -28,6 +30,16 @@ package jakarta.persistence.sql;
  */
 public record CompoundMapping(MappingElement<?>[] elements)
         implements ResultSetMapping<Object[]> {
+
+    public CompoundMapping {
+        requireNonNull(elements, "elements are required");
+        if (elements.length == 0) {
+            throw new IllegalArgumentException("at least one element is required");
+        }
+        for (var element : elements) {
+            requireNonNull(element, "element is required");
+        }
+    }
 
     /**
      * Construct a new instance.
