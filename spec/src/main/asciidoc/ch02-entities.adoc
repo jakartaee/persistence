@@ -141,10 +141,10 @@ Every persistent field or property of an entity is either:
 - an **embedded attribute** whose type is a fine-grained embeddable
   class, as defined <<a487>>,
 - an **element collection**, that is, a collection whose elements are
-  instances of a basic type or embeddable class,
-- a **relationship** (or **association**) with another entity type,
-  which is further classified by its multiplicity: one-to-one,
-  many-to-one, one-to-many, or many-to-many.
+  instances of a basic type or embeddable class, as defined in <<a494>>,
+- a **relationship** (or **association**) with another entity type, as
+  defined in <<a516>>, which is further classified by its multiplicity:
+  one-to-one, many-to-one, one-to-many, or many-to-many.
 
 The enumeration
 `jakarta.persistence.metamodel.Attribute.PersistentAttributeType`
