@@ -35,7 +35,6 @@ import java.util.List;
  * @see EntityManager#lock(Object, LockModeType)
  * @see EntityManager#lock(Object, LockModeType, LockOption...)
  * @see EntityManager#lock(Object, LockModeType, java.util.Map)
- * @see EntityManager#refresh(Object, LockModeType)
  * @see EntityManager#refresh(Object, RefreshOption...)
  * @see EntityManager#refresh(Object, LockModeType, java.util.Map)
  *
