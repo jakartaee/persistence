@@ -67,9 +67,11 @@ Overloaded `Persistence.generateSchema()` to accept `PersistenceConfiguration` a
 
 Added `jakarta.persistence.jdbc.fetchSize` and `jakarta.persistence.jdbc.batchSize`, and promoted schema export specific properties `jakarta.persistence.database-*` to API
 
-Added `SchemaManager.populate()` and the new schema generation action `populate`.
+Added static lists of standard property names to inner interfaces of `Persistence`
 
 Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_LOAD_SCRIPT_SOURCE` to `PersistenceConfiguration`
+
+Added `SchemaManager.populate()` and the new schema generation action `populate`.
 
 Change default `lockMode` of `EntityResult` to `NONE`
 
@@ -86,6 +88,8 @@ Fixed use of raw types in `AttributeNode`
 Deprecate `name` member of `@MapKey` in favor of `value`.
 
 Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
+
+Removed redundant overloads of `find()` and `refresh()` accepting `LockModeType`
 
 Deleted APIs marked deprecated for removal
 
