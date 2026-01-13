@@ -23,7 +23,9 @@ jobs:
 
     strategy:
       matrix:
-        java_version: [ 21, 25 ]
+        java-version:
+          - { java_version_numeric: 21, extra_args: "-Denforcer.skip" }
+          - { java_version_numeric: 25, extra_args: "" }
 
     steps:
     - name: Checkout for build
@@ -32,11 +34,11 @@ jobs:
       uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
       with:
         distribution: 'temurin'
-        java-version: ${{ matrix.java_version }}
+        java-version: ${{ matrix.java-version.java_version_numeric }}
         cache: maven
     - name: Verify
       # GH runs against the merge done in the current year, so let's just check modified files do have some copyright
       # For the TCK, we just check that the subproject can pass a build (skipping the tests)
       run: |
-          mvn -B -U -C -V clean install -Poss-release -Dgpg.skip=true -DskipTests
-          mvn org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Poss-release -Dgpg.skip=true -Dcopyright.ignoreyear=true
+          mvn -B -U -C -V clean install -Poss-release -Dgpg.skip=true -DskipTests ${{ matrix.java-version.extra_args }}
+          mvn org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Poss-release -Dgpg.skip=true -Dcopyright.ignoreyear=true ${{ matrix.java-version.extra_args }}
