@@ -392,11 +392,6 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public void refresh(Object arg0, LockModeType arg1) {
-
-	}
-
-	@Override
 	public void refresh(Object arg0, LockModeType arg1, Map<String, Object> arg2) {
 
 	}
