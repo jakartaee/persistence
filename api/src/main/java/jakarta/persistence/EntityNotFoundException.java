@@ -48,7 +48,6 @@ import java.util.List;
  * @see EntityManager#getReference(Class,Object)
  * @see EntityManager#getReference(Object)
  * @see EntityManager#refresh(Object)
- * @see EntityManager#refresh(Object, LockModeType)
  * @see EntityManager#refresh(Object, RefreshOption...)
  * @see EntityManager#refresh(Object, java.util.Map)
  * @see EntityManager#refresh(Object, LockModeType, java.util.Map)

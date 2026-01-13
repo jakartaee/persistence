@@ -170,7 +170,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
  * The full range of possible lock types is enumerated by
  * {@link LockModeType}. Some operations of this interface,
  * including the methods {@link #lock(Object, LockModeType)},
- * {@link #refresh(Object, LockModeType)}, and
+ * {@link #refresh(Object, RefreshOption...)}, and
  * {@link #find(Class, Object, FindOption...)}, accept an explicit
  * {@link LockModeType}, allowing the client to request a specific
  * type of lock.
