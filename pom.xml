@@ -99,6 +99,7 @@
     </mailingLists>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <copyright.exclude>copyright-exclude</copyright.exclude>
         <copyright.ignoreyear>false</copyright.ignoreyear>
         <copyright.scmonly>true</copyright.scmonly>
@@ -108,6 +109,7 @@
         <version.flatten-maven-plugin>1.7.3</version.flatten-maven-plugin>
         <version.buildhelper.plugin>3.6.1</version.buildhelper.plugin>
         <version.glassfish-copyright-maven-plugin>2.4</version.glassfish-copyright-maven-plugin>
+        <version.asciidoctor.maven.plugin>3.2.0</version.asciidoctor.maven.plugin>
 
         <project.build.outputTimestamp>2025-04-10T08:59:19Z</project.build.outputTimestamp>
         <!-- Value should be overridden by the helper plugin -->
@@ -117,6 +119,76 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <version>${version.asciidoctor.maven.plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.glassfish.build</groupId>
+                    <artifactId>spec-version-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>5.1.9</version>
+                    <configuration>
+                        <instructions>
+                            <_noextraheaders>true</_noextraheaders>
+                        </instructions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.10.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
@@ -138,6 +210,14 @@
                             <phase>process-resources</phase>
                             <goals>
                                 <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <!-- ensure proper cleanup -->
+                        <execution>
+                            <id>flatten.clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -208,6 +288,30 @@
                         <configuration>
                             <rootLocationProperty>rootProject.directory</rootLocationProperty>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <rules>
+                        <requireJavaVersion>
+                            <version>[21,)</version>
+                            <message>The build requires Java SE 21 or newer</message>
+                        </requireJavaVersion>
+                        <requireMavenVersion>
+                            <version>3.9</version>
+                        </requireMavenVersion>
+                    </rules>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>display-info</goal>
+                            <goal>enforce</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

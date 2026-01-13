@@ -32,7 +32,6 @@
     <properties>
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <maven.site.skip>true</maven.site.skip>
-        <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
         <asciidoctorj.pdf.version>2.3.19</asciidoctorj.pdf.version>
         <spec.version.short>${parsed-version.jakarta.persistence.majorVersion}.${parsed-version.jakarta.persistence.minorVersion}</spec.version.short>
         <spec.name>jakarta-${project.artifactId}-${spec.version.short}</spec.name>
@@ -40,51 +39,14 @@
         <status>DRAFT</status>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
-
-        <project.build.outputTimestamp>2024-04-10T08:59:15Z</project.build.outputTimestamp>
     </properties>
-
-    <scm>
-        <connection>scm:git:git://github.com/jakartaee/persistence.git</connection>
-        <developerConnection>scm:git:git@github.com:jakartaee/persistence.git</developerConnection>
-        <url>https://github.com/jakartaee/persistence.git</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <distributionManagement>
-        <site>
-            <url>scm:git:git@github.com:jakartaee/persistence.git</url>
-        </site>
-    </distributionManagement>
 
     <build>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[17,)</version>
-                                    <message>The build requires Java SE 17 or newer</message>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>${asciidoctor.maven.plugin.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.asciidoctor</groupId>
@@ -161,7 +123,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.7.1</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>

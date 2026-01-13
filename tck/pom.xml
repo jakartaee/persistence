@@ -105,34 +105,6 @@
     </dependencyManagement>
     <build>
         <plugins>
-            <!-- Sets minimal Maven version to 3.8.6 -->
-            <plugin>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.8.6</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
-                <configuration>
-                    <release>17</release>
-                </configuration>
-            </plugin>
-
             <!-- Configure the jar with the sources. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -149,39 +121,11 @@
 
             <!-- Create Javadoc for API jar -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <doclint>none</doclint>
                 </configuration>
-            </plugin>
-
-            <!-- Generate a "consumer pom" for the generated jar -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <configuration>
-                    <flattenMode>ossrh</flattenMode>
-                    <outputDirectory>${project.build.directory}</outputDirectory>
-                </configuration>
-                <executions>
-                    <!-- enable flattening -->
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <!-- ensure proper cleanup -->
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
