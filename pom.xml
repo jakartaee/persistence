@@ -99,10 +99,19 @@
     </mailingLists>
 
     <properties>
+        <copyright.exclude>copyright-exclude</copyright.exclude>
+        <copyright.ignoreyear>false</copyright.ignoreyear>
+        <copyright.scmonly>true</copyright.scmonly>
+        <copyright.template>copyright-template</copyright.template>
+        <copyright.update>false</copyright.update>
+
         <version.flatten-maven-plugin>1.7.3</version.flatten-maven-plugin>
         <version.buildhelper.plugin>3.6.1</version.buildhelper.plugin>
+        <version.glassfish-copyright-maven-plugin>2.4</version.glassfish-copyright-maven-plugin>
 
         <project.build.outputTimestamp>2025-04-10T08:59:19Z</project.build.outputTimestamp>
+        <!-- Value should be overridden by the helper plugin -->
+        <rootProject.directory>${user.dir}</rootProject.directory>
     </properties>
 
     <build>
@@ -153,6 +162,22 @@
                         </excludeArtifacts>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.glassfish.copyright</groupId>
+                    <artifactId>glassfish-copyright-maven-plugin</artifactId>
+                    <version>${version.glassfish-copyright-maven-plugin}</version>
+                    <configuration>
+                        <templateFile>${copyright.template}</templateFile>
+                        <excludeFile>${copyright.exclude}</excludeFile>
+                        <!-- skip files not under SCM-->
+                        <scmOnly>${copyright.scmonly}</scmOnly>
+                        <!-- for use with repair -->
+                        <update>${copyright.update}</update>
+                        <!-- check that year is correct -->
+                        <ignoreYear>${copyright.ignoreyear}</ignoreYear>
+                        <quiet>false</quiet>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -173,6 +198,15 @@
                         <configuration>
                             <propertyPrefix>parsed-version.jakarta.persistence</propertyPrefix>
                             <versionString>${project.version}</versionString>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>set-root-location-property</id>
+                        <goals>
+                            <goal>rootlocation</goal>
+                        </goals>
+                        <configuration>
+                            <rootLocationProperty>rootProject.directory</rootLocationProperty>
                         </configuration>
                     </execution>
                 </executions>

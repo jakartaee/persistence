@@ -39,4 +39,4 @@ jobs:
       # For the TCK, we just check that the subproject can pass a build (skipping the tests)
       run: |
           mvn -B -U -C -V clean install -Poss-release -Dgpg.skip=true -DskipTests
-          mvn org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Poss-release -Dgpg.skip=true -Dcopyright.ignoreyear=true -pl api
+          mvn org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Poss-release -Dgpg.skip=true -Dcopyright.ignoreyear=true

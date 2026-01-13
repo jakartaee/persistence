@@ -44,7 +44,7 @@
         <jpa.provider.implementation.specific.additional.properties/>
         <db.supports.sequence>true</db.supports.sequence>
         <persistence.second.level.caching.supported>true</persistence.second.level.caching.supported>
-        <user.dir>/tmp</user.dir>
+        <user.workdir>/tmp</user.workdir>
         <log.file.location>/tmp</log.file.location>
     </properties>
 
@@ -125,7 +125,7 @@
                         <jpa.provider.implementation.specific.properties>${jpa.provider.implementation.specific.properties}</jpa.provider.implementation.specific.properties>
                         <persistence.second.level.caching.supported>${persistence.second.level.caching.supported}</persistence.second.level.caching.supported>
                         <vehicle>standalone</vehicle>
-                        <user.dir>${user.dir}</user.dir>
+                        <user.dir>${user.workdir}</user.dir>
                         <db.supports.sequence>${db.supports.sequence}</db.supports.sequence>
                         <Insert_Jpa_Purchase_Order>INSERT INTO PURCHASE_ORDER(ID, TOTAL, DESCRIPTION) VALUES(?, ?, null)</Insert_Jpa_Purchase_Order>
                         <Select_Jpa_Purchase_Order>SELECT ID, TOTAL FROM PURCHASE_ORDER WHERE ID=?</Select_Jpa_Purchase_Order>
@@ -311,7 +311,7 @@
                 </os>
             </activation>
             <properties>
-                <user.dir>${env.TEMP}</user.dir>
+                <user.workdir>${env.TEMP}</user.workdir>
                 <log.file.location>${env.TEMP}</log.file.location>
             </properties>
         </profile>
