@@ -36,7 +36,6 @@
 
     <properties>
         <asciidoctorj.diagram.version>2.3.1</asciidoctorj.diagram.version>
-        <asciidoctorj.maven.plugin.version>3.1.0</asciidoctorj.maven.plugin.version>
         <asciidoctorj.pdf.version>2.3.19</asciidoctorj.pdf.version>
 
         <!-- plugin versions -->
@@ -64,35 +63,7 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.5.0</version>
-                    <executions>
-                        <execution>
-                            <id>enforce-versions</id>
-                            <goals>
-                                <goal>enforce</goal>
-                            </goals>
-                            <phase>none</phase>
-                            <configuration>
-                                <rules>
-                                    <requireJavaVersion>
-                                        <version>[17,)</version>
-                                        <message>You need JDK17 or newer</message>
-                                    </requireJavaVersion>
-                                    <requireMavenVersion>
-                                        <version>[3.6.3,)</version>
-                                        <message>You need Apache Maven 3.6.3 or newer</message>
-                                    </requireMavenVersion>
-                                </rules>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.3.2</version>
                     <executions>
                         <execution>
                             <id>clean-toc</id>
@@ -117,7 +88,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.7.1</version>
                     <executions>
                         <execution>
                             <id>build-dist</id>
@@ -151,7 +121,6 @@
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
                     <artifactId>asciidoctor-maven-plugin</artifactId>
-                    <version>${asciidoctorj.maven.plugin.version}</version>
                     <configuration>
                         <sourceDirectory>src/main/asciidoc</sourceDirectory>
                         <sourceDocumentName>book.adoc</sourceDocumentName>
@@ -244,7 +213,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>

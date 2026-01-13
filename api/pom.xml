@@ -30,67 +30,7 @@
     <name>Jakarta Persistence API</name>
     <url>https://github.com/jakartaee/persistence</url>
 
-    <scm>
-        <connection>scm:git:git://github.com/jakartaee/persistence.git</connection>
-        <developerConnection>scm:git:git@github.com:jakartaee/persistence.git</developerConnection>
-        <url>https://github.com/jakartaee/persistence.git</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <licenses>
-        <license>
-            <name>Eclipse Public License v. 2.0</name>
-            <url>http://www.eclipse.org/legal/epl-2.0</url>
-            <distribution>repo</distribution>
-            <comments>Standard Eclipse Licence</comments>
-        </license>
-        <license>
-            <name>Eclipse Distribution License v. 1.0</name>
-            <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
-            <distribution>repo</distribution>
-            <comments>Standard Eclipse Distribution License</comments>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>gavinking</id>
-            <name>Gavin King</name>
-            <organization>IBM</organization>
-            <roles>
-                <role>lead</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>lukasj</id>
-            <name>Lukas Jungmann</name>
-            <organization>Oracle, Inc.</organization>
-            <roles>
-                <role>lead</role>
-            </roles>
-        </developer>
-    </developers>
-
-    <issueManagement>
-        <system>IssueTracker</system>
-        <url>https://github.com/jakartaee/persistence/issues</url>
-    </issueManagement>
-
-    <mailingLists>
-        <mailingList>
-            <name>Community discussions</name>
-            <subscribe>https://accounts.eclipse.org/mailing-list/jpa-dev</subscribe>
-            <unsubscribe>https://accounts.eclipse.org/mailing-list/jpa-dev</unsubscribe>
-            <post>jpa-dev@eclipse.org</post>
-            <archive>https://dev.eclipse.org/mhonarc/lists/jpa-dev/</archive>
-            <otherArchives>
-                <otherArchive>http://dev.eclipse.org/mhonarc/lists/jpa-dev/maillist.rss</otherArchive>
-            </otherArchives>
-        </mailingList>
-    </mailingLists>
-
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spec.non.final>false</spec.non.final>
         <spec.version>4.0</spec.version>
         <spec.build>01</spec.build>
@@ -101,70 +41,9 @@
         <vendor.name>Eclipse Foundation</vendor.name>
 
         <maven.compiler.release>21</maven.compiler.release>
-        <project.build.outputTimestamp>2025-04-10T08:59:19Z</project.build.outputTimestamp>
     </properties>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.6.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.5.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.glassfish.build</groupId>
-                    <artifactId>spec-version-maven-plugin</artifactId>
-                    <version>2.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.13.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.9</version>
-                    <configuration>
-                        <instructions>
-                            <_noextraheaders>true</_noextraheaders>
-                        </instructions>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.4.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.3.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.10.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.2.6</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -200,27 +79,6 @@
                             <locale>en,US</locale>
                             <pattern>yyyy</pattern>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <requireJavaVersion>
-                            <version>[21,)</version>
-                            <message>The build requires Java SE 21 or newer</message>
-                        </requireJavaVersion>
-                    </rules>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>display-info</goal>
-                            <goal>enforce</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
