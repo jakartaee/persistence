@@ -297,8 +297,8 @@
                 <configuration>
                     <rules>
                         <requireJavaVersion>
-                            <version>[21,)</version>
-                            <message>The build requires Java SE 21 or newer</message>
+                            <version>[25,)</version>
+                            <message>The build requires Java SE 25 or newer</message>
                         </requireJavaVersion>
                         <requireMavenVersion>
                             <version>3.9</version>
