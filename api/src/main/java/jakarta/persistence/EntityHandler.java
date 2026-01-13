@@ -109,8 +109,9 @@ public interface EntityHandler extends AutoCloseable {
      * @throws PersistenceException if the record could not be
      *         read from the database
      *
-     * @apiNote Conceptually the same as {@linkplain #find}, except this
-     * form throws {@linkplain EntityNotFoundException} rather than return null.
+     * @apiNote Conceptually similar to {@linkplain #find},
+     * except this form throws {@linkplain EntityNotFoundException}
+     * instead of returning null.
      *
      * @since 4.0
      */
@@ -149,8 +150,9 @@ public interface EntityHandler extends AutoCloseable {
      *         supported for the given entity class or if the
      *         record could not be read from the database
      *
-     * @apiNote Conceptually the same as {@linkplain #find}, except this
-     * form throws {@linkplain EntityNotFoundException} rather than return null.
+     * @apiNote Conceptually similar to {@linkplain #find},
+     * except this form throws {@linkplain EntityNotFoundException}
+     * instead of returning null.
      *
      * @since 4.0
      */
@@ -191,8 +193,9 @@ public interface EntityHandler extends AutoCloseable {
      *         supported for the given entity class or if the
      *         record could not be read from the database
      *
-     * @apiNote Conceptually the same as {@linkplain #find}, except this
-     * form throws {@linkplain EntityNotFoundException} rather than return null.
+     * @apiNote Conceptually similar to {@linkplain #find},
+     * except this form throws {@linkplain EntityNotFoundException}
+     * instead of returning null.
      *
      * @since 4.0
      */
@@ -233,8 +236,9 @@ public interface EntityHandler extends AutoCloseable {
      *         supported for the given entity class or if a
      *         record could not be read from the database
      *
-     * @apiNote Conceptually the same as {@linkplain #findMultiple}, except this
-     * form throws {@linkplain EntityNotFoundException} rather than return nulls.
+     * @apiNote Conceptually similar to {@linkplain #findMultiple},
+     * except this form throws {@linkplain EntityNotFoundException}
+     * instead of returning nulls.
      *
      * @since 4.0
      */
@@ -276,8 +280,9 @@ public interface EntityHandler extends AutoCloseable {
      *         supported for the given entity class or if a
      *         record could not be read from the database
      *
-     * @apiNote Conceptually the same as {@linkplain #findMultiple}, except this
-     * form throws {@linkplain EntityNotFoundException} rather than return nulls.
+     * @apiNote Conceptually similar to {@linkplain #findMultiple},
+     * except this form throws {@linkplain EntityNotFoundException}
+     * instead of returning nulls.
      *
      * @since 4.0
      */
