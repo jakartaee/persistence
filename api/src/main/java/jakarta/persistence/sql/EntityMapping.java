@@ -27,8 +27,8 @@ import static java.util.Objects.requireNonNull;
  * @param lockMode The lock mode acquired by the SQL query
  * @param discriminatorColumn The name of the column holding the
  *        {@linkplain jakarta.persistence.DiscriminatorColumn
- *        discriminator}; an empty string or a {@code null} value
- *        indicates that there is no discriminator column.
+ *        discriminator}; a {@code null} value indicates that
+ *        there is no discriminator column.
  * @param fields Mappings for fields or properties of the entity
  * @param <T> The entity type
  *
@@ -43,6 +43,9 @@ public record EntityMapping<T>
     public EntityMapping {
         requireNonNull(entityClass, "entityClass is required");
         requireNonNull(lockMode, "lockMode is required");
+        if (discriminatorColumn.isBlank()) {
+            throw new IllegalArgumentException("discriminatorColumn may not be blank");
+        }
         requireNonNull(fields, "fields are required");
         for (var field : fields) {
             requireNonNull(field, "field is required");
@@ -81,8 +84,8 @@ public record EntityMapping<T>
      * @param entityClass The entity class
      * @param discriminatorColumn The name of the column holding the
      *        {@linkplain jakarta.persistence.DiscriminatorColumn
-     *        discriminator}; an empty string or a {@code null} value
-     *        indicates that there is no discriminator column.
+     *        discriminator}; a {@code null} value indicates that
+     *        there is no discriminator column.
      * @param fields Mappings for fields or properties of the entity
      * @param <T> The entity type
      */
@@ -97,8 +100,8 @@ public record EntityMapping<T>
      * @param lockMode The lock mode acquired by the SQL query
      * @param discriminatorColumn The name of the column holding the
      *        {@linkplain jakarta.persistence.DiscriminatorColumn
-     *        discriminator}; an empty string or a {@code null} value
-     *        indicates that there is no discriminator column.
+     *        discriminator}; a {@code null} value indicates that
+     *        there is no discriminator column.
      * @param fields Mappings for fields or properties of the entity
      * @param <T> The entity type
      */
