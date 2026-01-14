@@ -280,7 +280,7 @@ public @interface Convert {
    *     {@link Double}, {@link Long}, {@code double}, or {@code long},
    *     and between {@link java.math.BigInteger} and {@link Long}
    *     or {@code long}, and
-   * <li>conversion from {@link Boolean} or {@code boolean} to any
+   * <li>conversion between {@link Boolean} or {@code boolean} and any
    *     integral numeric primitive or wrapper type, where {@code false}
    *     or {@code FALSE} is converted to {@code 0} and {@code true} or
    *     {@code TRUE} is converted to {@code 1}.
