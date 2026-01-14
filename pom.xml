@@ -289,6 +289,23 @@
                             <rootLocationProperty>rootProject.directory</rootLocationProperty>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>project-qualifier-with-dash</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>parsed-version.project.formatted.qualifier</name>
+                            <!--
+                                We add a dash in the value, if the qualifier is absent
+                                then the regex will replace that single `-` with an empty string.
+                             -->
+                            <value>-${parsed-version.jakarta.persistence.qualifier}</value>
+                            <regex>^-$</regex>
+                            <replacement></replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
