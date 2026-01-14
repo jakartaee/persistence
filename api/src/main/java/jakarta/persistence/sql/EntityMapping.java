@@ -27,8 +27,8 @@ import static java.util.Objects.requireNonNull;
  * @param lockMode The lock mode acquired by the SQL query
  * @param discriminatorColumn The name of the column holding the
  *        {@linkplain jakarta.persistence.DiscriminatorColumn
- *        discriminator}; an empty string indicates that there
- *        is no discriminator column.
+ *        discriminator}; an empty string or a {@code null} value
+ *        indicates that there is no discriminator column.
  * @param fields Mappings for fields or properties of the entity
  * @param <T> The entity type
  *
@@ -81,8 +81,8 @@ public record EntityMapping<T>
      * @param entityClass The entity class
      * @param discriminatorColumn The name of the column holding the
      *        {@linkplain jakarta.persistence.DiscriminatorColumn
-     *        discriminator}; an empty string indicates that there
-     *        is no discriminator column.
+     *        discriminator}; an empty string or a {@code null} value
+     *        indicates that there is no discriminator column.
      * @param fields Mappings for fields or properties of the entity
      * @param <T> The entity type
      */
@@ -97,8 +97,8 @@ public record EntityMapping<T>
      * @param lockMode The lock mode acquired by the SQL query
      * @param discriminatorColumn The name of the column holding the
      *        {@linkplain jakarta.persistence.DiscriminatorColumn
-     *        discriminator}; an empty string indicates that there
-     *        is no discriminator column.
+     *        discriminator}; an empty string or a {@code null} value
+     *        indicates that there is no discriminator column.
      * @param fields Mappings for fields or properties of the entity
      * @param <T> The entity type
      */
