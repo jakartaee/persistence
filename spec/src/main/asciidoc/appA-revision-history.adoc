@@ -97,6 +97,13 @@ Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
 
 Deprecated `EntityManager.getDelegate()` in favor of `unwrap()`.
 
+Redefine automatic bean validation. By default, automatic validation
+is now expected after pre-insert, pre-update and pre-upsert lifecycle
+events instead of previously used pre-persist, pre-update ones.
+
+Automatic bean validation can be enabled after the following lifecycle
+events: pre-persist, pre-merge, pre-remove, pre-delete.
+
 === Jakarta Persistence 3.2
 
 Added support for Java record types as embeddable classes
