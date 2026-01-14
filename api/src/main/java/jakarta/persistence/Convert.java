@@ -238,7 +238,7 @@ public @interface Convert {
 
   /**
    * Specifies a basic type for the conversion. This element may be
-   * specified if the persistence provider feaures built-in support
+   * specified if the persistence provider features built-in support
    * for converting between the specified type and:
    * <ul>
    * <li>the declared type of the annotated program element, in the
@@ -248,7 +248,10 @@ public @interface Convert {
    *     {@link AttributeConverter#convertToDatabaseColumn}
    *     method of the specified {@linkplain #converter converter}.
    * </ul>
-   * <p>Both {@link #converter} and {@code #to} may be specified for
+   * <p>A value is converted <em>to</em> the specified basic type
+   * which writing to the database, and <em>from</em> the specified
+   * basic type when reading from the database.
+   * <p>Both {@link #converter} and {@code to} may be specified for
    * a given program element. In this case, when writing a value to
    * the database:
    * <ul>
