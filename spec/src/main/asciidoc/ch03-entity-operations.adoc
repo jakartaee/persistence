@@ -2828,13 +2828,15 @@ returned by a stored procedure query invocation is determined according
 to the rules for `Query` or `TypedQuery` as described above.
 
 If the persistence context is joined to the transaction, any runtime
-exception thrown by any method not explicitly listed below of `Query`,
-`Statement`, `TypedQuery`, or `StoredProcedureQuery` causes the current
-transaction to be marked for rollback, unless the exception is an
-instance of one of the following exception types:
+exception thrown by any method of `Query`, `Statement`, `TypedQuery`,
+or `StoredProcedureQuery` causes the current transaction to be marked
+for rollback, unless the exception is an instance of one of the following
+exception types:
 
 - `NonUniqueResultException` or `NoResultException`, or
-- `QueryTimeoutException` or `LockTimeoutException`.
+- `QueryTimeoutException` or `LockTimeoutException`,
+
+or unless the method is explicitly excepted by the rules given below.
 
 On any database platform on which a query timeout causes an immediate
 transaction rollback, the persistence provider must throw a
