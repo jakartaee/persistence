@@ -33,7 +33,7 @@
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <maven.site.skip>true</maven.site.skip>
         <asciidoctorj.pdf.version>2.3.19</asciidoctorj.pdf.version>
-        <spec.version.short>${parsed-version.jakarta.persistence.majorVersion}.${parsed-version.jakarta.persistence.minorVersion}</spec.version.short>
+        <spec.version.short>${parsed-version.jakarta.persistence.majorVersion}.${parsed-version.jakarta.persistence.minorVersion}${parsed-version.project.formatted.qualifier}</spec.version.short>
         <spec.name>jakarta-${project.artifactId}-${spec.version.short}</spec.name>
         <!-- status: DRAFT, BETA, etc., or blank for final -->
         <status>DRAFT</status>
