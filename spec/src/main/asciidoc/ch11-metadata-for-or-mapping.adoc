@@ -3955,7 +3955,7 @@ public @interface MapKeyTemporal {
 }
 ----
 
-The `MapKeyTemporal` enum is deprecated, and its use in newly-written code is strongly discouraged.
+The `MapKeyTemporal` enum is deprecated, and its use in newly written code is strongly discouraged.
 
 <<a15593>> lists the annotation elements that
 may be specified for the `MapKeyTemporal` annotation and their default
@@ -5605,7 +5605,7 @@ public @interface Temporal {
 }
 ----
 
-The `Temporal` annotation and `TemporalType` enum are deprecated, and their use in newly-written code is strongly discouraged.
+The `Temporal` annotation and `TemporalType` enum are deprecated, and their use in newly written code is strongly discouraged.
 
 <<a16378>> lists the annotation elements that may be specified
 for the `Temporal` annotation and their default values.

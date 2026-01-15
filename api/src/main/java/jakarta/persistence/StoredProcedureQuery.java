@@ -369,7 +369,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @param value The argument to the parameter
      * @param converter The class of the attribute converter
      * @return the same query instance
-     * @throws IllegalArgumentException if the parameter name does
+     * @throws IllegalArgumentException if the given position does
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
      * @since 4.0
