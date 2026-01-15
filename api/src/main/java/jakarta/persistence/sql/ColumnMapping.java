@@ -50,7 +50,7 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      */
     @Override
     public String getAlias() {
-        return columnName;
+        return alias;
     }
 
     /**
