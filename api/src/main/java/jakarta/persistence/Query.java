@@ -631,6 +631,7 @@ public interface Query {
      *         .setParameter(1, amount, Book_.price.getType())
      *         .getResultList();
      * }
+     *
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param type The {@link Type} of the parameter
