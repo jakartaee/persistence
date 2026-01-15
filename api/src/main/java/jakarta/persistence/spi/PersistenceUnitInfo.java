@@ -161,11 +161,18 @@ public interface PersistenceUnitInfo {
 
     /**
      * Returns the list of names of all managed classes in
-     * the persistence unit, whether named explicitly in the
-     * {@code persistence.xml} file, or discovered by the
-     * container via scanning. Every entity class, mapped
-     * superclass, embeddable class, or attribute converter
-     * class is considered a managed class.
+     * the persistence unit, including managed classes:
+     * <ul>
+     * <li>named explicitly in the {@code persistence.xml}
+     *     file,
+     * <li>named explicitly in {@code META-INF/orm.xml} or
+     *     in an XML mapping file listed in
+     *     {@code persistence.xml}, or
+     * <li>discovered by the container via scanning.
+     * </ul>
+     * <p>Every entity class, mapped superclass, embeddable
+     * class, or attribute converter class is considered a
+     * managed class.
      * @return the list of names of all managed classes in
      * the persistence unit
      * @since 4.0
