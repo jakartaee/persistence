@@ -43,7 +43,7 @@ public record EntityMapping<T>
     public EntityMapping {
         requireNonNull(entityClass, "entityClass is required");
         requireNonNull(lockMode, "lockMode is required");
-        if (discriminatorColumn.isBlank()) {
+        if (discriminatorColumn != null && discriminatorColumn.isBlank()) {
             throw new IllegalArgumentException("discriminatorColumn may not be blank");
         }
         requireNonNull(fields, "fields are required");
