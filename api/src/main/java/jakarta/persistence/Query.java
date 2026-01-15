@@ -469,8 +469,8 @@ public interface Query {
     /**
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
-     * the argument might be null, especially in the case of
-     * a native query.
+     * the argument might be {@code null}, especially in the case
+     * of a native query.
      * {@snippet :
      * em.createNativeQuery("update books set pub_date = :date where isbn = :ISBN")
      *     .setParameter("date", optionalPublicationDate, LocalDate.class)
@@ -593,8 +593,8 @@ public interface Query {
     /**
      * Bind an argument value to a positional parameter, explicitly
      * specifying the parameter type. This is most useful when
-     * the argument might be null, especially in the case of
-     * a native SQL query.
+     * the argument might be {@code null}, especially in the case
+     * of a native SQL query.
      * {@snippet :
      * em.createNativeQuery("update books set pub_date = ?1 where isbn = ?2")
      *     .setParameter(1, optionalPublicationDate, LocalDate.class)

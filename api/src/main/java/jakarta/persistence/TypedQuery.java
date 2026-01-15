@@ -365,7 +365,7 @@ public interface TypedQuery<X> extends Query {
     /**
      * Bind an argument value to a named parameter, explicitly
      * specifying the parameter type. This is most useful when
-     * the argument might be null.
+     * the argument might be {@code null}.
      * {@snippet :
      * var books =
      *     session.createNativeQuery("select * from books where :limit is null or pub_date > :limit",
@@ -486,7 +486,7 @@ public interface TypedQuery<X> extends Query {
     /**
      * Bind an argument value to a positional parameter, explicitly
      * specifying the parameter type. This is most useful when
-     * the argument might be null.
+     * the argument might be {@code null}.
      * {@snippet :
      * var books =
      *     session.createNativeQuery("select * from books where ?1 is null or pub_date > ?1",
