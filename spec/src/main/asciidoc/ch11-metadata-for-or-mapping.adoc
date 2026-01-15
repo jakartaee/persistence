@@ -4743,7 +4743,7 @@ table; and it may be used in a `OneToOne` mapping in which the primary
 key of the referencing entity is used as a foreign
 keyfootnote:[It is not expected
 that a database foreign key be defined for the OneToOne mapping, as the
-OneToOne relationship may be defined as “optional=true”.] to the referenced
+OneToOne relationship may be defined as `optional=true`.] to the referenced
 entityfootnote:[The derived id
 mechanisms described in <<a155>> are now to be preferred over
 PrimaryKeyJoinColumn for the OneToOne mapping case.].

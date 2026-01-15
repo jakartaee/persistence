@@ -1353,7 +1353,7 @@ The following Java types are considered _basic types_:
 - `Date` or `Calendar` footnote:[Note that an instance of `Calendar` must be
   fully initialized for the SQL type it maps.] from `java.util` footnote:[The
   use of `java.util.Calendar` or of `java.util.Date` is strongly discouraged.
-  Newly-written programs should use the date/time types defined in the package
+  Newly written programs should use the date/time types defined in the package
   `java.time`.],
 - `Date`, `Time`, or `Timestamp` from `java.sql` footnote:[The use of date/time
   types defined in the package `java.sql` is strongly discouraged. Newly written
