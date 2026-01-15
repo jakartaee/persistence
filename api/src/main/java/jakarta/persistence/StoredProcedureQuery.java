@@ -115,8 +115,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * must be silently ignored. Portable applications should not
      * rely on the standard timeout hint. Depending on the database
      * in use, this hint may or may not be observed.
-     * @param hintName  name of the property or hint
-     * @param value  value for the property or hint
+     *
+     * @param hintName The name of the property or hint
+     * @param value The value for the property or hint
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
@@ -125,26 +126,29 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     StoredProcedureQuery setHint(String hintName, Object value);
 
     /**
-     * Bind the value of a {@code Parameter} object.
-     * @param param  parameter object
-     * @param value  parameter value
+     * Bind an argument to a parameter of this query respresented as
+     * a {@link Parameter} object.
+     *
+     * @param parameter The parameter object
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      */
     @Override
-    <T> StoredProcedureQuery setParameter(Parameter<T> param,
+    <T> StoredProcedureQuery setParameter(Parameter<T> parameter,
                                           T value);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
-     * @param param parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a {@link Parameter} object.
+     *
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -154,14 +158,15 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
                                       TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
-     * @param param parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a {@link Parameter} object.
+     *
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -172,26 +177,28 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
 
     /**
      * Bind an argument value to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *         not correspond to a parameter of the query or if the
-     *         argument is of incorrect type
+     *         not correspond to a parameter of the query, or if the
+     *         argument is of incompatible type
      */
     @Override
     StoredProcedureQuery setParameter(String name, Object value);
 
     /**
-     * Bind an instance of {@code java.util.Calendar} to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a named parameter.
+     * 
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *         not correspond to a parameter of the query or if the
-     *         value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if the
+     *         value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -200,15 +207,16 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
                                       TemporalType temporalType);
 
     /**
-     * Bind an instance of {@code java.util.Date} to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a named parameter.
+     * 
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *         not correspond to a parameter of the query or if the
-     *         value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if the
+     *         value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -218,27 +226,29 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
 
     /**
      * Bind an argument value to a positional parameter.
-     * @param position  position
-     * @param value  parameter value
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query
-     *         or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      */
     @Override
     StoredProcedureQuery setParameter(int position, Object value);
 
     /**
-     * Bind an instance of {@code java.util.Calendar} to a positional
+     * Bind an instance of {@link Calendar} to a positional
      * parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query or
-     *         if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -247,15 +257,16 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
                                       TemporalType temporalType);
 
     /**
-     * Bind an instance of {@code java.util.Date} to a positional parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a positional parameter.
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query or
-     *         if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -268,13 +279,13 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * specifying the parameter type. This is most useful when
      * the argument might be null.
      *
-     * @param name  parameter name
-     * @param value parameter value
-     * @param type  a class object representing the parameter type
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -285,13 +296,13 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * specifying the parameter type. This is most useful when
      * the binding is affected by an attribute converter.
      *
-     * @param name  parameter name
-     * @param value parameter value
-     * @param type  the {@link Type} of the parameter
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -302,13 +313,13 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * specifying an {@linkplain AttributeConverter attribute
      * converter} to use.
      *
-     * @param name      parameter name
-     * @param value     parameter value
-     * @param converter class of the attribute converter
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -321,12 +332,12 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * the argument might be null.
      *
      * @param position position
-     * @param value    parameter value
-     * @param type     a class object representing the parameter type
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -338,12 +349,12 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * the binding is affected by an attribute converter.
      *
      * @param position position
-     * @param value    parameter value
-     * @param type     the {@link Type} of the parameter
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -354,13 +365,13 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * specifying an {@linkplain AttributeConverter attribute
      * converter} to use.
      *
-     * @param position  position
-     * @param value     parameter value
-     * @param converter class of the attribute converter
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -368,20 +379,24 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
                                                    Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
-     * Set the flush mode type to be used for the query execution.
-     * The flush mode type applies to the query regardless of the
-     * flush mode type in use for the entity manager.
-     * @param flushMode  flush mode
+     * Set the {@linkplain FlushModeType flush mode type} to be
+     * used when the query is executed. This flush mode overrides
+     * the {@linkplain EntityManager#getFlushMode flush mode type
+     * of the entity manager}.
+     *
+     * @param flushMode The new flush mode
      * @return the same query instance
      */
     @Override
     StoredProcedureQuery setFlushMode(FlushModeType flushMode);
 
     /**
-     * Set the cache retrieval mode that is in effect during
-     * query execution. This cache retrieval mode overrides the
-     * cache retrieve mode in use by the entity manager.
-     * @param cacheRetrieveMode cache retrieval mode
+     * Set the {@linkplain CacheRetrieveMode cache retrieval mode}
+     * in effect during query execution. This cache retrieval mode
+     * overrides the {@linkplain EntityManager#getCacheRetrieveMode
+     * cache retrieve mode of the entity manager}.
+     *
+     * @param cacheRetrieveMode The new cache retrieval mode
      * @return the same query instance
      * @since 3.2
      */
@@ -389,10 +404,12 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
-     * Set the cache storage mode that is in effect during
-     * query execution. This cache storage mode overrides the
-     * cache storage mode in use by the entity manager.
-     * @param cacheStoreMode cache storage mode
+     * Set the {@linkplain CacheStoreMode cache storage mode} in
+     * effect during query execution. This cache storage mode
+     * overrides the {@linkplain EntityManager#getCacheStoreMode
+     * cache storage mode of the entity manager}.
+     *
+     * @param cacheStoreMode The new cache storage mode
      * @return the same query instance
      * @since 3.2
      */
@@ -403,6 +420,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * Set the query timeout, in milliseconds. This is a hint,
      * and is an alternative to {@linkplain #setHint setting
      * the hint} {@code jakarta.persistence.query.timeout}.
+     *
      * @param timeout the timeout, in milliseconds, or null to
      *                indicate no timeout
      * @return the same query instance
@@ -413,6 +431,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
 
     /**
      * Set the query timeout. This is a hint.
+     *
      * @param timeout the timeout, or null to indicate no timeout
      * @return the same query instance
      * @since 4.0
@@ -547,8 +566,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * For portability, all results corresponding to result sets
      * and update counts must be retrieved before the values of 
      * output parameters.
-     * @param parameterName  name of the parameter as registered or
-     *        specified in metadata
+     *
+     * @param parameterName The name of the parameter as registered
+     *                      or specified in metadata
      * @return the result that is passed back through the parameter
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or is
@@ -562,7 +582,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * For portability, all results corresponding to result sets
      * and update counts must be retrieved before the values of
      * output parameters.
-     * @param parameter the parameter object
+     *
+     * @param parameter The parameter object
      * @return the result that is passed back through the parameter
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or is
@@ -576,6 +597,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * and false if it is an update count or if there are no results
      * other than through {@code INOUT} and {@code OUT} parameters,
      * if any.
+     *
      * @return {@code true} if the first result is a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -587,11 +609,12 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     boolean execute();
 
     /**
-     * Return the update count or -1 if there is no pending result or
-     * if the first result is not an update count. The provider calls
-     * {@link #execute} if necessary.
-     * @return the update count or -1 if there is no pending result
-     *         or if the next result is not an update count.
+     * Return the update count or {@code -1} if there is no pending
+     * result or if the first result is not an update count. The
+     * provider calls {@link #execute} if necessary.
+     *
+     * @return the update count or {@code -1} if there is no pending
+     *         result or if the next result is not an update count.
      * @throws TransactionRequiredException if there is 
      *         no transaction or the persistence context has not
      *         been joined to the transaction
@@ -611,6 +634,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * A {@code REF_CURSOR} result set, if any, is retrieved
      * in the order the {@code REF_CURSOR} parameter was 
      * registered with the query.
+     *
      * @return a list of the results or null if the next item is not
      *         a result set
      * @throws QueryTimeoutException if the query execution exceeds
@@ -632,6 +656,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * A {@code REF_CURSOR} result set, if any, is retrieved
      * in the order the {@code REF_CURSOR} parameter was
      * registered with the query.
+     *
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
      *         result set
@@ -652,6 +677,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * A {@code REF_CURSOR} result set, if any, is retrieved in the
      * order the {@code REF_CURSOR} parameter was registered with
      * the query.
+     *
      * @return the result or null if the next item is not a result
      *         set or if there is no result in the next result set
      * @throws NonUniqueResultException if more than one result
@@ -693,7 +719,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *     according to the default type mappings defined by the JDBC
      *     specification.
      * </ul>
-     * @param resultClass the type of the query result
+     *
+     * @param resultClass The type of the query result
      * @return a list of the results or null if the next item is not
      *         a result set
      * @throws QueryTimeoutException if the query execution exceeds
@@ -713,7 +740,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * {@link #execute} if necessary. A {@code REF_CURSOR} result set,
      * if any, is retrieved in the order the {@code REF_CURSOR} parameter
      * was registered with the query.
-     * @param mapping the result set mapping to apply to the results
+     *
+     * @param mapping The result set mapping to apply to the results
      * @return a list of the results or null if the next item is not a
      *         result set
      * @throws QueryTimeoutException if the query execution exceeds
@@ -754,7 +782,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *     according to the default type mappings defined by the JDBC
      *     specification.
      * </ul>
-     * @param resultClass the type of the query result
+     *
+     * @param resultClass The type of the query result
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
      *         result set
@@ -776,7 +805,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * {@link #execute} if necessary. A {@code REF_CURSOR} result set,
      * if any, is retrieved in the order the {@code REF_CURSOR} parameter
      * was registered with the query.
-     * @param mapping the result set mapping to apply to the results
+     *
+     * @param mapping The result set mapping to apply to the results
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
      *         result set
@@ -819,7 +849,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *     according to the default type mappings defined by the JDBC
      *     specification.
      * </ul>
-     * @param resultClass the type of the query result
+     *
+     * @param resultClass The type of the query result
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set
      * @throws NonUniqueResultException if more than one result
@@ -855,7 +886,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *     {@linkplain ConstructorResult constructor result} including
      *     all the columns of the result set.
      * </ul>
-     * @param mapping the result set mapping to apply to the results
+     *
+     * @param mapping The result set mapping to apply to the results
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set
      * @throws NonUniqueResultException if more than one result
@@ -874,6 +906,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * and false if it is an update count or if there are no results
      * other than through {@code INOUT} and {@code OUT} parameters,
      * if any.
+     *
      * @return {@code true} if the next result is a result set
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
@@ -885,10 +918,11 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     boolean hasMoreResults();
 
     /**
-     * Return the update count or -1 if there is no pending result
-     * or if the next result is not an update count.
-     * @return update count or -1 if there is no pending result or if
-     *         the next result is not an update count
+     * Return the update count or {@code -1} if there is no pending
+     * result or if the next result is not an update count.
+     *
+     * @return the update count or {@code -1} if there is no pending
+     *         result or if the next result is not an update count
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -907,6 +941,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * manager or entity agent is closed.
      * <p>After invocation of {@code close()}, every method of the
      * {@code StoredProcedureQuery} throws {@code IllegalStateException}.
+     *
      * @since 4.0
      */
     @Override
