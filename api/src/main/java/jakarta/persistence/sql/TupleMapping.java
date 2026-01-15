@@ -20,8 +20,8 @@ import jakarta.persistence.Tuple;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Maps a JDBC {@link java.sql.ResultSet} to a tuple of values
- * packaged as an instance of {@link Tuple}.
+ * Map columns of a JDBC {@link java.sql.ResultSet} to entries
+ * in a tuple of values packaged as an instance of {@link Tuple}.
  *
  * <p>{@snippet :
  * import static jakarta.persistence.sql.ResultSetMapping.*;

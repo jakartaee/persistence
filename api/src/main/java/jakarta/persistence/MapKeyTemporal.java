@@ -42,7 +42,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 2.0
  *
- * @deprecated Newly-written code should use the date/time types
+ * @deprecated Newly written code should use the date/time types
  *             defined in {@link java.time}.
  */
 @Deprecated(since = "3.2")
@@ -51,8 +51,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface MapKeyTemporal {
 
     /** (Required) The type used in mapping
-     * {@code java.util.Date} or
-     * {@code java.util.Calendar}. 
+     * {@link java.util.Date} or
+     * {@link java.util.Calendar}. 
      */
     TemporalType value();
 }

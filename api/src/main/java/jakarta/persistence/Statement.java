@@ -28,8 +28,8 @@ import java.util.Date;
  */
 public interface Statement extends Query {
     /**
-     * Execute a Jakarta Persistence UPDATE or DELETE statement,
-     * or a native SQL statement that returns a row count.
+     * Execute an {@code UPDATE} or {@code DELETE} statement or a
+     * native SQL statement that returns a row count.
      * <p>
      * After execution of a bulk update or delete operation, the
      * persistence provider is not required to resynchronize state
@@ -72,8 +72,9 @@ public interface Statement extends Query {
      * rely on the standard timeout hint. Depending on the database
      * in use and the locking mechanisms used by the provider,
      * this hint may or may not be observed.
-     * @param hintName  name of the property or hint
-     * @param value  value for the property or hint
+     *
+     * @param hintName The name of the property or hint
+     * @param value The value for the property or hint
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
@@ -85,7 +86,8 @@ public interface Statement extends Query {
      * Set the query timeout, in milliseconds. This is a hint,
      * and is an alternative to {@linkplain #setHint setting
      * the hint} {@code jakarta.persistence.query.timeout}.
-     * @param timeout the timeout, in milliseconds, or null to
+     *
+     * @param timeout The timeout, in milliseconds, or null to
      *                indicate no timeout
      * @return the same query instance
      * @since 3.2
@@ -94,19 +96,33 @@ public interface Statement extends Query {
     Statement setTimeout(Integer timeout);
 
     /**
-     * Set the flush mode type to be used for the query execution.
-     * The flush mode type applies to the query regardless of the
-     * flush mode type in use for the entity manager.
-     * @param flushMode  flush mode
+     * Set the query timeout. This is a hint.
+     *
+     * @param timeout the timeout, or null to indicate no timeout
+     * @return the same query instance
+     * @since 4.0
+     */
+    @Override
+    Statement setTimeout(Timeout timeout);
+
+    /**
+     * Set the {@linkplain FlushModeType flush mode type} to be
+     * used when the query is executed. This flush mode overrides
+     * the {@linkplain EntityManager#getFlushMode flush mode type
+     * of the entity manager}.
+     *
+     * @param flushMode The new flush mode
      * @return the same query instance
      */
     @Override
     Statement setFlushMode(FlushModeType flushMode);
 
     /**
-     * Bind the value of a {@code Parameter} object.
-     * @param param  parameter object
-     * @param value  parameter value
+     * Bind an argument to a parameter of this query respresented as
+     * a {@link Parameter} object.
+     *
+     * @param parameter The parameter object
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter
      *         does not correspond to a parameter of the
@@ -114,33 +130,35 @@ public interface Statement extends Query {
      * @since 2.0
      */
     @Override
-    <T> Statement setParameter(Parameter<T> param, T value);
+    <T> Statement setParameter(Parameter<T> parameter, T value);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
-     * @param param parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a {@link Parameter} object.
+     *
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
     Statement setParameter(Parameter<Calendar> param, Calendar value, TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
-     * @param param parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a {@link Parameter} object.
+     * 
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -148,41 +166,44 @@ public interface Statement extends Query {
 
     /**
      * Bind an argument value to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      */
     @Override
     Statement setParameter(String name, Object value);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a named parameter.
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if
+     *         the value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
     Statement setParameter(String name, Calendar value, TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a named parameter.
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if
+     *         the value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -190,43 +211,46 @@ public interface Statement extends Query {
 
     /**
      * Bind an argument value to a positional parameter.
-     * @param position  position
-     * @param value  parameter value
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      */
     @Override
     Statement setParameter(int position, Object value);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a positional
+     * Bind an instance of {@link Calendar} to a positional
      * parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query or
-     *         if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
     Statement setParameter(int position, Calendar value, TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a positional
+     * Bind an instance of {@link Date} to a positional
      * parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query or
-     *         if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override

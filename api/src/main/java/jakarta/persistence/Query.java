@@ -93,6 +93,7 @@ public interface Query {
      * statement, or any native SQL statement that returns a row
      * count. The executable statement may be executed by calling
      * {@link Statement#execute}.
+     *
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code SELECT} query
      * @since 4.0
@@ -104,6 +105,7 @@ public interface Query {
      * which must be a supertype of the result type of this query.
      * This query must be a Jakarta Persistence {@code SELECT} query
      * or a native SQL query which returns a result set.
+     *
      * @param resultType The Java class of the query result type
      * @param <R> The query result type
      * @throws IllegalArgumentException if the given result type is
@@ -120,6 +122,7 @@ public interface Query {
      * which must be rooted at a supertype of the result type of
      * this query. This query must be a Jakarta Persistence
      * {@code SELECT} query which returns a single entity type.
+     *
      * @param graph The entity graph, interpreted as a load graph
      * @param <R> The query result type
      * @throws IllegalArgumentException if the given graph type is
@@ -133,9 +136,11 @@ public interface Query {
     <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
 
     /**
-     * Execute a SELECT query and return the query results as an untyped
+     * Execute a {@code SELECT} query or a native query that returns
+     * a result set and return the query results as an untyped
      * {@link List}. If necessary, first synchronize changes with the
      * database by flushing the persistence context.
+     *
      * @return a list of the results, or an empty list if there are
      *         no results
      * @throws IllegalStateException if called for a Jakarta
@@ -157,20 +162,23 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
-     * @deprecated Use {@link TypedQuery#getResultList}
-     *             to execute queries
+     * @deprecated This method returns a raw type.
+     *             Use {@link TypedQuery#getResultList} to execute
+     *             queries.
      */
     @SuppressWarnings("rawtypes")
     @Deprecated(since = "4.0", forRemoval = true)
     List getResultList();
 
     /**
-     * Execute a SELECT query and return the query results as an untyped
-     * {@link java.util.stream.Stream}. If necessary, first synchronize
-     * changes with the database by flushing the persistence context.
+     * Execute a {@code SELECT} query or a native query that returns
+     * a result set and return the query results as an untyped
+     * {@link Stream}. If necessary, first synchronize changes with
+     * the database by flushing the persistence context.
      * <p>By default, this method delegates to {@code getResultList().stream()},
      * The persistence provider may choose to override this method to
      * provide additional capabilities.
+     *
      * @return a stream of the results, or an empty stream if there
      *         are no results
      * @throws IllegalStateException if called for a Jakarta
@@ -195,8 +203,9 @@ public interface Query {
      * @see Stream
      * @see #getResultList()
      * @since 2.2
-     * @deprecated Use {@link TypedQuery#getResultStream}
-     *             to execute queries
+     * @deprecated This method returns a raw type.
+     *             Use {@link TypedQuery#getResultStream} to execute
+     *             queries
      */
     @SuppressWarnings("rawtypes")
     @Deprecated(since = "4.0", forRemoval = true)
@@ -205,9 +214,11 @@ public interface Query {
     }
 
     /**
-     * Execute a SELECT query that returns a single untyped result.
-     * If necessary, first synchronize changes with the database by
-     * flushing the persistence context.
+     * Execute a {@code SELECT} query or a native query that returns
+     * a result set, returning a single untyped result. If necessary,
+     * first synchronize changes with the database by flushing the
+     * persistence context.
+     *
      * @return the result
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
@@ -237,10 +248,12 @@ public interface Query {
     Object getSingleResult();
 
     /**
-     * Execute a SELECT query that returns a single untyped result.
-     * If necessary, first synchronize changes with the database by
-     * flushing the persistence context.
-     * @return the result, or null if there is no result
+     * Execute a {@code SELECT} query or a native query that returns
+     * a result set, returning a single untyped result, or {@code null}
+     * if the query has no results. If necessary, first synchronize
+     * changes with the database by flushing the persistence context.
+     *
+     * @return the result, or {@code null} if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
@@ -270,8 +283,8 @@ public interface Query {
     Object getSingleResultOrNull();
 
     /**
-     * Execute a Jakarta Persistence UPDATE or DELETE statement,
-     * or a native SQL statement that returns a row count.
+     * Execute an {@code UPDATE} or {@code DELETE} statement or a
+     * native SQL statement that returns a row count.
      * <p>
      * After execution of a bulk update or delete operation, the
      * persistence provider is not required to resynchronize state
@@ -302,14 +315,21 @@ public interface Query {
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected during the flush
-     * @deprecated Use {@link Statement#execute}
+     * @deprecated Use {@link Statement#execute}.
      */
     @Deprecated(since = "4.0", forRemoval = true)
     int executeUpdate();
 
     /**
-     * Set the maximum number of results to retrieve.
-     * @param maxResult  maximum number of results to retrieve
+     * Set the maximum number of results returned to the client.
+     * If the query has more results than the given maximum,
+     * results are excluded from the list returned by
+     * {@link #getResultList()}, so that only the given number
+     * of results is returned. If the query returns results
+     * with a well-defined order, the excluded results must be
+     * those which would otherwise occur later in the list.
+     *
+     * @param maxResult The maximum number of results
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      * @deprecated Use {@link TypedQuery#setMaxResults}
@@ -318,10 +338,12 @@ public interface Query {
     Query setMaxResults(int maxResult);
 
     /**
-     * The maximum number of results the query object was set to retrieve.
-     * Returns {@link Integer#MAX_VALUE} if {@link #setMaxResults} was not
-     * applied to the query object.
-     * @return maximum number of results
+     * The maximum number of results returned to the client,
+     * as specified by {@link #setMaxResults}, or
+     * {@value Integer#MAX_VALUE} if {@link #setMaxResults}
+     * was not called.
+     *
+     * @return the maximum number of results
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getMaxResults}
      */
@@ -329,8 +351,15 @@ public interface Query {
     int getMaxResults();
 
     /**
-     * Set the position of the first result to retrieve.
-     * @param startPosition position of the first result, numbered from 0
+     * Set the position of the first query result returned to
+     * the client. The given number of results is excluded
+     * from the list returned by {@link #getResultList()}.
+     * If the query returns results with a well-defined order,
+     * the excluded results must be those which would otherwise
+     * occur earlier in the list.
+     *
+     * @param startPosition The position of the first result,
+     *                      numbered from {@code 0}
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      * @deprecated Use {@link TypedQuery#setFirstResult}
@@ -339,10 +368,11 @@ public interface Query {
     Query setFirstResult(int startPosition);
 
     /**
-     * The position of the first result the query object was set to
-     * retrieve. Returns {@code 0} if {@code setFirstResult} was not
-     * applied to the query object.
-     * @return position of the first result
+     * The position of the first result returned to the client,
+     * as specified by {@link #setFirstResult}, or {@code 0} if
+     * {@link #setFirstResult} was not called.
+     *
+     * @return the position of the first result
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getFirstResult}
      */
@@ -358,8 +388,9 @@ public interface Query {
      * rely on the standard timeout hint. Depending on the database
      * in use and the locking mechanisms used by the provider,
      * this hint may or may not be observed.
-     * @param hintName  name of the property or hint
-     * @param value  value for the property or hint
+     *
+     * @param hintName The name of the property or hint
+     * @param value The value for the property or hint
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
@@ -369,33 +400,37 @@ public interface Query {
     /**
      * Get the properties and hints and associated values that are in
      * effect for the query instance.
+     *
      * @return query properties and hints
      * @since 2.0
      */
     Map<String, Object> getHints();
 
     /**
-     * Bind the value of a {@code Parameter} object.
-     * @param param  parameter object
-     * @param value  parameter value
+     * Bind an argument to a parameter of this query respresented as
+     * a {@link Parameter} object.
+     *
+     * @param parameter The parameter object
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter
      *         does not correspond to a parameter of the
      *         query
      * @since 2.0
      */
-    <T> Query setParameter(Parameter<T> param, T value);
+    <T> Query setParameter(Parameter<T> parameter, T value);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
-     * @param param parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a {@link Parameter} object.
+     *
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -403,15 +438,16 @@ public interface Query {
                        TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
-     * @param param parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a {@link Parameter} object.
+     *
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -420,12 +456,13 @@ public interface Query {
 
     /**
      * Bind an argument value to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      */
     Query setParameter(String name, Object value);
 
@@ -447,13 +484,14 @@ public interface Query {
      *         .setParameter("limit", optionalDateLimit, LocalDate.class)
      *         .getResultList();
      * }
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param type  a class object representing the parameter type
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     <P> Query setParameter(String name, P value, Class<P> type);
@@ -469,13 +507,14 @@ public interface Query {
      *         .setParameter("amount", amount, Book_.price.getType())
      *         .getResultList();
      * }
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param type  the {@link Type} of the parameter
+     * 
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     <P> Query setParameter(String name, P value, Type<P> type);
@@ -492,28 +531,30 @@ public interface Query {
      *                 MonetaryAmountConverter.class)
      *         .getResultList();
      * }
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param converter  class of the attribute converter
+     * 
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     <P> Query setConvertedParameter(String name, P value,
                                     Class<? extends AttributeConverter<P,?>> converter);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a named parameter.
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *         not correspond to a parameter of the query or if
-     *         the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if
+     *         the value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -521,15 +562,16 @@ public interface Query {
                        TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a named parameter.
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *         not correspond to a parameter of the query or if
-     *         the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if
+     *         the value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -538,12 +580,13 @@ public interface Query {
 
     /**
      * Bind an argument value to a positional parameter.
-     * @param position  position
-     * @param value  parameter value
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      */
     Query setParameter(int position, Object value);
 
@@ -565,13 +608,14 @@ public interface Query {
      *         .setParameter(1, optionalDateLimit, LocalDate.class)
      *         .getResultList();
      * }
-     * @param position  position
-     * @param value  parameter value
-     * @param type  a class object representing the parameter type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     <P> Query setParameter(int position, P value, Class<P> type);
@@ -587,13 +631,13 @@ public interface Query {
      *         .setParameter(1, amount, Book_.price.getType())
      *         .getResultList();
      * }
-     * @param position  position
-     * @param value  parameter value
-     * @param type  the {@link Type} of the parameter
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      * @since 4.0
      */
     <P> Query setParameter(int position, P value, Type<P> type);
@@ -610,29 +654,31 @@ public interface Query {
      *                 MonetaryAmountConverter.class)
      *         .getResultList();
      * }
-     * @param position  position
-     * @param value  parameter value
-     * @param converter  class of the attribute converter
+     * 
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     <P> Query setConvertedParameter(int position, P value,
                                     Class<? extends AttributeConverter<P,?>> converter);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a positional
+     * Bind an instance of {@link Calendar} to a positional
      * parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query or
-     *         if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -640,16 +686,17 @@ public interface Query {
                        TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a positional
+     * Bind an instance of {@link Date} to a positional
      * parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query or
-     *         if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
@@ -657,12 +704,13 @@ public interface Query {
                        TemporalType temporalType);
 
     /**
-     * Get the parameter objects corresponding to the declared
-     * parameters of the query.
-     * Returns empty set if the query has no parameters.
+     * Get the {@link Parameter} objects representing the declared
+     * parameters of the query or an empty set if the query has no
+     * parameters.
      * This method is not required to be supported for native
      * queries.
-     * @return set of the parameter objects
+     *
+     * @return a set containing the parameter objects
      * @throws IllegalStateException if invoked on a native
      *         query when the implementation does not support
      *         this use
@@ -671,12 +719,14 @@ public interface Query {
     Set<Parameter<?>> getParameters();
 
     /**
-     * Get the parameter object corresponding to the declared
-     * parameter of the given name.
+     * Get the {@link Parameter} object representing the declared
+     * named parameter with the given name.
      * This method is not required to be supported for native
      * queries.
-     * @param name  parameter name
-     * @return parameter object
+     *
+     * @param name The name of the parameter
+     * @return The parameter object representing the named
+     *         parameter
      * @throws IllegalArgumentException if the parameter of the
      *         specified name does not exist
      * @throws IllegalStateException if invoked on a native
@@ -687,13 +737,15 @@ public interface Query {
     Parameter<?> getParameter(String name);
 
     /**
-     * Get the parameter object corresponding to the declared
-     * parameter of the given name and type.
+     * Get the {@link Parameter} object representing the declared
+     * named parameter with the given name and type.
      * This method is required to be supported for criteria queries
      * only.
-     * @param name  parameter name
-     * @param type  type
-     * @return parameter object
+     *
+     * @param name The name of the parameter
+     * @param type A class object representing the parameter type
+     * @return The parameter object representing the named
+     *         parameter
      * @throws IllegalArgumentException if the parameter of the
      *         specified name does not exist or is not assignable
      *         to the type
@@ -705,12 +757,14 @@ public interface Query {
     <T> Parameter<T> getParameter(String name, Class<T> type);
 
     /**
-     * Get the parameter object corresponding to the declared
+     * Get the {@link Parameter} object representing the declared
      * positional parameter with the given position.
      * This method is not required to be supported for native
      * queries.
-     * @param position  position
-     * @return parameter object
+     *
+     * @param position The parameter position
+     * @return The parameter object representing the positional
+     *         parameter
      * @throws IllegalArgumentException if the parameter with the
      *         specified position does not exist
      * @throws IllegalStateException if invoked on a native
@@ -721,12 +775,14 @@ public interface Query {
     Parameter<?> getParameter(int position);
 
     /**
-     * Get the parameter object corresponding to the declared
+     * Get the {@link Parameter} object corresponding to the declared
      * positional parameter with the given position and type.
      * This method is not required to be supported by the provider.
-     * @param position  position
-     * @param type  type
-     * @return parameter object
+     *
+     * @param position The parameter position
+     * @param type A class object representing the parameter type
+     * @return The parameter object representing the positional
+     *         parameter
      * @throws IllegalArgumentException if the parameter with the
      *         specified position does not exist or is not assignable
      *         to the type
@@ -738,18 +794,22 @@ public interface Query {
     <T> Parameter<T> getParameter(int position, Class<T> type);
 
     /**
-     * Return a boolean indicating whether a value has been bound 
-     * to the parameter.
-     * @param param parameter object
-     * @return boolean indicating whether parameter has been bound
+     * Return a boolean value indicating whether an argument has
+     * been bound to the parameter represented by the given
+     * parameter object.
+     *
+     * @param parameter The parameter object
+     * @return {@code true} an argument has been bound, or
+     *         {@code false} otherwise
      * @since 2.0
      */
-    boolean isBound(Parameter<?> param);
+    boolean isBound(Parameter<?> parameter);
 
     /**
      * Return the input value bound to the parameter.
      * (Note that OUT parameters are unbound.)
-     * @param param parameter object
+     *
+     * @param parameter The parameter object
      * @return parameter value
      * @throws IllegalArgumentException if the parameter is not 
      *         a parameter of the query
@@ -757,12 +817,13 @@ public interface Query {
      *         been bound
      * @since 2.0
      */
-    <T> T getParameterValue(Parameter<T> param);
+    <T> T getParameterValue(Parameter<T> parameter);
 
     /**
      * Return the input value bound to the named parameter.
      * (Note that OUT parameters are unbound.)
-     * @param name  parameter name
+     *
+     * @param name The name of the parameter
      * @return parameter value
      * @throws IllegalStateException if the parameter has not
      *         been bound
@@ -775,7 +836,8 @@ public interface Query {
     /**
      * Return the input value bound to the positional parameter.
      * (Note that OUT parameters are unbound.)
-     * @param position  position
+     *
+     * @param position The parameter position
      * @return parameter value
      * @throws IllegalStateException if the parameter has not
      *          been bound
@@ -786,29 +848,35 @@ public interface Query {
     Object getParameterValue(int position);
 
     /**
-     * Set the flush mode type to be used for the query execution.
-     * The flush mode type applies to the query regardless of the
-     * flush mode type in use for the entity manager.
-     * @param flushMode  flush mode
+     * Set the {@linkplain FlushModeType flush mode type} to be
+     * used when the query is executed. This flush mode overrides
+     * the {@linkplain EntityManager#getFlushMode flush mode type
+     * of the entity manager}.
+     *
+     * @param flushMode The new flush mode
      * @return the same query instance
      */
     Query setFlushMode(FlushModeType flushMode);
 
     /**
-     * Get the flush mode in effect for the query execution. 
-     * If a flush mode has not been set for the query object, 
-     * returns the flush mode in effect for the entity manager.
+     * Get the flush mode which will be in effect when the query
+     * is executed. If a flush mode has not been set for this query
+     * object, return the {@linkplain EntityManager#getFlushMode
+     * current flush mode type of the entity manager}.
+     *
      * @return flush mode
      * @since 2.0
      */
     FlushModeType getFlushMode();
 
     /**
-     * Set the lock mode type to be used for the query execution.
-     * @param lockMode  lock mode
+     * Set the {@linkplain LockModeType lock mode type} to use
+     * when the query is executed.
+     *
+     * @param lockMode The new lock mode
      * @return the same query instance
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
+     *         Persistence query language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @see #getLockMode
      * @since 2.0
@@ -836,9 +904,10 @@ public interface Query {
      * entity with an attribute reference occurring in the SELECT
      * clause, except when the attribute reference occurs as an
      * argument to an aggregate function.
-     * @return lock mode
+     *
+     * @return the current lock mode
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
+     *         Persistence query language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getLockMode}
@@ -847,10 +916,12 @@ public interface Query {
     LockModeType getLockMode();
 
     /**
-     * Set the cache retrieval mode that is in effect during query
-     * execution. This cache retrieval mode overrides the cache
-     * retrieve mode in use by the entity manager.
-     * @param cacheRetrieveMode cache retrieval mode
+     * Set the {@linkplain CacheRetrieveMode cache retrieval mode}
+     * in effect during query execution. This cache retrieval mode
+     * overrides the {@linkplain EntityManager#getCacheRetrieveMode
+     * cache retrieve mode of the entity manager}.
+     *
+     * @param cacheRetrieveMode The new cache retrieval mode
      * @return the same query instance
      * @since 3.2
      * @deprecated Use {@link TypedQuery#setCacheRetrieveMode}
@@ -859,10 +930,12 @@ public interface Query {
     Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
-     * Set the cache storage mode that is in effect during query
-     * execution. This cache storage mode overrides the cache
-     * storage mode in use by the entity manager.
-     * @param cacheStoreMode cache storage mode
+     * Set the {@linkplain CacheStoreMode cache storage mode} in
+     * effect during query execution. This cache storage mode
+     * overrides the {@linkplain EntityManager#getCacheStoreMode
+     * cache storage mode of the entity manager}.
+     *
+     * @param cacheStoreMode The new cache storage mode
      * @return the same query instance
      * @since 3.2
      * @deprecated Use {@link TypedQuery#setCacheStoreMode}
@@ -871,9 +944,10 @@ public interface Query {
     Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
-     * The cache retrieval mode that will be in effect during query
-     * execution.
-     * @return The cache retrieval mode set by calling
+     * The {@linkplain CacheRetrieveMode cache retrieval mode} in
+     * effect during query execution.
+     *
+     * @return the current cache retrieval mode set by calling
      *         {@link #setCacheRetrieveMode} or the cache retrieval
      *         mode of the persistence context if no cache retrieval
      *         mode has been explicitly specified for this query.
@@ -884,9 +958,10 @@ public interface Query {
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
-     * The cache storage mode that will be in effect during query
-     * execution.
-     * @return The cache storage mode set by calling
+     * The {@linkplain CacheStoreMode cache storage mode} in effect
+     * during query execution.
+     *
+     * @return the current cache storage mode set by calling
      *         {@link #setCacheStoreMode} or the cache storage
      *         mode of the persistence context if no cache storage
      *         mode has been explicitly specified for this query.
@@ -900,6 +975,7 @@ public interface Query {
      * Set the query timeout, in milliseconds. This is a hint,
      * and is an alternative to {@linkplain #setHint setting
      * the hint} {@code jakarta.persistence.query.timeout}.
+     *
      * @param timeout the timeout, in milliseconds, or null to
      *                indicate no timeout
      * @return the same query instance
@@ -909,6 +985,7 @@ public interface Query {
 
     /**
      * Set the query timeout. This is a hint.
+     *
      * @param timeout the timeout, or null to indicate no timeout
      * @return the same query instance
      * @since 4.0
@@ -917,6 +994,7 @@ public interface Query {
 
     /**
      * The query timeout, in milliseconds, or null for no timeout.
+     *
      * @since 3.2
      */
     Integer getTimeout();
@@ -926,7 +1004,8 @@ public interface Query {
      * a provider-specific API. If the provider implementation of
      * {@code Query} does not support the given type, the
      * {@link PersistenceException} is thrown.
-     * @param cls  the type of the object to be returned.
+     *
+     * @param type The type of the object to be returned.
      *             This is usually either the underlying class
      *             implementing {@code Query} or an interface it
      *             implements.
@@ -935,5 +1014,5 @@ public interface Query {
      *         the given type
      * @since 2.0
      */
-    <T> T unwrap(Class<T> cls);
+    <T> T unwrap(Class<T> type);
 }

@@ -27,13 +27,14 @@ import java.util.Calendar;
 import java.util.stream.Stream;
 
 /**
- * Interface used to control the execution of typed queries.
- * In the Jakarta Persistence query language, only SELECT
- * queries are typed queries, since only a SELECT query can
- * return a result. A DELETE or UPDATE query is not a typed
- * query and is always represented by an untyped instance
- * of {@link Query}. On the other hand, a native SQL query
- * is considered a typed query if it returns a result set.
+ * Interface used to control the execution of typed queries. In
+ * the Jakarta Persistence query language, only {@code SELECT}
+ * queries are typed queries, since only a {@code SELECT} query
+ * can return a result. A {@code DELETE} or {@code UPDATE} query
+ * is not a typed query and is always represented by an untyped
+ * instance of {@link Query}, usually, by a {@link Statement}.
+ * On the other hand, a native SQL query is considered a typed
+ * query if it returns a result set.
  *
  * @param <X> query result type
  *
@@ -70,9 +71,10 @@ public interface TypedQuery<X> extends Query {
     long getResultCount();
 
     /**
-     * Execute a SELECT query and return the query results as a typed
+     * Execute the query and return the query results as a typed
      * {@link List List&lt;X&gt;}. If necessary, first synchronize
      * changes with the database by flushing the persistence context.
+     *
      * @return a list of the results, each of type {@link X}, or an
      *         empty list if there are no results
      * @throws IllegalStateException if called for a Jakarta
@@ -99,9 +101,10 @@ public interface TypedQuery<X> extends Query {
     List<X> getResultList();
 
     /**
-     * Execute a SELECT query that returns a single result.
+     * Execute the query, returning a single typed result.
      * If necessary, first synchronize changes with the database by
      * flushing the persistence context.
+     *
      * @return the result, of type {@link X}
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
@@ -129,13 +132,13 @@ public interface TypedQuery<X> extends Query {
     X getSingleResult();
 
     /**
-     * Execute a SELECT query and return the query result as a typed
-     * {@link java.util.stream.Stream Stream&lt;X&gt;}. If necessary,
-     * first synchronize changes with the database by flushing the
-     * persistence context.
+     * Execute the query and return the query results as a typed
+     * {@link Stream Stream&lt;X&gt;}. If necessary, first synchronize
+     * changes with the database by flushing the persistence context.
      * <p>By default, this method delegates to {@link List#stream()
      * getResultList().stream()}. The persistence provider may choose
      * to override this method to provide additional capabilities.
+     *
      * @return a stream of the results, each of type {@link X}, or an
      *         empty stream if there are no results
      * @throws IllegalStateException if called for a Jakarta
@@ -167,11 +170,13 @@ public interface TypedQuery<X> extends Query {
     }
 
     /**
-     * Execute a SELECT query that returns a single untyped result.
-     * If necessary, first synchronize changes with the database by
-     * flushing the persistence context.
-     * @return the result, of type {@link X}, or null if there is no
-     *         result
+     * Execute the query, returning a single typed result, or
+     * {@code null} if the query has no results. If necessary, first
+     * synchronize changes with the database by flushing the persistence
+     * context.
+     *
+     * @return the result, of type {@link X}, or {@code null} if there
+     *         is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
      *         Persistence query language UPDATE or DELETE statement
@@ -199,8 +204,15 @@ public interface TypedQuery<X> extends Query {
     X getSingleResultOrNull();
 
     /**
-     * Set the maximum number of results to retrieve.
-     * @param maxResult  maximum number of results to retrieve
+     * Set the maximum number of results returned to the client.
+     * If the query has more results than the given maximum,
+     * results are excluded from the list returned by
+     * {@link #getResultList()}, so that only the given number
+     * of results is returned. If the query returns results
+     * with a well-defined order, the excluded results must be
+     * those which would otherwise occur later in the list.
+     *
+     * @param maxResult The maximum number of results
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
@@ -208,9 +220,15 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setMaxResults(int maxResult);
 
     /**
-     * Set the position of the first result to retrieve.
-     * @param startPosition position of the first result, 
-     *        numbered from 0
+     * Set the position of the first query result returned to
+     * the client. The given number of results is excluded
+     * from the list returned by {@link #getResultList()}.
+     * If the query returns results with a well-defined order,
+     * the excluded results must be those which would otherwise
+     * occur earlier in the list.
+     *
+     * @param startPosition The position of the first result,
+     *                      numbered from {@code 0}
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
@@ -218,20 +236,23 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setFirstResult(int startPosition);
 
     /**
-     * The maximum number of results the query object was set to retrieve.
-     * Returns {@link Integer#MAX_VALUE} if {@link #setMaxResults} was not
-     * called.
-     * @return maximum number of results
+     * The maximum number of results returned to the client,
+     * as specified by {@link #setMaxResults}, or
+     * {@value Integer#MAX_VALUE} if {@link #setMaxResults}
+     * was not called.
+     *
+     * @return the maximum number of results
      * @since 2.0
      */
     @Override @SuppressWarnings("removal")
     int getMaxResults();
 
     /**
-     * The position of the first result the query object was set to
-     * retrieve. Returns {@code 0} if {@link #setFirstResult} was not
-     * called.
-     * @return position of the first result
+     * The position of the first result returned to the client,
+     * as specified by {@link #setFirstResult}, or {@code 0} if
+     * {@link #setFirstResult} was not called.
+     *
+     * @return the position of the first result
      * @since 2.0
      */
     @Override @SuppressWarnings("removal")
@@ -240,7 +261,8 @@ public interface TypedQuery<X> extends Query {
     /**
      * Specify an {@link EntityGraph} to be applied to the entity
      * returned by the Jakarta Persistence query. This operation only
-     * makes sense when the SELECT query returns a single entity.
+     * makes sense when the {@code SELECT} query returns a single entity.
+     *
      * @param entityGraph an entity graph interpreted as a load graph
      *                    applied to the entity returned by the query
      * @return the same query instance
@@ -255,6 +277,7 @@ public interface TypedQuery<X> extends Query {
      * returned by the query, or {@code null} if no entity graph was
      * specified via {@link #setEntityGraph(EntityGraph)} or
      * {@link NamedQuery#entityGraph()}.
+     *
      * @return the entity graph or {@code null}
      * @since 4.0
      */
@@ -269,8 +292,9 @@ public interface TypedQuery<X> extends Query {
      * rely on the standard timeout hint. Depending on the database
      * in use and the locking mechanisms used by the provider,
      * this hint may or may not be observed.
-     * @param hintName  name of property or hint
-     * @param value  value for the property or hint
+     *
+     * @param hintName The name of the property or hint
+     * @param value The value for the property or hint
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
@@ -279,26 +303,29 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setHint(String hintName, Object value);
 
     /**
-     * Bind the value of a {@code Parameter} object.
-     * @param param  parameter object
-     * @param value  parameter value
+     * Bind an argument to a parameter of this query respresented as
+     * a {@link Parameter} object.
+     *
+     * @param parameter The parameter object
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter
      *         does not correspond to a parameter of the
      *         query
      */
     @Override
-    <T> TypedQuery<X> setParameter(Parameter<T> param, T value);
+    <T> TypedQuery<X> setParameter(Parameter<T> parameter, T value);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a {@link Parameter} object.
-     * @param param  parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a {@link Parameter} object.
+     * 
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -307,14 +334,15 @@ public interface TypedQuery<X> extends Query {
                                TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a {@link Parameter} object.
-     * @param param  parameter object
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a {@link Parameter} object.
+     *
+     * @param param The parameter object
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
-     * @deprecated Newly-written code should use the date/time types
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -323,12 +351,13 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Bind an argument value to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does 
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      */
     @Override
     TypedQuery<X> setParameter(String name, Object value);
@@ -344,13 +373,14 @@ public interface TypedQuery<X> extends Query {
      *         .setParameter("limit", optionalDateLimit, LocalDate.class)
      *         .getResultList();
      * }
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param type  a class object representing the parameter type
+     * 
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -367,13 +397,14 @@ public interface TypedQuery<X> extends Query {
      *         .setParameter("amount", amount, Book_.price.getType())
      *         .getResultList();
      * }
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param type  the {@link Type} of the parameter
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -392,13 +423,13 @@ public interface TypedQuery<X> extends Query {
      *         .getResultList();
      *}
      *
-     * @param name      parameter name
-     * @param value     parameter value
-     * @param converter class of the attribute converter
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -406,15 +437,16 @@ public interface TypedQuery<X> extends Query {
                                             Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a named parameter.
-     * @param name  parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Calendar} to a named parameter.
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if
+     *         the value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -422,15 +454,16 @@ public interface TypedQuery<X> extends Query {
                                TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a named parameter.
-     * @param name   parameter name
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * Bind an instance of {@link Date} to a named parameter.
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     *         not correspond to a parameter of the query, or if
+     *         the value argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -439,12 +472,13 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Bind an argument value to a positional parameter.
-     * @param position  position
-     * @param value  parameter value
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      */
     @Override
     TypedQuery<X> setParameter(int position, Object value);
@@ -460,13 +494,14 @@ public interface TypedQuery<X> extends Query {
      *         .setParameter(1, optionalDateLimit, LocalDate.class)
      *         .getResultList();
      * }
-     * @param position  position
-     * @param value  parameter value
-     * @param type  a class object representing the parameter type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -483,13 +518,14 @@ public interface TypedQuery<X> extends Query {
      *         .setParameter(1, amount, Book_.price.getType())
      *         .getResultList();
      * }
-     * @param position  position
-     * @param value  parameter value
-     * @param type  the {@link Type} of the parameter
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the
-     *         query or if the argument is of incorrect type
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -508,13 +544,13 @@ public interface TypedQuery<X> extends Query {
      *         .getResultList();
      *}
      *
-     * @param position  position
-     * @param value     parameter value
-     * @param converter class of the attribute converter
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
-     *         not correspond to a parameter of the query or if
-     *         the argument is of incorrect type
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
      * @since 4.0
      */
     @Override
@@ -522,16 +558,16 @@ public interface TypedQuery<X> extends Query {
                                             Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
-     * Bind an instance of {@link java.util.Calendar} to a positional
+     * Bind an instance of {@link Calendar} to a positional
      * parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-     *         correspond to a positional parameter of the query
-     *         or if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -539,16 +575,17 @@ public interface TypedQuery<X> extends Query {
                                TemporalType temporalType);
 
     /**
-     * Bind an instance of {@link java.util.Date} to a positional
+     * Bind an instance of {@link Date} to a positional
      * parameter.
-     * @param position  position
-     * @param value  parameter value
-     * @param temporalType  temporal type
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param temporalType A {@linkplain TemporalType temporal type}
      * @return the same query instance
-     * @throws IllegalArgumentException if position does not
-      *        correspond to a positional parameter of the query
-     *         or if the value argument is of incorrect type
-     * @deprecated Newly-written code should use the date/time types
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
@@ -556,21 +593,25 @@ public interface TypedQuery<X> extends Query {
                                TemporalType temporalType);
 
      /**
-      * Set the flush mode type to be used for the query execution.
-      * The flush mode type applies to the query regardless of the
-      * flush mode type in use for the entity manager.
-      * @param flushMode  flush mode
+      * Set the {@linkplain FlushModeType flush mode type} to be
+      * used when the query is executed. This flush mode overrides
+      * the {@linkplain EntityManager#getFlushMode flush mode type
+      * of the entity manager}.
+      *
+      * @param flushMode The new flush mode
       * @return the same query instance
       */
      @Override
      TypedQuery<X> setFlushMode(FlushModeType flushMode);
 
      /**
-      * Set the lock mode type to be used for the query execution.
-      * @param lockMode  lock mode
+      * Set the {@linkplain LockModeType lock mode type} to use
+      * when the query is executed.
+      *
+      * @param lockMode The new lock mode
       * @return the same query instance
       * @throws IllegalStateException if the query is not a Jakarta
-      *         Persistence query language SELECT query or a
+      *         Persistence query language {@code SELECT} query or a
       *         {@link jakarta.persistence.criteria.CriteriaQuery}
       * @see #getLockMode
       * @since 2.0
@@ -579,15 +620,17 @@ public interface TypedQuery<X> extends Query {
      TypedQuery<X> setLockMode(LockModeType lockMode);
 
     /**
-     * Set the pessimistic lock scope to use in query execution if
-     * a pessimistic lock mode is specified via {@link #setLockMode}.
+     * Set the {@link PessimisticLockScope pessimistic lock scope}
+     * to use when the query is executed if a pessimistic lock mode
+     * is specified via {@link #setLockMode}.
      * If the query is executed without a pessimistic lock mode,
      * the pessimistic lock scope has no effect.
+     *
      * @since 4.0
-     * @param lockScope the scope of the pessimistic lock
+     * @param lockScope The scope of the pessimistic lock
      * @return the same query instance
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
+     *         Persistence query language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      */
     TypedQuery<X> setLockScope(PessimisticLockScope lockScope);
@@ -611,9 +654,10 @@ public interface TypedQuery<X> extends Query {
      * entity with an attribute reference occurring in the SELECT
      * clause, except when the attribute reference occurs as an
      * argument to an aggregate function.
-     * @return lock mode
+     *
+     * @return the current lock mode
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
+     *         Persistence query language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @see #getLockScope
      * @since 2.0
@@ -633,19 +677,22 @@ public interface TypedQuery<X> extends Query {
      * to {@link PessimisticLockScope#NORMAL NORMAL}.
      * <p>The pessimistic lock scope has no effect if the lock
      * mode is {@code null} or {@link LockModeType#NONE NONE}.
-     * @return pessimistic lock scope
+     *
+     * @return the current pessimistic lock scope
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language SELECT query or a
+     *         Persistence query language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @since 4.0
      */
     PessimisticLockScope getLockScope();
 
     /**
-     * Set the cache retrieval mode that is in effect during
-     * query execution. This cache retrieval mode overrides the
-     * cache retrieve mode in use by the entity manager.
-     * @param cacheRetrieveMode cache retrieval mode
+     * Set the {@linkplain CacheRetrieveMode cache retrieval mode}
+     * in effect during query execution. This cache retrieval mode
+     * overrides the {@linkplain EntityManager#getCacheRetrieveMode
+     * cache retrieve mode of the entity manager}.
+     *
+     * @param cacheRetrieveMode The new cache retrieval mode
      * @return the same query instance
      * @since 3.2
      */
@@ -653,10 +700,12 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
 
     /**
-     * Set the cache storage mode that is in effect during
-     * query execution. This cache storage mode overrides the
-     * cache storage mode in use by the entity manager.
-     * @param cacheStoreMode cache storage mode
+     * Set the {@linkplain CacheStoreMode cache storage mode} in
+     * effect during query execution. This cache storage mode
+     * overrides the {@linkplain EntityManager#getCacheStoreMode
+     * cache storage mode of the entity manager}.
+     *
+     * @param cacheStoreMode The new cache storage mode
      * @return the same query instance
      * @since 3.2
      */
@@ -664,9 +713,10 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode);
 
     /**
-     * The cache retrieval mode that will be in effect during query
-     * execution.
-     * @return The cache retrieval mode set by calling
+     * The {@linkplain CacheRetrieveMode cache retrieval mode} in
+     * effect during query execution.
+     *
+     * @return The current cache retrieval mode set by calling
      *         {@link #setCacheRetrieveMode} or the cache retrieval
      *         mode of the persistence context if no cache retrieval
      *         mode has been explicitly specified for this query.
@@ -676,9 +726,10 @@ public interface TypedQuery<X> extends Query {
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
-     * The cache storage mode that will be in effect during query
-     * execution.
-     * @return The cache storage mode set by calling
+     * The {@linkplain CacheStoreMode cache storage mode} in effect
+     * during query execution.
+     *
+     * @return The current cache storage mode set by calling
      *         {@link #setCacheStoreMode} or the cache storage
      *         mode of the persistence context if no cache storage
      *         mode has been explicitly specified for this query.
@@ -691,6 +742,7 @@ public interface TypedQuery<X> extends Query {
      * Set the query timeout, in milliseconds. This is a hint,
      * and is an alternative to {@linkplain #setHint setting
      * the hint} {@code jakarta.persistence.query.timeout}.
+     *
      * @param timeout the timeout, in milliseconds, or null to
      *                indicate no timeout
      * @return the same query instance
@@ -701,6 +753,7 @@ public interface TypedQuery<X> extends Query {
 
     /**
      * Set the query timeout. This is a hint.
+     *
      * @param timeout the timeout, or null to indicate no timeout
      * @return the same query instance
      * @since 4.0
@@ -711,8 +764,9 @@ public interface TypedQuery<X> extends Query {
     /**
      * @deprecated
      * This operation should never be called on a {@code TypedQuery}.
-     * Any DELETE or UPDATE query should be represented by an
-     * untyped instance of {@link Query}.
+     * Any {@code DELETE} or {@code UPDATE} query should be represented
+     * by an untyped instance of {@link Query} or, preferably, by an
+     * instance of {@link Statement}.
      */
     @Deprecated(since = "4.0", forRemoval = true)
     @Override @SuppressWarnings("removal")
