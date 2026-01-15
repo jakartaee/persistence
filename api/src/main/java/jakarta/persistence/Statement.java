@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.metamodel.Type;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -178,6 +180,77 @@ public interface Statement extends Query {
     Statement setParameter(String name, Object value);
 
     /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null, especially in the case of
+     * a native query.
+     * {@snippet :
+     * em.createNativeStatement("update books set pub_date = :date where isbn = :ISBN")
+     *     .setParameter("date", optionalPublicationDate, LocalDate.class)
+     *     .setParameter("ISBN", isbn)
+     *     .execute();
+     * }
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
+     * @since 4.0
+     */
+    @Override
+    <P> Statement setParameter(String name, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * {@snippet :
+     * em.createNativeStatement("update books set pub_date = :date where isbn = :ISBN")
+     *     .setParameter("date", optionalPublicationDate, Book_.publicationDate.getType())
+     *     .setParameter("ISBN", isbn, Book_.isbn.getType())
+     *     .execute();
+     * }
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
+     * @since 4.0
+     */
+    @Override
+    <P> Statement setParameter(String name, P value, Type<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying an {@linkplain AttributeConverter attribute
+     * converter} to use.
+     * {@snippet :
+     * em.createNativeStatement("update books set pub_date = :date where isbn = :ISBN")
+     *     .setParameter("date", publicationDate)
+     *     .setParameter("ISBN", isbn, IsbnConverter.class)
+     *     .execute();
+     * }
+     *
+     * @param name The name of the parameter
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
+     * @since 4.0
+     */
+    @Override
+    <P> Statement setConvertedParameter(String name, P value,
+                                        Class<? extends AttributeConverter<P,?>> converter);
+
+    /**
      * Bind an instance of {@link Calendar} to a named parameter.
      *
      * @param name The name of the parameter
@@ -221,6 +294,77 @@ public interface Statement extends Query {
      */
     @Override
     Statement setParameter(int position, Object value);
+
+    /**
+     * Bind an argument value to a positional parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the argument might be null, especially in the case of
+     * a native SQL query.
+     * {@snippet :
+     * em.createNativeStatement("update books set pub_date = ?1 where isbn = ?2")
+     *     .setParameter(1, optionalPublicationDate, LocalDate.class)
+     *     .setParameter(2, isbn)
+     *     .execute();
+     * }
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param type A class object representing the parameter type
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
+     * @since 4.0
+     */
+    @Override
+    <P> Statement setParameter(int position, P value, Class<P> type);
+
+    /**
+     * Bind an argument value to a positional parameter, explicitly
+     * specifying the parameter type. This is most useful when
+     * the binding is affected by an attribute converter.
+     * {@snippet :
+     * em.createNativeStatement("update books set pub_date = ?1 where isbn = ?2")
+     *     .setParameter(1, optionalPublicationDate, Book_.publicationDate.getType())
+     *     .setParameter(2, isbn, Book_.isbn.getType())
+     *     .execute();
+     * }
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param type The {@link Type} of the parameter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the given position does
+     *         not correspond to a positional parameter of the query,
+     *         or if the argument is of incompatible type
+     * @since 4.0
+     */
+    @Override
+    <P> Statement setParameter(int position, P value, Type<P> type);
+
+    /**
+     * Bind an argument value to a named parameter, explicitly
+     * specifying an {@linkplain AttributeConverter attribute
+     * converter} to use.
+     * {@snippet :
+     * em.createNativeStatement("update books set pub_date = ?1 where isbn = ?2")
+     *     .setParameter(1, publicationDate)
+     *     .setParameter(2, isbn, IsbnConverter.class)
+     *     .execute();
+     * }
+     *
+     * @param position The parameter position
+     * @param value The argument to the parameter
+     * @param converter The class of the attribute converter
+     * @return the same query instance
+     * @throws IllegalArgumentException if the parameter name does
+     *         not correspond to a parameter of the query, or if
+     *         the argument is of incompatible type
+     * @since 4.0
+     */
+    @Override
+    <P> Statement setConvertedParameter(int position, P value,
+                                        Class<? extends AttributeConverter<P,?>> converter);
 
     /**
      * Bind an instance of {@link Calendar} to a positional
