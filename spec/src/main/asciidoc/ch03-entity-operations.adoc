@@ -103,7 +103,10 @@ obtained from an entity manager or entity agent which has been closed throws
 The method `createQuery()` is used to obtain a `Query` or `TypedQuery`
 representing a Jakarta Persistence Query Language query or Criteria query.
 Similarly, the method `createStatement()` is used to obtain a `Statement`.
-An `IllegalArgumentException` may be thrown by `createQuery()` if:
+
+The persistence provider is permitted but not required to validate a JPQL
+query or statement when `createQuery()` or `createStatement()` is called.
+An `IllegalArgumentException` might be thrown if:
 
 - the argument to `createQuery()` or `createStatement()` is not a legal
   Jakarta Persistence Query Language query or statement,
@@ -137,6 +140,28 @@ for rollback.
 
 The `EntityManager` interface may be found in <<_entitymanager_>>.
 
+In the Java SE environment, each instance of `EntityManager` is associated
+with a distinct _persistence context_. A persistence context is a set of
+entity instances in which for any given _persistent entity identity_, defined
+by an entity type and a primary key value, as specified in <<a132>>, there
+is at most one entity instance. The entity instances associated with a
+persistence context are considered managed objects, with a well-defined
+lifecycle under the control of the persistence provider.
+
+In the Jakarta EE environment this programming model is augmented with
+_container-managed entity managers_ with _transaction-scoped persistence
+contexts_, as defined below in <<a11431>>. In this augmented programming
+model, the application holds a reference provided by the Jakarta EE
+container to an instance of `EntityManager` whose underlying persistence
+context is determined by transaction affinity.footnote:[This is accomplished
+via indirection at the container level. Every transaction-scoped persistence
+context is associated with a distinct implementation of `EntityManager`
+supplied by the persistence provider.]
+
+More information about container-managed entity managers and about
+transaction-scoped and extended persistence contexts may be found in
+<<a2027>> and <<a11431>>.
+
 The methods `persist()`, `merge()`, `remove()`, and `refresh()` may not be
 invoked on an entity manager with a transaction-scoped persistence context
 when no transaction is active. If one of these methods is called on an entity
@@ -165,10 +190,6 @@ if it is called without an explicit lock mode or with the explicit mode
 Similar rules applying to entity instances returned by execution of a query
 via an `EntityManager` are specified in <<query-execution>>.
 
-See <<a2027>> for information about transaction-scoped and extended
-persistence contexts.See <<a11431>> for further discussion of entity
-manager use outside a transaction and persistence context types.
-
 For example:
 
 [source,java]
@@ -189,93 +210,86 @@ public class OrderEntryBean implements OrderEntry {
 
 === Entity Instance Life Cycle [[a1929]]
 
-This section describes the `EntityManager`
-operations for managing an entity instance's lifecycle. An entity
-instance can be characterized as being new, managed, detached, or
-removed.
+Any entity instance can be characterized as being in one of the following
+_lifecycle states_ with respect to a given persistence context:
 
-* A new entity instance has no persistent
-identity, and is not yet associated with a persistence context.
-* A managed entity instance is an instance with
-a persistent identity that is currently associated with a persistence
-context.
-* A detached entity instance is an instance
-with a persistent identity that is not (or no longer) associated with a
-persistence context.
-* A removed entity instance is an instance with
-a persistent identity, associated with a persistence context, that will
-be removed from the database upon transaction commit.
+* A **new** entity instance has no persistent identity, and is not yet
+  associated with any persistence context.
+* A **managed** entity instance is an instance with a persistent identity
+  that is currently associated with a persistence context.
+* A **detached** entity instance is an instance with a persistent identity
+  that is not (or no longer) associated with a persistence context.
+* A **removed** entity instance is an instance with a persistent identity,
+  and associated with a persistence context, that is scheduled for removal
+  from the database upon transaction commit.
 
-The following subsections describe the effect
-of lifecycle operations upon entities. Use of the `cascade` annotation
-element may be used to propagate the effect of an operation to
-associated entities. The cascade functionality is most typically used in
-parent-child relationships.
+Certain operations of `EntityManager` modify the lifecycle state of an
+entity instance. The following subsections describe the effect of such
+lifecycle operations.
+
+==== Cascading Lifecycle Operations
+
+The `cascade` annotation element of a relationship modeling annotation,
+as defined in <<a516>>, specifies which lifecycle operations propagate
+to associated entities. The cascade functionality is most typically used
+in parent-child relationships.
 
 ==== Entity Instance Creation
 
-Entity instances are created by means of the
-`new` operation. An entity instance, when first created by `new` is not
-yet persistent. An instance becomes persistent by means of the
-`EntityManager` API.
+An instance of an entity class may be created using the `new` operator.
+A newly instantiated instance is never persistent, and the new instance
+is not associated with a persistence context.
 
 ==== Persisting an Entity Instance
 
-A new entity instance becomes both managed
-and persistent by invoking the `persist` method on it or by cascading
-the persist operation.
+A new instance becomes persistent when it is passed as an argument to
+the `persist()` method of `EntityManager` or when the persist operation
+cascades from another instance to the new instance.
 
-The semantics of the persist operation,
-applied to an entity X are as follows:
+Let `e` be an instance of an entity class. If `e` is passed as the first
+argument to the `persist()` method of `EntityManager`, or if the persist
+operation is applied to `e` via cascade:
 
-* If X is a new entity, it becomes managed. The
-entity X will be entered into the database at or before transaction
-commit or as a result of the flush operation.
-* If X is a preexisting managed entity, it is
-ignored by the persist operation. However, the persist operation is
-cascaded to entities referenced by X, if the relationships from X to
-these other entities are annotated with the `cascade=PERSIST` or
-`cascade=ALL` annotation element value or specified with the equivalent
-XML descriptor element.
-* If X is a removed entity, it becomes managed.
-* If X is a detached object, the
-`EntityExistsException` may be thrown when the persist operation is
-invoked, or the `EntityExistsException` or another
-`PersistenceException` may be thrown at flush or commit time.
-* For all entities Y referenced by a
-relationship from X, if the relationship to Y has been annotated with
-the `cascade` element value `cascade=PERSIST` or `cascade=ALL`, the
-persist operation is applied to Y.
+* if `e` is a new entity, it becomes managed and a new record represented
+  by `e` will be inserted into the database at or before transaction commit
+  as a result of the flush operation specified below in <<a1955>>;
+* if `e` is a managed entity already associated with the persistence
+  context, `e` itself is ignored by the persist operation;
+* if `e` is a removed entity, it becomes managed; or
+* if `e` is a detached object, the `EntityExistsException` may be thrown
+  when the persist operation is invoked, or the `EntityExistsException`
+  or another `PersistenceException` may be thrown at flush or commit time.
+* If `e` is new, managed, or removed, the persist operation is also applied
+  to every entity `t` referenced by a relationship owned by `e` and annotated
+  with the `cascade` element value `cascade=PERSIST` or `cascade=ALL` or
+  mapped as such by the equivalent XML descriptor element.
 
 ==== Removal [[a1946]]
 
-A managed entity instance becomes removed by
-invoking the `remove` method on it or by cascading the remove operation.
+A managed entity instance becomes removed when it is passed as an
+argument to the `remove()` method method of `EntityManager` or when the
+remove operation cascades from another instance to the managed instance.
 
-The semantics of the remove operation,
-applied to an entity X are as follows:
+Let `e` be an instance of an entity class. If `e` is passed as the first
+argument to the `persist()` method of `EntityManager`, or if the remove
+operation is applied to `e` via cascade:
 
-* If X is a new entity, it is ignored by the
-remove operation. However, the remove operation is cascaded to entities
-referenced by X, if the relationship from X to these other entities is
-annotated with the `cascade=REMOVE` or `cascade=ALL` annotation element
-value.
-* If X is a managed entity, the remove
-operation causes it to become removed. The remove operation is cascaded
-to entities referenced by X, if the relationships from X to these other
-entities is annotated with the `cascade=REMOVE` or `cascade=ALL`
-annotation element value.
-* If X is a detached entity, an
-`IllegalArgumentException` will be thrown by the remove operation (or
-the transaction commit will fail).
-* If X is a removed entity, it is ignored by the remove operation.
-* A removed entity X will be removed from the
-database at or before transaction commit or as a result of the flush
-operation.
+* if `e` is a new entity, `e` itself ignored by the remove operation;
+* if `e` is a managed entity, it is marked as removed and the record
+  represented by `e` is scheduled for deletion from the database at or
+  before transaction commit as a result of the flush operation specified
+  below in <<a1955>>;
+* if `e` is a removed entity, `e` itself is ignored by the remove
+  operation; or
+* if `e` is a detached entity, an `IllegalArgumentException` is thrown
+  or a failure occurs later when the flush operation occurs.
+* If `e` is new, managed, or removed, the remove operation is also applied
+  to every entity `t` referenced by a relationship owned by `e` and annotated
+  with the `cascade` element value `cascade=REMOVE` or `cascade=ALL` or
+  mapped as such by the equivalent XML descriptor element.
 
-After an entity has been removed, its state
-(except for generated state) will be that of the entity at the point at
-which the remove operation was called.
+The `remove()` method does not change the state held by fields of the
+entity instance itself.
 
 ==== Synchronization to the Database [[a1955]]
 
@@ -347,211 +361,212 @@ If there is no transaction active or if the persistence context has not
 been joined to the current transaction, the persistence provider must not
 flush modifications to the database.
 
-The semantics of the flush operation, applied
-to an entity X are as follows:
+Let `e` be an instance of an entity class associated with a persistence
+context when synchronization occurs:
 
-* If X is a managed entity, it is synchronized
-to the database.
-** For all entities Y referenced by a
-relationship from X, if the relationship to Y has been annotated with
-the `cascade` element value `cascade=PERSIST` or `cascade=ALL`, the
-persist operation is applied to Y.
-** For any entity Y referenced by a relationship
-from X, where the relationship to Y has not been annotated with the
-`cascade` element value `cascade=PERSIST` or `cascade=ALL`:
-*** If Y is new or removed, an
-`IllegalStateException` will be thrown by the flush operation (and the
-transaction marked for rollback) or the transaction commit will fail.
-*** If Y is detached, the semantics depend upon
-the ownership of the relationship. If X owns the relationship, any
-changes to the relationship are synchronized with the database;
-otherwise, if Y owns the relationships, the behavior is undefined.
-* If X is a removed entity, it is removed from
-the database. No `cascade` options are relevant.
+* If `e` is a managed entity:
+  - Any pending modifications to the values held by its persistent
+    attributes are synchronized to the database by updating the record
+    represented by `e`.
+  - The persist operation is applied to every entity `t` referenced by
+    a relationship owned by `e` and annotated with the `cascade` element
+    value `cascade=PERSIST` or `cascade=ALL` or mapped as such by the
+    equivalent XML descriptor element.
+  - Every entity `t` referenced by a relationship owned by `e` which
+    is _not_ annotated with the `cascade` element value `cascade=PERSIST`
+    or `cascade=ALL` or mapped as such by the equivalent XML descriptor
+    element is checked:
+    *** if `t` is new or removed, an `IllegalStateException` is thrown
+        and the transaction is marked for rollback, or the transaction
+        commit fails; or
+    *** if `t` is detached, the semantics depend upon the ownership of the
+        relationship: if `e` owns the relationship, any changes to the
+        relationship are synchronized with the database; otherwise, if `t`
+        owns the relationships, the behavior is undefined.
+* If `e` a removed entity, the record represented by `e` is removed from
+  the database; no `cascade` options are relevant.
 
 ==== Refreshing an Entity Instance [[refresh]]
 
-The state of a managed entity instance is
-refreshed from the database by invoking the `refresh` method on it or by
-cascading the refresh operation.
+The state of a managed entity instance is refreshed from the database when
+it is passed as an argument to the `refresh()` method of `EntityManager`
+or when the refresh operation cascades from another instance to the managed
+instance.
 
-The semantics of the refresh operation,
-applied to an entity X are as follows:
+Let `e` be an instance of an entity class. If `e` is passed as the first
+argument to the `refresh()` method of `EntityManager`, or if the refresh
+operation is applied to `e` via cascade:
 
-* If X is a managed entity, the state of X is
-refreshed from the database, overwriting changes made to the entity, if
-any. The refresh operation is cascaded to entities referenced by X if
-the relationship from X to these other entities is annotated with the
-`cascade=REFRESH` or `cascade=ALL` annotation element value.
-* If X is a new, detached, or removed entity,
-the `IllegalArgumentException` is thrown.
+* if `e` is a managed entity, the state of `e` is refreshed from the
+  database by reading the record represented by `e` and modifying the state
+  of `e` to match, overwriting any pending modifications made to the entity;
+  or
+* if `e` is a new, detached, or removed entity, the `IllegalArgumentException`
+  is thrown.
+* If `e` is managed, the refresh operation is also applied to every entity
+  `t` referenced by a relationship owned by `e` and annotated with the
+  `cascade` element value `cascade=REFRESH` or `cascade=ALL` or mapped as
+  such by the equivalent XML descriptor element.
 
 ==== Evicting an Entity Instance from the Persistence Context
 
-An entity instance is removed from the
-persistence context by invoking the `detach` method on it or cascading
-the detach operation. Changes made to the entity, if any (including
-removal of the entity), are not synchronized to the database after
-such eviction has taken place.
+A managed entity instance is removed from the persistence context when it
+is passed as an argument to the `detach()` method of `EntityManager` or
+when the detach operation cascades from another instance to the managed
+instance.
 
-Applications must use the `flush` method
-prior to the `detach` method to ensure portable semantics if changes
-have been made to the entity (including removal of the entity). Because
-the persistence provider may write to the database at times other than
-the explicit invocation of the `flush` method, portable applications
-must not assume that changes have not been written to the database if
-the `flush` method has not been called prior to detach.
+Let `e` be an instance of an entity class. If `e` is passed as an
+argument to the `detach()` method of `EntityManager`, or if the detach
+operation is applied to `e` via cascade:
 
-The semantics of the detach operation,
-applied to an entity X are as follows:
+* if `e` is a managed entity, it is removed from the persistence context
+  and becomes detached;
+* if `e` is a new or detached entity, it is ignored by the detach operation;
+* if `e` is a removed entity, it becomes detached, and the scheduled removal
+  of the record represented by `e` is cancelled.
+* If `e` is managed or removed, the detach operation is also applied to
+  every entity `t` referenced by a relationship owned by `e` and annotated
+  with the `cascade` element value `cascade=DETACH` or `cascade=ALL` or
+  mapped as such by the equivalent XML descriptor element.
 
-* If X is a managed entity, the detach
-operation causes it to become detached. The detach operation is cascaded
-to entities referenced by X if the relationships from X to these other
-entities is annotated with the `cascade=DETACH` or `cascade=ALL`
-annotation element value. Entities which previously referenced X will
-continue to reference X.
-* If X is a new or detached entity, it is
-ignored by the detach operation.
-* If X is a removed entity, the detach
-operation causes it to become detached. The detach operation is cascaded
-to entities referenced by X if the relationships from X to these other
-entities is annotated with the `cascade=DETACH` or `cascade=ALL`
-annotation element value. Entities which previously referenced X will
-continue to reference X. Portable applications should not pass removed
-entities that have been detached from the persistence context to further
-`EntityManager` operations.
+Portable applications should not pass removed entities that have been
+detached from the persistence context to methods of `EntityManager`.
+
+Entities which referenced `e` before detachment continue to reference `e`
+after detachment.
+
+[NOTE]
+Pending modifications to the state of the entity, including removal of
+the entity, are never synchronized to the database after the entity is
+evicted from the persistence context. If such pending modifications
+exist, an application must call the `flush()` method before calling
+`detach()` if portable behavior is required. A portable application
+must not assume that pending modifications have not been written to the
+database if the `flush()` method was not called before `detach()`. More
+information about synchronization may be found above in <<a1955>>.
 
 ==== Detached Entities [[a1982]]
 
-A detached entity results from transaction
-commit if a transaction-scoped persistence context is used (see <<a2027>>);
-from transaction rollback (see <<a2049>>); from detaching
-the entity from the persistence context; from clearing the persistence
-context; from closing an entity manager; or from serializing an entity
-or otherwise passing an entity by value—e.g., to a separate application
-tier, through a remote interface, etc.
+A managed entity instance associated with a persistence context becomes
+detached whenever:
 
-Detached entity instances continue to live
-outside the persistence context in which they were persisted or
-retrieved. Their state is no longer guaranteed to be synchronized with
-the database state.
+- the persistence context is a container-managed transaction-scoped
+  persistence context, as defined in <<a2027>>, and the transaction
+  associated with the persistence context commits, as specified in
+  <<a2048>>,
+- the persistence context is a container-managed persistence context,
+  and the transaction associated with the persistence context rolls
+  back, as specified in <<a2049>>,
+- the entity is passed to the `detach()` method of the `EntityManager`
+  associated with the persistence context,
+- the `clear()` method is called on the `EntityManager` associated
+  with the persistence context, or
+- the `EntityManager` associated with the persistence context is
+  closed.
 
-The application may access the available
-state of available detached entity instances after the persistence
-context ends. The available state includes:
+A detached entity instance continues to live outside the persistence
+context in which it was persisted or retrieved. Its state does not
+remain synchronized with the database record it represents.
 
-* Any persistent field or property not marked `fetch=LAZY`
-* Any persistent field or property that was
-accessed by the application or fetched by means of an entity graph
+The application may access the available state of available detached
+entity instances after the persistence context ends. The available
+state includes any persistent field or property:
 
-If the persistent field or property is an
-association, the available state of an associated instance may only be
-safely accessed if the associated instance is available. The available
-instances include:
+* not marked `fetch=LAZY`, or
+* accessed by the application or fetched by means of an entity graph.
 
-* Any entity instance retrieved using `find()`.
-* Any entity instances retrieved using a query or explicitly requested in a fetch join.
-* Any entity instance for which an instance
-variable holding non-primary-key persistent state was accessed by the
-application.
-* Any entity instance that can be reached from
-another available instance by navigating associations marked `fetch=EAGER`.
+If the persistent field or property is an association, the available
+state of an associated instance may only be safely accessed if the
+associated instance is available. The available instances include
+any entity instance:
+
+* retrieved using `find()`,
+* retrieved using a query or explicitly requested in a fetch join or
+  entity graph,
+* with a persistent attribute other than the primary key which was
+  accessed by the application, or
+* reachable from an available instance by navigating associations marked
+  `fetch=EAGER`.
 
 ===== Merging Detached Entity State [[a1983]]
 
-The merge operation allows for the
-propagation of state from detached entities onto persistent entities
-managed by the entity manager.
+The merge operation allows for the propagation of state from detached
+entities to managed instances associated with a persistence context.
+Given a detached instance, the merge operation returns a managed
+instance with the same persistent identity and state as the detached
+instance, but with a distinct Java object identity.
 
-The semantics of the merge operation applied
-to an entity X are as follows:
+Let `e` be an instance of an entity class. If `e` is passed as an
+argument to the `merge()` method of `EntityManager`, or if the merge
+operation is applied to `e` via cascade, a merged object `e2` is
+produced:
 
-* If X is a detached entity, the state of X is
-copied onto a pre-existing managed entity instance X' of the same
-identity or a new managed copy X' of X is created.
-* If X is a new entity instance, a new managed
-entity instance X' is created and the state of X is `copied` into the
-new managed entity instance X'.
-* If X is a removed entity instance, an
-`IllegalArgumentException` will be thrown by the merge operation (or the
-transaction commit will fail).
-* If X is a managed entity, it is ignored by
-the merge operation; however, the merge operation is cascaded to
-entities referenced by relationships from X if these relationships have
-been annotated with the `cascade` element value `cascade=MERGE` or
-`cascade=ALL` annotation.
-* For all entities Y referenced by
-relationships from X having the `cascade` element value `cascade=MERGE`
-or `cascade=ALL`, Y is merged recursively as Y'. For all such Y
-referenced by X, X' is set to reference Y'. (Note that if X is managed
-then X is the same object as X'.)
-* If X is an entity merged to X', with a
-reference to another entity Y, where `cascade=MERGE` or `cascade=ALL` is
-not specified, then navigation of the same association from X' yields a
-reference to a managed object Y' with the same persistent identity as Y.
+* if `e` is a detached entity, the persistent state of `e` is copied
+  to a pre-existing managed entity instance `e2` of the same identity
+  or, if there is no such pre-existing managed entity, a new managed
+  copy `e2` of `e` is created;
+* if `e` is a new entity instance, a new managed entity instance `e2`
+  is created and the state of `e` is `copied` to `e2`;
+* if `e` is a removed entity instance, an `IllegalArgumentException` is
+  thrown or a failure occurs later when the flush operation occurs; or
+* if `e` is a managed entity, `e` itself is ignored by the merge
+  operation and the merged object `e2` is taken to be identical to `e`.
+* If `e` is new, managed, or detached, the merge operation is also
+  applied to every entity `t` referenced by a relationship owned by `e`
+  and annotated with the `cascade` element value `cascade=MERGE` or
+  `cascade=ALL` or mapped as such by the equivalent XML descriptor element.
+  For every such `t` referenced by `e`, `e2` is set to reference the object
+  `t2` produced by applying the merge operation to `t`.
+* For every entity `t` referenced by `e` via an association, navigation
+  of the same association from `e2` yields a reference to a managed object
+  `s` with the same persistent identity as `t`.
 
-The persistence provider must not merge
-fields marked LAZY that have not been fetched: it must ignore such
-fields when merging.
+If `e` has a version, as defined in <<a2060>>, the persistence provider
+must validate that `e` and `e2` have the same version, either during
+processing of the merge operation, or later when the flush operation
+occurs or when the transaction commits.
 
-Any `Version` columns used by the entity must
-be checked by the persistence runtime implementation during the merge
-operation and/or at flush or commit time. In the absence of `Version`
-columns there is no additional version checking done by the persistence
-provider runtime during the merge operation.
+The persistence provider must ignore unfetched attributes of detached
+instances when merging.
 
 ===== Detached Entities and Lazy Loading
 
-Serializing entities and merging those
-entities back into a persistence context may not be interoperable across
-vendors when lazy properties or fields and/or relationships are used.
+A persistence provider is required to support:
 
-A vendor is required to support the
-serialization and subsequent deserialization and merging of detached
-entity instances (which may contain lazy properties or fields and/or
-relationships that have not been fetched) back into a separate JVM
-instance of that vendor's runtime, where both runtime instances have
-access to the entity classes and any required vendor persistence
-implementation classes.
+1. the serialization of detached entity instances with unfetched lazy
+   attributes instantiated by the persistence provider runtime,
+2. subsequent deserialization in a separate Java Virtual Machine with
+   access to the same persistence provider runtime and the same entity
+   classes, and
+3. merging of the deserialized instances in a new persistence context
+   implemented by the same persistence provider runtime in the second
+   virtual machine.
 
-When interoperability across vendors is
-required, the application must not use lazy loading.
+A persistence provider is permitted report an exception if an entity
+instance with unfetched lazy attributes instantiated by a different
+persistence provider runtime is passed to `merge()`.
+
+[NOTE]
+When this sort of interoperability across different persistence provider
+runtimes from different vendors is required, the application must not use
+lazy loading.
 
 ==== Managed Instances
 
-It is the responsibility of the application
-to ensure that an instance is managed in only a single persistence
-context. The behavior is undefined if the same Java instance is made
-managed in more than one persistence context.
+It is the responsibility of the application to ensure that an instance is
+associated with at most one persistence context. If an entity instance is
+made managed in more than one persistence context, the behavior is undefined
+and unportable.
 
-The `contains()` method can be used to
-determine whether an entity instance is managed in the current
-persistence context.
+The `contains()` method of `EntityManager` determines whether an entity
+instance is managed in the associated persistence context. The `contains()`
+method returns true if the argument is a managed entity instance associated
+with the given persistence context, and is not marked as removed.
 
-The `contains` method returns true:
-
-* If the entity has been retrieved from the
-database or has been returned by `getReference`, and has not been
-removed or detached.
-* If the entity instance is new, and the
-`persist` method has been called on the entity or the persist operation
-has been cascaded to it.
-
-The `contains` method returns false:
-
-* If the instance is detached.
-* If the `remove` method has been called on the
-entity, or the remove operation has been cascaded to it.
-* If the instance is new, and the `persist`
-method has not been called on the entity or the persist operation has
-not been cascaded to it.
-
-Note that the effect of the cascading of
-persist, merge, remove, or detach is immediately visible to the
-`contains` method, whereas the actual insertion, modification, or
-deletion of the database representation for the entity may be deferred
-until the end of the transaction.
+The effect of cascading persist, merge, remove, or detach is immediately
+visible to the `contains()` method, whereas the actual insertion, update,
+or deletion of the database record represented by the entity is deferred
+until the flush operation occurs.
 
 ==== Load State [[a2019]]
 
@@ -673,7 +688,7 @@ resource-local transaction begun for that entity manager.
 
 Persistence context synchronization type is further described in <<a11797>>.
 
-==== Transaction Commit
+==== Transaction Commit [[a2048]]
 
 The managed entities of a transaction-scoped
 persistence context become detached when the transaction commits; the
