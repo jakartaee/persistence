@@ -65,10 +65,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  *
  * <p>The use of {@link java.util.Date}, {@link java.util.Calendar},
- * {@code java.sql.Date}, {@code java.sql.Time}, {@code java.sql.Timestamp},
+ * {@link java.sql.Date}, {@link java.sql.Time}, {@link java.sql.Timestamp},
  * {@code Character[]}, or {@code Byte[]} as the type of a basic attribute
  * is now discouraged. Newly written code should use the date/time types
- * defined in the package {@code java.time}, or the primitive array types
+ * defined in the package {@link java.time}, or the primitive array types
  * {@code char[]} and {@code byte[]}.
  *
  * @since 1.0
