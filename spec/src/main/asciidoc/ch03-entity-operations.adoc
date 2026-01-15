@@ -3325,7 +3325,7 @@ Query q = em.createNativeQuery(
         "WHERE c.status = 'GOLD' ",
     "CustomerResults");
 
-@SqlResultSetMapping(name=”CustomerResults”, entities={
+@SqlResultSetMapping(name="CustomerResults", entities={
     @EntityResult(entityClass=com.acme.Customer.class, fields={
         @FieldResult(name="id", column="customer_id"),
         @FieldResult(name="address.street", column="customer_street"),
