@@ -2936,15 +2936,7 @@ specified for the `ManyToMany` annotation and their default values.
 
 The `cascade` element specifies the set of
 cascadable operations that are propagated to the associated entity. The
-operations that are cascadable are defined by the `CascadeType` enum:
-
-[source,java]
-----
-public enum CascadeType {ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH}
-----
-
-The value `cascade=ALL` is equivalent to
-`cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH}`.
+operations that are cascadable are defined by the `CascadeType` enum.
 
 When the collection is a `java.util.Map`,
 the `cascade` element applies to the map `value`.
@@ -3128,7 +3120,7 @@ public @interface ManyToOne {
 ----
 
 The operations that can be cascaded are
-defined by the `CascadeType` enum, defined in <<a15100>>.
+defined by the `CascadeType` enum defined in <<lifecycle-operations>>.
 
 If the annotated field or property is also annotated with
 `jakarta.annotation.Nonnull`, then `optional=false` is implied
@@ -4104,7 +4096,7 @@ public @interface OneToMany {
 ----
 
 The operations that can be cascaded are
-defined by the `CascadeType` enum, defined in <<a15100>>.
+defined by the `CascadeType` enum defined in <<lifecycle-operations>>.
 
 When the collection is a `java.util.Map`,
 the `cascade` element and the `orphanRemoval` element apply to the map
@@ -4120,7 +4112,7 @@ entity, the semantics of `orphanRemoval` do not apply.
 If `orphanRemoval` is `true` and the remove
 operation is applied to the source entity, the remove operation is
 cascaded to the relationship target in accordance with the rules of
-<<a1946>>, (and hence it is not
+<<remove>>, (and hence it is not
 necessary to specify `cascade=REMOVE` for the
 relationship)footnote:[If the parent is
 detached or new or was previously removed before the orphan was
@@ -4276,7 +4268,7 @@ public @interface OneToOne {
 ----
 
 The operations that can be cascaded are
-defined by the `CascadeType` enum, defined in <<a15100>>.
+defined by the `CascadeType` enum, defined in <<lifecycle-operations>>.
 
 If `orphanRemoval` is `true` and an entity
 that is the target of the relationship is removed from the relationship
@@ -4288,7 +4280,7 @@ not apply.
 If `orphanRemoval` is `true` and the remove
 operation is applied to the source entity, the remove operation is
 cascaded to the relationship target in accordance with the rules of
-<<a1946>>, (and hence it is not
+<<remove>>, (and hence it is not
 necessary to specify `cascade=REMOVE` for the
 relationship)footnote:[If the parent is
 detached or new or was previously removed before the orphan was

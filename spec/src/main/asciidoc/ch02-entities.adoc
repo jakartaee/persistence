@@ -1651,7 +1651,7 @@ A relationship may be _bidirectional_ or _unidirectional_.
 
 Modifications to the owning side of a relationship determine the
 updates made to the relationship in the database, as described in
-<<a1955>>. If the inverse side of an association is modified without
+<<flush>>. If the inverse side of an association is modified without
 a corresponding modification to the owning side, the behavior is
 undefined. The persistence provider is permitted to ignore any
 modification made only to the inverse side of a bidirectional
