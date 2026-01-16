@@ -707,56 +707,77 @@ entity attribute are defined in <<a13592>>.
 
 === Persistence Context Lifetime and Synchronization Type [[a2027]]
 
-The lifetime of a container-managed
-persistence context can either be scoped to a transaction
-(transaction-scoped persistence context), or have a lifetime scope that
-extends beyond that of a single transaction (extended persistence
-context). The enum `PersistenceContextType` is used to define the
-persistence context lifetime scope for container-managed entity
-managers. The persistence context lifetime scope is defined when the
-`EntityManager` instance is created (whether explicitly, or in conjunction
-with injection or JNDI lookup). See <<a11791>>.
+In the Jakarta EE environment, a _container-managed persistence context_
+is a persistence context whose lifecycle is managed by the container.
+When container-managed persistence contexts are used, the container is
+responsible for creating and destroying instances of `EntityManager`,
+for injecting appropriate contextual references to `EntityManager` at
+injection points declared by the application, as specified in <<a11464>>,
+and for propagating persistence contexts according to the rules given
+in <<a11816>>.
+
+An _application-managed persistence context_ is any persistence context
+whose lifecycle is _not_ managed by a Jakarta EE container. Typically,
+this means that an application or third-party library or framework
+creates an `EntityManager` by calling `createEntityManager()` on an
+`EntityManagerFactory` which might or might not have been created by a
+Jakarta EE container. In the Java SE environment, every persistence
+context is considered an application-managed persistence context by this
+specification, even if its lifecycle is managed by some container-like
+framework.
+
+==== Persistence Context Types
+
+There are two kinds of container-manager persistence context,
+distinguished by distinct rules for their lifecycle and propagation:
+
+- a _transaction-scoped persistence context_ has a lifetime which
+  extends to the moment of completion of the current transaction
+  and propagates with the transaction, as specified in <<a11805>>,
+  while
+- an _extended persistence context_ has a lifetime which is tied to
+  an instance of a stateful session bean, as specified in <<a11810>>,
+  and might span multiple transactions and even multiple
+  non-transactional invocations of the `EntityManager`; the extended
+  persistence context is destroyed by the container when its stateful
+  session bean is destroyed.
+
+More information about container-managed persistence contexts may be
+found later in <<a11791>>.
+
+The persistence context type is determined when an instance of
+`EntityManager` is created by the Jakarta EE container. By default,
+a persistence context is created as a transaction-scoped persistence
+context. When a persistence context is created for an injection point
+annotated `@PersistenceContext`, the `type` member may explicitly
+specify a `PersistenceContextType`.
 
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/PersistenceContextType.java[lines=18..-1]
 ----
 
-By default, the lifetime of the persistence
-context of a container-managed entity manager corresponds to the scope
-of a transaction (i.e., it is of type
-`PersistenceContextType.TRANSACTION`).
+An `EntityManager` with an extended persistence context maintains its
+persistence context and references to entity objects belonging to its
+persistence context across transaction commits. Those objects remain
+managed by the `EntityManager` even when there is no transaction active,
+and can be updated as managed objects between transactions.footnote:[When
+a new transaction begins, the managed objects belonging to an extended
+persistence context are not reloaded from the database.] Navigation from
+a managed object associated with an extended persistence context results
+in one or more other managed objects regardless of whether a transaction
+is active.
 
-When an extended persistence context is used,
-the extended persistence context exists from the time the `EntityManager`
-instance is created until it is closed. This persistence context might
-span multiple transactions and non-transactional invocations of the
-`EntityManager`.
+The operations `persist()`, `remove()`, `merge()`, and `refresh()`
+may be called on an `EntityManager` with an extended persistence context
+even when no transaction is active. The effect of such an operation is
+never synchronized with the database, as defined in <<a1955>>, until
+the extended persistence context is joined to an active transaction.
 
-An `EntityManager` with an extended persistence
-context maintains its references to the entity objects after a
-transaction has committed. Those objects remain managed by the
-`EntityManager`, and they can be updated as managed objects between
-transactions.footnote:[Note that when a new
-transaction is begun, the managed objects in an extended persistence
-context are `not` reloaded from the database.] Navigation from a managed object in
-an extended persistence context results in one or more other managed
-objects regardless of whether a transaction is active.
-
-When an `EntityManager` with an extended
-persistence context is used, the persist, remove, merge, and refresh
-operations can be called regardless of whether a transaction is active.
-The effects of these operations will be committed to the database when
-the extended persistence context is enlisted in a transaction and the
-transaction commits.
-
-The scope of the persistence context of an
-application-managed entity manager is extended. It is the responsibility
-of the application to manage the lifecycle of the persistence context.
-
-Container-managed persistence contexts are
-described further in <<a11791>>. Persistence contexts managed by
-the application are described further in <<a11894>>.
+[NOTE]
+Extended persistence contexts and application-managed persistence contexts
+behave similarly in almost every respect. Application-managed persistence
+contexts are described further in <<a11894>>.
 
 ==== Synchronization with the Current Transaction
 
