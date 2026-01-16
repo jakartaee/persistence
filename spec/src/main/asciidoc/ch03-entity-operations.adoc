@@ -180,39 +180,6 @@ More information about container-managed entity managers and about
 transaction-scoped and extended persistence contexts may be found in
 <<a2027>> and <<a11431>>.
 
-==== Entity Manager Operations and Transactions [[entity-manager-transactions]]
-
-The methods `persist()`, `merge()`, `remove()`, and `refresh()` may not be
-invoked on an entity manager with a transaction-scoped persistence context
-when no transaction is active. If one of these methods is called on an entity
-manager with a transaction-scoped persistence context when there is no active
-transaction context, the method must throw
-`jakarta.persistence.TransactionRequiredException`.
-
-If a method of `EntityManager` accepts a lock mode and the method is called
-when no transaction is active, then the specified lock mode must be
-`LockModeType.NONE`. If there is no active transaction, or if the entity
-manager has not been joined to the transaction, and any lock mode other than
-`LockModeType.NONE` is passed to the method, the method must throw
-`jakarta.persistence.TransactionRequiredException`.
-
-The `getReference()` method may be called without an active transaction.
-
-The methods `find()`, `get()`, `findMultiple()`, and `getMultiple()` may be
-invoked when there is no active transaction. However, when there is no
-active transaction, these methods may not be called with any explicit lock
-mode other than `LockModeType.NONE` as an argument.
-
-- If the entity manager has a transaction-scoped persistence context, the
-  entity or entities returned by `find()`, `get()`, `findMultiple()`, or
-  `getMultiple()` are detached;
-- otherwise, if the entity manager has an extended persistence context, the
-  returned entity or entities are managed.
-
-Similar rules applying to entity instances returned by execution of a query
-object obtained from an `EntityManager` are specified below in
-<<query-execution-transactions>>.
-
 === Entity Instance Life Cycle [[a1929]]
 
 Any entity instance can be characterized as being in one of the following
@@ -631,7 +598,7 @@ from an entity agent.
 When a container-managed `EntityManager` with a transaction-scoped
 persistence context is called with no active transaction, the call
 appears to the client to return detached entity instances, as
-described above in <<entity-manager-transactions>> and below in
+described below in <<entity-manager-transactions>> and
 <<query-execution-transactions>>. However, strictly speaking, this
 is no more than a consequence of the extremely short lifetime of
 the persistence context in this scenario. From the point of view
@@ -757,6 +724,50 @@ specify a `PersistenceContextType`.
 include::../../../../api/src/main/java/jakarta/persistence/PersistenceContextType.java[lines=18..-1]
 ----
 
+[NOTE]
+Extended persistence contexts and application-managed persistence contexts
+behave similarly in almost every respect. Application-managed persistence
+contexts are described further in <<a11894>>.
+
+==== Entity Manager Operations and Transactions [[entity-manager-transactions]]
+
+The methods `persist()`, `merge()`, `remove()`, and `refresh()` may not be
+invoked on an entity manager with a transaction-scoped persistence context
+when no transaction is active. If one of these methods is called on an entity
+manager with a transaction-scoped persistence context when there is no active
+transaction context, the method must throw
+`jakarta.persistence.TransactionRequiredException`.
+
+On the other hand, the operations `persist()`, `remove()`, `merge()`, and
+`refresh()` may be called on an entity manager with an extended or
+application-managed persistence context even when no transaction is active,
+subject to the restriction on lock modes given below. But the effect of such
+an operation is never synchronized with the database, as defined in <<a1955>>,
+until the extended persistence context is joined to an active transaction.
+
+The methods `find()`, `get()`, `findMultiple()`, and `getMultiple()` may be
+invoked when there is no active transaction, subject to the restriction on
+lock modes given below.
+
+- If the entity manager has a transaction-scoped persistence context, the
+  entity or entities returned by `find()`, `get()`, `findMultiple()`, or
+  `getMultiple()` are detached;
+- otherwise, if the entity manager has an extended persistence context, the
+  returned entity or entities are managed.
+
+Similar rules applying to entity instances returned by execution of a query
+object obtained from an `EntityManager` are specified below in
+<<query-execution-transactions>>.
+
+The `getReference()` method may be called without an active transaction.
+
+If a method of `EntityManager` accepts a lock mode and the method is
+called when no transaction is active, then the specified lock mode must be
+`LockModeType.NONE`. If there is no active transaction, or if the entity
+manager has not been joined to the transaction, and any lock mode other
+than `LockModeType.NONE` is passed to the method, the method must throw
+`jakarta.persistence.TransactionRequiredException`.
+
 An `EntityManager` with an extended persistence context maintains its
 persistence context and references to entity objects belonging to its
 persistence context across transaction commits. Those objects remain
@@ -767,17 +778,6 @@ persistence context are not reloaded from the database.] Navigation from
 a managed object associated with an extended persistence context results
 in one or more other managed objects regardless of whether a transaction
 is active.
-
-The operations `persist()`, `remove()`, `merge()`, and `refresh()`
-may be called on an `EntityManager` with an extended persistence context
-even when no transaction is active. The effect of such an operation is
-never synchronized with the database, as defined in <<a1955>>, until
-the extended persistence context is joined to an active transaction.
-
-[NOTE]
-Extended persistence contexts and application-managed persistence contexts
-behave similarly in almost every respect. Application-managed persistence
-contexts are described further in <<a11894>>.
 
 ==== Synchronization with the Current Transaction
 
