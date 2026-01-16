@@ -587,15 +587,17 @@ from an entity agent.
   entity instance twice.
 
 - For an `EntityManager`, every entity instance returned by any
-  operation of the manager itself, or of any query object obtained
-  from the manager, is in the managed state and belongs to the
-  persistence context associated with the entity manager. The instance
-  remains in the managed state until that entity manager is closed and
-  its persistence context is destroyed. An `EntityManager` is required
-  to ensure that if an entity instance representing a given record
-  already exists in its associated persistence context, then exactly
-  that instance is returned by every operation that returns an entity
-  representing the record.
+  operation of the manager itself or of any query object obtained
+  from the manager, with the exception noted in <<a5500>>, is in the
+  managed state and belongs to the persistence context associated with
+  the entity manager. The instance remains in the managed state until
+  the entity manager is closed and its persistence context is destroyed
+  unless the instance is explicitly detached via a call to `detach()`
+  or `clear()`, as specified above in <<a1982>>. An entity manager is
+  required to ensure that if an entity instance representing a given
+  record already exists in its associated persistence context, then
+  exactly that instance is returned by every operation that returns an
+  entity representing the record.
 
 [NOTE]
 When a container-managed `EntityManager` with a transaction-scoped
