@@ -263,6 +263,33 @@ operation is applied to `e` via cascade:
 The `remove()` method does not change the state held by fields of the
 entity instance itself.
 
+==== Orphan Removal
+
+The `orphanRemoval` member of the `@OneToOne` and `@OneToMany` relationship
+modelling annotations controls the enablement of _orphan removal_. When a
+relationship is mapped `orphanRemoval=true`, the remove operation is
+automatically applied to a child entity when the association between the
+child entity and its parent is destroyed.
+
+* If a managed entity instance is removed from the relationship by setting
+  the relationship attribute to `null` or by removing the entity from the
+  relationship collection, the remove operation is applied to the orphaned
+  entity. The remove operation occurs when the persistence context is flushed,
+  as defined below in <<a1955>>. If an entity being orphaned is a detached,
+  new, or removed entity, it is ignored by orphan removal.
+
+* If the remove operation is applied to a managed entity, the remove operation
+  is cascaded to the relationship target in accordance with the rules of <<a1946>>,
+  and it is not therefore necessary to explicitly specify `cascade=REMOVE` for
+  a relationship declared with `orphanRemoval=true`.footnote:[If the parent is
+  detached or new, or was previously removed before the orphan was associated
+  with it, the remove operation is not applied to the entity being orphaned.]
+
+Portable applications must not depend on a specific timing of the removal
+operation and must not reassign an entity that has been orphaned to another
+relationship, nor otherwise attempt to make it persistent, reversing the
+effect of orphan removal.
+
 ==== Synchronization to the Database [[a1955]]
 
 Usually, a persistence context is synchronized to the database as
