@@ -158,38 +158,6 @@ via indirection at the container level. Every transaction-scoped persistence
 context is associated with a distinct implementation of `EntityManager`
 supplied by the persistence provider.]
 
-More information about container-managed entity managers and about
-transaction-scoped and extended persistence contexts may be found in
-<<a2027>> and <<a11431>>.
-
-The methods `persist()`, `merge()`, `remove()`, and `refresh()` may not be
-invoked on an entity manager with a transaction-scoped persistence context
-when no transaction is active. If one of these methods is called on an entity
-manager with a transaction-scoped persistence context when there is no active
-transaction context, the method must throw
-`jakarta.persistence.TransactionRequiredException`.
-
-If a method of `EntityManager` accepts a lock mode and the method is called
-when no transaction is active, then the specified lock mode must be
-`LockModeType.NONE`. If there is no active transaction, or if the entity
-manager has not been joined to the transaction, and any lock mode other than
-`LockModeType.NONE` is passed to the method, the method must throw
-`jakarta.persistence.TransactionRequiredException`.
-
-The `getReference()` method may be called without an active transaction.
-
-The `find()` method may be invoked when there is no active transaction only
-if it is called without an explicit lock mode or with the explicit mode
-`LockModeType.NONE`.
-
-- If the entity manager has a transaction-scoped persistence context, the
-  entity returned by `find()` is detached;
-- if the entity manager has an extended persistence context, the returned
-  entity is managed.
-
-Similar rules applying to entity instances returned by execution of a query
-via an `EntityManager` are specified in <<query-execution>>.
-
 For example:
 
 [source,java]
@@ -207,6 +175,42 @@ public class OrderEntryBean implements OrderEntry {
     }
 }
 ----
+
+More information about container-managed entity managers and about
+transaction-scoped and extended persistence contexts may be found in
+<<a2027>> and <<a11431>>.
+
+==== Entity Manager Operations and Transactions [[entity-manager-transactions]]
+
+The methods `persist()`, `merge()`, `remove()`, and `refresh()` may not be
+invoked on an entity manager with a transaction-scoped persistence context
+when no transaction is active. If one of these methods is called on an entity
+manager with a transaction-scoped persistence context when there is no active
+transaction context, the method must throw
+`jakarta.persistence.TransactionRequiredException`.
+
+If a method of `EntityManager` accepts a lock mode and the method is called
+when no transaction is active, then the specified lock mode must be
+`LockModeType.NONE`. If there is no active transaction, or if the entity
+manager has not been joined to the transaction, and any lock mode other than
+`LockModeType.NONE` is passed to the method, the method must throw
+`jakarta.persistence.TransactionRequiredException`.
+
+The `getReference()` method may be called without an active transaction.
+
+The methods `find()`, `get()`, `findMultiple()`, and `getMultiple()` may be
+invoked when there is no active transaction. However, when there is no
+active transaction, these methods may not be called with any explicit lock
+mode other than `LockModeType.NONE` as an argument.
+
+- If the entity manager has a transaction-scoped persistence context, the
+  entity or entities returned by `find()`, `get()`, `findMultiple()`, or
+  `getMultiple()` are detached;
+- if the entity manager has an extended persistence context, the returned
+  entity or entities are managed.
+
+Similar rules applying to entity instances returned by execution of a query
+via an `EntityManager` are specified in <<query-execution-transactions>>.
 
 === Entity Instance Life Cycle [[a1929]]
 
@@ -621,6 +625,17 @@ from an entity agent.
   already exists in its associated persistence context, then exactly
   that instance is returned by every operation that returns an entity
   representing the record.
+
+[NOTE]
+When a container-managed `EntityManager` with a transaction-scoped
+persistence context is called with no active transaction, the call
+appears to the client to return detached entity instances, as
+described above in <<entity-manager-transactions>> and below in
+<<query-execution-transactions>>. However, strictly speaking, this
+is no more than a consequence of the extremely short lifetime of
+the persistence context in this scenario. From the point of view
+of the persistence provider, the operations of `EntityManager`
+return managed instances exactly as described here.
 
 A retrieval operation like `find()` or `get()` accepts an entity class
 and a primary key value. Retrieval is by nature polymorphic, and the
@@ -2885,7 +2900,7 @@ The effect of applying `setMaxResults` or
 undefined. The use of `setMaxResults` and `setFirstResult` is not
 supported for stored procedure queries.
 
-==== Query Execution and Transactions
+==== Query Execution and Transactions [[query-execution-transactions]]
 
 Except for `executeUpdate()`, methods of `Query` and `TypedQuery` may be
 invoked without an active transaction context, unless a lock mode other
