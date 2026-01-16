@@ -199,12 +199,42 @@ Certain operations of `EntityManager` modify the lifecycle state of an
 entity instance. The following subsections describe the effect of such
 lifecycle operations.
 
-==== Cascading Lifecycle Operations
+==== Lifecycle Operations [[lifecycle-operations]]
+
+The fundamental operations of an `EntityManager` are:
+
+- `persist()` to make a new entity persistent, as defined in <<persist>>,
+- `remove()`, to remove a persistent entity from the database, as defined
+  in <<remove>>,
+- `flush()`, to force synchronization of pending modifications with the
+  database, as defined in <<flush>>,
+- `refresh()`, to reload an entity from the database, as defined in
+  <<refresh>>,
+- `detach()`, to disassociate an entity from its persistence context,
+  as defined in <<detach>>, and
+- `merge()`, to copy the state of a detached instance into the persistence
+  context.
+
+The methods `persist()`, `remove()`, `refresh()`, `detach()`, and `merge()`
+are called _lifecycle operations_.
 
 The `cascade` annotation element of a relationship modeling annotation,
 as defined in <<a516>>, specifies which lifecycle operations propagate
-to associated entities. The cascade functionality is most typically used
-in parent-child relationships.
+to associated entities. Each lifecycle operation is identified by the
+corresponding member of the enumeration `CascadeType`.
+
+[source,java]
+----
+public enum CascadeType {ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH}
+----
+
+The value `cascade=ALL` is equivalent to
+`cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH}`.
+
+[NOTE]
+The cascade functionality is most typically used to model parent-child
+relationships. A closely related feature is orphan removal, which is
+defined below in <<orphan-removal>>.
 
 ==== Entity Instance Creation
 
@@ -212,7 +242,7 @@ An instance of an entity class may be created using the `new` operator.
 A newly instantiated instance is never persistent, and the new instance
 is not associated with a persistence context.
 
-==== Persisting an Entity Instance
+==== Persisting an Entity Instance [[persist]]
 
 A new instance becomes persistent when it is passed as an argument to
 the `persist()` method of `EntityManager` or when the persist operation
@@ -224,7 +254,7 @@ is applied to `e` via cascade:
 
 * if `e` is a new entity, it becomes managed and a new record represented
   by `e` will be inserted into the database at or before transaction commit
-  as a result of the flush operation specified below in <<a1955>>;
+  as a result of the flush operation specified below in <<flush>>;
 * if `e` is a managed entity already associated with the persistence
   context, `e` itself is ignored by the persist operation;
 * if `e` is a removed entity, it becomes managed; or
@@ -236,7 +266,7 @@ is applied to `e` via cascade:
   with the `cascade` element value `cascade=PERSIST` or `cascade=ALL` or
   mapped as such by the equivalent XML descriptor element.
 
-==== Removal [[a1946]]
+==== Removal [[remove]]
 
 A managed entity instance becomes removed when it is passed as an argument
 to the `remove()` method of `EntityManager` or when the remove operation
@@ -250,7 +280,7 @@ applied to `e` via cascade:
 * if `e` is a managed entity, it is marked as removed and the record
   represented by `e` is scheduled for deletion from the database at or
   before transaction commit as a result of the flush operation specified
-  below in <<a1955>>;
+  below in <<flush>>;
 * if `e` is a removed entity, `e` itself is ignored by the remove
   operation; or
 * if `e` is a detached entity, an `IllegalArgumentException` is thrown
@@ -263,7 +293,7 @@ applied to `e` via cascade:
 The `remove()` method does not change the state held by fields of the
 entity instance itself.
 
-==== Orphan Removal
+==== Orphan Removal [[orphan-removal]]
 
 The `orphanRemoval` member of the `@OneToOne` and `@OneToMany` relationship
 modelling annotations controls the enablement of _orphan removal_. When a
@@ -275,11 +305,11 @@ child entity and its parent is destroyed.
   the relationship attribute to `null` or by removing the entity from the
   relationship collection, the remove operation is applied to the orphaned
   entity. The remove operation occurs when the persistence context is flushed,
-  as defined below in <<a1955>>. If an entity being orphaned is a detached,
+  as defined below in <<flush>>. If an entity being orphaned is a detached,
   new, or removed entity, it is ignored by orphan removal.
 
 * If the remove operation is applied to a managed entity, the remove operation
-  is cascaded to the relationship target in accordance with the rules of <<a1946>>,
+  is cascaded to the relationship target in accordance with the rules of <<remove>>,
   and it is not therefore necessary to explicitly specify `cascade=REMOVE` for
   a relationship declared with `orphanRemoval=true`.footnote:[If the parent is
   detached or new, or was previously removed before the orphan was associated
@@ -290,7 +320,7 @@ operation and must not reassign an entity that has been orphaned to another
 relationship, nor otherwise attempt to make it persistent, reversing the
 effect of orphan removal.
 
-==== Synchronization to the Database [[a1955]]
+==== Synchronization to the Database [[flush]]
 
 Usually, a persistence context is synchronized to the database as
 described below. However, as an exception, a persistence context of
@@ -407,7 +437,7 @@ operation is applied to `e` via cascade:
   `cascade` element value `cascade=REFRESH` or `cascade=ALL` or mapped as
   such by the equivalent XML descriptor element.
 
-==== Evicting an Entity Instance from the Persistence Context
+==== Evicting an Entity Instance from the Persistence Context [[detach]]
 
 A managed entity instance is removed from the persistence context when it
 is passed as an argument to the `detach()` method of `EntityManager` or
@@ -442,7 +472,7 @@ exist, an application must call the `flush()` method before calling
 `detach()` if portable behavior is required. A portable application
 must not assume that pending modifications have not been written to the
 database if the `flush()` method was not called before `detach()`. More
-information about synchronization may be found above in <<a1955>>.
+information about synchronization may be found above in <<flush>>.
 
 ==== Detached Entities [[a1982]]
 
@@ -487,7 +517,7 @@ any entity instance:
 * reachable from an available instance by navigating associations marked
   `fetch=EAGER`.
 
-===== Merging Detached Entity State [[a1983]]
+===== Merging Detached Entity State [[merge]]
 
 The merge operation allows for the propagation of state from detached
 entities to managed instances associated with a persistence context.
@@ -774,7 +804,7 @@ On the other hand, the operations `persist()`, `remove()`, `merge()`, and
 `refresh()` may be called on an entity manager with an extended or
 application-managed persistence context even when no transaction is active,
 subject to the restriction on lock modes given below. But the effect of such
-an operation is never synchronized with the database, as defined in <<a1955>>,
+an operation is never synchronized with the database, as defined in <<flush>>,
 until the extended persistence context is joined to an active transaction.
 
 The methods `find()`, `get()`, `findMultiple()`, and `getMultiple()` may be
@@ -856,7 +886,7 @@ Persistence context synchronization type is further described in <<a11797>>.
 
 Transaction commit triggers synchronization of pending modifications
 held in any persistence context joined to the transaction, as specified
-in <<a1955>>.
+in <<flush>>.
 
 The managed entities of a transaction-scoped persistence context joined
 to an active transaction become detached when the transaction commits;
@@ -1035,7 +1065,7 @@ update statement.] If the versions do not match, the persistence
 provider must thow an `OptimisticLockException`.
 
 The persistence provider must examine the version field or property of
-a detached entity instance when it is merged, as defined in <<a1983>>,
+a detached entity instance when it is merged, as defined in <<merge>>,
 and throw an `OptimisticLockException` if the instance being merged
 holds a stale revision of the state of the entity--that is, if the
 entity was updated since the entity instance became detached. The
@@ -1044,7 +1074,7 @@ timing of this version check is provider-dependent:
 - the version check might occur synchronously with the call to `merge()`,
   or
 - a provider might choose to delay the version check until a flush
-  operation occurs, as defined in <<a1955>>, or until the transaction
+  operation occurs, as defined in <<flush>>, or until the transaction
   commits.
 
 If an update or merge operation involves entities with versions, and
