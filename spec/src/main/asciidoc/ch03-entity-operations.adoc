@@ -546,8 +546,11 @@ behavior is undefined and unportable.
 
 The `contains()` method of `EntityManager` determines whether an entity
 instance is managed in the associated persistence context. The `contains()`
-method returns true if the argument is a managed entity instance associated
-with the given persistence context, and is not marked as removed.
+method returns `true` if and only if:
+
+- the argument is a managed entity instance associated with the given
+  persistence context, and
+- the argument entity is not marked as removed.
 
 The effect of cascading persist, merge, remove, or detach is immediately
 visible to the `contains()` method, whereas the actual insertion, update,
