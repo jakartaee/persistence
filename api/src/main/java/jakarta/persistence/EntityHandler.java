@@ -45,12 +45,15 @@ import java.util.Map;
  *     context associated with the entity manager. The
  *     instance remains in the managed state until that
  *     entity manager is closed and its persistence context
- *     is destroyed. An {@code EntityManager} is required
- *     to ensure that if an entity instance representing a
- *     given record already exists in its associated
- *     persistence context, then exactly that instance is
- *     returned by every operation that returns an entity
- *     representing the record.
+ *     is destroyed unless the instance is explicitly
+ *     detached via a call to {@link EntityManager#detach
+ *     detach()} or {@link EntityManager#clear clear()}.
+ *     An {@code EntityManager} is required to ensure that
+ *     if an entity instance representing a given record
+ *     already exists in its associated persistence context,
+ *     then exactly that instance is returned by every
+ *     operation that returns an entity representing the
+ *     record.
  * </ul>
  * <p>Note that, in a Jakarta EE container environment, a
  * transaction-scoped entity manager which is accessed
