@@ -238,9 +238,9 @@ is applied to `e` via cascade:
 
 ==== Removal [[a1946]]
 
-A managed entity instance becomes removed when it is passed as an
-argument to the `remove()` method of `EntityManager` or when the
-remove operation cascades from another instance to the managed instance.
+A managed entity instance becomes removed when it is passed as an argument
+to the `remove()` method of `EntityManager` or when the remove operation
+cascades from another instance to the managed instance.
 
 Let `e` be an instance of an entity class. If `e` is passed as an argument
 to the `remove()` method of `EntityManager`, or if the remove operation is
