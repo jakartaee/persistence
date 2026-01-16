@@ -34,12 +34,14 @@ import java.util.Map;
  * <ul>
  * <li>For an {@link EntityAgent}, there is no associated
  *     persistence context, and so every entity instance
- *     returned by any operation is in the detached state.
- *     Operations on an entity agent never return the same
- *     entity instance twice.
+ *     returned by any operation of the agent itself, or of
+ *     any query object obtained from the agent, is in the
+ *     detached state. Operations on an entity agent never
+ *     return the same entity instance twice.
  * <li>For an {@link EntityManager}, every entity instance
- *     returned by any operation declared by this interface
- *     is in the managed state and belongs to the persistence
+ *     returned by any operation of the manager itself, or
+ *     of any query object obtained from the manager, is
+ *     in the managed state and belongs to the persistence
  *     context associated with the entity manager. The
  *     instance remains in the managed state until that
  *     entity manager is closed and its persistence context

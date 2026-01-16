@@ -551,6 +551,46 @@ When this sort of interoperability across different persistence provider
 runtimes from different vendors is required, the application must not use
 lazy loading.
 
+==== Entity Instance Retrieval
+
+The interface `EntityHandler`, found in <<_entityhandler_>> declares
+operations common to `EntityManager` and `EntityAgent`, including:
+
+- `find()`, `get()`, `findMultiple()`, and `getMultiple()`, which allow
+  _retrieval_ of an entity or entities--that is, given a persistent
+  identity corresponding to a record which already exists in the database,
+  or a list of persistent identities, these operations return an entity
+  instance or instances representing the corresponding record or records.
+- the methods `createQuery()`, `createNamedQuery()`, `createNativeQuery()`,
+  and `createStoredProcedureQuery()`, which allow creation and subsequent
+  execution of a query which returns entity instances representing records
+  which exist in the database.
+
+The status of an entity instance returned by an operation declared by
+`EntityHandler`, `EntityManager`, or `EntityAgent` depend on whether
+the operation is called on an entity manager or on an entity agent.
+Similarly, the status of an entity instance returned by an operation
+declared by `Query`, `TypedQuery`, or `StoredProcedureQuery` depends
+on whether the query object was obtained from an entity manager or
+from an entity agent.
+
+- For an `EntityAgent`, there is no associated persistence context,
+  and so every entity instance returned by any operation of the agent
+  itself, or of any query object obtained from the agent, is in the
+  detached state. Operations on an entity agent never return the same
+  entity instance twice.
+
+- For an `EntityManager`, every entity instance returned by any
+  operation of the manager itself, or of any query object obtained
+  from the manager, is in the managed state and belongs to the
+  persistence context associated with the entity manager. The instance
+  remains in the managed state until that entity manager is closed and
+  its persistence context is destroyed. An `EntityManager` is required
+  to ensure that if an entity instance representing a given record
+  already exists in its associated persistence context, then exactly
+  that instance is returned by every operation that returns an entity
+  representing the record.
+
 ==== Managed Instances
 
 It is the responsibility of the application to ensure that an instance is
