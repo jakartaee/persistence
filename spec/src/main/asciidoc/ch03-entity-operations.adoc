@@ -189,7 +189,7 @@ transaction-scoped and extended persistence contexts may be found in
 Any entity instance can be characterized as being in one of the following
 _lifecycle states_ with respect to a given persistence context:
 
-* A **new** entity instance has no persistent identity, and is not yet
+* A **new** entity instance has no persistent identity and is not yet
   associated with any persistence context.
 * A **managed** entity instance is an instance with a persistent identity
   that is currently associated with a persistence context.
