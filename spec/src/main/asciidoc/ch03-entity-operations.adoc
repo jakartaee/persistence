@@ -258,7 +258,7 @@ is applied to `e` via cascade:
 * if `e` is a managed entity already associated with the persistence
   context, `e` itself is ignored by the persist operation;
 * if `e` is a removed entity, it becomes managed; or
-* if `e` is a detached object, the `EntityExistsException` may be thrown
+* if `e` is a detached entity, the `EntityExistsException` may be thrown
   when the persist operation is invoked, or the `EntityExistsException`
   or another `PersistenceException` may be thrown at flush or commit time.
 * If `e` is new, managed, or removed, the persist operation is also applied
