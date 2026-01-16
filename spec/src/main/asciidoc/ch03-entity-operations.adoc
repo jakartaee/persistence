@@ -551,6 +551,37 @@ When this sort of interoperability across different persistence provider
 runtimes from different vendors is required, the application must not use
 lazy loading.
 
+==== Managed Instances
+
+It is the responsibility of the persistence provider to ensure that at
+most one entity instance belonging to a given persistence context has a
+given persistent identity. The persistent identity of an entity class
+instance is represented as a pair comprising:
+
+1. the class of the root entity of the entity class inheritance hierarchy
+   to which the entity class belongs, together with
+2. the value of the primary key of the entity instance, as defined above
+   in <<a132>>.
+
+Therefore, if the entity type `X` is a subclass of the root entity type
+`Y`, and `x` is an instance of `X` with primary key `k`, the persistent
+identity of `x` is _(`Y`,`k`)_.
+
+It is the responsibility of the application to ensure that an instance of
+an entity class is associated with at most one persistence context. If an
+entity instance is made managed in more than one persistence context, the
+behavior is undefined and unportable.
+
+The `contains()` method of `EntityManager` determines whether an entity
+instance is managed in the associated persistence context. The `contains()`
+method returns true if the argument is a managed entity instance associated
+with the given persistence context, and is not marked as removed.
+
+The effect of cascading persist, merge, remove, or detach is immediately
+visible to the `contains()` method, whereas the actual insertion, update,
+or deletion of the database record represented by the entity is deferred
+until the flush operation occurs.
+
 ==== Entity Instance Retrieval
 
 The interface `EntityHandler`, found in <<_entityhandler_>> declares
@@ -591,22 +622,27 @@ from an entity agent.
   that instance is returned by every operation that returns an entity
   representing the record.
 
-==== Managed Instances
+A retrieval operation like `find()` or `get()` accepts an entity class
+and a primary key value. Retrieval is by nature polymorphic, and the
+given entity class might be a subclass in an entity class inheritance
+hierarchy. Therefore, given an entity type `X` and primary key `k`,
+any retrieval operation must:
 
-It is the responsibility of the application to ensure that an instance is
-associated with at most one persistence context. If an entity instance is
-made managed in more than one persistence context, the behavior is undefined
-and unportable.
+1. infer the persistent identity _(`Y`,`k`)_, where `Y` is the root
+   entity class of the entity class inheritance hierarchy to which `X`
+   belongs,
+2. determine if there is a database record corresponding to that
+   persistent identity, and
+3. determine if the database record is represented by an instance of
+   an entity class assignable to `X`.
 
-The `contains()` method of `EntityManager` determines whether an entity
-instance is managed in the associated persistence context. The `contains()`
-method returns true if the argument is a managed entity instance associated
-with the given persistence context, and is not marked as removed.
+If a record exists with persistent identity _(`Y`,`k`)_ but it is not
+represented by an entity class assignable to `X`, a `PersistenceException`
+must be thrown.
 
-The effect of cascading persist, merge, remove, or detach is immediately
-visible to the `contains()` method, whereas the actual insertion, update,
-or deletion of the database record represented by the entity is deferred
-until the flush operation occurs.
+Otherwise, if a record exists with persistent identity _(`Y`,`k`)_ and
+it is represented by an entity class `Z` assignable to `X`, an instance
+of `Z` with primary key `k` is returned to the caller.
 
 ==== Load State [[a2019]]
 
