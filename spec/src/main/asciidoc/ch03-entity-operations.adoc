@@ -148,7 +148,7 @@ is at most one entity instance. The entity instances associated with a
 persistence context are considered managed objects, with a well-defined
 lifecycle under the control of the persistence provider.
 
-In the Jakarta EE environment this programming model is augmented with
+In the Jakarta EE environment, this programming model is augmented with
 _container-managed entity managers_ with _transaction-scoped persistence
 contexts_, as defined below in <<a11431>>. In this augmented programming
 model, the application holds a reference provided by the Jakarta EE
@@ -239,14 +239,14 @@ operation is applied to `e` via cascade:
 ==== Removal [[a1946]]
 
 A managed entity instance becomes removed when it is passed as an
-argument to the `remove()` method method of `EntityManager` or when the
+argument to the `remove()` method of `EntityManager` or when the
 remove operation cascades from another instance to the managed instance.
 
 Let `e` be an instance of an entity class. If `e` is passed as the first
 argument to the `persist()` method of `EntityManager`, or if the remove
 operation is applied to `e` via cascade:
 
-* if `e` is a new entity, `e` itself ignored by the remove operation;
+* if `e` is a new entity, `e` itself is ignored by the remove operation;
 * if `e` is a managed entity, it is marked as removed and the record
   represented by `e` is scheduled for deletion from the database at or
   before transaction commit as a result of the flush operation specified
@@ -354,8 +354,8 @@ context when synchronization occurs:
     *** if `t` is detached, the semantics depend upon the ownership of the
         relationship: if `e` owns the relationship, any changes to the
         relationship are synchronized with the database; otherwise, if `t`
-        owns the relationships, the behavior is undefined.
-* If `e` a removed entity, the record represented by `e` is removed from
+        owns the relationship, the behavior is undefined.
+* If `e` is a removed entity, the record represented by `e` is removed from
   the database; no `cascade` options are relevant.
 
 ==== Refreshing an Entity Instance [[refresh]]
@@ -514,7 +514,7 @@ A persistence provider is required to support:
    implemented by the same persistence provider runtime in the second
    virtual machine.
 
-A persistence provider is permitted report an exception if an entity
+A persistence provider is permitted  to report an exception if an entity
 instance with unfetched lazy attributes instantiated by a different
 persistence provider runtime is passed to `merge()`.
 
@@ -573,7 +573,7 @@ operations common to `EntityManager` and `EntityAgent`, including:
   which exist in the database.
 
 The status of an entity instance returned by an operation declared by
-`EntityHandler`, `EntityManager`, or `EntityAgent` depend on whether
+`EntityHandler`, `EntityManager`, or `EntityAgent` depends on whether
 the operation is called on an entity manager or on an entity agent.
 Similarly, the status of an entity instance returned by an operation
 declared by `Query`, `TypedQuery`, or `StoredProcedureQuery` depends
