@@ -35,7 +35,7 @@ Added new lifecycle callback types: `@PreMerge`, `@PreInsert`, `@PostInsert`, `@
 
 Added `addListener()` to `EntityManagerFactory`
 
-Specify that an entity listener may have multiple callbacks of same type
+Specify that an entity listener may have multiple callbacks of the same type
 
 Added `findMultiple()` to `EntityManager`
 
@@ -43,7 +43,7 @@ Added `getResultCount()` to `Query`
 
 Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
 
-Deprecated `createEntityGraph(String)`, specified that the graph returned by `getEntityGraph()` is now mutable, and added `getEntityGraph(Class, String)`
+Specified that the graph returned by `getEntityGraph()` is now mutable, and added `getEntityGraph(Class, String)`
 
 Added `createEntityGraph()` and `getNamedEntityGraphs()` to `EntityType`
 
@@ -85,17 +85,23 @@ Fixed some incorrect generic method signatures in `From`
 
 Fixed use of raw types in `AttributeNode`
 
-Deprecate `name` member of `@MapKey` in favor of `value`.
-
 Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
 
-Removed redundant overloads of `find()` and `refresh()` accepting `LockModeType`
+==== Deprecations
+
+Deprecated `createEntityGraph(String)`
+
+Deprecated `EntityManager.getDelegate()` in favor of `unwrap()`
+
+Deprecated `name` member of `@MapKey` in favor of `value`
+
+==== Removals
 
 Deleted APIs marked deprecated for removal
 
-Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
+Removed redundant overloads of `find()` and `refresh()` accepting `LockModeType`
 
-Deprecated `EntityManager.getDelegate()` in favor of `unwrap()`.
+Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
 
 === Jakarta Persistence 3.2
 
