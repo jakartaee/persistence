@@ -244,7 +244,7 @@ use of the namespace `jakarta.persistence` and its subnamespaces must not
 be used for vendor-specific information. The namespace
 `jakarta.persistence` is reserved for use by this specification.
 
-=== Controlling Transactions
+=== Controlling Transactions [[controlling-transactions]]
 
 Every entity manager factory is defined to be of a given transactional
 type--either JTA or resource-local--at the time it is configured and
