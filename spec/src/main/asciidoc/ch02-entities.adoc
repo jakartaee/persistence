@@ -1728,41 +1728,12 @@ When a `OneToMany` or `ManyToMany` relationship has no associated entities,
 the persistence provider must populate the attribute with an empty collection
 when loading an entity from the database.
 
-==== Cascade Remove and Orphan Removal
-
-The `cascade` member of a relationship modeling annotation specifies
-a list of persistence operations which should be cascaded to the
-associated entity, as specified below in <<a1929>>. An attribute
-annotated `ManyToOne` or `ManyToMany` must not specify `REMOVE`
-among its cascaded operation types. An application which specifies
-`cascade=REMOVE` for a `ManyToOne` or `ManyToMany` associations is
-not portable.
-
-The `orphanRemoval` member of the `OneToOne` and `OneToMany`
-controls the enablement of _orphan removal_; `orphanRemoval=true`
-activates the following behaviors:
-
-* If a managed entity instance is removed from the relationship by setting
-  the relationship attribute to `null` or by removing the entity from the
-  relationship collection, the remove operation is applied to the orphaned
-  entity. The remove operation occurs when the persistence context is flushed,
-  as defined below in <<a1955>>. If an entity being orphaned is a detached,
-  new, or removed entity, it is ignored by orphan removal.
-
-* If the remove operation is applied to a managed entity, the remove operation
-  is cascaded to the relationship target in accordance with the rules of <<a1946>>,
-  and it is not therefore necessary to explicitly specify `cascade=REMOVE` for
-  a relationship declared with `orphanRemoval=true`.footnote:[If the parent is
-  detached or new, or was previously removed before the orphan was associated
-  with it, the remove operation is not applied to the entity being orphaned.]
-
-The `orphanRemoval` functionality is intended for child entities that are
-privately owned by their parent entity. Portable applications must not depend
-on a specific timing of the removal operation and must not reassign an entity
-that has been orphaned to another relationship, nor otherwise attempt to make it
-persistent, reversing the effect of orphan removal.
-
-
+The `cascade` member of a relationship modeling annotation specifies a list
+of persistence operations which should be cascaded to the associated entity,
+as specified later in <<a1929>>. An attribute annotated `ManyToOne` or
+`ManyToMany` must not specify `REMOVE` among its cascaded operation types.
+An application which specifies `cascade=REMOVE` for a `ManyToOne` or
+`ManyToMany` associations is not portable.
 
 === Relationship Mapping Defaults [[a538]]
 
