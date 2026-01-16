@@ -1733,7 +1733,7 @@ of persistence operations which should be cascaded to the associated entity,
 as specified later in <<a1929>>. An attribute annotated `ManyToOne` or
 `ManyToMany` must not specify `REMOVE` among its cascaded operation types.
 An application which specifies `cascade=REMOVE` for a `ManyToOne` or
-`ManyToMany` associations is not portable.
+`ManyToMany` association is not portable.
 
 === Relationship Mapping Defaults [[a538]]
 
