@@ -781,19 +781,38 @@ is active.
 
 ==== Synchronization with the Current Transaction
 
-By default, a container-managed persistence context is of type
-`SynchronizationType.SYNCHRONIZED` and is automatically joined to the
-current transaction. A container-managed persistence context of type
-`SynchronizationType.UNSYNCHRONIZED` is not enlisted in the current
-transaction until `EntityManager.joinTransaction()` is called.
+When a persistence unit is configured to use container-managed JTA
+transactions, as defined in <<a12296>>, any entity manager associated
+with that persistence unit is considered a _JTA entity manager_, as
+specified in <<controlling-transactions>>.
 
-By default, an application-managed persistence context associated
-with a JTA entity manager and created within the scope of an active
-JTA transaction is automatically joined to that transaction. An
-application-managed JTA persistence context created outside the scope
-of a JTA transaction, or any application-managed persistence context
-created with type `SynchronizationType.UNSYNCHRONIZED`, is not enlisted
-with a transaction until `EntityManager.joinTransaction()` is called.
+Every persistence context associated with a JTA entity manager has a
+well-defined _synchronization type_.
+
+- A _synchronized_ persistence context is automatically joined to the
+  current container transaction, if any, when the `EntityManager` is
+  created or when any method of the `EntityManager` is called.
+
+- An _unsynchronized_ persistence context is not joined to a transaction
+  until `EntityManager.joinTransaction()` is called explicitly by the
+  application.
+
+The synchronization type of a persistence context is determined when an
+instance of `EntityManager` is created by the application or Jakarta EE
+container. By default, a persistence context is created as a synchronized
+persistence context.
+
+- The application may create an unsynchronized persistence context by
+  passing `SynchronizationType.UNSYNCHRONIZED` to `createEntityManager()`.
+
+- When a container-managed persistence context is created for an injection
+  point annotated `@PersistenceContext`, the `synchronization` member may
+  explicitly specify a `SynchronizationType`.
+
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/SynchronizationType.java[lines=18..-1]
+----
 
 An application-managed persistence context associated with a
 resource-local entity manager is always automatically joined to any
@@ -803,41 +822,48 @@ Persistence context synchronization type is further described in <<a11797>>.
 
 ==== Transaction Commit [[a2048]]
 
-The managed entities of a transaction-scoped
-persistence context become detached when the transaction commits; the
-managed entities of an extended persistence context remain managed.
+Transaction commit triggers synchronization of pending modifications
+held in any persistence context joined to the transaction, as specified
+in <<a1955>>.
+
+The managed entities of a transaction-scoped persistence context joined
+to an active transaction become detached when the transaction commits;
+the managed entities of an extended persistence context remain managed
+across transaction commits.
 
 ==== Transaction Rollback [[a2049]]
 
-For both transaction-scoped
-persistence contexts and for extended persistence contexts that are
-joined to the current transaction, transaction rollback causes all
-_pre-existing_ managed instances and removed
-instancesfootnote:[These are instances
-that were persistent in the database at the start of the transaction.] to become detached. The instances'
-state will be the state of the instances at the point at which the
-transaction was rolled back. Transaction rollback typically causes the
-persistence context to be in an inconsistent state at the point of
-rollback. In particular, the state of version attributes and generated
-state (e.g., generated primary keys) may be inconsistent. Instances that
-were formerly managed by the persistence context (including new
-instances that were made persistent in that transaction) may therefore
-not be reusable in the same manner as other detached objects—for
-example, they may fail when passed to the merge
-operation.footnote:[It is unspecified as
-to whether instances that were not persistent in the database behave as
-new instances or detached instances after rollback. This may be
-implementation-dependent.]
+Transaction rollback typically results in a loss of consistency between
+records in the database and any persistence context joined to the
+transaction. The persistence provider is not required to resynchronize
+the state of the persistence context with state held in the database
+after a transaction rolls back; nor is it required to refresh the
+entity instances belonging to the persistence context; nor is it
+required to revert the values of generated primary keys or of updated
+versions.
 
 [NOTE]
-====
-Because a transaction-scoped
-persistence context's lifetime is scoped to a transaction regardless of
-whether it is joined to that transaction, the container closes the
-persistence context upon transaction rollback. However, an extended
-persistence context that is not joined to a transaction is unaffected by
-transaction rollback.
-====
+It is therefore strongly recommended that the application discard
+references to entities modified or made persistent in a transaction
+when the transaction rolls back.
+
+When a container-managed persistence context is joined to a transaction
+and the transaction rolls back:
+
+- the container closes the `EntityManager`, destroying the persistence
+  context;
+- every managed or removed entity instance representing a record which
+  existed at the beginning of the transaction becomes detached;
+- every managed or removed entity instance representing a record which
+  did not exist at the beginning of the transaction is left in a state
+  which is undefined by this specification.
+
+The state of entities belonging to the destroyed persistence context is
+left unmodified: that is, the attributes of each such entity continue to
+hold the values they held immediately before the transaction rolled back.
+
+Transaction rollback has no effect on any persistence context not joined
+to the transaction.
 
 === EntityAgent interface [[entity-agent]]
 
