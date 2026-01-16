@@ -646,48 +646,48 @@ of `Z` with primary key `k` is returned to the caller.
 
 ==== Load State [[a2019]]
 
-An entity is considered to be loaded if all
-attributes with `FetchType.EAGER` -- whether explicitly specified or by
-default -- (including relationship and other collection-valued attributes)
-have been loaded from the database or assigned by the application.
-Attributes with `FetchType.LAZY` may or may not have been loaded. The
-available state of the entity instance and associated instances is as
-described in <<a1982>>.
+An instance of an entity or embeddable class is considered _loaded_ if every
+attribute of the entity or embeddable class mapped (explicitly or by default)
+as `FetchType.EAGER`, including relationships and element collections, has
+been loaded from the database or assigned by the application. A loaded entity
+or embeddable object might have an unloaded attribute if and only if the
+attribute is mapped as `FetchType.LAZY`.
 
-An attribute that is an embeddable is
-considered to be loaded if the embeddable attribute was loaded from the
-database or assigned by the application, and, if the attribute
-references an embeddable instance (i.e., is not null), the embeddable
-instance state is known to be loaded (i.e., all attributes of the
-embeddable with `FetchType.EAGER` have been loaded from the database or
-assigned by the application).
+The available state of an entity instance and its associated instances is
+described above in <<a1982>>.
 
-A collection-valued attribute is considered
-to be loaded if the collection was loaded from the database or the value
-of the attribute was assigned by the application, and, if the attribute
-references a collection instance (i.e., is not null), each element of
-the collection (e.g. entity or embeddable) is considered to be loaded.
+An attribute of an entity or embedded class might also be considered _loaded_.
 
-A single-valued relationship attribute is
-considered to be loaded if the relationship attribute was loaded from
-the database or assigned by the application, and, if the attribute
-references an entity instance (i.e., is not null), the entity instance
-state is known to be loaded.
+- An embedded attribute, as defined in <<a487>> is considered to be loaded
+  if the embedded attribute was loaded from the database or assigned by the
+  application, and, if the attribute references a non-null instance, the
+  embeddable instance is loaded.
 
-A basic attribute is considered to be loaded
-if its state has been loaded from the database or assigned by the
-application.
+- A collection-valued attribute is considered to be loaded if the collection
+  was loaded from the database or the value of the attribute was assigned by
+  the application and, if the attribute references a non-null instance of the
+  collection type, each element of the collection is considered to be loaded.
 
-The `PersistenceUtil.isLoaded` methods can be
-used to determine the load state of an entity and its attributes
-regardless of the persistence unit with which the entity is associated.
-The `PersistenceUtil.isLoaded` methods return true if the above
-conditions hold, and false otherwise. If the persistence unit is known,
-the `PersistenceUnitUtil.isLoaded` methods can be used instead. See <<a12177>>.
+- A single-valued relationship attribute is considered to be loaded if the
+  relationship attribute was loaded from the database or assigned by the
+  application and, if the attribute references a non-null entity instance,
+  the entity instance is considered to be loaded.
 
-Persistence provider contracts for
-determining the load state of an entity or entity attribute are
-described in <<a13592>>.
+- A basic attribute is considered to be loaded if its state has been loaded
+  from the database or assigned by the application.
+
+The `isLoaded()` methods of the `PersistenceUtil` interface found in
+<<_persistenceutil_>> determine the load state of a given entity or attribute
+of a given entity, regardless of the persistence unit with which the entity is
+associated, returning `true` if given entity or attribute is considered loaded
+according to the rules given above, or `false` otherwise.
+
+If the persistence unit to which the entity belongs is known, the `isLoaded()`
+methods of the interface `PersistenceUnitUtil` found in <<_persistenceutil_>>
+and described in <<a12177>> may be used instead.
+
+Persistence provider contracts for determining the load state of an entity or
+entity attribute are defined in <<a13592>>.
 
 === Persistence Context Lifetime and Synchronization Type [[a2027]]
 
