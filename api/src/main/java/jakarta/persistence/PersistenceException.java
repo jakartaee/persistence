@@ -22,7 +22,7 @@ package jakarta.persistence;
  * Thrown by the persistence provider when a problem occurs.
  *
  * <p>Any instance of {@code PersistenceException} thrown by an
- * {@link EntityManager} causes the current activetransaction to
+ * {@link EntityManager} causes the current active transaction to
  * be marked for rollback if the persistence context is joined to
  * the transaction, unless the exception is also an instance of
  * {@link NoResultException},  {@link NonUniqueResultException},
