@@ -206,11 +206,12 @@ mode other than `LockModeType.NONE` as an argument.
 - If the entity manager has a transaction-scoped persistence context, the
   entity or entities returned by `find()`, `get()`, `findMultiple()`, or
   `getMultiple()` are detached;
-- if the entity manager has an extended persistence context, the returned
-  entity or entities are managed.
+- otherwise, if the entity manager has an extended persistence context, the
+  returned entity or entities are managed.
 
 Similar rules applying to entity instances returned by execution of a query
-via an `EntityManager` are specified in <<query-execution-transactions>>.
+object obtained from an `EntityManager` are specified below in
+<<query-execution-transactions>>.
 
 === Entity Instance Life Cycle [[a1929]]
 
@@ -831,7 +832,7 @@ agent has not been joined to the transaction, and any lock mode other than
 Any other method of `EntityAgent` may be called without an active transaction.
 
 Entity instances returned by any method of `EntityAgent`, or by execution of
-any query obtained by calling `createQuery()`, `createNamedQuery()`,
+any query object obtained by calling `createQuery()`, `createNamedQuery()`,
 `createNativeQuery()`, or `createStoredProcedureQuery()` on an `EntityAgent`,
 are always detached.
 
