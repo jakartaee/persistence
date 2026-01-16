@@ -153,11 +153,12 @@ persistence provider.
 
 In the Jakarta EE environment, this programming model is augmented with
 _container-managed entity managers_ with _transaction-scoped persistence
-contexts_, as defined below in <<a2027>> and <<a11431>>. In this augmented
-programming model, the application holds a reference provided by the Jakarta
-EE container to an instance of `EntityManager` whose underlying persistence
-context is determined by transaction affinity.footnote:[This is accomplished
-via indirection at the container level. Every transaction-scoped persistence
+contexts_, as defined below in <<persistence-context-types>> and later in
+<<a11805>>. In this augmented programming model, the application holds a
+reference provided by the Jakarta EE container to an instance of
+`EntityManager` whose underlying persistence context is determined by
+transaction affinity.footnote:[This is accomplished via indirection at
+the container level. Actually, every transaction-scoped persistence
 context is associated with a distinct implementation of `EntityManager`
 supplied by the persistence provider.]
 
@@ -238,6 +239,9 @@ The value `cascade=ALL` is equivalent to
 The cascade functionality is most typically used to model parent-child
 relationships. A closely related feature is orphan removal, which is
 defined below in <<orphan-removal>>.
+
+Information about how lifecycle operations interact with transactions
+may be found below in <<entity-manager-transactions>>.
 
 ==== Entity Instance Creation
 
@@ -483,9 +487,9 @@ A managed entity instance associated with a persistence context becomes
 detached whenever:
 
 - the persistence context is a container-managed transaction-scoped
-  persistence context, as defined in <<a2027>>, and the transaction
-  associated with the persistence context commits, as specified in
-  <<a2048>>,
+  persistence context, as defined in <persistence-context-types>>,
+  and the transaction associated with the persistence context commits,
+  as specified in <<a2048>>,
 - the persistence context is a container-managed persistence context,
   and the transaction associated with the persistence context rolls
   back, as specified in <<a2049>>,
@@ -758,7 +762,7 @@ context is considered an application-managed persistence context by this
 specification, even if its lifecycle is managed by some container-like
 framework.
 
-==== Persistence Context Types
+==== Persistence Context Types [[persistence-context-types]]
 
 There are two kinds of container-manager persistence context,
 distinguished by distinct rules for their lifecycle and propagation:
@@ -812,9 +816,9 @@ until the extended persistence context is joined to an active transaction.
 
 The methods `find()`, `get()`, `findMultiple()`, and `getMultiple()` may be
 invoked when there is no active transaction, subject to the restriction on
-lock modes given below.
+lock modes given below:
 
-- If the entity manager has a transaction-scoped persistence context, the
+- if the entity manager has a transaction-scoped persistence context, the
   entity or entities returned by `find()`, `get()`, `findMultiple()`, or
   `getMultiple()` are detached;
 - otherwise, if the entity manager has an extended persistence context, the
@@ -3016,23 +3020,19 @@ supported for stored procedure queries.
 ==== Query Execution and Transactions [[query-execution-transactions]]
 
 Except for `executeUpdate()`, methods of `Query` and `TypedQuery` may be
-invoked without an active transaction context, unless a lock mode other
-than `LockModeType.NONE` has been specified for the query. In particular,
-if no lock is requested, the methods `getResultList()`, `getSingleResult()`,
-and `getSingleResultOrNull()` may be called when no transaction is
-activefootnote:[A lock mode may be specified for a query by calling
-`setLockMode()` or by specifying the `lockMode` member of the `@NamedQuery`
-annotation.].
+invoked without an active transaction context unless a lock mode other
+than `LockModeType.NONE` is requested, as specified below in <<a4385>>.
+In particular, if no lock is requested, the methods `getResultList()`,
+`getSingleResult()`, and `getSingleResultOrNull()` may be called when no
+transaction is active:
 
-- If the `Query` or `TypedQuery` object was obtained from an `EntityAgent`
+- if the `Query` or `TypedQuery` object was obtained from an `EntityAgent`
   or from an `EntityManager` with a transaction-scoped persistence context,
-  the entities returned by the query are detached;
+  as defined in <<persistence-context-types>>, the entities returned by the
+  query are detached;
 - otherwise, if the query object was obtained or from an `EntityManager`
-  with an extended persistence context, the returned entities are managed.
-
-See <<a2027>> for information about transaction-scoped and extended
-persistence contexts. See <<a11431>> for further discussion of entity
-manager use with no active transaction and persistence context types.
+  with an extended or application-managed persistence context, the returned
+  entities are managed.
 
 The `execute()` method of `Statement` must not be called without an
 active transaction context. The `executeUpdate()` of `Query` or
@@ -3125,17 +3125,31 @@ An `EntityAgent` has no associated persistence context, and so
 flush modes have no effect on an entity agent, nor on `Query`
 objects created by an entity agent.
 
-
 ==== Queries and the Lock Mode [[a4385]]
 
-The `setLockMode` method of the
-`Query` or `TypedQuery` interface or the `lockMode` element of the
-`NamedQuery` annotation may be used to lock the results of a query. A
-lock is obtained for each entity specified in the query result
+Execution of a JPQL query obtains a lock on queried records if the
+application requests such a lock by:
+
+- calling `setLockMode()`, or
+- specifying the `lockMode` member of the `@ReadQueryOptions` or
+  `@NamedQuery` annotation.
+
+If a query is executed when no transaction is active, then the specified
+lock mode must be `LockModeType.NONE`. If there is no active transaction,
+or if the entity manager has not been joined to the transaction, and any
+lock mode other than `LockModeType.NONE` is requested, the method must
+throw `jakarta.persistence.TransactionRequiredException`.
+
+A lock is obtained for each entity specified in the query result
 (including entities passed to constructors in the query `SELECT`
-clause).footnote:[Note that the
-setLockMode method may be called more than once (with different values)
-on a `Query` or `TypedQuery` object.]
+clause).footnote:[Note that the setLockMode() method may be called
+more than once (with different values) on a `Query` or `TypedQuery`
+object.] The scope of a pessimistic lock, as defined above in
+<<a2066>>, is controlled by:
+
+- calling `setLockScope()`, or
+- specifying the `lockScope` member of the `@ReadQueryOptions` or
+  `@NamedQuery` annotation.
 
 If the lock mode type is `PESSIMISTIC_READ`,
 `PESSIMISTIC_WRITE`, or `PESSIMISTIC_FORCE_INCREMENT`, and the query
@@ -3155,16 +3169,11 @@ entities returned by the query will be locked, but no locking will occur
 for scalar data that does not correspond to the state of any entity
 instance in the query result.
 
-If a lock mode other than `NONE` is specified
-for a query, the query must be executed within a transaction (and the
-persistence context must be joined to the transaction) or the
-`TransactionRequiredException` will be thrown.
-
-Locking is supported for Jakarta Persistence
-query language queries and criteria queries only. If the `setLockMode`
-or `getLockMode` method is invoked on a query that is not a Jakarta
-Persistence query language select query or a criteria query, the
-`IllegalStateException` may be thrown or the query execution will fail.
+Locking is supported for JPQL queries and criteria queries. If the
+`setLockMode()` or `getLockMode()` method is called on a query object
+representing a native SQL query or stored procedure, the persistence
+provider is permitted to throw `IllegalStateException`. Alternatively,
+execution of the query might fail.
 
 ==== Query Hints [[a4391]]
 

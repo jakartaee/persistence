@@ -403,9 +403,9 @@ declared using the `PersistenceContext` annotation or the
 `persistence-context-ref` deployment descriptor element. By default, a
 transaction-scoped persistence context is used.
 
-Sections <<a11805>> and <<a11810>> describe transaction-scoped and extended persistence contexts
-in the absence of persistence context propagation. Persistence context
-propagation is described in <<a11816>>.
+Sections <<a11805>> and <<a11810>> describe transaction-scoped and
+extended persistence contexts in the absence of persistence context
+propagation. Persistence context propagation is described in <<a11816>>.
 
 Persistence contexts are always associated
 with an entity manager factory. In the following sections, “the
