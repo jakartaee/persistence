@@ -73,7 +73,7 @@ multiple concurrently executing threads, as the entity manager and
 persistence context are not required to be threadsafe. Entity managers
 must only be accessed in a single-threaded manner.
 
-==== Obtaining an Entity Manager in the Jakarta EE Environment
+==== Obtaining an Entity Manager in the Jakarta EE Environment [[a11464]]
 
 A container-managed entity manager is
 obtained by the application through dependency injection or through
