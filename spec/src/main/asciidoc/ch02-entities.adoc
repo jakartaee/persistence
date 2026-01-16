@@ -1743,15 +1743,16 @@ controls the enablement of _orphan removal_; `orphanRemoval=true`
 activates the following behaviors:
 
 * If a managed entity instance is removed from the relationship by setting
-the relationship attribute to `null` or by removing the entity from the
-relationship collection, the remove operation is applied to the orphaned
-entity. The remove operation occurs when the persistence context is flushed,
-as defined below in <<a1955>>. If an entity being orphaned is a detached,
-new, or removed entity, it is ignored by orphan removal.
+  the relationship attribute to `null` or by removing the entity from the
+  relationship collection, the remove operation is applied to the orphaned
+  entity. The remove operation occurs when the persistence context is flushed,
+  as defined below in <<a1955>>. If an entity being orphaned is a detached,
+  new, or removed entity, it is ignored by orphan removal.
+
 * If the remove operation is applied to a managed entity, the remove operation
-is cascaded to the relationship target in accordance with the rules of <<a1946>>,
-and it is not therefore necessary to explicitly specify `cascade=REMOVE` for
-a relationship declared with `orphanRemoval=true`.footnote:[If the parent is
+  is cascaded to the relationship target in accordance with the rules of <<a1946>>,
+  and it is not therefore necessary to explicitly specify `cascade=REMOVE` for
+  a relationship declared with `orphanRemoval=true`.footnote:[If the parent is
   detached or new, or was previously removed before the orphan was associated
   with it, the remove operation is not applied to the entity being orphaned.]
 
