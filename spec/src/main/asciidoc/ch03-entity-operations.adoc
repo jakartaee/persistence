@@ -17,7 +17,7 @@ This chapter describes:
 - the use of the `EntityAgent` API to directly update persistent state held
   in the database _without_ the use of a persistence context,
 - the use of the second-level cache, and
-- entity listeners and lifeycle callbacks, attribute converters,
+- entity listeners and lifecycle callbacks, attribute converters,
   and integration with Bean Validation.
 
 === Overview
@@ -34,7 +34,8 @@ The `EntityManager` interface defines the methods used to interact with
 its persistence context. The `EntityManager` API is used to create and
 remove persistent entity instances, to find persistent entities by primary
 key, and to query over persistent entity types. <<a1066>> describes the
-`EntityManager` interface. <<a2052>> describes mechanisms for concurrency
+`EntityManager` interface and <<lifecycle-operations>> lists its
+fundamental operations. <<a2052>> describes mechanisms for concurrency
 control and locking. <<a4639>> provides a summary of exceptions.
 
 When a persistence context is not required, `EntityAgent` offers an
@@ -142,17 +143,19 @@ The `EntityManager` interface may be found in <<_entitymanager_>>.
 
 In the Java SE environment, each instance of `EntityManager` is associated
 with a distinct _persistence context_. A persistence context is a set of
-entity instances in which for any given _persistent entity identity_, defined
-by an entity type and a primary key value, as specified in <<a132>>, there
-is at most one entity instance. The entity instances associated with a
-persistence context are considered managed objects, with a well-defined
-lifecycle under the control of the persistence provider.
+entity instances in which there is at most one entity instance with any
+given _persistent entity identity_ defined by an entity type and a primary
+key value, as specified above in <<a132>> and below in <<managed-entities>>.
+footnote:[Alternatively, the context is a map keyed by persistent identity.]
+The entity instances associated with a persistence context are considered
+managed objects, with a well-defined lifecycle under the control of the
+persistence provider.
 
 In the Jakarta EE environment, this programming model is augmented with
 _container-managed entity managers_ with _transaction-scoped persistence
-contexts_, as defined below in <<a11431>>. In this augmented programming
-model, the application holds a reference provided by the Jakarta EE
-container to an instance of `EntityManager` whose underlying persistence
+contexts_, as defined below in <<a2027>> and <<a11431>>. In this augmented
+programming model, the application holds a reference provided by the Jakarta
+EE container to an instance of `EntityManager` whose underlying persistence
 context is determined by transaction affinity.footnote:[This is accomplished
 via indirection at the container level. Every transaction-scoped persistence
 context is associated with a distinct implementation of `EntityManager`
@@ -580,7 +583,7 @@ When this sort of interoperability across different persistence provider
 runtimes from different vendors is required, the application must not use
 lazy loading.
 
-==== Managed Instances
+==== Managed Instances [[managed-entities]]
 
 It is the responsibility of the persistence provider to ensure that at
 most one entity instance belonging to a given persistence context has a
@@ -734,7 +737,7 @@ and described in <<a12177>> may be used instead.
 Persistence provider contracts for determining the load state of an entity or
 entity attribute are defined in <<a13592>>.
 
-=== Persistence Context Lifetime and Synchronization Type [[a2027]]
+=== Persistence Context Lifetime and Transaction Synchronization [[a2027]]
 
 In the Jakarta EE environment, a _container-managed persistence context_
 is a persistence context whose lifecycle is managed by the container.
