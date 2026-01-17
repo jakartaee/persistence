@@ -2689,9 +2689,7 @@ and `description` attributes) are also fetched.
 
 === Type Conversion of Basic Attributes [[a2999]]
 
-The attribute conversion facility allows the developer to define custom
-attribute converters. A _converter_ is a class whose methods convert
-between:
+An _attribute converter_ is a class whose methods convert between:
 
 - the _target type_ of the converter, an arbitrary Java type which may
   be used as the type of a persistent field or property, and
@@ -2723,32 +2721,53 @@ Attribute conversion is supported for element collections, as defined in
 
 ==== Auto-Apply Converters
 
-If the value of the `autoApply` element of the `@Converter` annotation is `true`,
-the converter is automatically applied to every attribute whose declared type
-is the target type of the converter, including basic values contained within
-embedded attributes and element collections. In determining whether such an
-_auto-apply converter_ applies to an attribute, the provider must treat
-primitive types and wrapper types as equivalent.
+A converter declared `@Converter(autoApply=true)` is automatically applied
+to:
 
-An auto-apply converter is not applied to a field or property of an entity
-for which attribute conversion is not supported according to the rules
-specified above.
+- every attribute of an entity class, mapped superclass, or embeddable class
+  whose declared type matches the target type of the converter, unless the
+  converter is overridden or disabled through application of the `@Convert`
+  annotation to the attribute, as specified below, and
+- every element collection whose element type matches the target type
+  of the converter, unless the converter is overridden or disabled
+  through application of the `@Convert` annotation to the collection-valued
+  attribute.
+
+An automatically applied attribute converter must implement the type
+`AttributeConverter<X,Y>`, where:
+
+- `X` is the target type of the converter, and
+- `Y` is a basic type.
+
+In determining whether such an _auto-apply converter_ applies to an
+attribute, the provider must treat primitive types and wrapper types as
+equivalent.
+
+An automatically applied converter is not applied to a field or property
+of an entity for which attribute conversion is not supported according
+to the rules specified above.
 
 ==== Explicit Converters
 
 Conversion of an individual attribute is controlled by the `@Convert`
 annotation defined in <<a14398>>.
 
-- The `@Convert` annotation may be applied directly to an attribute of
-  an entity, mapped superclass, or embeddable class to specify conversion
-  of the attribute, overriding or disabling application of any converter
-  declared as `autoApply=true`. When property access is used as specified
+- The `@Convert` annotation may be applied directly to an attribute of an
+  entity, mapped superclass, or embeddable class to specify conversion of
+  the attribute, overriding or disabling application of any automatically
+  applied converter. When property access is used as specified
   in <<property-access>>, the `@Convert` annotation must be applied to the
   getter method.
 
 - The `@Convert` annotation may be applied to an entity that extends a
   mapped superclass to specify or override the conversion mapping for an
   inherited basic or embedded attribute.
+
+An explicitly applied attribute converter must implement the type
+`AttributeConverter<X,Y>`, where:
+
+- `X` is the declared type of the attribute, and
+- `Y` is a basic type.
 
 A persistence provider is not required to support the application of the
 `@Convert` annotation to a field or property of an entity for which
