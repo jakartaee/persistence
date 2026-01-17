@@ -862,3 +862,65 @@ attribute loading as a side effect._
 * _If no provider recognizes an entity as
 provided by it, it is assumed to be an object that is not instrumented
 and is considered loaded._
+
+=== Integration with CDI [[cdi]]
+
+Entity listeners, defined in <<a2153>> and attribute converters,
+defined in <<a2999>>, may be defined to make use of dependency
+injection through the Contexts and Dependency Injection (CDI) API
+<<a19500>> when CDI is availablefootnote:[CDI is available by
+default in Jakarta EE environments, as required by the Jakarta EE
+specification <<a19499>>.]. In this section, we refer to such objects
+as _CDI-aware_.
+
+A CDI-aware class that makes use of dependency injection may also
+define lifecycle callback methods annotated with the `@PostConstruct`
+and `@PreDestroy` annotations. These methods are invoked after injection
+has taken place and before the attribute converter instance is destroyed,
+respectively.
+
+An instance of a CDI-aware class is a noncontextual object and does
+not have a well-defined scope. It is not a CDI bean.
+
+In a Jakarta EE environment, a persistence provider must support
+dependency injection for CDI-aware classes. A persistence provider is
+encouraged to also support dependency injection in other environments
+where a CDI `BeanManager` is available, but that is not a requirement
+of this specification. If CDI is not available, the persistence
+provider must not instantiate a CDI-aware class.
+
+<<a12802>> specifies how a persistence provider may obtain the
+`BeanManager` in a Jakarta EE environment.
+
+Where CDI-aware classes are supported, the persistence provider is
+responsible for using the standard CDI SPI defined in <<a19500>> to:
+
+- create an instance of the CDI-aware class, perform injection upon
+  the instance, invoke its `@PostConstruct` and `@PreDestroy` methods,
+  if any, and, later
+- dispose of the instance when it is no longer of use.
+
+When instantiating and injecting, the persistence provider must behave
+as if it carries out the following steps:
+
+1. Obtain a `BeanManager`.
+2. Create an `AnnotatedType` instance for the CDI-aware class.
+3. Create an `InjectionTarget` instance for the annotated type.
+4. Create a `CreationalContext`.
+5. Instantiate the CDI-aware class by calling the `produce()` method of
+   `InjectionTarget`.
+6. Inject the CDI-aware instance by calling the `inject()` method of
+   `InjectionTarget` on the instance.
+7. Invoke the `@PostConstruct` callback, if any, by calling the
+   `postConstruct()` method of `InjectionTarget` on the instance.
+
+When disposing of an instance, the persistence provider must behave as
+if it carries out the following steps.
+
+* Call the `preDestroy()` method of `InjectionTarget` on the instance.
+* Call the `dispose()` method of `InjectionTarget` on the instance.
+* Call the `release()` method of `CreationalContext`.
+
+Persistence providers may optimize the steps above, for example, by
+replacing calls to the standard CDI SPI with equivalent interactions
+with vendor-specific interfaces, as long as the outcome is identical.

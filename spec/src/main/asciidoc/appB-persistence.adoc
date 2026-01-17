@@ -117,6 +117,12 @@ include::../../../../api/src/main/java/jakarta/persistence/Subgraph.java[lines=1
 include::../../../../api/src/main/java/jakarta/persistence/AttributeNode.java[lines=18..-1]
 ----
 
+=== `AttributeConverter` [[_attributeconverter_]]
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/AttributeConverter.java[lines=18..-1]
+----
+
 === `SchemaManager` [[_schemamanager_]]
 [source,java]
 ----
