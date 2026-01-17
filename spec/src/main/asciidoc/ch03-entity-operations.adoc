@@ -703,6 +703,7 @@ operations common to `EntityManager` and `EntityAgent`, including:
   identity corresponding to a record which already exists in the database,
   or a list of persistent identities, these operations return an entity
   instance or instances representing the corresponding record or records.
+
 - the methods `createQuery()`, `createNamedQuery()`, `createNativeQuery()`,
   and `createStoredProcedureQuery()`, which allow creation and subsequent
   execution of a query which returns entity instances representing records
@@ -816,13 +817,15 @@ entity attribute are defined in <<a13592>>.
 === Persistence Context Lifetime and Transaction Synchronization [[a2027]]
 
 In the Jakarta EE environment, a _container-managed persistence context_
-is a persistence context whose lifecycle is managed by the container.
-When container-managed persistence contexts are used, the container is
-responsible for creating and destroying instances of `EntityManager`,
-for injecting appropriate contextual references to `EntityManager` at
-injection points declared by the application, as specified in <<a11464>>,
-and for propagating persistence contexts according to the rules given
-in <<a11816>>.
+is a persistence context whose lifecycle is managed by the Jakarta EE
+container. The container is responsible for:
+
+- creating and destroying instances of `EntityManager`,
+- injecting appropriate contextual references at application-declared
+  injection points of type `EntityManager`, as specified in <<a11464>>,
+  and
+- propagating persistence contexts according to the rules given in
+  <<a11816>>.
 
 An _application-managed persistence context_ is any persistence context
 whose lifecycle is _not_ managed by a Jakarta EE container. Typically,
@@ -833,6 +836,10 @@ Jakarta EE container. In the Java SE environment, every persistence
 context is considered an application-managed persistence context by this
 specification, even if its lifecycle is managed by some container-like
 framework.
+
+More information about container-managed persistence contexts may be
+found later in <<a11791>>. More information about application-managed
+persistence contexts may be found in <<a11894>>.
 
 ==== Persistence Context Types [[persistence-context-types]]
 
@@ -850,9 +857,6 @@ distinguished by distinct rules for their lifecycle and propagation:
   persistence context is destroyed by the container when its stateful
   session bean is destroyed.
 
-More information about container-managed persistence contexts may be
-found later in <<a11791>>.
-
 The persistence context type is determined when an instance of
 `EntityManager` is created by the Jakarta EE container. By default,
 a persistence context is created as a transaction-scoped persistence
@@ -867,32 +871,33 @@ include::../../../../api/src/main/java/jakarta/persistence/PersistenceContextTyp
 
 [NOTE]
 Extended persistence contexts and application-managed persistence contexts
-behave similarly in almost every respect. Application-managed persistence
-contexts are described further in <<a11894>>.
+behave similarly in almost every respect.
 
 ==== Entity Manager Operations and Transactions [[entity-manager-transactions]]
 
-The methods `persist()`, `merge()`, `remove()`, and `refresh()` may not be
+The lifecycle operations defined above in <<lifecycle-operations>> may not be
 invoked on an entity manager with a transaction-scoped persistence context
 when no transaction is active. If one of these methods is called on an entity
 manager with a transaction-scoped persistence context when there is no active
 transaction context, the method must throw
-`jakarta.persistence.TransactionRequiredException`.
+`jakarta.persistence.TransactionRequiredException`. As an exception to this
+rule, `detach()` may be called on an entity manager with a transaction-scoped
+persistence context when there is no active transaction context, but it is
+treated as a noop.
 
-On the other hand, the operations `persist()`, `remove()`, `merge()`, and
-`refresh()` may be called on an entity manager with an extended or
-application-managed persistence context even when no transaction is active,
-subject to the restriction on lock modes given below. But the effect of such
-an operation is never synchronized with the database, as defined in <<flush>>,
-until the extended persistence context is joined to an active transaction.
+On the other hand, the same lifecycle operations may be called on an entity
+manager with an extended or application-managed persistence context even when
+no transaction is active, subject to the restriction on lock modes given below.
+But the effect of such an operation is never synchronized with the database,
+as defined in <<flush>>, until the extended persistence context is joined to
+an active transaction.
 
-The methods `find()`, `get()`, `findMultiple()`, and `getMultiple()` may be
-invoked when there is no active transaction, subject to the restriction on
-lock modes given below:
+The entity retrieval methods defined above in <<retrieval>> may be invoked
+when there is no active transaction, subject to the restriction on lock modes
+given below:
 
 - if the entity manager has a transaction-scoped persistence context, the
-  entity or entities returned by `find()`, `get()`, `findMultiple()`, or
-  `getMultiple()` are detached;
+  entity or entities returned by a retrieval method are detached;
 - otherwise, if the entity manager has an extended persistence context, the
   returned entity or entities are managed.
 
@@ -901,6 +906,18 @@ object obtained from an `EntityManager` are specified below in
 <<query-execution-transactions>>.
 
 The `getReference()` method may be called without an active transaction.
+
+The `contains()` method may be called without an active transaction.
+If the entity manager has a transaction-scoped persistence context and
+there is no active transaction, it returns `false`.
+
+The `clear()` method may be called without an active transaction. If the
+entity manager has a transaction-scoped persistence context and there is
+no active transaction, it is treated as a noop.
+
+The `flush()` method must not be called without an active transaction.
+If `flush()` is called when there is no active transaction, the provider
+must throw `jakarta.persistence.TransactionRequiredException`.
 
 If a method of `EntityManager` accepts a lock mode and the method is
 called when no transaction is active, then the specified lock mode must be
@@ -1010,14 +1027,22 @@ to the transaction.
 
 The `EntityAgent` interface may be found in <<_entityagent_>>.
 
+The fundamental operations of an `EntityAgent` are: `insert()`, `update()`,
+`delete()`, `upsert()`, and `refresh()`. These operations perform immediate
+access to the database.
+
+Every method of `EntityAgent` may be called without an active transaction,
+subject to the restriction on lock modes given below.
+
+[NOTE]
+Write operations performed outside of a transaction are permitted but not
+encouraged.
+
 If a method of `EntityAgent` accepts a lock mode and the method is called
 when no transaction is active, then the specified lock mode must be
-`LockModeType.NONE`. If there is no active transaction, or if the entity
-agent has not been joined to the transaction, and any lock mode other than
-`LockModeType.NONE` is passed to the method, the method must throw
-`jakarta.persistence.TransactionRequiredException`.
-
-Any other method of `EntityAgent` may be called without an active transaction.
+`LockModeType.NONE`. If there is no active transaction and any lock mode
+other than `LockModeType.NONE` is passed to the method, the method must
+throw `jakarta.persistence.TransactionRequiredException`.
 
 Entity instances returned by any method of `EntityAgent`, or by execution of
 any query object obtained by calling `createQuery()`, `createNamedQuery()`,
