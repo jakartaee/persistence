@@ -225,7 +225,7 @@ references to the entity. Thus, object identity might still not
 be respected in a strict sense, not even for a reference type.
 
 
-==== Property Access
+==== Property Access [[property-access]]
 
 When property access is used, persistent properties of the entity class
 must follow the method signature conventions for JavaBeans read/write
@@ -854,8 +854,8 @@ public class EmployeeId {
 @Entity
 @IdClass(EmployeeId.class)
 public class Employee {
-    @Id String firstName
-    @Id String lastName
+    @Id String firstName;
+    @Id String lastName;
 
    // ...
 }
@@ -920,7 +920,6 @@ public class Dependent {
         @JoinColumn(name="FK1", referencedColumnName="firstName"),
         @JoinColumn(name="FK2", referencedColumnName="lastName")
     })
-
     @ManyToOne
     Employee emp;
 
@@ -991,7 +990,6 @@ public class Dependent {
         @JoinColumn(name="FK1", referencedColumnName="firstName"),
         @JoinColumn(name="FK2", referencedColumnName="lastName")
     })
-
     @ManyToOne Employee
     emp;
 }
@@ -1169,7 +1167,6 @@ public class MedicalHistory {
         @JoinColumn(name="FK1", referencedColumnName="firstName"),
         @JoinColumn(name="FK2", referencedColumnName="lastName")
     })
-
     @OneToOne
     Person patient;
 
@@ -1196,7 +1193,7 @@ descriptor.
 @Entity
 public class MedicalHistory {
     // all attributes map to relationship:
-    AttributeOverride not allowed
+    // AttributeOverride not allowed
 
     @EmbeddedId
     PersonId id;
@@ -1208,7 +1205,6 @@ public class MedicalHistory {
         @JoinColumn(name="FK1", referencedColumnName="firstName"),
         @JoinColumn(name="FK2", referencedColumnName="lastName")
     })
-
     @OneToOne Person patient;
 
     // ...
@@ -1268,7 +1264,6 @@ public class MedicalHistory {
         @JoinColumn(name="FK1", referencedColumnName="firstName"),
         @JoinColumn(name="FK2", referencedColumnName="lastName")
     })
-
     Person patient;
 
     // ...
