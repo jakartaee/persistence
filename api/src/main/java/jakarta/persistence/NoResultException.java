@@ -21,8 +21,9 @@ package jakarta.persistence;
  * or {@link TypedQuery#getSingleResult()} is executed and there is no
  * result to return.
  *
- * <p> When this exception is thrown, the current transaction is not
- * automatically marked for rollback.
+ * <p> This exception type is considered recoverable. When this exception
+ * is thrown, the current transaction is not automatically marked for
+ * rollback.
  * 
  * @see Query#getSingleResult()
  * @see TypedQuery#getSingleResult()

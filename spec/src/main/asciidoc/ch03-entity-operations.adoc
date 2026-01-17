@@ -161,17 +161,11 @@ is used to obtain a `Statement`. A `PersistenceException` is thrown when the
 native query is executed if:
 
 - the query or statement is rejected by the database server, or
-- the result set specification is incompatible with the result set of the SQL
-  query.
+- the result set specification is incompatible with the result set of the
+  SQL query.
 
 The `PersistenceException` should wrap the underlying database exception if
 possible.
-
-Any runtime exception thrown by a method of `EntityManager` or `EntityAgent`
-causes the current transaction to be marked for rollback if the persistence
-context is joined to that transaction. As an exception to this rule,
-`LockTimeoutException` does not cause the current transaction to be marked
-for rollback.
 
 === EntityManager Interface [[a1066]]
 
@@ -217,6 +211,20 @@ public class OrderEntryBean implements OrderEntry {
 More information about container-managed entity managers and about
 transaction-scoped and extended persistence contexts may be found in
 <<a2027>> and <<a11431>>.
+
+Exceptions thrown by methods of an `EntityManager` are not usually considered
+recoverable. Any runtime exception thrown by a method of `EntityManager`
+causes the current transaction to be marked for rollback if the persistence
+context is joined to that transaction, unless the type of the exception is
+explicitly excepted below in <<a4639>>. A persistence provider is not required
+to allow continued use of an `EntityManager` after one of its methods throws
+an unrecoverable exception type.
+
+[NOTE]
+When a method of `EntityManager` throws an exception, it is highly likely
+that the persistence context is left in an inconsistent state or in a state
+which is no longer consistent with the database. It is strongly recommended
+that the application immediately discard the `EntityManager`.
 
 === Entity Instance Lifecycle [[a1929]]
 
@@ -1016,6 +1024,9 @@ any query object obtained by calling `createQuery()`, `createNamedQuery()`,
 `createNativeQuery()`, or `createStoredProcedureQuery()` on an `EntityAgent`,
 are always detached.
 
+Exceptions thrown by methods of an `EntityAgent` are considered recoverable,
+and do not usually cause the active transaction to be marked for rollback.
+
 === Locking and Concurrency [[a2052]]
 
 This specification assumes the use of
@@ -1540,7 +1551,9 @@ will be thrown and wrapped by another exception, such as a
 referenced in wrapped exceptions should implement `Serializable` so that
 marshalling does not fail.
 
-An `OptimisticLockException` always causes
+An `OptimisticLockException` throw by an `EntityManager` always causes
+the transaction to be marked for rollback. An `OptimisticLockException`
+throw by an `EntityAgent` is considered recoverable and does not cause
 the transaction to be marked for rollback.
 
 Refreshing objects or reloading objects in a
@@ -2884,6 +2897,19 @@ parameter binding and execution for both:
 The `TypedQuery` interface also allows pagination control and control
 over locking.
 
+For example:
+
+[source,java]
+----
+public List<Customer> findWithName(String name) {
+    return em.createQuery("SELECT c FROM Customer c WHERE c.name LIKE :custName")
+        .ofType(Customer.class)
+        .setParameter("custName", name)
+        .setMaxResults(10)
+        .getResultList();
+}
+----
+
 The `StoredProcedureQuery` interface is used to call stored procedures
 defined in the database.
 
@@ -3017,12 +3043,12 @@ transaction is active:
   or from an `EntityManager` with a transaction-scoped persistence context,
   as defined in <<persistence-context-types>>, the entities returned by the
   query are detached;
-- otherwise, if the query object was obtained or from an `EntityManager`
-  with an extended or application-managed persistence context, the returned
+- otherwise, if the query object was obtained from an `EntityManager` with
+  an extended or application-managed persistence context, the returned
   entities are managed.
 
 The `execute()` method of `Statement` must not be called without an
-active transaction context. The `executeUpdate()` of `Query` or
+active transaction context. The `executeUpdate()` method of `Query` or
 `TypedQuery` must not be called without an active transaction context.
 
 Whether a `StoredProcedureQuery` can be invoked without an active
@@ -3033,16 +3059,22 @@ transaction and a transaction is already active. The state of entities
 returned by a stored procedure query invocation is determined according
 to the rules for `Query` or `TypedQuery` as described above.
 
-If the persistence context is joined to the transaction, any runtime
-exception thrown by any method of `Query`, `Statement`, `TypedQuery`,
-or `StoredProcedureQuery` causes the current transaction to be marked
-for rollback, unless the exception is an instance of one of the following
-exception types:
+A query object obtained from an `EntityManager` has an associated
+persistence context, and returns entities belonging to that persistence
+context. If the persistence context is joined to the transaction, any
+runtime exception thrown by any method of `Query`, `Statement`,
+`TypedQuery`, or `StoredProcedureQuery` causes the current transaction
+to be marked for rollback, unless the type of the exception is explicitly
+excepted below in <<a4639>> or unless the method is explicitly excepted
+by the rules given below.
 
-- `NonUniqueResultException` or `NoResultException`, or
-- `QueryTimeoutException` or `LockTimeoutException`,
-
-or unless the method is explicitly excepted by the rules given below.
+A query object obtained from an `EntityAgent` has no associated
+persistence context, though the persistence provider is permitted to
+canonicalize the entity instances returned by the query according to
+their persistent identities. A runtime exception thrown by a method
+of a query object obtained from an `EntityAgent` is considered
+recoverable and does not usually cause the current transaction to be
+marked for rollback.
 
 On any database platform on which a query timeout causes an immediate
 transaction rollback, the persistence provider must throw a
@@ -3052,7 +3084,7 @@ Certain methods never cause the current transaction to be marked for
 rollback:
 
 - a runtime exception thrown by the following methods of the `Query`,
-  `Statement`, TypedQuery`, and `StoredProcedureQuery` interfaces does
+  `Statement`, `TypedQuery`, and `StoredProcedureQuery` interfaces does
   not cause the current transaction to be marked for rollback:
   `getLockMode`, `getParameters`, `getParameter`, `getParameterValue`,
   `getOutputParameterValue`, and
@@ -3060,18 +3092,6 @@ rollback:
 - a runtime exception thrown by a method of the `Tuple`, `TupleElement`,
   or `Parameter` interface does not cause the current transaction to be
   marked for rollback.
-
-For example:
-
-[source,java]
-----
-public List findWithName(String name) {
-    return em.createQuery("SELECT c FROM Customer c WHERE c.name LIKE :custName")
-        .setParameter("custName", name)
-        .setMaxResults(10)
-        .getResultList();
-}
-----
 
 ==== Queries and the Flush Mode [[a4374]]
 
@@ -3975,7 +3995,7 @@ immediately by calls to `getOutputParameterValue`.
 
 === Summary of Exceptions [[a4639]]
 
-The following is a summary of the exceptions defined by this specification:
+The following exception types are defined by this specification:
 
 PersistenceException ::
 
@@ -3995,11 +4015,17 @@ TransactionRequiredException::
 Thrown by the persistence provider when a transaction is required
 but is not active.
 
+RollbackException::
+
+Thrown by the persistence provider when a resource-local
+transaction cannot be committed, that is, when the `commit()`
+method of `EntityTransaction` fails.
+
 OptimisticLockException::
 
-Thrown by the persistence provider when an optimistic locking conflict
-occurs. This exception may be thrown by an API call, during flush, or
-when the transaction commits.
+Thrown by the persistence provider when an optimistic locking
+conflict occurs. This exception may be thrown by an API call,
+during flush, or when the transaction commits.
 +
 If the persistence context is joined to an active transaction,
 the transaction is automatically marked for rollback when this
@@ -4007,13 +4033,69 @@ exception is thrown.
 
 PessimisticLockException::
 
-Thrown by the persistence provider when a pessimistic locking conflict
-occurs. This exception may be thrown by an API call, during flush, or
-when the transaction commits.
+Thrown by the persistence provider when a pessimistic locking
+conflict occurs. This exception may be thrown by an API call,
+during flush, or when the transaction commits.
 +
 If the persistence context is joined to an active transaction,
 the transaction is automatically marked for rollback when this
 exception is thrown.
+
+EntityExistsException::
+
+Thrown by the persistence provider when:
+
+- a detached instance of an entity type is passed to `persist()`,
+  or
+- an instance of an entity type with an identifier assigned by
+  the application is passed to `insert()`, and a record with the
+  assigned identifier already exists in the database.
+
++
+If a detached instance is passed to the persist operation, an
+`EntityExistsException` may be immediately thrown by `persist()`,
+or the `EntityExistsException` or another `PersistenceException`
+may be thrown at flush or commit time.
+If the persistence context is joined to an active transaction,
+the transaction is automatically marked for rollback when this
+exception is thrown.
+
+EntityNotFoundException::
+
+Thrown by the persistence provider when:
+
+- `get()` cannot return an instance of the requested entity
+  type because there is no matching record in the database,
+- an entity reference obtained by calling `getReference()` is
+  accessed but the reference has no corresponding record in
+  the database,
+- an entity is passed to `refresh()` and its record no longer
+  exists in the database,
+- an entity is passed to `lock()`, a pessimistic lock mode is
+  requested, and the record no longer exists in the database.
+
++
+If the persistence context is joined to an active transaction,
+the transaction is automatically marked for rollback when this
+exception is thrown.
+
+NoResultException::
+
+Thrown by the persistence provider when `getSingleResult()`
+is executed and there is no result to return.
++
+This exception type is considered recoverable.
+When this exception is thrown, the current transaction is not
+automatically marked for rollback.
+
+NonUniqueResultException::
+
+Thrown by the persistence provider when `getSingleResult()`
+is executed and there is more than one result from the query.
++
+This exception type is considered recoverable.
+When this exception is thrown, the current transaction is not
+automatically marked for rollback.
 
 LockTimeoutException::
 
@@ -4024,65 +4106,7 @@ when the transaction commits.footnote:[Typically this occurs
 because the database uses statement-level rollback when a
 pessimistic lock cannot be granted and there is no deadlock.]
 +
-When this exception is thrown, the current transaction is
-not automatically marked for rollback.
-
-RollbackException::
-
-Thrown by the persistence provider when a resource-local
-transaction cannot be committed, that is, when the `commit()`
-method of `EntityTransaction` fails.
-
-EntityExistsException::
-
-Thrown by the persistence provider when:
-
-- a detached instance of an entity type is passed to `persist()`, or
-- an instance of an entity type with an identifier assigned by the
-  application is passed to `insert()`, and a record with the assigned
-  identifier already exists in the database.
-
-+
-If a detached instance is passed to the persist operation, an
-`EntityExistsException` may be immediately thrown by `persist()`, or
-the `EntityExistsException` or another `PersistenceException` may be
-thrown at flush or commit time.
-If the persistence context is joined to an active transaction,
-the transaction is automatically marked for rollback when this
-exception is thrown.
-
-EntityNotFoundException::
-
-Thrown by the persistence provider when:
-
-- `get()` cannot return an instance of the requested entity type
-  because there is no matching record in the database,
-- an entity reference obtained by calling `getReference()` is
-  accessed but the reference has no corresponding record in the
-  database,
-- an entity is passed to `refresh()` and its record no longer
-  exists in the database,
-- an entity is passed to `lock()`, a pessimistic lock mode is
-  requested, and the record no longer exists in the database.
-
-+
-If the persistence context is joined to an active
-transaction, the transaction is automatically marked for
-rollback when this exception is thrown.
-
-NoResultException::
-
-Thrown by the persistence provider when `getSingleResult()` is
-executed and there is no result to return.
-+
-When this exception is thrown, the current transaction is not
-automatically marked for rollback.
-
-NonUniqueResultException::
-
-Thrown by the persistence provider when `getSingleResult()` is
-executed and there is more than one result from the query.
-+
+This exception type is considered recoverable.
 When this exception is thrown, the current transaction is not
 automatically marked for rollback.
 
@@ -4091,5 +4115,21 @@ QueryTimeoutException::
 Thrown by the persistence provider when a query times out and
 only the statement is rolled back.
 +
-When this exception is thrown, the current transaction is
-not automatically marked for rollback.
+This exception type is considered recoverable.
+When this exception is thrown, the current transaction is not
+automatically marked for rollback.
+
+In addition to the exception types listed above, certain methods
+of `EntityManager`, `EntityHandler`, `Query`, `Statement`,
+`TypedQuery`, and `StoredProdureQuery` throw
+`IllegalArgumentException` to indicate that an argument of the
+method is not an entity, is not an entity class, is not the name
+of a declared named query or entity graph, is not a legal JPQL
+query, and so on. Since Jakarta Persistence 4.0, such exceptions
+are now considered recoverable, and the persistence provider is
+not required to automatically mark the current transaction for
+rollback when a method of one of these interfaces throws
+`IllegalArgumentException`.footnote:[There are many possible
+conditions leading to an `IllegalArgumentException` and some
+such conditions do lead to the transaction being marked for
+rollback.]
