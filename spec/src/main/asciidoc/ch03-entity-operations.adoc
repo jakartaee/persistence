@@ -125,9 +125,11 @@ between properties and hints as follows:
 Operations common to `EntityManager` and `EntityAgent` are declared by the
 interface `EntityHandler`, which may be found in <<_entityhandler_>>.
 
-The methods `close()`, `isOpen()`, `joinTransaction()`, and `getTransaction()`
-are used to control the lifecycle of application-managed entity managers and
-entity agents. See <<a11465>>. Any method of `EntityManager` and `EntityAgent`
+The methods `close()` and `isOpen()` are used to control the lifecycle of
+application-managed entity managers and entity agents, as defined in
+<<a11894>>. The method `getTransaction()` returns an `EntityTransaction`
+which may be used to control resource-local transactions as specified in
+<<controlling-transactions>>. Any method of `EntityManager` and `EntityAgent`
 except for `isOpen()`, `getTransaction()`, and `getProperties()` throws
 `IllegalStateException` if the entity manager or entity agent has been closed.
 
@@ -392,7 +394,8 @@ type `SynchronizationType.UNSYNCHRONIZED`, or an application-managed
 persistence context that has been created outside the scope of the
 current transaction, is only synchronized to the database if it has
 been explicitly joined to the current transaction by calling the
-`joinTransaction()` method of `EntityManager`.
+`joinTransaction()` method of `EntityManager`, as specified below
+in <<synchronization-type>>.
 
 Assuming that the persistence context is joined to the current
 transaction, the state of its managed entities is synchronized to the
@@ -919,6 +922,12 @@ The `flush()` method must not be called without an active transaction.
 If `flush()` is called when there is no active transaction, the provider
 must throw `jakarta.persistence.TransactionRequiredException`.
 
+The method `joinTransaction()` associates the persistence context
+underlying the `EntityManager` with the currently active container
+transaction. If `joinTransaction()` is called when there is no active
+transaction, the provider or container must throw
+`jakarta.persistence.TransactionRequiredException`.
+
 If a method of `EntityManager` accepts a lock mode and the method is
 called when no transaction is active, then the specified lock mode must be
 `LockModeType.NONE`. If there is no active transaction, or if the entity
@@ -937,7 +946,7 @@ a managed object associated with an extended persistence context results
 in one or more other managed objects regardless of whether a transaction
 is active.
 
-==== Synchronization with the Current Transaction
+==== Synchronization with the Current Transaction [[synchronization-type]]
 
 When a persistence unit is configured to use container-managed JTA
 transactions, as defined in <<a12296>>, any entity manager associated
@@ -954,6 +963,10 @@ well-defined _synchronization type_.
 - An _unsynchronized_ persistence context is not joined to a transaction
   until `EntityManager.joinTransaction()` is called explicitly by the
   application.
+
+As specified above in <<flush>>, modifications held in a persistence
+context are not synchronized with the database unless the persistence
+context is joined to the current transaction.
 
 The synchronization type of a persistence context is determined when an
 instance of `EntityManager` is created by the application or Jakarta EE
