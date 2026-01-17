@@ -17,8 +17,9 @@
 package jakarta.persistence;
 
 /**
- * Thrown by the persistence provider when
- * {@link EntityTransaction#commit()} fails.
+ * Thrown by the persistence provider when a resource-local transaction
+ * cannot be committed, that is, when {@link EntityTransaction#commit()}
+ * fails.
  *
  * @see EntityTransaction#commit()
  *

@@ -20,6 +20,7 @@ package jakarta.persistence;
  * Thrown by the persistence provider when {@link Query#getSingleResult()}
  * or {@link TypedQuery#getSingleResult()} is executed and there is more
  * than one result from the query.
+ *
  * <p> When this exception is thrown, the current transaction is not
  * automatically marked for rollback.
  *

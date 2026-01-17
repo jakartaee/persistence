@@ -4056,96 +4056,117 @@ The following is a summary of the exceptions defined by this specification:
 
 PersistenceException ::
 
-The `PersistenceException` is thrown by the
-persistence provider when a problem occurs. It may be thrown to report
-that the invoked operation could not complete because of an unexpected
-error (e.g., failure of the persistence provider to open a database
-connection).
+Thrown by the persistence provider when a problem occurs. Every
+other exception type defined by this specification is a subclass
+of `PersistenceException`.
 +
-All other exceptions defined by this
-specification are subclasses of the `PersistenceException`. All
-instances of `PersistenceException` except for instances of
-`NoResultException`, `NonUniqueResultException`, `LockTimeoutException`,
-and `QueryTimeoutException` will cause the current transaction, if one
-is active and the persistence context has been joined to it, to be
-marked for rollback.
+Any instance of `PersistenceException` thrown by an `EntityManager`
+causes the current active transaction to be marked for rollback if
+the persistence context is joined to the transaction, unless the
+exception is also an instance of `NoResultException`,
+`NonUniqueResultException`, `LockTimeoutException`, or
+`QueryTimeoutException`.
 
 TransactionRequiredException::
 
-The `TransactionRequiredException` is thrown
-by the persistence provider when a transaction is required but is not
-active.
+Thrown by the persistence provider when a transaction is required
+but is not active.
 
 OptimisticLockException::
 
-The `OptimisticLockException` is thrown by
-the persistence provider when an optimistic locking conflict occurs.
-This exception may be thrown as part of an API call, at flush, or at
-commit time. The current transaction, if one is active, will be marked
-for rollback.
+Thrown by the persistence provider when an optimistic locking conflict
+occurs. This exception may be thrown by an API call, during flush, or
+when the transaction commits.
++
+If the persistence context is joined to an active transaction,
+the transaction is automatically marked for rollback when this
+exception is thrown.
 
 PessimisticLockException::
 
-The `PessimisticLockException` is thrown by
-the persistence provider when a pessimistic locking conflict occurs. The
-current transaction will be marked for rollback. Typically the
-`PessimisticLockException` occurs because the database transaction has
-been rolled back due to deadlock or because the database uses
-transaction-level rollback when a pessimistic lock cannot be granted.
+Thrown by the persistence provider when a pessimistic locking conflict
+occurs. This exception may be thrown by an API call, during flush, or
+when the transaction commits.
++
+If the persistence context is joined to an active transaction,
+the transaction is automatically marked for rollback when this
+exception is thrown.
 
 LockTimeoutException::
 
-The `LockTimeoutException` is thrown by the
-persistence provider when a pessimistic locking conflict occurs that
-does not result in transaction rollback. Typically this occurs because
-the database uses statement-level rollback when a pessimistic lock
-cannot be granted (and there is no deadlock). The `LockTimeoutException`
-does not cause the current transaction to be marked for rollback.
+Thrown by the persistence provider when a pessimistic locking
+conflict occurs that does not result in transaction rollback.
+This exception may be thrown by an API call, during flush, or
+when the transaction commits.footnote:[Typically this occurs
+because the database uses statement-level rollback when a
+pessimistic lock cannot be granted and there is no deadlock.]
++
+When this exception is thrown, the current transaction is
+not automatically marked for rollback.
 
 RollbackException::
 
-The `RollbackException` is thrown by the
-persistence provider when `EntityTransaction.commit` fails.
+Thrown by the persistence provider when a resource-local
+transaction cannot be committed, that is, when the `commit()`
+method of `EntityTransaction` fails.
 
 EntityExistsException::
 
-The `EntityExistsException` may thrown by the
-persistence provider when the `persist` operation is invoked and the
-entity already exists. The `EntityExistsException` may be thrown when
-the persist operation is invoked, or the `EntityExistsException` or
-another `PersistenceException` may be thrown at commit time. The current
-transaction, if one is active and the persistence context has been
-joined to it, will be marked for rollback.
+Thrown by the persistence provider when:
+
+- a detached instance of an entity type is passed to `persist()`, or
+- an instance of an entity type with an identifier assigned by the
+  application is passed to `insert()`, and a record with the assigned
+  identifier already exists in the database.
+
++
+If a detached instance is passed to the persist operation, an
+`EntityExistsException` may be immediately thrown by `persist()`, or
+the `EntityExistsException` or another `PersistenceException` may be
+thrown at flush or commit time.
+If the persistence context is joined to an active transaction,
+the transaction is automatically marked for rollback when this
+exception is thrown.
 
 EntityNotFoundException::
 
-The `EntityNotFoundException` is thrown by
-the persistence provider when an entity reference obtained by
-`getReference` is accessed but the entity does not exist. It is thrown
-by the `refresh` operation when the entity no longer exists in the
-database. It is also thrown by the `lock` operation when pessimistic
-locking is used and the entity no longer exists in the database. The
-current transaction, if one is active and the persistence context has
-been joined to it, will be marked for rollback.
+Thrown by the persistence provider when:
+
+- `get()` cannot return an instance of the requested entity type
+  because there is no matching record in the database,
+- an entity reference obtained by calling `getReference()` is
+  accessed but the reference has no corresponding record in the
+  database,
+- an entity is passed to `refresh()` and its record no longer
+  exists in the database,
+- an entity is passed to `lock()`, a pessimistic lock mode is
+  requested, and the record no longer exists in the database.
+
++
+If the persistence context is joined to an active
+transaction, the transaction is automatically marked for
+rollback when this exception is thrown.
 
 NoResultException::
 
-The `NoResultException` is thrown by the persistence provider when
-`Query.getSingleResult` is invoked and there is no result to return.
-This exception does not cause the current transaction, if one is
-active, to be marked for rollback.
+Thrown by the persistence provider when `getSingleResult()` is
+executed and there is no result to return.
++
+When this exception is thrown, the current transaction is not
+automatically marked for rollback.
 
 NonUniqueResultException::
 
-The `NonUniqueResultException` is thrown by the persistence provider
-when `Query.getSingleResult` or `Query.getSingleResultOrNull` is
-invoked and there is more than one result from the query. This
-exception does not cause the current transaction, if one is active,
-to be marked for rollback.
+Thrown by the persistence provider when `getSingleResult()` is
+executed and there is more than one result from the query.
++
+When this exception is thrown, the current transaction is not
+automatically marked for rollback.
 
 QueryTimeoutException::
 
-The `QueryTimeoutException` is thrown by the
-persistence provider when a query times out and only the statement is
-rolled back. The `QueryTimeoutException` does not cause the current
-transaction, if one is active, to be marked for rollback.
+Thrown by the persistence provider when a query times out and
+only the statement is rolled back.
++
+When this exception is thrown, the current transaction is
+not automatically marked for rollback.
