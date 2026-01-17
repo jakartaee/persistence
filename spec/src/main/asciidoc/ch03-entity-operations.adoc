@@ -536,7 +536,7 @@ A managed entity instance associated with a persistence context becomes
 detached whenever:
 
 - the persistence context is a container-managed transaction-scoped
-  persistence context, as defined in <persistence-context-types>>,
+  persistence context, as defined in <<persistence-context-types>>,
   and the transaction associated with the persistence context commits,
   as specified in <<a2048>>,
 - the persistence context is a container-managed persistence context,
@@ -553,25 +553,41 @@ A detached entity instance continues to live outside the persistence
 context in which it was persisted or retrieved. Its state does not
 remain synchronized with the database record it represents.
 
-The application may access the available state of available detached
-entity instances after the persistence context ends. The available
-state includes any persistent field or property:
+===== Detached Entities and Lazy Loading [[detached-lazy-state]]
 
-* not marked `fetch=LAZY`, or
-* accessed by the application or fetched by means of an entity graph.
+The _available_ state of a detached entity instance is the state which
+was already loaded when the instance became detached. The application
+may access the available state of available detached entity instances
+after the persistence context ends.
+
+The available state of a detached entity or of an embeddable object
+belonging to a detached entity includes every persistent field or
+property:
+
+- not explicitly mapped as `fetch=LAZY`,
+- accessed by the application while the entity was managed, or
+- fetched by means of an entity graph, as specified below in <<a2397>>.
 
 If the persistent field or property is an association, the available
-state of an associated instance may only be safely accessed if the
-associated instance is available. The available instances include
-any entity instance:
+state of an associated instance may be safely accessed if and only if
+the associated instance is available. The available instances include
+every entity instance:
 
-* retrieved using `find()`,
-* retrieved using a query or explicitly requested in a fetch join or
+- retrieved using `find()`, `get()`, `findMultiple()`,
+  or `getMultiple()`, as specified in <<retrieval>>,
+- returned by a query or explicitly requested in a fetch join or
   entity graph,
-* with a persistent attribute other than the primary key which was
-  accessed by the application, or
-* reachable from an available instance by navigating associations marked
-  `fetch=EAGER`.
+- with a persistent attribute other than the primary key which was
+  accessed by the application while the entity was managed, or
+- reachable from an available instance by navigating associations
+  mapped explicitly or by default as `fetch=EAGER`.
+
+[NOTE]
+A persistence provider might allow access to the primary key of an
+unavailable associated entity.
+
+A `PersistenceException` is thrown if the application accesses an
+unavailable attribute, collection, or entity.
 
 ===== Merging Detached Entity State [[merge]]
 
@@ -612,9 +628,17 @@ processing of the merge operation, or later when the flush operation
 occurs or when the transaction commits.
 
 The persistence provider must ignore unfetched attributes of detached
-instances when merging.
+instances when merging. A persistence provider is permitted to report
+an exception if an entity instance with unfetched lazy attributes
+instantiated by a different persistence provider runtime is passed to
+`merge()`.
 
-===== Detached Entities, Serialization, and Lazy Loading
+[NOTE]
+When this sort of interoperability across different persistence provider
+runtimes from different vendors is required, the application must not use
+lazy loading.
+
+===== Detached Entities and Serialization
 
 A persistence provider is required to support:
 
@@ -627,16 +651,7 @@ A persistence provider is required to support:
    implemented by the same persistence provider runtime in the second
    virtual machine.
 
-A persistence provider is permitted  to report an exception if an entity
-instance with unfetched lazy attributes instantiated by a different
-persistence provider runtime is passed to `merge()`.
-
-[NOTE]
-When this sort of interoperability across different persistence provider
-runtimes from different vendors is required, the application must not use
-lazy loading.
-
-==== Managed Instances [[managed-entities]]
+==== Managed Entities [[managed-entities]]
 
 It is the responsibility of the persistence provider to ensure that at
 most one entity instance belonging to a given persistence context has a
@@ -670,7 +685,7 @@ visible to the `contains()` method, whereas the actual insertion, update,
 or deletion of the database record represented by the entity is deferred
 until the flush operation occurs.
 
-==== Entity Instance Retrieval
+==== Entity Instance Retrieval [[retrieval]]
 
 The interface `EntityHandler`, found in <<_entityhandler_>> declares
 operations common to `EntityManager` and `EntityAgent`, including:
@@ -755,7 +770,7 @@ or embeddable object might have an unloaded attribute if and only if the
 attribute is mapped as `FetchType.LAZY`.
 
 The available state of an entity instance and its associated instances is
-described above in <<a1982>>.
+described above in <<detached-lazy-state>>.
 
 An attribute of an entity or embedded class might also be considered _loaded_.
 
