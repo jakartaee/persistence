@@ -310,6 +310,18 @@ is applied to `e` via cascade:
   with the `cascade` element value `cascade=PERSIST` or `cascade=ALL` or
   mapped as such by the equivalent XML descriptor element.
 
+Ordinarily, the persist operation assigns a persistent identity to the
+entity. If the primary key of the entity is a generated value, as defined
+by <<a14790>>, the primary key is generated as part of the persist operation,
+and the generated value is made available to the application by setting the
+primary key field or property of the entity. As a special exception to this
+rule, if the primary key generation strategy of an entity is `IDENTITY`,
+the persistence provider is permitted to delay assignment of the primary key
+until pending modifications are synchronized with the database, as defined
+by <<flush>>. Indeed, when `persist()` is called with no active transaction,
+the persistence provider is _required_ to delay generation and assignment of
+`IDENTITY` primary keys.
+
 ==== Removal [[remove]]
 
 A managed entity instance becomes removed when it is passed as an argument
