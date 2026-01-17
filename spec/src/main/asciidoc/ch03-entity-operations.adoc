@@ -69,6 +69,42 @@ describes entity listeners and lifecycle callback methods for entities.
 describes mechanisms for defining conversions between entity and database
 representations for attributes of basic types.
 
+=== Entities and Database Records
+
+A _persistent entity identity_ is defined by an entity type and a primary
+key value, as specified above in <<a132>> and below in <<managed-entities>>.
+An entity is called _managed_ if it belongs to a persistence context. Every
+managed entity instance has a persistent identity. The managed instance
+retains its persistent identity when its association with the persistence
+context is destroyed, as defined below in <<a1982>>, and the entity becomes
+_detached_.
+
+Persistent identity determines a mapping from managed entity instances
+to _records_ held in the database. In this specification, the term
+"record" refers collectively to one or more relational table rows:
+
+- the row held in the _primary table_ mapped by the entity class, as
+  specified in <<table>>,
+
+along with additional rows related to this row by foreign key associations
+and held in:
+
+- _secondary tables_, as specified in <<a16062>>,
+- tables mapped by element collections, as specified in <<a14250>>, and
+- tables mapped by owned relationships, as specified in <<a15022>>.
+
+A record may be uniquely identified by the primary key value of its row
+in the primary table. We say that an entity instance _represents_ the
+record if the primary key of the entity instance matches the primary
+key value of the row belonging to the record in the primary table.
+footnote:[Actually, when mapping a legacy database schema, it is often
+perfectly acceptable to map the primary key of an entity to any unique
+key of the primary table.]
+
+We say that an entity instance is _persistent_ if it represents a
+database record or if insertion of a record has been scheduled with
+the entity manager.
+
 === Properties and Hints [[properties-hints]]
 
 The `EntityManager` and `EntityAgent` interfaces--along with some other
@@ -144,12 +180,10 @@ The `EntityManager` interface may be found in <<_entitymanager_>>.
 In the Java SE environment, each instance of `EntityManager` is associated
 with a distinct _persistence context_. A persistence context is a set of
 entity instances in which there is at most one entity instance with any
-given _persistent entity identity_ defined by an entity type and a primary
-key value, as specified above in <<a132>> and below in <<managed-entities>>.
-footnote:[Alternatively, the context is a map keyed by persistent identity.]
-The entity instances associated with a persistence context are considered
-managed objects, with a well-defined lifecycle under the control of the
-persistence provider.
+given persistent entity identityfootnote:[Alternatively, the context is
+a map keyed by persistent identity.]. The entity instances associated with
+a persistence context are considered managed objects, with a well-defined
+lifecycle under the control of the persistence provider.
 
 In the Jakarta EE environment, this programming model is augmented with
 _container-managed entity managers_ with _transaction-scoped persistence
@@ -246,8 +280,11 @@ may be found below in <<entity-manager-transactions>>.
 ==== Entity Instance Creation
 
 An instance of an entity class may be created using the `new` operator.
-A newly instantiated instance is never persistent, and the new instance
-is not associated with a persistence context.
+A newly instantiated instance is not considered persistent--that is,
+it is not considered to represent a record in the database--and the new
+instance is not associated with a persistence context. A new instance is
+not considered to have a well-defined persistent identity until it is
+made persistent.
 
 ==== Persisting an Entity Instance [[persist]]
 

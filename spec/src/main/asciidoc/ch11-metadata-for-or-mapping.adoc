@@ -5270,7 +5270,7 @@ public @interface SequenceGenerators {
 |
 |===
 
-==== Table Annotation
+==== Table Annotation [[table]]
 
 The `Table` annotation specifies the
 primary table for the annotated entity. Additional tables may be

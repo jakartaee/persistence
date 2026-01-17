@@ -523,7 +523,8 @@ metamodel API defined in <<a6072>> is undefined and unportable.
 Every entity must have a primary key. The value of its primary key uniquely
 identifies an entity instance within a persistence context and to operations
 of the `EntityManager` or `EntityAgent`, as described in <<a1060>>, and
-represents the _persistent identity_ of the instance.
+represents the _persistent identity_ of the instance, a concept which is
+defined more carefully later in <<managed-entities>>.
 
 The primary key must be declared by:
 
