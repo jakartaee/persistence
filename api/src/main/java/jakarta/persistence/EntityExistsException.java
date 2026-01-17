@@ -33,8 +33,8 @@ package jakarta.persistence;
  * {@link PersistenceException} may be thrown at flush or commit time.
  *
  * <p> If the persistence context is joined to an active transaction,
- * the transaction is automatically marked for rollback when this exception
- * is thrown.
+ * the transaction is automatically marked for rollback when this
+ * exception is thrown.
  *
  * @see EntityManager#persist(Object)
  * 
