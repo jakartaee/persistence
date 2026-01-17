@@ -2020,74 +2020,25 @@ exception is thrown.
 The entity listener class must have a public constructor with no
 parameters.
 
-Entity listener classes in Jakarta EE
-environments support dependency injection through the Contexts and
-Dependency Injection API (CDI) <<a19500>> when CDI is
-enabledfootnote:[CDI is enabled by
-default in Jakarta EE. See the Jakarta EE specification
-<<a19499>>.]. An entity listener class that makes use
-of CDI injection may also define lifecycle callback methods annotated
-with the `PostConstruct` and `PreDestroy` annotations. These methods
-will be invoked after injection has taken place and before the entity
-listener instance is destroyed respectively.
+As specified in <<cdi>>, an entity listener class may be defined
+to make use of dependency injection through the Contexts and
+Dependency Injection (CDI) API <<a19500>> when CDI is available.
 
-The persistence provider is responsible for
-using the CDI SPI to create instances of the entity listener class; to
-perform injection upon such instances; to invoke their `PostConstruct`
-and `PreDestroy` methods, if any; and to dispose of the entity listener
-instances.
+Entity listeners that do not make use of CDI injection are stateless.
+The lifecycle of such entity listeners is unspecified.
 
-The persistence provider is only required to
-support CDI injection into entity listeners in Jakarta EE container
-environmentsfootnote:[The persistence
-provider may support CDI injection into entity listeners in other
-environments in which the BeanManager is available.]. If the CDI is not enabled, the
-persistence provider must not invoke entity listeners that depend upon
-CDI injection.
+==== Lifecycle Callbacks, Transactions, and Security
 
-An entity listener is a noncontextual object.
-In supporting injection into entity listeners, the persistence provider
-must behave as if it carries out the following steps involving the use
-of the CDI SPI. (See <<a19500>>).
-
-* Obtain a `BeanManager` instance. (See <<a12802>>)
-* Create an `AnnotatedType` instance for the entity listener class.
-* Create an `InjectionTarget` instance for the annotated type.
-* Create a `CreationalContext`.
-* Instantiate the listener by calling the `InjectionTarget` `produce` method.
-* Inject the listener instance by calling the
-`InjectionTarget` `inject` method on the instance.
-* Invoke the `PostConstruct` callback, if any,
-by calling the `InjectionTarget` `postConstruct` method on the instance.
-
-When the listener instance is to be
-destroyed, the persistence provider must behave as if it carries out the
-following steps.
-
-* Call the `InjectionTarget` `preDestroy` method on the instance.
-* Call the `InjectionTarget` `dispose` method on the instance
-* Call the `CreationalContext` `release` method.
-
-Persistence providers may optimize the steps
-above, e.g. by avoiding calls to the actual CDI SPI and relying on
-container-specific interfaces instead, as long as the outcome is the
-same.
-
-Entity listeners that do not make use of CDI
-injection are stateless. The lifecycle of such entity listeners is
-unspecified.
-
-When invoked from within a Jakarta EE
-environment, the callback listeners for an entity share the enterprise
-naming context of the invoking component, and the entity callback
-methods are invoked in the transaction and security contexts of the
-calling component at the time at which the callback method is invoked.
-footnote:[For example, if a
-transaction commit occurs as a result of the normal termination of a
-session bean business method with transaction attribute `RequiresNew`,
-the `PostPersist` and `PostRemove` callbacks are executed in the naming
-context, the transaction context, and the security context of that
-component.]
+When invoked within a Jakarta EE environment, the lifecycle callback
+listeners for an entity share the enterprise naming context of the
+invoking component, and the entity callback methods are invoked in
+the transaction and security contexts of the calling component at
+the time at which the callback method is invoked.
+footnote:[For example, if a transaction commit occurs as a result
+of the normal termination of a session bean business method with
+transaction attribute `RequiresNew`, the `PostPersist` and
+`PostRemove` callbacks are executed in the naming context, the
+transaction context, and the security context of that component.]
 
 ==== Specification of Callback Listener Classes and Lifecycle Methods in the XML Descriptor
 
@@ -2685,138 +2636,109 @@ and `description` attributes) are also fetched.
 === Type Conversion of Basic Attributes [[a2999]]
 
 The attribute conversion facility allows the developer to define custom
-attribute converters. A `converter` is a class whose methods convert
+attribute converters. A _converter_ is a class whose methods convert
 between:
 
-- the _target type_ of the converter, an arbitrary Java type which may be
-  used as the type of a persistent field or property, and
-- a basic type (see <<a486>>) used as an intermediate step in mapping to
-  the database representation.
+- the _target type_ of the converter, an arbitrary Java type which may
+  be used as the type of a persistent field or property, and
+- a basic type, as defined in <<a486>>, used as an intermediate step in
+  mapping to the database representation.
 
 A converter can be used to convert attributes defined by entity classes,
-mapped superclasses, or embeddable classes.footnote:[We plan to provide a
-facility for more complex attribute conversions in a future release of
-this specification.] A converted attribute is considered a basic attribute,
-since, with the aid of the converter, its values can be represented as
-instances of a basic type.
+mapped superclasses, or embeddable classes. A converted attribute is
+considered a basic attribute, since, with the aid of the converter, its
+values can be represented as instances of a basic type.
 
 Every attribute converter class must implement the interface
-`jakarta.persistence.AttributeConverter` and must be annotated with the
-`Converter` annotation or declared as a converter in the XML descriptor.
-If the value of the `autoApply` element of the `Converter` annotation is
-`true`, the converter is automatically applied to all attributes of the
-target type, including to basic attribute values that are contained within
-other, more complex attribute types. See <<a13903>>.
+`AttributeConverter` found in <<_attributeconverter_>> and must be
+annotated with the `@Converter` annotation defined in <<a13903>> or
+declared as a converter in the XML descriptor.
 
-[source,java]
-----
-include::../../../../api/src/main/java/jakarta/persistence/AttributeConverter.java[lines=18..-1]
-----
+Attribute conversion is not supported for:
 
-The conversion of all basic types is
-supported except for the following: Id attributes (including the
-attributes of embedded ids and derived identities), version attributes,
-relationship attributes, and attributes explicitly annotated as
-`Enumerated` or `Temporal` or designated as such in the XML descriptor.
-Auto-apply converters are not applied to such attributes, and
-applications that apply converters to such attributes through use of the
-`Convert` annotation are not portable.
+- the primary key of an entity, as defined in <<a132>>, nor for an
+  attribute of a composite primary key or an attribute involved in a
+  derived identity,
+- an entity version, as defined in <<a2060>>,
+- a relationship attribute, as defined in <<a516>>,
+- a basic attribute explicitly annotated as `@Enumerated` or `@Temporal`
+  or designated as such in the XML descriptor.
 
-Type conversion may be specified at the level
-of individual attributes by means of the `Convert` annotation. The
-`Convert` annotation may also be used to override or disable an
-auto-apply conversion. See <<a14398>>.
+Attribute conversion is supported for element collections, as defined in
+<<a494>>, with the conversion applying to the elements of the collection.
 
-The `Convert` annotation may be applied
-directly to an attribute of an entity, mapped superclass, or embeddable
-class to specify conversion of the attribute or to override the use of a
-converter that has been specified as `autoApply=true`. When persistent
-properties are used, the `Convert` annotation is applied to the getter
-method.
+==== Auto-Apply Converters
 
-The `Convert` annotation may be applied to an
-entity that extends a mapped superclass to specify or override the
-conversion mapping for an inherited basic or embedded attribute.
+If the value of the `autoApply` element of the `@Converter` annotation is `true`,
+the converter is automatically applied to every attribute whose declared type
+is the target type of the converter, including basic values contained within
+embedded attributes and element collections. In determining whether such an
+_auto-apply converter_ applies to an attribute, the provider must treat
+primitive types and wrapper types as equivalent.
 
-The persistence provider runtime is
-responsible for invoking the specified conversion methods for the target
-attribute type when loading the entity attribute from the database and
-before storing the entity attribute state to the database. The
-persistence provider must apply any conversion methods to instances of
-attribute values in path expressions used within Jakarta Persistence query
-language queries or criteria queries (such as in comparisons, bulk
-updates, etc.) before sending them to the database for the query
-execution. When such converted attributes are used in comparison
-operations with literals or parameters, the value of the literal or
-parameter to which they are compared must also be converted. If the
-result of a Jakarta Persistence query language query or criteria query
-includes one or more entity attributes for which conversion mappings
-have been specified, the persistence provider must apply the specified
-conversions to the corresponding values in the query result before
-returning them to the application. The use of functions, including
-aggregates, on converted attributes is undefined. If an exception is
-thrown from a conversion method, the persistence provider must wrap the
-exception in a `PersistenceException` and, if the persistence context is
-joined to a transaction, mark the transaction for rollback.
+An auto-apply converter is not applied to a field or property of an entity
+for which attribute conversion is not supported according to the rules
+specified above.
+
+==== Explicit Converters
+
+Conversion of an individual attribute is controlled by the `@Convert`
+annotation defined in <<a14398>>.
+
+- The `@Convert` annotation may be applied directly to an attribute of
+  an entity, mapped superclass, or embeddable class to specify conversion
+  of the attribute, overriding or disabling application of any converter
+  declared as `autoApply=true`. When property access is used as specified
+  in <<property-access>>, the `@Convert` annotation must be applied to the
+  getter method.
+
+- The `@Convert` annotation may be applied to an entity that extends a
+  mapped superclass to specify or override the conversion mapping for an
+  inherited basic or embedded attribute.
+
+A persistence provider is not required to support the application of the
+`@Convert` annotation to a field or property of an entity for which
+attribute conversion is not supported according to the rules specified
+above.
+
+==== Converter Invocation
+
+The persistence provider runtime must:
+
+- call `convertToDatabaseColumn()` before writing the value of an entity
+  attribute in the database, and
+- call `convertToEntityAttribute()` after reading the value of an entity
+  attribute from the database.
+
+Before executing a JPQL or criteria query, the persistence provider might
+need to apply a converter to a literal value occurring in the query or to
+the argument value bound to a parameter of the query. In particular, when
+a literal or parameter is compared to or assigned to an attribute with a
+converter, the converter must be applied to the value of the literal or
+parameter if the type of the literal or parameter matches the unconverted
+type of the attribute.
+
+The persistence provider might need to apply a converter to a value
+returned by a JPQL or criteria query. In particular, if the result of a
+JPQL query or criteria query includes an entity attribute with a converter,
+the persistence provider must apply the converter to the corresponding
+value in the query result before returning it to the application.
+
+The persistence provider is not required to support the use of a converted
+attribute as an argument of a JPQL function or aggregate function.
+
+If an exception is thrown by a conversion method, the persistence provider
+must wrap the exception in a `PersistenceException` and, if the persistence
+context is joined to a transaction, mark the transaction for rollback.
 
 ==== Attribute Converters and Dependency Injection
 
-Attribute converter classes in Jakarta EE
-environments support dependency injection through the Contexts and
-Dependency Injection API (CDI) <<a19500>> when CDI is
-enabledfootnote:[CDI is enabled by
-default in Jakarta EE. See the Jakarta EE specification
-<<a19499>>.]. An attribute converter class that makes
-use of CDI injection may also define lifecycle callback methods
-annotated with the `PostConstruct` and `PreDestroy` annotations. These
-methods will be invoked after injection has taken place and before the
-attribute converter instance is destroyed respectively.
+As specified in <<cdi>>, an attribute converter class may be defined
+to make use of dependency injection through the Contexts and Dependency
+Injection (CDI) API <<a19500>> when CDI is available.
 
-The persistence provider is responsible for
-using the CDI SPI to create instances of the attribute converter class;
-to perform injection upon such instances; to invoke their
-`PostConstruct` and `PreDestroy` methods, if any; and to dispose of the
-attribute converter instances.
-
-The persistence provider is only required to
-support CDI injection into attribute converters in Jakarta EE container
-environmentsfootnote:[The persistence
-provider may support CDI injection into attribute converters in other
-environments in which the BeanManager is available.]. If CDI is not enabled, the
-persistence provider must not invoke attribute converters that depend
-upon CDI injection.
-
-An attribute converter is a noncontextual
-object. In supporting injection into attribute converters, the
-persistence provider must behave as if it carries out the following
-steps involving the use of the CDI SPI. (See
-<<a19500>>).
-
-* Obtain a `BeanManager` instance. (See <<a12802>>.)
-* Create an `AnnotatedType` instance for the attribute converter class.
-* Create an `InjectionTarget` instance for the annotated type.
-* Create a `CreationalContext`.
-* Instantiate the listener by calling the `InjectionTarget` `produce` method.
-* Inject the listener instance by calling the `InjectionTarget` `inject` method on the instance.
-* Invoke the `PostConstruct` callback, if any,
-by calling the `InjectionTarget` `postConstruct` method on the instance.
-
-When the listener instance is to be
-destroyed, the persistence provider must behave as if it carries out the
-following steps.
-
-* Call the `InjectionTarget` `preDestroy` method on the instance.
-* Call the `InjectionTarget` `dispose` method on the instance.
-* Call the `CreationalContext` `release` method.
-
-Persistence providers may optimize the steps
-above, e.g. by avoiding calls to the actual CDI SPI and relying on
-container-specific interfaces instead, as long as the outcome is the
-same.
-
-Attribute converters that do not make use of
-CDI injection are stateless. The lifecycle of such attribute converters
-is unspecified.
+Attribute converters that do not make use of CDI injection are stateless.
+The lifecycle of such attribute converters is unspecified.
 
 === Second-Level Cache [[a3061]]
 
