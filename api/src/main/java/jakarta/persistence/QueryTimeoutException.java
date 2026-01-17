@@ -20,8 +20,9 @@ package jakarta.persistence;
  * Thrown by the persistence provider when a query times out and
  * only the statement is rolled back.
  *
- * <p> When this exception is thrown, the current transaction is
- * not automatically marked for rollback.
+ * <p> This exception type is considered recoverable. When this
+ * exception is thrown, the current transaction is not
+ * automatically marked for rollback.
  *
  * @since 2.0
  */

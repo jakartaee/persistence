@@ -22,8 +22,9 @@ package jakarta.persistence;
  * This exception may be thrown by an API call, during flush, or
  * when the transaction commits.
  *
- * <p> When this exception is thrown, the current transaction is
- * not automatically marked for rollback.
+ * <p> This exception type is considered recoverable. When this
+ * exception is thrown, the current transaction is not
+ * automatically marked for rollback.
  *
  * @since 2.0
  */
