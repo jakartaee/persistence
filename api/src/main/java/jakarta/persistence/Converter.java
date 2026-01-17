@@ -33,11 +33,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>If {@link #autoApply autoApply = true}, the persistence provider
  * must automatically apply the converter to every mapped attribute of
- * the specified target type belonging to any entity in the persistence
- * unit, except for attributes for which conversion is overridden by
- * means of the {@link Convert} annotation (or XML equivalent). The
- * {@link Convert} annotation may be used to override or disable
- * auto-apply conversion on a per-attribute basis.
+ * the specified target type belonging to any entity class, mapped
+ * superclass, or embeddable class in the persistence unit, except for
+ * attributes for which conversion is overridden by means of the
+ * {@link Convert} annotation (or XML equivalent). The {@link Convert}
+ * annotation may be used to override or disable auto-apply conversion
+ * on a per-attribute basis.
  * <ul>
  * <li>In determining whether a converter applies to an attribute,
  *     the provider must treat primitive types and wrapper types as
