@@ -27,7 +27,7 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * Specifies the mapping for composite foreign keys. This annotation groups
  * {@link JoinColumn} annotations for the same relationship.
  *
- * <p>Each {@link JoinColumn} annotation must explicit specify both
+ * <p>Each {@link JoinColumn} annotation must explicitly specify both
  * {@link JoinColumn#name name} and {@link JoinColumn#referencedColumnName
  * referencedColumnName}.
  *
