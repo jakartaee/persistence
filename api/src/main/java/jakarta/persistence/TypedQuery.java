@@ -620,7 +620,7 @@ public interface TypedQuery<X> extends Query {
      TypedQuery<X> setLockMode(LockModeType lockMode);
 
     /**
-     * Set the {@link PessimisticLockScope pessimistic lock scope}
+     * Set the {@linkplain PessimisticLockScope pessimistic lock scope}
      * to use when the query is executed if a pessimistic lock mode
      * is specified via {@link #setLockMode}.
      * If the query is executed without a pessimistic lock mode,
