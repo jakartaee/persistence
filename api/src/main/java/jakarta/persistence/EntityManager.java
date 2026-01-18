@@ -774,20 +774,6 @@ public interface EntityManager extends EntityHandler {
     LockModeType getLockMode(Object entity);
 
     /**
-     * Create an instance of {@link Statement} for executing a
-     * {@linkplain CriteriaStatement criteria statement}.
-     * @param statement A criteria statement object
-     * @return An instance of {@link Statement} which may be
-     *         used to execute the given statement
-     * @throws IllegalArgumentException if the Statement is
-     *         found to be invalid
-     * @since 2.1
-     * @deprecated Use {@link #createStatement(CriteriaStatement)}.
-     */
-    @Deprecated(since = "4.0", forRemoval = true)
-    Statement createQuery(CriteriaStatement<?> statement);
-
-    /**
      * Join the current active JTA transaction.
      * <p>This method should be called on a JTA application-managed
      * {@code EntityManager} that was created outside the scope of
@@ -810,6 +796,20 @@ public interface EntityManager extends EntityHandler {
      * @since 2.1
      */
     boolean isJoinedToTransaction();
+
+    /**
+     * Create an instance of {@link Statement} for executing a
+     * {@linkplain CriteriaStatement criteria statement}.
+     * @param statement A criteria statement object
+     * @return An instance of {@link Statement} which may be
+     *         used to execute the given statement
+     * @throws IllegalArgumentException if the Statement is
+     *         found to be invalid
+     * @since 2.1
+     * @deprecated Use {@link #createStatement(CriteriaStatement)}.
+     */
+    @Deprecated(since = "4.0", forRemoval = true)
+    Statement createQuery(CriteriaStatement<?> statement);
 
     /**
      * Obtain a mutable copy of a named {@link EntityGraph} or
