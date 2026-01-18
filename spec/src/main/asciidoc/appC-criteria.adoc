@@ -9,12 +9,6 @@ The following APIs are defined in the package `jakarta.persistence.criteria`.
 include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaBuilder.java[lines=18..-1]
 ----
 
-=== `CriteriaDelete`
-[source,java]
-----
-include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaDelete.java[lines=18..-1]
-----
-
 === `CriteriaQuery` [[_criteriaquery_]]
 [source,java]
 ----
@@ -27,10 +21,22 @@ include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaQuer
 include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaSelect.java[lines=18..-1]
 ----
 
+=== `CriteriaStatement`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaStatement.java[lines=18..-1]
+----
+
 === `CriteriaUpdate`
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaUpdate.java[lines=18..-1]
+----
+
+=== `CriteriaDelete`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/CriteriaDelete.java[lines=18..-1]
 ----
 
 === `AbstractQuery`
