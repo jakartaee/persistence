@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,13 +11,12 @@
  */
 
 // Contributors:
+//     Gavin King - 4.0
 //     Linda DeMichiel - 2.1
-
 
 package jakarta.persistence.criteria;
 
 import jakarta.persistence.metamodel.SingularAttribute;
-import jakarta.persistence.metamodel.EntityType;
 
 /**
  * The {@code CriteriaUpdate} interface defines functionality for
@@ -36,74 +35,47 @@ import jakarta.persistence.metamodel.EntityType;
  *
  * @since 2.1
  */
-public interface CriteriaUpdate<T> extends CommonAbstractCriteria {
+public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
 
-   /**
-    * Create and add a query root corresponding to the entity
-    * that is the target of the update.
-    * A {@code CriteriaUpdate} object has a single root, the
-    * entity that is being updated.
-    * @param entityClass  the entity class
-    * @return query root corresponding to the given entity
-    */
-   Root<T> from(Class<T> entityClass);
+    /**
+     * Update the value of the specified attribute.
+     * @param attribute  attribute to be updated
+     * @param value  new value
+     * @return  the modified update query
+     */
+    <Y, X extends Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, X value);
 
-   /**
-    * Create and add a query root corresponding to the entity
-    * that is the target of the update.
-    * A {@code CriteriaUpdate} object has a single root, the
-    * entity that is being updated.
-    * @param entity  metamodel entity representing the entity
-    *                of type X
-    * @return query root corresponding to the given entity
-    */
-   Root<T> from(EntityType<T> entity);
+    /**
+     * Update the value of the specified attribute.
+     * @param attribute  attribute to be updated
+     * @param value  new value
+     * @return  the modified update query
+     */
+    <Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, Expression<? extends Y> value);
 
-   /**
-    * Return the query root.
-    * @return the query root
-    */
-   Root<T> getRoot();
+    /**
+     * Update the value of the specified attribute.
+     * @param attribute  attribute to be updated
+     * @param value  new value
+     * @return  the modified update query
+     */
+    <Y, X extends Y> CriteriaUpdate<T> set(Path<Y> attribute, X value);
 
-   /**
-    * Update the value of the specified attribute.
-    * @param attribute  attribute to be updated
-    * @param value  new value
-    * @return  the modified update query
-    */
-   <Y, X extends Y> CriteriaUpdate<T> set( SingularAttribute<? super T, Y> attribute, X value);
+    /**
+     * Update the value of the specified attribute.
+     * @param attribute  attribute to be updated
+     * @param value  new value
+     * @return  the modified update query
+     */
+    <Y> CriteriaUpdate<T> set(Path<Y> attribute, Expression<? extends Y> value);
 
-   /**
-    * Update the value of the specified attribute.
-    * @param attribute  attribute to be updated
-    * @param value  new value
-    * @return  the modified update query
-    */
-   <Y> CriteriaUpdate<T> set( SingularAttribute<? super T, Y> attribute, Expression<? extends Y> value);
-
-   /**
-    * Update the value of the specified attribute.
-    * @param attribute  attribute to be updated
-    * @param value  new value
-    * @return  the modified update query
-    */
-   <Y, X extends Y> CriteriaUpdate<T> set(Path<Y> attribute, X value);
-
-   /**
-    * Update the value of the specified attribute.
-    * @param attribute  attribute to be updated
-    * @param value  new value
-    * @return  the modified update query
-    */
-   <Y> CriteriaUpdate<T> set(Path<Y> attribute, Expression<? extends Y> value);
-
-   /**
-    * Update the value of the specified attribute.
-    * @param attributeName  name of the attribute to be updated
-    * @param value  new value
-    * @return  the modified update query
-    */
-   CriteriaUpdate<T> set(String attributeName, Object value);
+    /**
+     * Update the value of the specified attribute.
+     * @param attributeName  name of the attribute to be updated
+     * @param value  new value
+     * @return  the modified update query
+     */
+    CriteriaUpdate<T> set(String attributeName, Object value);
 
     /**
      * Modify the update query to restrict the target of the
@@ -111,8 +83,8 @@ public interface CriteriaUpdate<T> extends CommonAbstractCriteria {
      * Replaces the previously added restriction(s), if any.
      * @param restriction  a simple or compound boolean expression
      * @return the modified update query
-     */    
-   CriteriaUpdate<T> where(Expression<Boolean> restriction);
+     */
+    CriteriaUpdate<T> where(Expression<Boolean> restriction);
 
     /**
      * Modify the update query to restrict the target of the
@@ -124,5 +96,5 @@ public interface CriteriaUpdate<T> extends CommonAbstractCriteria {
      * @param restrictions  zero or more restriction predicates
      * @return the modified update query
      */
-   CriteriaUpdate<T> where(Predicate... restrictions);
+    CriteriaUpdate<T> where(Predicate... restrictions);
 }

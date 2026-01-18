@@ -16,10 +16,9 @@
 package jakarta.persistence;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaSelect;
-import jakarta.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.criteria.CriteriaStatement;
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.sql.ResultSetMapping;
 
@@ -663,27 +662,15 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link Statement} for executing a
-     * {@linkplain CriteriaUpdate criteria update}.
-     * @param updateQuery A criteria update query object
-     * @return An instance of {@link Query} which may be used
-     *         to execute the given query
-     * @throws IllegalArgumentException if the update query is
+     * {@linkplain CriteriaStatement criteria statement}.
+     * @param statement A criteria statement object
+     * @return An instance of {@link Statement} which may be
+     *         used to execute the given statement
+     * @throws IllegalArgumentException if the statement is
      *         found to be invalid
-     * @since 2.1
+     * @since 4.0
      */
-    Statement createQuery(CriteriaUpdate<?> updateQuery);
-
-    /**
-     * Create an instance of {@link Statement} for executing a
-     * {@linkplain CriteriaDelete criteria delete}.
-     * @param deleteQuery A criteria delete query object
-     * @return An instance of {@link Query} which may be used
-     *         to execute the given query
-     * @throws IllegalArgumentException if the delete query is
-     *         found to be invalid
-     * @since 2.1
-     */
-    Statement createQuery(CriteriaDelete<?> deleteQuery);
+    Statement createStatement(CriteriaStatement<?> statement);
 
     /**
      * Create an instance of {@link TypedQuery} for executing
