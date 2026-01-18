@@ -530,7 +530,10 @@ public interface EntityManager extends EntityHandler {
     /**
      * Lock an entity instance belonging to the persistence context,
      * obtaining the specified {@linkplain LockModeType lock mode},
-     * using the specified {@linkplain LockOption options}.
+     * using the specified {@linkplain LockOption options}. If the
+     * given options include a {@link PessimisticLockScope}, the
+     * specified scope determines whether a pessimistic lock is
+     * applied to associated collections and relationships.
      * <p>If a pessimistic lock mode type is specified and the entity
      * contains a version attribute, the persistence provider must
      * also perform optimistic version checks when obtaining the
