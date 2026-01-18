@@ -259,9 +259,11 @@ The fundamental operations of an `EntityManager` are:
 - `refresh()`, to reload an entity from the database, as defined in
   <<refresh>>,
 - `detach()`, to disassociate an entity from its persistence context,
-  as defined in <<detach>>, and
+  as defined in <<detach>>,
 - `merge()`, to copy the state of a detached instance into the persistence
-  context.
+  context, and
+- `lock()` to obtain a lock an entity instance or to upgrade the lock
+  level currently held, as defined in <<a2052>>.
 
 The methods `persist()`, `remove()`, `refresh()`, `detach()`, and `merge()`
 are called _lifecycle operations_.
@@ -922,6 +924,10 @@ The `flush()` method must not be called without an active transaction.
 If `flush()` is called when there is no active transaction, the provider
 must throw `jakarta.persistence.TransactionRequiredException`.
 
+The `lock()` method must not be called without an active transaction.
+If `lock()` is called when there is no active transaction, the provider
+must throw `jakarta.persistence.TransactionRequiredException`.
+
 The method `joinTransaction()` associates the persistence context
 underlying the `EntityManager` with the currently active container
 transaction. If `joinTransaction()` is called when there is no active
@@ -1182,7 +1188,7 @@ by comparing the versions held in memory and in the database.
 footnote:[Ideally, version verification and update happen in a single
 atomic operation against the datastore, for example, in a single SQL
 update statement.] If the versions do not match, the persistence
-provider must thow an `OptimisticLockException`.
+provider must throw an `OptimisticLockException`.
 
 The persistence provider must examine the version field or property of
 a detached entity instance when it is merged, as defined in <<merge>>,
