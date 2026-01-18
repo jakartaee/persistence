@@ -39,10 +39,9 @@ import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaSelect;
-import jakarta.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.criteria.CriteriaStatement;
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.sql.ResultSetMapping;
 
@@ -188,13 +187,13 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
         return query;
     }
 
-    @Override
-	public Statement createQuery(CriteriaDelete arg) {
+	@Override
+	public Statement createStatement(CriteriaStatement<?> statement) {
 		return null;
 	}
 
 	@Override
-	public Statement createQuery(CriteriaUpdate arg) {
+	public Statement createQuery(CriteriaStatement<?> statement) {
 		return null;
 	}
 
