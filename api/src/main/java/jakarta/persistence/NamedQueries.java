@@ -37,6 +37,6 @@ public @interface NamedQueries {
 
     /**
      * (Required) An array of {@link NamedQuery} annotations.
-     * */
+     */
      NamedQuery [] value (); 
 }

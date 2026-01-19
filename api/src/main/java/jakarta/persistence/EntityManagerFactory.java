@@ -425,6 +425,37 @@ public interface EntityManagerFactory extends AutoCloseable {
     <R> TypedQueryReference<R> addNamedQuery(String name, TypedQuery<R> query);
 
     /**
+     * Define the given {@link Statement} as a named statement such that
+     * future statement objects can be created from it by calling either
+     * {@link EntityManager#createStatement(StatementReference)} or
+     * {@link EntityManager#createNamedStatement(String)}. Returns a
+     * {@linkplain StatementReference reference} to the statement.
+     * <p>Any configuration of the statement object (except for actual
+     * parameter binding) in effect when the named query is added
+     * is retained as part of the named query definition. This
+     * includes configuration information such as hints,
+     * and flush mode.
+     * <p>When the statement is executed, information that can be set by
+     * means of the statement APIs can be overridden. Information that is
+     * overridden does not affect the named statement as registered with
+     * the entity manager factory, and thus does not affect subsequent
+     * statement objects created from it by calling {@code createNamedStatement}.
+     * <p>If a named statement of the same name has been previously defined,
+     * either statically via metadata or via this method, that statement
+     * definition is replaced.
+     *
+     * @param name Name for the query.
+     * @param statement The statement to convert into a {@code StatementReference} and store by name.
+     * @return Reference to the stored statement.
+     *
+     * @see EntityHandler#createStatement(StatementReference)
+     * @see EntityHandler#createNamedStatement(String)
+     *
+     * @since 4.0
+     */
+    StatementReference addNamedStatement(String name, Statement statement);
+
+    /**
      * Return an object of the specified type to allow access to
      * a provider-specific API. If the provider implementation of
      * {@code EntityManagerFactory} does not support the given
@@ -459,14 +490,22 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @return a map keyed by query name
      * @param <R> the specified upper bound on the query result types
      *
+     * @see NamedQuery
+     * @see NamedNativeQuery
+     * @see #addNamedQuery(String, TypedQuery)
+     *
      * @since 3.2
      */
     <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType);
 
     /**
-     * A map keyed by {@linkplain NamedQuery#name query name}, containing
+     * A map keyed by {@linkplain NamedStatement#name query name}, containing
      * {@linkplain StatementReference references} to every named statement.
      * @return a map keyed by query name
+     *
+     * @see NamedStatement
+     * @see NamedNativeStatement
+     * @see #addNamedQuery(String, Query)
      *
      * @since 4.0
      */

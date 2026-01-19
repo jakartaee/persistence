@@ -743,15 +743,17 @@ public interface EntityHandler extends AutoCloseable {
      * Create an instance of {@link Statement} for executing a
      * named {@code UPDATE} or {@code DELETE} statement written
      * in the Jakarta Persistence query language, or a named native
-     * SQL statememt which returns a row count.
-     * @param name The name of a query defined in metadata
+     * SQL statement which returns a row count.
+     * @param name The name of a statement defined in metadata
      * @return An instance of {@link Statement} which may be used
      *         to execute the named statement
      * @throws IllegalArgumentException if a query has not been
      *         defined with the given name, or if the query string
      *         is found to be invalid
-     * @see NamedQuery
-     * @see NamedNativeQuery
+     * @see NamedStatement
+     * @see NamedNativeStatement
+     * @see EntityManagerFactory#addNamedStatement(String, Statement)
+     *
      * @since 4.0
      */
     Statement createNamedStatement(String name);
