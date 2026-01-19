@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0,
+ * or the Eclipse Distribution License v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+ */
+
+// Contributors:
+//    Steve Ebersole  - 4.0
+
 package jakarta.persistence;
 
 import java.lang.annotation.Repeatable;
@@ -15,7 +30,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * class or mapped superclass.
  * {@snippet :
  * @NamedNativeStatement(name = "deleteNamedCustomers",
- *             query = "delete from Customer c where c.name like :custName")
+ *             statement = "delete from Customer c where c.name like :custName")
  * @Entity
  * class Customer { ... }
  * }
@@ -45,9 +60,9 @@ public @interface NamedNativeStatement {
 	String name();
 
 	/**
-	 * (Required) The query string written in native SQL.
+	 * (Required) The statement string written in native SQL.
 	 */
-	String query();
+	String statement();
 
 	/**
 	 * (Optional) Query properties and hints. May include
