@@ -12,6 +12,7 @@
 
 // Contributors:
 //     Gavin King      - 4.0
+//     Steve Ebersole  - 4.0
 
 package jakarta.persistence;
 
