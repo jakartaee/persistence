@@ -30,8 +30,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.PersistenceUnitUtil;
 import jakarta.persistence.Query;
-import jakarta.persistence.StatementReference;
 import jakarta.persistence.SchemaManager;
+import jakarta.persistence.Statement;
+import jakarta.persistence.StatementReference;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -77,6 +78,11 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
     public <R> TypedQueryReference<R> addNamedQuery(String name, TypedQuery<R> query) {
         return null;
     }
+
+	@Override
+	public StatementReference addNamedStatement(String name, Statement statement) {
+		return null;
+	}
 
 	public void close() {
 		verifyOpen();
