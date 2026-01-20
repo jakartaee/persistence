@@ -19,10 +19,10 @@ package jakarta.persistence;
 /**
  * Thrown by the persistence provider when {@link Query#getSingleResult()}
  * or {@link TypedQuery#getSingleResult()} is executed and there is no
- * result to return.
+ * query result to return.
  *
  * <p> This exception type is considered recoverable. When this exception
- * is thrown, the current transaction is not automatically marked for
+ * type is thrown, the current transaction is not automatically marked for
  * rollback.
  * 
  * @see Query#getSingleResult()

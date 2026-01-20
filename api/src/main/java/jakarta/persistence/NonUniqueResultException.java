@@ -17,16 +17,19 @@
 package jakarta.persistence;
 
 /**
- * Thrown by the persistence provider when {@link Query#getSingleResult()}
- * or {@link TypedQuery#getSingleResult()} is executed and there is more
- * than one result from the query.
+ * Thrown by the persistence provider when {@link Query#getSingleResult()},
+ * {@link TypedQuery#getSingleResult()}, {@link Query#getSingleResultOrNull()},
+ * or {@link TypedQuery#getSingleResultOrNull()} is executed and the query
+ * has more than one result.
  *
  * <p> This exception type is considered recoverable. When this exception
- * is thrown, the current transaction is not automatically marked for
+ * type is thrown, the current transaction is not automatically marked for
  * rollback.
  *
  * @see Query#getSingleResult()
+ * @see Query#getSingleResultOrNull()
  * @see TypedQuery#getSingleResult()
+ * @see TypedQuery#getSingleResultOrNull()
  *
  * @since 1.0
  */
