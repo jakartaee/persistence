@@ -24,7 +24,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Declares a named {@linkplain Statement statement} written in the
- * Jakarta Persistence Query Language. Query names are scoped to
+ * Jakarta Persistence Query Language. Statement names are scoped to
  * the persistence unit. The statement must be an {@code UPDATE} or
  * {@code DELETE} query.
  *
