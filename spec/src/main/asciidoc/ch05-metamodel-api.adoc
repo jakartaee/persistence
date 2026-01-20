@@ -55,8 +55,9 @@ it belongs to the persistence unit and:
 
 - is a managed class (an entity class, embeddable class, or mapped
   superclass),
-- has one or more `@NamedQuery`, `@NamedNativeQuery`, or annotations, or
-- has a method annotated with one of the two static query  annotations,
+- has one or more `@NamedQuery`, `@NamedNativeQuery`, `@NamedStatement`,
+  or `@NamedNativeStatement` annotations, or
+- has a method annotated with one of the two static query annotations,
   `@StaticQuery` or `@StaticNativeQuery`, as defined in
   <<static-query-api>>.
 
