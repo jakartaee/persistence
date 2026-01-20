@@ -15,6 +15,8 @@ Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOpt
 
 Added a new API for programmatic SQL result set mappings
 
+Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `ofType()`, `withEntityGraph()`, and `asStatement()` to `Query`
+
 Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
 
 Added the ability to select `LAZY` fetching as the default for `@OneToOne` and `@ManyToOne` associations via `<default-to-one-fetch-type>` in `persistence.xml` or `PersistenceConfiguration.defaultToOneFetchType()`
@@ -49,7 +51,7 @@ Added `createEntityGraph()` and `getNamedEntityGraphs()` to `EntityType`
 
 Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
 
-Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference`
+Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference` and added `addNamedStatement()`
 
 Added `FETCHED` to `PessimisticLockScope`, `lockScope` to `@NamedQuery`, and `setLockScope()` to `Query`
 
@@ -88,6 +90,8 @@ Fixed use of raw types in `AttributeNode`
 Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
 
 ==== Deprecations
+
+Deprecated many operations of `Query`, since those operations should now be executed via a `Statement` or `TypedQuery`
 
 Deprecated `createEntityGraph(String)`
 
