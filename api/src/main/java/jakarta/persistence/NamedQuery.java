@@ -28,10 +28,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /** 
  * Declares a named query written in the Jakarta Persistence Query
- * Language. Query names are scoped to the persistence unit.
+ * Language. Query names are scoped to the persistence unit. The
+ * query should be a {@code SELECT} query.
  *
- * <p> The {@code NamedQuery} annotation can be applied to an entity
- * class or mapped superclass.
+ * <p> This annotation may be applied to any class or interface
+ * belonging to the persistence unit.
  * {@snippet :
  * @NamedQuery(name = "findAllCustomersWithName",
  *             query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")
@@ -57,8 +58,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *             .getResultList();
  * }
  *
+ * @apiNote A named {@code UPDATE} or {@code DELETE} statement is
+ *          usually declared using {@link NamedStatement}. For
+ *          backward compatibility, this annotation may be used
+ *          instead, but this usage is no longer encouraged.
+ *
  * @see EntityHandler#createNamedQuery(String)
  * @see EntityHandler#createNamedQuery(String,Class)
+ * @see NamedStatement
  *
  * @since 1.0
  */

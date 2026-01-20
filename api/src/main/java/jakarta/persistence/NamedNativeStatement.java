@@ -23,11 +23,12 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares a named {@linkplain Statement statement} written in native SQL.
- * Query names are scoped to the persistence unit.
+ * Declares a named {@linkplain Statement statement} written in
+ * native SQL. Query names are scoped to the persistence unit.
+ * The SQL statement must return a row count.
  *
- * <p> The {@code NamedNativeStatement} annotation can be applied to an entity
- * class or mapped superclass.
+ * <p> This annotation may be applied to any class or interface
+ * belonging to the persistence unit.
  * {@snippet :
  * @NamedNativeStatement(name = "deleteNamedCustomers",
  *             statement = "delete from Customer c where c.name like :custName")
