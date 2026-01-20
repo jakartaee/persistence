@@ -4071,9 +4071,9 @@ Thrown by the persistence provider when an optimistic locking
 conflict occurs. This exception may be thrown by an API call,
 during flush, or when the transaction commits.
 +
-If the persistence context is joined to an active transaction,
-the transaction is automatically marked for rollback when this
-exception is thrown.
+If thrown by an `EntityManager` with a persistence context
+joined to an active transaction, the transaction is marked for
+rollback when this exception is thrown.
 
 PessimisticLockException::
 
@@ -4081,9 +4081,9 @@ Thrown by the persistence provider when a pessimistic locking
 conflict occurs. This exception may be thrown by an API call,
 during flush, or when the transaction commits.
 +
-If the persistence context is joined to an active transaction,
-the transaction is automatically marked for rollback when this
-exception is thrown.
+If thrown by an `EntityManager` with a persistence context
+joined to an active transaction, the transaction is marked for
+rollback when this exception is thrown.
 
 EntityExistsException::
 
@@ -4093,16 +4093,16 @@ Thrown by the persistence provider when:
   or
 - an instance of an entity type with an identifier assigned by
   the application is passed to `insert()`, and a record with the
-  assigned identifier already exists in the database.
+  assigned identifier value already exists in the database.
 
 +
 If a detached instance is passed to the persist operation, an
 `EntityExistsException` may be immediately thrown by `persist()`,
 or the `EntityExistsException` or another `PersistenceException`
 may be thrown at flush or commit time.
-If the persistence context is joined to an active transaction,
-the transaction is automatically marked for rollback when this
-exception is thrown.
+If thrown by an `EntityManager` with a persistence context
+joined to an active transaction, the transaction is marked for
+rollback when this exception is thrown.
 
 EntityNotFoundException::
 
@@ -4119,9 +4119,9 @@ Thrown by the persistence provider when:
   requested, and the record no longer exists in the database.
 
 +
-If the persistence context is joined to an active transaction,
-the transaction is automatically marked for rollback when this
-exception is thrown.
+If thrown by an `EntityManager` with a persistence context
+joined to an active transaction, the transaction is marked for
+rollback when this exception is thrown.
 
 NoResultException::
 
