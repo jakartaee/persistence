@@ -31,6 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * of the result of the native SQL query. Query names are scoped
  * to the persistence unit. A named query may be executed by
  * calling {@link EntityManager#createNamedQuery(String, Class)}.
+ * The SQL query should return a result set.
  *
  * <p> In simple cases, a {@link #resultClass} specifies how the
  * native SQL query result set should be interpreted, for example:
@@ -79,12 +80,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * )
  * }
  *
- * <p> The {@code NamedNativeQuery} annotation can be applied to
- * an entity class or mapped superclass.
+ * <p> This annotation may be applied to any class or interface
+ * belonging to the persistence unit.
+ *
+ * @apiNote A named native SQL statement which returns a row count
+ *          is usually declared using {@link NamedNativeStatement}.
+ *          For backward compatibility, this annotation may be used
+ *          instead, but this usage is no longer encouraged.
  *
  * @see SqlResultSetMapping
  * @see EntityHandler#createNamedQuery(String)
  * @see EntityHandler#createNamedQuery(String,Class)
+ * @see NamedNativeStatement
  *
  * @since 1.0
  */
