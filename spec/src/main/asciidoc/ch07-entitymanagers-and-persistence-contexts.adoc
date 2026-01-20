@@ -116,7 +116,44 @@ public class MySessionBean implements MyInterface {
     SessionContext ctx;
 
     public void doSomething() {
-        EntityManager em = (EntityManager)ctx.lookup("OrderEM");
+        EntityManager em = (EntityManager) ctx.lookup("OrderEM");
+
+        // ...
+    }
+}
+----
+
+==== Obtaining an Entity Agent in the Jakarta EE Environment
+
+A container-managed entity agent is obtained by the application through
+dependency injection or through direct lookup of the entity agent in the
+JNDI namespace. The container manages its lifecycle and the creation and
+the closing of the entity agent instance transparently to the application.
+
+The `PersistenceAgent` annotation is used for entity agent injection.
+The `unitName` element may optionally be specified to designate the
+persistence unit whose entity manager factory is used by the container.
+Section <<a13887>> provides further information about the `unitName`
+element.
+
+For example,
+
+[source,java]
+----
+@PersistenceAgent
+EntityAgent agent;
+----
+
+The JNDI lookup of an entity manager is illustrated below:
+
+[source,java]
+----
+@RequestScoped
+@PersistenceAgent(name="OrderEA")
+public class MyBean implements MyInterface {
+
+    public void doSomething() {
+        EntityAgent em = (EntityAgent) ctx.lookup("OrderEA");
 
         // ...
     }
@@ -471,8 +508,8 @@ detached. (See <<a2049>>.)
 
 When a JTA transaction exists, a persistence
 context of type `SynchronizationType.UNSYNCHRONIZED` is propagated with
-that transaction according to the rules in <<a11820>> regardless of whether the persistence context has been
-joined to that transaction.
+that transaction according to the rules in <<a11820>> regardless of whether
+the persistence context has been joined to that transaction.
 
 ==== Container-managed Transaction-scoped Persistence Context [[a11805]]
 
@@ -1069,7 +1106,7 @@ modified entity state to the database.
 * When the JTA transaction rolls back, the
 provider must detach all managed entities if the persistence context is
 of type `SynchronizationType.SYNCHRONIZED` or has otherwise been joined
-to the transaction. Note that the JTA transaction may rollback in a
+to the transaction. Note that the JTA transaction may roll back in a
 background thread (e.g., as a result of transaction timeout), in which
 case the provider should arrange for the managed entities to be detached
 from the persistence context but not concurrently while the application

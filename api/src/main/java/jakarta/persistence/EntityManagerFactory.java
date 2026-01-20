@@ -215,15 +215,15 @@ public interface EntityManagerFactory extends AutoCloseable {
      * the specified synchronization type and map of properties. This
      * method returns a new {@code EntityManager} instance each time it
      * is invoked.
-     * <p>The {@link EntityManager#isOpen} method will return true on the
+     * <p>The {@link EntityHandler#isOpen} method returns true on the
      * returned instance.
-     * @param synchronizationType  how and when the entity manager should
-     *                             be synchronized with the current JTA
-     *                             transaction
+     * @param synchronizationType how and when the entity manager should
+     *                            be synchronized with the current JTA
+     *                            transaction
      * @param map properties for entity manager
      * @return entity manager instance
      * @throws IllegalStateException if the entity manager factory has
-     * been configured for resource-local entity managers or is closed
+     * been configured for resource-local transactions or is closed
      *
      * @since 2.1
      */

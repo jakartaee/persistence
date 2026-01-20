@@ -727,10 +727,10 @@ The `type` element specifies the Java type to which the column type is
 to be mapped. If the `type` element is not specified, the default JDBC
 type mapping for the column is used.
 
-=== References to EntityManager and EntityManagerFactory
+=== References to EntityManager, EntityAgent, and EntityManagerFactory
 
-These annotations are used to express
-dependencies on entity managers and entity manager factories.
+These annotations are used to express dependencies on entity managers,
+entity agents, and entity manager factories.
 
 ==== PersistenceContext Annotation
 
@@ -755,15 +755,15 @@ context is used.
 
 The `synchronizationType` element specifies
 whether the persistence context is always automatically synchronized
-with the current transaction or whether the persistence context must be
-explicitly joined to the current transaction by means of the
+with the current JTA transaction or whether the persistence context
+must be explicitly joined to the current transaction by means of the
 `joinTransaction` method of `EntityManager`.
 
 The optional `properties` element may be used
 to specify properties for the container or persistence provider.
 Properties defined by this specification must be observed by the
-provider. Vendor specific properties may be included in the set of
-properties, and are passed to the persistence provider by the container
+provider. Vendor-specific properties may be included in the set of
+properties and are passed to the persistence provider by the container
 when the entity manager is created. Properties that are not recognized
 by a vendor must be ignored.
 
@@ -810,6 +810,55 @@ persistence units are used.].
 @Retention(RUNTIME)
 public @interface PersistenceContexts {
     PersistenceContext[] value();
+}
+----
+
+==== PersistenceAgent Annotation
+
+The `PersistenceAgent` annotation is used to express a dependency on
+an entity agent.
+
+The `name` element refers to the name by
+which the entity agent is to be accessed in the environment
+referencing context and is not needed when dependency injection is
+used.
+
+The optional `unitName` element refers to the
+name of the persistence unit as defined in the `persistence.xml` file.
+If the `unitName` element is specified, the persistence unit for the
+entity manager factory that is accessible in JNDI must have the same
+name.
+
+The optional `properties` element may be used
+to specify properties for the container or persistence provider.
+Properties defined by this specification must be observed by the
+provider. Vendor-specific properties may be included in the set of
+properties and are passed to the persistence provider by the container
+when the entity agent is created. Properties that are not recognized
+by a vendor must be ignored.
+
+[source,java]
+----
+@Target({TYPE, METHOD, FIELD})
+@Retention(RUNTIME)
+@Repeatable(PersistenceAgents.class)
+public @interface PersistenceAgent {
+    String name() default "";
+    String unitName() default "";
+    PersistenceProperty[] properties() default {};
+}
+----
+
+The `PersistenceAgents` annotation declares
+one or more `PersistenceAgent` annotations. It is used to express a
+dependency on multiple entity agents.
+
+[source,java]
+----
+@Target(TYPE)
+@Retention(RUNTIME)
+public @interface PersistenceAgents {
+    PersistenceAgent[] value();
 }
 ----
 
