@@ -1098,8 +1098,8 @@ however, is outside the scope of this specification.]
 
 In addition, both pessimistic and optimistic
 locking are supported for selected entities by means of specified lock
-modes. Optimistic locking is described in <<a2056>> and <<a2059>>; pessimistic locking
-in <<a2066>>. <<a2084>> describes the setting of
+modes. Optimistic locking is described in <<a2056>> and <<a2059>>;
+pessimistic locking in <<a2066>>. <<a2084>> describes the setting of
 optimistic and pessimistic lock modes. The configuration of the setting
 of optimistic lock modes is described in <<a2100>>,
 and the configuration of the setting of pessimistic lock modes is
@@ -3368,8 +3368,9 @@ A _named query_ is:
   a `@StaticQuery` or `@StaticNativeQuery` annotation, as defined in
   <<static-query-api>>, or using a `<named-query>` or
   `<named-native-query>` XML element, as specified in <<a16944>>, or
-- a query instantiated at runtime and registered by calling the
-  `addNamedQuery()`  method of `EntityManagerFactory`.
+- a query or statement instantiated at runtime and registered by calling
+  the `addNamedQuery()` or `addNamedStatement()` method of
+  `EntityManagerFactory`.
 
 A named query may be expressed in the Jakarta Persistence query
 language or in SQL. Query names are scoped to the persistence unit
@@ -3417,7 +3418,7 @@ public EntityManager em;
 ==== Polymorphic Queries
 
 By default, all queries are polymorphic. That
-is, the FROM clause of a query designates not only instances of the
+is, the `FROM` clause of a query designates not only instances of the
 specific entity class(es) to which it explicitly refers, but subclasses
 as well. The instances returned by a query include instances of the
 subclasses that satisfy the query conditions.

@@ -316,14 +316,16 @@ The following annotations are used to declare named queries.
 
 ==== NamedQuery Annotation [[a13711]]
 
-The `NamedQuery` annotation declared a named query written in the Jakarta
+The `NamedQuery` annotation declares a named query written in the Jakarta
 Persistence query language.
 
 The `name` element assigns a name to the query, which is used to identify
-the query in calls to `EntityManager.createNamedQuery()`.
+the query in calls to `EntityHandler.createNamedQuery()`.
 
-The `query` element must specify a query string itself, written in the
-Jakarta Persistence query language.
+The `query` element must specify the query string itself, written in the
+Jakarta Persistence query language. It should be a legal JPQL `select`
+query. For the backward compatibility, it is permitted to be an `update`
+or `delete` statement.
 
 The `resultClass` element specifies the Java class of each query result.
 When the result class is explicitly specified, either:
@@ -371,9 +373,9 @@ interpreted as a load graph and applied to the entity returned by the
 query. The named `EntityGraph` may be overridden by calling
 `TypedQuery.setEntityGraph()`.
 
-
-The `NamedQuery` and `NamedQueries` annotations can be applied to an entity
-or mapped superclass.
+The `NamedQuery` and `NamedQueries` annotations can be applied to any
+eligible class belonging to the persistence unit, as defined in
+<<canonical-metamodel>>
 
 [source,java]
 ----
@@ -404,15 +406,39 @@ public @interface NamedQueries {
 }
 ----
 
+==== NamedStatement Annotation
+
+The `NamedStatement` annotation declares a named statement written in
+the Jakarta Persistence query language.
+
+The `name` element assigns a name to the statement, which is used to
+identify the statement in calls to `EntityHandler.createNamedStatement()`.
+
+The `statement` element must specify the statement string itself,
+written in the Jakarta Persistence query language. It must be a legal
+JPQL `update` or `delete` statement.
+
+The `hints` element may be used to specify query properties and hints.
+Properties defined by this specification must be observed by the provider;
+hints defined by this specification should be observed by the provider
+when possible. Vendor-specific hints that are not recognized by a provider
+must be ignored.
+
+The `NamedStatement` and `NamedStatements` annotations can be applied to
+any eligible class belonging to the persistence unit, as defined in
+<<canonical-metamodel>>.
+
 ==== NamedNativeQuery Annotation
 
 The `NamedNativeQuery` annotation defines a named native SQL query.
 
 The `name` element assigns a name to the query, which is used to
-identify the query in calls to `EntityManager.createNamedQuery()`.
+identify the query in calls to `EntityHandler.createNamedQuery()`.
 
 The `query` element must specify the query string itself, written
-in the native SQL dialect of the database.
+in the native SQL dialect of the database. The query should return
+a result set. For backward compatibility it is permitted to be a
+statement which returns a row count.
 
 The `resultClass` element specifies the class of each query result.
 When the result class is explicitly specified and the result set
@@ -449,7 +475,7 @@ column values are obtained according to the default type mappings
 defined by the JDBC specification.
 
 The result class may be overridden by explicitly passing a class
-object to `EntityManager.createNamedQuery(String, Class)`.
+object to `EntityHandler.createNamedQuery(String, Class)`.
 
 The `resultSetMapping` element specifies the name of a `SqlResultSetMapping`
 specification defined elsewhere in metadata. The named `SqlResultSetMapping`
@@ -464,7 +490,8 @@ when possible. Vendor-specific hints which are not recognized by the
 provider must be ignored.
 
 The `NamedNativeQuery` and `NamedNativeQueries` annotations can be applied
-to an entity or mapped superclass.
+to any eligible class belonging to the persistence unit, as defined in
+<<canonical-metamodel>>.
 
 [source,java]
 ----
@@ -488,6 +515,26 @@ public @interface NamedNativeQueries {
     NamedNativeQuery[] value ();
 }
 ----
+
+==== NamedNativeStatement Annotation
+
+The `NamedNativeStatement` annotation defines a named native SQL
+statement that returns a row count.
+
+The `name` element assigns a name to the statement, which is used to
+identify the statement in calls to `EntityHandler.createNamedStatement()`.
+
+The `statement` element must specify the statement string itself,
+written in the native SQL dialect of the database.
+
+The `hints` element may be used to specify query properties and hints.
+Hints defined by this specification should be observed by the provider
+when possible. Vendor-specific hints which are not recognized by the
+provider must be ignored.
+
+The `NamedNativeStatement` and `NamedNativeStatements` annotations can
+be applied to any eligible class belonging to the persistence unit, as
+defined in <<canonical-metamodel>>.
 
 ==== NamedStoredProcedureQuery Annotation [[a13759]]
 
