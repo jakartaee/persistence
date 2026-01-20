@@ -2094,14 +2094,16 @@ and specifies additional validation points for managed types
 (entities, mapped superclasses, and embeddable classes) at the
 entity lifecycle events described in <<a2202>>.
 
-The Jakarta Persistence provider may automatically enforce the
-Jakarta Validation constraints <<a19498>> defined on managed objects
-(<<a2374>>). This process occurs internally within the persistence
-lifecycle, ensuring that validation is performed without requiring
-additional application-side logic beyond the definition of the
-constraints themselves.
+When the Jakarta Persistence provider is
+<<a2394,aware of the Jakarta Validation provider's presence>>
+and <<a2374,enables automatic validation>>, it must automatically
+enforce the Jakarta Validation constraints <<a19498>> defined on
+managed objects. This process occurs internally within the persistence
+lifecycle (<<automatic-validation-lifecycle-events>>), ensuring
+validation without requiring additional application-side logic
+beyond the constraints' definitions.
 
-==== Automatic Validation Upon Lifecycle Events
+==== Automatic Validation Upon Lifecycle Events [[automatic-validation-lifecycle-events]]
 
 _Automatic validation_ of entities is specified in terms of their
 lifecycle events defined in <<a2202>>.
@@ -2201,7 +2203,7 @@ and must mark the transaction for rollback if the persistence context is joined
 to the transaction.
 
 The validation process must not have any side effects;
-i.e., validation must not result in the loading of any
+validation must not result in the loading of any
 attribute or association which is not already loaded.
 An entity can be validated at most once per flush cycle.
 
@@ -2225,14 +2227,13 @@ where `tr` is the resolver.
 In Jakarta EE environments, a `jakarta.validation.ValidatorFactory`
 instance is made available by the Jakarta EE container. The container
 is responsible for passing this validator factory to the persistence
-provider via the map that is passed as an argument to the
-`createContainerEntityManagerFactory` call. The map key used by the
-container must be the standard property name
-`jakarta.persistence.validation.factory`.
+provider via a map passed as the second argument to
+`createContainerEntityManagerFactory`. The map key must be the
+standard property name `jakarta.persistence.validation.factory`.
 
-In Java SE environments, the application can pass the `ValidatorFactory`
-instance via the map that is passed as an argument to the
-`Persistence.createEntityManagerFactory` call. The map key used must
+In Java SE environments, the application can supply the
+`ValidatorFactory` instance via a map passed as the second argument to
+`Persistence.createEntityManagerFactory`. The map key must
 be the standard property name `jakarta.persistence.validation.factory`.
 If no `ValidatorFactory` instance is provided by the application, and
 if a Jakarta Validation provider is present in the classpath, the
