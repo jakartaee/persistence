@@ -8,6 +8,7 @@
 :email: https://dev.eclipse.org/mailman/listinfo/jpa-dev
 :version-label!:
 :doctype: book
+:docinfo: shared,private
 :license: Eclipse Foundation Specification License v1.1
 :source-highlighter: coderay
 :toc: left
