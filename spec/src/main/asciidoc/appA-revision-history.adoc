@@ -17,6 +17,8 @@ Added a new API for programmatic SQL result set mappings
 
 Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `ofType()`, `withEntityGraph()`, and `asStatement()` to `Query`
 
+Allow named queries and statements to be defined on non-managed classes and interfaces.
+
 Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
 
 Added the ability to select `LAZY` fetching as the default for `@OneToOne` and `@ManyToOne` associations via `<default-to-one-fetch-type>` in `persistence.xml` or `PersistenceConfiguration.defaultToOneFetchType()`
@@ -63,7 +65,7 @@ Allow `value` member of `@JoinColumns` to be defaulted
 
 Specify that entity names must be legal Java identifiers
 
-Made `ELSE` branch in `CASE` expressions optional in JPQL.
+Made `ELSE` branch in `CASE` expressions optional in JPQL
 
 Overloaded `Persistence.generateSchema()` to accept `PersistenceConfiguration` and added related functionality to `PersistenceConfiguration`: `exportSchema()`, `schemaManagementDatabaseAction()`, `schemaManagementScriptsAction()`, `SchemaManagementAction`
 
@@ -73,7 +75,7 @@ Added static lists of standard property names to inner interfaces of `Persistenc
 
 Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_LOAD_SCRIPT_SOURCE` to `PersistenceConfiguration`
 
-Added `SchemaManager.populate()` and the new schema generation action `populate`.
+Added `SchemaManager.populate()` and the new schema generation action `populate`
 
 Change default `lockMode` of `EntityResult` to `NONE`
 
