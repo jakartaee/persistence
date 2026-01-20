@@ -22,19 +22,22 @@ package jakarta.persistence;
  * <ul>
  * <li>a detached instance of an entity type is passed to
  *     {@link EntityManager#persist(Object)}, or
- * <li>an instance of an entity type with an identifier assigned by the
- *     application is passed to {@link EntityAgent#insert(Object)}, and
- *     a record with the assigned identifier already exists in the database.
+ * <li>an instance of an entity type with an identifier already
+ *     assigned by the application is passed to
+ *     {@link EntityAgent#insert(Object)}, and a record with the
+ *     assigned identifier value already exists in the database.
  * </ul>
  *
- * <p>If a detached instance is passed to the persist operation, an
- * {@code EntityExistsException} may be immediately thrown by
- * {@code persist()}, or the {@code EntityExistsException} or another
- * {@link PersistenceException} may be thrown at flush or commit time.
+ * <p> If a detached instance is passed to the persist operation,
+ * an {@code EntityExistsException} may be immediately thrown by
+ * {@code persist()}, or the {@code EntityExistsException} or
+ * another {@link PersistenceException} may be thrown at flush or
+ * commit time.
  *
- * <p> If the persistence context is joined to an active transaction,
- * the transaction is automatically marked for rollback when this
- * exception is thrown.
+ * <p> If an {@code EntityExistsException} is thrown by an
+ * {@link EntityManager} with a persistence context joined to
+ * an active transaction, the transaction is automatically
+ * marked for rollback when the exception is thrown.
  *
  * @see EntityManager#persist(Object)
  * 

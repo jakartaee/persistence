@@ -36,9 +36,10 @@ import java.util.List;
  *     no longer exists in the database.
  * </ul>
  *
- * <p> If the persistence context is joined to an active
- * transaction, the transaction is automatically marked for
- * rollback when this exception is thrown.
+ * <p> If an {@code EntityNotFoundException} is thrown by an
+ * {@link EntityManager} with a persistence context joined to
+ * an active transaction, the transaction is automatically
+ * marked for rollback when the exception is thrown.
  * 
  * @see EntityHandler#get(Class, Object)
  * @see EntityHandler#get(Class, Object, FindOption...)
