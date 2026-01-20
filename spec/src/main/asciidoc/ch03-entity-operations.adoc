@@ -4128,8 +4128,8 @@ NoResultException::
 Thrown by the persistence provider when `getSingleResult()`
 is executed and there is no result to return.
 +
-This exception type is considered recoverable.
-When this exception is thrown, the current transaction is not
+This exception type is considered recoverable. When this
+exception type is thrown, the current transaction is not
 automatically marked for rollback.
 
 NonUniqueResultException::
@@ -4137,8 +4137,8 @@ NonUniqueResultException::
 Thrown by the persistence provider when `getSingleResult()`
 is executed and there is more than one result from the query.
 +
-This exception type is considered recoverable.
-When this exception is thrown, the current transaction is not
+This exception type is considered recoverable. When this
+exception type is thrown, the current transaction is not
 automatically marked for rollback.
 
 LockTimeoutException::
@@ -4150,8 +4150,8 @@ when the transaction commits.footnote:[Typically this occurs
 because the database uses statement-level rollback when a
 pessimistic lock cannot be granted and there is no deadlock.]
 +
-This exception type is considered recoverable.
-When this exception is thrown, the current transaction is not
+This exception type is considered recoverable. When this
+exception type is thrown, the current transaction is not
 automatically marked for rollback.
 
 QueryTimeoutException::
@@ -4159,8 +4159,8 @@ QueryTimeoutException::
 Thrown by the persistence provider when a query times out and
 only the statement is rolled back.
 +
-This exception type is considered recoverable.
-When this exception is thrown, the current transaction is not
+This exception type is considered recoverable. When this
+exception type is thrown, the current transaction is not
 automatically marked for rollback.
 
 In addition to the exception types listed above, certain methods
