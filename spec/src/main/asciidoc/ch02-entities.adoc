@@ -2,7 +2,7 @@
 // Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
 //
 
-== Entities
+== Entities [[entities]]
 
 An entity is a lightweight persistent domain object.footnote:[An entity
 instance is a local object inaccessible to remote processes. If instances

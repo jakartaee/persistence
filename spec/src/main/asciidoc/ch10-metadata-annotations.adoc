@@ -374,8 +374,7 @@ query. The named `EntityGraph` may be overridden by calling
 `TypedQuery.setEntityGraph()`.
 
 The `NamedQuery` and `NamedQueries` annotations can be applied to any
-eligible class belonging to the persistence unit, as defined in
-<<canonical-metamodel>>
+class belonging to the persistence unit, as specified in <<a12305>>.
 
 [source,java]
 ----
@@ -425,8 +424,7 @@ when possible. Vendor-specific hints that are not recognized by a provider
 must be ignored.
 
 The `NamedStatement` and `NamedStatements` annotations can be applied to
-any eligible class belonging to the persistence unit, as defined in
-<<canonical-metamodel>>.
+any class belonging to the persistence unit, as specified in <<a12305>>.
 
 ==== NamedNativeQuery Annotation
 
@@ -490,8 +488,7 @@ when possible. Vendor-specific hints which are not recognized by the
 provider must be ignored.
 
 The `NamedNativeQuery` and `NamedNativeQueries` annotations can be applied
-to any eligible class belonging to the persistence unit, as defined in
-<<canonical-metamodel>>.
+to any class belonging to the persistence unit, as specified in <<a12305>>.
 
 [source,java]
 ----
@@ -533,8 +530,8 @@ when possible. Vendor-specific hints which are not recognized by the
 provider must be ignored.
 
 The `NamedNativeStatement` and `NamedNativeStatements` annotations can
-be applied to any eligible class belonging to the persistence unit, as
-defined in <<canonical-metamodel>>.
+be applied to any class belonging to the persistence unit, as specified
+in <<a12305>>.
 
 ==== NamedStoredProcedureQuery Annotation [[a13759]]
 

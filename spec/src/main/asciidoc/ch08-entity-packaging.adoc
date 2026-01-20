@@ -251,9 +251,14 @@ persistence classes to be included within a persistence unit:
 - mapped superclasses;
 - converter classes.
 
-The set of managed persistence classes managed by a persistence unit is
-specified using one or more of the following:footnote:[Note that an
-given class may be used in more than one persistence unit.]
+Furthermore, types declaring named queries and statements, as defined in
+<<named-queries-statements>> must also be implicitly or explicitly denoted
+as belonging to a persistence unit.
+
+A given type may belong to more than one persistence unit.
+
+The set of types belonging to a persistence unit is specified using one or
+more of the following:
 
 - annotated managed persistence classes contained in the root of the
   persistence unit (unless the `exclude-unlisted-classes` element is
@@ -262,9 +267,9 @@ given class may be used in more than one persistence unit.]
 - one or more JAR files to be searched for classes;
 - an explicit list of classes.
 
-The set of entities managed by the persistence unit is the union of these
-sources, with the mapping metadata annotations (or annotation defaults)
-for any given class being overridden by the XML mapping information file
+The set of managed classes belonging to the persistence unit is the union
+of these sources, with mapping metadata annotations (or annotation defaults)
+for any given class being overridden by the XML mapping file information
 if there are both annotations and XML mappings for that class. The minimum
 portable level of overriding is at the level of the persistent field or
 property.
@@ -280,24 +285,32 @@ same identical class.
 ====== Annotated Classes in the Root of the Persistence Unit
 
 By default, in the Java EE environment, the root of the persistence
-unit is searched for annotated managed persistence classes—classes
-with an `Entity`, `Embeddable`, `MappedSuperclass`, or `Converter`
-annotation—and mapping metadata annotations found on these classes
-are processed. Where mapping annotations are missing, the classes
-are mapped using mapping annotation defaults.
+unit is searched for:
+
+- annotated managed persistence classes--any class with an `Entity`,
+  `Embeddable`, or `MappedSuperclass` annotation, as defined in
+  <<entities>>,
+- annotated converter classes--any class with a `Converter` annotation,
+  as defined in <<a2999>>, and
+- classes declaring named queries and statements, as defined in
+  <<named-queries-statements>>.
+
+Mapping metadata annotations found on these classes are processed;
+where mapping annotations are missing, the classes are mapped using
+mapping annotation defaults.
 
 This behavior is disabled if the `exclude-unlisted-classes` of the
 `persistence.xml` file is specified as `true`. In this case, an
-annotated persistence class located in the root of the persistence
-unit is not included in the persistence unit unless it is explicitly
-listed in a `class` element of the `persistence.xml` file or in a
-mapping file.
+annotated class located in the root of the persistence unit is not
+included in the persistence unit unless it is explicitly listed in
+a `class` element of the `persistence.xml` file or in an XML mapping
+file.
 
 In the Java SE environment, this behavior is not required. Portable
-Java SE applications should explicitly list each persistence class
-in a `class` element of the `persistence.xml` file or in a mapping
-file. The `exclude-unlisted-classes` element is not intended for use
-in Java SE environments.
+Java SE applications should explicitly list each class belonging to
+the persistence unit in a `class` element of the `persistence.xml`
+file or in an XML mapping file. The `exclude-unlisted-classes` element
+is not intended for use in Java SE environments.
 
 ====== Object/relational Mapping Files
 

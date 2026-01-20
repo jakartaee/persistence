@@ -3359,7 +3359,7 @@ select list. In the third case, each query result is automatically
 packaged in a new instance of the result class by calling the matching
 constructor.
 
-==== Named Queries and Named Statements
+==== Named Queries and Named Statements [[named-queries-statements]]
 
 A _named query_ is:
 
@@ -3398,6 +3398,10 @@ language or in SQL. Statement names are scoped to the persistence unit
 and must be unique within a given unit. A named statement must be a
 JPQL `update` or `delete` statement or a native SQL statement that
 returns a row count.
+
+A named query or named statement may be declared by annotating any
+class or interface belonging to the persistence unit, as specified
+in <<a12305>>.
 
 The following named query is written in JPQL and statically declared
 using an annotation:
