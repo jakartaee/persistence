@@ -90,9 +90,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * }
  *
- * <p>The {@code MapKeyColumn} annotation is specified on the owning side
+ * <p>The {@code MapKeyJoinColumn} annotation is specified on the owning side
  * of a {@link OneToMany} or {@link ManyToMany} relationship or on an
- * element collection. The {@code MapKeyColumn} annotation is specified
+ * element collection. The {@code MapKeyJoinColumn} annotation is specified
  * on the side of the relationship that references the map. The map key
  * is not visible as part of the state of the entity or embeddable class.
  *
