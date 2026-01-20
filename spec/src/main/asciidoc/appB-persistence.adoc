@@ -152,3 +152,21 @@ include::../../../../api/src/main/java/jakarta/persistence/PersistenceUtil.java[
 ----
 include::../../../../api/src/main/java/jakarta/persistence/PersistenceUnitUtil.java[lines=18..-1]
 ----
+
+=== `Reference`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Reference.java[lines=18..-1]
+----
+
+=== `TypedQueryReference`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/TypedQueryReference.java[lines=18..-1]
+----
+
+=== `StatementReference`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/StatementReference.java[lines=18..-1]
+----

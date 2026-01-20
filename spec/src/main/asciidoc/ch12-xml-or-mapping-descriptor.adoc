@@ -242,42 +242,45 @@ generators defined in annotations. If a generator of the same name is
 defined in annotations, the generator defined by this subelement
 overrides that definition.
 
-===== named-query
+===== named-query, named-native-query [[named-query]]
 
-The named query defined by the `named-query`
-subelement applies to the persistence unit. It is undefined if multiple
-mapping files for the persistence unit contain named queries of the same
-name.
+A named query defined by a `named-query` or `named-native-query`
+element is scoped to the persistence unit.
 
-The named query defined is added to the named
-queries defined in annotations. If a named query of the same name is
-defined in annotations, the named query defined by this subelement
-overrides that definition.
+If the mapping files for a persistence unit declare multiple queries
+with the same name, the behavior is undefined.
 
-===== named-native-query
+A named query declared in XML is added to the named queries declared
+using annotations. If a named query declared using annotations has
+the same name as the query declared in XML, the declaration in XML
+overrides the declaration in annotations.
 
-The named native query defined by the
-`named-native-query` subelement applies to the persistence unit. It is
-undefined if multiple mapping files for the persistence unit contain
-named queries of the same name.
+===== named-statement, named-native-statement [[named-statement]]
 
-The named native query defined is added to
-the named native queries defined in annotations. If a named query of the
-same name is defined in annotations, the named query defined by this
-subelement overrides that definition.
+A named statement defined by a `named-statement` or
+`named-native-statement` element is scoped to the persistence unit.
+
+If the mapping files for a persistence unit declare multiple statements
+with the same name, the behavior is undefined.
+
+A named statement declared in XML is added to the named statements
+declared using annotations. If a named statement declared using
+annotations has the same name as the statement declared in XML,
+the declaration in XML overrides the declaration in annotations.
 
 ===== named-stored-procedure-query
 
-The named stored procedure query defined by
-the `named-stored-procedure-query` subelement applies to the persistence
-unit. It is undefined if multiple mapping files for the persistence unit
-contain named stored procedure queries of the same name.
+A named stored procedure query defined by `named-stored-procedure-query`
+element is scoped to the persistence unit.
 
-The named stored procedure query defined is
-added to the named stored procedure queries defined in annotations. If a
-named stored procedure query of the same name is defined in annotations,
-the named stored procedure query defined by this subelement overrides
-that definition.
+If the mapping files for a persistence unit declare multiple stored
+procedure queries with the same name, the behavior is undefined.
+
+A named stored procedure query declared in XML is added to the named
+stored procedure queries declared using annotations. If a named stored
+procedure query declared using annotations has the same name as the
+stored procedure query declared in XML, the declaration in XML overrides
+the declaration in annotations.
 
 ===== sql-result-set-mapping
 

@@ -255,6 +255,18 @@ public static volatile TypedQueryReference<R> _n_;
 where `n` is the name `"n"` with every character which is not a legal
 Java identifier character replaced with an underscore.
 
+* For every named statement with name `"n"` declared by annotations
+of the class `X`, the metamodel class must contain a declaration as
+follows:
++
+[source,java]
+----
+public static volatile StatementReference _n_;
+----
++
+where `n` is the name `"n"` with every character which is not a legal
+Java identifier character replaced with an underscore.
+
 * For every named entity graph with name `"n"` declared by annotations
 of the class `X`, the metamodel class must contain a declaration as
 follows:
