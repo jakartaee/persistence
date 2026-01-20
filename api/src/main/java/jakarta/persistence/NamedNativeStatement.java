@@ -24,7 +24,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Declares a named {@linkplain Statement statement} written in
- * native SQL. Query names are scoped to the persistence unit.
+ * native SQL. Statement names are scoped to the persistence unit.
  * The SQL statement must return a row count.
  *
  * <p> This annotation may be applied to any class or interface
