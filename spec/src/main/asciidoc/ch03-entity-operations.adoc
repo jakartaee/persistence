@@ -2724,14 +2724,14 @@ Attribute conversion is supported for element collections, as defined in
 A converter declared `@Converter(autoApply=true)` is automatically applied
 to:
 
-- every attribute of an entity class, mapped superclass, or embeddable class
-  whose declared type matches the target type of the converter, unless the
-  converter is overridden or disabled through application of the `@Convert`
-  annotation to the attribute, as specified below, and
+- every attribute of an entity class, mapped superclass, or embeddable
+  class whose declared type matches the target type of the converter,
+  unless the converter is overridden or disabled through application of
+  the `@Convert` annotation to the attribute, as specified below, and
 - every element collection whose element type matches the target type
   of the converter, unless the converter is overridden or disabled
-  through application of the `@Convert` annotation to the collection-valued
-  attribute.
+  through application of the `@Convert` annotation to the
+  collection-valued attribute, as specified below.
 
 An automatically applied attribute converter must implement the type
 `AttributeConverter<X,Y>`, where:
