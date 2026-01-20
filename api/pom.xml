@@ -39,8 +39,6 @@
         <spec.new.spec.version>4.0</spec.new.spec.version>
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
-
-        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
     <build>
