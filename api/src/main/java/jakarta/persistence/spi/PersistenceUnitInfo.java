@@ -149,19 +149,15 @@ public interface PersistenceUnitInfo {
     URL getPersistenceUnitRootUrl();
 
     /**
-     * Returns the list of the names of the classes that the
-     * persistence provider must add to its set of managed
-     * classes. Each name corresponds to a named {@code class}
-     * element in the {@code persistence.xml} file.
-     * @return the list of the names of the classes that the 
-     * persistence provider must add to its set of managed 
-     * classes 
+     * Returns the class names listed by {@code class} elements
+     * of the {@code persistence.xml} file.
+     * @return the class names listed in {@code persistence.xml}
      */
     List<String> getManagedClassNames();
 
     /**
-     * Returns the list of names of all managed classes in
-     * the persistence unit, including managed classes:
+     * Returns the names of all classes belonging to the
+     * persistence unit, including classes:
      * <ul>
      * <li>named explicitly in the {@code persistence.xml}
      *     file,
@@ -170,11 +166,12 @@ public interface PersistenceUnitInfo {
      *     {@code persistence.xml}, or
      * <li>discovered by the container via scanning.
      * </ul>
-     * <p>Every entity class, mapped superclass, embeddable
-     * class, or attribute converter class is considered a
-     * managed class.
-     * @return the list of names of all managed classes in
-     * the persistence unit
+     * <p>The classes include every entity class, mapped
+     * superclass, embeddable class, attribute converter
+     * class, or type declaring a named query or statement
+     * which belongs to the persistence unit.
+     * @return the list of names of all classes belonging
+     * to the persistence unit
      * @since 4.0
      */
     List<String> getAllManagedClassNames();

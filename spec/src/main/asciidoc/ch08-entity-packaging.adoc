@@ -12,7 +12,9 @@ A _persistence unit_ is a logical grouping that includes:
   managed by entity managers created by the entity manager factory,
   and
 - mapping metadata (in the form of metadata annotations and/or XML
-  metadata) specifying the mapping of these classes to the database.
+  metadata) specifying the mapping of these classes to the database,
+  and
+- named queries and named statements involving these managed classes.
 
 This chapter describes the packaging of persistence units.
 
