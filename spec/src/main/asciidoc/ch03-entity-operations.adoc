@@ -3101,7 +3101,7 @@ returned by a stored procedure query invocation is determined according
 to the rules for `Query` or `TypedQuery` as described above.
 
 A query object obtained from an `EntityManager` has an associated
-persistence context, and returns entities belonging to that persistence
+persistence context and returns entities belonging to that persistence
 context. If the persistence context is joined to the transaction, any
 runtime exception thrown by any method of `Query`, `Statement`,
 `TypedQuery`, or `StoredProcedureQuery` causes the current transaction
