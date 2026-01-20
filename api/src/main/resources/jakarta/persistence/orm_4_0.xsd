@@ -114,6 +114,10 @@
                      minOccurs="0" maxOccurs="unbounded"/>
         <xsd:element name="named-native-query" type="orm:named-native-query"
                      minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="named-statement" type="orm:named-statement"
+                     minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="named-native-statement" type="orm:named-native-statement"
+                     minOccurs="0" maxOccurs="unbounded"/>
         <xsd:element name="named-stored-procedure-query"
                      type="orm:named-stored-procedure-query"
                      minOccurs="0" maxOccurs="unbounded"/>
@@ -251,6 +255,10 @@
       <xsd:element name="named-query" type="orm:named-query"
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="named-native-query" type="orm:named-native-query"
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="named-statement" type="orm:named-statement"
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="named-native-statement" type="orm:named-native-statement"
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="named-stored-procedure-query"
                    type="orm:named-stored-procedure-query"
@@ -1791,7 +1799,57 @@
     <xsd:attribute name="result-class" type="xsd:string"/>
 </xsd:complexType>
 
-<!-- **************************************************** -->
+  <!-- **************************************************** -->
+
+  <xsd:complexType name="named-native-statement">
+    <xsd:annotation>
+      <xsd:documentation><![CDATA[
+
+        @Repeatable(NamedNativeStatements.class)
+        @Target({TYPE}) @Retention(RUNTIME)
+        public @interface NamedNativeStatement {
+          String name();
+          String statement();
+          QueryHint[] hints() default {};
+        }
+
+      ]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="statement" type="xsd:string"/>
+      <xsd:element name="hint" type="orm:query-hint"
+                   minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <!-- **************************************************** -->
+
+  <xsd:complexType name="named-statement">
+    <xsd:annotation>
+      <xsd:documentation><![CDATA[
+
+        @Repeatable(NamedStatements.class)
+        @Target({TYPE}) @Retention(RUNTIME)
+        public @interface NamedStatement {
+          String name();
+          String statement();
+          QueryHint[] hints() default {};
+        }
+
+      ]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="statement" type="xsd:string"/>
+      <xsd:element name="hint" type="orm:query-hint"
+                   minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <!-- **************************************************** -->
 
   <xsd:complexType name="named-stored-procedure-query">
     <xsd:annotation>

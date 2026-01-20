@@ -3359,7 +3359,7 @@ select list. In the third case, each query result is automatically
 packaged in a new instance of the result class by calling the matching
 constructor.
 
-==== Named Queries
+==== Named Queries and Named Statements
 
 A _named query_ is:
 
@@ -3367,14 +3367,37 @@ A _named query_ is:
   `@NamedNativeQuery` annotation, as defined in <<metadata-annotations>>,
   a `@StaticQuery` or `@StaticNativeQuery` annotation, as defined in
   <<static-query-api>>, or using a `<named-query>` or
-  `<named-native-query>` XML element, as specified in <<a16944>>, or
-- a query or statement instantiated at runtime and registered by calling
-  the `addNamedQuery()` or `addNamedStatement()` method of
-  `EntityManagerFactory`.
+  `<named-native-query>` XML element, as specified in <<named-query>>,
+  or
+- a query instantiated at runtime and registered by calling the
+  `addNamedQuery()` method of `EntityManagerFactory`.
 
-A named query may be expressed in the Jakarta Persistence query
-language or in SQL. Query names are scoped to the persistence unit
-and must be unique within a given unit.
+A named query may be expressed in the Jakarta Persistence query language
+or in SQL. Query names are scoped to the persistence unit and must be
+unique within a given unit. A named query should be a JPQL `select` query
+or a native SQL statement that returns a result set.
+
+[NOTE]
+For backward compatibility, a named query is permitted to be a JPQL `update`
+or `delete` statement or a SQL statement that returns a row count, but this
+usage is now discouraged.
+
+Similarly, a _named statement_ is:
+
+- a static statement expressed in metadata using a `@NamedStatement` or
+  `@NamedNativeStatement` annotation, as defined in <<metadata-annotations>>,
+  a `@StaticQuery` or `@StaticNativeQuery` annotation, as defined in
+  <<static-query-api>>, or using a `<named-statement>` or
+  `<named-native-statement>` XML element, as specified in <<named-statement>>,
+  or
+- a statement instantiated at runtime and registered by calling the
+  `addNamedStatement()` method of `EntityManagerFactory`.
+
+A named statement may be expressed in the Jakarta Persistence query
+language or in SQL. Statement names are scoped to the persistence unit
+and must be unique within a given unit. A named statement must be a
+JPQL `update` or `delete` statement or a native SQL statement that
+returns a row count.
 
 The following named query is written in JPQL and statically declared
 using an annotation:
@@ -3401,8 +3424,8 @@ public EntityManager em;
         .getResultList();
 ----
 
-Named queries expressed in annotations have representations in the
-canonical static metamodel, as specified in <<canonical-metamodel>>.
+Named queries and statements expressed in annotations have representations
+in the canonical static metamodel, as specified in <<canonical-metamodel>>.
 
 [source,java]
 ----
