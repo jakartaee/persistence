@@ -106,6 +106,8 @@
         <copyright.template>copyright-template</copyright.template>
         <copyright.update>false</copyright.update>
 
+        <maven.compiler.release>17</maven.compiler.release>
+
         <version.flatten-maven-plugin>1.7.3</version.flatten-maven-plugin>
         <version.buildhelper.plugin>3.6.1</version.buildhelper.plugin>
         <version.glassfish-copyright-maven-plugin>2.4</version.glassfish-copyright-maven-plugin>
