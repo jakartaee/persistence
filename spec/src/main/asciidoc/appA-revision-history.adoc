@@ -9,7 +9,9 @@ This appendix lists the significant changes that have been made during the devel
 
 === Jakarta Persistence 4.0
 
-Added `EntityAgent` and `EntityHandler`, along with new lifecycle events related to SQL execution
+==== Changes to API
+
+Added `EntityAgent` and `EntityHandler`
 
 Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticStatementReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
@@ -17,13 +19,13 @@ Added a new API for programmatic SQL result set mappings
 
 Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `ofType()`, `withEntityGraph()`, and `asStatement()` to `Query`
 
-Allow named queries and statements to be defined on non-managed classes and interfaces.
-
 Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
 
 Added the ability to select `LAZY` fetching as the default for `@OneToOne` and `@ManyToOne` associations via `<default-to-one-fetch-type>` in `persistence.xml` or `PersistenceConfiguration.defaultToOneFetchType()`
 
-Made `select new X(...)` optional in JPQL queries with an explicit result class of type `X`, and allowed the result class of a native SQL query to be interpreted as a constructor result
+Added `get()` operation as an alternative to `find()`; added `findMultiple()` and `getMultiple()`
+
+Added `getResultCount()` to `TypedQuery`
 
 Added `registerResultParameter()` to `StoredProcedureQuery`
 
@@ -31,19 +33,15 @@ For much improved type safety, overloaded `getResultList()`, `getSingleResult()`
 
 Made `StoredProcedureQuery` a subtype of `AutoCloseable`
 
-Added `get()` operation as an alternative to `find()`
-
 Added `@ExcludedFromVersioning`
+
+Added `FETCHED` to `PessimisticLockScope`, `lockScope` to `@NamedQuery`, and `setLockScope()` to `Query`
 
 Added new lifecycle callback types: `@PreMerge`, `@PreInsert`, `@PostInsert`, `@PreUpsert`, `@PostUpsert`, `@PreDelete`, `@PostDelete`
 
 Added `addListener()` to `EntityManagerFactory`
 
 Specify that an entity listener may have multiple callbacks of the same type
-
-Added `findMultiple()` to `EntityManager`
-
-Added `getResultCount()` to `Query`
 
 Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
 
@@ -55,17 +53,19 @@ Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
 
 Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference` and added `addNamedStatement()`
 
-Added `FETCHED` to `PessimisticLockScope`, `lockScope` to `@NamedQuery`, and `setLockScope()` to `Query`
-
 Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`
 
-`jakarta.annotation.Nonnull` now implies `optional=false`
+==== Changes to Query Language
 
-Allow `value` member of `@JoinColumns` to be defaulted
+Made `select new X(...)` optional in JPQL queries with an explicit result class of type `X`, and allowed the result class of a native SQL query to be interpreted as a constructor result
 
 Specify that entity names must be legal Java identifiers
 
 Made `ELSE` branch in `CASE` expressions optional in JPQL
+
+==== Changes to Configuration and Bootstrap
+
+Allow named queries and statements to be defined on non-managed classes and interfaces.
 
 Overloaded `Persistence.generateSchema()` to accept `PersistenceConfiguration` and added related functionality to `PersistenceConfiguration`: `exportSchema()`, `schemaManagementDatabaseAction()`, `schemaManagementScriptsAction()`, `SchemaManagementAction`
 
@@ -75,15 +75,27 @@ Added static lists of standard property names to inner interfaces of `Persistenc
 
 Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_LOAD_SCRIPT_SOURCE` to `PersistenceConfiguration`
 
-Added `SchemaManager.populate()` and the new schema generation action `populate`
+Added `SchemaManager.populate()` and the new schema generation action `populate()`
 
-Change default `lockMode` of `EntityResult` to `NONE`
+Redefine automatic bean validation. By default, automatic validation
+is now expected after pre-insert, pre-update and pre-upsert lifecycle
+events instead of previously used pre-persist, pre-update ones.
+Automatic bean validation can be enabled after the following lifecycle
+events: pre-persist, pre-merge, pre-remove, pre-delete.
+
+==== Minor Changes and Fixes
+
+`jakarta.annotation.Nonnull` now implies `optional=false`
 
 Allow `@EntityResult` as a subelement of `@ConstructorResult` in named SQL result set mappings
+
+Allow `value` member of `@JoinColumns` to be defaulted
 
 Added `comment` member to `@DiscriminatorColumn`, `@MapKeyColumn`, `@MapKeyJoinColumn`, `@PrimaryKeyJoinColumn` and `@CollectionTable`
 
 Added `check` member to `@MapKeyColumn`, `@MapKeyJoinColumn`, `@PrimaryKeyJoinColumn` and `@CollectionTable`
+
+Change default `lockMode` of `EntityResult` to `NONE`
 
 Fixed some incorrect generic method signatures in `From`
 
@@ -108,13 +120,6 @@ Deleted APIs marked deprecated for removal
 Removed redundant overloads of `find()` and `refresh()` accepting `LockModeType`
 
 Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
-
-Redefine automatic bean validation. By default, automatic validation
-is now expected after pre-insert, pre-update and pre-upsert lifecycle
-events instead of previously used pre-persist, pre-update ones.
-
-Automatic bean validation can be enabled after the following lifecycle
-events: pre-persist, pre-merge, pre-remove, pre-delete.
 
 === Jakarta Persistence 3.2
 
