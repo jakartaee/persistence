@@ -109,7 +109,7 @@ pipeline {
                                 sh "sha256sum tck/tck-dist/target/dist-archive/jakarta-persistence-tck-${params.RELEASE_VERSION}.zip | cut -d ' ' -f 1 >> tck/tck-dist/target/dist-archive/jakarta-persistence-tck-${params.RELEASE_VERSION}.zip.sha256"
                                 sh "sha256sum tck/tck-dist/target/dist-archive/jakarta-persistence-tck-${params.RELEASE_VERSION}.tar.gz | cut -d ' ' -f 1 >> tck/tck-dist/target/dist-archive/jakarta-persistence-tck-${params.RELEASE_VERSION}.tar.gz.sha256"
 
-                                sh "rsync -avz --mkpath --progress --verbose --include='jakarta-persistence-tck-*' --exclude='*' tck/tck-dist/target/dist-archive/ genie.persistence@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/jakartaee/persistence/${specVersion}/"
+                                sh "rsync -avz --mkpath --progress --verbose --include='jakarta-persistence-tck-*' --exclude='*' tck/tck-dist/target/dist-archive/ genie.jpa@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/jakartaee/persistence/${specVersion}/"
                             }
                         }
                     }
