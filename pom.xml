@@ -234,13 +234,13 @@
                         <publishingServerId>central</publishingServerId>
                         <waitUntil>published</waitUntil>
                         <centralBaseUrl>https://central.sonatype.com</centralBaseUrl>
-                        <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/
-                        </centralSnapshotsUrl>
+                        <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</centralSnapshotsUrl>
                         <excludeArtifacts>
                             <excludeArtifact>persistence-spec</excludeArtifact>
                             <excludeArtifact>jakarta.persistence-parent</excludeArtifact>
                             <excludeArtifact>persistence-tck-parent</excludeArtifact>
                             <excludeArtifact>persistence-tck-user-guide-parent</excludeArtifact>
+                            <excludeArtifact>persistence-tck-user-guide</excludeArtifact>
                         </excludeArtifacts>
                     </configuration>
                 </plugin>
