@@ -114,7 +114,8 @@ public interface EntityGraph<T> extends Graph<T> {
      * this {@code EntityGraph}. Subclass subgraphs automatically
      * include the specified attributes of superclass subgraphs.
      *
-     * @param type  entity subclass
+     * @param type an entity subclass of the root entity class
+     * @param <S> the type of the subclass
      * @return subgraph for the subclass
      * @throws IllegalArgumentException if the type is not an entity type
      * @throws IllegalStateException if the EntityGraph has been
