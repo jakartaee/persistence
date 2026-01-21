@@ -28,7 +28,7 @@
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.0-M1</version>
 
     <name>Jakarta Persistence Parent</name>
     <url>https://github.com/jakartaee/persistence</url>
@@ -113,7 +113,7 @@
         <version.glassfish-copyright-maven-plugin>2.4</version.glassfish-copyright-maven-plugin>
         <version.asciidoctor.maven.plugin>3.2.0</version.asciidoctor.maven.plugin>
 
-        <project.build.outputTimestamp>2025-04-10T08:59:19Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2026-01-21T13:43:44Z</project.build.outputTimestamp>
         <!-- Value should be overridden by the helper plugin -->
         <rootProject.directory>${user.dir}</rootProject.directory>
     </properties>
