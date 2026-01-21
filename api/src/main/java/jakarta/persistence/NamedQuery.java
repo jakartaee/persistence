@@ -157,7 +157,7 @@ public @interface NamedQuery {
      * entity graph} interpreted as a load graph and applied to the
      * entity returned by the query. The named {@link EntityGraph}
      * may be overridden by calling
-     * {@link TypedQuery#setEntityGraph(EntityGraph)}.
+     * {@link QueryOrStatement#withEntityGraph(EntityGraph)}.
      * @since 4.0
      */
     String entityGraph() default "";

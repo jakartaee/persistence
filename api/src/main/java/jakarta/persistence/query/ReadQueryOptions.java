@@ -105,8 +105,7 @@ public @interface ReadQueryOptions {
 
     /**
      * The name of a {@link jakarta.persistence.NamedEntityGraph}
-     * {@linkplain jakarta.persistence.TypedQuery#setEntityGraph
-     * applied} to the entity returned by the query. By default,
+     * applied to the entity returned by the query. By default,
      * no entity graph is applied. The named entity graph must be
      * an entity graph compatible with the entity type returned
      * by the query. If the result type of the query is not an
@@ -115,7 +114,6 @@ public @interface ReadQueryOptions {
      * here may be overridden by calling {@code setEntityGraph()}.
      *
      * @see jakarta.persistence.NamedEntityGraph#name
-     * @see jakarta.persistence.TypedQuery#setEntityGraph
      */
     String entityGraph() default "";
 
