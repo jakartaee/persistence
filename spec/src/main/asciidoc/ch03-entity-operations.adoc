@@ -1649,10 +1649,11 @@ of entity listeners or to override the order specified in metadata
 annotations.
 
 Any subset or combination of annotations may
-be specified on an entity class, mapped superclass, or listener class. A
-single class must not have more than one lifecycle callback method for
-the same lifecycle event. The same method may be used for multiple
-callback events.
+be specified on an entity class, mapped superclass, or listener class.
+The same method may be used to process multiple callback events.
+A given entity class or mapped superclass must not have more than one
+lifecycle callback method for a given lifecycle event, but this
+restriction does not apply to entity listener classes.
 
 Multiple entity classes and mapped
 superclasses in an inheritance hierarchy may define listener classes
