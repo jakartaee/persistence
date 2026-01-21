@@ -116,10 +116,10 @@ pipeline {
 				}
 			}
             post {
-                success {
+                always {
                     archiveArtifacts artifacts: 'api/target/reports/**/*,spec/target/generated-docs/**/*',
                             fingerprint: true,
-                            allowEmptyArchive: false
+                            allowEmptyArchive: true
                 }
             }
 		}
