@@ -40,7 +40,7 @@ import java.util.stream.Stream;
  *
  * @see Query
  * @see Parameter
- * @see Query#ofType(Class)
+ * @see QueryOrStatement#ofType(Class)
  *
  * @since 2.0
  */

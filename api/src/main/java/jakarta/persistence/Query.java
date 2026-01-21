@@ -29,13 +29,13 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * Declares common operations for controlling the
- * execution of statements and queries written in the Jakarta
- * Persistence query language or in native SQL.
+ * Declares common operations for controlling the execution of
+ * statements and queries written in the Jakarta Persistence
+ * query language or in native SQL.
  * <ul>
  * <li>For a Jakarta Persistence {@code UPDATE} or {@code DELETE}
  *     statement, or for a native SQL statement that returns a row
- *     count, an instance {@link Statement} should be used to
+ *     count, an instance of {@link Statement} should be used to
  *     execute the statement.
  * <li>For a Jakarta Persistence {@code SELECT} query or for any
  *     native SQL query that returns a result set, an instance of
@@ -43,31 +43,6 @@ import java.util.stream.Stream;
  * <li>For a stored procedure call, a {@link StoredProcedureQuery}
  *     should be used.
  * </ul>
- * <p>If an instance of this interface represents an {@code UPDATE}
- * or {@code DELETE} statement, then a {@code Statement} representing
- * the same statement may be obtained by calling {@link #asStatement()}.
- * {@snippet :
- * int updated =
- *         em.createQuery("delete from Temporary where timestamp > ?1")
- *                 .asStatement()
- *                 .setParameter(1, cutoffDateTime)
- *                 .execute();
- * }
- * <p>If an instance of this interface represents a {@code SELECT}
- * query, then a {@code TypedQuery} representing the same query may
- * be obtained by calling {@link #ofType(Class)}, passing the result
- * type of the query.
- * {@snippet :
- * List<Book> books =
- *         em.createQuery("from Book where extract(year from publicationDate) > :year")
- *                 .ofType(Book.class)
- *                 .setParameter("year", Year.of(2000))
- *                 .setMaxResults(10)
- *                 .setCacheRetrieveMode(CacheRetrieveMode.BYPASS)
- *                 .getResultList();
- * }
- * <p>These operations may be viewed as a sort of type cast to a
- * given subtype of this interface.
  *
  * @apiNote Every operation only relevant to {@code SELECT} queries,
  * for example, {@link #getResultList} and {@link #setMaxResults},
@@ -80,60 +55,12 @@ import java.util.stream.Stream;
  * @see Statement
  * @see TypedQuery
  * @see StoredProcedureQuery
+ * @see QueryOrStatement
  * @see Parameter
  *
  * @since 1.0
  */
 public interface Query {
-
-    /**
-     * Obtain a {@link Statement} representing this query, which
-     * must be some kind of executable statement, that is, a
-     * Jakarta Persistence {@code UPDATE} or {@code DELETE}
-     * statement, or any native SQL statement that returns a row
-     * count. The executable statement may be executed by calling
-     * {@link Statement#execute}.
-     *
-     * @throws IllegalStateException if this query is a
-     *         Jakarta Persistence {@code SELECT} query
-     * @since 4.0
-     */
-    Statement asStatement();
-
-    /**
-     * Obtain a {@link TypedQuery} with the given query result type,
-     * which must be a supertype of the result type of this query.
-     * This query must be a Jakarta Persistence {@code SELECT} query
-     * or a native SQL query which returns a result set.
-     *
-     * @param resultType The Java class of the query result type
-     * @param <R> The query result type
-     * @throws IllegalArgumentException if the given result type is
-     *         not a supertype of the result type of this query
-     * @throws IllegalStateException if this query is a
-     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
-     *         statement
-     * @since 4.0
-     */
-    <R> TypedQuery<R> ofType(Class<R> resultType);
-
-    /**
-     * Obtain a {@link TypedQuery} with the given entity graph,
-     * which must be rooted at a supertype of the result type of
-     * this query. This query must be a Jakarta Persistence
-     * {@code SELECT} query which returns a single entity type.
-     *
-     * @param graph The entity graph, interpreted as a load graph
-     * @param <R> The query result type
-     * @throws IllegalArgumentException if the given graph type is
-     *         not rooted at a supertype of the result type of this
-     *         query
-     * @throws IllegalStateException if this query is a
-     *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
-     *         statement
-     * @since 4.0
-     */
-    <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
 
     /**
      * Execute a {@code SELECT} query or a native query that returns
