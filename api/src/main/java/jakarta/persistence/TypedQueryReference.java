@@ -155,7 +155,6 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * or {@code null} if no entity graph was
      * specified.
      *
-     * @see TypedQuery#setEntityGraph
      * @see NamedQuery#entityGraph
      * @see jakarta.persistence.query.ReadQueryOptions#entityGraph
      * @since 4.0
