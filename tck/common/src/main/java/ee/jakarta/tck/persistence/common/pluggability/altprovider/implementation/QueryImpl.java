@@ -32,13 +32,15 @@ import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.Query;
 import jakarta.persistence.QueryFlushMode;
+import jakarta.persistence.QueryOrStatement;
 import jakarta.persistence.Statement;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.metamodel.Type;
+import jakarta.persistence.sql.ResultSetMapping;
 
-public class QueryImpl<X> implements TypedQuery<X> {
+public class QueryImpl<X> implements TypedQuery<X>, QueryOrStatement {
 	public String jpQL;
 
 	public String name;
@@ -67,6 +69,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph) {
+		return null;
+	}
+
+	@Override
+	public <R> TypedQuery<R> withResultSetMapping(ResultSetMapping<R> mapping) {
 		return null;
 	}
 
