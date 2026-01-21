@@ -183,16 +183,6 @@ public class QueryImpl<X> implements TypedQuery<X>, QueryOrStatement {
 	}
 
     @Override
-    public TypedQuery<X> setEntityGraph(EntityGraph<? super X> entityGraph) {
-        return this;
-    }
-
-    @Override
-    public EntityGraph<? super X> getEntityGraph() {
-        return null;
-    }
-
-    @Override
 	public TypedQuery<X> setFlushMode(FlushModeType arg0) {
 		return this;
 	}
