@@ -3366,7 +3366,7 @@ result class. Either:
 
 - the select list of the query contains only a single item, which must
   be assignable to the given result class,
-- the result class is `Object[].class`, or
+- the result class is `Object[].class` or `Tuple.class`, or
 - the result class is a non-`abstract` class or record type with a
   constructor with the same number of parameters as the query has items
   in its select list, and the constructor parameter types exactly match
@@ -3375,9 +3375,11 @@ result class. Either:
 In the first case, each query result is returned directly to the caller.
 In the second case, each query result is packaged in an array with the
 array elements corresponding by position with the items of the query
-select list. In the third case, each query result is automatically
-packaged in a new instance of the result class by calling the matching
-constructor.
+select list or in an instance of `Tuple` with the indices and aliases
+of the tuple elements determined by the positions and aliases of the
+corresponding items in the select list. In the third case, each query
+result is automatically packaged in a new instance of the result class
+by calling the matching constructor.
 
 ==== Named Queries and Named Statements [[named-queries-statements]]
 
@@ -3836,15 +3838,24 @@ mapping of a SQL result set.
 
 In the programmatic API:
 
-- `EntityMapping` is an alternative to `@EntityResult`, and has the
-  semantics specified above in <<entity-results>>,
-- `FieldMapping` is an alternative to `@FieldResult`,
-- `ConstructorMapping` is an alternative to `@ConstructorResult`,
-  with semantics specified in <<constructor-results>>,
-- `ColumnMapping` is an alternative to `@ColumnResult`, as specified
-  in <<scalar-results>>, and
-- `@EmbeddableMapping` is an alternative to the use of dot notation
-  to map embedded objects within an `EntityMapping`.
+- `EntityMapping`, found in <<_entity-mapping_>>, is an alternative
+  to `@EntityResult`, and has the semantics specified above in
+  <<entity-results>>,
+- `FieldMapping`, found in <<_field-mapping_>>, is an alternative
+  to `@FieldResult`,
+- `ConstructorMapping`, found in <<_constructor-mapping_>>, is an
+  alternative to `@ConstructorResult`, with semantics specified in
+  <<constructor-results>>,
+- `TupleMapping`, found in <<_tuple-mapping_>>, is similar to
+  `ConstructorMapping` but specifies that each query result should
+  be packaged as an instance of `Tuple`, with the indexes and aliases
+  of the tuple elements determined by the positions and aliases of
+  the children of the `TupleMapping`,
+- `ColumnMapping`, found in <<_column-mapping_>> is an alternative
+  to `@ColumnResult`, as specified in <<scalar-results>>, and
+- `@EmbeddableMapping`, found in <<_embedded-mapping_>> is an
+  alternative to the use of dot notation to map embedded objects
+  within an `EntityMapping`.
 
 Instances of these objects are usually constructed using static factory
 methods of the `ResultSetMapping` interface. These methods accept

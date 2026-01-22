@@ -158,22 +158,6 @@ public sealed interface ResultSetMapping<T>
     }
 
     /**
-     * Construct a mapping for an entity class.
-     *
-     * @param entityClass The Java class of the entity
-     * @param lockMode The lock mode acquired by SQL query
-     * @param discriminatorColumn The name of the column holding the discriminator;
-     *        an empty string indicates that there is no discriminator column
-     * @param fields Mappings for fields or properties of the entity
-     *
-     * @see jakarta.persistence.EntityResult
-     */
-    @SafeVarargs
-    static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
-        return EntityMapping.of(entityClass, lockMode, discriminatorColumn, fields);
-    }
-
-    /**
      * Construct a mapping for an embedded object.
      *
      * @param container The Java class which declares the field holding the embedded object
