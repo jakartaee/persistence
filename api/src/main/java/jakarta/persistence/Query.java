@@ -55,7 +55,7 @@ import java.util.stream.Stream;
  * @see Statement
  * @see TypedQuery
  * @see StoredProcedureQuery
- * @see QueryOrStatement
+ * @see StatementOrTypedQuery
  * @see Parameter
  *
  * @since 1.0

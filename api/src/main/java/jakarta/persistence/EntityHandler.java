@@ -597,7 +597,7 @@ public interface EntityHandler extends AutoCloseable {
     Statement createStatement(String qlString);
 
     /**
-     * Create an instance of {@link QueryOrStatement} used
+     * Create an instance of {@link StatementOrTypedQuery}
      * for executing a Jakarta Persistence query language
      * statement.
      * <p>If the given query is a {@code SELECT} statement,
@@ -613,9 +613,9 @@ public interface EntityHandler extends AutoCloseable {
      *     of the select list.
      * </ul>
      * @param qlString A Jakarta Persistence query string
-     * @return An instance of {@link QueryOrStatement} which
-     *         may be used to obtain a {@link TypedQuery} or
-     *         {@link Statement} or to directly execute the
+     * @return An instance of {@link StatementOrTypedQuery}
+     *         which may be used to obtain a {@link TypedQuery}
+     *         or {@link Statement} or to directly execute the
      *         given query or statement
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
@@ -630,13 +630,13 @@ public interface EntityHandler extends AutoCloseable {
      *     {@linkplain #createQuery(String, Class) result class}
      *     or {@linkplain #createQuery(String, EntityGraph)
      *     entity graph} obtain a {@link TypedQuery}, or
-     * <li>{@link QueryOrStatement#asStatement asStatement()} or
-     *     {@link QueryOrStatement#ofType(Class) ofType()} to
-     *     obtain a {@link Statement} or {@link TypedQuery},
+     * <li>{@link StatementOrTypedQuery#asStatement asStatement()}
+     *     or {@link StatementOrTypedQuery#ofType(Class) ofType()}
+     *     to obtain a {@link Statement} or {@link TypedQuery},
      *     respectively, from the object returned by this method.
      * </ul>
      */
-    QueryOrStatement createQuery(String qlString);
+    StatementOrTypedQuery createQuery(String qlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -749,7 +749,7 @@ public interface EntityHandler extends AutoCloseable {
     Statement createNamedStatement(String name);
 
     /**
-     * Create an instance of {@link QueryOrStatement} used for
+     * Create an instance of {@link StatementOrTypedQuery} for
      * executing a named query written in the Jakarta Persistence
      * query language or in native SQL.
      * <ul>
@@ -776,24 +776,24 @@ public interface EntityHandler extends AutoCloseable {
      * <li>the overload which specifies a
      *     {@linkplain #createNamedQuery(String, Class) result
      *     class} to obtain a {@link TypedQuery}, or
-     * <li>{@link QueryOrStatement#asStatement asStatement()} or
-     *     {@link QueryOrStatement#ofType(Class) ofType()} to
-     *     obtain a {@link Statement} or {@link TypedQuery},
+     * <li>{@link StatementOrTypedQuery#asStatement asStatement()}
+     *     or {@link StatementOrTypedQuery#ofType(Class) ofType()}
+     *     to obtain a {@link Statement} or {@link TypedQuery},
      *     respectively, from the object returned by this method.
      * </ul>
      * @param name The name of a query defined in metadata
-     * @return An instance of {@link QueryOrStatement} which
+     * @return An instance of {@link StatementOrTypedQuery} which
      *         may be used to obtain a {@link TypedQuery} or
      *         {@link Statement} or to directly execute the
      *         given query or statement
      * @throws IllegalArgumentException if a query has not been
-     *         defined with the given name, or if the query string is
-     *         found to be invalid
+     *         defined with the given name, or if the query string
+     *         is found to be invalid
      * @see NamedQuery
      * @see NamedNativeQuery
      * @since 1.0
      */
-    QueryOrStatement createNamedQuery(String name);
+    StatementOrTypedQuery createNamedQuery(String name);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -882,7 +882,7 @@ public interface EntityHandler extends AutoCloseable {
     Statement createNativeStatement(String sqlString);
 
     /**
-     * Create an instance of {@link QueryOrStatement} used for
+     * Create an instance of {@link StatementOrTypedQuery} for
      * executing a native SQL query or statement.
      * <p>If the given query produces a result set, the query
      * results might be packaged as arrays:
@@ -908,19 +908,19 @@ public interface EntityHandler extends AutoCloseable {
      * <li>the overload which specifies a
      *     {@linkplain #createNativeQuery(String, Class) result
      *     class} to obtain a {@link TypedQuery}, or
-     * <li>{@link QueryOrStatement#asStatement asStatement()} or
-     *     {@link QueryOrStatement#ofType(Class) ofType()} to
-     *     obtain a {@link Statement} or {@link TypedQuery},
+     * <li>{@link StatementOrTypedQuery#asStatement asStatement()}
+     *     or {@link StatementOrTypedQuery#ofType(Class) ofType()}
+     *     to obtain a {@link Statement} or {@link TypedQuery},
      *     respectively, from the object returned by this method.
      * </ul>
      * @param sqlString A native SQL query string
-     * @return An instance of {@link QueryOrStatement} which
+     * @return An instance of {@link StatementOrTypedQuery} which
      *         may be used to obtain a {@link TypedQuery} or
      *         {@link Statement} or to directly execute the
      *         given query or statement
      * @since 1.0
      */
-    QueryOrStatement createNativeQuery(String sqlString);
+    StatementOrTypedQuery createNativeQuery(String sqlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a native
@@ -955,16 +955,16 @@ public interface EntityHandler extends AutoCloseable {
     <T> TypedQuery<T> createNativeQuery(String sqlString, Class<T> resultClass);
 
     /**
-     * Create an instance of {@link QueryOrStatement} for executing
-     * a native SQL query, using the {@linkplain SqlResultSetMapping
-     * result set mapping} with the given
-     * {@linkplain SqlResultSetMapping#name name} to interpret the
-     * JDBC result set.
+     * Create an instance of {@link StatementOrTypedQuery} for
+     * executing a native SQL query, using the named
+     * {@linkplain SqlResultSetMapping result set mapping} with the
+     * given {@linkplain SqlResultSetMapping#name name} to interpret
+     * the JDBC result set.
      * @param sqlString A native SQL query string
      * @param resultSetMapping The name of the result set mapping
-     * @return An instance of {@link QueryOrStatement} which may be
-     *         used to obtain a {@link TypedQuery} or to directly
-     *         execute the given query
+     * @return An instance of {@link StatementOrTypedQuery} which
+     *         may be used to obtain a {@link TypedQuery} or to
+     *         directly execute the given query
      * @see SqlResultSetMapping
      * @since 1.0
      * @apiNote For backward compatibility, the returned object
@@ -974,14 +974,14 @@ public interface EntityHandler extends AutoCloseable {
      * <li>the overload which specifies a typed
      *     {@linkplain #createNativeQuery(String, ResultSetMapping)
      *     result set mapping} to obtain a {@link TypedQuery}, or
-     * <li>{@link QueryOrStatement#ofType(Class) ofType()} to
+     * <li>{@link StatementOrTypedQuery#ofType(Class) ofType()} to
      *     obtain a {@link TypedQuery} from the object returned
      *     by this method.
      * </ul>
      * <p>A typed reference to the result set mapping may be
      * obtained from the static metamodel.
      */
-    QueryOrStatement createNativeQuery(String sqlString, String resultSetMapping);
+    StatementOrTypedQuery createNativeQuery(String sqlString, String resultSetMapping);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a native
