@@ -56,7 +56,7 @@ import jakarta.persistence.sql.ResultSetMapping;
  * given subtype of this interface.
  *
  */
-public interface QueryOrStatement extends Query {
+public interface StatementOrTypedQuery extends Query {
 
     /**
      * Obtain a {@link Statement} representing this statement,

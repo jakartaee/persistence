@@ -31,7 +31,7 @@ import jakarta.persistence.FindOption;
 import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.LockOption;
-import jakarta.persistence.QueryOrStatement;
+import jakarta.persistence.StatementOrTypedQuery;
 import jakarta.persistence.RefreshOption;
 import jakarta.persistence.Statement;
 import jakarta.persistence.StatementReference;
@@ -85,7 +85,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public QueryOrStatement createNamedQuery(String arg0) {
+	public StatementOrTypedQuery createNamedQuery(String arg0) {
 		QueryImpl query = new QueryImpl();
 		query.name = arg0;
 		return query;
@@ -105,7 +105,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public QueryOrStatement createNativeQuery(String arg0) {
+	public StatementOrTypedQuery createNativeQuery(String arg0) {
 		QueryImpl query = new QueryImpl();
 		query.nativeSQL = arg0;
 		return query;
@@ -140,7 +140,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public QueryOrStatement createNativeQuery(String arg0, String arg1) {
+	public StatementOrTypedQuery createNativeQuery(String arg0, String arg1) {
 		QueryImpl query = new QueryImpl();
 		query.nativeSQL = arg0;
 		query.resultsetMapping = arg1;
@@ -156,7 +156,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
     }
 
     @Override
-	public QueryOrStatement createQuery(String arg0) {
+	public StatementOrTypedQuery createQuery(String arg0) {
 		QueryImpl query = new QueryImpl();
 		query.jpQL = arg0;
 		return query;
