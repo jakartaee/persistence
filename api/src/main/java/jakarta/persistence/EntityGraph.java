@@ -52,7 +52,7 @@ package jakarta.persistence;
  * {@link EntityManager#find(EntityGraph, Object, FindOption...)},
  * {@link EntityManager#get(EntityGraph, Object, FindOption...)},
  * {@link EntityHandler#createQuery(String, EntityGraph)}, or
- * {@link QueryOrStatement#withEntityGraph(EntityGraph)} is
+ * {@link StatementOrTypedQuery#withEntityGraph(EntityGraph)} is
  * interpreted as a load graph.
  * {@snippet :
  * // create the root node of an entity graph
@@ -94,7 +94,7 @@ package jakarta.persistence;
  * @see EntityHandler#find(EntityGraph, Object, FindOption...)
  * @see EntityHandler#get(EntityGraph, Object, FindOption...)
  * @see EntityHandler#createQuery(String, EntityGraph)
- * @see QueryOrStatement#withEntityGraph(EntityGraph)
+ * @see StatementOrTypedQuery#withEntityGraph(EntityGraph)
  *
  * @since 2.1
  */

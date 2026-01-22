@@ -33,6 +33,7 @@ import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.Query;
 import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.QueryOrStatement;
+import jakarta.persistence.StatementOrTypedQuery;
 import jakarta.persistence.Statement;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
@@ -40,7 +41,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ResultSetMapping;
 
-public class QueryImpl<X> implements TypedQuery<X>, QueryOrStatement {
+public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	public String jpQL;
 
 	public String name;
