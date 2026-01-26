@@ -26,8 +26,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 
 /**
@@ -113,11 +113,11 @@ public class PersistenceProviderResolverHolder {
                             PersistenceProvider pp = ipp.next();
                             loadedProviders.add(pp);
                         } catch (ServiceConfigurationError sce) {
-                            log(Level.FINEST, sce.toString());
+                            log(Level.TRACE, sce.toString());
                         }
                     }
                 } catch (ServiceConfigurationError sce) {
-                    log(Level.FINEST, sce.toString());
+                    log(Level.TRACE, sce.toString());
                 }
 
                 // If none are found we'll log the provider names for diagnostic
@@ -150,7 +150,7 @@ public class PersistenceProviderResolverHolder {
 
         private void log(Level level, String message) {
             if (this.logger == null) {
-                this.logger = Logger.getLogger(LOGGER_SUBSYSTEM);
+                this.logger = System.getLogger(LOGGER_SUBSYSTEM);
             }
             this.logger.log(level, LOGGER_SUBSYSTEM + "::" + message);
         }
