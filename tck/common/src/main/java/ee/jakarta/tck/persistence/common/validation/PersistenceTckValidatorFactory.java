@@ -27,14 +27,16 @@ import jakarta.validation.ValidatorContext;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.executable.ExecutableValidator;
 import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.valueextraction.ValueExtractor;
 import org.junit.jupiter.api.Assertions;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public class PersistenceTckValidatorFactory implements ValidatorFactory, Validator {
+public class PersistenceTckValidatorFactory implements ValidatorFactory, Validator, ValidatorContext {
 
     private final List<ValidCallArgument> validCallArguments = new ArrayList<>();
 
@@ -45,7 +47,7 @@ public class PersistenceTckValidatorFactory implements ValidatorFactory, Validat
 
     @Override
     public ValidatorContext usingContext() {
-        throw new UnsupportedOperationException();
+        return this;
     }
 
     @Override
@@ -109,9 +111,38 @@ public class PersistenceTckValidatorFactory implements ValidatorFactory, Validat
 
     }
 
+    @Override
+    public ValidatorContext messageInterpolator(MessageInterpolator messageInterpolator) {
+        return this;
+    }
+
+    @Override
+    public ValidatorContext traversableResolver(TraversableResolver traversableResolver) {
+        return this;
+    }
+
+    @Override
+    public ValidatorContext constraintValidatorFactory(ConstraintValidatorFactory factory) {
+        return this;
+    }
+
+    @Override
+    public ValidatorContext parameterNameProvider(ParameterNameProvider parameterNameProvider) {
+        return this;
+    }
+
+    @Override
+    public ValidatorContext clockProvider(ClockProvider clockProvider) {
+        return this;
+    }
+
+    @Override
+    public ValidatorContext addValueExtractor(ValueExtractor<?> extractor) {
+        return this;
+    }
+
     public void assertValidCallsContain(ValidCallArgument... validCallArgument) {
         for (ValidCallArgument validCallArg : validCallArgument) {
-            Assertions.assertAll();
             if (!validCallArguments.remove(validCallArg)) {
                 throw new AssertionFailedError("Invalid call argument: " + validCallArg);
             }
@@ -124,6 +155,13 @@ public class PersistenceTckValidatorFactory implements ValidatorFactory, Validat
     }
 
     public record ValidCallArgument(Object entity, Class<?>[] groups) {
+        @Override
+        public String toString() {
+            return "ValidCallArgument{" +
+                    "entity=" + entity +
+                    ", groups=" + Arrays.toString(groups) +
+                    '}';
+        }
     }
 
     public static ValidCallArgument validCall(Object entity, Class<?>... groups) {
