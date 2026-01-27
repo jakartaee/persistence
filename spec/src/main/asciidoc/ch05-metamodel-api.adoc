@@ -190,7 +190,7 @@ public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
 ----
 +
 where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@QueryOptions` annotation of `m`. If the
+are options specified by any `@TypedQueryOptions` annotation of `m`. If the
 annotated method has more parameters than the query specified by the
 annotation `value` member, the annotation processor is permitted to ignore
 the method parameters which do not correspond to parameters of the query,

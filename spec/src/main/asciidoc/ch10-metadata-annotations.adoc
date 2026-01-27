@@ -908,7 +908,7 @@ public @interface StaticNativeQuery {
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
-==== QueryOptions Annotation
+==== TypedQueryOptions Annotation
 
 Configures options that affect the execution of a database read
 operation. This annotation may be applied to:
@@ -925,7 +925,7 @@ operation. This annotation may be applied to:
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface QueryOptions {
+public @interface TypedQueryOptions {
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
     int timeout() default -1;

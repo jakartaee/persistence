@@ -40,7 +40,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * interface Library {
  *
  *     @StaticNativeQuery("select * from books where title like ?")
- *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @TypedQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
  *     @StaticNativeQuery("select * from books where isbn = ?")

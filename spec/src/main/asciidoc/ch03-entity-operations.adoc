@@ -3199,7 +3199,7 @@ Execution of a JPQL query obtains a lock on queried records if the
 application requests such a lock by:
 
 - calling `setLockMode()`, or
-- specifying the `lockMode` member of the `@QueryOptions` or
+- specifying the `lockMode` member of the `@TypedQueryOptions` or
   `@NamedQuery` annotation.
 
 If a query is executed when no transaction is active, then the specified
@@ -3216,7 +3216,7 @@ object.] The scope of a pessimistic lock, as defined above in
 <<a2066>>, is controlled by:
 
 - calling `setLockScope()`, or
-- specifying the `lockScope` member of the `@QueryOptions` or
+- specifying the `lockScope` member of the `@TypedQueryOptions` or
   `@NamedQuery` annotation.
 
 If the lock mode type is `PESSIMISTIC_READ`,
