@@ -173,7 +173,7 @@ Examples:
 </persistence>
 ----
 
-===== name
+===== name [[name]]
 
 The `name` attribute defines the name of the persistence unit. This name is
 used to identify the persistence unit referred to by a `PersistenceContext`
@@ -830,16 +830,14 @@ definition:
 
 - A persistence unit defined at the level of an EJB-JAR, WAR, or
   application client JAR is scoped to that EJB-JAR, WAR, or application
-  JAR respectively and is visible to the components defined in that jar
+  JAR, respectively, and is visible to the components defined in that jar
   or WAR.
 - A persistence unit defined at the level of an EAR is generally visible
-  to all components in the application. However, if a persistence unit of
-  the same name is defined by an EJB-JAR, WAR, or application JAR file
-  within the EAR, the persistence unit of that name defined at EAR level
-  is not visible to the components defined by that EJB-JAR, WAR, or
-  application JAR file, unless the persistence unit reference uses the
-  persistence unit name # syntax to specify a path name to disambiguate
-  the reference.
+  to all components in the application.
+- It is an error for a persistence unit defined at the level of an EAR
+  to have the same name as a persistence unit defined by an EJB-JAR, WAR,
+  or application JAR file contained within the EAR.footnote:[This was
+  permitted prior to 4.0.]
 
 The # syntax may be used with both the `unitName` annotation element or
 `persistence-unit-name` deployment descriptor element to reference a

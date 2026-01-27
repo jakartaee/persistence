@@ -150,7 +150,7 @@ manager factory for each persistence unit.]
 
 Methods of the `EntityManagerFactory` interface are threadsafe.
 
-==== Obtaining an Entity Manager Factory in a Jakarta EE Container
+==== Obtaining an Entity Manager Factory in a Jakarta EE Container [[a11463]]
 
 Within a Jakarta EE environment, an entity
 manager factory can be injected using the `PersistenceUnit` annotation

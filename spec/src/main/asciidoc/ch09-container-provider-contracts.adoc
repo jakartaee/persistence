@@ -71,6 +71,40 @@ container should call the `close` method on the previous
 `createContainerEntityManagerFactory` method again, with the required
 `PersistenceUnitInfo` metadata, to achieve the redeployment.
 
+==== Integration with JNDI
+
+The container must make the `EntityManager`, `EntityAgent`, and
+`EntityManagerFactory` available for lookup in JNDI and injection via
+the `@PersistenceContext` and `@PersistenceUnit` annotations. The
+`name` of the persistence unit, as specified in <<name>>, determines
+the JNDI addresses of these objects. For a persistence unit with name
+`unitName` located in a WAR, EJB-JAR, or application client JAR:
+
+- the `EntityManager` is bound to the address
+  `java:module/persistence/unitName/EntityManager`,
+- the `EntityAgent` is bound to the address
+  `java:module/persistence/unitName/EntityAgent`, and
+- the `EntityManagerFactory` is bound to the address
+  `java:module/persistence/unitName/EntityManagerFactory`.
+
+For a persistence unit with name `unitName` located directly in an
+EAR:
+
+- the `EntityManager` is bound to the address
+  `java:app/persistence/unitName/EntityManager`,
+- the `EntityAgent` is bound to the address
+  `java:app/persistence/unitName/EntityAgent`, and
+- the `EntityManagerFactory` is bound to the address
+  `java:app/persistence/unitName/EntityManagerFactory`.
+
+The `name` member of the `@PersistenceContext` or `@PersistenceUnit`
+annotation or the corresponding element of the XML deployment
+descriptors may be used to assign a name to in the `java:comp/env`
+JNDI namespace.
+
+The application may obtain a reference to these objects via injection
+or JNDI lookup, as specified in <<a11464>> and <<a11463>>.
+
 === Bootstrapping in Java SE Environments
 
 In Java SE environments, the
