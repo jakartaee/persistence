@@ -46,18 +46,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>This annotation must be respected by an implementation
  * of Jakarta Data backed by Jakarta Persistence.
  *
- * @see WriteQueryOptions
+ * @see StatementOptions
  *
  * @since 4.0
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface ReadQueryOptions {
+public @interface TypedQueryOptions {
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.
      * The presence of this annotation overrides the default
      * cache store mode of the persistence context.
-     * @see jakarta.persistence.Query#setCacheStoreMode
+     * @see jakarta.persistence.TypedQuery#setCacheStoreMode
      */
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
 
@@ -65,21 +65,21 @@ public @interface ReadQueryOptions {
      * The {@linkplain CacheRetrieveMode cache retrieve mode}
      * to use. The presence of this annotation overrides the
      * default cache retrieve mode of the persistence context.
-     * @see jakarta.persistence.Query#setCacheRetrieveMode
+     * @see jakarta.persistence.TypedQuery#setCacheRetrieveMode
      */
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
 
     /**
      * A query timeout in milliseconds.
      * By default, there is no timeout.
-     * @see jakarta.persistence.Query#setTimeout
+     * @see jakarta.persistence.TypedQuery#setTimeout(Integer)
      */
     int timeout() default -1;
 
     /**
      * Query properties and hints.
      * May include vendor-specific query hints.
-     * @see jakarta.persistence.Query#setHint(String, Object)
+     * @see jakarta.persistence.TypedQuery#setHint(String, Object)
      */
     QueryHint[] hints() default {};
 
@@ -91,7 +91,7 @@ public @interface ReadQueryOptions {
      * <p> If a lock mode is explicitly specified for a
      * {@linkplain StaticNativeQuery native query}, the behavior
      * is undefined and unportable between persistence providers.
-     * @see jakarta.persistence.Query#setLockMode
+     * @see jakarta.persistence.TypedQuery#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
 
