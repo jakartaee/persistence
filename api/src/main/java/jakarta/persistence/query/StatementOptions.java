@@ -43,7 +43,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>This annotation must be respected by an implementation
  * of Jakarta Data backed by Jakarta Persistence.
  *
- * @see QueryOptions
+ * @see TypedQueryOptions
  *
  * @since 4.0
  */

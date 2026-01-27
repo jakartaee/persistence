@@ -52,7 +52,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface QueryOptions {
+public @interface TypedQueryOptions {
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.
      * The presence of this annotation overrides the default
