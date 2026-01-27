@@ -734,38 +734,41 @@ dependencies on entity managers and entity manager factories.
 
 ==== PersistenceContext Annotation
 
-The `PersistenceContext` annotation is used
-to express a dependency on a container-managed entity manager and its
-associated persistence context.
+The `PersistenceContext` annotation expresses a dependency on a
+container-managed entity manager and its associated persistence context.
+When this annotation occurs on a method or field of a managed bean, it
+declares an injection point of type `EntityManager`. When the annotation
+occurs on a managed bean class, it assigns a name to the entity manager
+in the environment referencing context `java:comp/env` of the containing
+module.
 
-The `name` element refers to the name by
-which the entity manager is to be accessed in the environment
-referencing context, and is not needed when dependency injection is
-used.
+- The `name` element specifies the name at which the `EntityManager` is
+  accessed in the environment referencing context. If the  specified
+  name does not begin with `java`, then the prefix `java:comp/env` is
+  assumed. This member is not usually specified when `@PersistenceUnit`
+  annotates an injection point.
 
-The optional `unitName` element refers to the
-name of the persistence unit. If the `unitName` element is specified,
-the persistence unit for the entity manager that is accessible in JNDI
-must have the same name.
+  The optional `unitName` element references the name of the persistence
+  unit as defined in the `persistence.xml` file. This member is optional
+  if there is only one persistence unit defined by the containing module.
 
-The `type` element specifies whether a
-transaction-scoped or extended persistence context is to be used. If the
-`type` element is not specified, a transaction-scoped persistence
-context is used.
+- The `type` element specifies whether a transaction-scoped or extended
+  persistence context is required, as defined in <<persistence-context-types>>.
+  If the `type` element is not specified, a transaction-scoped persistence
+  context is assumed.
 
-The `synchronizationType` element specifies
-whether the persistence context is always automatically synchronized
-with the current transaction or whether the persistence context must be
-explicitly joined to the current transaction by means of the
-`joinTransaction` method of `EntityManager`.
+- The `synchronizationType` element specifies whether the persistence
+  context is always automatically synchronized with the current transaction
+  or whether the persistence context must be explicitly joined to the current
+  transaction by means of the `joinTransaction()` method of `EntityManager`,
+  as defined in <<synchronization-type>>.
 
-The optional `properties` element may be used
-to specify properties for the container or persistence provider.
-Properties defined by this specification must be observed by the
-provider. Vendor specific properties may be included in the set of
-properties, and are passed to the persistence provider by the container
-when the entity manager is created. Properties that are not recognized
-by a vendor must be ignored.
+- The optional `properties` element may be used to specify properties for
+  the container or persistence provider. Properties defined by this
+  specification must be observed by the provider. Vendor-specific properties
+  may be included in the set of properties and are passed to the persistence
+  provider by the container when the entity manager is created. Properties
+  that are not recognized by a vendor must be ignored.
 
 [source,java]
 ----
@@ -779,17 +782,24 @@ public @interface PersistenceContext {
     SynchronizationType synchronization() default SYNCHRONIZED;
     PersistenceProperty[] properties() default {};
 }
-
+----
+[source,java]
+----
 public enum PersistenceContextType {
     TRANSACTION,
     EXTENDED
 }
+----
+[source,java]
+----
 
 public enum SynchronizationType {
     SYNCHRONIZED,
     UNSYNCHRONIZED
 }
-
+----
+[source,java]
+----
 @Target({})
 @Retention(RUNTIME)
 public @interface PersistenceProperty {
@@ -815,20 +825,23 @@ public @interface PersistenceContexts {
 
 ==== PersistenceUnit Annotation [[a13887]]
 
-The `PersistenceUnit` annotation is used to
-express a dependency on an entity manager factory and its associated
-persistence unit.
+The `PersistenceUnit` annotation expresses a dependency on an entity
+manager factory and its associated persistence unit. When this
+annotation occurs on a method or field of a managed bean, it declares
+an injection point of type `EntityManagerFactory`. When the annotation
+occurs on a managed bean class, it assigns a name to the entity manager
+factory in the environment referencing context `java:comp/env` of the
+containing module.
 
-The `name` element refers to the name by
-which the entity manager factory is to be accessed in the environment
-referencing context, and is not needed when dependency injection is
-used.
+The `name` element specifies the name at which the `EntityManagerFactory`
+is accessed in the environment referencing context. If the specified name
+does not begin with `java:`, then the prefix `java:comp/env` is assumed.
+This member is not usually specified when `@PersistenceUnit` annotates an
+injection point.
 
-The optional `unitName` element refers to the
-name of the persistence unit as defined in the `persistence.xml` file.
-If the `unitName` element is specified, the persistence unit for the
-entity manager factory that is accessible in JNDI must have the same
-name.
+The optional `unitName` element references the name of the persistence unit
+as defined in the `persistence.xml` file. This member is optional if there
+is only one persistence unit defined by the containing module.
 
 [source,java]
 ----

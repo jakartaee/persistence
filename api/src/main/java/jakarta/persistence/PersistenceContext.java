@@ -25,8 +25,25 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.*;
 
 /**
- * Expresses a dependency on a container-managed {@link EntityManager} and
- * its associated persistence context.
+ * Expresses a dependency on a container-managed {@link EntityManager}
+ * and its associated persistence context. When this annotation occurs
+ * on a method or field of a managed bean, it declares an injection point
+ * of type {@link EntityManager}.
+ * {@snippet :
+ * @PersistenceContext EntityManager manager;
+ * }
+ * When the annotation occurs on a managed bean class, it assigns a
+ * name to the {@code EntityManager} in the environment referencing
+ * context {@code java:comp/env} of the containing module.
+ *{@snippet :
+ * @PersistenceContext(name = "LibraryManager")
+ * class Bean
+ *     ...
+ *     EntityManagerFactory =
+ *             new InitialContext()
+ *                     .lookup("java:comp/env/LibraryManager");
+ *     ...
+ * }
  *
  * @since 1.0
  */
@@ -36,23 +53,25 @@ import static java.lang.annotation.RetentionPolicy.*;
 public @interface PersistenceContext {
 
     /**
-     * (Optional) The name by which the entity manager is to be accessed
-     * in the environment referencing context; not needed when dependency
-     * injection is used.
+     * (Optional) The name at which the {@link EntityManager} is
+     * accessed in the environment referencing context. If the
+     * specified name does not begin with {@code java:}, then the
+     * prefix {@code java:comp/env} is assumed. This member is not
+     * usually specified when {@code @PersistenceUnit} annotates
+     * an injection point.
      */
     String name() default "";
 
     /**
      * (Optional) The name of the persistence unit as defined in the
-     * {@code persistence.xml} file. If the {@code unitName} element
-     * is specified, the persistence unit for the entity manager that is
-     * accessible in JNDI must have the same name.
+     * {@code persistence.xml} file. This member is optional if there
+     * is only one persistence unit defined by the containing module.
      */
     String unitName() default "";
 
     /**
-     * (Optional) Specifies whether a transaction-scoped persistence
-     * context or an extended persistence context is to be used.
+     * (Optional) Specifies whether a transaction-scoped or extended
+     * persistence context is required.
      */
     PersistenceContextType type() default PersistenceContextType.TRANSACTION;
 
@@ -68,7 +87,7 @@ public @interface PersistenceContext {
 
     /**
      * (Optional) Properties for the container or persistence provider.
-     * Vendor specific properties may be included in this set of
+     * Vendor-specific properties may be included in this set of
      * properties. Properties that are not recognized by a vendor are
      * ignored.
      */ 
