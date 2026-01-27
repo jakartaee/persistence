@@ -30,13 +30,15 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
+import jakarta.persistence.StatementOrTypedQuery;
 import jakarta.persistence.Statement;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.metamodel.Type;
+import jakarta.persistence.sql.ResultSetMapping;
 
-public class QueryImpl<X> implements TypedQuery<X> {
+public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	public String jpQL;
 
 	public String name;
@@ -65,6 +67,11 @@ public class QueryImpl<X> implements TypedQuery<X> {
 
 	@Override
 	public <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph) {
+		return null;
+	}
+
+	@Override
+	public <R> TypedQuery<R> withResultSetMapping(ResultSetMapping<R> mapping) {
 		return null;
 	}
 
@@ -172,16 +179,6 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	public TypedQuery<X> setFirstResult(int arg0) {
 		return this;
 	}
-
-    @Override
-    public TypedQuery<X> setEntityGraph(EntityGraph<? super X> entityGraph) {
-        return this;
-    }
-
-    @Override
-    public EntityGraph<? super X> getEntityGraph() {
-        return null;
-    }
 
     @Override
 	public TypedQuery<X> setFlushMode(FlushModeType arg0) {

@@ -40,7 +40,7 @@ import java.util.stream.Stream;
  *
  * @see Query
  * @see Parameter
- * @see Query#ofType(Class)
+ * @see StatementOrTypedQuery#ofType(Class)
  *
  * @since 2.0
  */
@@ -257,31 +257,6 @@ public interface TypedQuery<X> extends Query {
      */
     @Override @SuppressWarnings("removal")
     int getFirstResult();
-
-    /**
-     * Specify an {@link EntityGraph} to be applied to the entity
-     * returned by the Jakarta Persistence query. This operation only
-     * makes sense when the {@code SELECT} query returns a single entity.
-     *
-     * @param entityGraph an entity graph interpreted as a load graph
-     *                    applied to the entity returned by the query
-     * @return the same query instance
-     * @throws UnsupportedOperationException if this object represents
-     *         a native query
-     * @since 4.0
-     */
-    TypedQuery<X> setEntityGraph(EntityGraph<? super X> entityGraph);
-
-    /**
-     * Retrieve the {@link EntityGraph} to be applied to the entity
-     * returned by the query, or {@code null} if no entity graph was
-     * specified via {@link #setEntityGraph(EntityGraph)} or
-     * {@link NamedQuery#entityGraph()}.
-     *
-     * @return the entity graph or {@code null}
-     * @since 4.0
-     */
-    EntityGraph<? super X> getEntityGraph();
 
     /**
      * Set a query property or hint. The hints elements may be used 
