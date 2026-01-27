@@ -26,7 +26,25 @@ import static java.lang.annotation.RetentionPolicy.*;
 
 /**
  * Expresses a dependency on an {@link EntityManagerFactory} and
- * its associated persistence unit.
+ * its associated persistence unit. When this annotation occurs
+ * on a method or field of a managed bean, it declares an
+ * injection point of type {@link EntityManagerFactory}.
+ * {@snippet :
+ * @PersistenceUnit EntityManagerFactory factory;
+ * }
+ * When the annotation occurs on a managed bean class, it assigns
+ * a name to the {@code EntityManagerFactory} in the environment
+ * referencing context {@code java:comp/env} of the containing
+ * module.
+ *{@snippet :
+ * @PersistenceUnit(name = "Library")
+ * class Bean
+ *     ...
+ *     EntityManagerFactory =
+ *             new InitialContext()
+ *                     .lookup("java:comp/env/Library");
+ *     ...
+ * }
  *
  * @since 1.0
  */
@@ -36,17 +54,19 @@ import static java.lang.annotation.RetentionPolicy.*;
 public @interface PersistenceUnit {
 
     /**
-     * (Optional) The name by which the entity manager factory
-     * is to be accessed in the environment referencing context;
-     * not needed when dependency injection is used.
+     * (Optional) The name at which the {@link EntityManagerFactory}
+     * is accessed in the environment referencing context. If the
+     * specified name does not begin with {@code java:}, then the
+     * prefix {@code java:comp/env} is assumed. This member is not
+     * usually specified when {@code @PersistenceUnit} annotates an
+     * injection point.
      */
     String name() default "";
 
     /**
-     * (Optional) The name of the persistence unit as defined
-     * in the {@code persistence.xml} file. If specified, the
-     * persistence unit for the entity manager factory that is
-     * accessible in JNDI must have the same name.
+     * (Optional) The name of the persistence unit as defined in the
+     * {@code persistence.xml} file. This member is optional if there
+     * is only one persistence unit defined by the containing module.
      */
     String unitName() default "";
 
