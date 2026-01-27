@@ -13,7 +13,7 @@ This appendix lists the significant changes that have been made during the devel
 
 Added `EntityAgent` and `EntityHandler`
 
-Added `@StaticQuery`, `@StaticNativeQuery`, `@ReadQueryOptions`, `@WriteQueryOptions` and `StaticStatementReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
+Added `@StaticQuery`, `@StaticNativeQuery`, `@QueryOptions`, `@StatementOptions` and `StaticStatementReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
 Added a new API for programmatic SQL result set mappings
 

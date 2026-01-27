@@ -908,7 +908,7 @@ public @interface StaticNativeQuery {
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
-==== ReadQueryOptions Annotation
+==== QueryOptions Annotation
 
 Configures options that affect the execution of a database read
 operation. This annotation may be applied to:
@@ -925,7 +925,7 @@ operation. This annotation may be applied to:
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface ReadQueryOptions {
+public @interface QueryOptions {
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
     int timeout() default -1;
@@ -935,7 +935,7 @@ public @interface ReadQueryOptions {
 }
 ----
 
-==== WriteQueryOptions Annotation
+==== StatementOptions Annotation
 
 Configures options that affect the execution of a database write
 operation. This annotation may be applied to:
@@ -953,7 +953,7 @@ operation. This annotation may be applied to:
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface WriteQueryOptions {
+public @interface StatementOptions {
     int timeout() default -1;
     QueryHint[] hints() default {};
 }

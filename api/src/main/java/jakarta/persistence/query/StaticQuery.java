@@ -42,7 +42,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * interface Library {
  *
  *     @StaticQuery("from Book where title like :title")
- *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
  *     @StaticQuery("from Book where isbn = :isbn")
@@ -57,7 +57,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     List<Summary> retrieveSummaries(String title, LocalDate fromDate);
  *
  *     @StaticQuery("delete from Trash")
- *     @WriteQueryOptions(timeout = 30_000)
+ *     @StatementOptions(timeout = 30_000)
  *     int emptyTrash();
  * }
  *}
