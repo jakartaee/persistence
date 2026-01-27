@@ -43,24 +43,24 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>This annotation must be respected by an implementation
  * of Jakarta Data backed by Jakarta Persistence.
  *
- * @see ReadQueryOptions
+ * @see QueryOptions
  *
  * @since 4.0
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface WriteQueryOptions {
+public @interface StatementOptions {
     /**
      * A query timeout in milliseconds.
      * By default, there is no timeout.
-     * @see jakarta.persistence.Query#setTimeout
+     * @see jakarta.persistence.Statement#setTimeout(Integer)
      */
     int timeout() default -1;
 
     /**
      * Query properties and hints.
      * May include vendor-specific query hints.
-     * @see jakarta.persistence.Query#setHint(String, Object)
+     * @see jakarta.persistence.Statement#setHint(String, Object)
      */
     QueryHint[] hints() default {};
 }

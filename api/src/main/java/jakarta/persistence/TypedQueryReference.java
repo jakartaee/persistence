@@ -16,9 +16,6 @@
 
 package jakarta.persistence;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * A reference to a typed named query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
@@ -37,7 +34,7 @@ import java.util.Map;
  *     @Inject EntityManager entityManager;
  *
  *     @StaticQuery("select a from Book b join b.authors a where b.title like :pattern")
- *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Author> findAuthorsGivenTitles(String pattern) {
  *         return entityManager.createQuery(Library_.findAuthorsGivenTitles(pattern))
  *                 .getResultList();
@@ -110,7 +107,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link EntityHandler} should be used.
      *
      * @see TypedQuery#setCacheRetrieveMode
-     * @see jakarta.persistence.query.ReadQueryOptions#cacheRetrieveMode
+     * @see jakarta.persistence.query.QueryOptions#cacheRetrieveMode
      * @since 4.0
      */
     CacheRetrieveMode getCacheRetrieveMode();
@@ -121,7 +118,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link EntityHandler} should be used.
      *
      * @see TypedQuery#setCacheStoreMode
-     * @see jakarta.persistence.query.ReadQueryOptions#cacheStoreMode
+     * @see jakarta.persistence.query.QueryOptions#cacheStoreMode
      * @since 4.0
      */
     CacheStoreMode getCacheStoreMode();
@@ -133,7 +130,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @see TypedQuery#setLockMode
      * @see NamedQuery#lockMode
-     * @see jakarta.persistence.query.ReadQueryOptions#lockMode
+     * @see jakarta.persistence.query.QueryOptions#lockMode
      * @since 4.0
      */
     LockModeType getLockMode();
@@ -145,7 +142,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @see TypedQuery#setLockScope
      * @see NamedQuery#lockScope
-     * @see jakarta.persistence.query.ReadQueryOptions#lockScope
+     * @see jakarta.persistence.query.QueryOptions#lockScope
      * @since 4.0
      */
     PessimisticLockScope getPessimisticLockScope();
@@ -157,7 +154,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @see TypedQuery#setEntityGraph
      * @see NamedQuery#entityGraph
-     * @see jakarta.persistence.query.ReadQueryOptions#entityGraph
+     * @see jakarta.persistence.query.QueryOptions#entityGraph
      * @since 4.0
      */
     String getEntityGraphName();

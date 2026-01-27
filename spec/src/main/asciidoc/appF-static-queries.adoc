@@ -14,16 +14,16 @@ include::../../../../api/src/main/java/jakarta/persistence/query/StaticQuery.jav
 include::../../../../api/src/main/java/jakarta/persistence/query/StaticNativeQuery.java[lines=18..-1]
 ----
 
-=== `ReadQueryOptions`
+=== `QueryOptions`
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/query/ReadQueryOptions.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/query/QueryOptions.java[lines=18..-1]
 ----
 
-=== `WriteQueryOptions`
+=== `StatementOptions`
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/query/WriteQueryOptions.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/query/StatementOptions.java[lines=18..-1]
 ----
 
 === `StaticStatementReference`
