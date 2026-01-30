@@ -33,4 +33,18 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>> 
 	 * @see CriteriaBuilder#extract(TemporalField, Expression)
 	 */
 	<N extends Number & Comparable<N>> NumericExpression<N> extract(TemporalField<N, T> field);
+
+	// overrides
+
+	@Override
+	TemporalExpression<T> coalesce(T y);
+
+	@Override
+	TemporalExpression<T> coalesce(Expression<? extends T> y);
+
+	@Override
+	TemporalExpression<T> nullif(T y);
+
+	@Override
+	TemporalExpression<T> nullif(Expression<? extends T> y);
 }
