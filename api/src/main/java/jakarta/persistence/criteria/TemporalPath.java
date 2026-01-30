@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -23,9 +23,8 @@ import java.time.temporal.Temporal;
  * bound type or collection, and is a "primitive" expression
  * of a temporal type.
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
 public interface TemporalPath<T extends Temporal & Comparable<? super T>> extends Path<T>, TemporalExpression<T> {
 
 }

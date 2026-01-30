@@ -11,21 +11,21 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
+//     Gavin King       - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
 package jakarta.persistence.criteria;
 
 import java.time.temporal.Temporal;
+import java.util.Collection;
+import java.util.Map;
 
 import jakarta.persistence.metamodel.BooleanSingularAttribute;
-import jakarta.persistence.metamodel.CollectionAttribute;
 import jakarta.persistence.metamodel.ComparableSingularAttribute;
-import jakarta.persistence.metamodel.ListAttribute;
 import jakarta.persistence.metamodel.NumberSingularAttribute;
 import jakarta.persistence.metamodel.PluralAttribute;
-import jakarta.persistence.metamodel.SetAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.Bindable;
 import jakarta.persistence.metamodel.MapAttribute;
@@ -68,7 +68,7 @@ public interface Path<X> extends Expression<X> {
      *  single-valued attribute.
      *  @param attribute single-valued attribute
      *  @return path corresponding to the referenced attribute
-     *  @since 3.2
+     *  @since 4.0
      */
     BooleanPath get(BooleanSingularAttribute<? super X> attribute);
 
@@ -77,7 +77,7 @@ public interface Path<X> extends Expression<X> {
      *  single-valued attribute.
      *  @param attribute single-valued attribute
      *  @return path corresponding to the referenced attribute
-     *  @since 3.2
+     *  @since 4.0
      */
     <Y extends Comparable<? super Y>> ComparablePath<Y> get(ComparableSingularAttribute<? super X, Y> attribute);
 
@@ -86,7 +86,7 @@ public interface Path<X> extends Expression<X> {
      *  single-valued attribute.
      *  @param attribute single-valued attribute
      *  @return path corresponding to the referenced attribute
-     *  @since 3.2
+     *  @since 4.0
      */
     <Y extends Temporal & Comparable<? super Y>> TemporalPath<Y> get(TemporalSingularAttribute<? super X, Y> attribute);
 
@@ -95,45 +95,18 @@ public interface Path<X> extends Expression<X> {
      *  single-valued attribute.
      *  @param attribute single-valued attribute
      *  @return path corresponding to the referenced attribute
-     *  @since 3.2
+     *  @since 4.0
      */
-    <Y extends Number> NumberPath<Y> get(NumberSingularAttribute<? super X, Y> attribute);
+    <Y extends Number & Comparable<Y>> NumberPath<Y> get(NumberSingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
      *  single-valued attribute.
      *  @param attribute single-valued attribute
      *  @return path corresponding to the referenced attribute
-     *  @since 3.2
+     *  @since 4.0
      */
     StringPath get(StringSingularAttribute<? super X> attribute);
-
-    /**
-     *  Create an expression corresponding to the referenced
-     *  collection-valued attribute.
-     *  @param attribute single-valued attribute
-     *  @return path corresponding to the referenced attribute
-     *  @since 3.2
-     */
-    <E> CollectionExpression<java.util.Collection<E>, E> get(CollectionAttribute<? super X, E> attribute);
-
-    /**
-     *  Create an expression corresponding to the referenced
-     *  list-valued attribute.
-     *  @param attribute single-valued attribute
-     *  @return path corresponding to the referenced attribute
-     *  @since 3.2
-     */
-    <E> CollectionExpression<java.util.List<E>, E> get(ListAttribute<? super X, E> attribute);
-
-    /**
-     *  Create an expression corresponding to the referenced
-     *  set-valued attribute.
-     *  @param attribute single-valued attribute
-     *  @return path corresponding to the referenced attribute
-     *  @since 3.2
-     */
-    <E> CollectionExpression<java.util.Set<E>, E> get(SetAttribute<? super X, E> attribute);
 
     /**
      * Create a path corresponding to the referenced
@@ -141,7 +114,7 @@ public interface Path<X> extends Expression<X> {
      * @param collection collection-valued attribute
      * @return expression corresponding to the referenced attribute
      */
-    <E, C extends java.util.Collection<E>> Expression<C> get(PluralAttribute<? super X, C, E> collection);
+    <E, C extends Collection<E>> CollectionExpression<C,E> get(PluralAttribute<? super X, C, E> collection);
 
     /**
      * Create a path corresponding to the referenced
@@ -149,7 +122,7 @@ public interface Path<X> extends Expression<X> {
      * @param map map-valued attribute
      * @return expression corresponding to the referenced attribute
      */
-    <K, V, M extends java.util.Map<K, V>> Expression<M> get(MapAttribute<? super X, K, V> map);
+    <K, V, M extends Map<K, V>> Expression<M> get(MapAttribute<? super X, K, V> map);
 
     /**
      * Create an expression corresponding to the type of the path.

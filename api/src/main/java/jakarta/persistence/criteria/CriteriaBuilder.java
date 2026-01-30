@@ -12,8 +12,8 @@
 
 // Contributors:
 //     Gavin King      - 4.0
+//     Christian Beikov - 4.0
 //     Gavin King      - 3.2
-//     Christian Beikov - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -22,6 +22,7 @@ package jakarta.persistence.criteria;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -850,49 +851,49 @@ public interface CriteriaBuilder {
     //typecasts:
     
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Long>}
      */
     Expression<Long> toLong(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Integer>}
      */
     Expression<Integer> toInteger(Expression<? extends Number> number);
 
     /**
-     * Typecast. Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Float>}
      */
     Expression<Float> toFloat(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Double>}
      */
     Expression<Double> toDouble(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigDecimal>}
      */
     Expression<BigDecimal> toBigDecimal(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigInteger>}
      */
     Expression<BigInteger> toBigInteger(Expression<? extends Number> number);
 	
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param character expression
      * @return {@literal Expression<String>}
      */
@@ -914,25 +915,79 @@ public interface CriteriaBuilder {
      * @param value  value represented by the expression
      * @return expression literal
      * @throws IllegalArgumentException if value is null
-     * @since 3.2
+     * @since 4.0
      */
-    <T extends Number> NumberExpression<T> literal(T value);
+    NumberExpression<Byte> literal(byte value);
+
+    /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    NumberExpression<Integer> literal(int value);
+
+    /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    NumberExpression<Long> literal(long value);
+
+    /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    NumberExpression<Float> literal(float value);
+
+    /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    NumberExpression<Double> literal(double value);
+
+    /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    NumberExpression<BigInteger> literal(BigInteger value);
+
+    /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    NumberExpression<BigDecimal> literal(BigDecimal value);
 
     /**
      * Create a boolean expression for a literal.
      * @param value  value represented by the expression
      * @return expression literal
      * @throws IllegalArgumentException if value is null
-     * @since 3.2
+     * @since 4.0
      */
-    BooleanExpression literal(Boolean value);
+    BooleanExpression literal(boolean value);
 
     /**
      * Create a string expression for a literal.
      * @param value  value represented by the expression
      * @return expression literal
      * @throws IllegalArgumentException if value is null
-     * @since 3.2
+     * @since 4.0
      */
     StringExpression literal(String value);
 
@@ -941,7 +996,7 @@ public interface CriteriaBuilder {
      * @param value  value represented by the expression
      * @return expression literal
      * @throws IllegalArgumentException if value is null
-     * @since 3.2
+     * @since 4.0
      */
     TemporalExpression<LocalDate> literal(LocalDate value);
 
@@ -950,7 +1005,7 @@ public interface CriteriaBuilder {
      * @param value  value represented by the expression
      * @return expression literal
      * @throws IllegalArgumentException if value is null
-     * @since 3.2
+     * @since 4.0
      */
     TemporalExpression<LocalDateTime> literal(LocalDateTime value);
 
@@ -959,18 +1014,18 @@ public interface CriteriaBuilder {
      * @param value  value represented by the expression
      * @return expression literal
      * @throws IllegalArgumentException if value is null
-     * @since 3.2
+     * @since 4.0
      */
     TemporalExpression<LocalTime> literal(LocalTime value);
 
     /**
-     * Create a comparable expression for a literal.
+     * Create a local time expression for a literal.
      * @param value  value represented by the expression
      * @return expression literal
      * @throws IllegalArgumentException if value is null
-     * @since 3.2
+     * @since 4.0
      */
-    <T extends Comparable<T>> ComparableExpression<T> literal(T value);
+    TemporalExpression<Instant> literal(Instant value);
 
     /**
      * Create an expression for a null literal with the given type.

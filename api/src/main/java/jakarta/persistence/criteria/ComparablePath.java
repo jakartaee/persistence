@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -23,9 +23,8 @@ package jakarta.persistence.criteria;
  *
  * @param <X>  the type referenced by the path
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
 public interface ComparablePath<X extends Comparable<? super X>> extends Path<X>, ComparableExpression<X> {
 
 }
