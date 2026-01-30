@@ -113,6 +113,15 @@ public interface Expression<T> extends Selection<T> {
     Predicate in(Expression<Collection<?>> values);
 
     /**
+     * Create a predicate to test whether the expression is returned
+     * by the subquery.
+     * @param subquery the subquery
+     * @return predicate testing for membership
+     * @since 4.0
+     */
+    Predicate in(Subquery<T> subquery);
+
+    /**
      * Perform a typecast upon the expression, returning a new
      * expression object.
      * Unlike {@link #cast(Class)}, this method does not cause
