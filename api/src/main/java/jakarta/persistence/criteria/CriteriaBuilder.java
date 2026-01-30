@@ -983,6 +983,15 @@ public interface CriteriaBuilder {
     BooleanExpression literal(boolean value);
 
     /**
+     * Create a character expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    Expression<Character> literal(char value);
+
+    /**
      * Create a string expression for a literal.
      * @param value  value represented by the expression
      * @return expression literal
