@@ -11,7 +11,8 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
+//     Gavin King       - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -22,12 +23,13 @@ import java.math.BigInteger;
 /**
  * Type for number query expressions.
  *
- * @param <X> the type of the expression
+ * @param <N> the type of the expression
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
-public interface NumberExpression<X extends Number> extends Expression<X> {
+public interface NumberExpression<N extends Number & Comparable<N>> extends ComparableExpression<N> {
+
+    // comparisons
 
     /**
      * Create a predicate for testing whether this expression is
@@ -36,7 +38,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return greater-than predicate
      * @see CriteriaBuilder#gt(Expression, Expression)
      */
-    Predicate gt(Expression<? extends X> y);
+    Predicate gt(Expression<? extends N> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -45,7 +47,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return greater-than predicate
      * @see CriteriaBuilder#gt(Expression, Number)
      */
-    Predicate gt(X y);
+    Predicate gt(N y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -54,7 +56,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#ge(Expression, Expression)
      */
-    Predicate ge(Expression<? extends X> y);
+    Predicate ge(Expression<? extends N> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -63,7 +65,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#ge(Expression, Number)
      */
-    Predicate ge(X y);
+    Predicate ge(N y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -72,7 +74,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return less-than predicate
      * @see CriteriaBuilder#lt(Expression, Expression)
      */
-    Predicate lt(Expression<? extends X> y);
+    Predicate lt(Expression<? extends N> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -81,7 +83,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return less-than predicate
      * @see CriteriaBuilder#lt(Expression, Number)
      */
-    Predicate lt(X y);
+    Predicate lt(N y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -90,7 +92,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#le(Expression, Expression)
      */
-    Predicate le(Expression<? extends X> y);
+    Predicate le(Expression<? extends N> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -99,7 +101,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#le(Expression, Number)
      */
-    Predicate le(X y);
+    Predicate le(N y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -109,7 +111,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return between predicate
      * @see CriteriaBuilder#between(Expression, Expression, Expression)
      */
-    Predicate between(Expression<? extends X> x, Expression<? extends X> y);
+    Predicate between(Expression<? extends N> x, Expression<? extends N> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -119,8 +121,9 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return between predicate
      * @see CriteriaBuilder#between(Expression, Comparable, Comparable)
      */
-    Predicate between(X x, X y);
+    Predicate between(N x, N y);
 
+    // numeric functions
 
     /**
      * Create an expression that returns the sign of this
@@ -138,7 +141,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return arithmetic negation
      * @see CriteriaBuilder#neg(Expression)
      */
-    NumberExpression<X> neg();
+    NumberExpression<N> neg();
 
     /**
      * Create an expression that returns the absolute value
@@ -146,7 +149,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return absolute value
      * @see CriteriaBuilder#abs(Expression)
      */
-    NumberExpression<X> abs();
+    NumberExpression<N> abs();
 
     /**
      * Create an expression that returns the ceiling of this
@@ -155,7 +158,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return ceiling
      * @see CriteriaBuilder#ceiling(Expression)
      */
-    NumberExpression<X> ceiling();
+    NumberExpression<N> ceiling();
 
     /**
      * Create an expression that returns the floor of this
@@ -164,7 +167,9 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return floor
      * @see CriteriaBuilder#floor(Expression)
      */
-    NumberExpression<X> floor();
+    NumberExpression<N> floor();
+
+    // arithmetic operations
 
     /**
      * Create an expression that returns the sum
@@ -173,7 +178,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return sum
      * @see CriteriaBuilder#sum(Expression, Expression)
      */
-    NumberExpression<X> add(Expression<? extends X> y);
+    NumberExpression<N> add(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the sum
@@ -182,7 +187,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return sum
      * @see CriteriaBuilder#sum(Expression, Number)
      */
-    NumberExpression<X> add(X y);
+    NumberExpression<N> add(N y);
 
     /**
      * Create an expression that returns the product
@@ -191,7 +196,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return product
      * @see CriteriaBuilder#prod(Expression, Expression)
      */
-    NumberExpression<X> multiply(Expression<? extends X> y);
+    NumberExpression<N> multiply(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the product
@@ -200,8 +205,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return product
      * @see CriteriaBuilder#prod(Expression, Number)
      */
-    NumberExpression<X> multiply(X y);
-
+    NumberExpression<N> multiply(N y);
 
     /**
      * Create an expression that returns the difference
@@ -210,7 +214,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return difference
      * @see CriteriaBuilder#diff(Expression, Expression)
      */
-    NumberExpression<X> subtract(Expression<? extends X> y);
+    NumberExpression<N> subtract(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the difference
@@ -219,7 +223,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return difference
      * @see CriteriaBuilder#diff(Expression, Number)
      */
-    NumberExpression<X> subtract(X y);
+    NumberExpression<N> subtract(N y);
 
     /**
      * Create an expression that returns the quotient
@@ -228,7 +232,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Expression)
      */
-    NumberExpression<Number> divide(Expression<? extends Number> y);
+    NumberExpression<N> divide(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the quotient
@@ -237,27 +241,9 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Number)
      */
-    NumberExpression<Number> divide(Number y);
+    NumberExpression<N> divide(N y);
 
-    /**
-     * Create an expression that returns the modulus
-     * (remainder under integer division) of this
-     * expression divided by the argument.
-     * @param y expression
-     * @return modulus
-     * @see CriteriaBuilder#mod(Expression, Expression)
-     */
-    NumberExpression<Integer> mod(Expression<Integer> y);
-
-    /**
-     * Create an expression that returns the modulus
-     * (remainder under integer division) of this
-     * expression divided by the argument.
-     * @param y value
-     * @return modulus
-     * @see CriteriaBuilder#mod(Expression, Integer)
-     */
-    NumberExpression<Integer> mod(Integer y);
+    // floating point functions
 
     /**
      * Create an expression that returns the square root
@@ -310,10 +296,9 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return the rounded value
      * @see CriteriaBuilder#round(Expression, Integer)
      */
-    NumberExpression<X> round(Integer n);
+    NumberExpression<N> round(Integer n);
 
-
-    //aggregate functions:
+    // aggregate functions
 
     /**
      * Create an aggregate expression applying the avg operation.
@@ -327,7 +312,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return sum expression
      * @see CriteriaBuilder#sum(Expression)
      */
-    NumberExpression<X> sum();
+    NumberExpression<N> sum();
 
     /**
      * Create an aggregate expression applying the sum operation,
@@ -351,7 +336,7 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return max expression
      * @see CriteriaBuilder#max(Expression)
      */
-    NumberExpression<X> max();
+    NumberExpression<N> max();
 
     /**
      * Create an aggregate expression applying the numerical min
@@ -359,47 +344,47 @@ public interface NumberExpression<X extends Number> extends Expression<X> {
      * @return min expression
      * @see CriteriaBuilder#min(Expression)
      */
-    NumberExpression<X> min();
+    NumberExpression<N> min();
 
-    //typecasts:
+    // typecasts
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @return Expression&#060;Long&#062;
      * @see CriteriaBuilder#toLong(Expression)
      */
     NumberExpression<Long> toLong();
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @return Expression&#060;Integer&#062;
      * @see CriteriaBuilder#toInteger(Expression)
      */
     NumberExpression<Integer> toInteger();
 
     /**
-     * Typecast. Returns same expression object.
+     * Typecast.
      * @return Expression&#060;Float&#062;
      * @see CriteriaBuilder#toFloat(Expression)
      */
     NumberExpression<Float> toFloat();
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @return Expression&#060;Double&#062;
      * @see CriteriaBuilder#toDouble(Expression)
      */
     NumberExpression<Double> toDouble();
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @return Expression&#060;BigDecimal&#062;
      * @see CriteriaBuilder#toBigDecimal(Expression)
      */
     NumberExpression<BigDecimal> toBigDecimal();
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @return Expression&#060;BigInteger&#062;
      * @see CriteriaBuilder#toBigInteger(Expression)
      */

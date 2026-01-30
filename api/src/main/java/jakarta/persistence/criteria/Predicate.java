@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -27,11 +27,9 @@ import java.util.List;
  *
  * @since 2.0
  */
-public interface Predicate extends Expression<Boolean>, BooleanExpression {
+public interface Predicate extends BooleanExpression {
 
-        enum BooleanOperator {
-              AND, OR
-        }
+    enum BooleanOperator { AND, OR }
 	
     /**
      * Return the boolean operator for the predicate.
@@ -62,6 +60,7 @@ public interface Predicate extends Expression<Boolean>, BooleanExpression {
      * Create a negation of the predicate.
      * @return negated predicate 
      */
+    @Override
     Predicate not();
 
 }

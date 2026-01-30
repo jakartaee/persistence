@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -19,9 +19,8 @@ package jakarta.persistence.criteria;
 /**
  * Type for boolean query expressions.
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
 public interface BooleanExpression extends ComparableExpression<Boolean> {
 
 	//boolean functions:
@@ -32,7 +31,7 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 * @return and predicate
 	 * @see CriteriaBuilder#and(Expression, Expression)
 	 */
-	Predicate and(Expression<Boolean> y);
+	BooleanExpression and(Expression<Boolean> y);
 
 	/**
 	 * Create a disjunction of this and the given boolean expressions.
@@ -40,18 +39,16 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 * @return or predicate
 	 * @see CriteriaBuilder#or(Expression, Expression)
 	 */
-	Predicate or(Expression<Boolean> y);
+	BooleanExpression or(Expression<Boolean> y);
 
 	/**
 	 * Create a negation of this restriction.
 	 * @return not predicate
 	 * @see CriteriaBuilder#not(Expression)
 	 */
-	Predicate not();
-
+	BooleanExpression not();
 
 	//turn Expression<Boolean> into a Predicate
-	//useful for use with varargs methods
 
 	/**
 	 * Create a predicate testing for a true value.
