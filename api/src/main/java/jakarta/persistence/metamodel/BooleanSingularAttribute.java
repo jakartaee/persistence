@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.metamodel;
@@ -22,7 +22,7 @@ package jakarta.persistence.metamodel;
  *
  * @param <X> The type containing the represented attribute
  *
- * @since 3.2
+ * @since 4.0
  */
 public interface BooleanSingularAttribute<X>
 		extends ComparableSingularAttribute<X, Boolean> {
