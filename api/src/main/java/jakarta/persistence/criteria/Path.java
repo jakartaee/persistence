@@ -24,7 +24,7 @@ import java.util.Map;
 
 import jakarta.persistence.metamodel.BooleanSingularAttribute;
 import jakarta.persistence.metamodel.ComparableSingularAttribute;
-import jakarta.persistence.metamodel.NumberSingularAttribute;
+import jakarta.persistence.metamodel.NumericSingularAttribute;
 import jakarta.persistence.metamodel.PluralAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.Bindable;
@@ -97,7 +97,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Number & Comparable<Y>> NumericPath<Y> get(NumberSingularAttribute<? super X, Y> attribute);
+    <Y extends Number & Comparable<Y>> NumericPath<Y> get(NumericSingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
