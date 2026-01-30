@@ -917,79 +917,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumericExpression<Byte> literal(byte value);
-
-    /**
-     * Create a number expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    NumericExpression<Integer> literal(int value);
-
-    /**
-     * Create a number expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    NumericExpression<Long> literal(long value);
-
-    /**
-     * Create a number expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    NumericExpression<Float> literal(float value);
-
-    /**
-     * Create a number expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    NumericExpression<Double> literal(double value);
-
-    /**
-     * Create a number expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    NumericExpression<BigInteger> literal(BigInteger value);
-
-    /**
-     * Create a number expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    NumericExpression<BigDecimal> literal(BigDecimal value);
-
-    /**
-     * Create a boolean expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    BooleanExpression literal(boolean value);
-
-    /**
-     * Create a character expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    Expression<Character> literal(char value);
+    <N extends Number & Comparable<N>> NumericExpression<N> numericLiteral(N value);
 
     /**
      * Create a string expression for a literal.
@@ -998,7 +926,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    StringExpression literal(String value);
+    StringExpression stringLiteral(String value);
 
     /**
      * Create a local date expression for a literal.
@@ -1007,34 +935,14 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    TemporalExpression<LocalDate> literal(LocalDate value);
+    <T extends Temporal & Comparable<? super T>> TemporalExpression<T> temporalLiteral(T value);
 
     /**
-     * Create a local datetime expression for a literal.
-     * @param value  value represented by the expression
+     * Create a boolean expression for a literal.
      * @return expression literal
-     * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    TemporalExpression<LocalDateTime> literal(LocalDateTime value);
-
-    /**
-     * Create a local time expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    TemporalExpression<LocalTime> literal(LocalTime value);
-
-    /**
-     * Create a local time expression for a literal.
-     * @param value  value represented by the expression
-     * @return expression literal
-     * @throws IllegalArgumentException if value is null
-     * @since 4.0
-     */
-    TemporalExpression<Instant> literal(Instant value);
+    BooleanExpression booleanLiteral(boolean value);
 
     /**
      * Create an expression for a null literal with the given type.
