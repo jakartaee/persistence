@@ -25,6 +25,6 @@ package jakarta.persistence.criteria;
  *
  * @since 4.0
  */
-public interface NumberPath<N extends Number & Comparable<N>> extends Path<N>, NumberExpression<N> {
+public interface NumericPath<N extends Number & Comparable<N>> extends Path<N>, NumericExpression<N> {
 
 }

@@ -97,7 +97,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Number & Comparable<Y>> NumberPath<Y> get(NumberSingularAttribute<? super X, Y> attribute);
+    <Y extends Number & Comparable<Y>> NumericPath<Y> get(NumberSingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced

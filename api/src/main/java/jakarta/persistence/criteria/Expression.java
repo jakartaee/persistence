@@ -221,7 +221,7 @@ public interface Expression<T> extends Selection<T> {
      * @return count expression
      * @since 4.0
      */
-    NumberExpression<Long> count();
+    NumericExpression<Long> count();
 
     /**
      * Create an aggregate expression applying the count distinct
@@ -229,6 +229,6 @@ public interface Expression<T> extends Selection<T> {
      * @return count distinct expression
      * @since 4.0
      */
-    NumberExpression<Long> countDistinct();
+    NumericExpression<Long> countDistinct();
 
 }

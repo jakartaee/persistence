@@ -376,7 +376,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, Expression)
 	 */
-	NumberExpression<Integer> locate(Expression<String> pattern);
+	NumericExpression<Integer> locate(Expression<String> pattern);
 
 	/**
 	 * Create expression to locate the position of one string
@@ -391,7 +391,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, String)
 	 */
-	NumberExpression<Integer> locate(String pattern);
+	NumericExpression<Integer> locate(String pattern);
 
 	/**
 	 * Create expression to locate the position of one string
@@ -407,7 +407,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, Expression, Expression)
 	 */
-	NumberExpression<Integer> locate(Expression<String> pattern, Expression<Integer> from);
+	NumericExpression<Integer> locate(Expression<String> pattern, Expression<Integer> from);
 
 	/**
 	 * Create expression to locate the position of one string
@@ -423,5 +423,5 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, String, int)
 	 */
-	NumberExpression<Integer> locate(String pattern, int from);
+	NumericExpression<Integer> locate(String pattern, int from);
 }

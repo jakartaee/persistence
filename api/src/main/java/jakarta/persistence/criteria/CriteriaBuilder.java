@@ -917,7 +917,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumberExpression<Byte> literal(byte value);
+    NumericExpression<Byte> literal(byte value);
 
     /**
      * Create a number expression for a literal.
@@ -926,7 +926,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumberExpression<Integer> literal(int value);
+    NumericExpression<Integer> literal(int value);
 
     /**
      * Create a number expression for a literal.
@@ -935,7 +935,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumberExpression<Long> literal(long value);
+    NumericExpression<Long> literal(long value);
 
     /**
      * Create a number expression for a literal.
@@ -944,7 +944,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumberExpression<Float> literal(float value);
+    NumericExpression<Float> literal(float value);
 
     /**
      * Create a number expression for a literal.
@@ -953,7 +953,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumberExpression<Double> literal(double value);
+    NumericExpression<Double> literal(double value);
 
     /**
      * Create a number expression for a literal.
@@ -962,7 +962,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumberExpression<BigInteger> literal(BigInteger value);
+    NumericExpression<BigInteger> literal(BigInteger value);
 
     /**
      * Create a number expression for a literal.
@@ -971,7 +971,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    NumberExpression<BigDecimal> literal(BigDecimal value);
+    NumericExpression<BigDecimal> literal(BigDecimal value);
 
     /**
      * Create a boolean expression for a literal.
