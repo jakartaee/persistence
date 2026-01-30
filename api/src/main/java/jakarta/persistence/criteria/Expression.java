@@ -11,12 +11,13 @@
  */
 
 // Contributors:
-//     Gavin King      - 3.2
-//     Christian Beikov - 3.2
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Christian Beikov - 4.0
+//     Gavin King       - 3.2
+//     Linda DeMichiel  - 2.0
 
 package jakarta.persistence.criteria;
+
+import jakarta.persistence.criteria.CriteriaBuilder.SimpleCase;
 
 import java.util.Collection;
 
@@ -148,7 +149,7 @@ public interface Expression<T> extends Selection<T> {
      * otherwise.
      * @param y expression
      * @return coalesce expression
-     * @since 3.2
+     * @since 4.0
      */
     Expression<T> coalesce(Expression<? extends T> y);
 
@@ -158,7 +159,7 @@ public interface Expression<T> extends Selection<T> {
      * otherwise.
      * @param y value
      * @return coalesce expression
-     * @since 3.2
+     * @since 4.0
      */
     Expression<T> coalesce(T y);
 
@@ -168,7 +169,7 @@ public interface Expression<T> extends Selection<T> {
      * and the value of the first expression if they are not.
      * @param y expression
      * @return nullif expression
-     * @since 3.2
+     * @since 4.0
      */
     Expression<T> nullif(Expression<? extends T> y);
 
@@ -178,7 +179,7 @@ public interface Expression<T> extends Selection<T> {
      * and the value of the first expression if they are not.
      * @param y value
      * @return nullif expression
-     * @since 3.2
+     * @since 4.0
      */
     Expression<T> nullif(T y);
 
@@ -187,9 +188,9 @@ public interface Expression<T> extends Selection<T> {
     /**
      * Create a simple case expression to test against this expression.
      * @return simple case expression
-     * @since 3.2
+     * @since 4.0
      */
-    <R> CriteriaBuilder.SimpleCase<T,R> selectCase();
+    <R> SimpleCase<T,R> selectCase();
 
     //collection operations:
 
@@ -199,7 +200,7 @@ public interface Expression<T> extends Selection<T> {
      * If the collection is empty, the predicate will be false.
      * @param collection expression
      * @return is-member predicate
-     * @since 3.2
+     * @since 4.0
      */
     <C extends Collection<T>> Predicate isMember(Expression<C> collection);
 
@@ -209,7 +210,7 @@ public interface Expression<T> extends Selection<T> {
      * If the collection is empty, the predicate will be true.
      * @param collection expression
      * @return is-not-member predicate
-     * @since 3.2
+     * @since 4.0
      */
     <C extends Collection<T>> Predicate isNotMember(Expression<C> collection);
 
@@ -218,7 +219,7 @@ public interface Expression<T> extends Selection<T> {
     /**
      * Create an aggregate expression applying the count operation.
      * @return count expression
-     * @since 3.2
+     * @since 4.0
      */
     NumberExpression<Long> count();
 
@@ -226,39 +227,8 @@ public interface Expression<T> extends Selection<T> {
      * Create an aggregate expression applying the count distinct
      * operation.
      * @return count distinct expression
-     * @since 3.2
+     * @since 4.0
      */
     NumberExpression<Long> countDistinct();
 
-    //ordering:
-
-    /**
-     * Create an ordering by the ascending value of this expression.
-     * @return ascending ordering corresponding to this expression
-     * @since 3.2
-     */
-    Order asc();
-
-    /**
-     * Create an ordering by the descending value of this expression.
-     * @return descending ordering corresponding to this expression
-     * @since 3.2
-     */
-    Order desc();
-
-    /**
-     * Create an ordering by the ascending value of this expression.
-     * @param nullPrecedence  the precedence of null values
-     * @return ascending ordering corresponding to this expression
-     * @since 3.2
-     */
-    Order asc(Nulls nullPrecedence);
-
-    /**
-     * Create an ordering by the descending value of this expression.
-     * @param nullPrecedence  the precedence of null values
-     * @return descending ordering corresponding to this expression
-     * @since 3.2
-     */
-    Order desc(Nulls nullPrecedence);
 }

@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -21,9 +21,8 @@ import java.time.temporal.Temporal;
 /**
  * Type for temporal query expressions.
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
 public interface TemporalExpression<T extends Temporal & Comparable<? super T>> extends ComparableExpression<T> {
 
 	/**
@@ -33,5 +32,5 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>> 
 	 * @return expression for the value of the extracted field
 	 * @see CriteriaBuilder#extract(TemporalField, Expression)
 	 */
-	<N extends Number> NumberExpression<N> extract(TemporalField<N, T> field);
+	<N extends Number & Comparable<N>> NumberExpression<N> extract(TemporalField<N, T> field);
 }

@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -21,9 +21,8 @@ import java.util.Collection;
 /**
  * Type for collection query expressions.
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
 public interface CollectionExpression<C extends Collection<E>, E> extends Expression<C> {
 
 	//collection operations:

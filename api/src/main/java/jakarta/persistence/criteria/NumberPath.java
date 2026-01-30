@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -21,11 +21,10 @@ package jakarta.persistence.criteria;
  * bound type or collection, and is a "primitive" expression
  * of a number type.
  *
- * @param <X>  the type referenced by the path
+ * @param <N>  the type referenced by the path
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
-public interface NumberPath<X extends Number> extends Path<X>, NumberExpression<X> {
+public interface NumberPath<N extends Number & Comparable<N>> extends Path<N>, NumberExpression<N> {
 
 }

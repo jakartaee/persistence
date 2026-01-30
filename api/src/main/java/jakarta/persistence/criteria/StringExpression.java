@@ -11,7 +11,7 @@
  */
 
 // Contributors:
-//     Christian Beikov - 3.2
+//     Christian Beikov - 4.0
 
 
 package jakarta.persistence.criteria;
@@ -21,13 +21,11 @@ import java.util.List;
 /**
  * Type for string query expressions.
  *
- * @since 3.2
+ * @since 4.0
  */
-@SuppressWarnings("hiding")
 public interface StringExpression extends ComparableExpression<String> {
 
-
-	//string functions:
+	// pattern matching
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -144,6 +142,8 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @see CriteriaBuilder#notLike(Expression, String, char)
 	 */
 	Predicate notLike(String pattern, char escapeChar);
+
+	//string functions
 
 	/**
 	 *  Create an expression for string concatenation.
