@@ -47,7 +47,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @return size expression
 	 * @see CriteriaBuilder#size(Expression)
 	 */
-	NumberExpression<Integer> size();
+	NumericExpression<Integer> size();
 
 	/**
 	 * Create a predicate that tests whether an element is
