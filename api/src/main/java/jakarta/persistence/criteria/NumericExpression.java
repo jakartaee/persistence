@@ -371,4 +371,18 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @see CriteriaBuilder#toBigInteger(Expression)
      */
     NumericExpression<BigInteger> toBigInteger();
+
+    // overrides
+
+    @Override
+    NumericExpression<N> coalesce(N y);
+
+    @Override
+    NumericExpression<N> coalesce(Expression<? extends N> y);
+
+    @Override
+    NumericExpression<N> nullif(N y);
+
+    @Override
+    NumericExpression<N> nullif(Expression<? extends N> y);
 }

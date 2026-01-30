@@ -63,4 +63,18 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 * @see CriteriaBuilder#isFalse(Expression)
 	 */
 	Predicate isFalse();
+
+	// overrides
+
+	@Override
+	BooleanExpression coalesce(Boolean y);
+
+	@Override
+	BooleanExpression coalesce(Expression<? extends Boolean> y);
+
+	@Override
+	BooleanExpression nullif(Boolean y);
+
+	@Override
+	BooleanExpression nullif(Expression<? extends Boolean> y);
 }

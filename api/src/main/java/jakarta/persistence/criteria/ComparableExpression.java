@@ -166,4 +166,18 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return descending ordering corresponding to this expression
      */
     Order desc(Nulls nullPrecedence);
+
+    // overrides
+
+    @Override
+    ComparableExpression<X> coalesce(X y);
+
+    @Override
+    ComparableExpression<X> coalesce(Expression<? extends X> y);
+
+    @Override
+    ComparableExpression<X> nullif(X y);
+
+    @Override
+    ComparableExpression<X> nullif(Expression<? extends X> y);
 }
