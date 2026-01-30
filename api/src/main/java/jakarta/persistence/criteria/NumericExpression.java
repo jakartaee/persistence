@@ -27,7 +27,7 @@ import java.math.BigInteger;
  *
  * @since 4.0
  */
-public interface NumberExpression<N extends Number & Comparable<N>> extends ComparableExpression<N> {
+public interface NumericExpression<N extends Number & Comparable<N>> extends ComparableExpression<N> {
 
     // comparisons
 
@@ -133,7 +133,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return sign
      * @see CriteriaBuilder#sign(Expression)
      */
-    NumberExpression<Integer> sign();
+    NumericExpression<Integer> sign();
 
     /**
      * Create an expression that returns the arithmetic negation
@@ -141,7 +141,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return arithmetic negation
      * @see CriteriaBuilder#neg(Expression)
      */
-    NumberExpression<N> neg();
+    NumericExpression<N> neg();
 
     /**
      * Create an expression that returns the absolute value
@@ -149,7 +149,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return absolute value
      * @see CriteriaBuilder#abs(Expression)
      */
-    NumberExpression<N> abs();
+    NumericExpression<N> abs();
 
     /**
      * Create an expression that returns the ceiling of this
@@ -158,7 +158,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return ceiling
      * @see CriteriaBuilder#ceiling(Expression)
      */
-    NumberExpression<N> ceiling();
+    NumericExpression<N> ceiling();
 
     /**
      * Create an expression that returns the floor of this
@@ -167,7 +167,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return floor
      * @see CriteriaBuilder#floor(Expression)
      */
-    NumberExpression<N> floor();
+    NumericExpression<N> floor();
 
     // arithmetic operations
 
@@ -178,7 +178,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return sum
      * @see CriteriaBuilder#sum(Expression, Expression)
      */
-    NumberExpression<N> add(Expression<? extends N> y);
+    NumericExpression<N> add(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the sum
@@ -187,7 +187,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return sum
      * @see CriteriaBuilder#sum(Expression, Number)
      */
-    NumberExpression<N> add(N y);
+    NumericExpression<N> add(N y);
 
     /**
      * Create an expression that returns the product
@@ -196,7 +196,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return product
      * @see CriteriaBuilder#prod(Expression, Expression)
      */
-    NumberExpression<N> multiply(Expression<? extends N> y);
+    NumericExpression<N> multiply(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the product
@@ -205,7 +205,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return product
      * @see CriteriaBuilder#prod(Expression, Number)
      */
-    NumberExpression<N> multiply(N y);
+    NumericExpression<N> multiply(N y);
 
     /**
      * Create an expression that returns the difference
@@ -214,7 +214,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return difference
      * @see CriteriaBuilder#diff(Expression, Expression)
      */
-    NumberExpression<N> subtract(Expression<? extends N> y);
+    NumericExpression<N> subtract(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the difference
@@ -223,7 +223,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return difference
      * @see CriteriaBuilder#diff(Expression, Number)
      */
-    NumberExpression<N> subtract(N y);
+    NumericExpression<N> subtract(N y);
 
     /**
      * Create an expression that returns the quotient
@@ -232,7 +232,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Expression)
      */
-    NumberExpression<N> divide(Expression<? extends N> y);
+    NumericExpression<N> divide(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the quotient
@@ -241,7 +241,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Number)
      */
-    NumberExpression<N> divide(N y);
+    NumericExpression<N> divide(N y);
 
     // floating point functions
 
@@ -251,7 +251,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return square root
      * @see CriteriaBuilder#sqrt(Expression)
      */
-    NumberExpression<Double> sqrt();
+    NumericExpression<Double> sqrt();
 
     /**
      * Create an expression that returns the exponential
@@ -260,7 +260,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return exponential
      * @see CriteriaBuilder#exp(Expression)
      */
-    NumberExpression<Double> exp();
+    NumericExpression<Double> exp();
 
     /**
      * Create an expression that returns the natural logarithm
@@ -268,7 +268,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return natural logarithm
      * @see CriteriaBuilder#ln(Expression)
      */
-    NumberExpression<Double> ln();
+    NumericExpression<Double> ln();
 
     /**
      * Create an expression that returns this expression
@@ -277,7 +277,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return the base raised to the power of the exponent
      * @see CriteriaBuilder#power(Expression, Expression)
      */
-    NumberExpression<Double> power(Expression<? extends Number> y);
+    NumericExpression<Double> power(Expression<? extends Number> y);
 
     /**
      * Create an expression that returns this number expression
@@ -286,7 +286,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return the base raised to the power of the exponent
      * @see CriteriaBuilder#power(Expression, Number)
      */
-    NumberExpression<Double> power(Number y);
+    NumericExpression<Double> power(Number y);
 
     /**
      * Create an expression that returns this number expression
@@ -296,7 +296,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return the rounded value
      * @see CriteriaBuilder#round(Expression, Integer)
      */
-    NumberExpression<N> round(Integer n);
+    NumericExpression<N> round(Integer n);
 
     // aggregate functions
 
@@ -305,14 +305,14 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return avg expression
      * @see CriteriaBuilder#avg(Expression)
      */
-    NumberExpression<Double> avg();
+    NumericExpression<Double> avg();
 
     /**
      * Create an aggregate expression applying the sum operation.
      * @return sum expression
      * @see CriteriaBuilder#sum(Expression)
      */
-    NumberExpression<N> sum();
+    NumericExpression<N> sum();
 
     /**
      * Create an aggregate expression applying the sum operation,
@@ -320,7 +320,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return sum expression
      * @see CriteriaBuilder#sumAsLong(Expression)
      */
-    NumberExpression<Long> sumAsLong();
+    NumericExpression<Long> sumAsLong();
 
     /**
      * Create an aggregate expression applying the sum operation,
@@ -328,7 +328,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return sum expression
      * @see CriteriaBuilder#sumAsDouble(Expression)
      */
-    NumberExpression<Double> sumAsDouble();
+    NumericExpression<Double> sumAsDouble();
 
     /**
      * Create an aggregate expression applying the numerical max
@@ -336,7 +336,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return max expression
      * @see CriteriaBuilder#max(Expression)
      */
-    NumberExpression<N> max();
+    NumericExpression<N> max();
 
     /**
      * Create an aggregate expression applying the numerical min
@@ -344,7 +344,7 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return min expression
      * @see CriteriaBuilder#min(Expression)
      */
-    NumberExpression<N> min();
+    NumericExpression<N> min();
 
     // typecasts
 
@@ -353,40 +353,40 @@ public interface NumberExpression<N extends Number & Comparable<N>> extends Comp
      * @return Expression&#060;Long&#062;
      * @see CriteriaBuilder#toLong(Expression)
      */
-    NumberExpression<Long> toLong();
+    NumericExpression<Long> toLong();
 
     /**
      * Typecast.
      * @return Expression&#060;Integer&#062;
      * @see CriteriaBuilder#toInteger(Expression)
      */
-    NumberExpression<Integer> toInteger();
+    NumericExpression<Integer> toInteger();
 
     /**
      * Typecast.
      * @return Expression&#060;Float&#062;
      * @see CriteriaBuilder#toFloat(Expression)
      */
-    NumberExpression<Float> toFloat();
+    NumericExpression<Float> toFloat();
 
     /**
      * Typecast.
      * @return Expression&#060;Double&#062;
      * @see CriteriaBuilder#toDouble(Expression)
      */
-    NumberExpression<Double> toDouble();
+    NumericExpression<Double> toDouble();
 
     /**
      * Typecast.
      * @return Expression&#060;BigDecimal&#062;
      * @see CriteriaBuilder#toBigDecimal(Expression)
      */
-    NumberExpression<BigDecimal> toBigDecimal();
+    NumericExpression<BigDecimal> toBigDecimal();
 
     /**
      * Typecast.
      * @return Expression&#060;BigInteger&#062;
      * @see CriteriaBuilder#toBigInteger(Expression)
      */
-    NumberExpression<BigInteger> toBigInteger();
+    NumericExpression<BigInteger> toBigInteger();
 }

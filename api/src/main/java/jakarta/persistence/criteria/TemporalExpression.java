@@ -32,5 +32,5 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>> 
 	 * @return expression for the value of the extracted field
 	 * @see CriteriaBuilder#extract(TemporalField, Expression)
 	 */
-	<N extends Number & Comparable<N>> NumberExpression<N> extract(TemporalField<N, T> field);
+	<N extends Number & Comparable<N>> NumericExpression<N> extract(TemporalField<N, T> field);
 }
