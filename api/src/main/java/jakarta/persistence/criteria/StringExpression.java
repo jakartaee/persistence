@@ -424,4 +424,18 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @see CriteriaBuilder#locate(Expression, String, int)
 	 */
 	NumericExpression<Integer> locate(String pattern, int from);
+
+	// overrides
+
+	@Override
+	StringExpression coalesce(String y);
+
+	@Override
+	StringExpression coalesce(Expression<? extends String> y);
+
+	@Override
+	StringExpression nullif(String y);
+
+	@Override
+	StringExpression nullif(Expression<? extends String> y);
 }
