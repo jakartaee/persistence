@@ -38,7 +38,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return greater-than predicate
      * @see CriteriaBuilder#gt(Expression, Expression)
      */
-    Predicate gt(Expression<? extends N> y);
+    Predicate gt(Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -47,7 +47,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return greater-than predicate
      * @see CriteriaBuilder#gt(Expression, Number)
      */
-    Predicate gt(N y);
+    Predicate gt(Number y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -56,7 +56,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#ge(Expression, Expression)
      */
-    Predicate ge(Expression<? extends N> y);
+    Predicate ge(Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -65,7 +65,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#ge(Expression, Number)
      */
-    Predicate ge(N y);
+    Predicate ge(Number y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -74,7 +74,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return less-than predicate
      * @see CriteriaBuilder#lt(Expression, Expression)
      */
-    Predicate lt(Expression<? extends N> y);
+    Predicate lt(Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -83,7 +83,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return less-than predicate
      * @see CriteriaBuilder#lt(Expression, Number)
      */
-    Predicate lt(N y);
+    Predicate lt(Number y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -92,7 +92,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#le(Expression, Expression)
      */
-    Predicate le(Expression<? extends N> y);
+    Predicate le(Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -101,27 +101,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#le(Expression, Number)
      */
-    Predicate le(N y);
-
-    /**
-     * Create a predicate for testing whether this expression is
-     * between the first and second arguments in value.
-     * @param x  expression
-     * @param y  expression
-     * @return between predicate
-     * @see CriteriaBuilder#between(Expression, Expression, Expression)
-     */
-    Predicate between(Expression<? extends N> x, Expression<? extends N> y);
-
-    /**
-     * Create a predicate for testing whether this expression is
-     * between the first and second arguments in value.
-     * @param x  value
-     * @param y  value
-     * @return between predicate
-     * @see CriteriaBuilder#between(Expression, Comparable, Comparable)
-     */
-    Predicate between(N x, N y);
+    Predicate le(Number y);
 
     // numeric functions
 
@@ -336,6 +316,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return max expression
      * @see CriteriaBuilder#max(Expression)
      */
+    @Override
     NumericExpression<N> max();
 
     /**
@@ -344,6 +325,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return min expression
      * @see CriteriaBuilder#min(Expression)
      */
+    @Override
     NumericExpression<N> min();
 
     // typecasts
