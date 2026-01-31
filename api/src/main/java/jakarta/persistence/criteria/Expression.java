@@ -11,11 +11,13 @@
  */
 
 // Contributors:
-//     Gavin King      - 3.2
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Christian Beikov - 4.0
+//     Gavin King       - 3.2
+//     Linda DeMichiel  - 2.0
 
 package jakarta.persistence.criteria;
+
+import jakarta.persistence.criteria.CriteriaBuilder.SimpleCase;
 
 import java.util.Collection;
 
@@ -111,6 +113,15 @@ public interface Expression<T> extends Selection<T> {
     Predicate in(Expression<Collection<?>> values);
 
     /**
+     * Create a predicate to test whether the expression is returned
+     * by the subquery.
+     * @param subquery the subquery
+     * @return predicate testing for membership
+     * @since 4.0
+     */
+    Predicate in(Subquery<T> subquery);
+
+    /**
      * Perform a typecast upon the expression, returning a new
      * expression object.
      * Unlike {@link #cast(Class)}, this method does not cause
@@ -138,4 +149,95 @@ public interface Expression<T> extends Selection<T> {
      * @since 3.2
      */
     <X> Expression<X> cast(Class<X> type);
+
+    // coalesce, nullif:
+
+    /**
+     * Create an expression that returns null if this and the argument
+     * evaluate to null, and the value of the first non-null expression
+     * otherwise.
+     * @param y expression
+     * @return coalesce expression
+     * @since 4.0
+     */
+    Expression<T> coalesce(Expression<? extends T> y);
+
+    /**
+     * Create an expression that returns null if this and the argument
+     * evaluate to null, and the value of the first non-null expression
+     * otherwise.
+     * @param y value
+     * @return coalesce expression
+     * @since 4.0
+     */
+    Expression<T> coalesce(T y);
+
+    /**
+     * Create an expression that tests whether this expression
+     * is equal to the argument, returning null if they are
+     * and the value of the first expression if they are not.
+     * @param y expression
+     * @return nullif expression
+     * @since 4.0
+     */
+    Expression<T> nullif(Expression<? extends T> y);
+
+    /**
+     * Create an expression that tests whether this expression
+     * is equal to the argument, returning null if they are
+     * and the value of the first expression if they are not.
+     * @param y value
+     * @return nullif expression
+     * @since 4.0
+     */
+    Expression<T> nullif(T y);
+
+    //case builders:
+
+    /**
+     * Create a simple case expression to test against this expression.
+     * @return simple case expression
+     * @since 4.0
+     */
+    <R> SimpleCase<T,R> selectCase();
+
+    //collection operations:
+
+    /**
+     * Create a predicate that tests whether this expression is
+     * a member of a collection.
+     * If the collection is empty, the predicate will be false.
+     * @param collection expression
+     * @return is-member predicate
+     * @since 4.0
+     */
+    <C extends Collection<T>> Predicate isMember(Expression<C> collection);
+
+    /**
+     * Create a predicate that tests whether this expression is
+     * not a member of a collection.
+     * If the collection is empty, the predicate will be true.
+     * @param collection expression
+     * @return is-not-member predicate
+     * @since 4.0
+     */
+    <C extends Collection<T>> Predicate isNotMember(Expression<C> collection);
+
+    //aggregate functions:
+
+    /**
+     * Create an aggregate expression applying the count operation.
+     * @return count expression
+     * @since 4.0
+     */
+    NumericExpression<Long> count();
+
+    /**
+     * Create an aggregate expression applying the count distinct
+     * operation.
+     * @return count distinct expression
+     * @since 4.0
+     */
+    NumericExpression<Long> countDistinct();
+
 }

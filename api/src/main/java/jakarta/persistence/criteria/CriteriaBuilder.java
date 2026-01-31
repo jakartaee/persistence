@@ -12,6 +12,7 @@
 
 // Contributors:
 //     Gavin King      - 4.0
+//     Christian Beikov - 4.0
 //     Gavin King      - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
@@ -846,49 +847,49 @@ public interface CriteriaBuilder {
     //typecasts:
     
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Long>}
      */
     Expression<Long> toLong(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Integer>}
      */
     Expression<Integer> toInteger(Expression<? extends Number> number);
 
     /**
-     * Typecast. Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Float>}
      */
     Expression<Float> toFloat(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Double>}
      */
     Expression<Double> toDouble(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigDecimal>}
      */
     Expression<BigDecimal> toBigDecimal(Expression<? extends Number> number);
 
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigInteger>}
      */
     Expression<BigInteger> toBigInteger(Expression<? extends Number> number);
 	
     /**
-     * Typecast.  Returns same expression object.
+     * Typecast.
      * @param character expression
      * @return {@literal Expression<String>}
      */
@@ -904,6 +905,40 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      */
     <T> Expression<T> literal(T value);
+
+    /**
+     * Create a number expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    <N extends Number & Comparable<N>> NumericExpression<N> numericLiteral(N value);
+
+    /**
+     * Create a string expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    StringExpression stringLiteral(String value);
+
+    /**
+     * Create a local date expression for a literal.
+     * @param value  value represented by the expression
+     * @return expression literal
+     * @throws IllegalArgumentException if value is null
+     * @since 4.0
+     */
+    <T extends Temporal & Comparable<? super T>> TemporalExpression<T> temporalLiteral(T value);
+
+    /**
+     * Create a boolean expression for a literal.
+     * @return expression literal
+     * @since 4.0
+     */
+    BooleanExpression booleanLiteral(boolean value);
 
     /**
      * Create an expression for a null literal with the given type.
@@ -969,7 +1004,7 @@ public interface CriteriaBuilder {
      * @return size expression
      */ 
     <C extends Collection<?>> Expression<Integer> size(C collection);
-	
+
     /**
      * Create a predicate that tests whether an element is
      * a member of a collection.

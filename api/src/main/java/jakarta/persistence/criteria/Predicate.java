@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Christian Beikov - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -26,11 +27,9 @@ import java.util.List;
  *
  * @since 2.0
  */
-public interface Predicate extends Expression<Boolean> {
+public interface Predicate extends BooleanExpression {
 
-        enum BooleanOperator {
-              AND, OR
-        }
+    enum BooleanOperator { AND, OR }
 	
     /**
      * Return the boolean operator for the predicate.
@@ -61,6 +60,7 @@ public interface Predicate extends Expression<Boolean> {
      * Create a negation of the predicate.
      * @return negated predicate 
      */
+    @Override
     Predicate not();
 
 }
