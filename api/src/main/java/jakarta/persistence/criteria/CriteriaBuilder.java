@@ -22,10 +22,6 @@ package jakarta.persistence.criteria;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
