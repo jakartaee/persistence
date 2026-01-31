@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,8 +11,8 @@
  */
 
 // Contributors:
+//     Christian Beikov - 4.0
 //     Gavin King      - 3.2
-//     Christian Beikov - 3.2
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -247,33 +247,33 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a predicate testing the existence of this subquery result.
      * @return exists predicate
      * @see CriteriaBuilder#exists(Subquery)
-     * @since 3.2
+     * @since 4.0
      */
     Predicate exists();
 
     /**
-     * Create an all expression over this subquery results.
+     * Create an all expression over the subquery results.
      * @return all expression
      * @see CriteriaBuilder#all(Subquery)
-     * @since 3.2
+     * @since 4.0
      */
     Expression<T> all();
 
     /**
-     * Create a some expression over this subquery results.
+     * Create a some expression over the subquery results.
      * This expression is equivalent to an <code>any</code> expression.
      * @return some expression
      * @see CriteriaBuilder#some(Subquery)
-     * @since 3.2
+     * @since 4.0
      */
     Expression<T> some();
 
     /**
-     * Create an any expression over this subquery results.
+     * Create an any expression over the subquery results.
      * This expression is equivalent to a <code>some</code> expression.
      * @return any expression
      * @see CriteriaBuilder#any(Subquery)
-     * @since 3.2
+     * @since 4.0
      */
     Expression<T> any();
 
