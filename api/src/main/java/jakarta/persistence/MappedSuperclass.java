@@ -26,8 +26,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Declares a class which is not itself an entity, but whose
  * mappings are inherited by the entities which extend it.
  *
- * <p>A mapped superclass is not a persistent type, and is
- * not mapped to a database table.
+ * <p>A mapped superclass might be an abstract class or a
+ * concrete class.
+ *
+ * <p>A mapped superclass is not a persistent type and is
+ * not mapped to a database table. The persistent state
+ * inherited by an entity from a mapped superclass maps to
+ * a table determined by the entity itself, as if the
+ * attributes of the mapped superclass were declared by the
+ * entity which most directly inherits the mapped superclass.
  *
  * <p>The persistent fields and properties of a mapped
  * superclass are declared and mapped using the same mapping
