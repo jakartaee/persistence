@@ -28,25 +28,33 @@ public enum InheritanceType {
     /**
      * A single table for each entity class hierarchy.
      *
+     * <p>In this strategy, all classes in a hierarchy
+     * map to the same table. The table has a column
+     * serving as a {@linkplain DiscriminatorColumn
+     * discriminator column}.
+     *
      * <p>Subclasses are stored together with the root
      * class, and each entity instance is stored as a
-     * single table row.
-     *
-     * <p>The concrete subclass represented by a row
-     * is determined by the value held by a
-     * {@linkplain DiscriminatorColumn discriminator
-     * column}.
+     * single table row. The concrete subclass
+     * represented by a row is determined by the value
+     * held by the discriminator column.
      */
     SINGLE_TABLE, 
 
     /**
      * A table for each concrete entity class.
      *
+     * <p>In this mapping strategy, each concrete class
+     * in the hierarchy is mapped to a completely
+     * separate table. Every attribute of the class,
+     * including inherited attributes, maps to a column
+     * or columns of the table belonging to the concrete
+     * class.
+     *
      * <p>Each concrete class in the hierarchy has its
      * own table, and each entity instance is stored as
-     * a single table row.
-     *
-     * <p>No discriminator column is necessary.
+     * a single table row. No discriminator column is
+     * necessary.
      */
     TABLE_PER_CLASS, 
 
@@ -54,6 +62,20 @@ public enum InheritanceType {
      * A table for each abstract or concrete entity class,
      * with only the columns mapped to persistent fields
      * and properties <em>declared</em> by the entity class.
+     *
+     * <p>In this strategy:
+     * <ul>
+     * <li>The root of the class hierarchy is represented
+     *     by a table with columns mapped by attributes
+     *     declared by the root class.
+     * <li>Each subclass is represented by a separate table
+     *     containing only those columns that are mapped by
+     *     attributes declared by that subclass (and not
+     *     inherited from its superclass), along with the
+     *     column or columns holding its primary key. The
+     *     primary key of the subclass table doubles as a
+     *     foreign key of the superclass table.
+     * </ul>
      *
      * <p>Each class in the hierarchy has its own table,
      * but that table does not contain columns mapped to

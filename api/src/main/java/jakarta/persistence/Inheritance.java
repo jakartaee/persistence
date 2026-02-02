@@ -23,7 +23,26 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies the inheritance mapping strategy for the entity class
- * hierarchy which descends from the annotated entity class.
+ * hierarchy which descends from the annotated entity class. The
+ * inheritance strategy for the whole entity class hierarchy is
+ * determined by the mapping of the root class of the hierarchy.
+ *
+ * <p>There are {@linkplain InheritanceType three basic strategies}
+ * which may be used when mapping an entity class hierarchy to tables
+ * in a relational database:
+ * <ul>
+ * <li>With a <b>single table per class hierarchy</b>, every field
+ *     declared by any class in the hierarchy maps to a column of the
+ *     same table. A subclass shares the table of its superclasses.
+ * <li>With a <b>table per concrete entity class</b>, every field
+ *     declared or inherited by a given subclass is mapped to the
+ *     same table, but each concrete class in the hierarchy has its
+ *     own separate table
+ * <li>For the <b>joined subclass</b> strategy, any field which is
+ *     declared by a subclass is mapped to a separate table from the
+ *     fields which are declared by its superclass. Joins may be used
+ *     to retrieve all fields declared and inherited by the subclass.
+ * </ul>
  *
  * <p>This annotation must be applied to the entity class that is
  * the root of the entity class hierarchy. If the {@code Inheritance}

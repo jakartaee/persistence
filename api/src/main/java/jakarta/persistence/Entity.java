@@ -31,7 +31,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     parameters, and
  * <li>have no {@code final} methods or persistent instance variables.
  * </ul>
+ *
+ * <p>An entity might be an abstract class, or it might be a concrete
+ * class. An entity may extend a non-entity class, or it may extend
+ * another entity class. A non-entity class may extend an entity class.
+ *
  * <p>An enum, record, or interface may not be designated as an entity.
+ *
+ * <p>The persistent state of an entity is represented by instance
+ * variables, which may correspond to JavaBeans-style properties. An
+ * instance variable may be directly accessed only within the methods
+ * of the entity, by the entity instance itself. An instance variable
+ * of an entity must <em>not</em> be directly accessed by a client of
+ * the entity. The state of the entity is available to clients only
+ * through the methods of the entity.
  *
  * <p>An entity has a primary table, mapped using the {@link Table}
  * annotation, and may have one or more secondary tables, mapped using
