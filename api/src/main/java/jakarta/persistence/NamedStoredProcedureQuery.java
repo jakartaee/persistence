@@ -17,6 +17,7 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
 import jakarta.persistence.sql.ResultSetMapping;
 
 import java.lang.annotation.Repeatable;
@@ -76,6 +77,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(NamedStoredProcedureQueries.class)
 @Target(TYPE)
 @Retention(RUNTIME)
+@Discoverable
 public @interface NamedStoredProcedureQuery { 
 
     /**

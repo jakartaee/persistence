@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
@@ -149,6 +151,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Target(TYPE)
 @Retention(RUNTIME)
+@Discoverable
 public @interface Entity {
 
 	/**

@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -30,6 +32,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(TYPE)
 @Retention(RUNTIME)
+@Discoverable
 public @interface NamedStatements {
 	/**
 	 * (Required) An array of {@link NamedStatement} annotations.
