@@ -374,7 +374,7 @@ public class PersistenceConfiguration
      * @see #SCHEMAGEN_SCRIPTS_ACTION
      * @since 4.0
      */
-    public SchemaManagementAction getSchemaManagementScriptsAction() {
+    public SchemaManagementAction schemaManagementScriptsAction() {
         return schemaManagementScriptsAction;
     }
 
