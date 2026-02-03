@@ -17,6 +17,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
@@ -117,7 +119,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(SqlResultSetMappings.class)
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)
-public @interface SqlResultSetMapping { 
+@Discoverable
+public @interface SqlResultSetMapping {
 
     /** 
      * The name given to the result set mapping, and used to

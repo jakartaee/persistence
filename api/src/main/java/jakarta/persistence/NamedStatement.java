@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
@@ -54,6 +56,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(NamedStatements.class)
 @Target(TYPE)
 @Retention(RUNTIME)
+@Discoverable
 public @interface NamedStatement {
 	/**
 	 * (Required) The name used to identify the query in calls to

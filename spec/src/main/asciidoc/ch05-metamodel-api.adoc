@@ -53,13 +53,15 @@ specification.
 A class is considered _eligible_ for generation of a metamodel class if
 it belongs to the persistence unit and:
 
-- is a managed class (an entity class, embeddable class, or mapped
-  superclass),
-- has one or more `@NamedQuery`, `@NamedNativeQuery`, `@NamedStatement`,
-  or `@NamedNativeStatement` annotations, or
-- has a method annotated with one of the two static query annotations,
+- it is annotated with a _discoverable annotation type_, as defined in
+  <<discoverable>>, or
+- it has a method annotated with one of the two static query annotations,
   `@StaticQuery` or `@StaticNativeQuery`, as defined in
   <<static-query-api>>.
+
+This specification does not require that the annotation processor generate
+a canonical metamodel class for a type which is declared as a managed type
+only in XML and which is not annotated with a discoverable annotation type.
 
 ===== Canonical Metamodel Classes
 

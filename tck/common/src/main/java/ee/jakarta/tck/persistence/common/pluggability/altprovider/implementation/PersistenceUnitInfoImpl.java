@@ -106,7 +106,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
     @Override
-    public List<String> getAllManagedClassNames() {
+    public List<String> getAllClassNames() {
         return getManagedClassNames();
     }
 

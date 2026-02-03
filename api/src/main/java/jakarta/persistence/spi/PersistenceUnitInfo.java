@@ -164,17 +164,26 @@ public interface PersistenceUnitInfo {
      * <li>named explicitly in {@code META-INF/orm.xml} or
      *     in an XML mapping file listed in
      *     {@code persistence.xml}, or
-     * <li>discovered by the container via scanning.
+     * <li>discovered by the container via scanning the
+     *     archive containing the {@code persistence.xml}
+     *     file and all archives referenced by
+     *     {@code <jar-file>} elements of the persistence
+     *     unit definiton.
      * </ul>
-     * <p>The classes include every entity class, mapped
-     * superclass, embeddable class, attribute converter
-     * class, or type declaring a named query or statement
-     * which belongs to the persistence unit.
+     * <p>A class is discoverable via scanning if it bears
+     * a {@linkplain Discoverable discoverable annotation}.
+     * Discoverable classes include entity classes, mapped
+     * superclasses, embeddable classes, attribute converter
+     * classes, and every type declaring a named query,
+     * named statement, named stored procedure query, or
+     * SQL result set mapping. Classes bearing custom
+     * discoverable annotation types are also discoverable.
      * @return the list of names of all classes belonging
      * to the persistence unit
+     * @see Discoverable
      * @since 4.0
      */
-    List<String> getAllManagedClassNames();
+    List<String> getAllClassNames();
 
     /**
      * Returns whether classes in the root of the persistence unit

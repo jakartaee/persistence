@@ -253,18 +253,17 @@ persistence classes to be included within a persistence unit:
 - mapped superclasses;
 - converter classes.
 
-Furthermore, types declaring named queries and statements, as defined in
-<<named-queries-statements>> must also be implicitly or explicitly denoted
+Furthermore, other discoverable types, as defined below in <<discoverable>>,
+including types declaring named queries and statements, as defined in
+<<named-queries-statements>>, must also be implicitly or explicitly denoted
 as belonging to a persistence unit.
 
 A given type may belong to more than one persistence unit.
 
-The set of types belonging to a persistence unit is specified using one or
-more of the following:
+The set of types belonging to a persistence unit is determined by:
 
-- annotated managed persistence classes contained in the root of the
-  persistence unit (unless the `exclude-unlisted-classes` element is
-  specified);
+- classes bearing discoverable annotation types located in the root of the
+  persistence unit (unless `<exclude-unlisted-classes/>` is specified);
 - one or more object/relational mapping XML files;
 - one or more JAR files to be searched for classes;
 - an explicit list of classes.
@@ -276,7 +275,7 @@ if there are both annotations and XML mappings for that class. The minimum
 portable level of overriding is at the level of the persistent field or
 property.
 
-The classes and/or jars that named as part of a persistence unit must be
+The classes and jars listed as belonging to a persistence unit must be
 on the classpath; referencing them from the `persistence.xml` file does
 not cause them to be placed on the classpath.
 
@@ -284,19 +283,28 @@ All classes must be on the classpath to ensure that entity managers from
 different persistence units that map the same class will be accessing the
 same identical class.
 
+====== Discoverable annotation types [[discoverable]]
+
+A _discoverable annotation type_ is an annotation type annotated with
+the `Discoverable` meta-annotation.
+
+[source,java]
+----
+@Retention(CLASS)
+@Target(ANNOTATION_TYPE)
+public @interface Discoverable {
+}
+----
+
+This specification includes a number of discoverable annotation types,
+including `@Entity`, `@Embeddable`, `@Converter`, `@NamedQuery`, and
+so on. A persistence provider may define its own custom discoverable
+annotation types.
+
 ====== Annotated Classes in the Root of the Persistence Unit
 
 By default, in the Java EE environment, the root of the persistence
-unit is searched for:
-
-- annotated managed persistence classes--any class with an `Entity`,
-  `Embeddable`, or `MappedSuperclass` annotation, as defined in
-  <<entities>>,
-- annotated converter classes--any class with a `Converter` annotation,
-  as defined in <<a2999>>, and
-- classes declaring named queries and statements, as defined in
-  <<named-queries-statements>>.
-
+unit is searched for classes bearing a discoverable annotation type.
 Mapping metadata annotations found on these classes are processed;
 where mapping annotations are missing, the classes are mapped using
 mapping annotation defaults.
@@ -347,13 +355,15 @@ contained in other mapping files referenced within the persistence unit.
 
 One or more JAR files may be specified using `jar-file` elements instead
 of, or in addition to, the mapping files listed by the `mapping-file`
-elements. These JAR files are searched for managed persistence classes
-and any mapping metadata annotations found on them are processed. Where
-mapping annotations are missing, the classes are mapped using the mapping
-annotation defaults defined by this specification. Such JAR files are
-specified relative to the directory or jar file that `contains` the root
-of the persistence unit.footnote:[Persistence providers are encouraged to
-support this syntax for use in Java SE environments.]
+elements. These JAR files are searched for classes bearing discoverable
+annotation types, and metadata annotations found on these classes are
+processed by the provider. Where mapping annotations are missing, the
+classes are mapped using the mapping annotation defaults defined by this
+specification.
+
+Such JAR files are specified by paths relative to the directory or jar
+file that contains the root of the persistence unit.footnote:[Persistence
+providers are encouraged to support this syntax in Java SE environments.]
 
 The following examples illustrate the use of the `jar-file` element to
 reference additional persistence classes. These examples make use of the
@@ -472,13 +482,11 @@ app.ear
 
 ====== List of Managed Classes
 
-A list of named managed persistence classes—entity classes, embeddable
-classes, mapped superclasses, and converter classes—may be specified
-instead of, or in addition to, the listed JAR files and mapping files.
-Any mapping metadata annotations found on these classes are processed.
-Where mapping annotations are missing, the classes are mapped using
-the mapping annotation defaults. The `class` element is used to list
-a managed persistence class.
+A list of classes may be specified instead of, or in addition to, the
+listed JAR files and mapping files. Any mapping metadata annotations
+found on these classes are processed. Where mapping annotations are
+missing, the classes are mapped using the mapping annotation defaults.
+The `class` element is used to list a class.
 
 In Java SE environments, an explicit list of all managed persistence
 class names must be specified to ensure portability. Portable Java SE

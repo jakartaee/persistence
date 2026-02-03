@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.ElementType.TYPE;
@@ -28,7 +30,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(TYPE)
 @Retention(RUNTIME)
-public @interface SqlResultSetMappings { 
+@Discoverable
+public @interface SqlResultSetMappings {
 
     /** One or more {@code SqlResultSetMapping} annotations. */
     SqlResultSetMapping[] value();
