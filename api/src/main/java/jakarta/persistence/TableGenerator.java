@@ -18,6 +18,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.ElementType.FIELD;
@@ -95,6 +97,7 @@ import java.lang.annotation.Repeatable;
 @Repeatable(TableGenerators.class)
 @Target({TYPE, METHOD, FIELD, PACKAGE})
 @Retention(RUNTIME)
+@Discoverable
 public @interface TableGenerator {
 
     /** 
