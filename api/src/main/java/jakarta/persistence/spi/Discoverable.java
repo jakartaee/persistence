@@ -19,7 +19,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.RetentionPolicy.CLASS;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that the meta-annotated annotation type identifies
@@ -36,7 +36,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  *
  * @since 4.0
  */
-@Retention(CLASS)
+@Retention(RUNTIME)
 @Target(ANNOTATION_TYPE)
 public @interface Discoverable {
 }
