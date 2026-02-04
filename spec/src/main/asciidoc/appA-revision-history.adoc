@@ -55,6 +55,8 @@ Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReferenc
 
 Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`
 
+Allow named queries to be declared by a module or package descriptor
+
 ==== Changes to Query Language
 
 Made `select new X(...)` optional in JPQL queries with an explicit result class of type `X`, and allowed the result class of a native SQL query to be interpreted as a constructor result
@@ -82,6 +84,8 @@ is now expected after pre-insert, pre-update and pre-upsert lifecycle
 events instead of previously used pre-persist, pre-update ones.
 Automatic bean validation can be enabled after the following lifecycle
 events: pre-persist, pre-merge, pre-remove, pre-delete.
+
+Added `@Discoverable` annotation
 
 ==== Minor Changes and Fixes
 
