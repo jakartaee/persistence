@@ -29,31 +29,42 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Repeatable;
 
 /**
- * Defines a primary key generator that may be referenced by name when
- * a generator element is specified for the {@link GeneratedValue}
- * annotation. A sequence generator may be specified on the entity
- * class or on the primary key field or property. The scope of the
- * generator name is global to the persistence unit (across all
- * generator types).
+ * Defines a primary key generator backed by a database sequence.
+ * This annotation may be applied to:
+ * <ul>
+ * <li>an {@linkplain Entity entity} class,
+ * <li>the {@linkplain Id primary key field or property} of an
+ *     entity class, or
+ * <li>a package descriptor.
+ * </ul>
  *
- * <p> If no name is explicitly specified, and the annotation occurs
- * on an entity class or primary key attribute of an entity class,
- * then the name defaults to the name of the entity.
+ * <p>Every sequence generator has a {@linkplain #name}. If this
+ * annotation occurs on an entity class or primary key attribute
+ * of an entity class, and the {@link #name} member is not
+ * explicitly specified by the annotation, the name defaults to
+ * the name of the annotated entity. The scope of the generator
+ * name is global to the persistence unit (across all generator
+ * types).
  *
- * <p>If no name is explicitly specified, and the annotation occurs
- * on a package descriptor, then the annotation defines a recipe for
- * producing a default generator when a {@link GeneratedValue}
- * annotation of any program element in the annotated package has
- * {@link GeneratedValue#strategy strategy=SEQUENCE} and a defaulted
- * {@linkplain GeneratedValue#generator generator name}. The name of
- * this default generator is the defaulted generator name, and its
- * other properties are determined by the members of the package
- * {@code SequenceGenerator} annotation.
+ * <p>If this annotation occurs on a package descriptor, and the
+ * {@link #name} member is not explicitly specified by the
+ * annotation, then the annotation defines a recipe for producing
+ * a default generator when a {@link GeneratedValue} annotation
+ * of any program element in the annotated package has
+ * {@link GeneratedValue#strategy strategy=SEQUENCE} and a
+ * defaulted {@linkplain GeneratedValue#generator generator name}.
+ * The name of this default generator is the defaulted generator
+ * name, and its other properties are determined by the members
+ * of the package {@code SequenceGenerator} annotation.
  *
  * <p>Example:
  * {@snippet :
  * @SequenceGenerator(name = "EMP_SEQ", allocationSize = 25)
  * }
+ *
+ * <p>A named generator may be referenced by the
+ * {@link GeneratedValue#generator generator} element of the
+ * {@link GeneratedValue} annotation.
  *
  * @since 1.0
  */

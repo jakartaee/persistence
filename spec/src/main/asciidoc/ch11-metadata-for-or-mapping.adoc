@@ -5153,26 +5153,31 @@ public class Employee { ... }
 
 ==== SequenceGenerator Annotation [[a16164]]
 
-The `SequenceGenerator` annotation defines a
-primary key generator that may be referenced by name when a generator
-element is specified for the `GeneratedValue` annotation. A sequence
-generator may be specified on the entity class or on the primary key
-field or property. The scope of the generator name is global to the
-persistence unit (across all generator types).
+Defines a primary key generator backed by a database sequence.
+This annotation may be applied to:
 
-If no name is explicitly specified by the `SequenceGenerator` annotation,
-and the annotation occurs on an entity class or primary key attribute of
-an entity class, then the name defaults to the name of the entity.
-Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
+* an entity class, as defined in <<a18>>,
+* the primary key field or property of an entity class, as defined in
+  <<a132>>, or
+* a package descriptor.
 
-If no name is explicitly specified by the `SequenceGenerator` annotation,
-and the annotation occurs on a package descriptor, then the annotation
-defines a recipe for producing a default generator when a `GeneratedValue`
-annotation of any program element in the annotated package has
-`strategy=SEQUENCE` and a defaulted `generator` name. The name of this
-default generator is the defaulted generator name, and its other properties
-are determined by the members of the package-level `SequenceGenerator`
-annotation.
+Every sequence generator has a `name`. If this annotation occurs on an
+entity class or primary key attribute of an entity class, and the `name`
+member is not explicitly specified by the annotation, the name defaults
+to the name of the annotated entity. The scope of the generator name is
+global to the persistence unit (across all generator types).
+
+If this annotation occurs on a package descriptor, and the `name` member
+is not explicitly specified by the annotation, then the annotation
+defines a recipe for producing a default generator when a
+`GeneratedValue` annotation of any program element in the annotated
+package has `strategy=SEQUENCE` and a defaulted generator name. The name
+of this default generator is the defaulted generator name, and its other
+properties are determined by the members of the package
+`SequenceGenerator` annotation.
+
+A named generator may be referenced by the `generator` element of the
+`GeneratedValue` annotation.
 
 <<a16179>> lists the annotation elements that may be specified for the
 `SequenceGenerator` annotation and their default values.
@@ -5371,26 +5376,31 @@ public class Customer { ... }
 
 ==== TableGenerator Annotation [[a16256]]
 
-The `TableGenerator` annotation defines a
-primary key generator that may be referenced by name when a generator
-element is specified for the `GeneratedValue` annotation. A table
-generator may be specified on the entity class or on the primary key
-field or property. The scope of the generator name is global to the
-persistence unit (across all generator types).
+Defines a primary key generator backed by a row of a database table.
+This annotation may be applied to:
 
-If no name is explicitly specified by the `TableGenerator` annotation,
-and the annotation occurs on an entity class or primary key attribute
-of an entity class, then the name defaults to the name of the entity.
-Otherwise, if the annotation occurs elsewhere, the behavior is undefined.
+* an entity class, as defined in <<a18>>,
+* the primary key field or property of an entity class, as defined in
+  <<a132>>, or
+* a package descriptor.
 
-If no name is explicitly specified by the `TableGenerator` annotation,
-and the annotation occurs on a package descriptor, then the annotation
-defines a recipe for producing a default generator when a `GeneratedValue`
-annotation of any program element in the annotated package has
-`strategy=TABLE` and a defaulted `generator` name. The name of this
-default generator is the defaulted generator name, and its other properties
-are determined by the members of the package-level `TableGenerator`
-annotation.
+Every table generator has a `name`. If this annotation occurs on an
+entity class or primary key attribute of an entity class, and the `name`
+member is not explicitly specified by the annotation, the name defaults
+to the name of the annotated entity. The scope of the generator name is
+global to the persistence unit (across all generator types).
+
+If this annotation occurs on a package descriptor, and the `name` member
+is not explicitly specified by the annotation, then the annotation
+defines a recipe for producing a default generator when a
+`GeneratedValue` annotation of any program element in the annotated
+package has `strategy=TABLE` and a defaulted generator name. The name of
+this default generator is the defaulted generator name, and its other
+properties are determined by the members of the package
+`SequenceGenerator` annotation.
+
+A named generator may be referenced by the `generator` element of the
+`GeneratedValue` annotation.
 
 <<a162771>> lists the annotation elements that may be specified for the
 `TableGenerator` annotation and their default values.
