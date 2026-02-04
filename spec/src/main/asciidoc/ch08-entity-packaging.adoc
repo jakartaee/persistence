@@ -258,6 +258,11 @@ including types declaring named queries and statements, as defined in
 <<named-queries-statements>>, must also be implicitly or explicitly denoted
 as belonging to a persistence unit.
 
+[NOTE]
+Terminology Note: In this context, the word "class" refers to compiled Java
+`.class` files, and implicitly includes both Java types and Java module and
+package descriptors.
+
 A given type may belong to more than one persistence unit.
 
 The set of types belonging to a persistence unit is determined by:
