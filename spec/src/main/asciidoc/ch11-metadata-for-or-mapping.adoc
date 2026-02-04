@@ -5871,8 +5871,8 @@ databases vary in the specific types that they support. In general,
 however, an implementation of this specification should conform to the
 “Standard Mapping from Java Types to JDBC Types” as defined by the JDBC
 specification <<a19496>>. Unless otherwise explicitly
-specified, however, VARCHAR and VARBINARY mappings should be used in
-preference to CHAR and BINARY mappings. Applications that are sensitive
+specified, however, `VARCHAR` and `VARBINARY` mappings should be used in
+preference to `CHAR` and `BINARY` mappings. Applications that are sensitive
 to the exact database mappings that are generated should use the
 `columnDefinition` element of the `Column` annotation or include DDL
 files that specify how the database schema is to be generated.

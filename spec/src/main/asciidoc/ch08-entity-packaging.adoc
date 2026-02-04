@@ -304,16 +304,17 @@ annotation types.
 ====== Annotated Classes in the Root of the Persistence Unit
 
 By default, in the Java EE environment, the root of the persistence
-unit is searched for classes bearing a discoverable annotation type.
-Mapping metadata annotations found on these classes are processed;
-where mapping annotations are missing, the classes are mapped using
-mapping annotation defaults.
+unit is searched for classes bearing discoverable annotation types.
+Each class annotated with a discoverable annotation type belongs to
+the persistence unit. Mapping metadata annotations found on these
+classes are processed; where mapping annotations are missing, the
+classes are mapped using mapping annotation defaults.
 
 This behavior is disabled if the `exclude-unlisted-classes` of the
 `persistence.xml` file is specified as `true`. In this case, an
-annotated class located in the root of the persistence unit is not
-included in the persistence unit unless it is explicitly listed in
-a `class` element of the `persistence.xml` file or in an XML mapping
+annotated class located in the root of the persistence unit does not
+belong to the persistence unit unless it is explicitly listed in a
+`class` element of the `persistence.xml` file or in an XML mapping
 file.
 
 In the Java SE environment, this behavior is not required. Portable
