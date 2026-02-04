@@ -378,30 +378,17 @@ class belonging to the persistence unit, as specified in <<a12305>>.
 
 [source,java]
 ----
-@Target({TYPE})
-@Retention(RUNTIME)
-@Repeatable(NamedQueries.class)
-public @interface NamedQuery {
-    String name();
-    String query();
-    Class<?> resultClass() default void.class;
-    LockModeType lockMode() default NONE;
-    PessimisticLockScope lockScope() default NORMAL;
-    QueryHint[] hints() default {};
-    String entityGraph() default "";
-}
+include::../../../../api/src/main/java/jakarta/persistence/NamedQuery.java[lines=31..-1]
+----
+
+[source,java]
+----
 
 @Target({})
 @Retention(RUNTIME)
 public @interface QueryHint {
     String name();
     String value();
-}
-
-@Target({TYPE})
-@Retention(RUNTIME)
-public @interface NamedQueries {
-    NamedQuery[] value ();
 }
 ----
 
@@ -492,25 +479,7 @@ to any class belonging to the persistence unit, as specified in <<a12305>>.
 
 [source,java]
 ----
-@Target({TYPE})
-@Retention(RUNTIME)
-@Repeatable(NamedNativeQueries.class)
-public @interface NamedNativeQuery {
-    String name();
-    String query();
-    QueryHint[] hints() default {};
-    Class<?> resultClass() default void.class;
-    String resultSetMapping() default "";
-    EntityResult[] entities() default {};
-    ConstructorResult[] classes() default {};
-    ColumnResult[] columns() default {};
-}
-
-@Target({TYPE})
-@Retention(RUNTIME)
-public @interface NamedNativeQueries {
-    NamedNativeQuery[] value ();
-}
+include::../../../../api/src/main/java/jakarta/persistence/NamedNativeQuery.java[lines=31..-1]
 ----
 
 ==== NamedNativeStatement Annotation
@@ -577,23 +546,7 @@ mapped superclass.
 
 [source,java]
 ----
-@Target(TYPE)
-@Retention(RUNTIME)
-@Repeatable(NamedStoredProcedureQueries.class)
-public @interface NamedStoredProcedureQuery {
-    String name();
-    String procedureName();
-    StoredProcedureParameter[] parameters() default {};
-    Class<?>[] resultClasses() default {};
-    String[] resultSetMappings() default {};
-    QueryHint[] hints() default {};
-}
-
-@Target(TYPE)
-@Retention(RUNTIME)
-public @interface NamedStoredProcedureQueries {
-    NamedStoredProcedureQuery [] value;
-}
+include::../../../../api/src/main/java/jakarta/persistence/NamedStoredProcedureQuery.java[lines=30..-1]
 ----
 
 Every parameter of a named stored procedure
@@ -613,9 +566,11 @@ to the JDBC type for the parameter.
 public @interface StoredProcedureParameter {
     String name() default "";
     ParameterMode mode() default ParameterMode.IN;
-    Class type();
+    Class<?> type();
 }
-
+----
+[source,java]
+----
 public enum ParameterMode {
     IN,
     INOUT,
@@ -631,21 +586,7 @@ the result set of a native SQL query or stored procedure.
 
 [source,java]
 ----
-@Target({TYPE})
-@Retention(RUNTIME)
-@Repeatable(SqlResultSetMappings.class)
-public @interface SqlResultSetMapping {
-    String name();
-    EntityResult[] entities() default {};
-    ConstructorResult[] classes() default {};
-    ColumnResult[] columns() default {};
-}
-
-@Target({TYPE})
-@Retention(RUNTIME)
-public @interface SqlResultSetMappings {
-    SqlResultSetMapping[] value();
-}
+include::../../../../api/src/main/java/jakarta/persistence/SqlResultSetMapping.java[lines=30..-1]
 ----
 
 The `name` element is the name given to the result set mapping, and is
@@ -748,7 +689,7 @@ module.
   assumed. This member is not usually specified when `@PersistenceUnit`
   annotates an injection point.
 
-  The optional `unitName` element references the name of the persistence
+- The optional `unitName` element references the name of the persistence
   unit as defined in the `persistence.xml` file. This member is optional
   if there is only one persistence unit defined by the containing module.
 

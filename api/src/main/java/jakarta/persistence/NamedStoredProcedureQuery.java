@@ -23,7 +23,8 @@ import jakarta.persistence.sql.ResultSetMapping;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
-import static java.lang.annotation.ElementType.TYPE;
+
+import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;  
 
 /**
@@ -75,7 +76,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 2.1
  */
 @Repeatable(NamedStoredProcedureQueries.class)
-@Target(TYPE)
+@Target({TYPE, PACKAGE, MODULE})
 @Retention(RUNTIME)
 @Discoverable
 public @interface NamedStoredProcedureQuery { 
