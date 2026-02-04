@@ -156,8 +156,9 @@ public interface PersistenceUnitInfo {
     List<String> getManagedClassNames();
 
     /**
-     * Returns the names of all classes belonging to the
-     * persistence unit, including classes:
+     * Returns the names of all classes (compiled Java types,
+     * module descriptors, and package descriptors) belonging
+     * to the persistence unit, including classes:
      * <ul>
      * <li>named explicitly in the {@code persistence.xml}
      *     file,
@@ -179,7 +180,8 @@ public interface PersistenceUnitInfo {
      * SQL result set mapping. Classes bearing custom
      * discoverable annotation types are also discoverable.
      * @return the list of names of all classes belonging
-     * to the persistence unit
+     * to the persistence unit, including types, module
+     * descriptors, and package descriptors
      * @see Discoverable
      * @since 4.0
      */

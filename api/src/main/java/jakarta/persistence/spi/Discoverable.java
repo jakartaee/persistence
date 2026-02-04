@@ -23,9 +23,11 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 
 /**
  * Specifies that the meta-annotated annotation type identifies
- * types which are automatically discovered by the Jakarta EE
+ * classes which are automatically discovered by the Jakarta EE
  * container and passed on to the persistence provider via
- * {@link PersistenceUnitInfo#getAllClassNames()}.
+ * {@link PersistenceUnitInfo#getAllClassNames()}. Such classes
+ * might include compiled Java types, module descriptors, and
+ * package descriptors.
  * <p>
  * A persistence provider may define its own custom discoverable
  * annotation types. Classes annotated with custom discoverable
