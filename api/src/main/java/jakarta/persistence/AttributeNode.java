@@ -54,6 +54,7 @@ public interface AttributeNode<T> {
      * Add a subgraph rooted at this attribute node, which
      * must be an embedded attribute or an association to
      * an entity class.
+     * @return the added subgraph
      * @see EntityGraph#addSubgraph(Attribute) 
      * @since 4.0
      */
@@ -65,6 +66,7 @@ public interface AttributeNode<T> {
      * entity subclass of the entity class.
      * @param type The subclass of the entity class
      * @param <S> The type of the subclass
+     * @return the added subgraph
      * @see EntityGraph#addTreatedSubgraph(Attribute, Class)
      * @since 4.0
      */
