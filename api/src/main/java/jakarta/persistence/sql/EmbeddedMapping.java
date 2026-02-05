@@ -37,7 +37,7 @@ public record EmbeddedMapping<C,T>
         (Class<C> container, Class<T> embeddableClass, String name, MemberMapping<?>[] fields)
         implements MemberMapping<C> {
 
-    public EmbeddedMapping {
+    public EmbeddedMapping(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<?>[] fields) {
         requireNonNull(container, "container is required");
         requireNonNull(embeddableClass, "embeddableClass is required");
         requireNonNull(name, "name is required");
@@ -45,6 +45,10 @@ public record EmbeddedMapping<C,T>
         for (var field : fields) {
             requireNonNull(field, "field is required");
         }
+        this.container = container;
+        this.embeddableClass = embeddableClass;
+        this.name = name;
+        this.fields = fields.clone();
     }
 
     @Override
