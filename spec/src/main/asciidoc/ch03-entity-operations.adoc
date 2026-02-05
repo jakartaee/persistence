@@ -1633,20 +1633,26 @@ with every entity type which is a subtype of the given type, and as if
 the `accept()` method were annotated with the given entity lifecycle
 callback annotation type.
 
-Default entity listeners--entity listener
-classes whose callback methods apply to all entities in the persistence
-unit--can be specified by means of the XML descriptor.
+Lifecycle callback methods and entity listener classes are defined by
+means of metadata annotations or the XML descriptor.
 
-Lifecycle callback methods and entity
-listener classes are defined by means of metadata annotations or the XML
-descriptor. When annotations are used, one or more entity listener
-classes are denoted using the `EntityListeners` annotation on the entity
-class or mapped superclass. If multiple entity listeners are defined,
-the order in which they are invoked is determined by the order in which
-they are specified in the `EntityListeners` annotation. The XML
-descriptor may be used as an alternative to specify the invocation order
-of entity listeners or to override the order specified in metadata
-annotations.
+_Default_ entity listeners--entity listener classes whose callback methods
+apply to all entities in the persistence unit--can be specified by means
+of the XML descriptor.
+
+Additional entity listeners applying only to certain entities may be
+declared using annotations or XML.
+
+- A list of entity listeners applying to an entity class may be specified
+  by annotating the entity class or one of its mapped superclasses with
+  the `EntityListeners` annotation. The listener classes must be explicitly
+  listed in the order they are invoked.
+- An entity listener class annotated with the `EntityListener` annotation
+  applies to an entity class if the entity class is assignable to one of
+  its lifecycle callback methods.
+- The XML descriptor may be used as an alternative to specify the invocation
+  order of entity listeners or to override the order specified in metadata
+  annotations.
 
 Any subset or combination of annotations may
 be specified on an entity class, mapped superclass, or listener class.
@@ -1894,26 +1900,30 @@ public class AlertMonitor {
 
 ==== Multiple Lifecycle Callback Methods for an Entity Lifecycle Event [[a2251]]
 
-If multiple callback methods are defined for
-an entity lifecycle event, the ordering of the invocation of these
-methods is as follows.
+If multiple callback methods are defined for an entity lifecycle event,
+the order of invocation of the callback methods is governed by the
+following rules.
 
-Default listeners, if any, are invoked first,
-in the order specified in the XML descriptor. Default listeners apply to
-all entities in the persistence unit, unless explicitly excluded by
-means of the `ExcludeDefaultListeners` annotation or
-`exclude-default-listeners` XML element.
+1. Default listeners, if any, are invoked first, in the order specified
+   in the XML descriptor. Default listeners apply to all entities in the
+   persistence unit, unless explicitly excluded by means of the
+   `ExcludeDefaultListeners` annotation or `<exclude-default-listeners>`
+   XML element.
 
-The lifecycle callback methods defined on the
-entity listener classes for an entity class or mapped superclass are
-invoked in the same order as the specification of the entity listener
-classes in the `EntityListeners` annotation.
+2. Listeners declared using the `EntityListener` annotation are invoked
+   after default listeners, and before listeners declared by the
+   `EntityListeners` annotation. This specification does not define any
+   specific order for the invocation of these listeners.
 
-If multiple classes in an inheritance
-hierarchy—entity classes and/or mapped superclasses—define entity
-listeners, the listeners defined for a superclass are invoked before the
-listeners defined for its subclasses in this order. The
-`ExcludeSuperclassListeners` annotation or
+3. Listeners declared by the entity class itself, via the `EntityListeners`
+   annotation or `<entity-listeners>` XML element are invoked in the same
+   order in which they are declared by the annotation or XML element.
+   If multiple classes in an entity inheritance hierarchy--including both
+   entity classes and mapped superclasses--declare entity listeners, the
+   listeners declared by a superclass are invoked before the listeners
+   declared by its subclasses.
+
+The `ExcludeSuperclassListeners` annotation or
 `exclude-superclass-listeners` XML element may be applied to an entity
 class or mapped superclass to exclude the invocation of the listeners
 defined by the entity listener classes for the superclasses of the
