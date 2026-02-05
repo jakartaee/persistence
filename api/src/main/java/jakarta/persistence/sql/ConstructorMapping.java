@@ -44,6 +44,11 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
         }
     }
 
+    @Override
+    public MappingElement<?>[] arguments() {
+        return arguments.clone();
+    }
+
     /**
      * The Java class which declares the constructor.
      */
