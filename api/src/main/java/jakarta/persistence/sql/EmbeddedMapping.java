@@ -47,6 +47,11 @@ public record EmbeddedMapping<C,T>
         }
     }
 
+    @Override
+    public MemberMapping<?>[] fields() {
+        return fields.clone();
+    }
+
     /**
      * Construct a new instance.
      * @param container The Java class which declares the field

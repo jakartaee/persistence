@@ -17,6 +17,8 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.LockModeType;
 
+import java.util.Arrays;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -50,6 +52,11 @@ public record EntityMapping<T>
         for (var field : fields) {
             requireNonNull(field, "field is required");
         }
+    }
+
+    @Override
+    public MemberMapping<?>[] fields() {
+        return fields.clone();
     }
 
     /**

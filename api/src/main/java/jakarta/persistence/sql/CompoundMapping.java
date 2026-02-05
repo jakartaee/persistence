@@ -41,6 +41,11 @@ public record CompoundMapping(MappingElement<?>[] elements)
         }
     }
 
+    @Override
+    public MappingElement<?>[] elements() {
+        return elements.clone();
+    }
+
     /**
      * Construct a new instance.
      * @param elements Mappings for the elements of the tuple
