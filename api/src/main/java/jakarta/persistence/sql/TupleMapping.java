@@ -52,7 +52,7 @@ import static java.util.Objects.requireNonNull;
 public record TupleMapping(MappingElement<?>[] elements)
         implements ResultSetMapping<Tuple> {
 
-    public TupleMapping {
+    public TupleMapping(MappingElement<?>[] elements) {
         requireNonNull(elements, "elements are required");
         if (elements.length == 0) {
             throw new IllegalArgumentException("at least one element is required");
@@ -60,6 +60,7 @@ public record TupleMapping(MappingElement<?>[] elements)
         for (var element : elements) {
             requireNonNull(element, "element is required");
         }
+        this.elements = elements.clone();
     }
 
     @Override

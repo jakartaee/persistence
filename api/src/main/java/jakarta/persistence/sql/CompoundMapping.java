@@ -31,7 +31,7 @@ import static java.util.Objects.requireNonNull;
 public record CompoundMapping(MappingElement<?>[] elements)
         implements ResultSetMapping<Object[]> {
 
-    public CompoundMapping {
+    public CompoundMapping(MappingElement<?>[] elements) {
         requireNonNull(elements, "elements are required");
         if (elements.length == 0) {
             throw new IllegalArgumentException("at least one element is required");
@@ -39,6 +39,7 @@ public record CompoundMapping(MappingElement<?>[] elements)
         for (var element : elements) {
             requireNonNull(element, "element is required");
         }
+        this.elements = elements.clone();
     }
 
     @Override
