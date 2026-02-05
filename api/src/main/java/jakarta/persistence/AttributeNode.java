@@ -19,6 +19,7 @@ package jakarta.persistence;
 import jakarta.persistence.metamodel.Attribute;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents an attribute node of an entity graph.
@@ -95,5 +96,19 @@ public interface AttributeNode<T> {
      * @since 4.0
      */
     AttributeNode<T> addOption(FetchOption option);
+
+    /**
+     * Return the {@linkplain FetchOption options} controlling
+     * how this node is fetched.
+     * <ul>
+     * <li>If this is an {@linkplain Graph#addAttributeNode added}
+     *     node, the returned options contain {@link FetchType#EAGER}.
+     * <li>If this is a {@linkplain Graph#removeAttributeNode removed}
+     *     node, the returned options contain {@link FetchType#LAZY}.
+     * </ul>
+     * @return The options for this node
+     * @since 4.0
+     */
+    Set<FetchOption> getOptions();
 }
 

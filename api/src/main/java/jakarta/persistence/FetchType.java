@@ -72,10 +72,11 @@ package jakarta.persistence;
  * @see OneToMany
  * @see ManyToOne
  * @see OneToOne
+ * @see AttributeNode#addOption(FetchOption)
  *
  * @since 1.0
  */
-public enum FetchType {
+public enum FetchType implements FetchOption {
     /**
      * Specifies that data can be lazily fetched.
      * <p>

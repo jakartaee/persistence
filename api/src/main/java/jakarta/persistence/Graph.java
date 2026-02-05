@@ -59,6 +59,12 @@ public interface Graph<T> {
      * Get an existing attribute node for the attribute with the given
      * name, or add a new attribute node if there is no existing node.
      *
+     * <p>Added nodes are reflected in the list of
+     * {@linkplain #getAttributeNodes child nodes} as instances of
+     * {@link AttributeNode} with option {@link FetchType#EAGER},
+     * except when the effect of this call is simply to cancel the
+     * effect of a prior {@linkplain #removeAttributeNode removal}.
+     *
      * @param attributeName  name of the attribute
      * @return the attribute node
      * @throws IllegalArgumentException if the attribute is not an
@@ -73,6 +79,12 @@ public interface Graph<T> {
     /**
      * Get an existing attribute node for the given attribute, or add
      * a new attribute node if there is no existing node.
+     *
+     * <p>Added nodes are reflected in the list of
+     * {@linkplain #getAttributeNodes child nodes} as instances of
+     * {@link AttributeNode} with option {@link FetchType#EAGER},
+     * except when the effect of this call is simply to cancel the
+     * effect of a prior {@linkplain #removeAttributeNode removal}.
      *
      * @param attribute  attribute
      * @return the attribute node
@@ -143,6 +155,12 @@ public interface Graph<T> {
      * If there is no existing node for the given attribute name, this
      * operation has no effect.
      *
+     * <p>Removed nodes are reflected in the list of
+     * {@linkplain #getAttributeNodes child nodes} as instances of
+     * {@link AttributeNode} with option {@link FetchType#LAZY}, except
+     * when the effect of this call is simply to cancel the effect of a
+     * prior {@linkplain #addAttributeNode addition}.
+     *
      * @param attributeName  name of the attribute
      *
      * @since 3.2
@@ -158,6 +176,12 @@ public interface Graph<T> {
      * If there is no existing node for the given attribute, this
      * operation has no effect.
      *
+     * <p>Removed nodes are reflected in the list of
+     * {@linkplain #getAttributeNodes child nodes} as instances of
+     * {@link AttributeNode} with option {@link FetchType#LAZY}, except
+     * when the effect of this call is simply to cancel the effect of a
+     * prior {@linkplain #addAttributeNode addition}.
+     *
      * @param attribute  attribute
      *
      * @since 3.2
@@ -171,6 +195,12 @@ public interface Graph<T> {
      * The effect of this call may be overridden by subsequent
      * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
      *
+     * <p>Removed nodes are reflected in the list of
+     * {@linkplain #getAttributeNodes child nodes} as instances of
+     * {@link AttributeNode} with option {@link FetchType#LAZY}, except
+     * when the effect of this call is simply to cancel the effect of a
+     * prior {@linkplain #addAttributeNode addition}.
+     *
      * @since 3.2
      */
     void removeAttributeNodes(Attribute.PersistentAttributeType nodeTypes);
@@ -180,6 +210,12 @@ public interface Graph<T> {
      * If there is already an existing node for one of the given
      * attribute names, that particular argument is ignored and
      * has no effect.
+     *
+     * <p>Added nodes are reflected in the list of
+     * {@linkplain #getAttributeNodes child nodes} as instances of
+     * {@link AttributeNode} with option {@link FetchType#EAGER},
+     * except when the effect of this call is simply to cancel the
+     * effect of a prior {@linkplain #removeAttributeNode removal}.
      *
      * @param attributeName  name of the attribute     
      * @throws IllegalArgumentException if the attribute is not an 
@@ -194,6 +230,12 @@ public interface Graph<T> {
      * If there is already an existing node for one of the given
      * attributes, that particular argument is ignored and has no
      * effect.
+     *
+     * <p>Added nodes are reflected in the list of
+     * {@linkplain #getAttributeNodes child nodes} as instances of
+     * {@link AttributeNode} with option {@link FetchType#EAGER},
+     * except when the effect of this call is simply to cancel the
+     * effect of a prior {@linkplain #removeAttributeNode removal}.
      *
      * @param attribute  attribute
      * @throws IllegalStateException if this EntityGraph has been
@@ -414,9 +456,17 @@ public interface Graph<T> {
 
     /**
      * Return the attribute nodes corresponding to the attributes of
-     * this managed type that are included in the graph.
-     * @return list of attribute nodes included in the graph or an
-     * empty list if none have been defined
+     * this managed type that are included in the graph. The
+     * {@linkplain AttributeNode#getOptions options} of the returned
+     * nodes may be used to distinguish added nodes from removed nodes.
+     * <ul>
+     * <li>Added nodes are represented by instances of
+     *     {@link AttributeNode} with option {@link FetchType#EAGER}.
+     * <li>Removed nodes are represented by instances of
+     *     {@link AttributeNode} with option {@link FetchType#LAZY}.
+     * </ul>
+     * @return list of attribute nodes added to or removed from the
+     *         graph, or an empty list if no nodes have been defined
      */
     List<AttributeNode<?>> getAttributeNodes();
 
