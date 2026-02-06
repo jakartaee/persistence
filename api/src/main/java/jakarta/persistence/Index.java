@@ -63,6 +63,24 @@ public @interface Index {
     boolean unique() default false;
 
     /**
+     * (Optional) A SQL fragment representing the index kind,
+     * usually inserted before the keyword {@code index} in the generated DDL
+     * which creates this index.
+     *
+     * @since 4.0
+     */
+    String kind() default "";
+
+    /**
+     * (Optional) A SQL fragment representing the index type.
+     * When given and the database supports it, is inserted into the generated DDL
+     * which creates this index.
+     *
+     * @since 4.0
+     */
+    String type() default "";
+
+    /**
      * (Optional) A SQL fragment appended to the generated DDL
      * which creates this index.
      *
