@@ -1196,6 +1196,8 @@
           String name() default "";
           String columnList();
           boolean unique() default false;
+          String kind() default "";
+          String type() default "";
           String options() default "";
         }
 
@@ -1207,6 +1209,8 @@
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="column-list" type="xsd:string" use="required"/>
     <xsd:attribute name="unique" type="xsd:boolean"/>
+    <xsd:attribute name="kind" type="xsd:string"/>
+    <xsd:attribute name="type" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
