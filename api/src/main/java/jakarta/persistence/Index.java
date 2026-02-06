@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Christian Beikov - 4.0
 //     Linda DeMichiel - 2.1
 
 package jakarta.persistence;
@@ -22,16 +23,10 @@ import java.lang.annotation.Target;
 /**
  * Used in schema generation to specify creation of an index.
  *
- * <p>The syntax of the {@code columnList} element is given by
- * the following simple BNF:
- * 
- * {@snippet :
- *     column_list ::= index_column [, index_column]*
- *     index_column ::= column_name [ASC | DESC]
- * }
- * 
- * <p>If neither {@code ASC} nor {@code DESC} is not specified,
- * {@code ASC}, that is, ascending order, is assumed.
+ * <p>The syntax of the {@code columnList} element is SQL
+ * dialect specific, but usually a comma separated list of
+ * column names, with optional ordering specification
+ * {@code ASC} or {@code DESC}.
  *
  * <p>Note that it is not necessary to specify an index for a
  * primary key, as the primary key has a unique constraint with
