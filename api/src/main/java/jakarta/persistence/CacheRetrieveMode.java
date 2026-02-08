@@ -32,7 +32,7 @@ package jakarta.persistence;
  * {@code jakarta.persistence.cache.retrieveMode}.
  *
  * @see EntityHandler#setCacheRetrieveMode(CacheRetrieveMode)
- * @see Query#setCacheRetrieveMode(CacheRetrieveMode)
+ * @see TypedQuery#setCacheRetrieveMode(CacheRetrieveMode)
  *
  * @since 2.0
  */
@@ -49,6 +49,10 @@ public enum CacheRetrieveMode implements FindOption, FetchOption {
     /**
      * Specifies that data must not be read from the second-level
      * cache and must be read from the database.
+     *
+     * @apiNote When used as a {@link FetchOption}, this value is
+     *          a hint to the persistence provider, and might be
+     *          ignored.
      */
     BYPASS
 }

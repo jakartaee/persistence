@@ -34,11 +34,11 @@ package jakarta.persistence;
  * {@code jakarta.persistence.cache.storeMode}.
  *
  * @see EntityHandler#setCacheStoreMode(CacheStoreMode)
- * @see Query#setCacheStoreMode(CacheStoreMode)
+ * @see TypedQuery#setCacheStoreMode(CacheStoreMode)
  *
  * @since 2.0
  */
-public enum CacheStoreMode implements FindOption, RefreshOption {
+public enum CacheStoreMode implements FindOption, RefreshOption, FetchOption {
 
     /**
      * Specifies that entity data may be inserted into the
@@ -57,6 +57,10 @@ public enum CacheStoreMode implements FindOption, RefreshOption {
      * written to the database. The persistence provider is
      * permitted to invalidate cached items when writing to the
      * database.
+     *
+     * @apiNote When used as a {@link FetchOption}, this value is
+     *          a hint to the persistence provider, and might be
+     *          ignored.
      */
     BYPASS,
 
@@ -66,6 +70,10 @@ public enum CacheStoreMode implements FindOption, RefreshOption {
      * written to the database. The persistence provider is
      * required to refresh already-cached items when reading from
      * the database.
+     *
+     * @apiNote When used as a {@link FetchOption}, this value is
+     *          a hint to the persistence provider, and might be
+     *          ignored.
      */
     REFRESH
 }
