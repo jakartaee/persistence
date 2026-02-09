@@ -23,9 +23,9 @@ import java.lang.annotation.Target;
 /**
  * Used in schema generation to specify creation of an index.
  *
- * <p>The syntax of the {@code columnList} element is SQL
- * dialect specific, but usually a comma separated list of
- * column names, with optional ordering specification
+ * <p>The syntax of the {@code columnList} element depends on
+ * the SQL dialect, but is usually a comma-separated list of
+ * column names, with an optional ordering specification,
  * {@code ASC} or {@code DESC}.
  *
  * <p>Note that it is not necessary to specify an index for a
@@ -64,8 +64,8 @@ public @interface Index {
 
     /**
      * (Optional) A SQL fragment representing the index kind,
-     * usually inserted before the keyword {@code index} in the generated DDL
-     * which creates this index.
+     * usually inserted before the keyword {@code index} in 
+     * the generated DDL which creates this index.
      *
      * @since 4.0
      */
@@ -73,7 +73,7 @@ public @interface Index {
 
     /**
      * (Optional) A SQL fragment representing the index type.
-     * When given and the database supports it, is inserted into the generated DDL
+     * When specified, it is inserted into the generated DDL 
      * which creates this index.
      *
      * @since 4.0

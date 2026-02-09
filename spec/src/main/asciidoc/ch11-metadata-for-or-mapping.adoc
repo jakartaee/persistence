@@ -2352,10 +2352,9 @@ public @interface Index {
 }
 ----
 
-The syntax of the `columnList` element is SQL
-dialect specific, but usually a comma separated list of
-column names, with optional ordering specification
-`ASC` or `DESC`.
+The syntax of the `columnList` element depends on the SQL dialect,
+but is usually a comma-separated list of column names, with an
+optional ordering specification, `ASC` or `DESC`.
 
 <<a14877>> lists the annotation elements that may be specified
 for the `Index` annotation.
@@ -2388,7 +2387,7 @@ included in the index.
 
 |String
 |type
-|(Optional) A SQL fragment representing the index type. When given and the database supports it, is inserted into the generated DDL which creates this index.
+|(Optional) A SQL fragment representing the index type. When specified, it is inserted into the generated DDL which creates this index.
 |Nothing appended.
 
 |String
