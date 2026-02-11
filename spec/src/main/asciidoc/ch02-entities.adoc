@@ -2596,6 +2596,12 @@ providers.
   property accessors of the persistent property of the subtype
   do not override the property accessors of the supertype.
 
+When a persistent property of a subclass overrides a persistent
+property of a superclass, the property of the subclass inherits
+its mapping from the property of a superclass. The behavior when
+mapping annotations are placed in the property of the subclass
+is undefined.
+
 In addition, when the single table inheritance mapping strategy
 defined in <<single-table>> is used to map an entity class
 inheritance hierarchy, all persistent attributes defined across
