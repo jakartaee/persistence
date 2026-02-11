@@ -2602,6 +2602,69 @@ its mapping from the property of a superclass. The behavior when
 mapping annotations are placed in the property of the subclass
 is undefined.
 
+*Example (allowed):*
+
+[source,java]
+----
+@MappedSuperclass
+@Access(AccessType.PROPERTY)
+public abstract class Person {
+    @Id
+    private Long id;
+
+    @Basic(optional=false)
+    @Column(name="PERSON_NAME")
+    public abstract String getName();
+
+    public abstract void setName(String name);
+}
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Employee extends Person {
+    private String name;
+
+    // Allowed: mapping is inherited from Person.getName().
+    @Override
+    public String getName() { return name; }
+
+    @Override
+    public void setName(String name) { this.name = name; }
+}
+----
+
+*Example (undefined behavior):*
+
+[source,java]
+----
+@MappedSuperclass
+@Access(AccessType.PROPERTY)
+public abstract class Person {
+    @Id
+    private Long id;
+
+    @Basic(optional=false)
+    @Column(name="PERSON_NAME")
+    public abstract String getName();
+
+    public abstract void setName(String name);
+}
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Employee extends Person {
+    private String name;
+
+    // Undefined: mapping annotations on overriding property
+    @Column(name="EMP_NAME")
+    @Override
+    public String getName() { return name; }
+
+    @Override
+    public void setName(String name) { this.name = name; }
+}
+----
+
 In addition, when the single table inheritance mapping strategy
 defined in <<single-table>> is used to map an entity class
 inheritance hierarchy, all persistent attributes defined across
@@ -2610,6 +2673,54 @@ responsibility of the application developer to satisfy this
 restriction by explicitly specifying distinct column mappings
 for persistent attributes with identical names.
 
+*Example (allowed):*
+
+[source,java]
+----
+@Entity
+@Inheritance(strategy = SINGLE_TABLE)
+public class Person {
+    @Id
+    private Long id;
+}
+
+@Entity
+public class Employee extends Person {
+    @Column(name="EMPLOYEE_CODE", length=8)
+    private String code;
+}
+
+@Entity
+public class Customer extends Person {
+    @Column(name="CUSTOMER_CODE")
+    private int code;
+}
+----
+
+*Example (disallowed):*
+
+[source,java]
+----
+@Entity
+@Inheritance(strategy = SINGLE_TABLE)
+public class Person {
+    @Id
+    private Long id;
+}
+
+@Entity
+public class Employee extends Person {
+    @Column(length=8)
+    private String code;
+}
+
+@Entity
+public class Customer extends Person {
+    // Disallowed: maps to the same CODE column as Employee.code
+    private int code;
+}
+----
+
 As an exception, two persistent attributes (declared by the same
 entity class or by distinct entity classes) are permitted to map
 the same column if one of the persistent attributes is declared
@@ -2617,6 +2728,24 @@ with `insertable=false, updatable=false`, as defined later in
 <<metadata-annotations>>. If two distinct attributes map the same
 column, and neither is mapped `insertable=false, updatable=false`,
 the behavior is undefined.
+
+*Example:*
+
+[source,java]
+----
+@Entity
+public class Job {
+    @Id
+    private Long id;
+
+    @Column(name="STATUS")
+    private String status;
+
+    // Allowed: read-only copy of STATUS
+    @Column(name="STATUS", insertable=false, updatable=false)
+    private String statusReadOnly;
+}
+----
 
 === Naming of Database Objects [[a988]]
 
