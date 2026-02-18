@@ -46,7 +46,7 @@ public interface Join<Z, X> extends From<Z, X> {
      * @return the modified join object
      * @since 2.1
      */
-    Join<Z, X> on(Predicate... restrictions);
+    Join<Z, X> on(BooleanExpression... restrictions);
 
     /** 
      * Return the predicate that corresponds to the ON 

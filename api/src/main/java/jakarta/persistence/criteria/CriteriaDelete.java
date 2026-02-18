@@ -51,6 +51,6 @@ public interface CriteriaDelete<T> extends CriteriaStatement<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified delete query
      */
-    CriteriaDelete<T> where(Predicate... restrictions);
+    CriteriaDelete<T> where(BooleanExpression... restrictions);
 
 }

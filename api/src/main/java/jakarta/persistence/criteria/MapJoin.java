@@ -51,7 +51,7 @@ public interface MapJoin<Z, K, V>
      * @return the modified join object
      * @since 2.1
      */
-    MapJoin<Z, K, V> on(Predicate... restrictions);
+    MapJoin<Z, K, V> on(BooleanExpression... restrictions);
 
     /**
      * Return the metamodel representation for the map attribute.

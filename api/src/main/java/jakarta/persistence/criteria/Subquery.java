@@ -66,7 +66,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
-    Subquery<T> where(Predicate... restrictions);
+    Subquery<T> where(BooleanExpression... restrictions);
 
     /**
      * Modify the query to restrict the query result according
@@ -80,7 +80,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the modified query
      * @since 3.2
      */
-    Subquery<T> where(List<Predicate> restrictions);
+    Subquery<T> where(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -130,7 +130,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
-    Subquery<T> having(Predicate... restrictions);
+    Subquery<T> having(BooleanExpression... restrictions);
 
     /**
      * Specify restrictions over the groups of the query
@@ -145,7 +145,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the modified query
      * @since 3.2
      */
-    Subquery<T> having(List<Predicate> restrictions);
+    Subquery<T> having(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify whether duplicate query results are eliminated.
@@ -249,7 +249,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @see CriteriaBuilder#exists(Subquery)
      * @since 4.0
      */
-    Predicate exists();
+    BooleanExpression exists();
 
     /**
      * Create an all expression over the subquery results.

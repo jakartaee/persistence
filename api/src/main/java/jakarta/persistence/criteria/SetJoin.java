@@ -49,7 +49,7 @@ public interface SetJoin<Z, E> extends PluralJoin<Z, Set<E>, E> {
      * @return the modified join object
      * @since 2.1
      */
-    SetJoin<Z, E> on(Predicate... restrictions);
+    SetJoin<Z, E> on(BooleanExpression... restrictions);
 
     /**
      * Return the metamodel representation for the set attribute.
