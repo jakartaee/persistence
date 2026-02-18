@@ -72,7 +72,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    AbstractQuery<T> where(Predicate... restrictions);
+    AbstractQuery<T> where(BooleanExpression... restrictions);
 
     /**
      * Modify the query to restrict the query result according
@@ -84,7 +84,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @return the modified query
      * @since 3.2
      */
-    AbstractQuery<T> where(List<Predicate> restrictions);
+    AbstractQuery<T> where(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -126,7 +126,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    AbstractQuery<T> having(Predicate... restrictions);
+    AbstractQuery<T> having(BooleanExpression... restrictions);
 
     /**
      * Specify restrictions over the groups of the query
@@ -139,7 +139,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @return the modified query
      * @since 3.2
      */
-    AbstractQuery<T> having(List<Predicate> restrictions);
+    AbstractQuery<T> having(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify whether duplicate query results are eliminated.

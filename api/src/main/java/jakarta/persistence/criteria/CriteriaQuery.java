@@ -200,7 +200,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    CriteriaQuery<T> where(Predicate... restrictions);
+    CriteriaQuery<T> where(BooleanExpression... restrictions);
 
     /**
      * Modify the query to restrict the query result according
@@ -214,7 +214,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @return the modified query
      * @since 3.2
      */
-    CriteriaQuery<T> where(List<Predicate> restrictions);
+    CriteriaQuery<T> where(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -264,7 +264,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    CriteriaQuery<T> having(Predicate... restrictions);
+    CriteriaQuery<T> having(BooleanExpression... restrictions);
 
     /**
      * Specify restrictions over the groups of the query
@@ -279,7 +279,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @return the modified query
      * @since 3.2
      */
-    CriteriaQuery<T> having(List<Predicate> restrictions);
+    CriteriaQuery<T> having(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the ordering expressions that are used to

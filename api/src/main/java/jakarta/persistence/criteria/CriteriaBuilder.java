@@ -310,7 +310,7 @@ public interface CriteriaBuilder {
      * @param restrictions  zero or more restriction predicates
      * @return and predicate
      */
-    Predicate and(Predicate... restrictions);
+    Predicate and(BooleanExpression... restrictions);
 
     /**
      * Create a conjunction of the given restriction predicates.
@@ -319,7 +319,7 @@ public interface CriteriaBuilder {
      * @return and predicate
      * @since 3.2
      */
-    Predicate and(List<Predicate> restrictions);
+    Predicate and(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Create a disjunction of the given boolean expressions.
@@ -335,7 +335,7 @@ public interface CriteriaBuilder {
      * @param restrictions  zero or more restriction predicates
      * @return or predicate
      */
-    Predicate or(Predicate... restrictions);
+    Predicate or(BooleanExpression... restrictions);
 
     /**
      * Create a disjunction of the given restriction predicates.
@@ -344,7 +344,7 @@ public interface CriteriaBuilder {
      * @return or predicate
      * @since 3.2
      */
-    Predicate or(List<Predicate> restrictions);
+    Predicate or(List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Create a negation of the given restriction. 

@@ -51,7 +51,7 @@ public interface CollectionJoin<Z, E>
      * @return the modified join object
      * @since 2.1
      */
-    CollectionJoin<Z, E> on(Predicate... restrictions);
+    CollectionJoin<Z, E> on(BooleanExpression... restrictions);
 
     /**
      * Return the metamodel representation for the collection

@@ -96,5 +96,5 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified update query
      */
-    CriteriaUpdate<T> where(Predicate... restrictions);
+    CriteriaUpdate<T> where(BooleanExpression... restrictions);
 }

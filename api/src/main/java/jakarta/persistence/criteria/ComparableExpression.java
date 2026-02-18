@@ -35,7 +35,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than predicate
      * @see CriteriaBuilder#greaterThan(Expression, Expression)
      */
-    Predicate greaterThan(Expression<? extends X> y);
+    BooleanExpression greaterThan(Expression<? extends X> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -44,7 +44,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than predicate
      * @see CriteriaBuilder#greaterThan(Expression, Comparable)
      */
-    Predicate greaterThan(X y);
+    BooleanExpression greaterThan(X y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -53,7 +53,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#greaterThanOrEqualTo(Expression, Expression)
      */
-    Predicate greaterThanOrEqualTo(Expression<? extends X> y);
+    BooleanExpression greaterThanOrEqualTo(Expression<? extends X> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -62,7 +62,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#greaterThanOrEqualTo(Expression, Comparable)
      */
-    Predicate greaterThanOrEqualTo(X y);
+    BooleanExpression greaterThanOrEqualTo(X y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -71,7 +71,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than predicate
      * @see CriteriaBuilder#lessThan(Expression, Expression)
      */
-    Predicate lessThan(Expression<? extends X> y);
+    BooleanExpression lessThan(Expression<? extends X> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -80,7 +80,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than predicate
      * @see CriteriaBuilder#lessThan(Expression, Comparable)
      */
-    Predicate lessThan(X y);
+    BooleanExpression lessThan(X y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -89,7 +89,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#lessThanOrEqualTo(Expression, Expression)
      */
-    Predicate lessThanOrEqualTo(Expression<? extends X> y);
+    BooleanExpression lessThanOrEqualTo(Expression<? extends X> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -98,7 +98,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#lessThanOrEqualTo(Expression, Comparable)
      */
-    Predicate lessThanOrEqualTo(X y);
+    BooleanExpression lessThanOrEqualTo(X y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -108,7 +108,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return between predicate
      * @see CriteriaBuilder#between(Expression, Expression, Expression)
      */
-    Predicate between(Expression<? extends X> x, Expression<? extends X> y);
+    BooleanExpression between(Expression<? extends X> x, Expression<? extends X> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -118,7 +118,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return between predicate
      * @see CriteriaBuilder#between(Expression, Comparable, Comparable)
      */
-    Predicate between(X x, X y);
+    BooleanExpression between(X x, X y);
 
     //aggregate functions
 
