@@ -25,7 +25,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 @Entity
-@Table(name = "A_BASIC")
+@Table(name = "A_BASIC5")
 @Access(AccessType.FIELD)
 public class Long_Field implements java.io.Serializable {
 
