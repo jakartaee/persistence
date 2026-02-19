@@ -27,7 +27,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 @Entity
-@Table(name = "A_BASIC")
+@Table(name = "A_BASIC13")
 @Access(AccessType.FIELD)
 public class Timestamp_Field implements java.io.Serializable {
 

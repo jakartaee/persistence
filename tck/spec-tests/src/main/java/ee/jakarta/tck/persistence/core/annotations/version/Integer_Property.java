@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 @Entity
-@Table(name = "A_BASIC")
+@Table(name = "A_BASIC4")
 public class Integer_Property implements java.io.Serializable {
 
 	protected String id;

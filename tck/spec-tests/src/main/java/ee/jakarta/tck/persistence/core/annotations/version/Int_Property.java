@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 @Entity
-@Table(name = "A_BASIC")
+@Table(name = "A_BASIC2")
 public class Int_Property implements java.io.Serializable {
 
 	// ===========================================================

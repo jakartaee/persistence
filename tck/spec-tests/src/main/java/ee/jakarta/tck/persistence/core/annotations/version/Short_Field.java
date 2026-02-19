@@ -25,7 +25,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 @Entity
-@Table(name = "A_BASIC")
+@Table(name = "A_BASIC9")
 @Access(AccessType.FIELD)
 public class Short_Field implements java.io.Serializable {
 
