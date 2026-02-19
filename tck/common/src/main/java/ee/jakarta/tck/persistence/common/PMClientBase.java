@@ -538,6 +538,7 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
         if (dropCreateSchemaOnStartByDefault()) {
             jpaProps.put(JAKARTA_SCHEMAGEN_DATABASE_ACTION, "drop-and-create");
         }
+        jpaProps.putAll(extraPersistenceUnitProperties());
 
         StringTokenizer st = new StringTokenizer(provider_specific_props, ":");
         while (st.hasMoreTokens()) {
@@ -559,6 +560,10 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
 
     protected boolean dropCreateSchemaOnStartByDefault() {
         return true;
+    }
+
+    protected Map<String, Object> extraPersistenceUnitProperties() {
+        return Map.of();
     }
 
     public boolean isStandAloneMode() {
