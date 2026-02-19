@@ -325,8 +325,8 @@ public class Client2 extends UtilOrderData {
 					cbuilder.or(
 							cbuilder.and(cbuilder.lt(l.get(LineItem_.quantity), 2),
 									cbuilder.lt(order.get(Order_.totalPrice),
-											cbuilder.sum(cbuilder.sum(cbuilder.literal(3),
-													cbuilder.prod(cbuilder.literal(54), 2)), -8))),
+											cbuilder.sum(cbuilder.sum(cbuilder.literal(3.0),
+													cbuilder.prod(cbuilder.literal(54.0), 2.0)), -8.0))),
 							cbuilder.equal(order.get(Order_.customer).get(Customer_.name), "Robert E. Bissett")));
 			cquery.select(order).distinct(true);
 			TypedQuery<Order> tquery = getEntityManager().createQuery(cquery);
