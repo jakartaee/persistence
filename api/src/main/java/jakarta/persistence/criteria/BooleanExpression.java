@@ -48,22 +48,6 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 */
 	BooleanExpression not();
 
-	//turn Expression<Boolean> into a Predicate
-
-	/**
-	 * Create a predicate testing for a true value.
-	 * @return predicate
-	 * @see CriteriaBuilder#isTrue(Expression)
-	 */
-	BooleanExpression isTrue();
-
-	/**
-	 * Create a predicate testing for a false value.
-	 * @return predicate
-	 * @see CriteriaBuilder#isFalse(Expression)
-	 */
-	BooleanExpression isFalse();
-
 	// overrides
 
 	@Override
