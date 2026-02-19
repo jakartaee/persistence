@@ -34,7 +34,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, Expression)
 	 */
-	BooleanExpression like(Expression<String> pattern);
+	Predicate like(Expression<String> pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -43,7 +43,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, String)
 	 */
-	BooleanExpression like(String pattern);
+	Predicate like(String pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -53,7 +53,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, Expression, Expression)
 	 */
-	BooleanExpression like(Expression<String> pattern, Expression<Character> escapeChar);
+	Predicate like(Expression<String> pattern, Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -63,7 +63,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, Expression, char)
 	 */
-	BooleanExpression like(Expression<String> pattern, char escapeChar);
+	Predicate like(Expression<String> pattern, char escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -73,7 +73,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, String, Expression)
 	 */
-	BooleanExpression like(String pattern, Expression<Character> escapeChar);
+	Predicate like(String pattern, Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -83,7 +83,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, String, char)
 	 */
-	BooleanExpression like(String pattern, char escapeChar);
+	Predicate like(String pattern, char escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -92,7 +92,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, Expression)
 	 */
-	BooleanExpression notLike(Expression<String> pattern);
+	Predicate notLike(Expression<String> pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -101,7 +101,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, String)
 	 */
-	BooleanExpression notLike(String pattern);
+	Predicate notLike(String pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -111,7 +111,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, Expression, Expression)
 	 */
-	BooleanExpression notLike(Expression<String> pattern, Expression<Character> escapeChar);
+	Predicate notLike(Expression<String> pattern, Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -121,7 +121,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, Expression, char)
 	 */
-	BooleanExpression notLike(Expression<String> pattern, char escapeChar);
+	Predicate notLike(Expression<String> pattern, char escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -131,7 +131,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, String, Expression)
 	 */
-	BooleanExpression notLike(String pattern, Expression<Character> escapeChar);
+	Predicate notLike(String pattern, Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -141,7 +141,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, String, char)
 	 */
-	BooleanExpression notLike(String pattern, char escapeChar);
+	Predicate notLike(String pattern, char escapeChar);
 
 	//string functions
 

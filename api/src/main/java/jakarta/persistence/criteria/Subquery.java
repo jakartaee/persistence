@@ -249,7 +249,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @see CriteriaBuilder#exists(Subquery)
      * @since 4.0
      */
-    BooleanExpression exists();
+    Predicate exists();
 
     /**
      * Create an all expression over the subquery results.
