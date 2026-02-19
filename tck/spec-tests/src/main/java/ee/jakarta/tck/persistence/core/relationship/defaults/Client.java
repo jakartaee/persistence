@@ -699,17 +699,18 @@ public class Client extends PMClientBase {
 		Vector<AnnualReview> v1;
 		Vector<AnnualReview> v2;
 		Vector<AnnualReview> v3;
-		Vector<AnnualReview> v4;
+        Vector<AnnualReview> v4;
+        Vector<AnnualReview> v5;
 		int foundCol1 = 0;
 		int foundCol2 = 0;
 		int foundCol3 = 0;
 		int foundCol4 = 0;
 		int foundCol5 = 0;
-		final Integer[] expectedCol1 = new Integer[] { 1, 2, 3, 4 };
-		final Integer[] expectedCol2 = new Integer[] { 5, 6 };
-		final Integer[] expectedCol3 = new Integer[] { 3, 8 };
-		final Integer[] expectedCol4 = new Integer[] { 4, 7 };
-		final Integer[] expectedCol5 = new Integer[] { 1, 2, 3, 4 };
+        final Integer[] expectedCol1 = new Integer[] { 1, 2, 3, 4 };
+        final Integer[] expectedCol2 = new Integer[] { 5, 6 };
+        final Integer[] expectedCol3 = new Integer[] { 7, 8 };
+        final Integer[] expectedCol4 = new Integer[] { 9 };
+        final Integer[] expectedCol5 = new Integer[] { 10 };
 
 		try {
 			createReviews();
@@ -717,29 +718,31 @@ public class Client extends PMClientBase {
 
 			getEntityTransaction().begin();
 
-			v1 = new Vector<AnnualReview>();
-			v1.add(rRef[0]);
-			v1.add(rRef[1]);
-			v1.add(rRef[2]);
-			v1.add(rRef[3]);
+            v1 = new Vector<>();
+            v1.add(rRef[0]);
+            v1.add(rRef[1]);
+            v1.add(rRef[2]);
+            v1.add(rRef[3]);
 
-			v2 = new Vector<AnnualReview>();
-			v2.add(rRef[4]);
-			v2.add(rRef[5]);
+            v2 = new Vector<>();
+            v2.add(rRef[4]);
+            v2.add(rRef[5]);
 
-			v3 = new Vector<AnnualReview>();
-			v3.add(rRef[2]);
-			v3.add(rRef[7]);
+            v3 = new Vector<>();
+            v3.add(rRef[6]);
+            v3.add(rRef[7]);
 
-			v4 = new Vector<AnnualReview>();
-			v4.add(rRef[3]);
-			v4.add(rRef[6]);
+            v4 = new Vector<>();
+            v4.add(rRef[8]);
+
+            v5 = new Vector<>();
+            v5.add(rRef[9]);
 
 			pRef[11].setAnnualReviews(v1);
 			pRef[13].setAnnualReviews(v2);
 			pRef[15].setAnnualReviews(v3);
 			pRef[17].setAnnualReviews(v4);
-			pRef[19].setAnnualReviews(v1);
+			pRef[19].setAnnualReviews(v5);
 
 			getEntityManager().merge(pRef[11]);
 			getEntityManager().merge(pRef[13]);
@@ -761,14 +764,14 @@ public class Client extends PMClientBase {
 			Collection<AnnualReview> col4 = p4.getAnnualReviews();
 			Collection<AnnualReview> col5 = p5.getAnnualReviews();
 
-			if ((col1.size() != 4) || (col2.size() != 2 || col3.size() != 2 || col4.size() != 2 || col5.size() != 4)) {
+			if ((col1.size() != 4) || (col2.size() != 2 || col3.size() != 2 || col4.size() != 1 || col5.size() != 1)) {
 				logger.log(Logger.Level.ERROR,
 						"mappingTest7: Did not get expected results."
 								+ "Expected 4 reviews for Mary Macy (PK 12) , got: " + col1.size()
 								+ ", Expected 2 reviews for Julie OClaire (PK 14), got: " + col2.size()
 								+ ", Expected 2 reviews for Kellie Lee (PK 16), got: " + col3.size()
-								+ ", Expected 2 reviews for Mark Francis (PK 18), got: " + col4.size()
-								+ ", Expected 4 reviews for Katy Hughes (PK 20), got: " + col5.size());
+								+ ", Expected 1 reviews for Mark Francis (PK 18), got: " + col4.size()
+								+ ", Expected 1 reviews for Katy Hughes (PK 20), got: " + col5.size());
 				pass1 = false;
 			} else if (pass1) {
 
@@ -822,7 +825,7 @@ public class Client extends PMClientBase {
 					logger.log(Logger.Level.TRACE, "Check Collection for Mark Francis Reviews");
 					AnnualReview o4 = (AnnualReview) i4.next();
 
-					for (int l = 0; l < 2; l++) {
+					for (int l = 0; l < 1; l++) {
 						if (expectedCol4[l].equals(o4.getService())) {
 							logger.log(Logger.Level.TRACE,
 									"Found Mark Francis Annual Review for Service Year: " + o4.getService());
@@ -837,7 +840,7 @@ public class Client extends PMClientBase {
 					logger.log(Logger.Level.TRACE, "Check Collection for Katy Hughes Reviews");
 					AnnualReview o5 = (AnnualReview) i5.next();
 
-					for (int l = 0; l < 5; l++) {
+					for (int l = 0; l < 1; l++) {
 						if (expectedCol5[l].equals(o5.getService())) {
 							logger.log(Logger.Level.TRACE,
 									"Found Katy Hughes Annual Review for Service Year: " + o5.getService());
@@ -849,7 +852,7 @@ public class Client extends PMClientBase {
 
 			}
 
-			if ((foundCol1 != 4) || (foundCol2 != 2) || (foundCol3 != 2) || (foundCol4 != 2) || (foundCol5 != 4)) {
+			if ((foundCol1 != 4) || (foundCol2 != 2) || (foundCol3 != 2) || (foundCol4 != 1) || (foundCol5 != 1)) {
 
 				logger.log(Logger.Level.ERROR, "mappingTest7: Did not get expected results");
 				pass2 = false;
@@ -1163,6 +1166,8 @@ public class Client extends PMClientBase {
 		rRef[5] = new AnnualReview(6, 6);
 		rRef[6] = new AnnualReview(7, 7);
 		rRef[7] = new AnnualReview(8, 8);
+        rRef[8] = new AnnualReview(9, 9);
+        rRef[9] = new AnnualReview(10, 10);
 
 		logger.log(Logger.Level.TRACE, "Start to persist annual reviews ");
 		getEntityTransaction().begin();
