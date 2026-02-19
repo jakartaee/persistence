@@ -136,19 +136,22 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
      * both standard and provider-specific properties.
      */
 
-    transient public static final String JAVAX_PERSISTENCE_PROVIDER = "jakarta.persistence.provider";
+    transient public static final String JAKARTA_PERSISTENCE_PROVIDER = "jakarta.persistence.provider";
 
-    transient public static final String JAVAX_PERSISTENCE_JDBC_DRIVER = "jakarta.persistence.jdbc.driver";
+    transient public static final String JAKARTA_PERSISTENCE_JDBC_DRIVER = "jakarta.persistence.jdbc.driver";
 
-    transient public static final String JAVAX_PERSISTENCE_JDBC_URL = "jakarta.persistence.jdbc.url";
+    transient public static final String JAKARTA_PERSISTENCE_JDBC_URL = "jakarta.persistence.jdbc.url";
 
-    transient public static final String JAVAX_PERSISTENCE_JDBC_USER = "jakarta.persistence.jdbc.user";
+    transient public static final String JAKARTA_PERSISTENCE_JDBC_USER = "jakarta.persistence.jdbc.user";
 
-    transient public static final String JAVAX_PERSISTENCE_JDBC_PASSWORD = "jakarta.persistence.jdbc.password";
+    transient public static final String JAKARTA_PERSISTENCE_JDBC_PASSWORD = "jakarta.persistence.jdbc.password";
 
     transient public static final String JPA_PROVIDER_IMPLEMENTATION_SPECIFIC_PROPERTIES = "jpa.provider.implementation.specific.properties";
 
     transient public static final String PERSISTENCE_SECOND_LEVEL_CACHING_SUPPORTED = "persistence.second.level.caching.supported";
+
+    transient public static final String JAKARTA_SCHEMAGEN_DATABASE_ACTION = "jakarta.persistence.schema-generation.database.action";
+
 
     /**
      * The current test mode. The only valid non-null value is "standalone".
@@ -202,15 +205,15 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
         myProps.put(SECOND_PERSISTENCE_UNIT_NAME_PROP, secondPersistenceUnitName);
         logger.log(Logger.Level.TRACE, "Second Persistence Unit Name =" + secondPersistenceUnitName);
 
-        myProps.put(JAVAX_PERSISTENCE_PROVIDER, System.getProperty(JAVAX_PERSISTENCE_PROVIDER));
+        myProps.put(JAKARTA_PERSISTENCE_PROVIDER, System.getProperty(JAKARTA_PERSISTENCE_PROVIDER));
 
-        myProps.put(JAVAX_PERSISTENCE_JDBC_DRIVER, System.getProperty(JAVAX_PERSISTENCE_JDBC_DRIVER));
+        myProps.put(JAKARTA_PERSISTENCE_JDBC_DRIVER, System.getProperty(JAKARTA_PERSISTENCE_JDBC_DRIVER));
 
-        myProps.put(JAVAX_PERSISTENCE_JDBC_URL, System.getProperty(JAVAX_PERSISTENCE_JDBC_URL));
+        myProps.put(JAKARTA_PERSISTENCE_JDBC_URL, System.getProperty(JAKARTA_PERSISTENCE_JDBC_URL));
 
-        myProps.put(JAVAX_PERSISTENCE_JDBC_USER, System.getProperty(JAVAX_PERSISTENCE_JDBC_USER));
+        myProps.put(JAKARTA_PERSISTENCE_JDBC_USER, System.getProperty(JAKARTA_PERSISTENCE_JDBC_USER));
 
-        myProps.put(JAVAX_PERSISTENCE_JDBC_PASSWORD, System.getProperty(JAVAX_PERSISTENCE_JDBC_PASSWORD));
+        myProps.put(JAKARTA_PERSISTENCE_JDBC_PASSWORD, System.getProperty(JAKARTA_PERSISTENCE_JDBC_PASSWORD));
 
         myProps.put(JPA_PROVIDER_IMPLEMENTATION_SPECIFIC_PROPERTIES,
                 System.getProperty(JPA_PROVIDER_IMPLEMENTATION_SPECIFIC_PROPERTIES));
@@ -526,12 +529,15 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
      */
     protected Properties getPersistenceUnitProperties() {
         Properties jpaProps = new Properties();
-        jpaProps.put(JAVAX_PERSISTENCE_PROVIDER, myProps.get(JAVAX_PERSISTENCE_PROVIDER));
-        jpaProps.put(JAVAX_PERSISTENCE_JDBC_DRIVER, myProps.get(JAVAX_PERSISTENCE_JDBC_DRIVER));
-        jpaProps.put(JAVAX_PERSISTENCE_JDBC_URL, myProps.get(JAVAX_PERSISTENCE_JDBC_URL));
-        jpaProps.put(JAVAX_PERSISTENCE_JDBC_USER, myProps.get(JAVAX_PERSISTENCE_JDBC_USER));
-        jpaProps.put(JAVAX_PERSISTENCE_JDBC_PASSWORD, myProps.get(JAVAX_PERSISTENCE_JDBC_PASSWORD));
+        jpaProps.put(JAKARTA_PERSISTENCE_PROVIDER, myProps.get(JAKARTA_PERSISTENCE_PROVIDER));
+        jpaProps.put(JAKARTA_PERSISTENCE_JDBC_DRIVER, myProps.get(JAKARTA_PERSISTENCE_JDBC_DRIVER));
+        jpaProps.put(JAKARTA_PERSISTENCE_JDBC_URL, myProps.get(JAKARTA_PERSISTENCE_JDBC_URL));
+        jpaProps.put(JAKARTA_PERSISTENCE_JDBC_USER, myProps.get(JAKARTA_PERSISTENCE_JDBC_USER));
+        jpaProps.put(JAKARTA_PERSISTENCE_JDBC_PASSWORD, myProps.get(JAKARTA_PERSISTENCE_JDBC_PASSWORD));
         String provider_specific_props = (String) myProps.get(JPA_PROVIDER_IMPLEMENTATION_SPECIFIC_PROPERTIES);
+        if (dropCreateSchemaOnStartByDefault()) {
+            jpaProps.put(JAKARTA_SCHEMAGEN_DATABASE_ACTION, "drop-and-create");
+        }
 
         StringTokenizer st = new StringTokenizer(provider_specific_props, ":");
         while (st.hasMoreTokens()) {
@@ -549,6 +555,10 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
         }
         checkPersistenceUnitProperties(jpaProps);
         return jpaProps;
+    }
+
+    protected boolean dropCreateSchemaOnStartByDefault() {
+        return true;
     }
 
     public boolean isStandAloneMode() {
