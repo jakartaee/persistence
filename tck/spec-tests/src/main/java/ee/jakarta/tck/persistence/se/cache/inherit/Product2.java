@@ -38,7 +38,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Cacheable(false)
-@Table(name = "PRODUCT_TABLE")
+@Table(name = "PRODUCT2_TABLE")
 @SecondaryTables({ @SecondaryTable(name = "PRODUCT_DETAILS", pkJoinColumns = @PrimaryKeyJoinColumn(name = "ID")) })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "PRODUCT_TYPE", discriminatorType = DiscriminatorType.STRING)
