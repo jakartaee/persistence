@@ -31,7 +31,7 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 * @return and predicate
 	 * @see CriteriaBuilder#and(Expression, Expression)
 	 */
-	BooleanExpression and(Expression<Boolean> y);
+	Predicate and(Expression<Boolean> y);
 
 	/**
 	 * Create a disjunction of this and the given boolean expressions.
@@ -39,14 +39,14 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 * @return or predicate
 	 * @see CriteriaBuilder#or(Expression, Expression)
 	 */
-	BooleanExpression or(Expression<Boolean> y);
+	Predicate or(Expression<Boolean> y);
 
 	/**
 	 * Create a negation of this restriction.
 	 * @return not predicate
 	 * @see CriteriaBuilder#not(Expression)
 	 */
-	BooleanExpression not();
+	Predicate not();
 
 	// overrides
 

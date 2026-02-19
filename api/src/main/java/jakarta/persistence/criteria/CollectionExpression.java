@@ -32,7 +32,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @return is-empty predicate
 	 * @see CriteriaBuilder#isEmpty(Expression)
 	 */
-	BooleanExpression isEmpty();
+	Predicate isEmpty();
 
 	/**
 	 * Create a predicate that tests whether this collection is
@@ -40,7 +40,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @return is-not-empty predicate
 	 * @see CriteriaBuilder#isNotEmpty(Expression)
 	 */
-	BooleanExpression isNotEmpty();
+	Predicate isNotEmpty();
 
 	/**
 	 * Create an expression that tests the size of this collection.
@@ -56,7 +56,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @param elem element expression
 	 * @return is-member predicate
 	 */
-	BooleanExpression contains(Expression<E> elem);
+	Predicate contains(Expression<E> elem);
 
 	/**
 	 * Create a predicate that tests whether an element is
@@ -65,7 +65,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @param elem element
 	 * @return is-member predicate
 	 */
-	BooleanExpression contains(E elem);
+	Predicate contains(E elem);
 
 	/**
 	 * Create a predicate that tests whether an element is
@@ -74,7 +74,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @param elem element expression
 	 * @return is-not-member predicate
 	 */
-	BooleanExpression notContains(Expression<E> elem);
+	Predicate notContains(Expression<E> elem);
 
 	/**
 	 * Create a predicate that tests whether an element is
@@ -83,5 +83,5 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @param elem element
 	 * @return is-not-member predicate
 	 */
-	BooleanExpression notContains(E elem);
+	Predicate notContains(E elem);
 }
