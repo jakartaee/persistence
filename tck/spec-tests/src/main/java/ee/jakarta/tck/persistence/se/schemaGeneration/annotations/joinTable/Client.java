@@ -85,6 +85,11 @@ public class Client extends PMClientBase {
 		}
 	}
 
+    @Override
+    protected boolean dropCreateSchemaOnStartByDefault() {
+        return false;
+    }
+
 	/*
 	 * @testName: joinTableTest
 	 * 

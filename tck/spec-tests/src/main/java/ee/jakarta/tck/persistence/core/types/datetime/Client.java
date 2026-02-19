@@ -79,6 +79,11 @@ public class Client extends PMClientBase {
     }
 
     @Override
+    protected boolean dropCreateSchemaOnStartByDefault() {
+        return false;
+    }
+
+    @Override
     @AfterEach
     public void cleanup() throws Exception {
         try {
