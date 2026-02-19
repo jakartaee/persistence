@@ -1625,7 +1625,7 @@ public interface CriteriaBuilder {
 
     /**
      * Interface used to build coalesce expressions.  
-     *  
+     * <p>
      * A coalesce expression is equivalent to a case expression
      * that returns null if all its arguments evaluate to null,
      * and the value of its first non-null argument otherwise.
