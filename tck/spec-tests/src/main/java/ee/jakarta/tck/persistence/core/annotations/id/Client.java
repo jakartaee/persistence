@@ -19,9 +19,11 @@ package ee.jakarta.tck.persistence.core.annotations.id;
 import java.lang.System.Logger;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -215,7 +217,7 @@ public class Client extends PMClientBase {
 
 		try {
 			getEntityTransaction().begin();
-			final BigDecimal id = new BigDecimal(new BigInteger("1"));
+			final BigDecimal id = new BigDecimal(new BigInteger("1")).setScale(2, RoundingMode.UP);
 
 			FieldBigDecimalId expected = new FieldBigDecimalId(id, id);
 
@@ -227,7 +229,7 @@ public class Client extends PMClientBase {
 			getEntityTransaction().begin();
 			FieldBigDecimalId actual = getEntityManager().find(FieldBigDecimalId.class, id);
 			if (actual != null) {
-				if (actual.getBigDecimal().equals(id)) {
+				if (actual.getBigDecimal().setScale(2, RoundingMode.UP).equals(id)) {
 					logger.log(Logger.Level.TRACE, "Received expected result:" + actual.getBigDecimal());
 					pass = true;
 				} else {
@@ -544,7 +546,7 @@ public class Client extends PMClientBase {
 
 		try {
 			getEntityTransaction().begin();
-			final BigDecimal id = new BigDecimal(new BigInteger("1"));
+            final BigDecimal id = new BigDecimal(new BigInteger("1")).setScale(2, RoundingMode.UP);
 
 			PropertyBigDecimalId expected = new PropertyBigDecimalId(id, id);
 
@@ -556,7 +558,7 @@ public class Client extends PMClientBase {
 			getEntityTransaction().begin();
 			PropertyBigDecimalId actual = getEntityManager().find(PropertyBigDecimalId.class, id);
 			if (actual != null) {
-				if (actual.getBigDecimal().equals(id)) {
+				if (actual.getBigDecimal().setScale(2, RoundingMode.UP).equals(id)) {
 					logger.log(Logger.Level.TRACE, "Received expected result:" + actual.getBigDecimal());
 					pass = true;
 				} else {
