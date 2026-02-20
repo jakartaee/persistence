@@ -21,10 +21,10 @@ package jakarta.persistence.metamodel;
  * single-valued properties or fields of comparable type.
  *
  * @param <X> The type containing the represented attribute
- * @param <T> The type of the represented attribute
+ * @param <C> The type of the represented attribute
  *
  * @since 4.0
  */
-public interface ComparableAttribute<X, T extends Comparable<? super T>>
-		extends SingularAttribute<X, T> {
+public interface ComparableAttribute<X, C extends Comparable<? super C>>
+		extends SingularAttribute<X, C> {
 }

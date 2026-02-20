@@ -20,11 +20,11 @@ package jakarta.persistence.criteria;
 /**
  * Type for comparable query expressions.
  *
- * @param <X> the type of the expression
+ * @param <C> the type of the expression
  *
  * @since 4.0
  */
-public interface ComparableExpression<X extends Comparable<? super X>> extends Expression<X> {
+public interface ComparableExpression<C extends Comparable<? super C>> extends Expression<C> {
 
     // comparisons
 
@@ -35,7 +35,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than predicate
      * @see CriteriaBuilder#greaterThan(Expression, Expression)
      */
-    Predicate greaterThan(Expression<? extends X> y);
+    Predicate greaterThan(Expression<? extends C> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -44,7 +44,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than predicate
      * @see CriteriaBuilder#greaterThan(Expression, Comparable)
      */
-    Predicate greaterThan(X y);
+    Predicate greaterThan(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -53,7 +53,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#greaterThanOrEqualTo(Expression, Expression)
      */
-    Predicate greaterThanOrEqualTo(Expression<? extends X> y);
+    Predicate greaterThanOrEqualTo(Expression<? extends C> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -62,7 +62,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greater-than-or-equal predicate
      * @see CriteriaBuilder#greaterThanOrEqualTo(Expression, Comparable)
      */
-    Predicate greaterThanOrEqualTo(X y);
+    Predicate greaterThanOrEqualTo(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -71,7 +71,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than predicate
      * @see CriteriaBuilder#lessThan(Expression, Expression)
      */
-    Predicate lessThan(Expression<? extends X> y);
+    Predicate lessThan(Expression<? extends C> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -80,7 +80,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than predicate
      * @see CriteriaBuilder#lessThan(Expression, Comparable)
      */
-    Predicate lessThan(X y);
+    Predicate lessThan(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -89,7 +89,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#lessThanOrEqualTo(Expression, Expression)
      */
-    Predicate lessThanOrEqualTo(Expression<? extends X> y);
+    Predicate lessThanOrEqualTo(Expression<? extends C> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -98,7 +98,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return less-than-or-equal predicate
      * @see CriteriaBuilder#lessThanOrEqualTo(Expression, Comparable)
      */
-    Predicate lessThanOrEqualTo(X y);
+    Predicate lessThanOrEqualTo(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -108,7 +108,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return between predicate
      * @see CriteriaBuilder#between(Expression, Expression, Expression)
      */
-    Predicate between(Expression<? extends X> x, Expression<? extends X> y);
+    Predicate between(Expression<? extends C> x, Expression<? extends C> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -118,7 +118,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return between predicate
      * @see CriteriaBuilder#between(Expression, Comparable, Comparable)
      */
-    Predicate between(X x, X y);
+    Predicate between(C x, C y);
 
     //aggregate functions
 
@@ -128,7 +128,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return greatest expression
      * @see CriteriaBuilder#greatest(Expression)
      */
-    ComparableExpression<X> max();
+    ComparableExpression<C> max();
 
     /**
      * Create an aggregate expression for finding the least of
@@ -136,7 +136,7 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
      * @return least expression
      * @see CriteriaBuilder#least(Expression)
      */
-    ComparableExpression<X> min();
+    ComparableExpression<C> min();
 
     //sorting
 
@@ -170,14 +170,14 @@ public interface ComparableExpression<X extends Comparable<? super X>> extends E
     // overrides
 
     @Override
-    ComparableExpression<X> coalesce(X y);
+    ComparableExpression<C> coalesce(C y);
 
     @Override
-    ComparableExpression<X> coalesce(Expression<? extends X> y);
+    ComparableExpression<C> coalesce(Expression<? extends C> y);
 
     @Override
-    ComparableExpression<X> nullif(X y);
+    ComparableExpression<C> nullif(C y);
 
     @Override
-    ComparableExpression<X> nullif(Expression<? extends X> y);
+    ComparableExpression<C> nullif(Expression<? extends C> y);
 }
