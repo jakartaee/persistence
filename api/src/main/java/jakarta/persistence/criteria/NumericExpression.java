@@ -121,7 +121,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return arithmetic negation
      * @see CriteriaBuilder#neg(Expression)
      */
-    NumericExpression<N> neg();
+    NumericExpression<N> negated();
 
     /**
      * Create an expression that returns the absolute value
@@ -158,7 +158,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return sum
      * @see CriteriaBuilder#sum(Expression, Expression)
      */
-    NumericExpression<N> add(Expression<? extends N> y);
+    NumericExpression<N> plus(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the sum
@@ -167,7 +167,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return sum
      * @see CriteriaBuilder#sum(Expression, Number)
      */
-    NumericExpression<N> add(N y);
+    NumericExpression<N> plus(N y);
 
     /**
      * Create an expression that returns the product
@@ -176,7 +176,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return product
      * @see CriteriaBuilder#prod(Expression, Expression)
      */
-    NumericExpression<N> multiply(Expression<? extends N> y);
+    NumericExpression<N> times(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the product
@@ -185,7 +185,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return product
      * @see CriteriaBuilder#prod(Expression, Number)
      */
-    NumericExpression<N> multiply(N y);
+    NumericExpression<N> times(N y);
 
     /**
      * Create an expression that returns the difference
@@ -194,7 +194,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return difference
      * @see CriteriaBuilder#diff(Expression, Expression)
      */
-    NumericExpression<N> subtract(Expression<? extends N> y);
+    NumericExpression<N> minus(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the difference
@@ -203,7 +203,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return difference
      * @see CriteriaBuilder#diff(Expression, Number)
      */
-    NumericExpression<N> subtract(N y);
+    NumericExpression<N> minus(N y);
 
     /**
      * Create an expression that returns the quotient
@@ -212,7 +212,7 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Expression)
      */
-    NumericExpression<N> divide(Expression<? extends N> y);
+    NumericExpression<N> dividedBy(Expression<? extends N> y);
 
     /**
      * Create an expression that returns the quotient
@@ -221,7 +221,23 @@ public interface NumericExpression<N extends Number & Comparable<N>> extends Com
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Number)
      */
-    NumericExpression<N> divide(N y);
+    NumericExpression<N> dividedBy(N y);
+
+    /**
+     * Create an expression that returns the difference
+     * between this expression subtracted from the argument.
+     * @param y value
+     * @return difference
+     */
+    NumericExpression<N> subtractedFrom(N y);
+
+    /**
+     * Create an expression that returns the quotient
+     * of this expression dividing the argument.
+     * @param y value
+     * @return quotient
+     */
+    NumericExpression<N> dividedInto(N y);
 
     // floating point functions
 
