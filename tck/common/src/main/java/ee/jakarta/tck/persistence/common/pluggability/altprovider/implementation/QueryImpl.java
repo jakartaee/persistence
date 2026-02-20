@@ -30,6 +30,8 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
+import jakarta.persistence.Query;
+import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.Statement;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
@@ -186,6 +188,16 @@ public class QueryImpl<X> implements TypedQuery<X> {
     @Override
 	public TypedQuery<X> setFlushMode(FlushModeType arg0) {
 		return this;
+	}
+
+	@Override
+	public Query setQueryFlushMode(QueryFlushMode flushMode) {
+		return null;
+	}
+
+	@Override
+	public QueryFlushMode getQueryFlushMode() {
+		return null;
 	}
 
 	@Override
