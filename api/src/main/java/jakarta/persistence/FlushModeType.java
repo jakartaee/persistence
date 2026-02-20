@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -59,10 +60,11 @@ package jakarta.persistence;
 public enum FlushModeType {
     /**
      * Every flush is an explicit operation requested by the
-     * application program. The session is never automatically
-     * flushed. Pending modifications to entities held in the
-     * persistence context might not be visible to the processing
-     * of queries and might never be made persistent.
+     * application program by calling {@link EntityManager#flush()}.
+     * The persistence context is never automatically flushed.
+     * Pending modifications to entities held in the persistence
+     * context might not be visible to the processing of queries
+     * and might never be made persistent.
      *
      * @since 4.0
      */
