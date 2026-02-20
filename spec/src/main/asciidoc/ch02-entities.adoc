@@ -678,10 +678,12 @@ If a dependent entity uses an id class to represent its primary key,
 one of the two following rules must be observed:
 
 - The names and types of the attributes of the id class and the `Id`
-  attributes of the dependent entity class must correspond as follows:
+  and `EmbeddedId` attributes of the dependent entity class must
+  correspond as follows:
 
-* The `Id` attribute of the dependent entity class and the corresponding
-  attribute in the id class must have the same name.
+* The `Id` or and `EmbeddedId` attribute of the dependent entity class
+  and the corresponding attribute in the id class must have the same
+  name.
 
 * If an `Id` attribute of the dependent entity class is of basic type,
   the corresponding attribute in the id class must have the same type.
@@ -692,6 +694,16 @@ one of the two following rules must be observed:
   of the parent entity (if the parent entity has a composite primary key)
   or the type of the `Id` attribute of the parent entity (if the parent
   entity has a simple primary key).
+
+* An `Id` attribute of the dependent entity class which is mapped by a
+  `ManyToOne` or `OneToOne` relationship to the parent entity annotated
+  `@MapsId` must be of the same Java type as the `Id` attribute of the
+  parent entity.
+
+* An `EmbeddedId` attribute of the dependent entity class which is mapped
+  by a `ManyToOne` or `OneToOne` relationship to the parent entity
+  annotated `@MapsId` must be of the same Java type as the id class or
+  embedded id of the parent entity.
 
 - Alternatively, if the dependent entity declares a single primary key
   attribute, that is, a `OneToOne` relationship attribute annotated `Id`,
