@@ -114,7 +114,7 @@ public interface Path<X> extends Expression<X> {
      * @param collection collection-valued attribute
      * @return expression corresponding to the referenced attribute
      */
-    <E, C extends Collection<E>> CollectionExpression<C,E> get(PluralAttribute<? super X, C, E> collection);
+    <E, C extends Collection<E>> PluralExpression<C,E> get(PluralAttribute<? super X, C, E> collection);
 
     /**
      * Create a path corresponding to the referenced
@@ -122,7 +122,7 @@ public interface Path<X> extends Expression<X> {
      * @param map map-valued attribute
      * @return expression corresponding to the referenced attribute
      */
-    <K, V, M extends Map<K, V>> Expression<M> get(MapAttribute<? super X, K, V> map);
+    <K, V, M extends Map<K, V>> PluralExpression<M,V> get(MapAttribute<? super X, K, V> map);
 
     /**
      * Create an expression corresponding to the type of the path.

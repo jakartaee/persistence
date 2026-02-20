@@ -16,14 +16,12 @@
 
 package jakarta.persistence.criteria;
 
-import java.util.Collection;
-
 /**
  * Type for collection query expressions.
  *
  * @since 4.0
  */
-public interface CollectionExpression<C extends Collection<E>, E> extends Expression<C> {
+public interface PluralExpression<C, E> extends Expression<C> {
 
 	//collection operations:
 
