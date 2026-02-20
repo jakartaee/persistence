@@ -24,7 +24,8 @@ package jakarta.persistence.criteria;
  *
  * @since 4.0
  */
-public interface ComparableExpression<C extends Comparable<? super C>> extends Expression<C> {
+public interface ComparableExpression<C extends Comparable<? super C>>
+        extends Expression<C> {
 
     // comparisons
 
