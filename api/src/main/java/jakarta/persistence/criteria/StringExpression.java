@@ -16,8 +16,6 @@
 
 package jakarta.persistence.criteria;
 
-import java.util.List;
-
 /**
  * Type for string query expressions.
  *
@@ -143,17 +141,55 @@ public interface StringExpression extends ComparableExpression<String> {
 	 */
 	Predicate notLike(String pattern, char escapeChar);
 
-	//string functions
+	/**
+	 * Create a predicate for testing whether this expression
+	 * contains the given substring.
+	 * @param substring  string
+	 * @return contains predicate
+	 */
+	Predicate contains(String substring);
 
 	/**
-	 *  Create an expression for string concatenation.
-	 *  If the given list of expressions is empty, returns
-	 *  this expression.
-	 *  @param expressions  string expressions
-	 *  @return expression corresponding to concatenation
-	 * @see CriteriaBuilder#concat(List)
+	 * Create a predicate for testing whether this expression
+	 * does not contain the given substring.
+	 * @param substring  string
+	 * @return not-contains predicate
 	 */
-	StringExpression concat(List<Expression<String>> expressions);
+	Predicate notContains(String substring);
+
+	/**
+	 * Create a predicate for testing whether this expression
+	 * starts with the given prefix.
+	 * @param prefix  string
+	 * @return starts-with predicate
+	 */
+	Predicate startsWith(String prefix);
+
+	/**
+	 * Create a predicate for testing whether this expression
+	 * does not start with the given prefix.
+	 * @param prefix  string
+	 * @return not-starts-with predicate
+	 */
+	Predicate notStartsWith(String prefix);
+
+	/**
+	 * Create a predicate for testing whether this expression
+	 * ends with the given suffix.
+	 * @param suffix  string
+	 * @return ends-with predicate
+	 */
+	Predicate endsWith(String suffix);
+
+	/**
+	 * Create a predicate for testing whether this expression
+	 * does not end with the given suffix.
+	 * @param suffix  string
+	 * @return not-ends-with predicate
+	 */
+	Predicate notEndsWith(String suffix);
+
+	//string functions
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -161,7 +197,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, Expression)
 	 */
-	StringExpression concat(Expression<String> y);
+	StringExpression append(Expression<String> y);
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -169,7 +205,23 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, String)
 	 */
-	StringExpression concat(String y);
+	StringExpression append(String y);
+
+	/**
+	 *  Create an expression for string concatenation.
+	 *  @param y  string expression
+	 *  @return expression corresponding to concatenation
+	 * @see CriteriaBuilder#concat(Expression, Expression)
+	 */
+	StringExpression prepend(Expression<String> y);
+
+	/**
+	 *  Create an expression for string concatenation.
+	 *  @param y  string
+	 *  @return expression corresponding to concatenation
+	 * @see CriteriaBuilder#concat(Expression, String)
+	 */
+	StringExpression prepend(String y);
 
 	/**
 	 *  Create an expression for substring extraction.
