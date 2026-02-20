@@ -70,7 +70,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    BooleanPath get(BooleanSingularAttribute<? super X> attribute);
+    BooleanExpression get(BooleanSingularAttribute<? super X> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -79,7 +79,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Comparable<? super Y>> ComparablePath<Y> get(ComparableSingularAttribute<? super X, Y> attribute);
+    <Y extends Comparable<? super Y>> ComparableExpression<Y> get(ComparableSingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -88,7 +88,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Temporal & Comparable<? super Y>> TemporalPath<Y> get(TemporalSingularAttribute<? super X, Y> attribute);
+    <Y extends Temporal & Comparable<? super Y>> TemporalExpression<Y> get(TemporalSingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -97,7 +97,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Number & Comparable<Y>> NumericPath<Y> get(NumericSingularAttribute<? super X, Y> attribute);
+    <Y extends Number & Comparable<Y>> NumericExpression<Y> get(NumericSingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -106,7 +106,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    TextPath get(StringSingularAttribute<? super X> attribute);
+    TextExpression get(StringSingularAttribute<? super X> attribute);
 
     /**
      * Create a path corresponding to the referenced
