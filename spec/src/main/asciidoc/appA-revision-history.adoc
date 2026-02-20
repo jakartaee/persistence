@@ -23,6 +23,8 @@ Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more 
 
 Added the ability to select `LAZY` fetching as the default for `@OneToOne` and `@ManyToOne` associations via `<default-to-one-fetch-type>` in `persistence.xml` or `PersistenceConfiguration.defaultToOneFetchType()`
 
+Added specialized expression types `ComparableExpression`, `NumericExpression`, `TextExpression`, `TemporalExpression`, `BooleanExpression` to criteria API, along with matching attribute types `ComparableAttribute`, `NumericAttribute`, `TextAttribute`, `TemporalAttribute`, `BooleanAttribute` to metamodel API
+
 Added `get()` operation as an alternative to `find()`; added `findMultiple()` and `getMultiple()`
 
 Added `getResultCount()` to `TypedQuery`
@@ -56,6 +58,8 @@ Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReferenc
 Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`
 
 Allow named queries to be declared by a module or package descriptor
+
+Improved `@Index` to allow more customization of the generated DDL
 
 ==== Changes to Query Language
 
