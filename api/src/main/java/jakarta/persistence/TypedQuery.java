@@ -592,7 +592,21 @@ public interface TypedQuery<X> extends Query {
     TypedQuery<X> setParameter(int position, Date value,  
                                TemporalType temporalType);
 
-     /**
+    /**
+     * Set the {@linkplain QueryFlushMode query flush mode} to be
+     * used when the query is executed. This flush mode overrides
+     * the {@linkplain EntityManager#getFlushMode flush mode type
+     * of the entity manager}.
+     *
+     * @param flushMode The new flush mode
+     * @return the same query instance
+     *
+     * @since 4.0
+     */
+    @Override
+    TypedQuery<X> setQueryFlushMode(QueryFlushMode flushMode);
+
+    /**
       * Set the {@linkplain FlushModeType flush mode type} to be
       * used when the query is executed. This flush mode overrides
       * the {@linkplain EntityManager#getFlushMode flush mode type
@@ -600,8 +614,10 @@ public interface TypedQuery<X> extends Query {
       *
       * @param flushMode The new flush mode
       * @return the same query instance
+     *
+     * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
       */
-     @Override
+     @Override @Deprecated
      TypedQuery<X> setFlushMode(FlushModeType flushMode);
 
      /**

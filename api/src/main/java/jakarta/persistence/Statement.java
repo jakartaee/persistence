@@ -108,6 +108,20 @@ public interface Statement extends Query {
     Statement setTimeout(Timeout timeout);
 
     /**
+     * Set the {@linkplain QueryFlushMode query flush mode} to be
+     * used when the query is executed. This flush mode overrides
+     * the {@linkplain EntityManager#getFlushMode flush mode type
+     * of the entity manager}.
+     *
+     * @param flushMode The new flush mode
+     * @return the same query instance
+     *
+     * @since 4.0
+     */
+    @Override
+    Statement setQueryFlushMode(QueryFlushMode flushMode);
+
+    /**
      * Set the {@linkplain FlushModeType flush mode type} to be
      * used when the query is executed. This flush mode overrides
      * the {@linkplain EntityManager#getFlushMode flush mode type
@@ -115,8 +129,10 @@ public interface Statement extends Query {
      *
      * @param flushMode The new flush mode
      * @return the same query instance
+     *
+     * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
      */
-    @Override
+    @Override @Deprecated
     Statement setFlushMode(FlushModeType flushMode);
 
     /**

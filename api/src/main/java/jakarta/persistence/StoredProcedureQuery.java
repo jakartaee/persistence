@@ -379,6 +379,20 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
                                                    Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
+     * Set the {@linkplain QueryFlushMode query flush mode} to be
+     * used when the query is executed. This flush mode overrides
+     * the {@linkplain EntityManager#getFlushMode flush mode type
+     * of the entity manager}.
+     *
+     * @param flushMode The new flush mode
+     * @return the same query instance
+     *
+     * @since 4.0
+     */
+    @Override
+    StoredProcedureQuery setQueryFlushMode(QueryFlushMode flushMode);
+
+    /**
      * Set the {@linkplain FlushModeType flush mode type} to be
      * used when the query is executed. This flush mode overrides
      * the {@linkplain EntityManager#getFlushMode flush mode type
@@ -386,8 +400,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *
      * @param flushMode The new flush mode
      * @return the same query instance
+     *
+     * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
      */
-    @Override
+    @Override @Deprecated
     StoredProcedureQuery setFlushMode(FlushModeType flushMode);
 
     /**
