@@ -191,7 +191,7 @@ public class QueryImpl<X> implements TypedQuery<X> {
 	}
 
 	@Override
-	public Query setQueryFlushMode(QueryFlushMode flushMode) {
+	public TypedQuery<X> setQueryFlushMode(QueryFlushMode flushMode) {
 		return null;
 	}
 
