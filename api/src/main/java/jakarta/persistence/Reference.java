@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.query.TypedQueryOptions;
+
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +46,8 @@ public sealed interface Reference
     /**
      * A map keyed by hint name of all hints specified via
      * {@link NamedQuery#hints}, {@link NamedNativeQuery#hints},
-     * {@link jakarta.persistence.query.ReadQueryOptions#hints}, or
-     * {@link jakarta.persistence.query.WriteQueryOptions#hints}.
+     * {@link TypedQueryOptions#hints}, or
+     * {@link jakarta.persistence.query.StatementOptions#hints}.
      * <p>
      * Any attempted mutation of the returned map results in an
      * {@link UnsupportedOperationException}.
@@ -113,8 +115,8 @@ public sealed interface Reference
      * {@code null} if no timeout was specified.
      *
      * @see Query#setTimeout(Timeout) 
-     * @see jakarta.persistence.query.ReadQueryOptions#timeout
-     * @see jakarta.persistence.query.WriteQueryOptions#timeout
+     * @see TypedQueryOptions#timeout
+     * @see jakarta.persistence.query.StatementOptions#timeout
      * @since 4.0
      */
     Timeout getTimeout();

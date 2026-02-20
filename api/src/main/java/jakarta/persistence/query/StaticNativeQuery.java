@@ -40,7 +40,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * interface Library {
  *
  *     @StaticNativeQuery("select * from books where title like ?")
- *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @TypedQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
  *     @StaticNativeQuery("select * from books where isbn = ?")
@@ -48,7 +48,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *     @StaticNativeQuery("delete from documents"
  *             + " where id in (select document_id from trash)")
- *     @WriteQueryOptions(timeout = 30_000)
+ *     @StatementOptions(timeout = 30_000)
  *     int emptyTrash();
  * }
  *}
