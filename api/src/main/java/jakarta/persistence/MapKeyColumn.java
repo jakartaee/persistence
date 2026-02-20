@@ -46,15 +46,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * }
  *
- * <p>The {@code MapKeyColumn} annotation is specified on the owning side
- * of a {@link OneToMany} or {@link ManyToMany} relationship or on an
- * element collection. The {@code MapKeyColumn} annotation is specified
- * on the side of the relationship that references the map. The map key
- * is not visible as part of the state of the entity or embeddable class.
+ * <p>This annotation is specified on the owning side of a
+ * {@link OneToMany} or {@link ManyToMany} relationship or on an
+ * element collection&mdash;and always on the side of the relationship
+ * that references the map. The map key is not visible as part of the
+ * state of the entity or embeddable class.
  *
  * <p>This annotation is used with owned collections. For unowned
  * collections, that is, for association mappings which specify
  * {@code mappedBy}, the {@link MapKey} annotation should be used.
+ * Use of the {@code MapKeyColumn} annotation on the unowned side
+ * of a relationship is not portable between persistence providers.
  *
  * @since 2.0
  */

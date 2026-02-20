@@ -3323,11 +3323,13 @@ type. If the `name` element is not specified, it defaults to the
 concatenation of the following: the name of the referencing relationship
 field or property; "`_`"; "`KEY`".
 
-The `MapKeyColumn` annotation is used with owned collections. It is specified
-on the owning side of a one-to-many or many-to-many relationship or on an
-element collection. The `MapKeyColumn` annotation is specified on the side of
-the relationship that references the map. The map key is not visible as part
-of the state of the entity or embeddable class.
+`MapKeyColumn` is used with owned collections. It is specified on the
+owning side of a one-to-many or many-to-many relationship or on an
+element collection--and always on the side of the relationship that
+references the map. The map key is not visible as part of the state of
+the entity or embeddable class. Use of the `MapKeyColumn` annotation on
+the unowned side of a relationship is not portable between persistence
+providers.
 
 [source,java]
 ----
@@ -3520,9 +3522,9 @@ entity that is used to represent the map.
 
 The `MapKeyJoinColumn` is used with owned collections. It is specified
 on the owning side of a one-to-many or many-to-many relationship or on
-an element collection. The `MapKeyJoinColumn` annotation is specified on the
-side of the relationship that references the map. The map key is not
-visible as part of the state of the entity or embeddable class.
+an element collection--and always on the side of the relationship that
+references the map. The map key is not visible as part of the state of
+the entity or embeddable class.
 
 [source,java]
 ----
@@ -4458,14 +4460,15 @@ retrieval and in the database. The persistence provider is responsible
 for updating the ordering upon flushing to the database to reflect any
 insertion, deletion, or reordering affecting the list.
 
-The `OrderColumn` is used with owned collections. This annotation may be
-specified on an owned one-to-many or many-to-many relationship or on
-an element collection. The `OrderColumn` annotation is specified on the
-side of the relationship that references the collection that is ordered.
-The order column is not visible as part of the state of the entity or
-embeddable class.footnote:[The `OrderBy` annotation should be used for
-ordering that is visible as persistent state and maintained by the
-application.]
+`OrderColumn` is used with owned collections. It is specified on the
+owning side of a one-to-many or many-to-many relationship or on an
+element collection--and always on the side of the relationship that
+references the collection that is ordered. The order column is not
+visible as part of the state of the entity or embeddable class.
+footnote:[The `OrderBy` annotation should be used for ordering that
+is visible as persistent state and maintained by the application.]
+Use of the `OrderColumn` annotation on the unowned side of a
+relationship is not portable between persistence providers.
 
 The `OrderBy` annotation is not used when `OrderColumn` is specified.
 
