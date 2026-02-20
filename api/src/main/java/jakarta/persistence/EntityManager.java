@@ -824,6 +824,40 @@ public interface EntityManager extends EntityHandler {
     EntityGraph<?> createEntityGraph(String graphName);
 
     /**
+     * Enable tracking of modifications to the given managed
+     * instance of a {@linkplain ReadOnly read-only} entity
+     * class. This operation disables the effect of the
+     * {@link ReadOnly} annotation for the given instance
+     * only. If the given instance has been modified, the
+     * modifications are synchronized with the database the
+     * next time the persistence context is flushed. If this
+     * operation was already applied to the given instance,
+     * the invocation has no effect.
+     * @param entity a managed instance of a read-only entity
+     *               class
+     * @throws IllegalArgumentException if the instance is
+     *         not associated with this persistence context
+     *         or is not a non-null instance of a read-only
+     *         entity class
+     * @since 4.0
+     * @see ReadOnly
+     * @see #flush
+     */
+    void enableFlush(Object entity);
+
+    /**
+     * Obtain an {@link EntityAgent} which shares the transaction
+     * associated with this {@code EntityManager}. If this as a
+     * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
+     * resource-local entity manager}, the {@link #getTransaction()}
+     * method of the returned agent always returns exactly the same
+     * object as the {@code getTransaction()} method of this entity
+     * manager.
+     * @since 4.0
+     */
+    EntityAgent getAgent();
+
+    /**
      * Return the underlying provider object for the
      * {@link EntityManager}, if available. The result of this
      * method is implementation-specific.

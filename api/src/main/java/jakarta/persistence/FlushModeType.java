@@ -35,9 +35,10 @@ package jakarta.persistence;
  *     of the query. The persistence provider implementation might
  *     guarantee this by flushing pending updates to modified
  *     entities to the database before executing the query.
- * <li>Otherwise, if {@link #COMMIT} is set, the effect on the
- *     results of the query of pending modifications to entities
- *     in the persistence context is unspecified.
+ * <li>Otherwise, if {@link #COMMIT} or {@link #EXPLICIT} is set,
+ *     the effect on the results of the query of pending
+ *     modifications to entities in the persistence context is
+ *     unspecified.
  * </ul>
  *
  * <p>When there is no transaction active, or if the persistence
@@ -56,25 +57,37 @@ package jakarta.persistence;
  * @since 1.0
  */
 public enum FlushModeType {
-
     /**
-     * Pending modifications to entities associated with a
-     * persistence context joined to the current transaction
-     * are flushed to the database when the transaction commits.
-     * The provider is permitted to flush at other times, but is
-     * not required to.
+     * Every flush is an explicit operation requested by the
+     * application program. The session is never automatically
+     * flushed. Pending modifications to entities held in the
+     * persistence context might not be visible to the processing
+     * of queries and might never be made persistent.
+     *
+     * @since 4.0
      */
-   COMMIT,
+    EXPLICIT,
 
     /**
      * Pending modifications to entities associated with a
-     * persistence context joined to the current transaction
-     * are flushed to the database when the transaction commits.
-     * In addition, the persistence provider must ensure that
-     * every modification to the state of every entity associated
-     * with the persistence context which could possibly affect
-     * the result of a query is visible to the processing of the
-     * query. The persistence provider implementation might
+     * persistence context joined to the current transaction are
+     * automatically flushed to the database when the transaction
+     * commits. The provider is permitted to flush at other times,
+     * but is not required to. Pending modifications to entities
+     * associated with the persistence context might not be visible
+     * to the processing of queries.
+     */
+    COMMIT,
+
+    /**
+     * Pending modifications to entities associated with a
+     * persistence context joined to the current transaction are
+     * automatically flushed to the database when the transaction
+     * commits. In addition, the persistence provider must ensure
+     * that every modification to the state of every entity
+     * associated with the persistence context which could possibly
+     * affect the result of a query is visible to the processing
+     * of the query. The persistence provider implementation might
      * guarantee this by flushing pending modifications to the
      * database before executing the query. The provider is
      * permitted to flush at other times, but is not required to.
@@ -82,5 +95,5 @@ public enum FlushModeType {
      * This is the default flush mode for a newly created
      * {@link EntityManager}.
      */
-   AUTO
+    AUTO
 }
