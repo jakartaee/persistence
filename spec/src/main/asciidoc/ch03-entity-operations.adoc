@@ -454,6 +454,8 @@ by setting the `FlushModeType`.
   * If `FlushModeType.COMMIT` is specified, synchronization occurs at
     transaction commit; the persistence provider is permitted, but not
     required, to flush at other times.
+  * If `FlushMode.EXPLICIT` is specified, the persistence provider
+    must never automatically flush modifications to the database.
 
 If there is no transaction active or if the persistence context has not
 been joined to the current transaction, the persistence provider must not
@@ -3162,7 +3164,7 @@ The possible flush modes are enumerated by `FlushModeType`.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=49..-1]
 ----
 
 When a Jakarta Persistence or native SQL query is executed within a

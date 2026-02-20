@@ -161,4 +161,12 @@ public @interface NamedQuery {
      * @since 4.0
      */
     String entityGraph() default "";
+
+    /**
+     * (Optional) The {@linkplain QueryFlushMode query flush mode}
+     * to use when executing the query.
+     * @see Query#setQueryFlushMode(QueryFlushMode)
+     * @since 4.0
+     */
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
 }

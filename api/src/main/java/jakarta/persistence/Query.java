@@ -849,6 +849,29 @@ public interface Query {
     Object getParameterValue(int position);
 
     /**
+     * Set the {@linkplain QueryFlushMode query flush mode} to be
+     * used when the query is executed. This flush mode overrides
+     * the {@linkplain EntityManager#getFlushMode flush mode type
+     * of the entity manager}.
+     *
+     * @param flushMode The new flush mode
+     * @return the same query instance
+     *
+     * @since 4.0
+     */
+    Query setQueryFlushMode(QueryFlushMode flushMode);
+
+    /**
+     * Get the flush mode which will be in effect when the query
+     * is executed. If a flush mode has not been set for this query
+     * object, return {@link QueryFlushMode#DEFAULT}.
+     *
+     * @return flush mode
+     * @since 4.0
+     */
+    QueryFlushMode getQueryFlushMode();
+
+    /**
      * Set the {@linkplain FlushModeType flush mode type} to be
      * used when the query is executed. This flush mode overrides
      * the {@linkplain EntityManager#getFlushMode flush mode type
@@ -856,7 +879,10 @@ public interface Query {
      *
      * @param flushMode The new flush mode
      * @return the same query instance
+     *
+     * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
      */
+    @Deprecated(since = "4.0")
     Query setFlushMode(FlushModeType flushMode);
 
     /**
@@ -867,7 +893,10 @@ public interface Query {
      *
      * @return flush mode
      * @since 2.0
+     *
+     * @deprecated Use {@link #getQueryFlushMode()}.
      */
+    @Deprecated(since = "4.0")
     FlushModeType getFlushMode();
 
     /**
