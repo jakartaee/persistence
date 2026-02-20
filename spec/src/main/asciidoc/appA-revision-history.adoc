@@ -45,6 +45,8 @@ Added `addListener()` to `EntityManagerFactory`
 
 Specify that an entity listener may have multiple callbacks of the same type
 
+Added `FetchOption` and `AttributeNode.addOption()`
+
 Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
 
 Specified that the graph returned by `getEntityGraph()` is now mutable, and added `getEntityGraph(Class, String)`
