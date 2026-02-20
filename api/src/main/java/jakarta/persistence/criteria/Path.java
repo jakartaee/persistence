@@ -79,7 +79,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Comparable<? super Y>> ComparableExpression<Y> get(ComparableAttribute<? super X, Y> attribute);
+    <C extends Comparable<? super C>> ComparableExpression<C> get(ComparableAttribute<? super X, C> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -88,7 +88,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Temporal & Comparable<? super Y>> TemporalExpression<Y> get(TemporalAttribute<? super X, Y> attribute);
+    <T extends Temporal & Comparable<? super T>> TemporalExpression<T> get(TemporalAttribute<? super X, T> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -97,7 +97,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Number & Comparable<Y>> NumericExpression<Y> get(NumericAttribute<? super X, Y> attribute);
+    <N extends Number & Comparable<N>> NumericExpression<N> get(NumericAttribute<? super X, N> attribute);
 
     /**
      *  Create a path corresponding to the referenced
