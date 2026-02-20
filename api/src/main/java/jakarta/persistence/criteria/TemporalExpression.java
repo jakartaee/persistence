@@ -23,7 +23,8 @@ import java.time.temporal.Temporal;
  *
  * @since 4.0
  */
-public interface TemporalExpression<T extends Temporal & Comparable<? super T>> extends ComparableExpression<T> {
+public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
+		extends ComparableExpression<T> {
 
 	/**
 	 * Create an expression that returns the value of a

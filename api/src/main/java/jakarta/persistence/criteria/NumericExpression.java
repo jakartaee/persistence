@@ -27,7 +27,8 @@ import java.math.BigInteger;
  *
  * @since 4.0
  */
-public interface NumericExpression<N extends Number & Comparable<N>> extends ComparableExpression<N> {
+public interface NumericExpression<N extends Number & Comparable<N>>
+        extends ComparableExpression<N> {
 
     // comparisons
 
