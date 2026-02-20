@@ -16,15 +16,17 @@
 
 package jakarta.persistence.metamodel;
 
+import java.time.temporal.Temporal;
+
 /**
- * Instances of the type {@linkplain NumericSingularAttribute} represents persistent
- * single-valued properties or fields of number type.
+ * Instances of the type {@linkplain TemporalAttribute} represents persistent
+ * single-valued properties or fields of a temporal type.
  *
  * @param <X> The type containing the represented attribute
  * @param <T> The type of the represented attribute
  *
  * @since 4.0
  */
-public interface NumericSingularAttribute<X, T extends Number>
-		extends SingularAttribute<X, T> {
+public interface TemporalAttribute<X, T extends Temporal & Comparable<? super T>>
+		extends ComparableAttribute<X, T> {
 }

@@ -17,7 +17,7 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type {@linkplain ComparableSingularAttribute} represents persistent
+ * Instances of the type {@linkplain ComparableAttribute} represents persistent
  * single-valued properties or fields of comparable type.
  *
  * @param <X> The type containing the represented attribute
@@ -25,6 +25,6 @@ package jakarta.persistence.metamodel;
  *
  * @since 4.0
  */
-public interface ComparableSingularAttribute<X, T extends Comparable<? super T>>
+public interface ComparableAttribute<X, T extends Comparable<? super T>>
 		extends SingularAttribute<X, T> {
 }

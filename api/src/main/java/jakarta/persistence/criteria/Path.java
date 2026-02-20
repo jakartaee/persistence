@@ -22,15 +22,15 @@ import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Map;
 
-import jakarta.persistence.metamodel.BooleanSingularAttribute;
-import jakarta.persistence.metamodel.ComparableSingularAttribute;
-import jakarta.persistence.metamodel.NumericSingularAttribute;
+import jakarta.persistence.metamodel.BooleanAttribute;
+import jakarta.persistence.metamodel.ComparableAttribute;
+import jakarta.persistence.metamodel.NumericAttribute;
 import jakarta.persistence.metamodel.PluralAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.Bindable;
 import jakarta.persistence.metamodel.MapAttribute;
-import jakarta.persistence.metamodel.StringSingularAttribute;
-import jakarta.persistence.metamodel.TemporalSingularAttribute;
+import jakarta.persistence.metamodel.TextAttribute;
+import jakarta.persistence.metamodel.TemporalAttribute;
 
 /**
  * Represents a simple or compound attribute path from a 
@@ -70,7 +70,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    BooleanExpression get(BooleanSingularAttribute<? super X> attribute);
+    BooleanExpression get(BooleanAttribute<? super X> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -79,7 +79,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Comparable<? super Y>> ComparableExpression<Y> get(ComparableSingularAttribute<? super X, Y> attribute);
+    <Y extends Comparable<? super Y>> ComparableExpression<Y> get(ComparableAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -88,7 +88,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Temporal & Comparable<? super Y>> TemporalExpression<Y> get(TemporalSingularAttribute<? super X, Y> attribute);
+    <Y extends Temporal & Comparable<? super Y>> TemporalExpression<Y> get(TemporalAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -97,7 +97,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <Y extends Number & Comparable<Y>> NumericExpression<Y> get(NumericSingularAttribute<? super X, Y> attribute);
+    <Y extends Number & Comparable<Y>> NumericExpression<Y> get(NumericAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -106,7 +106,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    TextExpression get(StringSingularAttribute<? super X> attribute);
+    TextExpression get(TextAttribute<? super X> attribute);
 
     /**
      * Create a path corresponding to the referenced

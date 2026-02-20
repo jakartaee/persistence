@@ -17,13 +17,13 @@
 package jakarta.persistence.metamodel;
 
 /**
- * Instances of the type {@linkplain BooleanSingularAttribute} represents persistent
- * single-valued properties or fields of boolean type.
+ * Instances of the type {@linkplain TextAttribute} represents persistent
+ * single-valued properties or fields of string type.
  *
  * @param <X> The type containing the represented attribute
  *
  * @since 4.0
  */
-public interface BooleanSingularAttribute<X>
-		extends ComparableSingularAttribute<X, Boolean> {
+public interface TextAttribute<X>
+		extends ComparableAttribute<X, String> {
 }
