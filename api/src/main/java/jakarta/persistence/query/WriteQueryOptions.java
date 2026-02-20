@@ -15,6 +15,8 @@
 
 package jakarta.persistence.query;
 
+import jakarta.persistence.Query;
+import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.QueryHint;
 
 import java.lang.annotation.Retention;
@@ -63,4 +65,12 @@ public @interface WriteQueryOptions {
      * @see jakarta.persistence.Query#setHint(String, Object)
      */
     QueryHint[] hints() default {};
+
+    /**
+     * The {@linkplain QueryFlushMode query flush mode} to use when
+     * executing the query.
+     * @see Query#setQueryFlushMode(QueryFlushMode)
+     * @since 4.0
+     */
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
 }
