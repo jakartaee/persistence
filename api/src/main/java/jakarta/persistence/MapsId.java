@@ -37,10 +37,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>In this example, the parent entity has simple primary key:
  * {@snippet :
  * @Entity
- * public class Employee {
+ * class Employee {
+ *
  *     @Id
- *     long empId;
+ *     long id;
+ *
  *     String name;
+ *
  *     ...
  * }
  * }
@@ -49,29 +52,58 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * declare its composite primary key:
  * {@snippet :
  * @Embeddable
- * public class DependentId {
+ * class DependentId {
  *     String name;
- *     long empid;  // corresponds to primary key type of Employee
+ *     long empId;  // agrees with primary key type of Employee
  * }
  *
  * @Entity
- * public class Dependent {
+ * class Dependent {
+ *
  *     @EmbeddedId
  *     DependentId id;
- *     ...
- *     @MapsId("empid")  // maps the empid attribute of embedded id
+ *
+ *     @MapsId("empId")  // maps the empId attribute of DependentId
  *     @ManyToOne
  *     Employee emp;
+ *
+ *     ...
  * }
  * }
  *
- * <p>
- * If a {@link ManyToOne} or {@link OneToOne} relationship declared by a
- * dependent entity is annotated {@link MapsId}, an instance of the entity
- * cannot be made persistent until the relationship has been assigned a
- * reference to an instance of the parent entity, since the identity of
- * the dependent entity declaring the relationship is derived from the
- * referenced parent entity.
+ * <p>Alternatively, the dependent entity may use {@link IdClass}
+ * to declare its composite primary key:
+ * {@snippet :
+ * class DependentId {
+ *     String name;
+ *     long empId;  // agrees with empId field of Dependent
+ * }
+ *
+ * @Entity
+ * @IdClass(DependentId.class)
+ * class Dependent {
+ *
+ *     @Id
+ *     String name;
+ *
+ *     @Id
+ *     long empId;  // agrees with primary key type of Employee
+ *
+ *     @MapsId("empId")  // maps the empId attribute
+ *     @ManyToOne
+ *     Employee emp;
+ *
+ *     ...
+ * }
+ * }
+ *
+ * <p>If a {@link ManyToOne} or {@link OneToOne} relationship
+ * declared by a dependent entity is annotated {@link MapsId},
+ * an instance of the entity cannot be made persistent until
+ * the relationship has been assigned a reference to an
+ * instance of the parent entity, since the identity of the
+ * dependent entity declaring the relationship is derived from
+ * the referenced parent entity.
  *
  * @since 2.0
  */
