@@ -126,6 +126,10 @@ attribute defined within an `id`, `embedded-id`, `version`, `basic`,
 `embedded`, `many-to-one`, `one-to-one`, `one-to-many`,
 `many-to-many`, or `element-collection` element.
 
+If the `access` subelement of `persistence-unit-defaults` is not specified
+in any XML mapping descriptor, the default `access` for managed classes in
+the persistence unit is `FIELD`.
+
 ===== cascade-persist
 
 The `cascade-persist` subelement applies to
