@@ -56,7 +56,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @param elem element expression
 	 * @return is-member predicate
 	 */
-	Predicate contains(Expression<E> elem);
+	Predicate contains(Expression<? extends E> elem);
 
 	/**
 	 * Create a predicate that tests whether an element is
@@ -74,7 +74,7 @@ public interface CollectionExpression<C extends Collection<E>, E> extends Expres
 	 * @param elem element expression
 	 * @return is-not-member predicate
 	 */
-	Predicate notContains(Expression<E> elem);
+	Predicate notContains(Expression<? extends E> elem);
 
 	/**
 	 * Create a predicate that tests whether an element is

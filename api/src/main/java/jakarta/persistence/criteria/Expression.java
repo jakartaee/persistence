@@ -211,7 +211,7 @@ public interface Expression<T> extends Selection<T> {
      * @return is-member predicate
      * @since 4.0
      */
-    <C extends Collection<T>> Predicate isMember(Expression<C> collection);
+    Predicate isMember(Expression<? extends Collection<? super T>> collection);
 
     /**
      * Create a predicate that tests whether this expression is
@@ -221,7 +221,7 @@ public interface Expression<T> extends Selection<T> {
      * @return is-not-member predicate
      * @since 4.0
      */
-    <C extends Collection<T>> Predicate isNotMember(Expression<C> collection);
+    Predicate isNotMember(Expression<? extends Collection<? super T>> collection);
 
     //aggregate functions:
 
