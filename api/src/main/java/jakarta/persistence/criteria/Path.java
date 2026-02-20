@@ -106,7 +106,7 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    StringPath get(StringSingularAttribute<? super X> attribute);
+    TextPath get(StringSingularAttribute<? super X> attribute);
 
     /**
      * Create a path corresponding to the referenced

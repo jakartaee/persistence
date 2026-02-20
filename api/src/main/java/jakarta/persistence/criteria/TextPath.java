@@ -23,6 +23,6 @@ package jakarta.persistence.criteria;
  *
  * @since 4.0
  */
-public interface StringPath extends Path<String>, StringExpression {
+public interface TextPath extends Path<String>, TextExpression {
 
 }
