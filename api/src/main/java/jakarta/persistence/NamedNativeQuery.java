@@ -204,4 +204,12 @@ public @interface NamedNativeQuery {
      * @see Query#setHint
      */
     QueryHint[] hints() default {};
+
+    /**
+     * (Optional) The {@linkplain QueryFlushMode query flush mode}
+     * to use when executing the query.
+     * @see Query#setQueryFlushMode(QueryFlushMode)
+     * @since 4.0
+     */
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
 }

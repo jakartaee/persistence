@@ -19,6 +19,8 @@ import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.PessimisticLockScope;
+import jakarta.persistence.Query;
+import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.QueryHint;
 
 import java.lang.annotation.Retention;
@@ -116,4 +118,12 @@ public @interface ReadQueryOptions {
      * @see jakarta.persistence.TypedQuery#setEntityGraph
      */
     String entityGraph() default "";
+
+    /**
+     * The {@linkplain QueryFlushMode query flush mode} to use when
+     * executing the query.
+     * @see Query#setQueryFlushMode(QueryFlushMode)
+     * @since 4.0
+     */
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
 }
