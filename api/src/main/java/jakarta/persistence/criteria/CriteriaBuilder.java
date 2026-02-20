@@ -922,7 +922,7 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    StringExpression stringLiteral(String value);
+    TextExpression stringLiteral(String value);
 
     /**
      * Create a local date expression for a literal.

@@ -21,7 +21,7 @@ package jakarta.persistence.criteria;
  *
  * @since 4.0
  */
-public interface StringExpression extends ComparableExpression<String> {
+public interface TextExpression extends ComparableExpression<String> {
 
 	// pattern matching
 
@@ -197,7 +197,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, Expression)
 	 */
-	StringExpression append(Expression<String> y);
+	TextExpression append(Expression<String> y);
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -205,7 +205,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, String)
 	 */
-	StringExpression append(String y);
+	TextExpression append(String y);
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -213,7 +213,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, Expression)
 	 */
-	StringExpression prepend(Expression<String> y);
+	TextExpression prepend(Expression<String> y);
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -221,7 +221,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, String)
 	 */
-	StringExpression prepend(String y);
+	TextExpression prepend(String y);
 
 	/**
 	 *  Create an expression for substring extraction.
@@ -232,7 +232,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, Expression)
 	 */
-	StringExpression substring(Expression<Integer> from);
+	TextExpression substring(Expression<Integer> from);
 
 	/**
 	 *  Create an expression for substring extraction.
@@ -243,7 +243,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, int)
 	 */
-	StringExpression substring(int from);
+	TextExpression substring(int from);
 
 	/**
 	 *  Create an expression for substring extraction.
@@ -255,7 +255,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, Expression, Expression)
 	 */
-	StringExpression substring(Expression<Integer> from, Expression<Integer> len);
+	TextExpression substring(Expression<Integer> from, Expression<Integer> len);
 
 	/**
 	 *  Create an expression for substring extraction.
@@ -267,7 +267,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, int, int)
 	 */
-	StringExpression substring(int from, int len);
+	TextExpression substring(int from, int len);
 
 	/**
 	 * Create expression to trim blanks from both ends of
@@ -275,7 +275,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(Expression)
 	 */
-	StringExpression trim();
+	TextExpression trim();
 
 	/**
 	 * Create expression to trim blanks from this string.
@@ -283,7 +283,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(CriteriaBuilder.Trimspec, Expression)
 	 */
-	StringExpression trim(CriteriaBuilder.Trimspec ts);
+	TextExpression trim(CriteriaBuilder.Trimspec ts);
 
 	/**
 	 * Create expression to trim character from both ends of
@@ -292,7 +292,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(Expression, Expression)
 	 */
-	StringExpression trim(Expression<Character> t);
+	TextExpression trim(Expression<Character> t);
 
 	/**
 	 * Create expression to trim character from this string.
@@ -301,7 +301,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(CriteriaBuilder.Trimspec, Expression, Expression)
 	 */
-	StringExpression trim(CriteriaBuilder.Trimspec ts, Expression<Character> t);
+	TextExpression trim(CriteriaBuilder.Trimspec ts, Expression<Character> t);
 
 	/**
 	 * Create expression to trim character from both ends of
@@ -310,7 +310,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(char, Expression)
 	 */
-	StringExpression trim(char t);
+	TextExpression trim(char t);
 
 	/**
 	 * Create expression to trim character from this string.
@@ -319,21 +319,21 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(CriteriaBuilder.Trimspec, char, Expression)
 	 */
-	StringExpression trim(CriteriaBuilder.Trimspec ts, char t);
+	TextExpression trim(CriteriaBuilder.Trimspec ts, char t);
 
 	/**
 	 * Create expression for converting this string to lowercase.
 	 * @return expression to convert to lowercase
 	 * @see CriteriaBuilder#lower(Expression)
 	 */
-	StringExpression lower();
+	TextExpression lower();
 
 	/**
 	 * Create expression for converting this string to uppercase.
 	 * @return expression to convert to uppercase
 	 * @see CriteriaBuilder#upper(Expression)
 	 */
-	StringExpression upper();
+	TextExpression upper();
 
 	/**
 	 * Create expression to return length of this string.
@@ -348,7 +348,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the leftmost substring
 	 * @see CriteriaBuilder#left(Expression, int)
 	 */
-	StringExpression left(int len);
+	TextExpression left(int len);
 
 	/**
 	 * Create an expression for the rightmost substring of this string.
@@ -356,7 +356,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the rightmost substring
 	 * @see CriteriaBuilder#right(Expression, int)
 	 */
-	StringExpression right(int len);
+	TextExpression right(int len);
 
 	/**
 	 * Create an expression for the leftmost substring of this string.
@@ -364,7 +364,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the leftmost substring
 	 * @see CriteriaBuilder#left(Expression, Expression)
 	 */
-	StringExpression left(Expression<Integer> len);
+	TextExpression left(Expression<Integer> len);
 
 	/**
 	 * Create an expression for the rightmost substring of this string.
@@ -372,7 +372,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the rightmost substring
 	 * @see CriteriaBuilder#right(Expression, Expression)
 	 */
-	StringExpression right(Expression<Integer> len);
+	TextExpression right(Expression<Integer> len);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -382,7 +382,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, Expression, Expression)
 	 */
-	StringExpression replace(Expression<String> substring, Expression<String> replacement);
+	TextExpression replace(Expression<String> substring, Expression<String> replacement);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -392,7 +392,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, String, Expression)
 	 */
-	StringExpression replace(String substring, Expression<String> replacement);
+	TextExpression replace(String substring, Expression<String> replacement);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -402,7 +402,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, Expression, String)
 	 */
-	StringExpression replace(Expression<String> substring, String replacement);
+	TextExpression replace(Expression<String> substring, String replacement);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -412,7 +412,7 @@ public interface StringExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, String, String)
 	 */
-	StringExpression replace(String substring, String replacement);
+	TextExpression replace(String substring, String replacement);
 
 
 	/**
@@ -480,14 +480,14 @@ public interface StringExpression extends ComparableExpression<String> {
 	// overrides
 
 	@Override
-	StringExpression coalesce(String y);
+	TextExpression coalesce(String y);
 
 	@Override
-	StringExpression coalesce(Expression<? extends String> y);
+	TextExpression coalesce(Expression<? extends String> y);
 
 	@Override
-	StringExpression nullif(String y);
+	TextExpression nullif(String y);
 
 	@Override
-	StringExpression nullif(Expression<? extends String> y);
+	TextExpression nullif(Expression<? extends String> y);
 }
