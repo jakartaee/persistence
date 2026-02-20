@@ -806,7 +806,40 @@ FROM Dependent d
 WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
 ----
 
-*Case(b):* The dependent entity uses `EmbeddedId` to represent a composite key:
+*Case (b):* The dependent entity uses `IdClass` and `MapsId` to represent a composite key:
+
+[source,java]
+----
+public class DependentId {
+    String name; // matches name of @Id attribute
+    long empId; // matches name of @Id attribute and type of Employee PK
+}
+
+@Entity
+@IdClass(DependentId.class)
+public class Dependent {
+    @Id String name;
+    @Id long empId;
+
+    // id attribute mapped by join column default
+    @MapsId("empId")
+    @ManyToOne
+    Employee emp;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
+----
+
+*Case(c):* The dependent entity uses `EmbeddedId` to represent a composite key:
 
 [source,java]
 ----
@@ -881,7 +914,6 @@ public class Dependent {
         @JoinColumn(name="FK1", referencedColumnName="firstName"),
         @JoinColumn(name="FK2", referencedColumnName="lastName")
     })
-
     @ManyToOne
     Employee emp;
 }
@@ -896,7 +928,44 @@ FROM Dependent d
 WHERE d.name = 'Joe' AND d.emp.firstName = 'Sam'
 ----
 
-*Case (b):* The dependent entity uses
+*Case (b):* The dependent entity uses `IdClass` and `MapsId`:
+
+[source,java]
+----
+public class DependentId {
+    String name; // matches name of attribute
+    EmployeeId empId; //matches name of attribute and type of Employee PK
+}
+
+@Entity
+@IdClass(DependentId.class)
+public class Dependent {
+    @Id
+    String name;
+
+    @EmbeddedId
+    EmployeeId empId;
+
+    @MapsId("empId")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @ManyToOne
+    Employee emp;
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.name = 'Joe' AND d.empId.firstName = 'Sam'
+----
+
+*Case (c):* The dependent entity uses
 `EmbeddedId`. The type of the `empPK` attribute is the same as that of
 the primary key of `Employee`. The `EmployeeId` class needs to be
 annotated `Embeddable` or denoted as an embeddable class in the XML
@@ -1004,7 +1073,45 @@ FROM Dependent d
 WHERE d.name = 'Joe' and d.emp.empId.firstName = 'Sam'
 ----
 
-*Case (b):* The dependent entity uses `EmbeddedId`:
+*Case (b):* The dependent entity uses `IdClass` and `MapsId`:
+
+[source,java]
+----
+public class DependentId {
+    String name; // matches name of @Id attribute
+    EmployeeId empId; // matches name of @Id attribute and type of embedded id of Employee
+}
+
+@Entity
+@IdClass(DependentId.class)
+public class Dependent {
+    @Id
+    @Column(name="dep_name") // default column name is overridden
+    String name;
+
+    @EmbeddedId
+    EmployeeId empId;
+
+    @MapsId("empId")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @ManyToOne Employee
+    emp;
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Dependent d
+WHERE d.name = 'Joe' and d.empId.firstName = 'Sam'
+----
+
+*Case (c):* The dependent entity uses `EmbeddedId`:
 
 [source,java]
 ----
@@ -1183,7 +1290,39 @@ FROM MedicalHistory m
 WHERE m.patient.firstName = 'Charles'
 ----
 
-*Case (b):* The dependent entity uses the
+*Case (b):* The dependent entity uses `IdClass` and `MapsId:
+
+[source,java]
+----
+@Entity
+@IdClass(PersonId.class)
+public class MedicalHistory {
+
+    @EmbeddedId
+    PersonId personId;
+
+    @MapsId("personId")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @OneToOne
+    Person patient;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT m
+FROM MedicalHistory m
+WHERE m.personId.firstName = 'Charles'
+----
+
+*Case (c):* The dependent entity uses the
 `EmbeddedId` and `MapsId` annotations. The `PersonId` class needs to be
 annotated `Embeddable` or denoted as an embeddable class in the XML
 descriptor.
