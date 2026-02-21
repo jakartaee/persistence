@@ -39,10 +39,10 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0
  */
 public record EntityMapping<T>
-        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
+        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields, String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
-    public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields) {
+    public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields, String alias) {
         requireNonNull(entityClass, "entityClass is required");
         requireNonNull(lockMode, "lockMode is required");
         if (discriminatorColumn != null && discriminatorColumn.isBlank()) {
@@ -56,6 +56,7 @@ public record EntityMapping<T>
         this.lockMode = lockMode;
         this.discriminatorColumn = discriminatorColumn;
         this.fields = fields.clone();
+        this.alias = alias;
     }
 
     @Override
@@ -72,11 +73,31 @@ public record EntityMapping<T>
     }
 
     /**
-     * Always returns {@code null}.
+     * Return the alias specified via {@link #withAlias},
+     * which may be used to retrieve an entity instance using
+     * {@link jakarta.persistence.Tuple#get(String, Class)}
+     * @return the explicitly specified alias or {@code null}
      */
     @Override
     public String getAlias() {
-        return null;
+        return alias;
+    }
+
+    /**
+     * Specify an alias for this entity in the result set.
+     * @param alias The alias
+     */
+    @Override
+    public EntityMapping<T> withAlias(String alias) {
+        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, alias);
+    }
+
+    /**
+     * Specify the lock mode obtained on this entity.
+     * @param lockMode The lock mode
+     */
+    public EntityMapping<T> withLockMode(LockModeType lockMode) {
+        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, alias);
     }
 
     /**
@@ -87,7 +108,7 @@ public record EntityMapping<T>
      */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, LockModeType.NONE, null, fields);
+        return new EntityMapping<>(entityClass, LockModeType.NONE, null, fields, null);
     }
 
     /**
@@ -102,23 +123,7 @@ public record EntityMapping<T>
      */
     @SafeVarargs
     public static <T> EntityMapping<T> of(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields);
-    }
-
-    /**
-     * Construct a new instance.
-     * @param entityClass The entity class
-     * @param lockMode The lock mode acquired by the SQL query
-     * @param discriminatorColumn The name of the column holding the
-     *        {@linkplain jakarta.persistence.DiscriminatorColumn
-     *        discriminator}; a {@code null} value indicates that
-     *        there is no discriminator column.
-     * @param fields Mappings for fields or properties of the entity
-     * @param <T> The entity type
-     */
-    @SafeVarargs
-    public static <T> EntityMapping<T> of(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
-        return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields);
+        return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields, null);
     }
 
     /**

@@ -30,10 +30,10 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0
  */
 
-public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] arguments)
+public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] arguments, String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
-    public ConstructorMapping(Class<T> targetClass, MappingElement<?>[] arguments) {
+    public ConstructorMapping(Class<T> targetClass, MappingElement<?>[] arguments, String alias) {
         requireNonNull(targetClass, "targetClass is required");
         requireNonNull(arguments, "arguments are required");
         if (arguments.length == 0) {
@@ -44,6 +44,7 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
         }
         this.targetClass = targetClass;
         this.arguments = arguments.clone();
+        this.alias = alias;
     }
 
     @Override
@@ -60,11 +61,23 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
     }
 
     /**
-     * Always returns {@code null}.
+     * Return the alias specified via {@link #withAlias},
+     * which may be used to retrieve a constructed value using
+     * {@link jakarta.persistence.Tuple#get(String, Class)}
+     * @return the explicitly specified alias or {@code null}
      */
     @Override
     public String getAlias() {
-        return null;
+        return alias;
+    }
+
+    /**
+     * Specify an alias for this constructor result in the result set.
+     * @param alias The alias
+     */
+    @Override
+    public ConstructorMapping<T> withAlias(String alias) {
+        return new ConstructorMapping<>(targetClass, arguments, alias);
     }
 
     /**
@@ -74,7 +87,7 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
      * @param <T> The type of the Java class
      */
     public static <T> ConstructorMapping<T> of(Class<T> targetClass, MappingElement<?>... arguments) {
-        return new ConstructorMapping<>(targetClass, arguments);
+        return new ConstructorMapping<>(targetClass, arguments, null);
     }
 
     /**
