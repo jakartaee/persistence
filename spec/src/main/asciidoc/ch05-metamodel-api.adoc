@@ -296,7 +296,7 @@ type of the mapped result set, as given by the `type`, `entityClass`,
 or `targetClass` member of the `@ColumnResult`, `@EntityResult`, or
 `@ConstructorResult` annotation, respectively. When there is more than
 one such annotation, the type of the mapped result set is `Object[]`,
-as specified in <<combinations-of-result-types>>.
+as specified in <<sql-result-set-mapping>>.
 
 Import statements must be included for the needed `jakarta.persistence`
 and `jakarta.persistence.metamodel` types as appropriate and for all
