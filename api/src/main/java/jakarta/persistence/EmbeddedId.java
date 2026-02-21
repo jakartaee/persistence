@@ -32,7 +32,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>If a field or property of an entity class is annotated
  * {@code EmbeddedId}, then no other field or property of the
  * entity may be annotated {@link Id} or {@code EmbeddedId},
- * and the entity class must not declare an {@link IdClass}.
+ * and the entity class must not declare an {@link IdClass},
+ * except in the special case where the {@code EmbeddedId}
+ * represents the composite primary key of a parent entity
+ * in an entity with a derived identity represented as an
+ * {@code IdClass}.
  *
  * <p>The embedded primary key type must implement
  * {@link #equals} and {@link #hashCode}, defining value
