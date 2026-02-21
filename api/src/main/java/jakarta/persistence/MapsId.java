@@ -24,9 +24,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Designates a {@link ManyToOne} or {@link OneToOne} relationship
- * attribute that provides the mapping for an {@link EmbeddedId}
- * primary key, an attribute within an {@code EmbeddedId} primary
- * key, or a simple primary key of the parent entity.
+ * attribute that provides the mapping for
+ * <ul>
+ * <li>an {@link Id} or {@link EmbeddedId} attribute of an entity
+ *     with a derived identity, or
+ *<li> an attribute of the {@link EmbeddedId} class of an entity
+ *     with a derived identity.
+ * </ul>
  *
  * <p>The {@link #value} element specifies the attribute within a
  * composite key to which the relationship attribute corresponds.
