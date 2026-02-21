@@ -531,11 +531,11 @@ public interface EntityManagerFactory extends AutoCloseable {
      * A map keyed by {@linkplain SqlResultSetMapping#name name}, containing
      * a typed {@link ResultSetMapping} for every result set mapping defined
      * {@linkplain SqlResultSetMapping in annotations} whose inferred result
-     * type is assignable to the given Java type.
+     * type is exactly the given Java type.
      * @param resultType any Java type, including {@code Object.class}
      *                   meaning all result set mappings
      * @return a map keyed by query name
-     * @param <R> the specified upper bound on the query result types
+     * @param <R> the specified query result type
      *
      * @since 4.0
      */
