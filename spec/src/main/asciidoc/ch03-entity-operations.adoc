@@ -3974,8 +3974,8 @@ of `EntityManager` for execution.
 An instance of `ResultSetMapping` representing a result set mapping
 declared using the `@SqlResultSetMapping` annotation may be obtained
 from the `EntityManagerFactory` by calling `getResultSetMappings()`,
-passing a Java class to which the query results are assignable
-according to the rules specified above in <<sql-result-set-mapping>>.
+passing the Java class if the query results as determined by the
+rules specified above in <<sql-result-set-mapping>>.
 
 ==== Result Classes for SQL Queries [[result-class-native-sql]]
 
