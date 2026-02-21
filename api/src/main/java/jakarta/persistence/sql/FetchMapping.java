@@ -48,11 +48,11 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0
  */
-public record AssociationMapping<C,E>
+public record FetchMapping<C,E>
         (Class<C> container, String name, EntityMapping<E> target, String[] joinColumnNames)
         implements MemberMapping<C> {
 
-    public AssociationMapping(Class<C> container, String name, EntityMapping<E> target, String[] joinColumnNames) {
+    public FetchMapping(Class<C> container, String name, EntityMapping<E> target, String[] joinColumnNames) {
         requireNonNull(container, "container is required");
         requireNonNull(target, "target is required");
         requireNonNull(name, "name is required");
@@ -78,8 +78,8 @@ public record AssociationMapping<C,E>
      *            the association
      * @param <E> The type of the target entity
      */
-    public static <C,E> AssociationMapping<C,E> of(SingularAttribute<C,E> attribute, EntityMapping<E> target, String... joinColumnNames) {
-        return new AssociationMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
+    public static <C,E> FetchMapping<C,E> of(SingularAttribute<C,E> attribute, EntityMapping<E> target, String... joinColumnNames) {
+        return new FetchMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
     }
 
     /**
@@ -91,8 +91,8 @@ public record AssociationMapping<C,E>
      *            the association
      * @param <E> The type of the target entity
      */
-    public static <C,E> AssociationMapping<C,E> of(PluralAttribute<C, ?, E> attribute, EntityMapping<E> target, String... joinColumnNames) {
-        return new AssociationMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
+    public static <C,E> FetchMapping<C,E> of(PluralAttribute<C, ?, E> attribute, EntityMapping<E> target, String... joinColumnNames) {
+        return new FetchMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
     }
 
     /**
@@ -105,7 +105,7 @@ public record AssociationMapping<C,E>
      *            the association
      * @param <E> The type of the target entity
      */
-    public static <C,E> AssociationMapping<C,E> of(Class<C> container, String name, EntityMapping<E> target, String... joinColumnNames) {
-        return new AssociationMapping<>(container, name, target, joinColumnNames);
+    public static <C,E> FetchMapping<C,E> of(Class<C> container, String name, EntityMapping<E> target, String... joinColumnNames) {
+        return new FetchMapping<>(container, name, target, joinColumnNames);
     }
 }

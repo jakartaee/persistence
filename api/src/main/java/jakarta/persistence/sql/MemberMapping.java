@@ -27,5 +27,5 @@ package jakarta.persistence.sql;
  * @since 4.0
  */
 public sealed interface MemberMapping<T>
-        permits FieldMapping, EmbeddedMapping, AssociationMapping {
+        permits FieldMapping, EmbeddedMapping, FetchMapping {
 }

@@ -233,8 +233,8 @@ public sealed interface ResultSetMapping<T>
      *            the association
      * @param <E> The type of the target entity
      */
-    static <C,E> AssociationMapping<C,E> toOne(SingularAttribute<C,E> attribute, EntityMapping<E> target, String... joinColumnNames) {
-        return new AssociationMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
+    static <C,E> FetchMapping<C,E> toOne(SingularAttribute<C,E> attribute, EntityMapping<E> target, String... joinColumnNames) {
+        return new FetchMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
     }
 
     /**
@@ -246,8 +246,8 @@ public sealed interface ResultSetMapping<T>
      *            the association
      * @param <E> The type of the target entity
      */
-    static <C,E> AssociationMapping<C,E> toMany(PluralAttribute<C, ?, E> attribute, EntityMapping<E> target, String... joinColumnNames) {
-        return new AssociationMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
+    static <C,E> FetchMapping<C,E> toMany(PluralAttribute<C, ?, E> attribute, EntityMapping<E> target, String... joinColumnNames) {
+        return new FetchMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
     }
 
     /**
@@ -260,7 +260,7 @@ public sealed interface ResultSetMapping<T>
      *            the association
      * @param <E> The type of the target entity
      */
-    static <C,E> AssociationMapping<C,E> to(Class<C> container, String name, EntityMapping<E> target, String... joinColumnNames) {
-        return new AssociationMapping<>(container, name, target, joinColumnNames);
+    static <C,E> FetchMapping<C,E> to(Class<C> container, String name, EntityMapping<E> target, String... joinColumnNames) {
+        return new FetchMapping<>(container, name, target, joinColumnNames);
     }
 }
