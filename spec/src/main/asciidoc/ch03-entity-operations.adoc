@@ -3754,7 +3754,8 @@ including with entity results.
 Scalar results can be included in the query
 result by specifying the `ColumnResult` annotation element of the
 `SqlResultSetMapping` annotation. The intended type of the result can be
-specified using the `type` element of the `ColumnResult` annotation.
+specified using the `type` element of the `ColumnResult` annotation. The
+specified type must be one of the basic types listed in <<a486>>.
 
 [source,java]
 ----
@@ -3816,19 +3817,33 @@ Query q = em.createNativeQuery(
 })
 ----
 
-===== Combinations of Result Types [[combinations-of-result-types]]
+===== Annotated Result Set Mappings [[sql-result-set-mapping]]
 
-When a `SqlResultSetMapping` specifies more
-than one mapping type (i.e., more than one of `EntityResult`,
-`ConstructorResult`, `ColumnResult`), then for each row in the SQL
-result, the query execution will result in an `Object[]` instance whose
-elements are as follows, in order: any entity results (in the order in
-which they are defined in the `entities` element); any instances of
-classes corresponding to constructor results (in the order defined in
-the `classes` element); and any instances corresponding to column
-results (in the order defined in the `columns` element). If there are
-any columns whose result mappings have not been specified, they are
-ignored.
+The `SqlResultSetMapping` annotation defined in <<a13797>> allows
+columns of a SQL result set to be explicitly mapped to an entity class,
+as described above in <<entity-results>>, a constructor, as described
+above in <<constructor-results>>, or a basic type, as described in
+<<scalar-results>>.
+
+- When a `SqlResultSetMapping` specifies exactly one `EntityResult`,
+  `ConstructorResult`, or `ColumnResult`, each row of the SQL result
+  set maps to query result whose type is the `entityClass` specified
+  by the `EntityResult`, `targetClass` specified by the `ConstructorResult`,
+  or `type` specified by (or inferred from) the `ColumnResult`.
+
+- Otherwise, when a `SqlResultSetMapping` specifies more than one result
+  mapping, each row in the SQL result set maps to a query result of type
+  `Object[]`, whose elements are, in order:
+
+  * entity results, in the order in which they are declared by the
+    `entities` element;
+  * constructor results, in the order in which they are declared by
+    the `classes` element; and
+  * scalar results, in the order in which they are declared by
+    the `columns` element.
+
+If the SQL result set has a column with no result mapping explicitly
+specified by the `SqlResultSetMapping` annotation, the column is ignored.
 
 ===== Programmatic Result Set Mappings
 
@@ -3914,7 +3929,9 @@ of `EntityManager` for execution.
 
 An instance of `ResultSetMapping` representing a result set mapping
 declared using the `@SqlResultSetMapping` annotation may be obtained
-from the `EntityManagerFactory` by calling `getResultSetMappings()`.
+from the `EntityManagerFactory` by calling `getResultSetMappings()`,
+passing a Java class to which the query results are assignable
+according to the rules specified above in <<sql-result-set-mapping>>.
 
 ==== Result Classes for SQL Queries [[result-class-native-sql]]
 

@@ -665,8 +665,9 @@ public @interface ColumnResult {
 The `name` element specifies the name of the column in the SELECT list.
 
 The `type` element specifies the Java type to which the column type is
-to be mapped. If the `type` element is not specified, the default JDBC
-type mapping for the column is used.
+mapped. The specified type must be one of the basic types listed in
+<<a486>>. If the `type` element is not specified, the default JDBC type
+mapping for the column type is used.
 
 === References to EntityManager and EntityManagerFactory
 
