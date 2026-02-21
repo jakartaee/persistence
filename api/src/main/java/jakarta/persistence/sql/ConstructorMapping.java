@@ -33,7 +33,7 @@ import static java.util.Objects.requireNonNull;
 public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] arguments, String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
-    public ConstructorMapping(Class<T> targetClass, MappingElement<?>[] arguments) {
+    public ConstructorMapping(Class<T> targetClass, MappingElement<?>[] arguments, String alias) {
         requireNonNull(targetClass, "targetClass is required");
         requireNonNull(arguments, "arguments are required");
         if (arguments.length == 0) {
@@ -44,6 +44,7 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
         }
         this.targetClass = targetClass;
         this.arguments = arguments.clone();
+        this.alias = alias;
     }
 
     @Override

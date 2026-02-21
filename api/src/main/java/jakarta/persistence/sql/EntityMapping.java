@@ -41,7 +41,7 @@ public record EntityMapping<T>
         (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>[] fields, String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
-    public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>[] fields) {
+    public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>[] fields, String alias) {
         requireNonNull(entityClass, "entityClass is required");
         requireNonNull(lockMode, "lockMode is required");
         if (discriminatorColumn != null && discriminatorColumn.isBlank()) {
@@ -55,6 +55,7 @@ public record EntityMapping<T>
         this.lockMode = lockMode;
         this.discriminatorColumn = discriminatorColumn;
         this.fields = fields.clone();
+        this.alias = alias;
     }
 
     @Override
