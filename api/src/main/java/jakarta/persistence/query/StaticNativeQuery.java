@@ -109,7 +109,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @SqlResultSetMapping(entities =
  *         @EntityResult(entityClass = Book.class,
  *                 fields = {@FieldResult(name = "isbn", column = "isbn_13"),
- *                           @FieldResult(name = "title", column = "title_en"})
+ *                           @FieldResult(name = "title", column = "title_en")}))
  * Book getBookWithIsbn(String isbn);
  * }
  *
