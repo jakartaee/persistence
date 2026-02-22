@@ -234,7 +234,7 @@ public sealed interface ResultSetMapping<T>
      * @param <E> The type of the target entity
      */
     static <C,E> FetchMapping<C,E> toOne(SingularAttribute<C,E> attribute, EntityMapping<E> target, String... joinColumnNames) {
-        return new FetchMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
+        return FetchMapping.of(attribute, target, joinColumnNames);
     }
 
     /**
@@ -247,7 +247,7 @@ public sealed interface ResultSetMapping<T>
      * @param <E> The type of the target entity
      */
     static <C,E> FetchMapping<C,E> toMany(PluralAttribute<C, ?, E> attribute, EntityMapping<E> target, String... joinColumnNames) {
-        return new FetchMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getName(), target, joinColumnNames);
+        return FetchMapping.of(attribute, target, joinColumnNames);
     }
 
     /**
@@ -261,6 +261,6 @@ public sealed interface ResultSetMapping<T>
      * @param <E> The type of the target entity
      */
     static <C,E> FetchMapping<C,E> to(Class<C> container, String name, EntityMapping<E> target, String... joinColumnNames) {
-        return new FetchMapping<>(container, name, target, joinColumnNames);
+        return FetchMapping.of(container, name, target, joinColumnNames);
     }
 }
