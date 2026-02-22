@@ -35,7 +35,7 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0
  */
 public record FieldMapping<C,T>
-        (Class<C> container, Class<T> type, String name, String columnName)
+        (Class<? super C> container, Class<T> type, String name, String columnName)
         implements MemberMapping<C> {
 
     public FieldMapping {
@@ -54,7 +54,7 @@ public record FieldMapping<C,T>
      * @param <C> The type of the entity or embeddable type
      * @param <T> The type of the field
      */
-    public static <C,T> FieldMapping<C,T> of(Class<C> container, Class<T> type, String name, String columnName) {
+    public static <C,T> FieldMapping<C,T> of(Class<? super C> container, Class<T> type, String name, String columnName) {
         return new FieldMapping<>(container, type, name, columnName);
     }
 
@@ -65,7 +65,7 @@ public record FieldMapping<C,T>
      * @param <C> The type of the entity or embeddable type
      * @param <T> The type of the field
      */
-    public static <C,T> FieldMapping<C,T> of(SingularAttribute<C,T> attribute, String columnName) {
+    public static <C,T> FieldMapping<C,T> of(SingularAttribute<? super C,T> attribute, String columnName) {
         return new FieldMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), columnName);
     }
 }
