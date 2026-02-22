@@ -40,29 +40,37 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * in either the new or detached state, depending on whether a
  * primary key was assigned to the constructed object.
  *
- * <p>Example:
+ * <p>Consider the following SQL query:
  * {@snippet :
- * Query q = em.createNativeQuery(
- *     "SELECT c.id, c.name, " +
- *         "COUNT(o) as orderCount, " +
- *         "AVG(o.price) AS avgOrder " +
- *       "FROM Customer c, Orders o " +
- *       "WHERE o.cid = c.id " +
- *       "GROUP BY c.id, c.name",
- *     "CustomerDetailsResult");
- *
- * @SqlResultSetMapping(
- *     name = "CustomerDetailsResult",
- *     classes = {
- *         @ConstructorResult(
- *             targetClass = com.acme.CustomerDetails.class,
- *             columns = {
- *                 @ColumnResult(name = "id"),
- *                 @ColumnResult(name = "name"),
- *                 @ColumnResult(name = "orderCount"),
- *                 @ColumnResult(name = "avgOrder", type = Double.class)
- *             })
- *     })
+ * Query customerDetails =
+ *         em.createNativeQuery(
+ *             """
+ *                SELECT c.id, c.name,
+ *                       COUNT(o) as order_count,
+ *                       AVG(o.price) AS avg_price
+ *                FROM Customer c
+ *                JOIN Orders o ON o.cid = c.id
+ *                GROUP BY c.id, c.name
+ *             """,
+ *             ResultMappings_.CUSTOMER_DETAILS
+ *         );
+ * }
+ * <p>The result set mapping might be defined as follows:
+ * {@snippet :
+ *  @SqlResultSetMapping(
+ *      name = "CustomerDetails",
+ *      classes = @ConstructorResult(
+ *          targetClass = CustomerDetails.class,
+ *          columns = {
+ *              @ColumnResult(name = "id"),
+ *              @ColumnResult(name = "name"),
+ *              @ColumnResult(name = "order_count"),
+ *              @ColumnResult(name = "avg_price",
+ *                            type = Double.class)
+ *          }
+ *      )
+ * )
+ * interface ResultMappings {}
  * }
  *
  * <p>At runtime, a {@code ConstructorResult} annotation is represented by an

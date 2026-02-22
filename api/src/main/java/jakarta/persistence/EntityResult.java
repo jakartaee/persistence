@@ -40,22 +40,30 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * mapped by the entity class, the {@link FieldResult} annotation
  * must be used to explicitly specify the mapping.
  *
- * <p>Example:
+ * <p>Consider the following SQL query:
  * {@snippet :
- * Query q = em.createNativeQuery(
- *     "SELECT o.id, o.quantity, o.item, " +
- *         "i.id, i.name, i.description " +
- *       "FROM Order o, Item i " +
- *       "WHERE (o.quantity > 25) AND (o.item = i.id)",
- *     "OrderItemResults");
- *
+ * Query ordersWithItems =
+ *         em.createNativeQuery(
+ *             """
+ *                SELECT o.id, o.quantity, o.item,
+ *                       i.id, i.name, i.description
+ *                FROM Order o
+ *                JOIN Item i ON o.item = i.id
+ *                WHERE o.quantity > 25
+ *             """,
+ *             ResultMappings_.MAPPING_ORDERS_WITH_ITEMS
+ *         );
+ * }
+ * <p>The result set mapping might be defined as follows:
+ * {@snippet :
  * @SqlResultSetMapping(
- *     name = "OrderItemResults",
+ *     name = "OrdersWithItems",
  *     entities = {
- *         @EntityResult(entityClass = com.acme.Order.class),
- *         @EntityResult(entityClass = com.acme.Item.class)
+ *         @EntityResult(entityClass = Order.class),
+ *         @EntityResult(entityClass = Item.class)
  *     }
  * )
+ * interface ResultMappings {}
  * }
  *
  * <p>At runtime, an {@code EntityResult} annotation is represented by an
@@ -91,7 +99,7 @@ public @interface EntityResult {
      */
     FieldResult[] fields() default {};
 
-    /** 
+    /**
      * Specifies the column name (or alias) of the column in the
      * {@code SELECT} list that is used to determine the type of
      * the entity instance. An empty string indicates that there

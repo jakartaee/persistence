@@ -31,27 +31,37 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * declared by a {@linkplain Embedded child embeddable object}, then
  * {@link #name} specifies a qualified path.
  *
- * <p>Example:
+ * <p>Consider the following SQL query:
  * {@snippet :
- * Query q = em.createNativeQuery(
- *     "SELECT o.id AS order_id, " +
- *         "o.quantity AS order_quantity, " +
- *         "o.item AS order_item, " +
- *       "FROM Order o, Item i " +
- *       "WHERE (order_quantity > 25) AND (order_item = i.id)",
- *     "OrderResults");
- *
+ * Query orders =
+ *         em.createNativeQuery(
+ *             """
+ *                SELECT o.id AS order_id,
+ *                       o.quantity AS order_quantity,
+ *                       o.item AS order_item
+ *                FROM Order o
+ *                WHERE o.quantity > 25
+ *             """,
+ *             ResultMappings_.MAPPING_ORDERS
+ *         );
+ * }
+ * <p>The result set mapping might be defined as follows:
+ * {@snippet :
  * @SqlResultSetMapping(
- *     name = "OrderResults",
- *     entities = {
- *         @EntityResult(
- *             entityClass = com.acme.Order.class,
- *             fields = {
- *                 @FieldResult(name = "id", column = "order_id"),
- *                 @FieldResult(name = "quantity", column = "order_quantity"),
- *                 @FieldResult(name = "item", column = "order_item")
- *             })
- *     })
+ *     name = "Orders",
+ *     entities = @EntityResult(
+ *          entityClass = Order.class,
+ *          fields = {
+ *              @FieldResult(name = Order_.ID,
+ *                           column = "order_id"),
+ *              @FieldResult(name = Order_.QUANTITY,
+ *                           column = "order_quantity"),
+ *              @FieldResult(name = Order_.ITEM,
+ *                           column = "order_item")
+ *         }
+ *     )
+ * )
+ * interface ResultMappings {}
  * }
  *
  * <p>At runtime, a {@code FieldResult} annotation is represented by an

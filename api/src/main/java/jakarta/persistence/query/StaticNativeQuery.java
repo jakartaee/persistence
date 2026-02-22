@@ -102,7 +102,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> If a {@link jakarta.persistence.SqlResultSetMapping} exists with
  * the same name as the query, it is used to map the result set of the
  * query. If the {@code @SqlResultSetMapping} annotation occurs on the
- * same method as {@code @StaticNativeQuery} annotation, name defaulting
+ * method with the {@code @StaticNativeQuery} annotation, name defaulting
  * rules conspire to ensure that no name needs to be explicitly specified.
  * {@snippet :
  * @StaticNativeQuery("select * from books where isbn = ?")
