@@ -146,14 +146,29 @@ public sealed interface ResultSetMapping<T>
      * Construct a mapping for an entity class.
      *
      * @param entityClass The Java class of the entity
-     * @param discriminatorColumn The name of the column holding the discriminator;
-     *        an empty string indicates that there is no discriminator column
+     * @param lockMode The lock mode acquired by SQL query
      * @param fields Mappings for fields or properties of the entity
      *
      * @see jakarta.persistence.EntityResult
      */
     @SafeVarargs
-    static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
+    static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, MemberMapping<T>... fields) {
+        return EntityMapping.of(entityClass, lockMode, fields);
+    }
+
+    /**
+     * Construct a mapping for an entity class.
+     *
+     * @param entityClass The Java class of the entity
+     * @param discriminatorColumn The name of the column holding the discriminator;
+     *        an empty string indicates that there is no discriminator column
+     * @param fields Mappings for fields or properties of the entity
+     *               and of its entity subclasses
+     *
+     * @see jakarta.persistence.EntityResult
+     */
+    @SafeVarargs
+    static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<? extends T>... fields) {
         return EntityMapping.of(entityClass, discriminatorColumn, fields);
     }
 
@@ -165,11 +180,12 @@ public sealed interface ResultSetMapping<T>
      * @param discriminatorColumn The name of the column holding the discriminator;
      *        an empty string indicates that there is no discriminator column
      * @param fields Mappings for fields or properties of the entity
+     *               and of its entity subclasses
      *
      * @see jakarta.persistence.EntityResult
      */
     @SafeVarargs
-    static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
+    static <T> EntityMapping<T> entity(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>... fields) {
         return EntityMapping.of(entityClass, lockMode, discriminatorColumn, fields);
     }
 
@@ -182,7 +198,7 @@ public sealed interface ResultSetMapping<T>
      * @param fields Mappings for fields or properties of the entity
      */
     @SafeVarargs
-    static <C,T> EmbeddedMapping<C,T> embedded(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
+    static <C,T> EmbeddedMapping<C,T> embedded(Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
         return EmbeddedMapping.of(container, embeddableClass, name, fields);
     }
 
@@ -193,7 +209,7 @@ public sealed interface ResultSetMapping<T>
      * @param fields Mappings for fields or properties of the entity
      */
     @SafeVarargs
-    static <C,T> EmbeddedMapping<C,T> embedded(SingularAttribute<C,T> embedded, MemberMapping<T>... fields) {
+    static <C,T> EmbeddedMapping<C,T> embedded(SingularAttribute<? super C,T> embedded, MemberMapping<T>... fields) {
         return EmbeddedMapping.of(embedded, fields);
     }
 
@@ -207,7 +223,7 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.FieldResult
      */
-    static <C,T> FieldMapping<C,T> field(Class<C> container, Class<T> type, String name, String columnName) {
+    static <C,T> FieldMapping<C,T> field(Class<? super C> container, Class<T> type, String name, String columnName) {
         return FieldMapping.of(container, type, name, columnName);
     }
 
@@ -219,7 +235,7 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.FieldResult
      */
-    static <C,T> FieldMapping<C,T> field(SingularAttribute<C,T> attribute, String columnName) {
+    static <C,T> FieldMapping<C,T> field(SingularAttribute<? super C,T> attribute, String columnName) {
         return FieldMapping.of(attribute, columnName);
     }
 }

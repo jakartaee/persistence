@@ -34,10 +34,10 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0
  */
 public record EmbeddedMapping<C,T>
-        (Class<C> container, Class<T> embeddableClass, String name, MemberMapping<?>[] fields)
+        (Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>[] fields)
         implements MemberMapping<C> {
 
-    public EmbeddedMapping(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<?>[] fields) {
+    public EmbeddedMapping(Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>[] fields) {
         requireNonNull(container, "container is required");
         requireNonNull(embeddableClass, "embeddableClass is required");
         requireNonNull(name, "name is required");
@@ -52,7 +52,7 @@ public record EmbeddedMapping<C,T>
     }
 
     @Override
-    public MemberMapping<?>[] fields() {
+    public MemberMapping<T>[] fields() {
         return fields.clone();
     }
 
@@ -67,7 +67,7 @@ public record EmbeddedMapping<C,T>
      * @param <C> The container type
      */
     @SafeVarargs
-    public static <C,T> EmbeddedMapping<C,T> of(Class<C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
+    public static <C,T> EmbeddedMapping<C,T> of(Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
         return new EmbeddedMapping<>(container, embeddableClass, name, fields);
     }
 
@@ -79,7 +79,7 @@ public record EmbeddedMapping<C,T>
      * @param <C> The container type
      */
     @SafeVarargs
-    public static <C,T> EmbeddedMapping<C,T> of(SingularAttribute<C,T> embedded, MemberMapping<T>... fields) {
+    public static <C,T> EmbeddedMapping<C,T> of(SingularAttribute<? super C,T> embedded, MemberMapping<T>... fields) {
         return new EmbeddedMapping<>(embedded.getDeclaringType().getJavaType(), embedded.getJavaType(), embedded.getName(), fields);
     }
 }

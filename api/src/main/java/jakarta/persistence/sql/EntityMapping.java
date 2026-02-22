@@ -17,8 +17,6 @@ package jakarta.persistence.sql;
 
 import jakarta.persistence.LockModeType;
 
-import java.util.Arrays;
-
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -32,6 +30,7 @@ import static java.util.Objects.requireNonNull;
  *        discriminator}; a {@code null} value indicates that
  *        there is no discriminator column.
  * @param fields Mappings for fields or properties of the entity
+ *               and of its entity subclasses
  * @param <T> The entity type
  *
  * @see jakarta.persistence.EntityResult
@@ -39,10 +38,10 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0
  */
 public record EntityMapping<T>
-        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields)
+        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>[] fields)
         implements MappingElement<T>, ResultSetMapping<T> {
 
-    public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<?>[] fields) {
+    public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>[] fields) {
         requireNonNull(entityClass, "entityClass is required");
         requireNonNull(lockMode, "lockMode is required");
         if (discriminatorColumn != null && discriminatorColumn.isBlank()) {
@@ -59,7 +58,7 @@ public record EntityMapping<T>
     }
 
     @Override
-    public MemberMapping<?>[] fields() {
+    public MemberMapping<? extends T>[] fields() {
         return fields.clone();
     }
 
@@ -93,15 +92,28 @@ public record EntityMapping<T>
     /**
      * Construct a new instance.
      * @param entityClass The entity class
+     * @param lockMode The lock mode acquired by the SQL query
+     * @param fields Mappings for fields or properties of the entity
+     * @param <T> The entity type
+     */
+    @SafeVarargs
+    public static <T> EntityMapping<T> of(Class<T> entityClass, LockModeType lockMode, MemberMapping<T>... fields) {
+        return new EntityMapping<>(entityClass, lockMode, null, fields);
+    }
+
+    /**
+     * Construct a new instance.
+     * @param entityClass The entity class
      * @param discriminatorColumn The name of the column holding the
      *        {@linkplain jakarta.persistence.DiscriminatorColumn
      *        discriminator}; a {@code null} value indicates that
      *        there is no discriminator column.
      * @param fields Mappings for fields or properties of the entity
+     *               and of its entity subclasses
      * @param <T> The entity type
      */
     @SafeVarargs
-    public static <T> EntityMapping<T> of(Class<T> entityClass, String discriminatorColumn, MemberMapping<T>... fields) {
+    public static <T> EntityMapping<T> of(Class<T> entityClass, String discriminatorColumn, MemberMapping<? extends T>... fields) {
         return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields);
     }
 
@@ -114,10 +126,11 @@ public record EntityMapping<T>
      *        discriminator}; a {@code null} value indicates that
      *        there is no discriminator column.
      * @param fields Mappings for fields or properties of the entity
+     *               and of its entity subclasses
      * @param <T> The entity type
      */
     @SafeVarargs
-    public static <T> EntityMapping<T> of(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<T>... fields) {
+    public static <T> EntityMapping<T> of(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>... fields) {
         return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields);
     }
 
