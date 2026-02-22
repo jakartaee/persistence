@@ -44,9 +44,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         entities = @EntityResult(
  *             entityClass = Order.class,
  *             fields = {
- *                 @FieldResult(name = "id", column = "order_id"),
- *                 @FieldResult(name = "total", column = "order_total"),
- *                 @FieldResult(name = "item", column = "order_item")
+ *                 @FieldResult(name = Order_.ID, column = "order_id"),
+ *                 @FieldResult(name = Order_.TOTAL, column = "order_total"),
+ *                 @FieldResult(name = Order_.ITEM, column = "order_item")
  *             }
  *         ),
  *         columns = @ColumnResult(name = "item_name")
@@ -65,8 +65,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *                          o.total AS order_total,
  *                          o.item_id AS order_item,
  *                          i.desc_name AS item_name
- *                   FROM orders o, order_items i
- *                   WHERE order_total > 25 AND order_item = i.id
+ *                   FROM orders o
+ *                   JOIN order_items i
+ *                     ON o.id = i.order_id
+ *                   WHERE o.total > 25
  *                 """,
  *                 Order_._orderResults
  *         ).getResultList();
@@ -81,9 +83,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     entities = @EntityResult(
  *             entityClass = Order.class,
  *             fields = {
- *                 @FieldResult(name = "id", column = "order_id"),
- *                 @FieldResult(name = "total", column = "order_total"),
- *                 @FieldResult(name = "item_id", column = "order_item")
+ *                 @FieldResult(name = Order_.ID, column = "order_id"),
+ *                 @FieldResult(name = Order_.TOTAL, column = "order_total"),
+ *                 @FieldResult(name = Order_.ITEM, column = "order_item")
  *             }
  *     )
  * )
