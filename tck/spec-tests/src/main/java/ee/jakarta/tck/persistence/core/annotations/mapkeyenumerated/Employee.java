@@ -30,7 +30,7 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "EMP_MAPKEYCOL")
+@Table(name = "EMP_MAPKEYCOL1")
 public class Employee implements java.io.Serializable {
 
 	private int id;
