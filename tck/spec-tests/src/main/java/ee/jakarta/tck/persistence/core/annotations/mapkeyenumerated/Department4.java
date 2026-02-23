@@ -32,7 +32,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity
-@Table(name = "DEPARTMENT2")
+@Table(name = "DEPARTMENT4")
 public class Department4 implements java.io.Serializable {
 
 	private static final long serialVersionUID = 22L;

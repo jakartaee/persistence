@@ -28,7 +28,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "DEPARTMENT")
+@Table(name = "DEPARTMENT1")
 public class Department implements java.io.Serializable {
 
 	// Instance variables
