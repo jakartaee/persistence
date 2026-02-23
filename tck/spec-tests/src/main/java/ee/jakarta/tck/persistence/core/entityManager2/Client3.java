@@ -37,13 +37,16 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class Client3 extends PMClientBase {
 
     private static final Logger logger = System.getLogger(Client3.class.getName());
 
     Order[] orders = new Order[5];
 
-    Map map = new HashMap<String, Object>();
+    Map<String, Object> map = new HashMap<String, Object>();
 
     String dataBaseName = null;
 
@@ -53,8 +56,12 @@ public class Client3 extends PMClientBase {
     public JavaArchive createDeployment() throws Exception {
 
         String pkgNameWithoutSuffix = Client3.class.getPackageName();
-        String pkgName = pkgNameWithoutSuffix + ".";
-        String[] classes = {pkgName + "DoesNotExist", pkgName + "Employee", pkgName + "Order"};
+        String[] classes = {
+                Parent.class.getName(),
+                Child.class.getName(),
+                Employee.class.getName(),
+                Order.class.getName()
+        };
         return createDeploymentJar("jpa_core_entityManager3.jar", pkgNameWithoutSuffix, classes);
 
     }
@@ -264,23 +271,13 @@ public class Client3 extends PMClientBase {
     }
 
     @Test
-    public void refreshOptionsTest() throws Exception {
-        boolean pass = false;
-        try {
-            Order order = getEntityManager().find(Order.class, orders[0].getId());
+    public void refreshOptionsTest() {
+        getEntityManagerFactory().runInTransaction(em -> {
+            Order order = em.find(Order.class, orders[0].getId());
             RefreshOption[] refreshOptions = new RefreshOption[]{CacheStoreMode.BYPASS, LockModeType.NONE, Timeout.seconds(10)};
-            getEntityManager().refresh(order, refreshOptions);
-            if (order.equals(orders[0])) {
-                pass = true;
-            } else {
-                logger.log(Logger.Level.ERROR, "Fetched entity is not same as expected.");
-            }
-        } catch (Exception e) {
-            logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-        }
-        if (!pass) {
-            throw new Exception("refreshOptionsTest failed");
-        }
+            em.refresh(order, refreshOptions);
+            assertEquals(order, orders[0]);
+        });
     }
 
     @Test
@@ -356,9 +353,7 @@ public class Client3 extends PMClientBase {
             getEntityTransaction().rollback();
         }
         try {
-            getEntityTransaction().begin();
-            getEntityManager().createNativeQuery("DELETE FROM PURCHASE_ORDER").executeUpdate();
-            getEntityTransaction().commit();
+            getEntityManagerFactory().getSchemaManager().truncate();
         } catch (Exception e) {
             logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
         } finally {

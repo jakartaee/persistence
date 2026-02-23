@@ -34,19 +34,11 @@ public class Client2 extends PMClientBase {
 
 	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
 
-	Employee[] empRef = new Employee[5];
-
 	Order[] orders = new Order[5];
 
-	Properties props = null;
-
-	Map map = new HashMap<String, Object>();
-
-	Employee emp = new Employee(1, "foo", "bar", getUtilDate("2000-02-14"), (float) 35000.0);
+	Map<String, Object> map = new HashMap<>();
 
 	String dataBaseName = null;
-
-	final static String ORACLE = "oracle";
 
 	public Client2() {
 	}
@@ -54,8 +46,12 @@ public class Client2 extends PMClientBase {
 	public JavaArchive createDeployment() throws Exception {
 
 		String pkgNameWithoutSuffix = Client2.class.getPackageName();
-		String pkgName = pkgNameWithoutSuffix + ".";
-		String[] classes = { pkgName + "DoesNotExist", pkgName + "Employee", pkgName + "Order" };
+        String[] classes = {
+                Parent.class.getName(),
+                Child.class.getName(),
+                Employee.class.getName(),
+                Order.class.getName()
+        };
 		return createDeploymentJar("jpa_core_entityManager2.jar", pkgNameWithoutSuffix, classes);
 
 	}
@@ -300,9 +296,7 @@ public class Client2 extends PMClientBase {
 			getEntityTransaction().rollback();
 		}
 		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("DELETE FROM PURCHASE_ORDER").executeUpdate();
-			getEntityTransaction().commit();
+			getEntityManagerFactory().getSchemaManager().truncate();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
 		} finally {

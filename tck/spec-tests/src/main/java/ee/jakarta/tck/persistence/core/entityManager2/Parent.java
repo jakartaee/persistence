@@ -16,27 +16,31 @@
 
 package ee.jakarta.tck.persistence.core.entityManager2;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "DOESNOTEXIST")
-public class DoesNotExist implements java.io.Serializable {
+@Table(name = "PARENT")
+public class Parent implements java.io.Serializable {
 	private int id;
 
 	private String firstName;
 
-	public DoesNotExist() {
+	public Parent() {
 	}
 
-	public DoesNotExist(int id) {
+	public Parent(int id) {
 		this.id = id;
 	}
 	// ===========================================================
 	// getters and setters for the state fields
 
-	@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -45,6 +49,7 @@ public class DoesNotExist implements java.io.Serializable {
 		this.id = id;
 	}
 
+    @Column(length = 10)
 	public String getFirstName() {
 		return firstName;
 	}
