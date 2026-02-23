@@ -52,7 +52,7 @@ public class Student implements java.io.Serializable {
 	 * student enrollments
 	 */
 	@ManyToMany
-	@MapKeyJoinColumn(name = "ENROLLMENT_KEY", insertable = true, nullable = false, unique = true, updatable = false)
+	@MapKeyJoinColumn(name = "ENROLLMENT_KEY")
 	@JoinTable(name = "ENROLLMENTS", joinColumns = @JoinColumn(name = "STUDENT"), inverseJoinColumns = @JoinColumn(name = "SEMESTER"))
 	Map<Course, Semester> enrollment;
 
