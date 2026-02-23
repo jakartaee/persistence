@@ -19,8 +19,9 @@ package ee.jakarta.tck.persistence.core.entityManager2;
 import java.lang.System.Logger;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Statement;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,34 +38,28 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.criteria.Root;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class Client1 extends PMClientBase {
 
 	private static final Logger logger = (Logger) System.getLogger(Client1.class.getName());
 
-	Employee[] empRef = new Employee[5];
-
-	Order[] orders = new Order[5];
-
-	Properties props = null;
-
-	Map map = new HashMap<String, Object>();
-
-	Employee emp = new Employee(1, "foo", "bar", getUtilDate("2000-02-14"), (float) 35000.0);
+	Map<String, Object> map = new HashMap<>();
 
 	String dataBaseName = null;
-
-	final static String ORACLE = "oracle";
 
 	public JavaArchive createDeployment() throws Exception {
 
 		String pkgNameWithoutSuffix = Client1.class.getPackageName();
-		String pkgName = pkgNameWithoutSuffix + ".";
-		String[] classes = { pkgName + "DoesNotExist", pkgName + "Employee", pkgName + "Order" };
+
+        String[] classes = {
+                Parent.class.getName(),
+                Child.class.getName(),
+                Employee.class.getName(),
+                Order.class.getName()
+        };
 		return createDeploymentJar("jpa_core_entityManager1.jar", pkgNameWithoutSuffix, classes);
-
-	}
-
-	public Client1() {
 	}
 
 	/*
@@ -92,7 +87,8 @@ public class Client1 extends PMClientBase {
 	public void cleanup() throws Exception {
 		try {
 			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
+            getEntityManagerFactory().getSchemaManager().truncate();
+            super.cleanup();
 		} finally {
 			removeTestJarFromCP();
 		}
@@ -622,46 +618,33 @@ public class Client1 extends PMClientBase {
 	 * @test_Strategy: Call EntityManager.createQuery(CriteriaDelete) that causes
 	 * RuntimeException and verify Transaction is set for rollback
 	 */
-	@Test
-	public void entityManagerMethodsRuntimeExceptionsCauseRollback5Test() throws Exception {
-		boolean pass = false;
-		try {
-			getEntityTransaction().begin();
-			CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-			CriteriaDelete<DoesNotExist> cd = cbuilder.createCriteriaDelete(DoesNotExist.class);
-			cd.from(DoesNotExist.class);
-			try {
-				Query q = getEntityManager().createQuery(cd);
-				logger.log(Logger.Level.INFO, "RuntimeException wasn't thrown, try executing it");
-				q.executeUpdate();
-				logger.log(Logger.Level.ERROR, "RuntimeException not thrown");
-			} catch (RuntimeException e) {
-				logger.log(Logger.Level.TRACE, "RuntimeException Caught as Expected.", e);
-				if (!getEntityTransaction().getRollbackOnly()) {
-					logger.log(Logger.Level.ERROR, "Transaction was not marked for rollback");
-				} else {
-					logger.log(Logger.Level.TRACE, "Transaction was marked for rollback");
-					pass = true;
-				}
-			} catch (Exception e) {
-				logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-			}
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Unexpected exception occurred while creating CriteriaDelete", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception fe) {
-				logger.log(Logger.Level.ERROR, "Unexpected exception rolling back TX:", fe);
-			}
-		}
-
-		if (!pass) {
-			throw new Exception("entityManagerMethodsRuntimeExceptionsCauseRollback5Test failed");
-		}
-	}
+    @Test
+    public void entityManagerMethodsRuntimeExceptionsCauseRollback5Test() {
+        getEntityManagerFactory().runInTransaction(em -> {
+            // Attempt to delete the "parent" entities
+            //  while they are still referenced from the child ones
+            //  should result in a delete query failure :
+            Parent parent = new Parent();
+            em.persist(parent);
+            Child child = new Child();
+            child.setParent(parent);
+            em.persist(child);
+        });
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        CriteriaBuilder cbuilder = em.getCriteriaBuilder();
+        CriteriaDelete<Parent> cd = cbuilder.createCriteriaDelete(Parent.class);
+        cd.from(Parent.class);
+        try {
+            Statement q = em.createStatement(cd);
+            q.execute();
+        } catch (RuntimeException e) {
+            assertTrue(em.getTransaction().getRollbackOnly());
+            em.getTransaction().rollback();
+        } catch (Exception e) {
+            fail("Unexpected exception occurred", e);
+        }
+    }
 
 	/*
 	 * @testName: entityManagerMethodsRuntimeExceptionsCauseRollback6Test
@@ -717,46 +700,32 @@ public class Client1 extends PMClientBase {
 	 */
 	@Test
 	public void entityManagerMethodsRuntimeExceptionsCauseRollback7Test() throws Exception {
-		boolean pass = false;
-		try {
-			getEntityTransaction().begin();
-			CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
+        int id = getEntityManagerFactory().callInTransaction(em -> {
+            // Attempt to delete the "parent" entities
+            //  while they are still referenced from the child ones
+            //  should result in a delete query failure :
+            Parent parent = new Parent();
+            em.persist(parent);
+            return parent.getId();
+        });
 
-			CriteriaUpdate<DoesNotExist> cu = cbuilder.createCriteriaUpdate(DoesNotExist.class);
-			Root<DoesNotExist> root = cu.from(DoesNotExist.class);
-			cu.where(cbuilder.equal(root.get("id"), 1));
-			cu.set(root.get("firstName"), "foobar");
-			try {
-				Query q = getEntityManager().createQuery(cu);
-				logger.log(Logger.Level.INFO, "RuntimeException wasn't thrown, try executing it");
-				q.executeUpdate();
-				logger.log(Logger.Level.ERROR, "RuntimeException not thrown");
-			} catch (RuntimeException e) {
-				logger.log(Logger.Level.TRACE, "RuntimeException Caught as Expected.");
-				if (!getEntityTransaction().getRollbackOnly()) {
-					logger.log(Logger.Level.ERROR, "Transaction was not marked for rollback");
-				} else {
-					logger.log(Logger.Level.TRACE, "Transaction was marked for rollback");
-					pass = true;
-				}
-			} catch (Exception e) {
-				logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-			}
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Unexpected exception occurred while creating CriteriaUpdate", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception fe) {
-				logger.log(Logger.Level.ERROR, "Unexpected exception rolling back TX:", fe);
-			}
-		}
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
 
-		if (!pass) {
-			throw new Exception("entityManagerMethodsRuntimeExceptionsCauseRollback7Test failed");
-		}
+        CriteriaUpdate<Parent> cu = cbuilder.createCriteriaUpdate(Parent.class);
+        Root<Parent> root = cu.from(Parent.class);
+        cu.where(cbuilder.equal(root.get("id"), id));
+        cu.set(root.get("firstName"), "01234567890123456789");
+        try {
+            Statement q = getEntityManager().createStatement(cu);
+            q.execute();
+        } catch (RuntimeException e) {
+            assertTrue(em.getTransaction().getRollbackOnly());
+            em.getTransaction().rollback();
+        } catch (Exception e) {
+            fail("Unexpected exception occurred", e);
+        }
 	}
 
 	/*
