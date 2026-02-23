@@ -60,6 +60,10 @@ import jakarta.persistence.metamodel.PluralAttribute.CollectionType;
 import jakarta.persistence.metamodel.Type.PersistenceType;
 import jakarta.persistence.spi.LoadState;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class Client extends PMClientBase {
 
 	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
@@ -92,9 +96,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: accessTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:301
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -140,9 +144,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: accessTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:302
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -192,9 +196,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: cacheRetrieveModeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:309
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -242,9 +246,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: cacheRetrieveModeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:310
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -294,9 +298,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: cacheStoreModeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:311
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -348,9 +352,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: cacheStoreModeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:312
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -406,9 +410,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: cascadeTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:9
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -475,9 +479,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: cascadeTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:10
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -551,9 +555,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: discriminatorTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:26
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -606,9 +610,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: discriminatorTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:27
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -665,9 +669,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: enumTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:74
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -714,9 +718,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: enumTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:73
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -766,9 +770,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: fetchTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:75
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -815,61 +819,33 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: fetchTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:76
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
-	@Test
-	public void fetchTypeValuesTest() throws Exception {
-		boolean pass = true;
+    @Test
+    public void fetchTypeValuesTest() throws Exception {
+        logger.log(Logger.Level.TRACE, "Begin fetchTypeValuesTest");
 
-		logger.log(Logger.Level.TRACE, "Begin fetchTypeValuesTest");
-		try {
+        Collection<FetchType> ft = Arrays.asList(FetchType.values());
+        assertEquals(3, ft.size());
 
-			Collection<FetchType> ft = Arrays.asList(FetchType.values());
-			if (ft.size() != 2) {
-				logger.log(Logger.Level.ERROR, "Number of FetchType expected:2, actual:" + ft.size());
-				pass = false;
-			}
+        assertTrue(ft.contains(FetchType.EAGER));
+        assertTrue(ft.contains(FetchType.LAZY));
+        assertTrue(ft.contains(FetchType.DEFAULT));
 
-			if (ft.contains(FetchType.EAGER)) {
-				logger.log(Logger.Level.TRACE, "received:" + FetchType.EAGER);
-			} else {
-				logger.log(Logger.Level.ERROR, "Expected value:" + FetchType.EAGER);
-				pass = false;
-			}
-			if (ft.contains(FetchType.LAZY)) {
-				logger.log(Logger.Level.TRACE, "received:" + FetchType.LAZY);
-			} else {
-				logger.log(Logger.Level.ERROR, "Expected value:" + FetchType.LAZY);
-				pass = false;
-			}
-
-			for (FetchType f : ft) {
-				try {
-					FetchType.valueOf(f.name());
-				} catch (Exception e) {
-					logger.log(Logger.Level.ERROR, "Received exception for valueOf", e);
-					pass = false;
-				}
-			}
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-			pass = false;
-		}
-
-		if (!pass) {
-			throw new Exception("fetchTypeValuesTest failed");
-		}
-	}
+        for (FetchType f : ft) {
+            assertEquals(f, FetchType.valueOf(f.name()));
+        }
+    }
 
 	/*
 	 * @testName: flushModeTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:79
-	 * 
+	 *
 	 * @test_Strategy: Verify the various values of FlushModeType can verified set
 	 * using valueOf
 	 *
@@ -914,9 +890,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: flushModeTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:80
-	 * 
+	 *
 	 * @test_Strategy: Verify the various values of FlushModeType using Values then
 	 * try valueOf for the returned values
 	 *
@@ -965,9 +941,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: setgetFlushModeEntityManagerTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:173
-	 * 
+	 *
 	 * @test_Strategy: Set and Get the various flushModes of the EntityManager
 	 */
 	@Test
@@ -1023,9 +999,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: setgetFlushModeTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:46; PERSISTENCE:JAVADOC:56
-	 * 
+	 *
 	 * @test_Strategy: Set and Get the various flushModes of a Query
 	 */
 	@Test
@@ -1075,9 +1051,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: setgetFlushModeTQTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:441; PERSISTENCE:JAVADOC:56
-	 * 
+	 *
 	 * @test_Strategy: Set and Get the various flushModes of a TypedQuery
 	 */
 	@Test
@@ -1125,9 +1101,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: generationTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:83
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1189,9 +1165,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: generationTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:84
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1258,9 +1234,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: inheritanceTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:87
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1314,9 +1290,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: inheritanceTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:88
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1371,9 +1347,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: lockModeTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:104
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1448,9 +1424,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: lockModeTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:105
-	 * 
+	 *
 	 * @test_Strategy: Test each LockModeType value
 	 *
 	 */
@@ -1536,9 +1512,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistenceContextTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:154
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1586,9 +1562,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistenceContextTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:155
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1637,111 +1613,42 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: pessimisticLockScopeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:397
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
-	@Test
-	public void pessimisticLockScopeValueOfTest() throws Exception {
-		boolean pass = true;
+    @Test
+    public void pessimisticLockScopeValueOfTest() throws Exception {
+        Collection<PessimisticLockScope> values = Arrays.asList(PessimisticLockScope.values());
+        assertEquals(3, values.size());
 
-		try {
+        assertTrue(values.contains(PessimisticLockScope.EXTENDED));
+        assertTrue(values.contains(PessimisticLockScope.NORMAL));
+        assertTrue(values.contains(PessimisticLockScope.FETCHED));
 
-			PessimisticLockScope pls = PessimisticLockScope.valueOf(PessimisticLockScope.EXTENDED.name());
-			if (!pls.equals(PessimisticLockScope.EXTENDED)) {
-				logger.log(Logger.Level.ERROR,
-						"expected:" + PessimisticLockScope.EXTENDED.name() + ", actual:" + pls.name());
-				pass = false;
-			}
-			pls = PessimisticLockScope.valueOf(PessimisticLockScope.NORMAL.name());
-			if (!pls.equals(PessimisticLockScope.NORMAL)) {
-				logger.log(Logger.Level.ERROR,
-						"expected:" + PessimisticLockScope.NORMAL.name() + ", actual:" + pls.name());
-				pass = false;
-			}
-			try {
-				PessimisticLockScope.valueOf("DOESNOTEXIST");
-				logger.log(Logger.Level.ERROR, "IllegalArgumentException was not thrown");
-				pass = false;
-			} catch (IllegalArgumentException iae) {
-				logger.log(Logger.Level.TRACE, "Received expected IllegalArgumentException");
-			}
-			try {
-				PessimisticLockScope.valueOf(null);
-				logger.log(Logger.Level.ERROR, "NullPointerException was not thrown");
-				pass = false;
-			} catch (NullPointerException iae) {
-				logger.log(Logger.Level.TRACE, "Received expected NullPointerException");
-			}
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-			pass = false;
-		}
+        for (PessimisticLockScope v : values) {
+            assertEquals(v, PessimisticLockScope.valueOf(v.name()));
+        }
 
-		if (!pass) {
-			throw new Exception("pessimisticLockScopeValueOfTest failed");
-		}
-	}
-
-	/*
-	 * @testName: pessimisticLockScopeValuesTest
-	 * 
-	 * @assertion_ids: PERSISTENCE:JAVADOC:398
-	 * 
-	 * @test_Strategy:
-	 *
-	 */
-	@Test
-	public void pessimisticLockScopeValuesTest() throws Exception {
-		boolean pass = true;
-
-		try {
-
-			Collection<PessimisticLockScope> pls = Arrays.asList(PessimisticLockScope.values());
-			if (pls.size() != 2) {
-				logger.log(Logger.Level.ERROR, "Number of PessimisticLockScope expected:2, actual:" + pls.size());
-				pass = false;
-			}
-
-			if (pls.contains(PessimisticLockScope.EXTENDED)) {
-				logger.log(Logger.Level.TRACE, "received:" + PessimisticLockScope.EXTENDED);
-			} else {
-				logger.log(Logger.Level.ERROR, "Expected value:" + PessimisticLockScope.EXTENDED);
-				pass = false;
-			}
-			if (pls.contains(PessimisticLockScope.NORMAL)) {
-				logger.log(Logger.Level.TRACE, "received:" + PessimisticLockScope.NORMAL);
-			} else {
-				logger.log(Logger.Level.ERROR, "Expected value:" + PessimisticLockScope.NORMAL);
-				pass = false;
-			}
-
-			for (PessimisticLockScope p : pls) {
-				try {
-					PessimisticLockScope.valueOf(p.name());
-				} catch (Exception e) {
-					logger.log(Logger.Level.ERROR, "Received exception for valueOf", e);
-					pass = false;
-				}
-			}
-
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-			pass = false;
-		}
-
-		if (!pass) {
-			throw new Exception("pessimisticLockScopeValuesTest failed");
-		}
-	}
+        try {
+            PessimisticLockScope.valueOf("DOESNOTEXIST");
+            fail();
+        } catch (IllegalArgumentException iae) {
+        }
+        try {
+            PessimisticLockScope.valueOf(null);
+            fail();
+        } catch (NullPointerException iae) {
+        }
+    }
 
 	/*
 	 * @testName: sharedCacheModeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:427; PERSISTENCE:SPEC:1910;
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1805,9 +1712,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: sharedCacheModeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:428; PERSISTENCE:SPEC:1910;
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1875,9 +1782,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: validationModeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:455
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1928,9 +1835,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: validationModeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:456
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -1986,9 +1893,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: temporalTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:218
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2038,9 +1945,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: temporalTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:217
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2092,9 +1999,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: joinTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1073
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2143,9 +2050,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: joinTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1072
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2197,9 +2104,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistentAttributeTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1221
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2273,9 +2180,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistentAttributeTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1220
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2353,9 +2260,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: bindableTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1227
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2405,9 +2312,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: bindableTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1226
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2460,9 +2367,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: collectionTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1454
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2518,9 +2425,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: collectionTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1453
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2577,9 +2484,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistenceTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1474
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2634,9 +2541,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistenceTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1473
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2694,9 +2601,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: loadStateValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1478
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2746,9 +2653,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: loadStateValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1477
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2799,9 +2706,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistenceUnitTransactionTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1505; PERSISTENCE:SPEC:1909;
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2845,9 +2752,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: persistenceUnitTransactionTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1504
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2896,9 +2803,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: parameterModeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1538
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -2954,9 +2861,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: parameterModeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1537
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -3012,9 +2919,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: synchronizationTypeValueOfTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1660;
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
@@ -3062,9 +2969,9 @@ public class Client extends PMClientBase {
 
 	/*
 	 * @testName: synchronizationTypeValuesTest
-	 * 
+	 *
 	 * @assertion_ids: PERSISTENCE:JAVADOC:1661;
-	 * 
+	 *
 	 * @test_Strategy:
 	 *
 	 */
