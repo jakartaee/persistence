@@ -1183,7 +1183,7 @@ public class PaycheckId {
 
 @Entity
 public class Paycheck {
-    // default column name for "name" attribute is overridden
+    // default column name for 'period' attribute is overridden
     @AttributeOverride(name="period", column=@Column(name="pay_period"))
     @EmbeddedId PaycheckId id;
 

@@ -1846,7 +1846,8 @@ public @interface EmbeddedId {}
 
 [source,java]
 ----
-@Entity public class Employee {
+@Entity
+public class Employee {
     @EmbeddedId
     protected EmployeePK empPK;
 
@@ -1864,17 +1865,17 @@ public @interface EmbeddedId {}
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     EmployeeId empPK; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
+public class Paycheck {
     // default column name for "name" attribute is overridden
-    @AttributeOverride(name="name", @Column(name="dep_name"))
+    @AttributeOverride(name="period", @Column(name="pay_period"))
     @EmbeddedId
-    DependentId id;
+    PaycheckId id;
 
     // ...
 
@@ -4065,15 +4066,15 @@ public class Employee {
 
 // dependent entity uses EmbeddedId for composite key
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     long empid; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
+public class Paycheck {
     @EmbeddedId
-    DependentId id;
+    PaycheckId id;
 
     // ...
 
