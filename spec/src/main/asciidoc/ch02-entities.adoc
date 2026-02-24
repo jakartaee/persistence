@@ -2723,11 +2723,21 @@ public class Customer extends Person {
 
 As an exception, two persistent attributes (declared by the same
 entity class or by distinct entity classes) are permitted to map
-the same column if one of the persistent attributes is declared
-with `insertable=false, updatable=false`, as defined later in
-<<metadata-annotations>>. If two distinct attributes map the same
-column, and neither is mapped `insertable=false, updatable=false`,
-the behavior is undefined.
+the same column if:
+
+- the persistent attributes have exactly the same type, and
+- either the two attributes are declared in distinct branches of
+  the entity class hierarchy, so that no entity class features
+  both attributes, or one of the persistent attributes is declared
+  with `insertable=false, updatable=false`, as defined later in
+  <<metadata-annotations>>.
+
+If two distinct persistent attributes declared or inherited by
+a given entity class map the same column and neither is mapped
+`insertable=false, updatable=false`, the behavior is undefined.
+Similarly, if two persistent attributes are declared within the
+same entity class hierarchy with distinct types and map the same
+column, the behavior is undefined.
 
 *Example:*
 
