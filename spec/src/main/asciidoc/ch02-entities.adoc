@@ -2562,7 +2562,7 @@ retrieve instances of a subclass. In a very deep class hierarchy,
 this might lead to poor performance. Queries that range over the
 class hierarchy likewise require joins.
 
-==== Table per Concrete Class Strategy
+==== Table per Concrete Class Strategy [[table-per-concrete-class]]
 
 In this mapping strategy, each concrete class in the hierarchy is
 mapped to a completely separate table. Every attribute of the class,
@@ -2578,7 +2578,7 @@ This strategy has the following drawbacks:
 This inheritance mapping strategy is not required in the current
 release of this specification.
 
-==== Duplicate Attributes in Inheritance Hierarchies
+==== Duplicate Attributes in Inheritance Hierarchies [[dupe-attributes]]
 
 An entity class must not have two persistent attributes--declared
 or inherited--with the same name. If an entity class or mapped
@@ -2665,13 +2665,33 @@ public class Employee extends Person {
 }
 ----
 
-In addition, when the single table inheritance mapping strategy
-defined in <<single-table>> is used to map an entity class
-inheritance hierarchy, all persistent attributes defined across
-the whole hierarchy must map to distinct columns. It is the
-responsibility of the application developer to satisfy this
-restriction by explicitly specifying distinct column mappings
-for persistent attributes with identical names.
+==== Duplicate Column Mappings in Inheritance Hierarchies
+
+With an important exception noted below:
+
+- All persistent attributes declared by a given entity class must
+  map to distinct columns. This restriction is automatically
+  satisfied by default, due to the restriction specified in above
+  in <<dupe-attributes>>. It can be violated if two `@Column` or
+  `@JoinColumn` annotations specify the same column name. It is
+  the responsibility of the application developer to avoid such
+  mappings.
+
+- In addition, when the single table inheritance mapping strategy
+  defined in <<single-table>> is used to map an entity class
+  inheritance hierarchy, all persistent attributes defined across
+  the whole hierarchy must map to distinct columns. It is the
+  responsibility of the application developer to satisfy this
+  restriction by explicitly specifying distinct column mappings
+  for persistent attributes with identical names.
+
+- Similarly, when the table-per-concrete class inheritance mapping
+  strategy defined in <<table-per-concrete-class>> is used to map
+  an entity class inheritance hierarchy, all persistent attributes
+  declared or inherited by a given entity class must map to distinct
+  columns. It is the responsibility of the application developer to
+  satisfy this restriction by explicitly specifying distinct column
+  mappings for persistent attributes with identical names.
 
 *Example (allowed):*
 
