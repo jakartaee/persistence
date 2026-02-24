@@ -479,7 +479,7 @@ public interface Query {
      * }
      * {@snippet :
      * var books =
-     *     session.createNativeQuery("select * from books where :limit is null or pub_date > :limit",
+     *     em.createNativeQuery("select * from books where :limit is null or pub_date > :limit",
      *                               Book.class)
      *         .setParameter("limit", optionalDateLimit, LocalDate.class)
      *         .getResultList();
@@ -603,7 +603,7 @@ public interface Query {
      * }
      * {@snippet :
      * var books =
-     *     session.createNativeQuery("select * from books where ?1 is null or pub_date > ?1",
+     *     em.createNativeQuery("select * from books where ?1 is null or pub_date > ?1",
      *                               Book.class)
      *         .setParameter(1, optionalDateLimit, LocalDate.class)
      *         .getResultList();
