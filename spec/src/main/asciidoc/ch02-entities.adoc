@@ -839,15 +839,15 @@ public class Employee {
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of @Id attribute
+public class PaycheckId {
+    int period; // matches name of @Id attribute
     long emp; // matches name of @Id attribute and type of Employee PK
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
-    @Id String name;
+@IdClass(PaycheckId.class)
+public class Paycheck {
+    @Id int period;
 
     // id attribute mapped by join column default
     @Id @ManyToOne
@@ -862,23 +862,23 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 AND d.emp.empName = 'Sam'
 ----
 
 *Case (b):* The dependent entity uses `IdClass` and `MapsId` to represent a composite key:
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of @Id attribute
+public class PaycheckId {
+    int period; // matches name of @Id attribute
     long empId; // matches name of @Id attribute and type of Employee PK
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
-    @Id String name;
+@IdClass(PaycheckId.class)
+public class Paycheck {
+    @Id int period;
     @Id long empId;
 
     // id attribute mapped by join column default
@@ -895,8 +895,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 AND d.emp.empName = 'Sam'
 ----
 
 *Case(c):* The dependent entity uses `EmbeddedId` to represent a composite key:
@@ -904,14 +904,14 @@ WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     long empPK; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
-    @EmbeddedId DependentId id;
+public class Paycheck {
+    @EmbeddedId PaycheckId id;
 
     // id attribute mapped by join column default
     @MapsId("empPK") // maps empPK attribute of embedded id
@@ -927,8 +927,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.emp.empName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.emp.empName = 'Sam'
 ----
 
 *Example 2:*
@@ -958,16 +958,16 @@ public class Employee {
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of attribute
+public class PaycheckId {
+    int period; // matches name of attribute
     EmployeeId emp; //matches name of attribute and type of Employee PK
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
+@IdClass(PaycheckId.class)
+public class Paycheck {
     @Id
-    String name;
+    int period;
 
     @Id
     @JoinColumns({
@@ -984,24 +984,24 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' AND d.emp.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 AND d.emp.firstName = 'Sam'
 ----
 
 *Case (b):* The dependent entity uses `IdClass` and `MapsId`:
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of attribute
+public class PaycheckId {
+    int period; // matches name of attribute
     EmployeeId empId; //matches name of attribute and type of Employee PK
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
+@IdClass(PaycheckId.class)
+public class Paycheck {
     @Id
-    String name;
+    int period;
 
     @EmbeddedId
     EmployeeId empId;
@@ -1021,8 +1021,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' AND d.empId.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 AND d.empId.firstName = 'Sam'
 ----
 
 *Case (c):* The dependent entity uses
@@ -1034,15 +1034,15 @@ descriptor.
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     EmployeeId empPK;
 }
 
 @Entity
-public class Dependent {
+public class Paycheck {
     @EmbeddedId
-    DependentId id;
+    PaycheckId id;
 
     @MapsId("empPK")
     @JoinColumns({
@@ -1061,8 +1061,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.emp.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.emp.firstName = 'Sam'
 ----
 
 Note that the following alternative query
@@ -1071,8 +1071,8 @@ will yield the same result:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.id.empPK.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.id.empPK.firstName = 'Sam'
 ----
 
 *Example 3:*
@@ -1102,17 +1102,17 @@ public class Employee {
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of @Id attribute
+public class PaycheckId {
+    int period; // matches name of @Id attribute
     EmployeeId emp; // matches name of @Id attribute and type of embedded id of Employee
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
+@IdClass(PaycheckId.class)
+public class Paycheck {
     @Id
-    @Column(name="dep_name") // default column name is overridden
-    String name;
+    @Column(name="pay_period") // default column name is overridden
+    int period;
 
     @Id
     @JoinColumns({
@@ -1129,25 +1129,25 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' and d.emp.empId.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 and d.emp.empId.firstName = 'Sam'
 ----
 
 *Case (b):* The dependent entity uses `IdClass` and `MapsId`:
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of @Id attribute
+public class PaycheckId {
+    int period; // matches name of @Id attribute
     EmployeeId empId; // matches name of @Id attribute and type of embedded id of Employee
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
+@IdClass(PaycheckId.class)
+public class Paycheck {
     @Id
-    @Column(name="dep_name") // default column name is overridden
-    String name;
+    @Column(name="pay_period") // default column name is overridden
+    int period;
 
     @EmbeddedId
     EmployeeId empId;
@@ -1167,8 +1167,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' and d.empId.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 and d.empId.firstName = 'Sam'
 ----
 
 *Case (c):* The dependent entity uses `EmbeddedId`:
@@ -1176,16 +1176,16 @@ WHERE d.name = 'Joe' and d.empId.firstName = 'Sam'
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     EmployeeId empPK; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
+public class Paycheck {
     // default column name for "name" attribute is overridden
-    @AttributeOverride(name="name", column=@Column(name="dep_name"))
-    @EmbeddedId DependentId id;
+    @AttributeOverride(name="period", column=@Column(name="pay_period"))
+    @EmbeddedId PaycheckId id;
 
     @MapsId("empPK")
     @JoinColumns({
@@ -1204,8 +1204,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' and d.emp.empId.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 and d.emp.empId.firstName = 'Sam'
 ----
 
 Note that the following alternative query will yield the same result:
@@ -1213,8 +1213,8 @@ Note that the following alternative query will yield the same result:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.id.empPK.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.id.empPK.firstName = 'Sam'
 ----
 
 *Example 4:*
