@@ -67,7 +67,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     @EmbeddedId
  *     PaycheckId id;
  *
- *     @MapsId("empId")  // maps the empId attribute of DependentId
+ *     @MapsId("empId")  // maps the empId attribute of PaycheckId
  *     @ManyToOne
  *     Employee emp;
  *
@@ -80,7 +80,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * class PaycheckId {
  *     int period;
- *     long empId;  // agrees with empId field of Dependent
+ *     long empId;  // agrees with empId field of Paycheck
  * }
  *
  * @Entity

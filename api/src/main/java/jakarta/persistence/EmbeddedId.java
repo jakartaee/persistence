@@ -74,17 +74,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>Example 2:
  * {@snippet :
  * @Embeddable
- * public class DependentId {
- *     String name;
+ * public class PaycheckId {
+ *     int period;
  *     EmployeeId empPK;   // corresponds to primary key type of Employee
  * }
  *
  * @Entity
- * public class Dependent {
- *     // default column name for "name" attribute is overridden
- *     @AttributeOverride(name = "name", column = @Column(name = "dep_name"))
+ * public class Paycheck {
+ *     // default column name for 'period' attribute is overridden
+ *     @AttributeOverride(name = "period", column = @Column(name = "pay_period"))
  *     @EmbeddedId
- *     DependentId id;
+ *     PaycheckId id;
  *     ...
  *     @MapsId("empPK")
  *     @ManyToOne
