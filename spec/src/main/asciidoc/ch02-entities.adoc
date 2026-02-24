@@ -2665,33 +2665,32 @@ public class Employee extends Person {
 }
 ----
 
-==== Duplicate Column Mappings in Inheritance Hierarchies
+==== Duplicate Column Mappings
 
-With an important exception noted below:
+Two persistent attributes (declared by the same entity class or
+by distinct entity classes) are permitted to map the same column
+of a given table if and only if:
 
-- All persistent attributes declared by a given entity class must
-  map to distinct columns. This restriction is automatically
-  satisfied by default, due to the restriction specified in above
-  in <<dupe-attributes>>. It can be violated if two `@Column` or
-  `@JoinColumn` annotations specify the same column name. It is
-  the responsibility of the application developer to avoid such
-  mappings.
+- the persistent attributes have exactly the same type, and
+- either the two attributes are declared in distinct branches of
+  the entity class hierarchy, so that no entity class features
+  both attributes, or one of the persistent attributes is declared
+  with `insertable=false, updatable=false`, as defined later in
+  <<metadata-annotations>>.
 
-- In addition, when the single table inheritance mapping strategy
-  defined in <<single-table>> is used to map an entity class
-  inheritance hierarchy, all persistent attributes defined across
-  the whole hierarchy must map to distinct columns. It is the
-  responsibility of the application developer to satisfy this
-  restriction by explicitly specifying distinct column mappings
-  for persistent attributes with identical names.
+It is the responsibility of the application developer to satisfy
+this restriction. In an entity class hierarchy mapped via the
+single table strategy or table per concrete class strategy, the
+developer might need to explicitly specify distinct column mappings
+for persistent attributes with identical names.
 
-- Similarly, when the table-per-concrete class inheritance mapping
-  strategy defined in <<table-per-concrete-class>> is used to map
-  an entity class inheritance hierarchy, all persistent attributes
-  declared or inherited by a given entity class must map to distinct
-  columns. It is the responsibility of the application developer to
-  satisfy this restriction by explicitly specifying distinct column
-  mappings for persistent attributes with identical names.
+The behavior is undefined and unportable if:
+
+- any two distinct persistent attributes with distinct types map
+  the same column of a given table, or
+- two distinct persistent attributes declared or inherited by
+  a given entity class map the same column of a given table and
+  neither is mapped `insertable=false, updatable=false`.
 
 *Example (allowed):*
 
@@ -2741,25 +2740,7 @@ public class Customer extends Person {
 }
 ----
 
-As an exception, two persistent attributes (declared by the same
-entity class or by distinct entity classes) are permitted to map
-the same column if:
-
-- the persistent attributes have exactly the same type, and
-- either the two attributes are declared in distinct branches of
-  the entity class hierarchy, so that no entity class features
-  both attributes, or one of the persistent attributes is declared
-  with `insertable=false, updatable=false`, as defined later in
-  <<metadata-annotations>>.
-
-If two distinct persistent attributes declared or inherited by
-a given entity class map the same column and neither is mapped
-`insertable=false, updatable=false`, the behavior is undefined.
-Similarly, if two persistent attributes are declared within the
-same entity class hierarchy with distinct types and map the same
-column, the behavior is undefined.
-
-*Example:*
+*Example (allowed):*
 
 [source,java]
 ----
