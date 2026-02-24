@@ -35,15 +35,12 @@ package jakarta.persistence;
  */
 public enum QueryFlushMode {
 	/**
-	 * The persistence provider must ensure that every modification
-	 * to the state of every entity associated with the persistence
-	 * context which could possibly affect the result of the query
-	 * is visible to the processing of the query. The persistence
-	 * provider implementation might guarantee this by flushing
-	 * pending modifications to the database before executing the
-	 * query.
-	 * <p>
-	 * Equivalent to {@link FlushModeType#AUTO}.
+	 * The persistence provider is required to flush pending
+	 * modifications to the database before executing the query.
+	 * Pending modifications to entities held in the persistence
+	 * context are always visible to the processing of the query.
+	 *
+	 * @see EntityManager#flush()
 	 */
 	FLUSH,
 
@@ -51,7 +48,7 @@ public enum QueryFlushMode {
 	 * The persistence provider is not required to flush pending
 	 * modifications to the database before executing the query.
 	 * Pending modifications to entities held in the persistence
-	 * context might not be visible to the processing of queries.
+	 * context might not be visible to the processing of the query.
 	 * <p>
 	 * When the current {@linkplain EntityManager#getFlushMode
 	 * flush mode} of the persistence context is
@@ -75,6 +72,15 @@ public enum QueryFlushMode {
 	 * before executing the query by considering the current
 	 * {@linkplain EntityManager#getFlushMode flush mode} of
 	 * the persistence context.
+	 * <p>
+	 * If the current flush mode is {@link FlushModeType#AUTO},
+	 * the persistence provider must ensure that every modification
+	 * to the state of every entity associated with the persistence
+	 * context which could possibly affect the result of the query
+	 * is visible to the processing of the query. The persistence
+	 * provider implementation might guarantee this by flushing
+	 * pending modifications to the database before executing the
+	 * query.
 	 * <p>
 	 * Equivalent to the current flush mode of the persistence
 	 * context.
