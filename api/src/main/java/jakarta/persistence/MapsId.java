@@ -56,16 +56,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * declare its composite primary key:
  * {@snippet :
  * @Embeddable
- * class DependentId {
- *     String name;
+ * class PaycheckId {
+ *     int period;
  *     long empId;  // agrees with primary key type of Employee
  * }
  *
  * @Entity
- * class Dependent {
+ * class Paycheck {
  *
  *     @EmbeddedId
- *     DependentId id;
+ *     PaycheckId id;
  *
  *     @MapsId("empId")  // maps the empId attribute of DependentId
  *     @ManyToOne
@@ -78,17 +78,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>Alternatively, the dependent entity may use {@link IdClass}
  * to declare its composite primary key:
  * {@snippet :
- * class DependentId {
- *     String name;
+ * class PaycheckId {
+ *     int period;
  *     long empId;  // agrees with empId field of Dependent
  * }
  *
  * @Entity
- * @IdClass(DependentId.class)
- * class Dependent {
+ * @IdClass(PaycheckId.class)
+ * class Paycheck {
  *
  *     @Id
- *     String name;
+ *     int period;
  *
  *     @Id
  *     long empId;  // agrees with primary key type of Employee
