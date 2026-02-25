@@ -22,9 +22,8 @@ package jakarta.persistence;
 import java.util.List;
 import java.util.Map;
 import jakarta.persistence.spi.PersistenceProvider;
-import jakarta.persistence.spi.PersistenceProviderResolver;
-import jakarta.persistence.spi.PersistenceProviderResolverHolder;
-import jakarta.persistence.spi.LoadState;
+
+import static jakarta.persistence.spi.PersistenceProviderResolverHolder.getPersistenceProviderResolver;
 
 /**
  * Bootstrap class used to obtain an {@link EntityManagerFactory}
@@ -44,6 +43,10 @@ import jakarta.persistence.spi.LoadState;
 public final class Persistence {
 
     private Persistence() {
+    }
+
+    private static List<PersistenceProvider> getPersistenceProviders() {
+        return getPersistenceProviderResolver().getPersistenceProviders();
     }
 
     /**
@@ -72,22 +75,14 @@ public final class Persistence {
      *        according to the specified persistence unit
      */
     public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName, Map<?,?> properties) {
-
-        EntityManagerFactory emf = null;
-        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-
-        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-
-        for (PersistenceProvider provider : providers) {
-            emf = provider.createEntityManagerFactory(persistenceUnitName, properties);
-            if (emf != null) {
-                break;
+        for (var provider : getPersistenceProviders()) {
+            var entityManagerFactory = provider.createEntityManagerFactory(persistenceUnitName, properties);
+            if (entityManagerFactory != null) {
+                return entityManagerFactory;
             }
         }
-        if (emf == null) {
-            throw new PersistenceException("No Persistence provider for EntityManager named " + persistenceUnitName);
-        }
-        return emf;
+
+        throw new PersistenceException("No Persistence provider for EntityManager named " + persistenceUnitName);
     }
 
     /**
@@ -101,24 +96,15 @@ public final class Persistence {
      * @since 3.2
      */
     public static EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration) {
-
-        EntityManagerFactory emf = null;
-        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-
-        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-
-        for (PersistenceProvider provider : providers) {
-            emf = provider.createEntityManagerFactory(configuration);
-            if (emf != null) {
-                break;
+        for (var provider : getPersistenceProviders()) {
+            var entityManagerFactory = provider.createEntityManagerFactory(configuration);
+            if (entityManagerFactory != null) {
+                return entityManagerFactory;
             }
         }
-        if (emf == null) {
-            throw new PersistenceException("No Persistence provider for EntityManager named " + configuration.name());
-        }
-        return emf;
-    }
 
+        throw new PersistenceException("No Persistence provider for EntityManager named " + configuration.name());
+    }
 
     /**
      * Create database schemas and/or tables and/or create DDL scripts
@@ -139,10 +125,7 @@ public final class Persistence {
      * @since 2.1
      */
     public static void generateSchema(String persistenceUnitName, Map<?,?> map) {
-        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-        
-        for (PersistenceProvider provider : providers) {
+        for (var provider : getPersistenceProviders()) {
             if (provider.generateSchema(persistenceUnitName, map)) {
                 return;
             }
@@ -166,10 +149,7 @@ public final class Persistence {
      * @since 4.0
      */
     public static void generateSchema(PersistenceConfiguration configuration) {
-        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-
-        for (PersistenceProvider provider : providers) {
+        for (var provider : getPersistenceProviders()) {
             if (provider.generateSchema(configuration)) {
                 return;
             }
@@ -194,27 +174,29 @@ public final class Persistence {
      */
     private static class PersistenceUtilImpl implements PersistenceUtil {
         public boolean isLoaded(Object entity, String attributeName) {
-            PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+            var providers = getPersistenceProviders();
 
-            List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-
-            for (PersistenceProvider provider : providers) {
-                LoadState loadstate = provider.getProviderUtil().isLoadedWithoutReference(entity, attributeName);
-                if(loadstate == LoadState.LOADED) {
-                    return true;
-                } else if (loadstate == LoadState.NOT_LOADED) {
-                    return false;
-                } // else continue
+            for (var provider : providers) {
+                switch (provider.getProviderUtil().isLoadedWithoutReference(entity, attributeName)) {
+                    case LOADED -> {
+                        return true;
+                    }
+                    case NOT_LOADED -> {
+                        return false;
+                    }
+                }
             }
 
             //None of the providers could determine the load state try isLoadedWithReference
-            for (PersistenceProvider provider : providers) {
-                LoadState loadstate = provider.getProviderUtil().isLoadedWithReference(entity, attributeName);
-                if(loadstate == LoadState.LOADED) {
-                    return true;
-                } else if (loadstate == LoadState.NOT_LOADED) {
-                    return false;
-                } // else continue
+            for (var provider : providers) {
+                switch (provider.getProviderUtil().isLoadedWithReference(entity, attributeName)) {
+                    case LOADED -> {
+                        return true;
+                    }
+                    case NOT_LOADED -> {
+                        return false;
+                    }
+                }
             }
 
             //None of the providers could determine the load state.
@@ -222,17 +204,15 @@ public final class Persistence {
         }
 
         public boolean isLoaded(Object entity) {
-            PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-
-            List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-
-            for (PersistenceProvider provider : providers) {
-                LoadState loadstate = provider.getProviderUtil().isLoaded(entity);
-                if(loadstate == LoadState.LOADED) {
-                    return true;
-                } else if (loadstate == LoadState.NOT_LOADED) {
-                    return false;
-                } // else continue
+            for (var provider : getPersistenceProviders()) {
+                switch (provider.getProviderUtil().isLoaded(entity)) {
+                    case LOADED -> {
+                        return true;
+                    }
+                    case NOT_LOADED -> {
+                        return false;
+                    }
+                }
             }
             //None of the providers could determine the load state
             return true;
