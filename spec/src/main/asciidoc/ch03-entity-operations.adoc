@@ -440,22 +440,29 @@ side of a relationship typically results in the change being lost.
 When a transaction is active and the persistence context is joined to
 the transaction, the persistence provider runtime is permitted to flush
 pending modifications to the database. The application can influence the
-timing of synchronization via the `flush()` method of `EntityManager` or
-by setting the `FlushModeType`.
+timing of synchronization via the `flush()` method of `EntityManager`,
+by setting the `FlushModeType`, or by specifying a `QueryFlushMode`.
 
 - When the `flush()` method is called, the provider must synchronize
   every pending modification made to every entity currently associated
   with the persistence context.
 
-- The `setFlushMode()` methods of the `EntityManager`, `Query`,
-  `TypedQuery`, and `StoredProcedureQuery` interfaces can be used to
-  control synchronization initiated automatically by the provider.
+- The `setFlushMode()` methods of the `EntityManager`, `Statement`,
+  `Query`, `TypedQuery`, and `StoredProcedureQuery` interfaces can be
+  used to control synchronization initiated automatically by the
+  provider.
   * The effect of `FlushModeType.AUTO` is defined in <<a4374>>.
   * If `FlushModeType.COMMIT` is specified, synchronization occurs at
     transaction commit; the persistence provider is permitted, but not
     required, to flush at other times.
   * If `FlushMode.EXPLICIT` is specified, the persistence provider
     must never automatically flush modifications to the database.
+
+- The effect of the `FlushModeType` of the entity manager may be
+  overridden during execution of a given query by explicitly specifying
+  a `QueryFlushMode` via the `setQueryFlushMode()` method of `Statement`,
+  `Query`, `TypedQuery`, or `StoredProcedureQuery`, as specified below
+  in <<a4374>>.
 
 If there is no transaction active or if the persistence context has not
 been joined to the current transaction, the persistence provider must not
@@ -3171,8 +3178,20 @@ When a Jakarta Persistence or native SQL query is executed within a
 transaction via an instance of `Query` obtained from an `EntityManager`
 joined to the transaction, the effective flush mode is determined by
 the current flush mode of the `Query` object, if any flush mode has
-been specified by calling `setFlushMode()`, or, otherwise, by the
-current flush mode of the persistence context.
+been specified by calling `setFlushMode()` or `setQueryFlushMode()`,
+or, otherwise, by the current flush mode of the persistence context.
+
+- If `QueryFlushMode.FLUSH` in set, the persistence provider is
+  required to flush modifications to the database before executing
+  the query.
+
+- If `QueryFlushMode.NO_FLUSH` is set, the persistence provider is
+  not required to flush modifications to the database before
+  executing the query; if, in addition, the current flush mode of
+  the entity manager is `FlushMode.EXPLICIT`, the persistence
+  provider is not permitted to flush modifications to the database.
+
+Otherwise, if `QueryFlushMode.DEFAULT` is set:
 
 - If `FlushModeType.AUTO` is in effect, the persistence provider
   must ensure that every modification to the state of every entity
@@ -3182,8 +3201,14 @@ current flush mode of the persistence context.
   guarantee this by flushing pending updates to modified entities
   to the database before executing the query.
 
-- Otherwise, if `FlushModeType.COMMIT` is set, it is unspecified
-  how pending modifications to entities in the persistence context
+- If `FlushModeType.EXPLICIT` is in effect, the persistence
+  provider is not permitted to flush modifications to the database
+  before executing the query. Pending modifications to entities
+  in the persistence context might not be visible to the processing
+  of the query.
+
+- If `FlushModeType.COMMIT` is in effect, it is unspecified how
+  pending modifications to entities in the persistence context
   affect the results of the query.
 
 When there is no transaction active, or if the persistence context
