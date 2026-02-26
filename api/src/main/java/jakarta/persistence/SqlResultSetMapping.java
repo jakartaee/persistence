@@ -38,11 +38,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * each row of the mapped query result set is represented as an instance of
  * {@code Object[]} whose elements are, in order:
  * <ol>
- * <li>any entity results, in the order in which they are declared by the
+ * <li>entity results, in the order in which they are declared by the
  *     {@link #entities} element;
- * <li>any constructor results, in the order declared by the {@link #classes}
+ * <li>constructor results, in the order declared by the {@link #classes}
  *     element; and then
- * <li>any scalar results, in the order declared by the {@link #columns}
+ * <li>scalar results, in the order declared by the {@link #columns}
  *     element.
  * </ol>
  *
