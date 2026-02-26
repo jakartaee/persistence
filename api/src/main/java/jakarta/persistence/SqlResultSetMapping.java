@@ -34,6 +34,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Java class constructors}. Every SQL result set mapping has a {@link #name}.
  * SQL result set mapping names must be unique within a persistence unit.
  *
+ * <p>When a SQL result set mapping specifies more than one result mapping,
+ * each row of the mapped query result set is represented as an instance of
+ * {@code Object[]} whose elements are, in order:
+ * <ol>
+ * <li>any entity results, in the order in which they are declared by the
+ *     {@link #entities} element;
+ * <li>any constructor results, in the order declared by the {@link #classes}
+ *     element; and then
+ * <li>any scalar results, in the order declared by the {@link #columns}
+ *     element.
+ * </ol>
+ *
  * <p>In this example, a named mapping is declared by annotating an entity
  * class:
  * {@snippet :
@@ -82,7 +94,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * ResultSetMapping<Order> mapping =
  *         entityManager.getResultSetMappings(Order.class)
  *              .get(Order_.MAPPING_ORDER_RESULTS);
- *  *}
+ * }
  *
  * @see NamedNativeQuery#resultSetMapping
  * @see NamedStoredProcedureQuery#resultSetMappings
