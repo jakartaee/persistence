@@ -17,7 +17,6 @@
 
 package jakarta.persistence;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
@@ -120,7 +119,7 @@ public @interface ConstructorResult {
      * {@linkplain #targetClass target class}, in order.
      *
      * <p>Constructor parameters mapping directly to column
-     * results must occur after parameters mapping to entities.
+     * results must occur before parameters mapping to entities.
      */
     ColumnResult[] columns() default {};
 
