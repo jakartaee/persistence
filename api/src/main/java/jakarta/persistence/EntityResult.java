@@ -17,8 +17,11 @@
 
 package jakarta.persistence;
 
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -71,6 +74,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * in the {@link jakarta.persistence.sql.ResultSetMapping ResultSetMapping}
  * returned by {@link EntityManagerFactory#getResultSetMappings(Class)}.
  *
+ * <p>This annotation may be placed directly on a method annotated
+ * {@link jakarta.persistence.query.StaticNativeQuery}.
+ * {@snippet :
+ * @StaticNativeQuery("SELECT * FROM orders WHERE order_total > ?")
+ * @EntityResult(
+ *     entityClass = Order.class,
+ *     fields = {@FieldResult(name = Order_.ID, column = "order_id"),
+ *               @FieldResult(name = Order_.TOTAL, column = "order_total"),
+ *               @FieldResult(name = Order_.ITEM, column = "order_item")}
+ * )
+ * List<Order> largeOrders(int threshold) {
+ *     return entityManager.createQuery(Shop_.largeOrders(threshold))
+ *             .getResultList();
+ * }
+ * }
+ *
  * @see SqlResultSetMapping
  * @see NamedNativeQuery
  *
@@ -78,8 +97,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 1.0
  */
-@Target({}) 
+@Target(METHOD)
 @Retention(RUNTIME)
+@Repeatable(EntityResult.EntityResults.class)
 public @interface EntityResult {
 
     /**
@@ -106,4 +126,13 @@ public @interface EntityResult {
      * is no discriminator column.
      */
     String discriminatorColumn() default "";
+
+    /**
+     * @since 4.0
+     */
+    @Target(METHOD)
+    @Retention(RUNTIME)
+    @interface EntityResults {
+        EntityResult[] value();
+    }
 }

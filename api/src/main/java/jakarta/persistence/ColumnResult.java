@@ -16,8 +16,11 @@
 
 package jakarta.persistence;
 
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -72,6 +75,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * in the {@link jakarta.persistence.sql.ResultSetMapping ResultSetMapping}
  * returned by {@link EntityManagerFactory#getResultSetMappings(Class)}.
  *
+ * <p>This annotation may be placed directly on a method annotated
+ * {@link jakarta.persistence.query.StaticNativeQuery}.
+ * {@snippet :
+ * @StaticNativeQuery("SELECT count(*) AS title_count FROM books WHERE title LIKE :pattern")
+ * @ColumnResult(name="title_count")
+ * int countBooks(String pattern);
+ * }
+ *
  * @see SqlResultSetMapping
  * @see NamedNativeQuery
  * @see ConstructorResult
@@ -80,8 +91,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 1.0
  */
-@Target({}) 
+@Target(METHOD)
 @Retention(RUNTIME)
+@Repeatable(ColumnResult.ColumnResults.class)
 public @interface ColumnResult { 
 
     /**
@@ -96,4 +108,13 @@ public @interface ColumnResult {
      * @since 2.1
      */
     Class<?> type() default void.class;
+
+    /**
+     * @since 4.0
+     */
+    @Target(METHOD)
+    @Retention(RUNTIME)
+    @interface ColumnResults {
+        ColumnResult[] value();
+    }
 }
