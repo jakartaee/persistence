@@ -400,10 +400,11 @@ been explicitly joined to the current transaction by calling the
 in <<synchronization-type>>.
 
 Assuming that the persistence context is joined to the current
-transaction, the state of its managed entities is synchronized to the
-database at transaction commit. This synchronization involves writing
-to the database any pending modifications to the state of persistent
-entities and their relationships.
+transaction, and that its flush mode was not explicitly set to
+`EXPLICIT`, the state of its managed entities is synchronized to
+the database at transaction commit. This synchronization involves
+writing to the database any pending modifications to the state of
+persistent entities and their relationships.
 
 A modification to the state of an entity might include an assignment
 of a new value to a persistent property or field of the entity, or
@@ -3204,7 +3205,7 @@ or, otherwise, by the current flush mode of the persistence context.
 - If `QueryFlushMode.NO_FLUSH` is set, the persistence provider is
   not required to flush modifications to the database before
   executing the query; if, in addition, the current flush mode of
-  the entity manager is `FlushMode.EXPLICIT`, the persistence
+  the entity manager is `FlushModeType.EXPLICIT`, the persistence
   provider is not permitted to flush modifications to the database.
 
 Otherwise, if `QueryFlushMode.DEFAULT` is set:

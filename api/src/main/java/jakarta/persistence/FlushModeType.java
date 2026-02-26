@@ -19,33 +19,36 @@ package jakarta.persistence;
 
 /**
  * Enumerates flush modes recognized by the {@link EntityManager}.
+ * The {@linkplain EntityManager#getFlushMode() flush mode of a
+ * persistence context} controls synchronization of modifications
+ * to managed entities with the database.
  *
- * <p>When a Jakarta Persistence or native SQL query is executed
- * within a transaction via an instance of {@link Query} obtained
- * from an {@link EntityManager} joined to the transaction, the
- * effective flush mode is determined by the current
- * {@linkplain Query#getFlushMode flush mode of the query object},
- * which defaults to the current
- * {@linkplain EntityManager#getFlushMode flush mode of the
- * persistence context}.
+ * <p>When a transaction is active and the persistence context is
+ * joined to the transaction, the persistence provider runtime is
+ * permitted to flush pending modifications to the database. The
+ * application can influence the timing of synchronization via the
+ * method {@link EntityManager#flush()}, by setting the
+ * {@link FlushModeType}, or by specifying a {@link QueryFlushMode}.
  * <ul>
- * <li>If {@link #AUTO} is in effect, the persistence provider must
- *     ensure that every modification to the state of every entity
- *     associated with the persistence context which could possibly
- *     affect the result of the query is visible to the processing
- *     of the query. The persistence provider implementation might
- *     guarantee this by flushing pending updates to modified
- *     entities to the database before executing the query.
- * <li>Otherwise, if {@link #COMMIT} or {@link #EXPLICIT} is set,
- *     the effect on the results of the query of pending
- *     modifications to entities in the persistence context is
- *     unspecified.
+ * <li>When the {@code flush()} method is called, the provider must
+ *     synchronize every pending modification made to every entity
+ *     currently associated with the persistence context.
+ * <li>The method {@link EntityManager#setFlushMode} can be used to
+ *     control synchronization initiated automatically by the provider.
+ *     Unless {@link #EXPLICIT} is specified, all pending modifications
+ *     are synchronized with the database when the transaction commits.
+ *     When {@link #AUTO} is specified, pending modifications might be
+ *     automatically flushed to the database before execution of a
+ *     query.
+ * <li>The effect of the {@link FlushModeType} of the entity manager
+ *     may be overridden during execution of a given query by
+ *     explicitly specifying a {@link QueryFlushMode} via the method
+ *     {@link Query#setQueryFlushMode}.</li>
  * </ul>
  *
- * <p>When there is no transaction active, or if the persistence
- * context has not been joined to the current transaction, the
- * persistence provider must not flush pending modifications to
- * the database, regardless of the flush mode.
+ * <p>If there is no transaction active or if the persistence context
+ * has not been joined to the current transaction, the persistence
+ * provider must not flush modifications to the database.
  *
  * <p>An {@link EntityAgent} has no associated persistence context,
  * and so flush modes have no effect on an entity agent, nor on
@@ -53,6 +56,7 @@ package jakarta.persistence;
  *
  * @see EntityManager#setFlushMode(FlushModeType)
  * @see Query#setFlushMode(FlushModeType)
+ * @see QueryFlushMode
  * @see SynchronizationType
  *
  * @since 1.0
