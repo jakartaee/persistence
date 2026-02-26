@@ -117,10 +117,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * row of the mapped query result set is represented as an instance of
  * {@code Object[]} whose elements are, in order:
  * <ol>
- * <li>any entity results, in the order in which they are declared;
- * <li>any constructor results, in the order in which they are declared;
+ * <li>entity results, in the order in which they are declared;
+ * <li>constructor results, in the order in which they are declared;
  *     and then
- * <li>any scalar results, in the order in which they are declared.
+ * <li>scalar results, in the order in which they are declared.
  * </ol>
  *
  * <p> An implementation of Jakarta Data backed by Jakarta Persistence
