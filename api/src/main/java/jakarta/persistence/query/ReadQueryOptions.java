@@ -59,7 +59,7 @@ public @interface ReadQueryOptions {
      * The {@linkplain CacheStoreMode cache store mode} to use.
      * The presence of this annotation overrides the default
      * cache store mode of the persistence context.
-     * @see jakarta.persistence.Query#setCacheStoreMode
+     * @see jakarta.persistence.TypedQuery#setCacheStoreMode
      */
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
 
@@ -67,7 +67,7 @@ public @interface ReadQueryOptions {
      * The {@linkplain CacheRetrieveMode cache retrieve mode}
      * to use. The presence of this annotation overrides the
      * default cache retrieve mode of the persistence context.
-     * @see jakarta.persistence.Query#setCacheRetrieveMode
+     * @see jakarta.persistence.TypedQuery#setCacheRetrieveMode
      */
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
 
@@ -93,7 +93,7 @@ public @interface ReadQueryOptions {
      * <p> If a lock mode is explicitly specified for a
      * {@linkplain StaticNativeQuery native query}, the behavior
      * is undefined and unportable between persistence providers.
-     * @see jakarta.persistence.Query#setLockMode
+     * @see jakarta.persistence.TypedQuery#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
 

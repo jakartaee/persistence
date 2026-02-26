@@ -33,7 +33,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * time the entity state is modified, or it might occur later when
  * modifications are flushed to the database. The {@code PostUpsert}
  * callback is not triggered when entity data is upserted by execution
- * of a {@link Query}.
+ * of a {@link Statement}.
  *
  * <p>The following rules apply to lifecycle callback methods:
  * <ul>

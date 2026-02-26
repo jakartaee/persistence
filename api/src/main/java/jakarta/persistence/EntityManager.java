@@ -193,13 +193,16 @@ import jakarta.persistence.criteria.CriteriaStatement;
  *     {@link LockOption}s.
  * </ul>
  *
- * @see Query
+ * @see FlushModeType
+ * @see SynchronizationType
+ * @see EntityManagerFactory
+ * @see EntityTransaction
+ * @see Statement
  * @see TypedQuery
+ * @see StoredProcedureQuery
  * @see CriteriaQuery
  * @see PersistenceContext
- * @see StoredProcedureQuery
- * @see EntityManagerFactory
- * 
+ *
  * @since 1.0
  */
 public interface EntityManager extends EntityHandler {
