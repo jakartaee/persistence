@@ -642,7 +642,7 @@ public interface EntityHandler extends AutoCloseable {
      * Create an instance of {@link TypedQuery} for executing a
      * {@linkplain CriteriaQuery criteria query}.
      * @param criteriaQuery A criteria query object
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the criteria query is
      *         found to be invalid
@@ -655,7 +655,7 @@ public interface EntityHandler extends AutoCloseable {
      * {@linkplain CriteriaSelect criteria select}, which may be
      * a union or intersection of top-level queries.
      * @param selectQuery A criteria select query object
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the criteria query is
      *         found to be invalid
@@ -703,7 +703,7 @@ public interface EntityHandler extends AutoCloseable {
      * class by calling the matching constructor.
      * @param qlString A Jakarta Persistence query string
      * @param resultClass The result class
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the query result is
@@ -723,7 +723,7 @@ public interface EntityHandler extends AutoCloseable {
      * assignable to the root type of the given entity graph.
      * @param qlString A Jakarta Persistence query string
      * @param resultGraph The {@linkplain EntityGraph load graph}
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the query result is
@@ -816,7 +816,7 @@ public interface EntityHandler extends AutoCloseable {
      * annotation which declares the named query.
      * @param name The name of a query defined in metadata
      * @param resultClass The type of the query result
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if a query has not been
      *         defined with the given name, if the query string is
@@ -952,7 +952,7 @@ public interface EntityHandler extends AutoCloseable {
      * </ul>
      * @param sqlString A native SQL query string
      * @param resultClass The type of the query result
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @since 1.0
      */
@@ -993,7 +993,7 @@ public interface EntityHandler extends AutoCloseable {
      * the JDBC result set.
      * @param sqlString A native SQL query string
      * @param resultSetMapping The result set mapping
-     * @return An instance of {@link Query} which may be used
+     * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @since 4.0
      */
@@ -1133,9 +1133,8 @@ public interface EntityHandler extends AutoCloseable {
      * Close an application-managed {@code EntityHandler}.
      * <p>After invocation of {@code close()}, every method of
      * the {@code EntityHandler} instance and of any instance
-     * of {@link Query}, {@link TypedQuery}, or
-     * {@link StoredProcedureQuery} obtained from it throws
-     * the {@link IllegalStateException}, except for
+     * of {@link Query} obtained from it throws the
+     * {@link IllegalStateException}, except for
      * {@link #getProperties()}, {@link #getTransaction()},
      * and {@link #isOpen()} (which returns false).
      * <p>If this method is called when the {@code EntityHandler}

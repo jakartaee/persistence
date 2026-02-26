@@ -27,8 +27,7 @@ package jakarta.persistence;
  *     locks ({@link EntityManager#lock lock()},
  *     {@link EntityManager#find find()}, or
  *     {@link EntityManager#refresh refresh()}), or
- * <li>to {@link Query#setLockMode(LockModeType)} or
- *     {@link TypedQuery#setLockMode(LockModeType)}.
+ * <li>to {@link TypedQuery#setLockMode(LockModeType)}.
  * </ul>
  * <p>Lock modes other than {@link #NONE} prevent dirty reads and
  * non-repeatable reads of locked entity data within the current
