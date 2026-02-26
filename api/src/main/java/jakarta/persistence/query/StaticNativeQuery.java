@@ -99,17 +99,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * string {@code "."}, and the name of the annotated member, for example,
  * {@code "Library.getBookWithIsbn"}.
  *
- * <p> If a {@link jakarta.persistence.SqlResultSetMapping} exists with
- * the same name as the query, it is used to map the result set of the
- * query. If the {@code @SqlResultSetMapping} annotation occurs on the
- * method with the {@code @StaticNativeQuery} annotation, name defaulting
- * rules conspire to ensure that no name needs to be explicitly specified.
+ * <p> A {@linkplain jakarta.persistence.SqlResultSetMapping result set
+ * mapping} may be specified by annotating the method with one or more
+ * {@link jakarta.persistence.EntityResult},
+ * {@link jakarta.persistence.ColumnResult}, or
+ * {@link jakarta.persistence.ConstructorResult} annotations. The inferred
+ * result set mapping has the same name as the query.
  * {@snippet :
  * @StaticNativeQuery("select * from books where isbn = ?")
- * @SqlResultSetMapping(entities =
- *         @EntityResult(entityClass = Book.class,
- *                 fields = {@FieldResult(name = "isbn", column = "isbn_13"),
- *                           @FieldResult(name = "title", column = "title_en")}))
+ * @EntityResult(entityClass = Book.class,
+ *     fields = {@FieldResult(name = Book_.ISBN, column = "isbn_13"),
+ *               @FieldResult(name = Book_.TITLE, column = "title_en")})
  * Book getBookWithIsbn(String isbn);
  * }
  *

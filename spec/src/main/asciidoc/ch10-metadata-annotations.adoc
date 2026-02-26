@@ -598,13 +598,15 @@ respectively.
 
 [source,java]
 ----
-@Target({})
+@Target(METHOD)
 @Retention(RUNTIME)
+@Repeatable(EntityResult.EntityResults.class)
 public @interface EntityResult {
     Class<?> entityClass();
     LockModeType lockMode() default LockModeType.NONE;
     FieldResult[] fields() default {};
     String discriminatorColumn() default "";
+    ...
 }
 ----
 
@@ -638,11 +640,13 @@ the SELECT list—i.e., column alias, if applicable.
 
 [source,java]
 ----
-@Target(value={})
+@Target(METHOD)
 @Retention(RUNTIME)
+@Repeatable(ConstructorResult.ConstructorResults.class)
 public @interface ConstructorResult {
     Class<?> targetClass();
     ColumnResult[] columns();
+    ...
 }
 ----
 
@@ -654,11 +658,13 @@ list to the arguments of the intended constructor.
 
 [source,java]
 ----
-@Target({})
+@Target(METHOD)
 @Retention(RUNTIME)
+@Repeatable(ColumnResult.ColumnResults.class)
 public @interface ColumnResult {
     String name();
     Class<?> type() default void.class;
+    ...
 }
 ----
 
