@@ -3165,13 +3165,29 @@ rollback:
 
 ==== Queries and the Flush Mode [[a4374]]
 
-The _flush mode_ setting may affect the result of a query.
-The possible flush modes are enumerated by `FlushModeType`.
+The _flush mode_ setting introduced above in <<flush>> may affect
+the result of a query. The possible flush modes are enumerated by
+`FlushModeType` and by `QueryFlushMode`.
 
+The `FlushModeType` specified via the method `setFlushMode()` of
+`EntityManager` controls the behavior for a persistence context.
+Its effect is limited to the persistence context in which
+`setFlushMode()` is called.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=49..-1]
+include::../../../../api/src/main/java/jakarta/persistence/FlushModeType.java[lines=60..-1]
+----
+
+The `QueryFlushMode` specified via the method `setQueryFlushMode()`
+of `Query`, `Statement`, `TypedQuery`, or `StoredProcedureQuery`
+allows the behavior to be overridden during execution of a given
+statement or query. Its effect is limited to executions of the
+instance of `Query` on which `setQueryFlushMode()` was invoked.
+
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/QueryFlushMode.java[lines=36..-1]
 ----
 
 When a Jakarta Persistence or native SQL query is executed within a
