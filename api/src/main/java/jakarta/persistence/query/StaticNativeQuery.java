@@ -113,6 +113,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Book getBookWithIsbn(String isbn);
  * }
  *
+ * <p>When more than one result mapping annotation is specified, each
+ * row of the mapped query result set is represented as an instance of
+ * {@code Object[]} whose elements are, in order:
+ * <ol>
+ * <li>any entity results, in the order in which they are declared;
+ * <li>any constructor results, in the order in which they are declared;
+ *     and then
+ * <li>any scalar results, in the order in which they are declared.
+ * </ol>
+ *
  * <p> An implementation of Jakarta Data backed by Jakarta Persistence
  * must treat this annotation as a Jakarta Data query annotation.
  *
