@@ -213,7 +213,7 @@ public @interface OneToOne {
      *           foreignKey = @ForeignKey(name="child_parent_fk"))
      *     Long id;
      *
-     *     @ManyToOne(mappedById = Child_.ID)
+     *     @OneToOne(mappedById = Child_.ID)
      *     Parent parent;
      * }
      * }
