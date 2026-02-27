@@ -26,6 +26,14 @@ import java.util.Date;
  * {@code DELETE} statements are executable statements. On the other
  * hand, a native SQL statement is considered executable if it returns
  * a row count instead of a result set.
+ *
+ * @see EntityHandler#createStatement(String)
+ * @see EntityHandler#createStatement(jakarta.persistence.criteria.CriteriaStatement)
+ * @see EntityHandler#createStatement(StatementReference)
+ * @see EntityHandler#createNativeStatement(String)
+ * @see EntityHandler#createNamedStatement(String)
+ * @see StatementOrTypedQuery#asStatement()
+ *
  * @since 4.0
  */
 public interface Statement extends Query {
