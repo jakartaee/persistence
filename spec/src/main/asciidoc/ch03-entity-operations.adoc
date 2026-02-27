@@ -1827,6 +1827,25 @@ and are not tied to the lifecycle of managed entities associated with a
 persistence context. These callbacks are not triggered when entity data is
 modified by execution of a `Query`.
 
+In this context, the _entity data_ belonging to an entity instance is
+considered to include:
+
+- every basic or embedded attribute of the entity instance, recursively,
+- every `@ElementCollection` belonging to the entity instance or to an
+  embeddable object belonging to the instance,
+- every `@ManyToOne` association field or property of the entity instance
+  or of an embeddable object belonging to the instance (but not the state
+  of the associated target entity),
+- every _owned_ `@OneToOne` association field or property of the entity
+  instance or of an embeddable object belonging to the instance, and
+- every _owned_ `@OneToMany` or `@ManyToMany` association belonging to the
+  entity instance or to an embeddable object belonging to the instance.
+
+Therefore, changes to the persistent state of owned associations result in
+invocation of the `@PreUpdate` and `@PostUpdate` callbacks. Changes which
+modify only unowned associations never result in `@PreUpdate` or `@PostUpdate`
+callbacks.
+
 [NOTE]
 ====
 It is implementation-dependent as to whether `@PreUpdate` and `@PostUpdate`
