@@ -32,7 +32,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>If a field or property of an entity class is annotated
  * {@code EmbeddedId}, then no other field or property of the
  * entity may be annotated {@link Id} or {@code EmbeddedId},
- * and the entity class must not declare an {@link IdClass}.
+ * and the entity class must not declare an {@link IdClass},
+ * except in the special case where the {@code EmbeddedId}
+ * represents the composite primary key of a parent entity
+ * in an entity with a derived identity represented as an
+ * {@code IdClass}.
  *
  * <p>The embedded primary key type must implement
  * {@link #equals} and {@link #hashCode}, defining value
@@ -70,17 +74,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>Example 2:
  * {@snippet :
  * @Embeddable
- * public class DependentId {
- *     String name;
+ * public class PaycheckId {
+ *     int period;
  *     EmployeeId empPK;   // corresponds to primary key type of Employee
  * }
  *
  * @Entity
- * public class Dependent {
- *     // default column name for "name" attribute is overridden
- *     @AttributeOverride(name = "name", column = @Column(name = "dep_name"))
+ * public class Paycheck {
+ *     // default column name for 'period' attribute is overridden
+ *     @AttributeOverride(name = "period", column = @Column(name = "pay_period"))
  *     @EmbeddedId
- *     DependentId id;
+ *     PaycheckId id;
  *     ...
  *     @MapsId("empPK")
  *     @ManyToOne

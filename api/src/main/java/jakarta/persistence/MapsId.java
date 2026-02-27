@@ -24,9 +24,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Designates a {@link ManyToOne} or {@link OneToOne} relationship
- * attribute that provides the mapping for an {@link EmbeddedId}
- * primary key, an attribute within an {@code EmbeddedId} primary
- * key, or a simple primary key of the parent entity.
+ * attribute that provides the mapping for
+ * <ul>
+ * <li>an {@link Id} or {@link EmbeddedId} attribute of an entity
+ *     with a derived identity, or
+ *<li> an attribute of the {@link EmbeddedId} class of an entity
+ *     with a derived identity.
+ * </ul>
  *
  * <p>The {@link #value} element specifies the attribute within a
  * composite key to which the relationship attribute corresponds.
@@ -37,10 +41,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>In this example, the parent entity has simple primary key:
  * {@snippet :
  * @Entity
- * public class Employee {
+ * class Employee {
+ *
  *     @Id
- *     long empId;
+ *     long id;
+ *
  *     String name;
+ *
  *     ...
  * }
  * }
@@ -49,29 +56,58 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * declare its composite primary key:
  * {@snippet :
  * @Embeddable
- * public class DependentId {
- *     String name;
- *     long empid;  // corresponds to primary key type of Employee
+ * class PaycheckId {
+ *     int period;
+ *     long empId;  // agrees with primary key type of Employee
  * }
  *
  * @Entity
- * public class Dependent {
+ * class Paycheck {
+ *
  *     @EmbeddedId
- *     DependentId id;
- *     ...
- *     @MapsId("empid")  // maps the empid attribute of embedded id
+ *     PaycheckId id;
+ *
+ *     @MapsId("empId")  // maps the empId attribute of PaycheckId
  *     @ManyToOne
  *     Employee emp;
+ *
+ *     ...
  * }
  * }
  *
- * <p>
- * If a {@link ManyToOne} or {@link OneToOne} relationship declared by a
- * dependent entity is annotated {@link MapsId}, an instance of the entity
- * cannot be made persistent until the relationship has been assigned a
- * reference to an instance of the parent entity, since the identity of
- * the dependent entity declaring the relationship is derived from the
- * referenced parent entity.
+ * <p>Alternatively, the dependent entity may use {@link IdClass}
+ * to declare its composite primary key:
+ * {@snippet :
+ * class PaycheckId {
+ *     int period;
+ *     long empId;  // agrees with empId field of Paycheck
+ * }
+ *
+ * @Entity
+ * @IdClass(PaycheckId.class)
+ * class Paycheck {
+ *
+ *     @Id
+ *     int period;
+ *
+ *     @Id
+ *     long empId;  // agrees with primary key type of Employee
+ *
+ *     @MapsId("empId")  // maps the empId attribute
+ *     @ManyToOne
+ *     Employee emp;
+ *
+ *     ...
+ * }
+ * }
+ *
+ * <p>If a {@link ManyToOne} or {@link OneToOne} relationship
+ * declared by a dependent entity is annotated {@link MapsId},
+ * an instance of the entity cannot be made persistent until
+ * the relationship has been assigned a reference to an
+ * instance of the parent entity, since the identity of the
+ * dependent entity declaring the relationship is derived from
+ * the referenced parent entity.
  *
  * @since 2.0
  */

@@ -657,8 +657,9 @@ or columns may be declared using either:
 
 - the `Id` annotation, when no other `Id` or `EmbeddedId` attribute maps
   the same primary key column or columns, or
-- the `MapsId` annotation, if some other attribute or attributes annotated
-  `Id` or `EmbeddedId` also map the primary key column or columns.
+- the `MapsId` annotation, as defined below in <<mapsid-derived-identity>>,
+  if some other attribute or attributes annotated `Id` or `EmbeddedId`
+  also map the primary key column or columns.
 
 If a `ManyToOne` or `OneToOne` relationship declared by a dependent
 entity is annotated `Id` or `MapsId`, an instance of the entity cannot be
@@ -672,16 +673,59 @@ to the database.]
 
 A dependent entity may have more than one parent entity.
 
+===== Use of `MapsId` to Represent Derived Identity [[mapsid-derived-identity]]
+
+The `MapsId` annotation defined in <<mapsid>> allows a relationship to the
+parent entity of an entity with a derived identity to be redundantly
+represented by:
+
+1. a relationship attribute annotated  `ManyToOne` or `OneToOne`, and
+2. a simple or composite primary key field or property, as defined above in
+   <<a132>>.
+
+As specified in <<a14687>>, an embedded id class cannot declare a field or
+property representing a relationship. Therefore, a `ManyToOne` or `OneToOne`
+relationship mapping the primary key column or columns of an entity with an
+embedded id must be declared using `MapsId`. On the other hand, a `ManyToOne`
+or `OneToOne` relationship mapping the primary key column or columns of an
+entity with an id class may be declared with either `Id` or `MapsId`, as
+specified below in <<a155>>.
+
+When `MapsId` is used to map a `ManyToOne` or `OneToOne` relationship, the
+entity class, id class, or embedded id class must have a corresponding field
+or property with the same type as the identifier of the associated entity.
+The `value` member of the `MapsId` annotation identifies this field or property,
+which is said to be _mapped by_ the relationship attribute annotated `MapsId`.
+
+- If the dependent entity has the same primary key type as the parent entity,
+  or if the dependent entity represents its composite primary key as an id
+  class, the field or property mapped by the relationship attribute must be
+  declared using the `Id` or `EmbeddedId` annotation in the entity class. If
+  the associated entity has a simple primary key, it is declared using the `Id`
+  annotation; otherwise, if the associated entity has a composite primary key,
+  it must be declared using the `EmbeddedId` annotation.
+
+- If the dependent entity represents its composite primary key as an embedded
+  id, no `Id` or `EmbeddedId` annotation is required on the field or property
+  mapped by the relationship attribute.
+
 ===== Specification of Derived Identities [[a155]]
+
+A dependent entity may have a composite primary key represented as an id class
+or embedded id, or it may have a simple primary key.
+
+====== Derived Identity Represented as Id Class
 
 If a dependent entity uses an id class to represent its primary key,
 one of the two following rules must be observed:
 
 - The names and types of the attributes of the id class and the `Id`
-  attributes of the dependent entity class must correspond as follows:
+  and `EmbeddedId` attributes of the dependent entity class must
+  correspond as follows:
 
-* The `Id` attribute of the dependent entity class and the corresponding
-  attribute in the id class must have the same name.
+* The `Id` or and `EmbeddedId` attribute of the dependent entity class
+  and the corresponding attribute in the id class must have the same
+  name.
 
 * If an `Id` attribute of the dependent entity class is of basic type,
   the corresponding attribute in the id class must have the same type.
@@ -693,10 +737,24 @@ one of the two following rules must be observed:
   or the type of the `Id` attribute of the parent entity (if the parent
   entity has a simple primary key).
 
+* An `Id` attribute of the dependent entity class which is mapped by a
+  relationship to the parent entity annotated `MapsId` must be of the
+  same Java type as the `Id` attribute of the parent entity. The `value`
+  element of the `MapsId` annotation of the relationship attribute must
+  specify the name of the `Id` attribute.
+
+* An `EmbeddedId` attribute of the dependent entity class which is mapped
+  by a relationship to the parent entity annotated `MapsId` must be of the
+  same Java type as the id class or embedded id of the parent entity. The
+  `value` element of the `MapsId` annotation of the relationship attribute
+  must specify the name of the `EmbeddedId` attribute.
+
 - Alternatively, if the dependent entity declares a single primary key
   attribute, that is, a `OneToOne` relationship attribute annotated `Id`,
   then the id class specified by the dependent entity must be the same as
   the primary key class of the parent entity.
+
+====== Derived Identity Represented as Embedded Id
 
 If a dependent entity uses an embedded id to represent its primary key,
 the relationship attribute which targets the parent entity must be annotated
@@ -711,13 +769,15 @@ the relationship attribute which targets the parent entity must be annotated
   id or as an id class.]
 
 - Otherwise, the `value` element of the `MapsId` annotation must specify
-  the name of the attribute within the embedded id to which the relationship
-  attribute corresponds and this attribute of the embedded id must be of the
-  same type as the primary key of the parent entity.
+  the name of the attribute within the embedded id which is mapped by the
+  annotated relationship attribute and this attribute of the embedded id
+  must be of the same type as the primary key of the parent entity.
 
 An attribute of an embedded id which corresponds to a relationship targeting
-a parent entity is treated by the provider as “read only”—that is, any direct
+a parent entity is treated by the provider as “read-only”—that is, any direct
 mutation of the attribute is not propagated to the database.
+
+====== Derived Identity Represented as Simple Primary Key
 
 If a dependent entity has a single primary key attribute annotated `Id`,
 and the primary key of the parent entity is a simple primary key, then
@@ -748,7 +808,7 @@ entity.
   or `JoinColumns` annotation.
 
 - If the dependent entity uses an id class, the `Column` annotation may be
-  used to override the default mapping of `Id` attributes which are `not`
+  used to override the default mapping of `Id` attributes which are _not_
   derived from any parent entity.
 
 - If the dependent entity uses an embedded id to represent its primary key,
@@ -779,15 +839,15 @@ public class Employee {
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of @Id attribute
+public class PaycheckId {
+    int period; // matches name of @Id attribute
     long emp; // matches name of @Id attribute and type of Employee PK
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
-    @Id String name;
+@IdClass(PaycheckId.class)
+public class Paycheck {
+    @Id int period;
 
     // id attribute mapped by join column default
     @Id @ManyToOne
@@ -802,23 +862,56 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' AND d.emp.empName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 AND d.emp.empName = 'Sam'
 ----
 
-*Case(b):* The dependent entity uses `EmbeddedId` to represent a composite key:
+*Case (b):* The dependent entity uses `IdClass` and `MapsId` to represent a composite key:
+
+[source,java]
+----
+public class PaycheckId {
+    int period; // matches name of @Id attribute
+    long empId; // matches name of @Id attribute and type of Employee PK
+}
+
+@Entity
+@IdClass(PaycheckId.class)
+public class Paycheck {
+    @Id int period;
+    @Id long empId;
+
+    // id attribute mapped by join column default
+    @MapsId("empId")
+    @ManyToOne
+    Employee emp;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Paycheck d
+WHERE d.period = 1 AND d.emp.empName = 'Sam'
+----
+
+*Case(c):* The dependent entity uses `EmbeddedId` to represent a composite key:
 
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     long empPK; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
-    @EmbeddedId DependentId id;
+public class Paycheck {
+    @EmbeddedId PaycheckId id;
 
     // id attribute mapped by join column default
     @MapsId("empPK") // maps empPK attribute of embedded id
@@ -834,8 +927,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.emp.empName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.emp.empName = 'Sam'
 ----
 
 *Example 2:*
@@ -865,23 +958,22 @@ public class Employee {
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of attribute
+public class PaycheckId {
+    int period; // matches name of attribute
     EmployeeId emp; //matches name of attribute and type of Employee PK
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
+@IdClass(PaycheckId.class)
+public class Paycheck {
     @Id
-    String name;
+    int period;
 
     @Id
     @JoinColumns({
         @JoinColumn(name="FK1", referencedColumnName="firstName"),
         @JoinColumn(name="FK2", referencedColumnName="lastName")
     })
-
     @ManyToOne
     Employee emp;
 }
@@ -892,11 +984,48 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' AND d.emp.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 AND d.emp.firstName = 'Sam'
 ----
 
-*Case (b):* The dependent entity uses
+*Case (b):* The dependent entity uses `IdClass` and `MapsId`:
+
+[source,java]
+----
+public class PaycheckId {
+    int period; // matches name of attribute
+    EmployeeId empId; //matches name of attribute and type of Employee PK
+}
+
+@Entity
+@IdClass(PaycheckId.class)
+public class Paycheck {
+    @Id
+    int period;
+
+    @EmbeddedId
+    EmployeeId empId;
+
+    @MapsId("empId")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @ManyToOne
+    Employee emp;
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Paycheck d
+WHERE d.period = 1 AND d.empId.firstName = 'Sam'
+----
+
+*Case (c):* The dependent entity uses
 `EmbeddedId`. The type of the `empPK` attribute is the same as that of
 the primary key of `Employee`. The `EmployeeId` class needs to be
 annotated `Embeddable` or denoted as an embeddable class in the XML
@@ -905,15 +1034,15 @@ descriptor.
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     EmployeeId empPK;
 }
 
 @Entity
-public class Dependent {
+public class Paycheck {
     @EmbeddedId
-    DependentId id;
+    PaycheckId id;
 
     @MapsId("empPK")
     @JoinColumns({
@@ -932,8 +1061,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.emp.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.emp.firstName = 'Sam'
 ----
 
 Note that the following alternative query
@@ -942,8 +1071,8 @@ will yield the same result:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.id.empPK.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.id.empPK.firstName = 'Sam'
 ----
 
 *Example 3:*
@@ -973,17 +1102,17 @@ public class Employee {
 
 [source,java]
 ----
-public class DependentId {
-    String name; // matches name of @Id attribute
+public class PaycheckId {
+    int period; // matches name of @Id attribute
     EmployeeId emp; // matches name of @Id attribute and type of embedded id of Employee
 }
 
 @Entity
-@IdClass(DependentId.class)
-public class Dependent {
+@IdClass(PaycheckId.class)
+public class Paycheck {
     @Id
-    @Column(name="dep_name") // default column name is overridden
-    String name;
+    @Column(name="pay_period") // default column name is overridden
+    int period;
 
     @Id
     @JoinColumns({
@@ -1000,25 +1129,63 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.name = 'Joe' and d.emp.empId.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.period = 1 and d.emp.empId.firstName = 'Sam'
 ----
 
-*Case (b):* The dependent entity uses `EmbeddedId`:
+*Case (b):* The dependent entity uses `IdClass` and `MapsId`:
+
+[source,java]
+----
+public class PaycheckId {
+    int period; // matches name of @Id attribute
+    EmployeeId empId; // matches name of @Id attribute and type of embedded id of Employee
+}
+
+@Entity
+@IdClass(PaycheckId.class)
+public class Paycheck {
+    @Id
+    @Column(name="pay_period") // default column name is overridden
+    int period;
+
+    @EmbeddedId
+    EmployeeId empId;
+
+    @MapsId("empId")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @ManyToOne Employee
+    emp;
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT d
+FROM Paycheck d
+WHERE d.period = 1 and d.empId.firstName = 'Sam'
+----
+
+*Case (c):* The dependent entity uses `EmbeddedId`:
 
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     EmployeeId empPK; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
-    // default column name for "name" attribute is overridden
-    @AttributeOverride(name="name", column=@Column(name="dep_name"))
-    @EmbeddedId DependentId id;
+public class Paycheck {
+    // default column name for 'period' attribute is overridden
+    @AttributeOverride(name="period", column=@Column(name="pay_period"))
+    @EmbeddedId PaycheckId id;
 
     @MapsId("empPK")
     @JoinColumns({
@@ -1037,8 +1204,8 @@ Sample query:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' and d.emp.empId.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 and d.emp.empId.firstName = 'Sam'
 ----
 
 Note that the following alternative query will yield the same result:
@@ -1046,8 +1213,8 @@ Note that the following alternative query will yield the same result:
 [source,sql]
 ----
 SELECT d
-FROM Dependent d
-WHERE d.id.name = 'Joe' AND d.id.empPK.firstName = 'Sam'
+FROM Paycheck d
+WHERE d.id.period = 1 AND d.id.empPK.firstName = 'Sam'
 ----
 
 *Example 4:*
@@ -1183,7 +1350,39 @@ FROM MedicalHistory m
 WHERE m.patient.firstName = 'Charles'
 ----
 
-*Case (b):* The dependent entity uses the
+*Case (b):* The dependent entity uses `IdClass` and `MapsId:
+
+[source,java]
+----
+@Entity
+@IdClass(PersonId.class)
+public class MedicalHistory {
+
+    @EmbeddedId
+    PersonId personId;
+
+    @MapsId("personId")
+    @JoinColumns({
+        @JoinColumn(name="FK1", referencedColumnName="firstName"),
+        @JoinColumn(name="FK2", referencedColumnName="lastName")
+    })
+    @OneToOne
+    Person patient;
+
+    // ...
+}
+----
+
+Sample query:
+
+[source,sql]
+----
+SELECT m
+FROM MedicalHistory m
+WHERE m.personId.firstName = 'Charles'
+----
+
+*Case (c):* The dependent entity uses the
 `EmbeddedId` and `MapsId` annotations. The `PersonId` class needs to be
 annotated `Embeddable` or denoted as an embeddable class in the XML
 descriptor.

@@ -1820,6 +1820,11 @@ In a given entity class:
 - if there is a field or property annotated `EmbeddedId`, there must be
   no field or property annotated `Id`.
 
+This rule is relaxed in the special case where the `EmbeddedId` represents
+the composite primary key of a parent entity in an entity with a derived
+identity represented as an `IdClass`, as specified in
+<<mapsid-derived-identity>>.
+
 The `AttributeOverride` annotation may be used to override the column
 mappings declared within the embeddable class.
 
@@ -1841,7 +1846,8 @@ public @interface EmbeddedId {}
 
 [source,java]
 ----
-@Entity public class Employee {
+@Entity
+public class Employee {
     @EmbeddedId
     protected EmployeePK empPK;
 
@@ -1859,17 +1865,17 @@ public @interface EmbeddedId {}
 [source,java]
 ----
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     EmployeeId empPK; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
+public class Paycheck {
     // default column name for "name" attribute is overridden
-    @AttributeOverride(name="name", @Column(name="dep_name"))
+    @AttributeOverride(name="period", @Column(name="pay_period"))
     @EmbeddedId
-    DependentId id;
+    PaycheckId id;
 
     // ...
 
@@ -4005,16 +4011,16 @@ subclasses by using the `AttributeOverride`, `AttributeOverrides`,
 public @interface MappedSuperclass {}
 ----
 
-==== MapsId Annotation
+==== MapsId Annotation [[mapsid]]
 
-The `MapsId` annotation is used to designate a `ManyToOne` or `OneToOne`
-relationship attribute that provides the mapping for:
+The `MapsId` annotation designates a `ManyToOne` or `OneToOne` relationship
+attribute that provides the mapping for
 
-- an `EmbeddedId` primary key,
-- an attribute within an `EmbeddedId` primary key, or
-- a simple primary key of the parent entity,
+- an `Id` or `EmbeddedId` attribute of an entity with a derived identity,
+  or
+- an attribute of the `EmbeddedId` class of an entity with a derived identity,
 
-as defined in <<a149>> and <<a155>>.
+as defined in <<mapsid-derived-identity>>.
 
 The `value` element listed in <<a15615>> specifies the attribute within a
 composite key class to which the relationship attribute corresponds. If
@@ -4060,15 +4066,15 @@ public class Employee {
 
 // dependent entity uses EmbeddedId for composite key
 @Embeddable
-public class DependentId {
-    String name;
+public class PaycheckId {
+    int period;
     long empid; // corresponds to PK type of Employee
 }
 
 @Entity
-public class Dependent {
+public class Paycheck {
     @EmbeddedId
-    DependentId id;
+    PaycheckId id;
 
     // ...
 
@@ -4752,11 +4758,11 @@ strategy to the primary table of its superclass; it is used within a
 table; and it may be used in a `OneToOne` mapping in which the primary
 key of the referencing entity is used as a foreign
 keyfootnote:[It is not expected
-that a database foreign key be defined for the OneToOne mapping, as the
-OneToOne relationship may be defined as `optional=true`.] to the referenced
+that a database foreign key be defined for the `OneToOne` mapping, as the
+`OneToOne` relationship may be defined as `optional=true`.] to the referenced
 entityfootnote:[The derived id
 mechanisms described in <<a155>> are now to be preferred over
-PrimaryKeyJoinColumn for the OneToOne mapping case.].
+`PrimaryKeyJoinColumn` for the `OneToOne` mapping case.].
 
 The `foreignKey` element specifies
 or controls the generation of a foreign key constraint for the primary
@@ -4925,7 +4931,7 @@ public class ValuedCustomer extends Customer { ... }
 *Example 2:* OneToOne relationship
 between Employee and EmployeeInfo classes.footnote:[Note that the
 derived identity mechanisms described in <<a155>> is
-now preferred to the use of PrimaryKeyJoinColumn for this case.]
+now preferred to the use of `PrimaryKeyJoinColumn` for this case.]
 
 [source,java]
 ----
