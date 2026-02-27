@@ -163,11 +163,6 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public <T> TypedQuery<T> createQuery(CriteriaQuery<T> arg0) {
-		return null;
-	}
-
-	@Override
 	public <T> TypedQuery<T> createQuery(CriteriaSelect<T> selectQuery) {
 		return null;
 	}

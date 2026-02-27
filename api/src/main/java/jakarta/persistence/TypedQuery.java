@@ -41,14 +41,13 @@ import java.util.stream.Stream;
  * @see Query
  * @see Parameter
  * @see StatementOrTypedQuery#ofType(Class)
- * @see EntityHandler#createQuery(CriteriaQuery)
- * @see EntityHandler#createQuery(CriteriaSelect)
+ * @see EntityHandler#createQuery(jakarta.persistence.criteria.CriteriaSelect)
  * @see EntityHandler#createQuery(String,Class)
  * @see EntityHandler#createQuery(String,EntityGraph)
  * @see EntityHandler#createNamedQuery(String,Class)
  * @see EntityHandler#createQuery(TypedQueryReference)
  * @see EntityHandler#createNativeQuery(String,Class)
- * @see EntityHandler#createNativeQuery(String,ResultSetMapping)
+ * @see EntityHandler#createNativeQuery(String,jakarta.persistence.sql.ResultSetMapping)
  *
  * @since 2.0
  */
