@@ -55,6 +55,8 @@ import jakarta.persistence.sql.ResultSetMapping;
  * <p>These operations may be viewed as a sort of type cast to a
  * given subtype of this interface.
  *
+ * @since 4.0
+ *
  */
 public interface StatementOrTypedQuery extends Query {
 
@@ -68,7 +70,6 @@ public interface StatementOrTypedQuery extends Query {
      *
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code SELECT} query
-     * @since 4.0
      */
     Statement asStatement();
 
@@ -85,7 +86,6 @@ public interface StatementOrTypedQuery extends Query {
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
      *         statement
-     * @since 4.0
      */
     <R> TypedQuery<R> ofType(Class<R> resultType);
 
@@ -103,7 +103,6 @@ public interface StatementOrTypedQuery extends Query {
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
      *         statement
-     * @since 4.0
      */
     <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
 
@@ -119,7 +118,6 @@ public interface StatementOrTypedQuery extends Query {
      *         query
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence query or statement
-     * @since 4.0
      */
     <R> TypedQuery<R> withResultSetMapping(ResultSetMapping<R> mapping);
 
