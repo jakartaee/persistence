@@ -139,4 +139,38 @@ public @interface ManyToOne {
      * not null}.
      */
     boolean optional() default true;
+
+    /**
+     * (Optional) A field or property mapping the foreign key
+     * column to the identifier of the associated entity. The
+     * referenced attribute might be an {@linkplain Id id} or
+     * {@linkplain EmbeddedId embedded id}, or any other
+     * {@linkplain Basic basic} or {@linkplain Embedded embedded}
+     * attribute. Its type must be exactly the same as the type
+     * of the primary key field or property of the associated
+     * entity.
+     * <p>
+     * When this element is specified, the {@link JoinColumn}
+     * annotation, if any, should be placed on the referenced
+     * field or property.
+     * <p>
+     * {@snippet :
+     * @Entity
+     * @IdClass(ChildId.class)
+     * class Child {
+     *     @Id
+     *     @JoinColumn(name = "parent_id",
+     *           foreignKey = @ForeignKey(name="child_parent_fk"))
+     *     Long parentId;
+     *
+     *     @Id
+     *     String childId;
+     *
+     *     @ManyToOne(mappedById = Child_.PARENT_ID)
+     *     Parent parent;
+     * }
+     * }
+     * @since 4.0
+     */
+    String mappedById() default "";
 }
