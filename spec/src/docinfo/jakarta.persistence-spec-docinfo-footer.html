@@ -1,0 +1,60 @@
+<!-- Dynamic TOC -->
+<!-- Source: https://github.com/asciidoctor/asciidoctor/issues/699#issuecomment-321066006 -->
+<script src="script/tocbot/tocbot.min.js"></script>
+<script>
+    /* Tocbot dynamic TOC, works with tocbot 3.0.2 */
+    /* Source: https://github.com/asciidoctor/asciidoctor/issues/699#issuecomment-321066006
+     * Adapted to auto-detect the heading selector.
+     */
+    var oldtoc = document.getElementById('toctitle').nextElementSibling;
+
+    var headingSelectorVal;
+    if (oldtoc.querySelector('.sectlevel5')) {
+        headingSelectorVal = 'h1, h2, h3, h4, h5, h6'
+    }
+    else if (oldtoc.querySelector('.sectlevel4')) {
+        headingSelectorVal = 'h1, h2, h3, h4, h5'
+    }
+    else if (oldtoc.querySelector('.sectlevel3')) {
+        headingSelectorVal = 'h1, h2, h3, h4'
+    }
+    else if (oldtoc.querySelector('.sectlevel2')) {
+        headingSelectorVal = 'h1, h2, h3'
+    }
+    else if (oldtoc.querySelector('.sectlevel1')) {
+        headingSelectorVal = 'h1, h2'
+    }
+    else {
+        // In case something went wrong
+        headingSelectorVal = 'h1, h2, h3, h4'
+    }
+
+    var newtoc = document.createElement('div');
+    newtoc.setAttribute('id', 'tocbot');
+    newtoc.setAttribute('class', 'js-toc');
+    oldtoc.parentNode.replaceChild(newtoc, oldtoc);
+    tocbot.init({ contentSelector: '#content',
+        headingSelector: headingSelectorVal,
+        smoothScroll: false });
+    var handleTocOnResize = function() {
+        var width = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+        if (width < 768) {
+            tocbot.refresh({ contentSelector: '#content',
+                headingSelector: headingSelectorVal,
+                collapseDepth: 6,
+                activeLinkClass: 'ignoreactive',
+                throttleTimeout: 1000,
+                smoothScroll: false });
+        }
+        else {
+            tocbot.refresh({ contentSelector: '#content',
+                headingSelector: headingSelectorVal,
+                smoothScroll: false });
+        }
+    };
+    window.addEventListener('resize', handleTocOnResize);
+    handleTocOnResize();
+</script>
+<!-- /Dynamic TOC -->
