@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,6 +16,7 @@
 package jakarta.persistence.sql;
 
 import jakarta.persistence.LockModeType;
+import jakarta.persistence.metamodel.PluralAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 /**
@@ -206,5 +207,45 @@ public sealed interface ResultSetMapping<T>
      */
     static <C,T> FieldMapping<C,T> field(SingularAttribute<? super C,T> attribute, String columnName) {
         return FieldMapping.of(attribute, columnName);
+    }
+
+    /**
+     * Construct a mapping for the given to-one association.
+     * @param attribute The metamodel object representing the to-one association
+     * @param target The mapping for the target entity
+     * @param joinColumnNames The foreign key columns of the result set
+     * @param <C> The type of the entity or embeddable type which declares
+     *            the association
+     * @param <E> The type of the target entity
+     */
+    static <C,E> FetchMapping<C,E> fetch(SingularAttribute<C,E> attribute, EntityMapping<E> target, String... joinColumnNames) {
+        return FetchMapping.of(attribute, target, joinColumnNames);
+    }
+
+    /**
+     * Construct a mapping for the given to-many association.
+     * @param attribute The metamodel object representing the to-many association
+     * @param target The mapping for the target entity
+     * @param joinColumnNames The foreign key columns of the result set
+     * @param <C> The type of the entity or embeddable type which declares
+     *            the association
+     * @param <E> The type of the target entity
+     */
+    static <C,E> FetchMapping<C,E> fetch(PluralAttribute<C, ?, E> attribute, EntityMapping<E> target, String... joinColumnNames) {
+        return FetchMapping.of(attribute, target, joinColumnNames);
+    }
+
+    /**
+     * Construct a mapping for the named association.
+     * @param container The Java class which declares the association
+     * @param name The name of the association field
+     * @param target The mapping for the target entity
+     * @param joinColumnNames The foreign key columns of the result set
+     * @param <C> The type of the entity or embeddable type which declares
+     *            the association
+     * @param <E> The type of the target entity
+     */
+    static <C,E> FetchMapping<C,E> fetch(Class<C> container, String name, EntityMapping<E> target, String... joinColumnNames) {
+        return FetchMapping.of(container, name, target, joinColumnNames);
     }
 }
