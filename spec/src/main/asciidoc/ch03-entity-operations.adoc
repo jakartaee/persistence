@@ -3589,7 +3589,7 @@ When executed, this query will return a
 collection of all `Order` entities for items named “widget”.
 
 The `SqlResultSetMapping` metadata
-annotation—which is designed to handle more complex cases—can be used as
+annotation--which is designed to handle more complex cases--can be used as
 an alternative here. See <<a13797>> for the definition of the
 `SqlResultSetMapping` metadata annotation and related annotations.
 
@@ -3871,7 +3871,7 @@ above in <<constructor-results>>, or a basic type, as described in
 
 - When a `SqlResultSetMapping` specifies exactly one `EntityResult`,
   `ConstructorResult`, or `ColumnResult`, each row of the SQL result
-  set maps to query result whose type is the `entityClass` specified
+  set maps to a query result whose type is the `entityClass` specified
   by the `EntityResult`, `targetClass` specified by the `ConstructorResult`,
   or `type` specified by (or inferred from) the `ColumnResult`.
 
@@ -3882,7 +3882,7 @@ above in <<constructor-results>>, or a basic type, as described in
   * entity results, in the order in which they are declared by the
     `entities` element;
   * constructor results, in the order in which they are declared by
-    the `classes` element; and
+    the `classes` element; and then
   * scalar results, in the order in which they are declared by
     the `columns` element.
 

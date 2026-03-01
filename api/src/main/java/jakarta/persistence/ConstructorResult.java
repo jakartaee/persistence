@@ -17,8 +17,11 @@
 
 package jakarta.persistence;
 
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -78,6 +81,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * in the {@link jakarta.persistence.sql.ResultSetMapping ResultSetMapping}
  * returned by {@link EntityManagerFactory#getResultSetMappings(Class)}.
  *
+ * <p>This annotation may be placed directly on a method annotated
+ * {@link jakarta.persistence.query.StaticNativeQuery}.
+ * {@snippet :
+ * @StaticNativeQuery("SELECT pub_id, count(*) AS book_count FROM books GROUP BY pub_id")
+ * @ConstructorResult(
+ *     targetClass = PublisherBookCount.class,
+ *     columns = {@ColumnResult("pub_id"),
+ *                @ColumnResult("book_count")}
+ * )
+ * List<PublisherBookCount> publisherBookCounts(String pattern);
+ * }
+ *
  * @see SqlResultSetMapping
  * @see NamedNativeQuery
  * @see ColumnResult
@@ -86,8 +101,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 2.1
  */
-@Target({}) 
+@Target(METHOD)
 @Retention(RUNTIME)
+@Repeatable(ConstructorResult.ConstructorResults.class)
 public @interface ConstructorResult { 
 
     /**
@@ -103,7 +119,7 @@ public @interface ConstructorResult {
      * {@linkplain #targetClass target class}, in order.
      *
      * <p>Constructor parameters mapping directly to column
-     * results must occur after parameters mapping to entities.
+     * results must occur before parameters mapping to entities.
      */
     ColumnResult[] columns() default {};
 
@@ -120,4 +136,13 @@ public @interface ConstructorResult {
      * @since 4.0
      */
     EntityResult[] entities() default {};
+
+    /**
+     * @since 4.0
+     */
+    @Target(METHOD)
+    @Retention(RUNTIME)
+    @interface ConstructorResults {
+        ConstructorResult[] value();
+    }
 }
