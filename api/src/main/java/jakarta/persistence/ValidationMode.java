@@ -37,17 +37,21 @@ package jakarta.persistence;
 public enum ValidationMode {
    
     /**
-     * If a Bean Validation provider is present in the environment,
+     * If a Jakarta Validation provider is present in the environment,
      * the persistence provider must perform the automatic validation
-     * of entities. If no Bean Validation provider is present in the
+     * of entities. If no Jakarta Validation provider is present in the
      * environment, no lifecycle event validation takes place.
      * This is the default behavior.
+     * <p>
+     * To ensure deterministic behavior and prevent silent validation omissions,
+     * applications should explicitly set the {@code validation-mode}
+     * to {@link ValidationMode#CALLBACK} rather than relying on the default.
      */
     AUTO,
 
     /**
      * The persistence provider must perform the lifecycle event
-     * validation. It is an error if there is no Bean Validation
+     * validation. It is an error if there is no Jakarta Validation
      * provider present in the environment.
      */
     CALLBACK,
