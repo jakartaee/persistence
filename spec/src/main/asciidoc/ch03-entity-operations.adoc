@@ -2187,21 +2187,80 @@ it to be applied to that entity or mapped superclass and its subclasses.
 In the case of multiple callback methods for
 a single lifecycle event, the invocation order rules described in <<a2251>> apply.
 
-=== Jakarta Validation [[a2366]]
+=== Jakarta Validation integration [[a2366]]
 
-Jakarta Persistence integrates with Jakarta Validation <<a19498>>
-and specifies additional validation points for managed types
-(entities, mapped superclasses, and embeddable classes) at the
-entity lifecycle events described in <<a2202>>.
+Jakarta Persistence defines integration points with Jakarta Validation <<a19498>>.
+When the Jakarta Persistence provider is <<a2394,aware of the Jakarta Validation provider's presence>>,
+and <<a2374,the integration is enabled>>, the persistence provider must:
 
-When the Jakarta Persistence provider is
-<<a2394,aware of the Jakarta Validation provider's presence>>
-and <<a2374,enables automatic validation>>, it must automatically
-enforce the Jakarta Validation constraints <<a19498>> defined on
-managed objects. This process occurs internally within the persistence
-lifecycle (<<automatic-validation-lifecycle-events>>), ensuring
-validation without requiring additional application-side logic
-beyond the constraints' definitions.
+* <<automatic-validation-lifecycle-events,perform automatic validation upon lifecycle events>>:
+  The provider must automatically validate managed types (entities, mapped superclasses, and
+  embeddable classes) at the entity lifecycle events described in <<a2202>>. This process occurs
+  internally within the persistence lifecycle, ensuring validation without requiring explicit
+  application logic beyond the constraint definitions.
+
+* <<schema-generation-from-jakarta-validation-constraints,Derive schema metadata from Jakarta Validation constraints>>:
+  The provider must utilize specific Jakarta Validation constraint metadata to derive persistent attribute characteristics
+  (such as nullability, length, precision) and database constraints for the purpose of DDL schema generation.
+
+==== Configuring Jakarta Validation provider
+
+===== Providing the ValidatorFactory [[a2394]]
+
+In Jakarta EE environments, a `jakarta.validation.ValidatorFactory`
+instance is made available by the Jakarta EE container. The container
+is responsible for passing this validator factory to the persistence
+provider via a map, which is passed as the second argument to
+`createContainerEntityManagerFactory`. The map key must be the
+standard property name `jakarta.persistence.validation.factory`.
+
+In Java SE environments, the application can supply the
+`ValidatorFactory` instance via a map passed as the second argument to
+`Persistence.createEntityManagerFactory`. The map key must
+be the standard property name `jakarta.persistence.validation.factory`.
+If no `ValidatorFactory` instance is provided by the application, and
+if a Jakarta Validation provider is present in the classpath, the
+persistence provider must instantiate the `ValidatorFactory` using
+the default bootstrapping approach defined by the Jakarta Validation
+specification <<a19498>>, namely `Validation.buildDefaultValidatorFactory()`.
+
+===== Enabling/Disabling the Jakarta Validation integration [[a2374]]
+
+Enabling and disabling the Jakarta Validation integration is
+achieved through configuring the validation mode.
+
+This specification defines the following _validation modes_:
+
+* `callback` -- the persistence provider must perform the automatic validation
+  of entities as described in <<a2380>>. If no Jakarta Validation provider is
+  available, the persistence provider must throw a `PersistenceException`.
+* `schema` -- the persistence provider, in addition to performing the automatic
+  validation as with `callback`, must utilize Jakarta Validation constraint
+  metadata for the purpose of DDL schema generation as described in <<schema-generation-from-jakarta-validation-constraints>>.
+  If no Jakarta Validation provider is available, the persistence provider must
+  throw a `PersistenceException`.
+* `none` -- the persistence provider must not perform any automatic validation
+  nor derive schema metadata from Jakarta Validation constraints.
+* `auto` -- if a Jakarta Validation provider is obtainable -- persistent provider
+  must perform the automatic validation of entities and utilize Jakarta Validation
+  constraint metadata for the purpose of DDL schema generation. Otherwise, the
+  behavior is the same as with `none`.
+
+[NOTE]
+====
+The Jakarta Validation provider is obtained via the `jakarta.validation.ValidatorFactory` (<<a2394>>).
+====
+
+The validation mode may be specified via the `validation-mode` element of the
+`persistence.xml` file. Allowed values for the `validation-mode` element are
+`AUTO`, `SCHEMA`, `CALLBACK` and `NONE`.
+
+The validation mode value specified in `persistence.xml` may be overridden by
+the configuration property `jakarta.persistence.validation.mode`, which may be
+passed to `Persistence.createEntityManagerFactory` or
+`PersistenceProvider.createContainerEntityManagerFactory`, as defined in
+<<a13443>> and <<a12802>>.
+Expected values for this property are `auto`, `schema`, `callback` and `none`.
 
 ==== Automatic Validation Upon Lifecycle Events [[automatic-validation-lifecycle-events]]
 
@@ -2231,36 +2290,6 @@ lifecycle callback may or may not occur in these scenarios.
 Portable applications must not rely on the specific timing or ordering
 of automatic validation events.
 ====
-
-===== Enabling Automatic Validation [[a2374]]
-
-This specification defines the following _validation modes_:
-
-* `auto` -- if the Jakarta Validation provider is obtainable, then the
-  persistence provider must perform automatic validation of entities
-  as described in <<a2380>>. Otherwise, no lifecycle event validation
-  takes place. This is the default validation mode.
-* `callback` -- the persistence provider must perform the automatic validation
-  of entities as described in <<a2380>>. If no Jakarta Validation provider is
-  available, the persistence provider must throw a `PersistenceException`.
-* `none` -- the persistence provider must not perform any automatic validation.
-
-[NOTE]
-====
-The Jakarta Validation provider is obtained via the `jakarta.validation.ValidatorFactory` (<<a2394>>).
-====
-
-The validation mode may be specified via the `validation-mode` element of the
-`persistence.xml` file. Allowed values for the `validation-mode` element are
-`AUTO`, `CALLBACK`, `NONE`.
-
-The validation mode value specified in `persistence.xml` may be overridden by
-the configuration property `jakarta.persistence.validation.mode` which may be
-passed to `Persistence.createEntityManagerFactory` or
-`PersistenceProvider.createContainerEntityManagerFactory`, as defined in
-<<a13443>> and <<a12802>>.
-Expected values for this property are `auto`, `callback`, `none`.
-
 
 ===== Requirements for Automatic Validation upon Lifecycle Events [[a2380]]
 
@@ -2322,24 +2351,172 @@ from a `jakarta.validation.ValidatorFactory` instance by calling
 `validatorFactory.usingContext().traversableResolver(tr).getValidator()`,
 where `tr` is the resolver.
 
-==== Providing the ValidatorFactory [[a2394]]
+==== Derivation of schema metadata from Jakarta Validation constraints [[schema-generation-from-jakarta-validation-constraints]]
 
-In Jakarta EE environments, a `jakarta.validation.ValidatorFactory`
-instance is made available by the Jakarta EE container. The container
-is responsible for passing this validator factory to the persistence
-provider via a map passed as the second argument to
-`createContainerEntityManagerFactory`. The map key must be the
-standard property name `jakarta.persistence.validation.factory`.
+Certain Jakarta Validation constraints can override
+the persistent attribute metadata and influence the
+schema generation.
 
-In Java SE environments, the application can supply the
-`ValidatorFactory` instance via a map passed as the second argument to
-`Persistence.createEntityManagerFactory`. The map key must
-be the standard property name `jakarta.persistence.validation.factory`.
-If no `ValidatorFactory` instance is provided by the application, and
-if a Jakarta Validation provider is present in the classpath, the
-persistence provider must instantiate the `ValidatorFactory` using
-the default bootstrapping approach defined by the Jakarta Validation
-specification <<a19498>>, namely `Validation.buildDefaultValidatorFactory()`.
+The following list describes how constraints affect
+the persistent attributes they are applied to:
+
+`jakarta.validation.constraints.NotNull`::
+This constraint is treated as a way to specify that
+the persistent attribute is not nullable.
+Influence on metadata:::
+Overrides the `nullable` attribute and sets it to `false`.
+Influence on DDL:::
+Adds a `NOT NULL` constraint to the column.
+
+`jakarta.validation.constraints.NotBlank`::
+Similar to `jakarta.validation.constraints.NotNull`
+this constraint is treated as a way to specify that
+the persistent attribute is not nullable.
+With difference being that `@NotBlank` constraint
+is applicable to fewer types compared to
+`@NotNull` constraint.
+Influence on metadata:::
+Overrides the `nullable` attribute and sets it to `false`.
+Influence on DDL:::
+Adds a `NOT NULL` constraint to the column.
+
+`jakarta.validation.constraints.NotEmpty`::
+Same as `jakarta.validation.constraints.NotNull`
+this constraint is treated as a way to specify that
+the persistent attribute is not nullable.
+With difference being that `@NotEmpty` constraint
+is applicable to fewer types compared to
+`@NotNull` constraint.
+Influence on metadata:::
+Overrides the `nullable` attribute and sets it to `false`.
+Influence on DDL:::
+Adds a `NOT NULL` constraint to the column.
+
+`jakarta.validation.constraints.Digits`::
+This constraint is treated as a way to specify
+the precision and scale of a numeric column.
+Influence on metadata:::
+Sets the `precision` attribute to the sum of
+`integer` and `fraction`, and the `scale`
+attribute to `fraction`.
+Influence on DDL:::
+Defines the numeric type precision and scale,
+e.g. `DECIMAL(precision, scale)`.
+
+`jakarta.validation.constraints.Size`::
+If this constraint specifies the maximum value,
+e.g. `@Size(max = {someValue})`, then it is treated
+as a way to specify the length of the persistent
+attribute, i.e. `length={someValue}`.
+Influence on metadata:::
+Sets the `length` attribute to `{someValue}`.
+Influence on DDL:::
+Defines the column length, e.g. `VARCHAR({someValue})`.
+
+`jakarta.validation.constraints.Min`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name >= value)`, where `value`
+is the value defined in the constraint.
+
+`jakarta.validation.constraints.Max`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name \<= value)`, where `value`
+is the value defined in the constraint.
+
+`jakarta.validation.constraints.DecimalMin`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name >= value)` if `inclusive`
+is `true` (default), or `CHECK (column_name > value)`
+otherwise.
+
+`jakarta.validation.constraints.DecimalMax`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name \<= value)` if `inclusive`
+is `true` (default), or `CHECK (column_name < value)`
+otherwise.
+
+`jakarta.validation.constraints.Negative`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Max(-1)` for integral types and
+`jakarta.validation.constraints.DecimalMax(value = BigDecimal.ZERO, inclusive = false)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name < 0)`.
+
+`jakarta.validation.constraints.NegativeOrZero`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Max(0)` for integral types and
+`jakarta.validation.constraints.DecimalMax(value = BigDecimal.ZERO)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name \<= 0)`.
+
+`jakarta.validation.constraints.Positive`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Min(1)` for integral types and
+`jakarta.validation.constraints.DecimalMin(value = BigDecimal.ZERO, inclusive = false)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name > 0)`.
+
+`jakarta.validation.constraints.PositiveOrZero`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Min(0)` for integral types and
+`jakarta.validation.constraints.DecimalMin(value = BigDecimal.ZERO)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name >= 0)`.
+
+Persistence providers must comply with the following precedence
+and resolution rules:
+
+* Jakarta Validation constraint metadata takes precedence over
+Jakarta Persistence.
+* Jakarta Validation constraint metadata takes precedence over
+`@jakarta.annotation.Nonnull`.
+* When multiple Jakarta Validation constraints apply to the same
+attribute, the most restrictive constraint must be applied.
+* It is up to the persistence provider how to process multiple
+check clauses contributed by different constraints.
+
+[NOTE]
+====
+This specification expects that only constraints that belong to the
+`jakarta.validation.groups.Default` validation group are considered
+for this additional metadata contribution.
+
+Persistent providers may have a way to override this expectation
+and allow users to specify a different validation group or groups
+to be considered for DDL operations.
+====
 
 === Entity Graphs [[a2397]]
 

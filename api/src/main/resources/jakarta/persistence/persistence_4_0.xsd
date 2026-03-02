@@ -402,12 +402,13 @@
     <xsd:annotation>
       <xsd:documentation>
 
-        public enum ValidationMode { AUTO, CALLBACK, NONE };
+        public enum ValidationMode { AUTO, SCHEMA, CALLBACK, NONE };
 
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:token">
       <xsd:enumeration value="AUTO"/>
+      <xsd:enumeration value="SCHEMA"/>
       <xsd:enumeration value="CALLBACK"/>
       <xsd:enumeration value="NONE"/>
     </xsd:restriction>

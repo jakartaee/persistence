@@ -25,24 +25,54 @@ package jakarta.persistence;
 public enum ValidationMode {
    
     /**
-     * If a Bean Validation provider is present in the environment,
-     * the persistence provider must perform the automatic validation
-     * of entities. If no Bean Validation provider is present in the
-     * environment, no lifecycle event validation takes place.
+     * If a Jakarta Validation provider is present in the environment,
+     * the persistence provider must:
+     * <ul>
+     *     <li>perform the automatic validation of entities upon
+     *     lifecycle events, and</li>
+     *     <li>utilize Jakarta Validation constraint metadata
+     *     for the purpose of DDL schema generation.</li>
+     * </ul>
+     * If no Jakarta Validation provider is present in the
+     * environment, no lifecycle event validation takes place nor
+     * is anything derived from Jakarta Validation constraints regarding
+     * the schema metadata.
      * This is the default behavior.
      */
     AUTO,
 
     /**
-     * The persistence provider must perform the lifecycle event
-     * validation. It is an error if there is no Bean Validation
-     * provider present in the environment.
+     * The persistence provider must
+     * <ul>
+     *     <li>perform the automatic validation of entities upon
+     *     lifecycle events, and</li>
+     *     <li>utilize Jakarta Validation constraint metadata
+     *     for the purpose of DDL schema generation.</li>
+     * </ul>
+     * It is an error if there is no Jakarta Validation provider present
+     * in the environment.
+     *
+     * @since 4.0
+     */
+    SCHEMA,
+
+    /**
+     * The persistence provider must perform the automatic
+     * validation of entities upon lifecycle events validation.
+     * It is an error if there is no Jakarta Validation provider
+     * present in the environment.
      */
     CALLBACK,
 
     /**
-     * The persistence provider must not perform lifecycle event
-     * validation.
+     * The persistence provider must <b>not</b>
+     * <ul>
+     *     <li>perform the automatic validation of entities upon
+     *     lifecycle events, and</li>
+     *     <li>utilize Jakarta Validation constraint metadata
+     *     for the purpose of DDL schema generation.</li>
+     * </ul>
+     * With this mode, Jakarta Validation integration is disabled.
      */
     NONE
 }
