@@ -41,6 +41,8 @@ use of metamodel classes which do not adhere to this canonical form. An
 application that uses non-canonical metamodel classes is not portable.
 ====
 
+==== Bootstrapping the Static Metamodel
+
 When the entity manager factory for a persistence unit is created, it is
 the responsibility of the persistence provider to initialize the state of
 the static metamodel classes representing managed classes belonging to the
