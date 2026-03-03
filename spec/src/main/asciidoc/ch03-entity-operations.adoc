@@ -1839,6 +1839,9 @@ considered to include:
 - every basic or embedded attribute of the entity instance, recursively,
 - every `@ElementCollection` belonging to the entity instance or to an
   embeddable object belonging to the instance,
+- every basic or embedded attribute of an embeddable object belonging to
+  an `@ElementCollection` belonging to the entity instance or to an
+  embeddable object belonging to the instance, recursively,
 - every `@ManyToOne` association field or property of the entity instance
   or of an embeddable object belonging to the instance (but not the state
   of the associated target entity),
