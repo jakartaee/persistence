@@ -263,19 +263,19 @@ public @interface NamedSubgraph {
 }
 ----
 
-==== NamedEntityGraphAttributeNode
+==== NamedEntityGraph.AttributeNode
 
-The `NamedEntityGraphAttributeNode` annotation is an alternative to
+The `NamedEntityGraph.AttributeNode` annotation is an alternative to
 `NamedAttributeNode`. It may be placed on the persistent attribute
 represented by the graph node instead of being nested inside the
 `NamedEntityGraph` annotation.
 
 [source,java]
 ----
-@Repeatable(NamedEntityGraphAttributeNodes.class)
+@Repeatable(AttributeNodes.class)
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
-public @interface NamedEntityGraphAttributeNode {
+public @interface AttributeNode {
     String graph() default "";
 }
 ----
@@ -284,19 +284,19 @@ The `graph` member specifies the name of the entity graph to which
 the node belongs. It defaults to the entity name of the annotated
 entity class.
 
-==== NamedEntityGraphSubgraph
+==== NamedEntityGraph.Subgraph
 
-The `NamedEntityGraphSubgraph` annotation is an alternative to
+The `NamedEntityGraph.Subgraph` annotation is an alternative to
 `NamedSubgraph`. It may be placed on the association represented
 by the subgraph instead of being nested inside the `NamedEntityGraph`
 annotation.
 
 [source,java]
 ----
-@Repeatable(NamedEntityGraphSubgraphs.class)
+@Repeatable(Subgraphs.class)
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
-public @interface NamedEntityGraphSubgraph {
+public @interface Subgraph {
     String graph() default "";
     String subgraph() default "";
 }

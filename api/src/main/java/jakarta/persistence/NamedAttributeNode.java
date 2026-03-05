@@ -28,9 +28,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>A {@code NamedAttributeNode} is reified at runtime as an
  * instance of {@link AttributeNode}.
  *
- * @apiNote Alternatively, use {@link NamedEntityGraphAttributeNode}
- * to declare an attribute node by annotating a field of the graphed
- * entity class.
+ * @apiNote Alternatively, use
+ * {@link NamedEntityGraph.AttributeNode} to declare
+ * an attribute node by annotating a field of the graphed entity class.
  *
  * @see NamedEntityGraph
  * @see NamedSubgraph
