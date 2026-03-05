@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * instance of {@link Subgraph}.
  *
  * @apiNote Alternatively, use {@link NamedEntityGraph} to
- * declare the subgraph, and use {@link NamedEntityGraphSubgraph}
+ * declare the subgraph, and use {@link NamedEntityGraph.Subgraph}
  * to reference the subgraph by annotating a field of the graphed
  * entity class.
  *

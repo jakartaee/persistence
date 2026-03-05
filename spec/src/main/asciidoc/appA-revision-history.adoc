@@ -19,7 +19,7 @@ Added a new API for programmatic SQL result set mappings
 
 Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `ofType()`, `withEntityGraph()`, and `asStatement()` to `Query`
 
-Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
+Added `@NamedEntityGraph.AttributeNode` and `@NamedEntityGraph.Subgraph` for more elegant definition of named entity graphs
 
 Added the ability to select `LAZY` fetching as the default for `@OneToOne` and `@ManyToOne` associations via `<default-to-one-fetch-type>` in `persistence.xml` or `PersistenceConfiguration.defaultToOneFetchType()`
 
