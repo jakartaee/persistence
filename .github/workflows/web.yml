@@ -45,20 +45,6 @@ jobs:
           cache: maven
       - name: Add static content
         run: |
-          export VERSION=`curl https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/maven-metadata.xml | grep -o -m 1 "<release>.*</release" | cut -f 2 -d ">" | cut -f 1 -d "<"`
-          echo Getting javadoc for version: $VERSION
-          rm -rf ./www/latest/api || true
-          wget -q -O jakarta.persistence-api-javadoc.zip https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/jakarta.persistence-api/$VERSION/jakarta.persistence-api-$VERSION-javadoc.jar
-          mkdir -p ./www/latest/api
-          unzip -q -d ./www/latest/api jakarta.persistence-api-javadoc.zip -x "META-INF/*"
-          export SPEC_VERSION=`curl https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/persistence-spec/maven-metadata.xml | grep -o -m 1 "<release>.*</release" | cut -f 2 -d ">" | cut -f 1 -d "<"`
-          echo Getting spec version: $SPEC_VERSION
-          wget -q -O persistence-spec.zip https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/persistence/persistence-spec/$SPEC_VERSION/persistence-spec-$SPEC_VERSION.zip
-          unzip -q -d ./www/latest/ persistence-spec.zip
-          mv ./www/latest/persistence-spec/*.html ./www/latest/draft.html
-          mv ./www/latest/persistence-spec/*.pdf ./www/latest/draft.pdf
-          mv ./www/latest/persistence-spec/images ./www/latest/
-          rm -rf ./www/latest/persistence-spec || true
           echo Building nightly javadoc and specification
           mvn -B -U -C -V clean package -Poss-release -Dcopyright.ignoreyear=true -Dstatus=DRAFT -am -pl :jakarta.persistence-api,:persistence-spec
           rm -rf ./www/latest-nightly/api || true
