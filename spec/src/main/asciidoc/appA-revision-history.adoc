@@ -103,6 +103,9 @@ events: pre-persist, pre-merge, pre-remove, pre-delete.
 
 Added `@Discoverable` annotation
 
+Added new validation mode -- `SCHEMA`. Changed the behavior of the existing
+`validationMode.AUTO` to account for the new schema validation mode.
+
 ==== Minor Changes and Fixes
 
 `jakarta.annotation.Nonnull` now implies `optional=false`
