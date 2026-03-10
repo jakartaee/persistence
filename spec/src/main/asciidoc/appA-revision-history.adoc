@@ -111,6 +111,9 @@ events: pre-persist, pre-merge, pre-remove, pre-delete.
 
 Added `@Discoverable` annotation
 
+Introduced the requirement to derive additional schema metadata from
+Jakarta Validation constraints.
+
 ==== Minor Changes and Fixes
 
 `jakarta.annotation.Nonnull` now implies `optional=false`
