@@ -97,7 +97,9 @@ public @interface Basic {
      * property may be null.
      *
      * <p>If the annotated field or property is of primitive type,
-     * or if it is also annotated {@code @jakarta.annotation.Nonnull},
+     * or if it is also annotated {@code @jakarta.annotation.Nonnull}
+     * or with one of the Jakarta Validation constraints influencing the
+     * nullability (e.g. {@code @jakarta.validation.constraints.NotNull}),
      * then {@code optional=false} is implied, and the value of this
      * annotation member is ignored.
      *

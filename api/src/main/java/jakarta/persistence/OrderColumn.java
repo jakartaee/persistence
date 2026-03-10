@@ -84,6 +84,12 @@ public @interface OrderColumn {
 
     /**
      * (Optional) Whether the database column is nullable.
+     * <p>
+     * If the annotated field or property is also annotated
+     * with one of the Jakarta Validation constraints influencing the
+     * nullability (e.g. {@code @jakarta.validation.constraints.NotNull}),
+     * then {@code nullable=false} is implied, and the value of this
+     * annotation member is ignored.
      */
     boolean nullable() default true;
 
