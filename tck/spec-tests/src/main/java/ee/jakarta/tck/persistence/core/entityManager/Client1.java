@@ -891,7 +891,7 @@ public class Client1 extends PMClientBase {
 		logger.log(Logger.Level.INFO, "Testing CriteriaQuery version");
 		try {
 			CriteriaBuilder qbuilder = getEntityManagerFactory().getCriteriaBuilder();
-			CriteriaQuery cquery = qbuilder.createQuery(null);
+			CriteriaQuery<?> cquery = qbuilder.createQuery((Class<?>)null);
 			Query q = getEntityManager().createQuery(cquery);
 			logger.log(Logger.Level.INFO, "IllegalArgumentException was not thrown");
 			try {
