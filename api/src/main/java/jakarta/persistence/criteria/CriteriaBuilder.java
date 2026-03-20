@@ -59,6 +59,22 @@ public interface CriteriaBuilder {
     <T> CriteriaQuery<T> createQuery(Class<T> resultClass);
 
     /**
+     * Create a {@link CriteriaQuery} object representing the
+     * given Jakarta Persistence query language {@code SELECT}
+     * query with the given result type.
+     * @param jpql A Jakarta Persistence query language
+     *             {@code SELECT} query
+     * @return criteria query object
+     * @throws IllegalArgumentException if the query string is
+     *         found to be invalid, or if the query result is
+     *         found to not be assignable to the specified type
+     *         and the specified type does not have a suitable
+     *         constructor
+     * @since 4.0
+     */
+    <T> CriteriaQuery<T> createQuery(Class<T> resultClass, String jpql);
+
+    /**
      * Create a {@link CriteriaQuery} object that returns a
      * tuple of objects as its result.
      * @return criteria query object
@@ -68,22 +84,54 @@ public interface CriteriaBuilder {
     // methods to construct queries for bulk updates and deletes:
 
     /**
-     * Create a {@link CriteriaUpdate} query object to perform a
-     * bulk update operation.
+     * Create a {@link CriteriaUpdate} object to perform a bulk
+     * update operation.
      * @param targetEntity  target type for update operation
-     * @return the query object
+     * @return the criteria statement object
      * @since 2.1
      */
     <T> CriteriaUpdate<T> createCriteriaUpdate(Class<T> targetEntity);
 
     /**
-     * Create a {@link CriteriaDelete} query object to perform a
-     * bulk delete operation.
+     * Create a {@link CriteriaUpdate} object representing the
+     * given Jakarta Persistence query language {@code UPDATE}
+     * query with the given target entity type.
+     * @param jpql A Jakarta Persistence query language
+     *             {@code UPDATE} query
+     * @param targetEntity target type for update operation
+     * @throws IllegalArgumentException if the query string is
+     *         found to be invalid, or if the entity type updated
+     *         by the query is not exactly the same as the
+     *         specified target type
+     * @return the criteria statement object
+     * @since 4.0
+     */
+    <T> CriteriaUpdate<T> createCriteriaUpdate(Class<T> targetEntity, String jpql);
+
+    /**
+     * Create a {@link CriteriaDelete} object to perform a bulk
+     * delete operation.
      * @param targetEntity  target type for delete operation
-     * @return the query object
+     * @return the criteria statement object
      * @since 2.1
      */
     <T> CriteriaDelete<T> createCriteriaDelete(Class<T> targetEntity);
+
+    /**
+     * Create a {@link CriteriaDelete} object representing the
+     * given Jakarta Persistence query language {@code DELETE}
+     * query with the given target entity type.
+     * @param jpql A Jakarta Persistence query language
+     *             {@code DELETE} query
+     * @param targetEntity target type for delete operation
+     * @throws IllegalArgumentException if the query string is
+     *         found to be invalid, or if the entity type deleted
+     *         by the query is not exactly the same as the
+     *         specified target type
+     * @return the criteria statement object
+     * @since 4.0
+     */
+    <T> CriteriaDelete<T> createCriteriaDelete(Class<T> targetEntity, String jpql);
 
 
     // selection construction methods:
