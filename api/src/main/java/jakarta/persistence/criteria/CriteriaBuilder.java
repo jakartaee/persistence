@@ -62,8 +62,9 @@ public interface CriteriaBuilder {
      * Create a {@link CriteriaQuery} object representing the
      * given Jakarta Persistence query language {@code SELECT}
      * query with the given result type.
-     * @param jpql A Jakarta Persistence query language
-     *             {@code SELECT} query
+     * @param resultClass Type of the query result
+     * @param jpql        A Jakarta Persistence query language
+     *                    {@code SELECT} query
      * @return criteria query object
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the query result is
