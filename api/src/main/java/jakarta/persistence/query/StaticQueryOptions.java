@@ -30,17 +30,13 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * <p>Configures options that affect the execution of a
- * database read operation. This annotation may be applied
- * to:
+ * <p>Configures options that affect the execution of a query.
+ * This annotation may be applied to:
  * <ul>
  * <li>a method with a {@link StaticQuery} or Jakarta Data
- *     {@code jakarta.data.repository.Query} annotation
- *     whose {@code value} member specifies a {@code SELECT}
- *     statement,
- * <li>a method with a {@link StaticNativeQuery} annotation
- *     whose {@code value} member specifies a SQL operation
- *     which returns a result set, or
+ *     {@code jakarta.data.repository.Query} annotation,
+ * <li>a method with a {@link StaticNativeQuery} annotation,
+ *     or
  * <li>a Jakarta Data repository method annotated
  *     {@code jakarta.data.repository.Find}.
  * </ul>
@@ -48,17 +44,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>This annotation must be respected by an implementation
  * of Jakarta Data backed by Jakarta Persistence.
  *
- * @see WriteQueryOptions
- *
  * @since 4.0
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface ReadQueryOptions {
+public @interface StaticQueryOptions {
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.
      * The presence of this annotation overrides the default
      * cache store mode of the persistence context.
+     * <p>
+     * This option applies when the query is a JPQL {@code select}
+     * query or a native query that returns a result set.
+     *
      * @see jakarta.persistence.TypedQuery#setCacheStoreMode
      */
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
@@ -67,6 +65,10 @@ public @interface ReadQueryOptions {
      * The {@linkplain CacheRetrieveMode cache retrieve mode}
      * to use. The presence of this annotation overrides the
      * default cache retrieve mode of the persistence context.
+     * <p>
+     * This option applies when the query is a JPQL {@code select}
+     * query or a native query that returns a result set.
+     *
      * @see jakarta.persistence.TypedQuery#setCacheRetrieveMode
      */
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
@@ -93,6 +95,10 @@ public @interface ReadQueryOptions {
      * <p> If a lock mode is explicitly specified for a
      * {@linkplain StaticNativeQuery native query}, the behavior
      * is undefined and unportable between persistence providers.
+     * <p>
+     * This option applies when the query is a JPQL {@code select}
+     * query or a native query that returns a result set.
+     *
      * @see jakarta.persistence.TypedQuery#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
@@ -100,6 +106,9 @@ public @interface ReadQueryOptions {
     /**
      * The pessimistic lock scope to use in query execution if a
      * pessimistic lock mode is specified via {@link #lockMode}.
+     * <p>
+     * This option applies when the query is a JPQL {@code select}
+     * query or a native query that returns a result set.
      */
     PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
 
@@ -112,6 +121,9 @@ public @interface ReadQueryOptions {
      * entity type, the behavior is undefined. The entity graph
      * is interpreted as a load graph. The entity graph specified
      * here may be overridden by calling {@code setEntityGraph()}.
+     * <p>
+     * This option applies when the query is a JPQL {@code select}.
+     *
      *
      * @see jakarta.persistence.NamedEntityGraph#name
      */
@@ -121,7 +133,6 @@ public @interface ReadQueryOptions {
      * The {@linkplain QueryFlushMode query flush mode} to use when
      * executing the query.
      * @see Query#setQueryFlushMode(QueryFlushMode)
-     * @since 4.0
      */
     QueryFlushMode flush() default QueryFlushMode.DEFAULT;
 }

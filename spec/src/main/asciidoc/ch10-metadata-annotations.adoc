@@ -915,16 +915,14 @@ public @interface StaticNativeQuery {
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
-==== ReadQueryOptions Annotation
+==== StaticQueryOptions Annotation
 
-Configures options that affect the execution of a database read
-operation. This annotation may be applied to:
+Configures options that affect the execution of a query. This
+annotation may be applied to:
 
 - a method with a `StaticQuery` or Jakarta Data
-  `jakarta.data.repository.Query` annotation whose `value` member
-  specifies a `SELECT` statement,
-- a method with a `StaticNativeQuery` annotation whose `value`
-  member specifies a SQL operation which returns a result set, or
+  `jakarta.data.repository.Query` annotation,
+- a method with a `StaticNativeQuery` annotation, or
 - a Jakarta Data repository method annotated
   `jakarta.data.repository.Find`.
 
@@ -932,36 +930,12 @@ operation. This annotation may be applied to:
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface ReadQueryOptions {
+public @interface StaticQueryOptions {
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
     int timeout() default -1;
     QueryHint[] hints() default {};
     LockModeType lockMode() default LockModeType.NONE;
     String entityGraph() default "";
-}
-----
-
-==== WriteQueryOptions Annotation
-
-Configures options that affect the execution of a database write
-operation. This annotation may be applied to:
-
-- a method with a `StaticQuery` or Jakarta Data
-  `jakarta.data.repository.Query` annotation whose `value` member
-  specifies an `UPDATE` or `DELETE` statement,
-- a method with a `StaticNativeQuery` annotation whose `value`
-  member specifies a SQL operation which returns a row count, or
-- a Jakarta Data repository method annotated
-  `jakarta.data.repository.Delete` that uses the
-  parameter-based automatic query pattern.
-
-[source,java]
-----
-@Target(METHOD)
-@Retention(RUNTIME)
-public @interface WriteQueryOptions {
-    int timeout() default -1;
-    QueryHint[] hints() default {};
 }
 ----
