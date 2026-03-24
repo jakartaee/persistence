@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2024 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,12 +48,6 @@ public class LongClass_Field implements java.io.Serializable {
 
 	public LongClass_Field(String id) {
 		this.id = id;
-	}
-
-	public LongClass_Field(String id, Long value) {
-
-		this.id = id;
-		this.basicLong = value;
 	}
 
 	public String getId() {
