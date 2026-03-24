@@ -61,6 +61,7 @@
         <tck.artifactId>persistence-tck-spec-tests</tck.artifactId>
         <junit.jupiter.version>6.0.1</junit.jupiter.version>
         <jakarta.tck.common.version>11.0.0-RC5</jakarta.tck.common.version>
+        <jakarta.tck.sigtest.version>11.0.0-RC5</jakarta.tck.sigtest.version>
         <jakarta.jakartaee-bom.version>11.0.0-M5</jakarta.jakartaee-bom.version>
         <persistence.tck.version>${project.version}</persistence.tck.version>
         <arquillian.junit5.version>1.9.1.Final</arquillian.junit5.version>
@@ -97,6 +98,22 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
         </dependency>
+        <!--
+        No idea why, but it seems these two dependencies are required to make it work,
+        even though they are a transitive dependency of persistence-tck-common?!
+        -->
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>signaturetest</artifactId>
+            <version>${jakarta.tck.sigtest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <version>2.6</version>
+        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>${tck.common.artifactId}</artifactId>
