@@ -1928,7 +1928,7 @@ public class Client1 extends PMClientBase {
 
 		try {
 			logger.log(Logger.Level.INFO, "Testing a parm of incorrect type");
-			getEntityManager().createQuery("select e from Employee e where e.firstName = ?1").setParameter(1, 1);
+			getEntityManager().createQuery("select e from Employee e where e.hireDate = ?1").setParameter(1, 1);
 			logger.log(Logger.Level.ERROR, "IllegalArgumentException not thrown");
 		} catch (IllegalArgumentException iae) {
 			logger.log(Logger.Level.TRACE, "IllegalArgumentException Caught as Expected");
@@ -1953,7 +1953,7 @@ public class Client1 extends PMClientBase {
 		}
 		try {
 			logger.log(Logger.Level.INFO, "Testing a parm of incorrect type");
-			getEntityManager().createQuery("select e from Employee e where e.firstName = ?1", Employee.class)
+			getEntityManager().createQuery("select e from Employee e where e.hireDate = ?1", Employee.class)
 					.setParameter(1, 1);
 			logger.log(Logger.Level.ERROR, "IllegalArgumentException not thrown");
 		} catch (IllegalArgumentException iae) {
@@ -2990,7 +2990,7 @@ public class Client1 extends PMClientBase {
 
 			try {
 				query = getEntityManager()
-						.createQuery("select e from Employee e where e.firstName = ?1 and e.lastName = ?2")
+						.createQuery("select e from Employee e where e.firstName = ?1 and e.hireDate = ?2")
 						.setParameter(1, "Kate").setParameter(2, 10);
 			} catch (IllegalArgumentException iae) {
 				logger.log(Logger.Level.TRACE, "IllegalArgumentException Caught as Expected");

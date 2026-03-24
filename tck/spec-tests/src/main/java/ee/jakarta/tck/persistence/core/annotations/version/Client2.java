@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2024 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -264,8 +264,8 @@ public class Client2 extends Client {
 			getEntityTransaction().begin();
 			getEntityManager().persist(new Short_Field("1"));
 			getEntityManager().persist(new Short_Property("2"));
-			getEntityManager().persist(new ShortClass_Field("3", new Short((short) 0)));
-			getEntityManager().persist(new ShortClass_Property("4", new Short((short) 0)));
+			getEntityManager().persist(new ShortClass_Field("3"));
+			getEntityManager().persist(new ShortClass_Property("4"));
 			getEntityTransaction().commit();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Unexpected Exception in createShortTestData:", e);
