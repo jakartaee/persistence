@@ -36,6 +36,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>a method with a {@link StaticQuery} or Jakarta Data
  *     {@code jakarta.data.repository.Query} annotation,
  * <li>a method with a {@link StaticNativeQuery} annotation,
+ * <li>a Jakarta Data repository method annotated
+ *     {@code jakarta.data.repository.Delete} that uses the
+ *     parameter-based automatic query pattern,
  *     or
  * <li>a Jakarta Data repository method annotated
  *     {@code jakarta.data.repository.Find}.
