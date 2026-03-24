@@ -42,7 +42,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * interface Library {
  *
  *     @StaticQuery("from Book where title like :title")
- *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @StaticQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
  *     @StaticQuery("from Book where isbn = :isbn")

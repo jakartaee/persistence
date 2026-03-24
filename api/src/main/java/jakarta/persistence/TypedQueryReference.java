@@ -16,8 +16,7 @@
 
 package jakarta.persistence;
 
-import java.util.List;
-import java.util.Map;
+import jakarta.persistence.query.StaticQueryOptions;
 
 /**
  * A reference to a typed named query declared via the
@@ -110,7 +109,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link EntityHandler} should be used.
      *
      * @see TypedQuery#setCacheRetrieveMode
-     * @see jakarta.persistence.query.ReadQueryOptions#cacheRetrieveMode
+     * @see StaticQueryOptions#cacheRetrieveMode
      * @since 4.0
      */
     CacheRetrieveMode getCacheRetrieveMode();
@@ -121,7 +120,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link EntityHandler} should be used.
      *
      * @see TypedQuery#setCacheStoreMode
-     * @see jakarta.persistence.query.ReadQueryOptions#cacheStoreMode
+     * @see StaticQueryOptions#cacheStoreMode
      * @since 4.0
      */
     CacheStoreMode getCacheStoreMode();
@@ -133,7 +132,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @see TypedQuery#setLockMode
      * @see NamedQuery#lockMode
-     * @see jakarta.persistence.query.ReadQueryOptions#lockMode
+     * @see StaticQueryOptions#lockMode
      * @since 4.0
      */
     LockModeType getLockMode();
@@ -145,7 +144,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @see TypedQuery#setLockScope
      * @see NamedQuery#lockScope
-     * @see jakarta.persistence.query.ReadQueryOptions#lockScope
+     * @see StaticQueryOptions#lockScope
      * @since 4.0
      */
     PessimisticLockScope getPessimisticLockScope();
@@ -156,7 +155,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * specified.
      *
      * @see NamedQuery#entityGraph
-     * @see jakarta.persistence.query.ReadQueryOptions#entityGraph
+     * @see StaticQueryOptions#entityGraph
      * @since 4.0
      */
     String getEntityGraphName();

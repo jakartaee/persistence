@@ -75,8 +75,7 @@ package jakarta.persistence;
  * @see Query#setQueryFlushMode(QueryFlushMode)
  * @see NamedQuery#flush
  * @see NamedNativeQuery#flush
- * @see jakarta.persistence.query.ReadQueryOptions#flush
- * @see jakarta.persistence.query.WriteQueryOptions#flush
+ * @see jakarta.persistence.query.StaticQueryOptions#flush
  * @see FlushModeType
  *
  * @author Gavin King
