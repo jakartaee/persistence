@@ -20,7 +20,7 @@ REM
 REM script to install the artifact directory contents into a local maven repository
 
 echo %1|findstr /r "^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*.*$">nul 2>&1
-if errorlevel 1 (SET VERSION="3.2.1") else (SET VERSION=%1)
+if errorlevel 1 (SET VERSION="3.2.2-SNAPSHOT") else (SET VERSION=%1)
 
 SET JAKARTAEE_VERSION="11.0.0-M1"
 
