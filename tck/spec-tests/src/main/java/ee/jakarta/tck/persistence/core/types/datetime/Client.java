@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2024 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -111,7 +111,7 @@ public class Client extends PMClientBase {
     private static final LocalTime LOCAL_TIME_DEF = LocalTime.of(0, 0, 0);
 
     /** LocalTime constant. */
-    private static final LocalTime LOCAL_TIME = LocalTime.now();
+    private static final LocalTime LOCAL_TIME = LocalTime.now().withNano(0);
 
     /** Default LocalDateTime constant. */
     private static final LocalDateTime LOCAL_DATE_TIME_DEF = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
