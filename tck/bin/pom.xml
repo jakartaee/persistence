@@ -28,13 +28,13 @@
 
     <groupId>jakarta.tck</groupId>
     <artifactId>persistence-tck-runner</artifactId>
-    <version>3.2.0</version>
+    <version>3.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
         <!--glassfish properties-->
         <jakarta.ee.version>11.0.0-RC4</jakarta.ee.version>
-        <glassfish.version>8.0.0-M2</glassfish.version>
+        <glassfish.version>8.0.0</glassfish.version>
         <glassfish.toplevel.dir>${project.build.directory}/glassfish8</glassfish.toplevel.dir>
         <glassfish.module.dir>${glassfish.toplevel.dir}/glassfish/modules</glassfish.module.dir>
         <exec.asadmin>${glassfish.toplevel.dir}/bin/asadmin</exec.asadmin>
@@ -60,7 +60,7 @@
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <jakarta.tck.common.version>11.0.0-RC5</jakarta.tck.common.version>
         <jakarta.jakartaee-bom.version>11.0.0-M5</jakarta.jakartaee-bom.version>
-        <persistence.tck.version>3.2.0</persistence.tck.version>
+        <persistence.tck.version>3.2.1-SNAPSHOT</persistence.tck.version>
         <arquillian.junit5.version>1.9.1.Final</arquillian.junit5.version>
         <el.version>5.0.0-M1</el.version>
         <hibernate.version>8.0.1.Final</hibernate.version>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.2.0</version>
+            <version>${persistence.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
