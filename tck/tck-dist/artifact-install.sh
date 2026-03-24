@@ -20,7 +20,7 @@
 if [[ $1 =~ ^[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
   VERSION="$1"
 else
-  VERSION="3.2.1-SNAPSHOT"
+  VERSION="3.2.1"
 fi
 
 JAKARTAEE_VERSION="11.0.0-M1"
