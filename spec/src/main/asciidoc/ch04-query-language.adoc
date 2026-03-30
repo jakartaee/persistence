@@ -697,23 +697,22 @@ may be specified as a subtype of the corresponding declared type by
 means of the `TREAT` operator. See <<a4965>>.
 
 ----
-general_subpath ::= simple_subpath | treated_subpath{.single_valued_object_field}*
+general_subpath ::= simple_subpath | treated_subpath
 
 simple_subpath ::=
-    general_identification_variable |
     general_identification_variable{.single_valued_object_field}*
 
-treated_subpath ::= TREAT(general_subpath AS subtype)
+treated_subpath ::=
+    TREAT(general_subpath AS subtype){.single_valued_object_field}*
 
 single_valued_path_expression ::=
     qualified_identification_variable |
-    TREAT(qualified_identification_variable AS subtype) |
     state_field_path_expression |
     single_valued_object_path_expression
 
 state_field_path_expression ::= [general_subpath.]state_field
 
-state_valued_path_expression ::= state_field_path_expression | general_identification_variable
+state_valued_path_expression ::= state_field_path_expression
 
 single_valued_object_path_expression ::= general_subpath.single_valued_object_field
 
@@ -2496,8 +2495,7 @@ entity_type_expression ::=
     input_parameter
 type_discriminator ::=
     TYPE(general_identification_variable |
-         single_valued_object_path_expression |
-         input_parameter)
+         single_valued_object_path_expression)
 ----
 
 The `TYPE` operator returns the exact type of its argument, which must be
@@ -3302,20 +3300,18 @@ map_field_identification_variable ::=
     VALUE(identification_variable)
 single_valued_path_expression ::=
     qualified_identification_variable |
-    TREAT(qualified_identification_variable AS subtype) |
     state_field_path_expression |
     single_valued_object_path_expression
 general_identification_variable ::=
     identification_variable |
     map_field_identification_variable
-general_subpath ::= simple_subpath | treated_subpath{.single_valued_object_field}*
+general_subpath ::= simple_subpath | treated_subpath
 simple_subpath ::=
-    general_identification_variable |
     general_identification_variable{.single_valued_object_field}*
-treated_subpath ::= TREAT(general_subpath AS subtype)
+treated_subpath ::=
+    TREAT(general_subpath AS subtype){.single_valued_object_field}*
 state_field_path_expression ::= [general_subpath.]state_field
-state_valued_path_expression ::=
-    state_field_path_expression | general_identification_variable
+state_valued_path_expression ::= state_field_path_expression
 single_valued_object_path_expression ::=
     general_subpath.single_valued_object_field
 collection_valued_path_expression ::= general_subpath.{collection_valued_field}
@@ -3501,8 +3497,7 @@ entity_type_expression ::=
     input_parameter
 type_discriminator ::=
     TYPE(general_identification_variable |
-        single_valued_object_path_expression |
-        input_parameter)
+        single_valued_object_path_expression)
 arithmetic_cast_function::=
     CAST(string_expression AS {INTEGER | LONG | FLOAT | DOUBLE})
 functions_returning_numerics ::=
