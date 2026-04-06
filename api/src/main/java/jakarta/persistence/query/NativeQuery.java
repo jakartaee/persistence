@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025,2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -39,16 +39,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * interface Library {
  *
- *     @StaticNativeQuery("select * from books where title like ?")
- *     @StaticQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @NativeQuery("select * from books where title like ?")
+ *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
- *     @StaticNativeQuery("select * from books where isbn = ?")
+ *     @NativeQuery("select * from books where isbn = ?")
  *     Book getBookWithIsbn(String isbn);
  *
- *     @StaticNativeQuery("delete from documents"
+ *     @NativeQuery("delete from documents"
  *             + " where id in (select document_id from trash)")
- *     @StaticQueryOptions(timeout = 30_000)
+ *     @QueryOptions(timeout = 30_000)
  *     int emptyTrash();
  * }
  *}
@@ -106,7 +106,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link jakarta.persistence.ConstructorResult} annotations. The inferred
  * result set mapping has the same name as the query.
  * {@snippet :
- * @StaticNativeQuery("select * from books where isbn = ?")
+ * @NativeQuery("select * from books where isbn = ?")
  * @EntityResult(entityClass = Book.class,
  *     fields = {@FieldResult(name = Book_.ISBN, column = "isbn_13"),
  *               @FieldResult(name = Book_.TITLE, column = "title_en")})
@@ -136,7 +136,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface StaticNativeQuery {
+public @interface NativeQuery {
     /**
      * The query string in the native SQL dialect of the database.
      */
