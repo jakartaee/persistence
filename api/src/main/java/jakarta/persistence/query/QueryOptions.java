@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025,2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -33,9 +33,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>Configures options that affect the execution of a query.
  * This annotation may be applied to:
  * <ul>
- * <li>a method with a {@link StaticQuery} or Jakarta Data
+ * <li>a method with a {@link PersistenceQuery} or Jakarta Data
  *     {@code jakarta.data.repository.Query} annotation,
- * <li>a method with a {@link StaticNativeQuery} annotation,
+ * <li>a method with a {@link NativeQuery} annotation,
  * <li>a Jakarta Data repository method annotated
  *     {@code jakarta.data.repository.Delete} that uses the
  *     parameter-based automatic query pattern,
@@ -51,7 +51,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface StaticQueryOptions {
+public @interface QueryOptions {
     /**
      * The {@linkplain CacheStoreMode cache store mode} to use.
      * The presence of this annotation overrides the default
@@ -96,7 +96,7 @@ public @interface StaticQueryOptions {
      * is specified, the query must be executed in a transaction
      * and the persistence context joined to the transaction.
      * <p> If a lock mode is explicitly specified for a
-     * {@linkplain StaticNativeQuery native query}, the behavior
+     * {@linkplain NativeQuery native query}, the behavior
      * is undefined and unportable between persistence providers.
      * <p>
      * This option applies when the query is a JPQL {@code select}

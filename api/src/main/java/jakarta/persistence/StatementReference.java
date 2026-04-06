@@ -19,8 +19,8 @@ package jakarta.persistence;
  * A reference to an executable named statement for an operation
  * that returns a row count. The named statement is declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.StaticQuery} or
- * {@link jakarta.persistence.query.StaticNativeQuery}. An
+ * or using {@link jakarta.persistence.query.PersistenceQuery} or
+ * {@link jakarta.persistence.query.NativeQuery}. An
  * instance of {@code StatementReference} is usually obtained
  * from the static metamodel of the annotated type.
  *
@@ -31,7 +31,7 @@ package jakarta.persistence;
  * class Filer {
  *     @Inject EntityManager entityManager;
  *
- *     @StaticQuery("delete from Record where temporary = true")
+ *     @PersistenceQuery("delete from Record where temporary = true")
  *     int purgeTemporaryRecords() {
  *         return entityManager.createStatement(Filer_.purgeTemporaryRecords())
  *                 .execute();
