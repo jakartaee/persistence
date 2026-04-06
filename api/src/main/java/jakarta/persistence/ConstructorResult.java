@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -82,9 +82,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * returned by {@link EntityManagerFactory#getResultSetMappings(Class)}.
  *
  * <p>This annotation may be placed directly on a method annotated
- * {@link jakarta.persistence.query.StaticNativeQuery}.
+ * {@link jakarta.persistence.query.NativeQuery}.
  * {@snippet :
- * @StaticNativeQuery("SELECT pub_id, count(*) AS book_count FROM books GROUP BY pub_id")
+ * @NativeQuery("SELECT pub_id, count(*) AS book_count FROM books GROUP BY pub_id")
  * @ConstructorResult(
  *     targetClass = PublisherBookCount.class,
  *     columns = {@ColumnResult("pub_id"),

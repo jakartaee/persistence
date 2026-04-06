@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,8 +21,8 @@ import java.util.Set;
 /**
  * A reference to a typed named query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.StaticQuery} or
- * {@link jakarta.persistence.query.StaticNativeQuery}. An
+ * or using {@link jakarta.persistence.query.PersistenceQuery} or
+ * {@link jakarta.persistence.query.NativeQuery}. An
  * instance of {@code TypedQueryReference} is usually obtained
  * from the static metamodel of the annotated type.
  *
@@ -35,8 +35,8 @@ import java.util.Set;
  * class Library {
  *     @Inject EntityManager entityManager;
  *
- *     @StaticQuery("select a from Book b join b.authors a where b.title like :pattern")
- *     @StaticQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @PersistenceQuery("select a from Book b join b.authors a where b.title like :pattern")
+ *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Author> findAuthorsGivenTitles(String pattern) {
  *         return entityManager.createQuery(Library_.findAuthorsGivenTitles(pattern))
  *                 .getResultList();
@@ -98,8 +98,8 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link NamedQuery#resultClass} or
      * {@link NamedNativeQuery#resultClass}, or as inferred
      * from the declared return type of the method annotated
-     * {@link jakarta.persistence.query.StaticQuery} or
-     * {@link jakarta.persistence.query.StaticNativeQuery}.
+     * {@link jakarta.persistence.query.PersistenceQuery} or
+     * {@link jakarta.persistence.query.NativeQuery}.
      */
     Class<? extends R> getResultType();
 
@@ -127,7 +127,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * specified.
      *
      * @see NamedQuery#entityGraph
-     * @see jakarta.persistence.query.StaticQueryOptions#entityGraph
+     * @see jakarta.persistence.query.QueryOptions#entityGraph
      * @since 4.0
      */
     String getEntityGraphName();
