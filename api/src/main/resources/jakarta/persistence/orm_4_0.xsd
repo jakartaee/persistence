@@ -272,21 +272,146 @@
                    minOccurs="0"/>
       <xsd:element name="entity-listeners" type="orm:entity-listeners"
                    minOccurs="0"/>
-      <xsd:element name="pre-merge" type="orm:pre-remove" minOccurs="0"/>
-      <xsd:element name="pre-persist" type="orm:pre-persist" minOccurs="0"/>
-      <xsd:element name="post-persist" type="orm:post-persist"
-                   minOccurs="0"/>
-      <xsd:element name="pre-remove" type="orm:pre-remove" minOccurs="0"/>
-      <xsd:element name="post-remove" type="orm:post-remove" minOccurs="0"/>
-      <xsd:element name="pre-update" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-update" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-upsert" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-upsert" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-insert" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-insert" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-delete" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-delete" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="post-load" type="orm:post-load" minOccurs="0"/>
+      <xsd:element name="pre-merge" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreMerge {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-persist" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PrePersist {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-persist" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostPersist {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-remove" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreRemove {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-remove" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostRemove {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-update" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreUpdate {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-update" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostUpdate {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-upsert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreUpsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-upsert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostUpsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-insert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreInsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-insert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostInsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-delete" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreDelete {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-delete" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostDelete {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-load" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostLoad {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
       <xsd:element name="attribute-override" type="orm:attribute-override"
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="association-override"
@@ -948,21 +1073,146 @@
     </xsd:annotation>
     <xsd:sequence>
       <xsd:element name="description" type="xsd:string" minOccurs="0"/>
-      <xsd:element name="pre-merge" type="orm:pre-remove" minOccurs="0"/>
-      <xsd:element name="pre-persist" type="orm:pre-persist" minOccurs="0"/>
-      <xsd:element name="post-persist" type="orm:post-persist"
-                   minOccurs="0"/>
-      <xsd:element name="pre-remove" type="orm:pre-remove" minOccurs="0"/>
-      <xsd:element name="post-remove" type="orm:post-remove" minOccurs="0"/>
-      <xsd:element name="pre-update" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-update" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-upsert" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-upsert" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-insert" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-insert" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-delete" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-delete" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="post-load" type="orm:post-load" minOccurs="0"/>
+      <xsd:element name="pre-merge" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreMerge {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-persist" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PrePersist {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-persist" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostPersist {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-remove" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreRemove {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-remove" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostRemove {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-update" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreUpdate {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-update" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostUpdate {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-upsert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreUpsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-upsert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostUpsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-insert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreInsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-insert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostInsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-delete" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreDelete {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-delete" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostDelete {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-load" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostLoad {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
     </xsd:sequence>
     <xsd:attribute name="class" type="xsd:string" use="required"/>
   </xsd:complexType>
@@ -1653,21 +1903,146 @@
                    minOccurs="0"/>
       <xsd:element name="entity-listeners" type="orm:entity-listeners"
                    minOccurs="0"/>
-      <xsd:element name="pre-merge" type="orm:pre-remove" minOccurs="0"/>
-      <xsd:element name="pre-persist" type="orm:pre-persist" minOccurs="0"/>
-      <xsd:element name="post-persist" type="orm:post-persist"
-                   minOccurs="0"/>
-      <xsd:element name="pre-remove" type="orm:pre-remove" minOccurs="0"/>
-      <xsd:element name="post-remove" type="orm:post-remove" minOccurs="0"/>
-      <xsd:element name="pre-update" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-update" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-upsert" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-upsert" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-insert" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-insert" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="pre-delete" type="orm:pre-update" minOccurs="0"/>
-      <xsd:element name="post-delete" type="orm:post-update" minOccurs="0"/>
-      <xsd:element name="post-load" type="orm:post-load" minOccurs="0"/>
+      <xsd:element name="pre-merge" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreMerge {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-persist" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PrePersist {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-persist" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostPersist {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-remove" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreRemove {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-remove" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostRemove {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-update" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreUpdate {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-update" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostUpdate {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-upsert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreUpsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-upsert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostUpsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-insert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreInsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-insert" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostInsert {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pre-delete" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PreDelete {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-delete" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostDelete {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="post-load" type="orm:lifecycle-callback" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+
+            @Target({METHOD}) @Retention(RUNTIME)
+            public @interface PostLoad {}
+
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
       <xsd:element name="attributes" type="orm:attributes" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="class" type="xsd:string" use="required"/>
@@ -2110,117 +2485,7 @@
 
 <!-- **************************************************** -->
 
-  <xsd:complexType name="post-load">
-    <xsd:annotation>
-      <xsd:documentation>
-
-        @Target({METHOD}) @Retention(RUNTIME)
-        public @interface PostLoad {}
-
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-    <xsd:attribute name="method-name" type="xsd:string" use="required"/>
-  </xsd:complexType>
-
-<!-- **************************************************** -->
-
-  <xsd:complexType name="post-persist">
-    <xsd:annotation>
-      <xsd:documentation>
-
-        @Target({METHOD}) @Retention(RUNTIME)
-        public @interface PostPersist {}
-
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-    <xsd:attribute name="method-name" type="xsd:string" use="required"/>
-  </xsd:complexType>
-
-<!-- **************************************************** -->
-
-  <xsd:complexType name="post-remove">
-    <xsd:annotation>
-      <xsd:documentation>
-
-        @Target({METHOD}) @Retention(RUNTIME)
-        public @interface PostRemove {}
-
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-    <xsd:attribute name="method-name" type="xsd:string" use="required"/>
-  </xsd:complexType>
-
-<!-- **************************************************** -->
-
-  <xsd:complexType name="post-update">
-    <xsd:annotation>
-      <xsd:documentation>
-
-        @Target({METHOD}) @Retention(RUNTIME)
-        public @interface PostUpdate {}
-
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-    <xsd:attribute name="method-name" type="xsd:string" use="required"/>
-  </xsd:complexType>
-
-<!-- **************************************************** -->
-
-  <xsd:complexType name="pre-persist">
-    <xsd:annotation>
-      <xsd:documentation>
-
-        @Target({METHOD}) @Retention(RUNTIME)
-        public @interface PrePersist {}
-
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-    <xsd:attribute name="method-name" type="xsd:string" use="required"/>
-  </xsd:complexType>
-
-<!-- **************************************************** -->
-
-  <xsd:complexType name="pre-remove">
-    <xsd:annotation>
-      <xsd:documentation>
-
-        @Target({METHOD}) @Retention(RUNTIME)
-        public @interface PreRemove {}
-
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:sequence>
-      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-    <xsd:attribute name="method-name" type="xsd:string" use="required"/>
-  </xsd:complexType>
-
-<!-- **************************************************** -->
-
-  <xsd:complexType name="pre-update">
-    <xsd:annotation>
-      <xsd:documentation>
-
-        @Target({METHOD}) @Retention(RUNTIME)
-        public @interface PreUpdate {}
-
-      </xsd:documentation>
-    </xsd:annotation>
+  <xsd:complexType name="lifecycle-callback">
     <xsd:sequence>
       <xsd:element name="description" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
