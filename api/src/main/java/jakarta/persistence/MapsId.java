@@ -73,6 +73,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the dependent entity declaring the relationship is derived from the
  * referenced parent entity.
  *
+ * @apiNote {@link ManyToOne#mappedById} and {@link OneToOne#mappedById}
+ *          provide an alternative approach.
+ *
  * @since 2.0
  */
 @Target({METHOD, FIELD})

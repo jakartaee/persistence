@@ -170,6 +170,17 @@ public @interface ManyToOne {
      *     Parent parent;
      * }
      * }
+     * <p>
+     * The referenced attribute determines the updates made to
+     * the relationship in the database. If the annotated field or
+     * property is modified without a corresponding modification
+     * to the field or property referenced by {@code mappedById},
+     * the behavior is undefined. The persistence provider is
+     * permitted to ignore any such modification.
+     *
+     * @apiNote This provides an alternative to {@link MapsId}
+     *          for mapping derived identities.
+     *
      * @since 4.0
      */
     String mappedById() default "";
