@@ -533,6 +533,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  expression
      * @return greater-than predicate
+     * @see #gt(Expression, Expression)
      */
     <Y extends Comparable<? super Y>> Predicate greaterThan(Expression<? extends Y> x, Expression<? extends Y> y);
 	
@@ -542,6 +543,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  value
      * @return greater-than predicate
+     * @see #gt(Expression, Number)
      */
     <Y extends Comparable<? super Y>> Predicate greaterThan(Expression<? extends Y> x, Y y);
     
@@ -551,6 +553,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  expression
      * @return greater-than-or-equal predicate
+     * @see #ge(Expression, Expression)
      */
     <Y extends Comparable<? super Y>> Predicate greaterThanOrEqualTo(Expression<? extends Y> x, Expression<? extends Y> y);
 
@@ -560,6 +563,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  value
      * @return greater-than-or-equal predicate
+     * @see #ge(Expression, Number)
      */
     <Y extends Comparable<? super Y>> Predicate greaterThanOrEqualTo(Expression<? extends Y> x, Y y);
 
@@ -569,6 +573,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  expression
      * @return less-than predicate
+     * @see #lt(Expression, Expression)
      */
     <Y extends Comparable<? super Y>> Predicate lessThan(Expression<? extends Y> x, Expression<? extends Y> y);
 
@@ -578,6 +583,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  value
      * @return less-than predicate
+     * @see #lt(Expression, Number)
      */
     <Y extends Comparable<? super Y>> Predicate lessThan(Expression<? extends Y> x, Y y);
 	
@@ -587,6 +593,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  expression
      * @return less-than-or-equal predicate
+     * @see #le(Expression, Expression)
      */
     <Y extends Comparable<? super Y>> Predicate lessThanOrEqualTo(Expression<? extends Y> x, Expression<? extends Y> y);
 
@@ -596,6 +603,7 @@ public interface CriteriaBuilder {
      * @param x  expression
      * @param y  value
      * @return less-than-or-equal predicate
+     * @see #le(Expression, Number)
      */
     <Y extends Comparable<? super Y>> Predicate lessThanOrEqualTo(Expression<? extends Y> x, Y y);
 
@@ -624,7 +632,8 @@ public interface CriteriaBuilder {
 	
     /**
      * Create a predicate for testing whether the first argument is 
-     * greater than the second.
+     * greater than the second. This operation accepts arguments of
+     * heterogeneous numeric types.
      * @param x  expression
      * @param y  expression
      * @return greater-than predicate
@@ -633,7 +642,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create a predicate for testing whether the first argument is 
-     * greater than the second.
+     * greater than the second. This operation accepts arguments of
+     * heterogeneous numeric types.
      * @param x  expression
      * @param y  value
      * @return greater-than predicate
@@ -642,7 +652,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create a predicate for testing whether the first argument is 
-     * greater than or equal to the second.
+     * greater than or equal to the second. This operation accepts
+     * arguments of heterogeneous numeric types.
      * @param x  expression
      * @param y  expression
      * @return greater-than-or-equal predicate
@@ -651,7 +662,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create a predicate for testing whether the first argument is 
-     * greater than or equal to the second.
+     * greater than or equal to the second. This operation accepts
+     * arguments of heterogeneous numeric types.
      * @param x  expression
      * @param y  value
      * @return greater-than-or-equal predicate
@@ -660,7 +672,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create a predicate for testing whether the first argument is 
-     * less than the second.
+     * less than the second. This operation accepts arguments of
+     * heterogeneous numeric types.
      * @param x  expression
      * @param y  expression
      * @return less-than predicate
@@ -669,7 +682,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create a predicate for testing whether the first argument is 
-     * less than the second.
+     * less than the second. This operation accepts arguments of
+     * heterogeneous numeric types.
      * @param x  expression
      * @param y  value
      * @return less-than predicate
@@ -678,7 +692,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create a predicate for testing whether the first argument is 
-     * less than or equal to the second.
+     * less than or equal to the second. This operation accepts
+     * arguments of heterogeneous numeric types.
      * @param x  expression
      * @param y  expression
      * @return less-than-or-equal predicate
@@ -687,7 +702,8 @@ public interface CriteriaBuilder {
 
     /**
      * Create a predicate for testing whether the first argument is 
-     * less than or equal to the second.
+     * less than or equal to the second. This operation accepts
+     * arguments of heterogeneous numeric types.
      * @param x  expression
      * @param y  value
      * @return less-than-or-equal predicate
