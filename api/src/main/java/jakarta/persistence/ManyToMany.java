@@ -140,9 +140,16 @@ public @interface ManyToMany {
      */
     FetchType fetch() default FetchType.LAZY;
 
-    /** 
-     * The field that owns the relationship. Required unless 
-     * the relationship is unidirectional.
+    /**
+     * (Optional) The field or property that owns the relationship.
+     * This element is only specified on the inverse (non-owning)
+     * side of the association. Modifications to the owning side of
+     * a relationship determine the updates made to the relationship
+     * in the database. If the inverse side of an association is
+     * modified without a corresponding modification to the owning
+     * side, the behavior is undefined. The persistence provider is
+     * permitted to ignore any modification made only to the inverse
+     * side of a bidirectional association.
      */
     String mappedBy() default "";
 }

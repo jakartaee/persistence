@@ -130,7 +130,14 @@ public @interface OneToMany {
 
     /** 
      * The field that owns the relationship. Required unless 
-     * the relationship is unidirectional.
+     * the relationship is unidirectional. Modifications to
+     * the owning side of a relationship determine the updates
+     * made to the relationship in the database. If the inverse
+     * side of an association is modified without a corresponding
+     * modification to the owning side, the behavior is undefined.
+     * The persistence provider is permitted to ignore any
+     * modification made only to the inverse side of a bidirectional
+     * association.
      */
     String mappedBy() default "";
 
