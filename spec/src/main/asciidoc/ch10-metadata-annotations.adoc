@@ -936,6 +936,8 @@ public @interface StaticQueryOptions {
     int timeout() default -1;
     QueryHint[] hints() default {};
     LockModeType lockMode() default LockModeType.NONE;
+    PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
     String entityGraph() default "";
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
 }
 ----
