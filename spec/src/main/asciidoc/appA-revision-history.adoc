@@ -17,7 +17,7 @@ Added `@StaticQuery`, `@StaticNativeQuery`, `@StaticQueryOptions`, and `StaticSt
 
 Added a new API for programmatic SQL result set mappings
 
-Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `ofType()`, `withEntityGraph()`, and `asStatement()` to `Query`
+Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `ofType()`, `withEntityGraph()`, and `asStatement()` to `Query`; added `StatementOrTypedQuery`
 
 Added `@NamedEntityGraphAttributeNode` and `@NamedEntityGraphSubgraph` for more elegant definition of named entity graphs
 
@@ -47,6 +47,8 @@ Specify that an entity listener may have multiple callbacks of the same type
 
 Added `FetchOption` and `AttributeNode.addOption()`
 
+Added `BatchSize`
+
 Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
 
 Specified that the graph returned by `getEntityGraph()` is now mutable, and added `getEntityGraph(Class, String)`
@@ -62,6 +64,12 @@ Added overloads of `setParameter()` which accept a disambiguating `Class` or `Ty
 Allow named queries to be declared by a module or package descriptor
 
 Improved `@Index` to allow more customization of the generated DDL
+
+Added operations to `CriteriaBuilder` accepting JPQL query strings, returning corresponding criteria objects
+
+Added `QueryFlushMode`, `Query.setQueryFlushMode()`, and `flush` to `@NamedQuery` and `@NamedNativeQuery`
+
+Added `FlushModeType.EXPLICIT`
 
 ==== Changes to Query Language
 
@@ -112,6 +120,10 @@ Fixed some incorrect generic method signatures in `From`
 Fixed use of raw types in `AttributeNode`
 
 Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
+
+Clarify behavior with duplicate persistent field names in entity hierarchy
+
+clarify usage of `@OrderColumn` and `@MapKeyColumn`
 
 ==== Deprecations
 
