@@ -48,7 +48,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *     @StaticNativeQuery("delete from documents"
  *             + " where id in (select document_id from trash)")
- *     @WriteQueryOptions(timeout = 30_000)
+ *     @StaticQueryOptions(timeout = 30_000)
  *     int emptyTrash();
  * }
  *}

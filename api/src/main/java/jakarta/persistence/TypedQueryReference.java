@@ -36,7 +36,7 @@ import jakarta.persistence.query.StaticQueryOptions;
  *     @Inject EntityManager entityManager;
  *
  *     @StaticQuery("select a from Book b join b.authors a where b.title like :pattern")
- *     @ReadQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @StaticQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Author> findAuthorsGivenTitles(String pattern) {
  *         return entityManager.createQuery(Library_.findAuthorsGivenTitles(pattern))
  *                 .getResultList();
