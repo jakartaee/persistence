@@ -41,22 +41,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * interface Library {
  *
- *     @PersistenceQuery("from Book where title like :title")
+ *     @JakartaQuery("from Book where title like :title")
  *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
- *     @PersistenceQuery("from Book where isbn = :isbn")
+ *     @JakartaQuery("from Book where isbn = :isbn")
  *     Book getBookWithIsbn(String isbn);
  *
  *     record Summary(String title, String isbn, LocalDate date) {}
- *     @PersistenceQuery("""
+ *     @JakartaQuery("""
  *         select title, isbn, pubDate
  *         from Book
  *         where title like = ?1 and pubDate > ?2
  *     """)
  *     List<Summary> retrieveSummaries(String title, LocalDate fromDate);
  *
- *     @PersistenceQuery("delete from Trash")
+ *     @JakartaQuery("delete from Trash")
  *     @QueryOptions(timeout = 30_000)
  *     int emptyTrash();
  * }
@@ -136,7 +136,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface PersistenceQuery {
+public @interface JakartaQuery {
     /**
      * The query string in the Jakarta Persistence Query Language.
      */
