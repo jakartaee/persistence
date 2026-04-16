@@ -37,7 +37,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>A {@code ManyToOne} association usually maps a foreign key column
  * or columns. This mapping may be specified using the {@link JoinColumn}
- * annotation. Alternatively, an optional {@code OneToOne} association is
+ * annotation. Alternatively, an optional {@code ManyToOne} association is
  * sometimes mapped to a join table using the {@link JoinTable} annotation.
  *
  * <p>The {@code ManyToOne} annotation may be used within an embeddable
