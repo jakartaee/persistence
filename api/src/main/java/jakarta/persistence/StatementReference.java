@@ -21,7 +21,7 @@ import java.util.Set;
  * A reference to an executable named statement for an operation
  * that returns a row count. The named statement is declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.PersistenceQuery} or
+ * or using {@link jakarta.persistence.query.JakartaQuery} or
  * {@link jakarta.persistence.query.NativeQuery}. An
  * instance of {@code StatementReference} is usually obtained
  * from the static metamodel of the annotated type.
@@ -33,7 +33,7 @@ import java.util.Set;
  * class Filer {
  *     @Inject EntityManager entityManager;
  *
- *     @PersistenceQuery("delete from Record where temporary = true")
+ *     @JakartaQuery("delete from Record where temporary = true")
  *     int purgeTemporaryRecords() {
  *         return entityManager.createStatement(Filer_.purgeTemporaryRecords())
  *                 .execute();
