@@ -30,17 +30,110 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the associated target entity explicitly, since it can usually be
  * inferred from the type of the object being referenced.
  *
- * <p>If the relationship is bidirectional, the non-owning side must
- * use the {@link #mappedBy} element of the {@code OneToOne} annotation
- * to specify the relationship field or property of the owning side.
- *
  * <p>A {@code OneToOne} association usually maps a unique foreign key
- * relationship, either a foreign key column or columns with a unique
- * constraint, or a relationship via a shared primary key. The
- * {@link JoinColumn} annotation may be used to map the foreign key
- * column or columns. Alternatively, an optional {@code OneToOne}
- * association is sometimes mapped to a join table using the
- * {@link JoinTable} annotation.
+ * relationship, either:
+ * <ul>
+ * <li>a foreign key column or columns with a unique constraint, or
+ * <li>a relationship via a shared primary key.
+ * </ul>
+ * <p>The {@link JoinColumn} annotation may be used to map the foreign
+ * key column or columns.
+ *
+ * <p>Here, a one-to-one association maps a foreign key column:
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     String employeeId;
+ *
+ *     @OneToOne(optional = false)
+ *     @JoinColumn(name = "INFO_ID", unique = true)
+ *     EmployeeInfo info;
+ *     ...
+ * }
+ * }
+ *
+ * <p>Here, the association is defined by a shared primary key:
+ * {@snippet :
+ * @Entity
+ * public class Employee {
+ *     @Id
+ *     String employeeId;
+ *
+ *     @OneToOne
+ *     @MapsId
+ *     EmployeeInfo info;
+ *     ...
+ * }
+ *
+ * @Entity
+ * public class EmployeeInfo {
+ *     @Id
+ *     String employeeId;
+ *     ...
+ * }
+ * }
+ *
+ * <p>Alternatively, an optional {@code OneToOne} association is
+ * sometimes mapped to a join table using the {@link JoinTable}
+ * annotation.
+ * {@snippet :
+ * @Entity
+ * public class Person {
+ *     @Id
+ *     String ssn;
+ *
+ *     @OneToOne
+ *     @JoinTable(name = "PERSON_SPOUSE",
+ *                joinColumns = @JoinColumn(name = "PERSON_SSN"),
+ *                inverseJoinColumns = @JoinColumn(name = "SPOUSE_SSN"))
+ *     Person spouse;
+ *     ...
+ * }
+ * }
+ *
+ * <p>The annotated field or property might represent one side of a
+ * <em>bidirectional</em> association. Every bidirectional association
+ * has an <em>owning</em> side and an <em>inverse</em> (alternatively,
+ * <em>non-owning</em> or <em>unowned</em>) side. Modifications to the
+ * owning side of an association determine the updates made to the
+ * relationship in the database. If the inverse side of an association
+ * is modified without a corresponding modification to the owning side,
+ * the behavior is undefined. The persistence provider is permitted to
+ * ignore any modification made only to the inverse side of a
+ * bidirectional association.
+ *
+ * <p>The inverse side of a bidirectional {@code OneToOne} association
+ * must be a field or property also annotated {@code @OneToOne} of the
+ * {@linkplain #targetEntity target entity}, and the non-owning side
+ * must specify the owning relationship field or property via
+ * {@link #mappedBy}. The foreign key or join table must be specified
+ * on the owning side.
+ * {@snippet :
+ * @Entity
+ * public class Customer {
+ *     @Id @GeneratedValue
+ *     Long id;
+ *
+ *     // owning side
+ *     @OneToOne(optional = false)
+ *     @JoinColumn(name = "DETAILS_ID", unique = true)
+ *     CustomerDetails customerDetails;
+ *     ...
+ * }
+ *
+ * @Entity
+ * public class CustomerDetails {
+ *     @Id @GeneratedValue
+ *     Long id;
+ *
+ *     // inverse (unowned) side
+ *     @OneToOne(optional = false,
+ *               mappedBy = Customer_.CUSTOMER_DETAILS)
+ *     Customer customer;
+ *     ...
+ * }
+ * }
  *
  * <p>The {@code OneToOne} annotation may be used within an embeddable
  * class to specify a relationship from the embeddable class to an
@@ -53,54 +146,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * relationship attribute within the embedded attribute. The value of
  * each identifier used with the dot notation is the name of the
  * respective embedded field or property.
- *
- * <p>Example 1: One-to-one association that maps a foreign key column
- * {@snippet :
- * // On Customer class:
- *
- * @OneToOne(optional = false)
- * @JoinColumn(name = "CUSTREC_ID", unique = true, nullable = false, updatable = false)
- * public CustomerRecord getCustomerRecord() { return customerRecord; }
- *
- * // On CustomerRecord class:
- *
- * @OneToOne(optional = false, mappedBy = "customerRecord")
- * public Customer getCustomer() { return customer; }
- * }
- *
- * <p>Example 2: One-to-one association that assumes both the source and
- * target share the same primary key values.
- * {@snippet :
- * // On Employee class:
- *
- * @Entity
- * public class Employee {
- *     @Id
- *     Integer id;
- *    
- *     @OneToOne
- *     @MapsId
- *     EmployeeInfo info;
- *     ...
- * }
- *
- * // On EmployeeInfo class:
- *
- * @Entity
- * public class EmployeeInfo {
- *     @Id
- *     Integer id;
- *     ...
- * }
- * }
- *
- * <p>Example 3: One-to-one association from an embeddable class to another
- * entity.
  * {@snippet :
  * @Entity
  * public class Employee {
  *     @Id
  *     int id;
+ *
  *     @Embedded
  *     LocationDetails location;
  *     ...
@@ -109,6 +160,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @Embeddable
  * public class LocationDetails {
  *     int officeNumber;
+ *
+ *     // owning side
  *     @OneToOne
  *     ParkingSpot parkingSpot;
  *     ...
@@ -118,7 +171,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public class ParkingSpot {
  *     @Id
  *     int id;
+ *
  *     String garage;
+ *
+ *     // inverse (unowned) side
  *     @OneToOne(mappedBy = "location.parkingSpot")
  *     Employee assignedTo;
  *     ...

@@ -26,18 +26,58 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a many-valued association with many-to-many multiplicity,
  * mapping to an intermediate table called the <em>join table</em>.
+ * If the target entity class cannot be inferred from the type arguments
+ * of the declared type of the annotated field or property, then
+ * {@link #targetEntity} must be explicitly specified.
  *
- * <p>Every many-to-many association has two sides, the owning side
- * and the non-owning, or inverse, side. The join table is specified
- * on the owning side. If the association is bidirectional, either
- * side may be designated as the owning side, and the non-owning side
- * must use the {@link #mappedBy} element of the {@code ManyToMany}
- * annotation to specify the relationship field or property of the
- * owning side.
+ * <p>The optional {@link JoinTable} annotation specifies the mapped join
+ * table.
+ * {@snippet :
+ * @ManyToMany
+ * @JoinTable(name = "CUST_PHONE",
+ *            joinColumns = @JoinColumn(name = "CUST_ID",
+ *                                      referencedColumnName = "ID"),
+ *            inverseJoinColumns = @JoinColumn(name = "PHONE_ID",
+ *                                             referencedColumnName = "ID"))
+ * Set<PhoneNumber> phones;
+ * }
  *
- * <p>The join table for the relationship, if not defaulted, is
- * specified on the owning side. The {@link JoinTable} annotation
- * specifies a mapping to a database table.
+ * <p>The annotated field or property might represent one side of a
+ * <em>bidirectional</em> association. Every bidirectional association
+ * has an <em>owning</em> side and an <em>inverse</em> (alternatively,
+ * <em>non-owning</em> or <em>unowned</em>) side. Modifications to the
+ * owning side of an association determine the updates made to the
+ * relationship in the database. If the inverse side of an association
+ * is modified without a corresponding modification to the owning side,
+ * the behavior is undefined. The persistence provider is permitted to
+ * ignore any modification made only to the inverse side of a
+ * bidirectional association.
+ *
+ * <p>The inverse side of a bidirectional {@code ManyToMany} association
+ * must be a field or property also annotated {@code @ManyToMany} of the
+ * {@linkplain #targetEntity target entity}, and the non-owning side must
+ * specify the owning relationship field or property via {@link #mappedBy}.
+ * The join table must be specified on the owning side.
+ * {@snippet :
+ * @Entity
+ * public class Customer {
+ *     ...
+ *     // owning side
+ *     @ManyToMany
+ *     @JoinTable(name = "CUST_PHONES")
+ *     Set<PhoneNumber> phones;
+ *     ...
+ * }
+ *
+ * @Entity
+ * public class Phone {
+ *     ...
+ *     // inverse (unowned) side
+ *     @ManyToMany(mappedBy = Customer_.PHONES)
+ *     Set<Customer> customers;
+ *     ...
+ * }
+ * }
  *
  * <p>The {@code ManyToMany} annotation may be used within an
  * embeddable class contained within an entity class to specify a
@@ -47,59 +87,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link #mappedBy} element of the {@code ManyToMany} annotation to
  * specify the relationship field or property of the embeddable class.
  * The dot ({@code .}) notation syntax must be used in the
- * {@code mappedBy} element to indicate the relationship attribute
+ * {@link #mappedBy} element to indicate the relationship attribute
  * within the embedded attribute. The value of each identifier used
  * with the dot notation is the name of the respective embedded field
  * or property.
- *
- * <p>Example 1:
- * {@snippet :
- * // In Customer class:
- *
- * @ManyToMany
- * @JoinTable(name = "CUST_PHONES")
- * public Set<PhoneNumber> getPhones() { return phones; }
- *
- * // In PhoneNumber class:
- *
- * @ManyToMany(mappedBy = "phones")
- * public Set<Customer> getCustomers() { return customers; }
- * }
- *
- * <p>Example 2:
- * {@snippet :
- * // In Customer class:
- *
- * @ManyToMany(targetEntity = com.acme.PhoneNumber.class)
- * public Set getPhones() { return phones; }
- *
- * // In PhoneNumber class:
- *
- * @ManyToMany(targetEntity = com.acme.Customer.class, mappedBy = "phones")
- * public Set getCustomers() { return customers; }
- * }
- *
- * <p>Example 3:
- * {@snippet :
- * // In Customer class:
- *
- * @ManyToMany
- * @JoinTable(name = "CUST_PHONE",
- *     joinColumns = @JoinColumn(name = "CUST_ID", referencedColumnName = "ID"),
- *     inverseJoinColumns = @JoinColumn(name = "PHONE_ID", referencedColumnName = "ID"))
- * public Set<PhoneNumber> getPhones() { return phones; }
- *
- * // In PhoneNumberClass:
- *
- * @ManyToMany(mappedBy = "phones")
- * public Set<Customer> getCustomers() { return customers; }
- * }
  *
  * @see JoinTable
  *
  * @since 1.0
  */
-@Target({METHOD, FIELD}) 
+@Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface ManyToMany {
 
