@@ -105,7 +105,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>The inverse side of a bidirectional {@code OneToOne} association
  * must be a field or property also annotated {@code @OneToOne} of the
- * {@linkplain #targetEntity target entity}, and the non-owning side
+ * {@linkplain #targetEntity target entity}, and the inverse side
  * must specify the owning relationship field or property via
  * {@link #mappedBy}. The foreign key or join table must be specified
  * on the owning side.
