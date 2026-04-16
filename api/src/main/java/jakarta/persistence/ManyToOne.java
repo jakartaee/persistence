@@ -30,16 +30,66 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the target entity explicitly since it can usually be inferred from
  * the type of the object being referenced.
  *
- * <p>If the relationship is bidirectional, the non-owning
- * {@link OneToMany} entity side must use the {@link OneToMany#mappedBy
- * mappedBy} element to specify the relationship field or property of the
- * entity that is the owner of the relationship.
- *
  * <p>A {@code ManyToOne} association usually maps a foreign key column
  * or columns. This mapping may be specified using the {@link JoinColumn}
- * annotation. Alternatively, an optional {@code ManyToOne} association is
- * sometimes mapped to a join table using the {@link JoinTable} annotation.
+ * annotation.
+ * {@snippet :
+ * @ManyToOne(optional = false)
+ * @JoinColumn(name = "CUST_ID")
+ * Customer customer;
+ * }
  *
+ * <p>Alternatively, an optional {@code ManyToOne} association is
+ * sometimes mapped to a join table using the {@link JoinTable} annotation.
+ * {@snippet :
+ * @ManyToOne
+ * @JoinTable(name = "ORDER_CUSTOMER",
+ *            joinColumns = @JoinColumn(name="ORD_ID"),
+ *            inverseJoinColumns = @JoinColumn(name="CUST_ID"))
+ * Customer customer;
+ * }
+ *
+ * <p>The annotated field or property might represent one side of a
+ * <em>bidirectional</em> association. Every bidirectional association
+ * has an <em>owning</em> side and an <em>inverse</em> (alternatively,
+ * <em>non-owning</em> or <em>unowned</em>) side. Modifications to the
+ * owning side of an association determine the updates made to the
+ * relationship in the database. If the inverse side of an association
+ * is modified without a corresponding modification to the owning side,
+ * the behavior is undefined. The persistence provider is permitted to
+ * ignore any modification made only to the inverse side of a
+ * bidirectional association.
+ *
+ * <p>In a bidirectional association, a {@code OneToMany} must be the
+ * owning side. The inverse side of a bidirectional {@code ManyToOne}
+ * association must be a field or property annotated {@link OneToMany
+ * &#64;OneToMany} of the {@linkplain #targetEntity target entity}, and
+ * the non-owning {@link OneToMany} side must specify the relationship
+ * field or property annotated {@code @ManyToOne} via
+ * {@link OneToMany#mappedBy mappedBy}. The foreign key or join table
+ * must be specified on the owning side.
+ * {@snippet :
+ * @Entity
+ * public class Book {
+ *     @Id
+ *     String isbn;
+ *
+ *     // owning side
+ *     @ManyToOne(fetch = LAZY)
+ *     Publisher publisher;
+ * }
+ *
+ * @Entity
+ * public class Publisher {
+ *     @Id
+ *     @GeneratedValue
+ *     long id;
+ *
+ *     // inverse (unowned) side
+ *     @OneToMany(mappedBy = Book_.PUBLISHER)
+ *     Set<Book> books;
+ * }
+ * }
  * <p>The {@code ManyToOne} annotation may be used within an embeddable
  * class to specify a relationship from the embeddable class to an entity
  * class. If the relationship is bidirectional, the non-owning
@@ -50,20 +100,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@code mappedBy} element to indicate the relationship attribute within
  * the embedded attribute. The value of each identifier used with the dot
  * notation is the name of the respective embedded field or property.
- *
- * <p>Example 1:
- * {@snippet :
- * @ManyToOne(optional = false)
- * @JoinColumn(name = "CUST_ID", nullable = false, updatable = false)
- * public Customer getCustomer() { return customer; }
- * }
- *
- * <p>Example 2:
  * {@snippet :
  * @Entity
  * public class Employee {
  *     @Id
  *     int id;
+ *
  *     @Embedded
  *     JobInfo jobInfo;
  *     ...
@@ -72,15 +114,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @Embeddable
  * public class JobInfo {
  *     String jobDescription;
+ *
+ *     // owning side
  *     @ManyToOne
- *     ProgramManager pm; // Bidirectional
+ *     ProgramManager manager;
  * }
  *
  * @Entity
  * public class ProgramManager {
  *     @Id
  *     int id;
- *     @OneToMany(mappedBy = "jobInfo.pm")
+ *
+ *     // inverse (unowned) side
+ *     @OneToMany(mappedBy = "jobInfo.manager")
  *     Collection<Employee> manages;
  * }
  * }

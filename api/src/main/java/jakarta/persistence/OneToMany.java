@@ -24,69 +24,77 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a many-valued association with one-to-many multiplicity.
- *
- * <p>If the collection is defined using generics to specify the element
- * type, the associated target entity type need not be specified; otherwise
- * the target entity class must be specified. If the relationship is
- * bidirectional, the {@link #mappedBy} element must be used to specify
- * the relationship field or property of the entity that is the owner of
- * the relationship.
+ * Specifies a many-valued association to another entity class that has
+ * one-to-many multiplicity. If the target entity class cannot be inferred
+ * from the type arguments of the declared type of the annotated field or
+ * property, then {@link #targetEntity} must be explicitly specified.
  *
  * <p>A {@code OneToMany} association usually maps a foreign key column
  * or columns in the table of the associated entity. This mapping may
- * be specified using the {@link JoinColumn} annotation. Alternatively,
- * a unidirectional {@code OneToMany} association is sometimes mapped
- * to a join table using the {@link JoinTable} annotation.
+ * be specified using the {@link JoinColumn} annotation.
+ * {@snippet :
+ * @OneToMany
+ * @JoinColumn(name = "ORD_ID)
+ * Set<Order> orders;
+ * }
+ * <p>Alternatively, a unidirectional {@code OneToMany} association is
+ * sometimes mapped to a join table using the {@link JoinTable} annotation.
+ * {@snippet :
+ * @OneToMany
+ * @JoinTable(name = "CUSTOMER_ORDERS",
+ *            joinColumns = @JoinColumn("CUST_ID"),
+ *            inverseJoinColumns = @JoinColumn("ORD_ID"))
+ * Set<Order> orders;
+ * }
+ *
+ * <p>The annotated field or property usually represents one side of a
+ * <em>bidirectional</em> association. Every bidirectional association
+ * has an <em>owning</em> side and an <em>inverse</em> (alternatively,
+ * <em>non-owning</em> or <em>unowned</em>) side. Modifications to the
+ * owning side of an association determine the updates made to the
+ * relationship in the database. If the inverse side of an association
+ * is modified without a corresponding modification to the owning side,
+ * the behavior is undefined. The persistence provider is permitted to
+ * ignore any modification made only to the inverse side of a
+ * bidirectional association.
+ *
+ * <p>In a bidirectional association, a {@code OneToMany} must be the
+ * inverse side. The owning side of a bidirectional one-to-many
+ * association must be a field or property annotated {@link ManyToOne
+ * &#64;ManyToOne} of the {@linkplain #targetEntity target entity}, and
+ * the non-owning {@code OneToMany} side must specify the relationship
+ * field or property annotated {@code @ManyToOne} via {@link #mappedBy}.
+ * The foreign key or join table must be specified on the owning side.
  *
  * <p>The {@code OneToMany} annotation may be used within an embeddable
  * class contained within an entity class to specify a relationship to a
  * collection of entities. If the relationship is bidirectional, the
  * {@link #mappedBy} element must be used to specify the relationship
  * field or property of the entity that is the owner of the relationship.
+ * {@snippet :
+ * @Entity
+ * public class Customer {
+ *     ...
+ *     // inverse (unowned) side
+ *     @OneToMany(cascade = ALL,
+ *                orphanRemoval = true
+ *                mappedBy = Order_.CUSTOMER)
+ *     Set<Order> orders;
+ * }
  *
+ * @Entity
+ * public class Order {
+ *     ...
+ *     // owning side
+ *     @ManyToOne(optional = false)
+ *     @JoinColumn(name = "CUST_ID")
+ *     Customer customer;
+ * }
+ * }
  * <p>When the collection is a {@link java.util.Map}, the {@link #cascade}
  * element and the {@link #orphanRemoval} element apply to the map value.
  *
- *
- * <p>Example 1: One-to-Many association using generics
- * {@snippet :
- * // In Customer class:
- *
- * @OneToMany(cascade = ALL, mappedBy = "customer")
- * public Set<Order> getOrders() { return orders; }
- *
- * // In Order class:
- *
- * @ManyToOne
- * @JoinColumn(name = "CUST_ID", nullable = false)
- * public Customer getCustomer() { return customer; }
- * }
- *
- * <p>Example 2: One-to-Many association without using generics
- * {@snippet :
- * // In Customer class:
- *
- * @OneToMany(targetEntity = com.acme.Order.class, cascade = ALL,
- *            mappedBy = "customer")
- * public Set getOrders() { return orders; }
- *
- * // In Order class:
- *
- * @ManyToOne
- * @JoinColumn(name = "CUST_ID", nullable = false)
- * public Customer getCustomer() { return customer; }
- * }
- *
- * <p>Example 3: Unidirectional One-to-Many association using a foreign key mapping
- * {@snippet :
- * // In Customer class:
- *
- * @OneToMany(orphanRemoval = true)
- * @JoinColumn(name = "CUST_ID") // join column is in table for Order
- * public Set<Order> getOrders() { return orders; }
- *    
- * }
+ * @see ManyToOne
  *
  * @since 1.0
  */
