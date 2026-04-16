@@ -3,10 +3,10 @@
 
 The following APIs are defined in the package `jakarta.persistence.query`.
 
-=== `PersistenceQuery`
+=== `JakartaQuery`
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/query/PersistenceQuery.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/query/JakartaQuery.java[lines=18..-1]
 ----
 
 === `NativeQuery`

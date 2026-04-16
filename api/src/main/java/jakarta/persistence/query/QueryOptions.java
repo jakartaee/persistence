@@ -33,7 +33,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>Configures options that affect the execution of a query.
  * This annotation may be applied to:
  * <ul>
- * <li>a method with a {@link PersistenceQuery} or Jakarta Data
+ * <li>a method with a {@link JakartaQuery} or Jakarta Data
  *     {@code jakarta.data.repository.Query} annotation,
  * <li>a method with a {@link NativeQuery} annotation,
  * <li>a Jakarta Data repository method annotated

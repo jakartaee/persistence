@@ -867,7 +867,7 @@ These annotations are used to declare queries associated with methods.
 In the context of Jakarta Data<<a19502>>, they are used to declare repository
 query methods.
 
-==== PersistenceQuery Annotation
+==== JakartaQuery Annotation
 
 Specifies a query expressed in the Jakarta Persistence Query Language.
 This annotation may be applied to:
@@ -883,7 +883,7 @@ The `value` member specifies the query.
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface PersistenceQuery {
+public @interface JakartaQuery {
     String value();
 }
 ----
@@ -920,7 +920,7 @@ The semantics of this annotation are defined by its Javadoc, and in
 Configures options that affect the execution of a query. This
 annotation may be applied to:
 
-- a method with a `PersistenceQuery` or Jakarta Data
+- a method with a `JakartaQuery` or Jakarta Data
   `jakarta.data.repository.Query` annotation,
 - a method with a `NativeQuery` annotation, or
 - a Jakarta Data repository method annotated

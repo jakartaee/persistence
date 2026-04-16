@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * A reference to a named statement or query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.PersistenceQuery} or
+ * or using {@link jakarta.persistence.query.JakartaQuery} or
  * {@link jakarta.persistence.query.NativeQuery}. An
  * instance of {@code Reference} is usually obtained from the
  * static metamodel. This interface declares operations common
@@ -36,7 +36,7 @@ public sealed interface Reference
      * The name of the statement or query, as specified by
      * {@link NamedQuery#name} or {@link NamedNativeQuery#name},
      * or as inferred from the name of the method annotated
-     * {@link jakarta.persistence.query.PersistenceQuery} or
+     * {@link jakarta.persistence.query.JakartaQuery} or
      * {@link jakarta.persistence.query.NativeQuery}.
      */
     String getName();

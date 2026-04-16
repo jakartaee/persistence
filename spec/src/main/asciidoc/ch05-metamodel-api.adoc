@@ -75,7 +75,7 @@ it belongs to the persistence unit and:
 - it is annotated with a _discoverable annotation type_, as defined in
   <<discoverable>>, or
 - it has a method annotated with one of the two static query annotations,
-  `@PersistenceQuery` or `@NativeQuery`, as defined in
+  `@JakartaQuery` or `@NativeQuery`, as defined in
   <<static-query-api>>.
 
 This specification does not require that the annotation processor generate

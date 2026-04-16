@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * <li>a class with one or more {@link jakarta.persistence.NamedQuery}
  *    or {@link jakarta.persistence.NamedNativeQuery} annotations, or
  * <li>a class with one or more methods annotated
- *     {@link jakarta.persistence.query.PersistenceQuery} or
+ *     {@link jakarta.persistence.query.JakartaQuery} or
  *     {@link jakarta.persistence.query.NativeQuery}.
  * </ul>
  *

@@ -21,7 +21,7 @@ import jakarta.persistence.query.QueryOptions;
 /**
  * A reference to a typed named query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.PersistenceQuery} or
+ * or using {@link jakarta.persistence.query.JakartaQuery} or
  * {@link jakarta.persistence.query.NativeQuery}. An
  * instance of {@code TypedQueryReference} is usually obtained
  * from the static metamodel of the annotated type.
@@ -35,7 +35,7 @@ import jakarta.persistence.query.QueryOptions;
  * class Library {
  *     @Inject EntityManager entityManager;
  *
- *     @PersistenceQuery("select a from Book b join b.authors a where b.title like :pattern")
+ *     @JakartaQuery("select a from Book b join b.authors a where b.title like :pattern")
  *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Author> findAuthorsGivenTitles(String pattern) {
  *         return entityManager.createQuery(Library_.findAuthorsGivenTitles(pattern))
@@ -98,7 +98,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link NamedQuery#resultClass} or
      * {@link NamedNativeQuery#resultClass}, or as inferred
      * from the declared return type of the method annotated
-     * {@link jakarta.persistence.query.PersistenceQuery} or
+     * {@link jakarta.persistence.query.JakartaQuery} or
      * {@link jakarta.persistence.query.NativeQuery}.
      */
     Class<? extends R> getResultType();

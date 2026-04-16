@@ -29,7 +29,7 @@ import java.util.Objects;
 import static java.util.Collections.emptyMap;
 
 /**
- * A reference to a query declared using a {@link PersistenceQuery}
+ * A reference to a query declared using a {@link JakartaQuery}
  * or {@link NativeQuery} annotation. An instance of this
  * class is usually instantiated by a generated method of the
  * {@linkplain jakarta.persistence.metamodel.StaticMetamodel
