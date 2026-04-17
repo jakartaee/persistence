@@ -153,8 +153,9 @@ public @interface OneToMany {
     FetchType fetch() default FetchType.LAZY;
 
     /** 
-     * The field that owns the relationship. Required unless 
-     * the relationship is unidirectional.
+     * The field or property of the target entity that owns
+     * the relationship. Required unless the relationship
+     * is unidirectional.
      *
      * <p>The static metamodel of the target entity may be
      * used to obtain a reference to the owning side, for

@@ -248,9 +248,9 @@ public @interface OneToOne {
     boolean optional() default true;
 
     /**
-     * (Optional) The field that owns the relationship. This
-     * element is only specified on the inverse (non-owning)
-     * side of the association.
+     * The field of property of the target entity that owns
+     * the relationship. This element is only specified on
+     * the inverse (non-owning) side of the association.
      *
      * <p>The static metamodel of the target entity may be
      * used to obtain a reference to the owning side, for
