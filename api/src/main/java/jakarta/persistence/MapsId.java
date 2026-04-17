@@ -28,7 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <ul>
  * <li>an {@link Id} or {@link EmbeddedId} attribute of an entity
  *     with a derived identity, or
- *<li> an attribute of the {@link EmbeddedId} class of an entity
+ * <li>an attribute of the {@link EmbeddedId} class of an entity
  *     with a derived identity.
  * </ul>
  *
