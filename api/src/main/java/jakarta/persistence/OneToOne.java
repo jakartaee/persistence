@@ -27,8 +27,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a single-valued association to another entity class that
  * has one-to-one multiplicity. It is not usually necessary to specify
- * the associated target entity explicitly, since it can usually be
- * inferred from the type of the object being referenced.
+ * the associated {@linkplain #targetEntity target entity} explicitly
+ * since it can usually be inferred from the declared type of the
+ * annotated field or property.
  *
  * <p>A {@code OneToOne} association usually maps a unique foreign key
  * relationship, either:
@@ -223,12 +224,18 @@ public @interface OneToOne {
     FetchType fetch() default FetchType.DEFAULT;
 
     /** 
-     * (Optional) Whether the association is optional. If set to
-     * {@code false} then a non-null relationship must always exist.
+     * (Optional) Whether the association is optional. When
+     * {@code optional=false}, the relationship must always exist.
+     * The annotated field or property must not be set to a null
+     * value when persistence provider reads the state of the entity.
      *
      * <p>If the annotated field or property is also annotated
      * {@code @jakarta.annotation.Nonnull}, then {@code optional=false}
      * is implied, and the value of this annotation member is ignored.
+     *
+     * <p>May be used in schema generation to infer that the
+     * mapped foreign key column is {@link JoinColumn#nullable
+     * not null}.
      */
     boolean optional() default true;
 
@@ -236,9 +243,12 @@ public @interface OneToOne {
      * (Optional) The field that owns the relationship. This
      * element is only specified on the inverse (non-owning)
      * side of the association.
+     *
+     * <p>The static metamodel of the target entity may be
+     * used to obtain a reference to the owning side, for
+     * example, {@code mappedBy = Customer_.CUSTOMER_DETAILS}.
      */
     String mappedBy() default "";
-
 
     /**
      * (Optional) Whether to apply the remove operation to

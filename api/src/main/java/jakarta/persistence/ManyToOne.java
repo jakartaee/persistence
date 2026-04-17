@@ -27,8 +27,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies a single-valued association to another entity class that
  * has many-to-one multiplicity. It is not usually necessary to specify
- * the target entity explicitly since it can usually be inferred from
- * the type of the object being referenced.
+ * the associated {@linkplain #targetEntity target entity} explicitly
+ * since it can usually be inferred from the declared type of the
+ * annotated field or property.
  *
  * <p>A {@code ManyToOne} association usually maps a foreign key column
  * or columns. This mapping may be specified using the {@link JoinColumn}
@@ -173,8 +174,10 @@ public @interface ManyToOne {
     FetchType fetch() default FetchType.DEFAULT;
 
     /** 
-     * (Optional) Whether the association is optional. If set to
-     * {@code false} then a non-null relationship must always exist.
+     * (Optional) Whether the association is optional. When
+     * {@code optional=false}, the relationship must always exist.
+     * The annotated field or property must not be set to a null
+     * value when persistence provider reads the state of the entity.
      *
      * <p>If the annotated field or property is also annotated
      * {@code @jakarta.annotation.Nonnull}, then {@code optional=false}
