@@ -65,19 +65,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the non-owning {@code OneToMany} side must specify the relationship
  * field or property annotated {@code @ManyToOne} via {@link #mappedBy}.
  * The foreign key or join table must be specified on the owning side.
- *
- * <p>The {@code OneToMany} annotation may be used within an embeddable
- * class contained within an entity class to specify a relationship to a
- * collection of entities. If the relationship is bidirectional, the
- * {@link #mappedBy} element must be used to specify the relationship
- * field or property of the entity that is the owner of the relationship.
  * {@snippet :
  * @Entity
  * public class Customer {
  *     ...
  *     // inverse (unowned) side
  *     @OneToMany(cascade = ALL,
- *                orphanRemoval = true
+ *                orphanRemoval = true,
  *                mappedBy = Order_.CUSTOMER)
  *     Set<Order> orders;
  * }
@@ -91,6 +85,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     Customer customer;
  * }
  * }
+ *
+ * <p>The {@code OneToMany} annotation may be used within an embeddable
+ * class contained within an entity class to specify a relationship to a
+ * collection of entities. If the relationship is bidirectional, the
+ * {@link #mappedBy} element must be used to specify the relationship
+ * field or property of the entity that is the owner of the relationship.
+ *
  * <p>When the collection is a {@link java.util.Map}, the {@link #cascade}
  * element and the {@link #orphanRemoval} element apply to the map value.
  *
