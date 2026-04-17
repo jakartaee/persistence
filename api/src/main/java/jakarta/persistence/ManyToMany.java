@@ -34,12 +34,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * table.
  * {@snippet :
  * @ManyToMany
- * @JoinTable(name = "CUST_PHONE",
- *            joinColumns = @JoinColumn(name = "CUST_ID",
- *                                      referencedColumnName = "ID"),
- *            inverseJoinColumns = @JoinColumn(name = "PHONE_ID",
- *                                             referencedColumnName = "ID"))
- * Set<PhoneNumber> phones;
+ * @JoinTable(name = "BOOK_AUTHOR",
+ *            joinColumns = @JoinColumn(name = "BOOK_ISBN",
+ *                                      referencedColumnName = "ISBN"),
+ *            inverseJoinColumns = @JoinColumn(name = "AUTHOR_SSN",
+ *                                             referencedColumnName = "SSN"))
+ * Set<Author> authors;
  * }
  *
  * <p>The annotated field or property might represent one side of a
@@ -60,20 +60,24 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The join table must be specified on the owning side.
  * {@snippet :
  * @Entity
- * public class Customer {
- *     ...
+ * public class Book {
+ *     @Id
+ *     String isbn;
+ *
  *     // owning side
  *     @ManyToMany
- *     @JoinTable(name = "CUST_PHONES")
- *     Set<PhoneNumber> phones;
+ *     @JoinTable(name = "BOOK_AUTHOR")
+ *     Set<Author> authors;
  *     ...
  * }
  *
  * @Entity
- * public class Phone {
- *     ...
+ * public class Author {
+ *     @Id
+ *     String ssn;
+ *
  *     // inverse (unowned) side
- *     @ManyToMany(mappedBy = Customer_.PHONES)
+ *     @ManyToMany(mappedBy = Book_.AUTHORS)
  *     Set<Customer> customers;
  *     ...
  * }
@@ -143,7 +147,7 @@ public @interface ManyToMany {
      *
      * <p>The static metamodel of the target entity may be
      * used to obtain a reference to the owning side, for
-     * example, {@code mappedBy = Customer_.PHONES}.
+     * example, {@code mappedBy = Book_.AUTHORS}.
      */
     String mappedBy() default "";
 }
