@@ -148,8 +148,8 @@ public @interface ManyToOne {
      * (Optional) The entity class that is the target of 
      * the association. 
      *
-     * <p>Defaults to the type of the field or property
-     * that stores the association. 
+     * <p>Defaults to the declared type of the annotated
+     * field or property.
      */
     Class<?> targetEntity() default void.class;
 

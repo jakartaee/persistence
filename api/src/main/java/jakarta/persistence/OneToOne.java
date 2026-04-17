@@ -189,17 +189,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface OneToOne {
 
     /** 
-     * (Optional) The entity class that is the target of the
-     * association.
+     * (Optional) The entity class that is the target of
+     * the association.
      *
-     * <p>Defaults to the type of the field or property
-     * that stores the association. 
+     * <p>Defaults to the declared type of the annotated
+     * field or property.
      */
     Class<?> targetEntity() default void.class;
 
     /**
-     * (Optional) The operations that must be cascaded to the
-     * target of the association.
+     * (Optional) The operations that must be cascaded to
+     * the target of the association.
      *
      * <p>By default no operations are cascaded.
      */

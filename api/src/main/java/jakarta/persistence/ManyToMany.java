@@ -109,7 +109,7 @@ public @interface ManyToMany {
      * association. Required if the annotated field or
      * property is declared using a raw collection type.
      *
-     * <p> Defaults to the type argument of the collection
+     * <p>Defaults to the type argument of the collection
      * type when the declared type of the annotated field or
      * property is a non-raw collection type.
      */
@@ -119,10 +119,10 @@ public @interface ManyToMany {
      * (Optional) The operations that must be cascaded to the
      * target of the association.
      *
-     * <p> When the target collection is a {@link java.util.Map},
+     * <p>When the target collection is a {@link java.util.Map},
      * the {@code cascade} element applies to the map value.
      *
-     * <p> Defaults to no operations being cascaded.
+     * <p>Defaults to no operations being cascaded.
      */
     CascadeType[] cascade() default {};
 
