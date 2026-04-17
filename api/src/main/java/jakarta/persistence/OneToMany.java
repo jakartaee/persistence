@@ -114,13 +114,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface OneToMany {
 
     /**
-     * (Optional) The entity class that is the target of the
-     * association. Required if the annotated field or
-     * property is declared using a raw collection type.
+     * (Optional) The entity class that is the target of
+     * the association. Required if the target entity type
+     * cannot be inferred from the declared type of the
+     * annotated field or property, for example, if the
+     * declared type is a raw collection type.
      *
      * <p>Defaults to the type argument of the collection
-     * type when the declared type of the annotated field or
-     * property is a non-raw collection type.
+     * type when the declared type of the annotated field
+     * or property is a non-raw collection type.
      */
     Class<?> targetEntity() default void.class;
 
