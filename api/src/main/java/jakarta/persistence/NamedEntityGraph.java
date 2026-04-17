@@ -45,7 +45,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p> There are two ways to specify the nodes and subgraphs of a named
  * entity graph defined in annotations:
  * <ul>
- * <li>ny annotating persistent attributes of the entity class with
+ * <li>by annotating persistent attributes of the entity class with
  *     {@link AttributeNode} and {@link Subgraph} annotations which
  *     reference the containing {@link NamedEntityGraph} by name, or
  * <li>by nesting {@link NamedAttributeNode} and {@link NamedSubgraph}
