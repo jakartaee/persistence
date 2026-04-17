@@ -157,7 +157,7 @@ public @interface ManyToOne {
      * (Optional) The operations that must be cascaded to 
      * the target of the association.
      *
-     * <p>By default no operations are cascaded.
+     * <p>By default, no operations are cascaded.
      */
     CascadeType[] cascade() default {};
 
