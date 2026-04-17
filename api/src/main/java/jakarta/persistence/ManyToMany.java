@@ -144,7 +144,7 @@ public @interface ManyToMany {
     FetchType fetch() default FetchType.LAZY;
 
     /** 
-     * The field of property of the target entity that owns
+     * The field or property of the target entity that owns
      * the relationship and specifies its mapping to the
      * database. This element is only specified on the
      * inverse (non-owning) side of the association.

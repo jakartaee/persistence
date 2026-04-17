@@ -58,7 +58,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>a field or property of {@linkplain Basic basic type} maps to a
  *     single {@linkplain Column column} in one of the tables mapped
  *     by the entity,
- * <li>a field of property of {@linkplain Embedded embeddable type}
+ * <li>a field or property of {@linkplain Embedded embeddable type}
  *     has nested mappings to multiple columns in one of the tables
  *     mapped by the entity,
  * <li>an {@linkplain ElementCollection element collection} usually
