@@ -177,12 +177,20 @@ public @interface OneToOne {
     boolean optional() default true;
 
     /**
-     * (Optional) The field that owns the relationship. This
-     * element is only specified on the inverse (non-owning)
-     * side of the association.
+     * (Optional) The field or property that owns the relationship.
+     * This element is only specified on the inverse (non-owning)
+     * side of the association. Modifications to the owning side of
+     * a relationship determine the updates made to the relationship
+     * in the database. If the inverse side of an association is
+     * modified without a corresponding modification to the owning
+     * side, the behavior is undefined. The persistence provider is
+     * permitted to ignore any modification made only to the inverse
+     * side of a bidirectional association.
+     * <p>
+     * This member must not be specified if {@code mappedById} is
+     * specified.
      */
     String mappedBy() default "";
-
 
     /**
      * (Optional) Whether to apply the remove operation to
@@ -191,4 +199,48 @@ public @interface OneToOne {
      * @since 2.0
      */
     boolean orphanRemoval() default false;
+
+    /**
+     * (Optional) A field or property mapping the foreign key
+     * column to the identifier of the associated entity. The
+     * referenced attribute might be an {@linkplain Id id} or
+     * {@linkplain EmbeddedId embedded id}, or any other
+     * {@linkplain Basic basic} or {@linkplain Embedded embedded}
+     * attribute. Its type must be exactly the same as the type
+     * of the primary key field or property of the associated
+     * entity.
+     * <p>
+     * When this element is specified, the {@link JoinColumn}
+     * annotation, if any, should be placed on the referenced
+     * field or property.
+     * <p>
+     * {@snippet :
+     * @Entity
+     * class Child {
+     *     @Id
+     *     @JoinColumn(name = "parent_id",
+     *           foreignKey = @ForeignKey(name="child_parent_fk"))
+     *     Long id;
+     *
+     *     @OneToOne(mappedById = Child_.ID)
+     *     Parent parent;
+     * }
+     * }
+     * <p>
+     * The referenced attribute determines the updates made to
+     * the relationship in the database. If the annotated field or
+     * property is modified without a corresponding modification
+     * to the field or property referenced by {@code mappedById},
+     * the behavior is undefined. The persistence provider is
+     * permitted to ignore any such modification.
+     * <p>
+     * This member must not be specified if {@code mappedBy} is
+     * specified.
+     *
+     * @apiNote This provides an alternative to {@link MapsId}
+     *          for mapping derived identities.
+     *
+     * @since 4.0
+     */
+    String mappedById() default "";
 }
