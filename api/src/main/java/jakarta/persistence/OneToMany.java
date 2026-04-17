@@ -154,8 +154,9 @@ public @interface OneToMany {
 
     /** 
      * The field or property of the target entity that owns
-     * the relationship. Required unless the relationship
-     * is unidirectional.
+     * the relationship and specifies its mapping to the
+     * database. Required unless the relationship is
+     * unidirectional.
      *
      * <p>The static metamodel of the target entity may be
      * used to obtain a reference to the owning side, for
