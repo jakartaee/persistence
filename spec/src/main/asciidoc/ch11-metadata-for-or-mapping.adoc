@@ -2964,10 +2964,11 @@ public @interface ManyToMany {
 |Class
 |targetEntity
 |(Optional) The entity class that is the
-target of the association. Optional only if the collection-valued
-relationship property is defined using Java generics. Must be specified
-otherwise.
-|The parameterized type of the collection when defined using generics.
+target of the association. Required if the target entity type cannot be
+inferred from the declared type of the annotated field or property, for
+example, if the declared type is a raw collection type.
+|The type argument of the collection type when the declared type of the
+annotated field or property is a non-raw collection type.
 
 |CascadeType[]
 |cascade
@@ -2980,13 +2981,13 @@ cascaded to the target of the association.
 |(Optional) Whether the association should be
 lazily loaded or must be eagerly fetched. The `EAGER` policy is a
 requirement on the persistence provider runtime that the associated
-entities must be eagerly fetched. The `LAZY` policy is a hint to the
+entity must be eagerly fetched. The `LAZY` policy is a hint to the
 persistence provider runtime.
 |LAZY
 
 |String
 |mappedBy
-|The field or property that owns the
+|The field that owns the
 relationship. Required unless the relationship is unidirectional.
 |
 |===
@@ -3137,7 +3138,9 @@ and the value of the `optional` annotation member is ignored.
 |Class
 |targetEntity
 |(Optional) The entity class that is the target of the association.
-|The type of the field or property that stores the association.
+Required if the target entity type cannot be inferred from the declared
+type of the annotated field or property.
+|The declared type of the annotated field or property.
 
 |CascadeType[]
 |cascade
@@ -3158,10 +3161,16 @@ persistence unit for one-to-one and many-to-one associations.
 
 |boolean
 |optional
-|(Optional) Whether the association is optional. If set to false,
-then a non-null relationship must always exist.
-May be used in schema generation. Ignored if the field or property
-is annotated `Nonnull`.
+|(Optional) Whether the association is optional. By default, the
+association is optional, and the annotated field or property may
+be set to a null value. When `optional=false`, a non-null value
+must be assigned to the non-optional field or property before the
+persistence provider attempts to write the state of entity instance
+to the database.
+
+May be used in schema generation to infer that the mapped foreign
+key column is not null. Ignored if the field or property is
+annotated `@jakarta.annotation.Nonnull`.
 |true
 |===
 
@@ -3719,9 +3728,9 @@ annotation is applied to a field or property, both the `name` and the
 column for the map key. The table in which it is found depends upon the
 context. If the join is for a map key for an element collection, the
 foreign key column is in the collection table for the map value. If the
-join is for a map key for a ManyToMany entity relationship or for a
-OneToMany entity relationship using a join table, the foreign key column
-is in a join table. If the join is for a OneToMany entity relationship
+join is for a map key for a `ManyToMany` entity relationship or for a
+`OneToMany` entity relationship using a join table, the foreign key column
+is in a join table. If the join is for a `OneToMany` entity relationship
 using a foreign key mapping strategy, the foreign key column for the map
 key is in the table of the entity that is the value of the map.
 |(Default only applies if a single join
@@ -3740,7 +3749,7 @@ column of the referenced table.
 |boolean
 |unique
 |(Optional) Whether the property is a unique
-key. This is a shortcut for the UniqueConstraint annotation at the table
+key. This is a shortcut for the `UniqueConstraint` annotation at the table
 level and is useful for when the unique key constraint is only a single
 field.
 |false
@@ -3778,17 +3787,17 @@ when generating the DDL for the column.
 |(Optional) The name of the table that
 contains the foreign key column. If the join is for a map key for an
 element collection, the foreign key column is in the collection table
-for the map value. If the join is for a map key for a ManyToMany entity
-relationship or for a OneToMany entity relationship using a join table,
+for the map value. If the join is for a map key for a `ManyToMany` entity
+relationship or for a `OneToMany` entity relationship using a join table,
 the foreign key column is in a join table. If the join is for a
-OneToMany entity relationship using a foreign key mapping strategy, the
+`OneToMany` entity relationship using a foreign key mapping strategy, the
 foreign key column for the map key is in the table of the entity that is
 the value of the map.
 |If the map is for an
 element collection, the name of the collection table for the map value.
-If the map is for a OneToMany or ManyToMany entity relationship using a
+If the map is for a `OneToMany` or `ManyToMany` entity relationship using a
 join table, the name of the join table for the map. If the map is for a
-OneToMany entity relationship using a foreign key mapping strategy, the
+`OneToMany` entity relationship using a foreign key mapping strategy, the
 name of the primary table of the entity that is the value of the map.
 
 |ForeignKey
@@ -4157,10 +4166,11 @@ implemented using one-to-many foreign key mappings, using the
 |Class
 |targetEntity
 |(Optional) The entity class that is the
-target of the association. Optional only if the collection-valued
-relationship property is defined using Java generics. Must be specified
-otherwise.
-|The parameterized type of the collection when defined using generics.
+target of the association. Required if the target entity type cannot be
+inferred from the declared type of the annotated field or property, for
+example, if the declared type is a raw collection type.
+|The type argument of the collection type when the declared type of the
+annotated field or property is a non-raw collection type.
 
 |CascadeType[]
 |cascade
@@ -4172,14 +4182,14 @@ otherwise.
 |(Optional) Whether the association should be
 lazily loaded or must be eagerly fetched. The `EAGER` policy is a
 requirement on the persistence provider runtime that the associated
-entities must be eagerly fetched. The `LAZY` policy is a hint to the
+entity must be eagerly fetched. The `LAZY` policy is a hint to the
 persistence provider runtime.
 |LAZY
 
 |String
 |mappedBy
-|The field or property that owns the
-relationship. Required unless the relationship is unidirectional.
+|The field that owns the relationship. Required unless the relationship
+is unidirectional.
 |
 
 |boolean
@@ -4323,7 +4333,9 @@ and the value of the `optional` annotation member is ignored.
 |Class
 |targetEntity
 |(Optional) The entity class that is the target of the association.
-|The type of the field or property that stores the association.
+Required if the target entity type cannot be inferred from the declared
+type of the annotated field or property.
+|The declared type of the annotated field or property.
 
 |CascadeType[]
 |cascade
@@ -4339,22 +4351,26 @@ entity must be eagerly fetched. The `LAZY` policy is a hint to the
 persistence provider runtime. The `DEFAULT` policy selects between
 `EAGER` and `LAZY` depending on the default fetch type of the
 persistence unit for one-to-one and many-to-one associations.
-_
 |`DEFAULT`
 
 |boolean
 |optional
-|(Optional) Whether the association is optional. If set to false,
-then a non-null relationship must always exist.
-May be used in schema generation. Ignored if the field or property
-is annotated `Nonnull`.
+|(Optional) Whether the association is optional. By default, the
+association is optional, and the annotated field or property may
+be set to a null value. When `optional=false`, a non-null value
+must be assigned to the non-optional field or property before the
+persistence provider attempts to write the state of entity instance
+to the database.
+
+May be used in schema generation to infer that the mapped foreign
+key column is not null. Ignored if the field or property is
+annotated `@jakarta.annotation.Nonnull`.
 |true
 
 |String
 |mappedBy
-|(Optional) The field or property that owns
-the relationship. The mappedBy element is only specified on the inverse
-(non-owning) side of the association.
+|(Optional) The field that owns the relationship. This element is only
+specified on the inverse (non-owning) side of the association.
 |
 
 |boolean
