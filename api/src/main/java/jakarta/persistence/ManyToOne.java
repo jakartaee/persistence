@@ -182,10 +182,16 @@ public @interface ManyToOne {
     FetchType fetch() default FetchType.DEFAULT;
 
     /** 
-     * (Optional) Whether the association is optional. When
-     * {@code optional=false}, the relationship must always exist.
-     * The annotated field or property must not be set to a null
-     * value when persistence provider reads the state of the entity.
+     * (Optional) Whether the association is optional.
+     * <ul>
+     * <li>By default, the association is optional, and the
+     *     annotated field or property may be set to a null
+     *     value.
+     * <li>When {@code optional=false}, a non-null value must
+     *     be assigned to the non-optional field or property
+     *     before the persistence provider attempts to write
+     *     the state of entity instance to the database.
+     * </ul>
      *
      * <p>If the annotated field or property is also annotated
      * {@code @jakarta.annotation.Nonnull}, then {@code optional=false}
