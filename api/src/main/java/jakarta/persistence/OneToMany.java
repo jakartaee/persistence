@@ -104,11 +104,12 @@ public @interface OneToMany {
 
     /**
      * (Optional) The entity class that is the target of the
-     * association. Optional only if the collection property is
-     * defined using Java generics. Must be specified otherwise.
+     * association. Required if the annotated field or
+     * property is declared using a raw collection type.
      *
-     * <p> Defaults to the parameterized type of the collection when
-     * defined using generics.
+     * <p> Defaults to the type argument of the collection
+     * type when the declared type of the annotated field or
+     * property is a non-raw collection type.
      */
     Class<?> targetEntity() default void.class;
 
@@ -139,6 +140,10 @@ public @interface OneToMany {
     /** 
      * The field that owns the relationship. Required unless 
      * the relationship is unidirectional.
+     *
+     * <p>The static metamodel of the target entity may be
+     * used to obtain a reference to the owning side, for
+     * example, {@code mappedBy = Order_.CUSTOMER}.
      */
     String mappedBy() default "";
 
