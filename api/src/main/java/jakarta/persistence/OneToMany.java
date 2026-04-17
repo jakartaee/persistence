@@ -128,7 +128,7 @@ public @interface OneToMany {
      * (Optional) The operations that must be cascaded to the
      * target of the association.
      *
-     * <p>Defaults to no operations being cascaded.
+     * <p>By default, no operations are cascaded.
      *
      * <p>When the target collection is a {@link java.util.Map},
      * the {@code cascade} element applies to the map value.

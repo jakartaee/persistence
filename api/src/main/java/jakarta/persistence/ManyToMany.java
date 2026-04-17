@@ -122,7 +122,7 @@ public @interface ManyToMany {
      * <p>When the target collection is a {@link java.util.Map},
      * the {@code cascade} element applies to the map value.
      *
-     * <p>Defaults to no operations being cascaded.
+     * <p>By default, no operations are cascaded.
      */
     CascadeType[] cascade() default {};
 
