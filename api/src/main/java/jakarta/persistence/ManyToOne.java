@@ -146,7 +146,9 @@ public @interface ManyToOne {
 
     /** 
      * (Optional) The entity class that is the target of 
-     * the association. 
+     * the association. Required if the target entity type
+     * cannot be inferred from the declared type of the
+     * annotated field or property.
      *
      * <p>Defaults to the declared type of the annotated
      * field or property.
