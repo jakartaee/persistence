@@ -249,8 +249,9 @@ public @interface OneToOne {
 
     /**
      * The field of property of the target entity that owns
-     * the relationship. This element is only specified on
-     * the inverse (non-owning) side of the association.
+     * the relationship and specifies its mapping to the
+     * database. This element is only specified on the
+     * inverse (non-owning) side of the association.
      *
      * <p>The static metamodel of the target entity may be
      * used to obtain a reference to the owning side, for
