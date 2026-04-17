@@ -68,21 +68,31 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * @Entity
  * public class Customer {
- *     ...
+ *     @Id
+ *     @GeneratedValue
+ *     long id;
+ *
  *     // inverse (unowned) side
  *     @OneToMany(cascade = ALL,
  *                orphanRemoval = true,
  *                mappedBy = Order_.CUSTOMER)
- *     Set<Order> orders;
+ *     @OrderBy
+ *     List<Order> orders;
+ *     ...
  * }
  *
  * @Entity
  * public class Order {
- *     ...
+ *     @Id
+ *     @GeneratedValue
+ *     long id;
+ *
  *     // owning side
- *     @ManyToOne(optional = false)
+ *     @ManyToOne(optional = false,
+ *                fetch = LAZY)
  *     @JoinColumn(name = "CUST_ID")
  *     Customer customer;
+ *     ...
  * }
  * }
  *

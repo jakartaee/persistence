@@ -71,24 +71,30 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * must be specified on the owning side.
  * {@snippet :
  * @Entity
- * public class Book {
+ * public class Order {
  *     @Id
- *     String isbn;
+ *     @GeneratedValue
+ *     int id;
  *
  *     // owning side
- *     @ManyToOne(fetch = LAZY)
- *     Publisher publisher;
+ *     @ManyToOne(optional = false,
+ *                fetch = LAZY)
+ *     @JoinColumn(name = "CUST_ID")
+ *     Customer customer;
+ *     ...
  * }
  *
  * @Entity
- * public class Publisher {
+ * public class Customer {
  *     @Id
  *     @GeneratedValue
  *     long id;
  *
  *     // inverse (unowned) side
- *     @OneToMany(mappedBy = Book_.PUBLISHER)
- *     Set<Book> books;
+ *     @OneToMany(mappedBy = Order_.CUSTOMER)
+ *     @OrderBy
+ *     List<Order> orders;
+ *     ...
  * }
  * }
  * <p>The {@code ManyToOne} annotation may be used within an embeddable
@@ -108,13 +114,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     int id;
  *
  *     @Embedded
- *     JobInfo jobInfo;
+ *     Job job;
  *     ...
  * }
  *
  * @Embeddable
- * public class JobInfo {
- *     String jobDescription;
+ * public class Job {
+ *     String description;
  *
  *     // owning side
  *     @ManyToOne
@@ -127,8 +133,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     int id;
  *
  *     // inverse (unowned) side
- *     @OneToMany(mappedBy = "jobInfo.manager")
- *     Collection<Employee> manages;
+ *     @OneToMany(mappedBy = "job.manager")
+ *     Collection<Employee> reports;
  * }
  * }
  *
