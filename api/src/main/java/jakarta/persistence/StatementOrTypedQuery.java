@@ -55,6 +55,15 @@ import jakarta.persistence.sql.ResultSetMapping;
  * <p>These operations may be viewed as a sort of type cast to a
  * given subtype of this interface.
  *
+ * @apiNote For backward compatibility with older versions of the
+ * Persistence API, it is possible to execute a query or statement
+ * by calling the deprecated methods {@link #getResultList()} and
+ * {@link #executeUpdate()} inherited by this interface. But new
+ * code targeting Persistence 4 should not use this interface for
+ * direct execution of statements or queries. Statements should be
+ * executed using the {@link Statement} interface, and queries
+ * should be executed using the {@link TypedQuery} interface.
+ *
  * @since 4.0
  *
  */
