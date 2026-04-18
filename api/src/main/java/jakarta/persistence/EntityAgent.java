@@ -16,6 +16,8 @@
 package jakarta.persistence;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Provides entity operations that are performed independently
@@ -42,6 +44,49 @@ import java.util.List;
  *     redirects invocations to distinct instances of
  *     {@code EntityAgent} based on transaction affinity.
  * </ul>
+ *
+ * <p>An application-managed {@code EntityAgent} may be created
+ * via a call to {@link EntityManagerFactory#createEntityAgent()}.
+ * The {@code EntityAgent} must be explicitly closed via a call
+ * to {@link #close()}, to allow resources to be cleaned up by the
+ * persistence provider. This approach places almost complete
+ * responsibility for cleanup and exception management on the client,
+ * and is thus considered quite error-prone. It is much safer to use
+ * the methods {@link EntityManagerFactory#runInTransaction(Class, Consumer)} 
+ * and {@link EntityManagerFactory#callInTransaction(Class, Function)}.
+ * {@snippet :
+ * entityManagerFactory.runInTransaction(EntityAgent.class, entityAgent -> {
+ *     // do work
+ *     ...
+ * });
+ * }
+ *
+ * <p>If the persistence unit has
+ * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
+ * resource local} transaction management, transactions must
+ * be managed using the {@link EntityTransaction} obtained by
+ * calling {@link #getTransaction()}.
+ *
+ * <p>A complete idiom for custom application management of
+ * the {@link EntityAgent} and its associated resource-local
+ * {@link EntityTransaction} is as follows:
+ * {@snippet :
+ * EntityAgent entityAgent = entityManagerFactory.createEntityAgent();
+ * EntityTransaction transaction = entityAgent.getTransaction();
+ * try {
+ *     transaction.begin();
+ *     // do work
+ *     ...
+ *     transaction.commit();
+ * }
+ * catch (Exception e) {
+ *     if (transaction.isActive()) transaction.rollback();
+ *     throw e;
+ * }
+ * finally {
+ *     entityAgent.close();
+ * }
+ * }
  *
  * <p>An {@code EntityAgent} has no associated persistence context,
  * and works only with detached entity instances. When a method of

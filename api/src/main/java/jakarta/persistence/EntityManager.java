@@ -20,6 +20,8 @@
 package jakarta.persistence;
 
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaStatement;
@@ -56,8 +58,8 @@ import jakarta.persistence.criteria.CriteriaStatement;
  * persistence provider. This approach places almost complete
  * responsibility for cleanup and exception management on the client,
  * and is thus considered quite error-prone. It is much safer to use
- * the methods {@link EntityManagerFactory#runInTransaction} and
- * {@link EntityManagerFactory#callInTransaction}.
+ * the methods {@link EntityManagerFactory#runInTransaction(Consumer)}
+ * and {@link EntityManagerFactory#callInTransaction(Function)}.
  * {@snippet :
  * entityManagerFactory.runInTransaction(entityManager -> {
  *     // do work in a persistence context

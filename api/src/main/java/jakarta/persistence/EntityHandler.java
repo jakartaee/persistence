@@ -81,6 +81,10 @@ import java.util.Map;
  * the entity is available in the persistence context or in the
  * second-level cache.
  *
+ * <p>Use of the second-level cache, if any, may be controlled
+ * by calling {@link #setCacheRetrieveMode(CacheRetrieveMode)}
+ * and {@link #setCacheStoreMode(CacheStoreMode)}.
+ *
  * <p>Outside the Jakarta EE container environment, the safest
  * and simplest way to obtain an {@code EntityHandler} is by
  * calling {@link EntityManagerFactory#runInTransaction} or
