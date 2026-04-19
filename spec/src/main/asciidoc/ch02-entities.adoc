@@ -131,6 +131,11 @@ at any time, any reference held by an entity to a collection instantiated by
 the application with a different provider-specific object implementing the
 same interface type.
 
+A null value assigned to a collection-valued persistent field or property
+is interpreted as an empty collection. The persistence provider runtime
+is permitted to replace a null value held by a collection-valued field or
+property of an entity with an empty collection.
+
 ==== Persistent Attribute Type [[attribute-categories]]
 
 Every persistent field or property of an entity is either:
