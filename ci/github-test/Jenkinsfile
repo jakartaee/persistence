@@ -62,7 +62,7 @@ pipeline {
                                 // commit and tag the "release version":
                                 sh "git commit -a -m '[Jenkins job] Some not-so-meaningful comment'"
 
-                                sh "git push origin HEAD:${env.GIT_BRANCH}"
+                                sh "git push -v origin HEAD:${env.GIT_BRANCH}"
                             }
                         }
                     }
