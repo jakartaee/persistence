@@ -88,3 +88,4 @@ and read the license text applying to each source file.
 
 We have a [contribution policy](CONTRIBUTING.md), which means we can only accept 
 contributions under the terms of the [Eclipse Contributor Agreement](http://www.eclipse.org/legal/ECA.php).
+This is a test line
