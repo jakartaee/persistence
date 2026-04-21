@@ -18,18 +18,7 @@ package ee.jakarta.tck.persistence.core.annotations.mapkeyenumerated;
 
 import java.util.Map;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapKeyEnumerated;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "DEPARTMENT2")
@@ -39,11 +28,20 @@ public class Department4 implements java.io.Serializable {
 
 	// Instance variables
 	@Id
+	@Column(name = "ID")
 	private int id;
 
+	@Column(name = "NAME")
 	private String name;
 
-	@Transient
+	@ElementCollection(targetClass = EmbeddedEmployee.class)
+	@CollectionTable(name = "EMP_MAPKEYCOL2", joinColumns = @JoinColumn(name = "FK_DEPT5"))
+	@AttributeOverrides({
+			@AttributeOverride(name = "value.employeeId", column = @Column(name = "ID")),
+			@AttributeOverride(name = "value.employeeName", column = @Column(name = "LASTNAME"))
+	})
+	@MapKeyEnumerated(EnumType.STRING)
+	@MapKeyColumn(name = "LASTNAMEEMPLOYEES_KEY")
 	private Map<Numbers, EmbeddedEmployee> lastNameEmployees;
 
 	public Department4() {
@@ -57,7 +55,6 @@ public class Department4 implements java.io.Serializable {
 	// ===========================================================
 	// getters and setters for the state fields
 
-	@Column(name = "ID")
 	public int getId() {
 		return id;
 	}
@@ -66,7 +63,6 @@ public class Department4 implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "NAME")
 	public String getName() {
 		return name;
 	}
@@ -78,11 +74,6 @@ public class Department4 implements java.io.Serializable {
 	// ===========================================================
 	// getters and setters for the association fields
 
-	@ElementCollection(targetClass = EmbeddedEmployee.class)
-	@CollectionTable(name = "EMP_MAPKEYCOL2", joinColumns = @JoinColumn(name = "FK_DEPT5"))
-	@AttributeOverrides({ @AttributeOverride(name = "employeeId", column = @Column(name = "ID")),
-			@AttributeOverride(name = "employeeName", column = @Column(name = "LASTNAME")) })
-	@MapKeyEnumerated(EnumType.STRING)
 	public Map<Numbers, EmbeddedEmployee> getLastNameEmployees() {
 		return lastNameEmployees;
 	}
