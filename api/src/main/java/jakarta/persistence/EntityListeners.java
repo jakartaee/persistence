@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2025 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,22 +11,37 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static java.lang.annotation.ElementType.MODULE;
+import static java.lang.annotation.ElementType.PACKAGE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies the entity listener classes associated with the
- * annotated class. This annotation may be applied to an
- * {@linkplain Entity entity class} or to a
- * {@linkplain MappedSuperclass mapped superclass}.
+ * annotated class, package, or module. This annotation may
+ * be applied:
+ * <ul>
+ * <li>directly to an {@linkplain Entity entity class} or
+ *     {@linkplain MappedSuperclass mapped superclass}, to
+ *     specify its listener classes,
+ * <li>to a package descriptor to specify listener classes
+ *     applying to every entity contained in the package, or
+ * <li>to a module descriptor to specify listener classes
+ *     applying to every entity contained in any package
+ *     belonging to the module.
+ * </ul>
  *
  * <p>This annotation is an alternative to {@link EntityListener}.
  * Entity listeners declared using this annotation do not need to
@@ -111,8 +126,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see EntityListener
  */
-@Target(TYPE)
+@Target({TYPE, PACKAGE, MODULE})
 @Retention(RUNTIME)
+@Discoverable
 public @interface EntityListeners {
 
     /**
