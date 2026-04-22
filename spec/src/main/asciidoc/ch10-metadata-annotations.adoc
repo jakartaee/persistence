@@ -36,10 +36,19 @@ public @interface Entity {
 
 === Callback Annotations
 
-The `EntityListeners` annotation specifies
-the callback listener classes to be used for an entity or mapped
-superclass. The `EntityListeners` annotation may be applied to an entity
-class or mapped superclass.
+The `EntityListeners` annotation specifies the entity listener
+classes associated with the annotated class, package, or module.
+This annotation may be applied:
+
+- directly to an entity class or mapped superclass, to specify
+  its listener classes,
+- to a package descriptor to specify listener classes applying
+  to every entity contained in the package, or
+- to a module descriptor to specify listener classes applying
+  to every entity contained in any package belonging to the module.
+
+Entity listeners specified using this annotation do not need to
+be annotated `@EntityListener`.
 
 [source,java]
 ----

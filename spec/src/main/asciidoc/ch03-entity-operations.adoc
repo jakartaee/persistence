@@ -1657,6 +1657,10 @@ declared using annotations or XML.
   by annotating the entity class or one of its mapped superclasses with
   the `EntityListeners` annotation. The listener classes must be explicitly
   listed in the order they are invoked.
+- A list of entity listeners applying to every entity class in a given
+  package or module may be specified by annotating the package or module
+  descriptor with the `EntityListeners` annotation. The listener classes
+  must be explicitly listed in the order they are invoked.
 - An entity listener class annotated with the `EntityListener` annotation
   applies to an entity class if the entity class is assignable to one of
   its lifecycle callback methods.
@@ -1947,8 +1951,16 @@ following rules.
    `EntityListeners` annotation. This specification does not define any
    specific order for the invocation of these listeners.
 
-3. Listeners declared by the entity class itself, via the `EntityListeners`
-   annotation or `<entity-listeners>` XML element are invoked in the same
+3. Listeners declared by a module descriptor, via the `EntityListeners`
+   annotation, are invoked in the same order in which they are declared
+   by the annotation.
+
+4. Listeners declared by a package descriptor, via the `EntityListeners`
+   annotation, are invoked in the same order in which they are declared
+   by the annotation.
+
+5. Listeners declared by the entity class itself, via the `EntityListeners`
+   annotation or `<entity-listeners>` XML element, are invoked in the same
    order in which they are declared by the annotation or XML element.
    If multiple classes in an entity inheritance hierarchy--including both
    entity classes and mapped superclasses--declare entity listeners, the
