@@ -48,8 +48,8 @@ public class Client extends EntityCallbackClientBase {
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client.class.getPackageName();
 		String pkgName = pkgNameWithoutSuffix + ".";
-		String[] classes = { pkgName + "LineItem", pkgName + "Order", pkgName + "Product" };
-		String[] xmlFiles = { ORM_XML };
+		String[] classes = { Product.class.getName() };
+		String[] xmlFiles = { };
 		return createDeploymentJar("jpa_core_callback_added.jar", pkgNameWithoutSuffix, classes, xmlFiles);
 
 	}
