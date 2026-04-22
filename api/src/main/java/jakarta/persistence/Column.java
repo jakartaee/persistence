@@ -81,6 +81,12 @@ public @interface Column {
 
     /**
      * (Optional) Whether the database column is nullable.
+     * <p>
+     * If the annotated field or property is also annotated
+     * with one of the Jakarta Validation constraints influencing the
+     * nullability (e.g. {@code @jakarta.validation.constraints.NotNull}),
+     * then {@code nullable=false} is implied, and the value of this
+     * annotation member is ignored.
      */
     boolean nullable() default true;
 
@@ -130,6 +136,12 @@ public @interface Column {
      * <p>
      * Applies only to columns whose type is parameterized by length,
      * for example, {@code varchar} or {@code varbinary} types.
+     * <p>
+     * If the annotated field or property is also annotated
+     * with one of the Jakarta Validation constraints influencing
+     * the length (e.g. {@code @jakarta.validation.constraints.Size}),
+     * then {@code length=Size.max()} is implied, and the value of this
+     * annotation member is ignored.
      */
     int length() default 255;
 
@@ -141,6 +153,12 @@ public @interface Column {
      * <p>
      * The default value {@code 0} indicates that a provider-determined
      * precision should be inferred.
+     * <p>
+     * If the annotated field or property is also annotated
+     * with one of the Jakarta Validation constraints influencing
+     * the precision (e.g. {@code @jakarta.validation.constraints.Digits}),
+     * then {@code precision=Digits.integer()+Digits.fraction()} is implied,
+     * and the value of this annotation member is ignored.
      */
     int precision() default 0;
 
@@ -152,6 +170,12 @@ public @interface Column {
      * <p>
      * The default value {@code 0} indicates that a provider-determined
      * scale should be inferred.
+     * <p>
+     * If the annotated field or property is also annotated
+     * with one of the Jakarta Validation constraints influencing
+     * the scale (e.g. {@code @jakarta.validation.constraints.Digits}),
+     * then {@code scale=Digits.fraction()} is implied,
+     * and the value of this annotation member is ignored.
      */
     int scale() default 0;
 
