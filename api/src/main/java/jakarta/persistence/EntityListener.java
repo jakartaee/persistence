@@ -23,7 +23,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares an entity listener class and specifies the entity
+ * Declares an entity listener class and determines the entity
  * classes to which it applies. The entity listener receives
  * entity lifecycle callbacks for every entity class belonging
  * to the persistence unit and assignable to one of its declared
@@ -34,11 +34,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation is an alternative to {@link EntityListeners}.
  * Callback methods of listeners declared using this annotation
  * are invoked before callback methods of listeners declared
- * using {@link EntityListeners}. However, there is no defined
+ * using {@code EntityListeners}. However, there is no defined
  * ordering among listeners declared using this annotation. If
  * the order of invocation of callback methods is important,
  * the entity listeners should be declared using the
- * {@link EntityListeners} annotation instead.
+ * {@code EntityListeners} annotation instead.
  * <p>
  * Every entity listener class must have a public constructor
  * with no parameters.
@@ -114,8 +114,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * dependencies have been injected and before the entity listener
  * instance is destroyed, respectively.
  *
- *
  * @since 4.0
+ *
+ * @see EntityListeners
  */
 @Target(TYPE)
 @Retention(RUNTIME)

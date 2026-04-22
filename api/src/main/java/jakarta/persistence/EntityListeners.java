@@ -29,9 +29,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@linkplain MappedSuperclass mapped superclass}.
  *
  * <p>This annotation is an alternative to {@link EntityListener}.
- * Callback methods of listeners declared using this annotation
- * are invoked after callback methods of listeners declared
- * using {@link EntityListener}.
+ * Entity listeners declared using this annotation do not need to
+ * be annotated {@code @EntityListener}. Callback methods of
+ * listeners declared using this annotation are invoked after
+ * callback methods of listeners declared using {@code EntityListener}.
  *
  * <p>Every entity listener class must have a public constructor
  * with no parameters.
@@ -107,6 +108,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * instance is destroyed, respectively.
  *
  * @since 1.0
+ *
+ * @see EntityListener
  */
 @Target(TYPE)
 @Retention(RUNTIME)
