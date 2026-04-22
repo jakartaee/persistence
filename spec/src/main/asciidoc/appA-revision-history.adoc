@@ -43,6 +43,8 @@ Added new lifecycle callback types: `@PreMerge`, `@PreInsert`, `@PostInsert`, `@
 
 Added `addListener()` to `EntityManagerFactory`
 
+Added `@EntityListener` annotation
+
 Specify that an entity listener may have multiple callbacks of the same type
 
 Added `FetchOption` and `AttributeNode.addOption()`
@@ -120,6 +122,10 @@ Fixed some incorrect generic method signatures in `From`
 Fixed use of raw types in `AttributeNode`
 
 Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
+
+Clarified that null collection-valued attributes are interpreted as empty collections
+
+Specified that changes to an owned collection should result in an entity lifecycle callback
 
 Clarify behavior with duplicate persistent field names in entity hierarchy
 
