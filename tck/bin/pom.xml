@@ -60,9 +60,9 @@
         <tck.common.artifactId>persistence-tck-common</tck.common.artifactId>
         <tck.artifactId>persistence-tck-spec-tests</tck.artifactId>
         <junit.jupiter.version>6.0.1</junit.jupiter.version>
-        <jakarta.tck.common.version>11.0.0-RC5</jakarta.tck.common.version>
-        <jakarta.tck.sigtest.version>11.0.0-RC5</jakarta.tck.sigtest.version>
-        <jakarta.jakartaee-bom.version>11.0.0-M5</jakarta.jakartaee-bom.version>
+        <jakarta.tck.common.version>11.1.1</jakarta.tck.common.version>
+        <jakarta.tck.sigtest.version>11.1.1</jakarta.tck.sigtest.version>
+        <jakarta.jakartaee-bom.version>11.0.0</jakarta.jakartaee-bom.version>
         <persistence.tck.version>${project.version}</persistence.tck.version>
         <arquillian.junit5.version>1.9.1.Final</arquillian.junit5.version>
         <el.version>5.0.0-M1</el.version>
