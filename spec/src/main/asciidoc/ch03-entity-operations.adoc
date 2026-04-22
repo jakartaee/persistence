@@ -2362,7 +2362,7 @@ the persistent attributes they are applied to:
 
 `jakarta.validation.constraints.NotNull`::
 This constraint is treated as a way to specify that
-the persistent attribute is not nullable.
+the column mapped by the attribute is not nullable.
 Influence on metadata:::
 Overrides the `nullable` attribute and sets it to `false`.
 Influence on DDL:::
@@ -2371,7 +2371,7 @@ Adds a `NOT NULL` constraint to the column.
 `jakarta.validation.constraints.NotBlank`::
 Similar to `jakarta.validation.constraints.NotNull`
 this constraint is treated as a way to specify that
-the persistent attribute is not nullable.
+the column mapped by the attribute is not nullable.
 With difference being that `@NotBlank` constraint
 is applicable to fewer types compared to
 `@NotNull` constraint.
@@ -2383,7 +2383,7 @@ Adds a `NOT NULL` constraint to the column.
 `jakarta.validation.constraints.NotEmpty`::
 Same as `jakarta.validation.constraints.NotNull`
 this constraint is treated as a way to specify that
-the persistent attribute is not nullable.
+the column mapped by the attribute is not nullable.
 With difference being that `@NotEmpty` constraint
 is applicable to fewer types compared to
 `@NotNull` constraint.
@@ -2406,8 +2406,8 @@ e.g. `DECIMAL(precision, scale)`.
 `jakarta.validation.constraints.Size`::
 If this constraint specifies the maximum value,
 e.g. `@Size(max = {someValue})`, then it is treated
-as a way to specify the length of the persistent
-attribute, i.e. `length={someValue}`.
+as a way to specify the length of the column mapped
+by the attribute, i.e. `length={someValue}`.
 Influence on metadata:::
 Sets the `length` attribute to `{someValue}`.
 Influence on DDL:::
