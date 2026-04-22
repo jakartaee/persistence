@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2026 Contributors to the Eclipse Foundation
 //
 
 == Metadata Annotations [[metadata-annotations]]
@@ -867,7 +867,7 @@ These annotations are used to declare queries associated with methods.
 In the context of Jakarta Data<<a19502>>, they are used to declare repository
 query methods.
 
-==== StaticQuery Annotation
+==== JakartaQuery Annotation
 
 Specifies a query expressed in the Jakarta Persistence Query Language.
 This annotation may be applied to:
@@ -883,7 +883,7 @@ The `value` member specifies the query.
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface StaticQuery {
+public @interface JakartaQuery {
     String value();
 }
 ----
@@ -891,7 +891,7 @@ public @interface StaticQuery {
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
-==== StaticNativeQuery Annotation
+==== NativeQuery Annotation
 
 Specifies a query expressed in the native SQL dialect of the database.
 This annotation may be applied to:
@@ -907,7 +907,7 @@ The `value` member specifies the query.
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface StaticNativeQuery {
+public @interface NativeQuery {
     String value();
 }
 ----
@@ -915,14 +915,14 @@ public @interface StaticNativeQuery {
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
-==== StaticQueryOptions Annotation
+==== QueryOptions Annotation
 
 Configures options that affect the execution of a query. This
 annotation may be applied to:
 
-- a method with a `StaticQuery` or Jakarta Data
+- a method with a `JakartaQuery` or Jakarta Data
   `jakarta.data.repository.Query` annotation,
-- a method with a `StaticNativeQuery` annotation, or
+- a method with a `NativeQuery` annotation, or
 - a Jakarta Data repository method annotated
   `jakarta.data.repository.Find`.
 
@@ -930,7 +930,7 @@ annotation may be applied to:
 ----
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface StaticQueryOptions {
+public @interface QueryOptions {
     CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
     int timeout() default -1;

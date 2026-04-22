@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025,2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -75,9 +75,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * returned by {@link EntityManagerFactory#getResultSetMappings(Class)}.
  *
  * <p>This annotation may be placed directly on a method annotated
- * {@link jakarta.persistence.query.StaticNativeQuery}.
+ * {@link jakarta.persistence.query.NativeQuery}.
  * {@snippet :
- * @StaticNativeQuery("SELECT * FROM orders WHERE order_total > ?")
+ * @NativeQuery("SELECT * FROM orders WHERE order_total > ?")
  * @EntityResult(
  *     entityClass = Order.class,
  *     fields = {@FieldResult(name = Order_.ID, column = "order_id"),

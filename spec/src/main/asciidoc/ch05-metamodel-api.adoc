@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2026 Contributors to the Eclipse Foundation
 //
 
 == Metamodel API [[a6072]]
@@ -75,7 +75,7 @@ it belongs to the persistence unit and:
 - it is annotated with a _discoverable annotation type_, as defined in
   <<discoverable>>, or
 - it has a method annotated with one of the two static query annotations,
-  `@StaticQuery` or `@StaticNativeQuery`, as defined in
+  `@JakartaQuery` or `@NativeQuery`, as defined in
   <<static-query-api>>.
 
 This specification does not require that the annotation processor generate
@@ -209,7 +209,7 @@ public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
 ----
 +
 where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@StaticQueryOptions` annotation of `m`. If
+are options specified by any `@QueryOptions` annotation of `m`. If
 the annotated method has more parameters than the query specified by the
 annotation `value` member, the annotation processor is permitted to ignore
 the method parameters which do not correspond to parameters of the query,
@@ -240,7 +240,7 @@ public static StatementReference m(T1 p1, T2 p2, ...) {
 ----
 +
 where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@StaticQueryOptions` annotation of `m`. If
+are options specified by any `@QueryOptions` annotation of `m`. If
 the annotated method has more parameters than the query specified by the
 annotation `value` member, the annotation processor is permitted to ignore
 the method parameters which do not correspond to parameters of the query,

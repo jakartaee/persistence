@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,13 +16,13 @@
 
 package jakarta.persistence;
 
-import jakarta.persistence.query.StaticQueryOptions;
+import jakarta.persistence.query.QueryOptions;
 
 /**
  * A reference to a typed named query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.StaticQuery} or
- * {@link jakarta.persistence.query.StaticNativeQuery}. An
+ * or using {@link jakarta.persistence.query.JakartaQuery} or
+ * {@link jakarta.persistence.query.NativeQuery}. An
  * instance of {@code TypedQueryReference} is usually obtained
  * from the static metamodel of the annotated type.
  *
@@ -35,8 +35,8 @@ import jakarta.persistence.query.StaticQueryOptions;
  * class Library {
  *     @Inject EntityManager entityManager;
  *
- *     @StaticQuery("select a from Book b join b.authors a where b.title like :pattern")
- *     @StaticQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @JakartaQuery("select a from Book b join b.authors a where b.title like :pattern")
+ *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Author> findAuthorsGivenTitles(String pattern) {
  *         return entityManager.createQuery(Library_.findAuthorsGivenTitles(pattern))
  *                 .getResultList();
@@ -98,8 +98,8 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link NamedQuery#resultClass} or
      * {@link NamedNativeQuery#resultClass}, or as inferred
      * from the declared return type of the method annotated
-     * {@link jakarta.persistence.query.StaticQuery} or
-     * {@link jakarta.persistence.query.StaticNativeQuery}.
+     * {@link jakarta.persistence.query.JakartaQuery} or
+     * {@link jakarta.persistence.query.NativeQuery}.
      */
     Class<? extends R> getResultType();
 
@@ -109,7 +109,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link EntityHandler} should be used.
      *
      * @see TypedQuery#setCacheRetrieveMode
-     * @see StaticQueryOptions#cacheRetrieveMode
+     * @see QueryOptions#cacheRetrieveMode
      * @since 4.0
      */
     CacheRetrieveMode getCacheRetrieveMode();
@@ -120,7 +120,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link EntityHandler} should be used.
      *
      * @see TypedQuery#setCacheStoreMode
-     * @see StaticQueryOptions#cacheStoreMode
+     * @see QueryOptions#cacheStoreMode
      * @since 4.0
      */
     CacheStoreMode getCacheStoreMode();
@@ -132,7 +132,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @see TypedQuery#setLockMode
      * @see NamedQuery#lockMode
-     * @see StaticQueryOptions#lockMode
+     * @see QueryOptions#lockMode
      * @since 4.0
      */
     LockModeType getLockMode();
@@ -144,7 +144,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @see TypedQuery#setLockScope
      * @see NamedQuery#lockScope
-     * @see StaticQueryOptions#lockScope
+     * @see QueryOptions#lockScope
      * @since 4.0
      */
     PessimisticLockScope getPessimisticLockScope();
@@ -155,7 +155,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * specified.
      *
      * @see NamedQuery#entityGraph
-     * @see StaticQueryOptions#entityGraph
+     * @see QueryOptions#entityGraph
      * @since 4.0
      */
     String getEntityGraphName();

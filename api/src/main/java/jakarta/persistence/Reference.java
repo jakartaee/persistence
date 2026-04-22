@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025,2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * A reference to a named statement or query declared via the
  * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.StaticQuery} or
- * {@link jakarta.persistence.query.StaticNativeQuery}. An
+ * or using {@link jakarta.persistence.query.JakartaQuery} or
+ * {@link jakarta.persistence.query.NativeQuery}. An
  * instance of {@code Reference} is usually obtained from the
  * static metamodel. This interface declares operations common
  * to {@link StatementReference} and {@link TypedQueryReference}.
@@ -36,15 +36,15 @@ public sealed interface Reference
      * The name of the statement or query, as specified by
      * {@link NamedQuery#name} or {@link NamedNativeQuery#name},
      * or as inferred from the name of the method annotated
-     * {@link jakarta.persistence.query.StaticQuery} or
-     * {@link jakarta.persistence.query.StaticNativeQuery}.
+     * {@link jakarta.persistence.query.JakartaQuery} or
+     * {@link jakarta.persistence.query.NativeQuery}.
      */
     String getName();
 
     /**
      * A map keyed by hint name of all hints specified via
      * {@link NamedQuery#hints}, {@link NamedNativeQuery#hints},
-     * {@link jakarta.persistence.query.StaticQueryOptions#hints}, or
+     * {@link jakarta.persistence.query.QueryOptions#hints}, or
      * <p>
      * Any attempted mutation of the returned map results in an
      * {@link UnsupportedOperationException}.
@@ -112,7 +112,7 @@ public sealed interface Reference
      * {@code null} if no timeout was specified.
      *
      * @see Query#setTimeout(Timeout) 
-     * @see jakarta.persistence.query.StaticQueryOptions#timeout
+     * @see jakarta.persistence.query.QueryOptions#timeout
      * @since 4.0
      */
     Timeout getTimeout();

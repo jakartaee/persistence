@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2026 Contributors to the Eclipse Foundation
 //
 
 [appendix]
@@ -13,7 +13,7 @@ This appendix lists the significant changes that have been made during the devel
 
 Added `EntityAgent` and `EntityHandler`
 
-Added `@StaticQuery`, `@StaticNativeQuery`, `@StaticQueryOptions`, and `StaticStatementReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
+Added `@JakartaQuery`, `@NativeQuery`, `@QueryOptions`, and `StaticStatementReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
 Added a new API for programmatic SQL result set mappings
 

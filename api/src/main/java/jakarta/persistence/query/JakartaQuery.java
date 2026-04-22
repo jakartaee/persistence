@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025,2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -41,23 +41,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@snippet :
  * interface Library {
  *
- *     @StaticQuery("from Book where title like :title")
- *     @StaticQueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
+ *     @JakartaQuery("from Book where title like :title")
+ *     @QueryOptions(cacheStoreMode = CacheStoreMode.BYPASS)
  *     List<Book> findBooksByTitle(String title);
  *
- *     @StaticQuery("from Book where isbn = :isbn")
+ *     @JakartaQuery("from Book where isbn = :isbn")
  *     Book getBookWithIsbn(String isbn);
  *
  *     record Summary(String title, String isbn, LocalDate date) {}
- *     @StaticQuery("""
+ *     @JakartaQuery("""
  *         select title, isbn, pubDate
  *         from Book
  *         where title like = ?1 and pubDate > ?2
  *     """)
  *     List<Summary> retrieveSummaries(String title, LocalDate fromDate);
  *
- *     @StaticQuery("delete from Trash")
- *     @StaticQueryOptions(timeout = 30_000)
+ *     @JakartaQuery("delete from Trash")
+ *     @QueryOptions(timeout = 30_000)
  *     int emptyTrash();
  * }
  *}
@@ -136,7 +136,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface StaticQuery {
+public @interface JakartaQuery {
     /**
      * The query string in the Jakarta Persistence Query Language.
      */
