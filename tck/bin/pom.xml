@@ -28,7 +28,7 @@
 
     <groupId>jakarta.tck</groupId>
     <artifactId>persistence-tck-runner</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -61,7 +61,7 @@
         <jakarta.tck.common.version>11.0.0-RC5</jakarta.tck.common.version>
         <jakarta.tck.sigtest.version>11.0.0-RC5</jakarta.tck.sigtest.version>
         <jakarta.jakartaee-bom.version>11.0.0-M5</jakarta.jakartaee-bom.version>
-        <persistence.tck.version>3.2.1</persistence.tck.version>
+        <persistence.tck.version>3.2.2-SNAPSHOT</persistence.tck.version>
         <arquillian.junit5.version>1.9.1.Final</arquillian.junit5.version>
         <el.version>5.0.0-M1</el.version>
         <hibernate.version>8.0.1.Final</hibernate.version>
