@@ -93,7 +93,7 @@ pipeline {
                                 sh "mvn clean deploy -Poss-release -DskipTests=true -Dstatus=${params.SPEC_STATUS}"
 
                                 // reset the version back to dev:
-                                sh "mvn clean versions:set -DnewVersion=${params.DEVELOPMENT_VERSION} -DgenerateBackupPoms=false"
+                                sh "mvn versions:set -DnewVersion=${params.DEVELOPMENT_VERSION} -DgenerateBackupPoms=false"
 
                                 // commit the dev version and push all back to git:
                                 sh "git commit -a -m '[Jenkins release job] Preparing next development iteration'"
