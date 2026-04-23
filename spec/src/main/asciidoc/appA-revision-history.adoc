@@ -45,6 +45,8 @@ Added `addListener()` to `EntityManagerFactory`
 
 Added `@EntityListener` annotation
 
+Allow `@EntityListeners` on a package descriptor or module descriptor
+
 Specify that an entity listener may have multiple callbacks of the same type
 
 Added `FetchOption` and `AttributeNode.addOption()`
