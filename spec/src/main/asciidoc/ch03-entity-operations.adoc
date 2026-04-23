@@ -1941,10 +1941,7 @@ the order of invocation of the callback methods is governed by the
 following rules.
 
 1. Default listeners, if any, are invoked first, in the order specified
-   in the XML descriptor. Default listeners apply to all entities in the
-   persistence unit, unless explicitly excluded by means of the
-   `ExcludeDefaultListeners` annotation or `<exclude-default-listeners>`
-   XML element.
+   in the XML descriptor.
 
 2. Listeners declared using the `EntityListener` annotation are invoked
    after default listeners, and before listeners declared by the
@@ -1966,6 +1963,23 @@ following rules.
    entity classes and mapped superclasses--declare entity listeners, the
    listeners declared by a superclass are invoked before the listeners
    declared by its subclasses.
+
+A _default listener_ is an entity listener declared:
+
+- under `<persistence-unit-defaults>` in the XML descriptor, or
+- by applying `@EntityListeners` to a module or package descriptor.
+
+A default listener declared using XML applies to all entities in the
+persistence unit, unless explicitly excluded by means of the
+`ExcludeDefaultListeners` annotation or `<exclude-default-listeners>`
+XML element. A default listener declared by annotating a package or
+module descriptor applies to every entity contained in the package
+or module, unless explicitly excluded by means of the
+`ExcludeDefaultListeners` annotation or `<exclude-default-listeners>`
+XML element. The `ExcludeDefaultListeners` annotation or
+`exclude-default-listeners` XML element may be applied to an entity
+class or mapped superclass to exclude the invocation of default
+listeners.
 
 The `ExcludeSuperclassListeners` annotation or
 `exclude-superclass-listeners` XML element may be applied to an entity
