@@ -34,10 +34,33 @@ public @interface Entity {
 }
 ----
 
-=== Callback Annotations
+=== Entity Listeners and Callback Annotations
 
-The `EntityListeners` annotation specifies the entity listener
-classes associated with the annotated class, package, or module.
+The following annotations are used to declare entity listeners
+and callback methods, as specified in <<a2153>>.
+
+==== `EntityListener` and `EntityListeners`
+
+The `EntityListener` annotation declares an entity listener class
+and determines the entity classes to which it applies. The entity
+listener receives entity lifecycle callbacks for every entity
+class belonging to the persistence unit and assignable to one of
+its declared entity lifecycle callback methods. It is not
+necessary to separately declare the entity classes to which the
+listener applies.
+
+[source,java]
+----
+@Target(TYPE)
+@Retention(RUNTIME)
+@Discoverable
+public @interface EntityListener {
+}
+----
+
+Alternatively, the `EntityListeners` annotation specifies the
+entity listener classes associated with the annotated class,
+package, or module.
 This annotation may be applied:
 
 - directly to an entity class or mapped superclass, to specify
@@ -45,23 +68,25 @@ This annotation may be applied:
 - to a package descriptor to specify listener classes applying
   to every entity contained in the package, or
 - to a module descriptor to specify listener classes applying
-  to every entity contained in any package belonging to the module.
+  to every entity contained in any package belonging to the
+  module.
 
 Entity listeners specified using this annotation do not need to
 be annotated `@EntityListener`.
 
 [source,java]
 ----
-@Target({TYPE})
+@Target({TYPE, PACKAGE, MODULE})
 @Retention(RUNTIME)
+@Discoverable
 public @interface EntityListeners {
     Class<?>[] value();
 }
 ----
 
-The `ExcludeSuperclassListeners` annotation
-specifies that the invocation of superclass listeners is to be excluded
-for the entity class (or mapped superclass) and its subclasses.
+The `ExcludeSuperclassListeners` annotation specifies that the
+invocation of superclass listeners is to be excluded for the
+annotated entity class or mapped superclass and its subclasses.
 
 [source,java]
 ----
@@ -71,9 +96,9 @@ public @interface ExcludeSuperclassListeners {
 }
 ----
 
-The `ExcludeDefaultListeners` annotation
-specifies that the invocation of default listeners is to be excluded for
-the entity class (or mapped superclass) and its subclasses.
+The `ExcludeDefaultListeners` annotation specifies that the
+invocation of default listeners is to be excluded for the entity
+class (or mapped superclass) and its subclasses.
 
 [source,java]
 ----
@@ -83,10 +108,13 @@ public @interface ExcludeDefaultListeners {
 }
 ----
 
-The following annotations are used to specify
-callback methods for the corresponding lifecycle events. These
-annotations may be applied to methods of an entity class, of a mapped
-superclass, or of an entity listener class.
+==== Callback methods
+
+The following annotations are used to declare callback methods
+for the corresponding lifecycle events, as specified in
+<<lifecycle-callback-methods>>. These annotations may be applied
+to methods of an entity class, of a mapped superclass, or of an
+entity listener class.
 
 [source,java]
 ----
@@ -148,6 +176,9 @@ public @interface PostLoad {}
 ----
 
 === EntityGraph Annotations [[a13662]]
+
+The following annotations are used to declare named entity graphs.
+Entity graphs are specified in <<a2397>>.
 
 ==== NamedEntityGraph and NamedEntityGraphs Annotations
 

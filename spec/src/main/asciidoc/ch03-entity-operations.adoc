@@ -1680,7 +1680,7 @@ superclasses in an inheritance hierarchy may define listener classes
 and/or lifecycle callback methods directly on the class. <<a2251>>
 describes the rules that apply to method invocation order in this case.
 
-==== Lifecycle Callback Methods
+==== Lifecycle Callback Methods [[lifecycle-callback-methods]]
 
 Entity lifecycle callback methods can be defined on an entity listener
 class and/or directly on an entity class or mapped superclass.
