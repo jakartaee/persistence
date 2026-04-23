@@ -23,8 +23,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that the invocation of superclass listeners is 
- * to be excluded for the entity class (or mapped superclass) 
- * and its subclasses.
+ * to be excluded for the annotated entity class or mapped
+ * superclass and for its subclasses.
  *
  * @since 1.0
  */

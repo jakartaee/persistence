@@ -24,8 +24,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that the invocation of default listeners is to
- * be excluded for the entity class (or mapped superclass)
- * and its subclasses.
+ * be excluded for the annotated entity class or mapped
+ * superclass and for its subclasses. A default listener is
+ * any entity listener declared:
+ * <ul>
+ * <li>under {@code <persistence-unit-defaults>} in XML, or
+ * <li>by applying {@link EntityListeners} to a package or
+ *     module descriptor.
+ * </ul>
  *
  * @since 1.0
  */
