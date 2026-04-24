@@ -22,6 +22,9 @@ package jakarta.persistence.criteria;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
@@ -271,7 +274,7 @@ public interface CriteriaBuilder {
      * @param x  expression representing input value to avg operation
      * @return avg expression
      */
-    <N extends Number> Expression<Double> avg(Expression<N> x);
+    <N extends Number> NumericExpression<Double> avg(Expression<N> x);
 
     /**
      * Create an aggregate expression applying the sum operation.
@@ -286,7 +289,7 @@ public interface CriteriaBuilder {
      * @param x  expression representing input value to sum operation
      * @return sum expression
      */
-    Expression<Long> sumAsLong(Expression<Integer> x);
+    NumericExpression<Long> sumAsLong(Expression<Integer> x);
 
     /**
      * Create an aggregate expression applying the sum operation to a
@@ -294,7 +297,7 @@ public interface CriteriaBuilder {
      * @param x  expression representing input value to sum operation
      * @return sum expression
      */
-    Expression<Double> sumAsDouble(Expression<Float> x);
+    NumericExpression<Double> sumAsDouble(Expression<Float> x);
     
     /**
      * Create an aggregate expression applying the numerical max 
@@ -319,7 +322,7 @@ public interface CriteriaBuilder {
      *           operation
      * @return greatest expression
      */
-    <X extends Comparable<? super X>> Expression<X> greatest(Expression<X> x);
+    <X extends Comparable<? super X>> ComparableExpression<X> greatest(Expression<X> x);
     
     /**
      * Create an aggregate expression for finding the least of
@@ -328,7 +331,7 @@ public interface CriteriaBuilder {
      *           operation
      * @return least expression
      */
-    <X extends Comparable<? super X>> Expression<X> least(Expression<X> x);
+    <X extends Comparable<? super X>> ComparableExpression<X> least(Expression<X> x);
 
     /**
      * Create an aggregate expression applying the count operation.
@@ -336,7 +339,7 @@ public interface CriteriaBuilder {
      *           operation
      * @return count expression
      */
-    Expression<Long> count(Expression<?> x);
+    NumericExpression<Long> count(Expression<?> x);
 
     /**
      * Create an aggregate expression applying the count distinct 
@@ -345,7 +348,7 @@ public interface CriteriaBuilder {
      *        count distinct operation
      * @return count distinct expression
      */
-    Expression<Long> countDistinct(Expression<?> x);
+    NumericExpression<Long> countDistinct(Expression<?> x);
 	
 
 
@@ -721,7 +724,7 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return sign
      */
-    Expression<Integer> sign(Expression<? extends Number> x);
+    NumericExpression<Integer> sign(Expression<? extends Number> x);
 	
     /**
      * Create an expression that returns the arithmetic negation
@@ -872,7 +875,7 @@ public interface CriteriaBuilder {
      * @param y expression
      * @return modulus
      */
-    Expression<Integer> mod(Expression<Integer> x, Expression<Integer> y);
+    NumericExpression<Integer> mod(Expression<Integer> x, Expression<Integer> y);
 	
     /**
      * Create an expression that returns the modulus
@@ -882,7 +885,7 @@ public interface CriteriaBuilder {
      * @param y value
      * @return modulus
      */
-    Expression<Integer> mod(Expression<Integer> x, Integer y);
+    NumericExpression<Integer> mod(Expression<Integer> x, Integer y);
 
     /**
      * Create an expression that returns the modulus
@@ -892,15 +895,15 @@ public interface CriteriaBuilder {
      * @param y expression
      * @return modulus
      */
-    Expression<Integer> mod(Integer x, Expression<Integer> y);
+    NumericExpression<Integer> mod(Integer x, Expression<Integer> y);
 
     /**
      * Create an expression that returns the square root
      * of its argument.
      * @param x expression
      * @return square root
-     */	
-    Expression<Double> sqrt(Expression<? extends Number> x);
+     */
+    NumericExpression<Double> sqrt(Expression<? extends Number> x);
 
     /**
      * Create an expression that returns the exponential
@@ -909,7 +912,7 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return exponential
      */
-    Expression<Double> exp(Expression<? extends Number> x);
+    NumericExpression<Double> exp(Expression<? extends Number> x);
 
     /**
      * Create an expression that returns the natural logarithm
@@ -917,7 +920,7 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return natural logarithm
      */
-    Expression<Double> ln(Expression<? extends Number> x);
+    NumericExpression<Double> ln(Expression<? extends Number> x);
 
     /**
      * Create an expression that returns the first argument
@@ -926,7 +929,7 @@ public interface CriteriaBuilder {
      * @param y exponent
      * @return the base raised to the power of the exponent
      */
-    Expression<Double> power(Expression<? extends Number> x, Expression<? extends Number> y);
+    NumericExpression<Double> power(Expression<? extends Number> x, Expression<? extends Number> y);
 
     /**
      * Create an expression that returns the first argument
@@ -935,7 +938,7 @@ public interface CriteriaBuilder {
      * @param y exponent
      * @return the base raised to the power of the exponent
      */
-    Expression<Double> power(Expression<? extends Number> x, Number y);
+    NumericExpression<Double> power(Expression<? extends Number> x, Number y);
 
     /**
      * Create an expression that returns the first argument
@@ -955,49 +958,49 @@ public interface CriteriaBuilder {
      * @param number  numeric expression
      * @return {@literal Expression<Long>}
      */
-    Expression<Long> toLong(Expression<? extends Number> number);
+    NumericExpression<Long> toLong(Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Integer>}
      */
-    Expression<Integer> toInteger(Expression<? extends Number> number);
+    NumericExpression<Integer> toInteger(Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Float>}
      */
-    Expression<Float> toFloat(Expression<? extends Number> number);
+    NumericExpression<Float> toFloat(Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Double>}
      */
-    Expression<Double> toDouble(Expression<? extends Number> number);
+    NumericExpression<Double> toDouble(Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigDecimal>}
      */
-    Expression<BigDecimal> toBigDecimal(Expression<? extends Number> number);
+    NumericExpression<BigDecimal> toBigDecimal(Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigInteger>}
      */
-    Expression<BigInteger> toBigInteger(Expression<? extends Number> number);
+    NumericExpression<BigInteger> toBigInteger(Expression<? extends Number> number);
 	
     /**
      * Typecast.
      * @param character expression
      * @return {@literal Expression<String>}
      */
-    Expression<String> toString(Expression<Character> character);
+    TextExpression toString(Expression<Character> character);
 
 	
     //literals:
@@ -1100,14 +1103,14 @@ public interface CriteriaBuilder {
      * @param collection expression
      * @return size expression
      */ 
-    <C extends Collection<?>> Expression<Integer> size(Expression<C> collection);
+    <C extends Collection<?>> NumericExpression<Integer> size(Expression<C> collection);
 	
     /**
      * Create an expression that tests the size of a collection.
      * @param collection collection
      * @return size expression
      */ 
-    <C extends Collection<?>> Expression<Integer> size(C collection);
+    <C extends Collection<?>> NumericExpression<Integer> size(C collection);
 
     /**
      * Create a predicate that tests whether an element is
@@ -1293,7 +1296,7 @@ public interface CriteriaBuilder {
      * @param expressions  string expressions
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(List<Expression<String>> expressions);
+    TextExpression concat(List<Expression<String>> expressions);
 
     /**
      * Create an expression for string concatenation.
@@ -1301,7 +1304,7 @@ public interface CriteriaBuilder {
      * @param y  string expression
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(Expression<String> x, Expression<String> y);
+    TextExpression concat(Expression<String> x, Expression<String> y);
 	
     /**
      * Create an expression for string concatenation.
@@ -1309,7 +1312,7 @@ public interface CriteriaBuilder {
      * @param y  string 
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(Expression<String> x, String y);
+    TextExpression concat(Expression<String> x, String y);
 
     /**
      * Create an expression for string concatenation.
@@ -1317,7 +1320,7 @@ public interface CriteriaBuilder {
      * @param y  string expression
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(String x, Expression<String> y);
+    TextExpression concat(String x, Expression<String> y);
 	
     /**
      * Create an expression for substring extraction.
@@ -1328,7 +1331,7 @@ public interface CriteriaBuilder {
      * @param from  start position expression 
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, Expression<Integer> from);
+    TextExpression substring(Expression<String> x, Expression<Integer> from);
 	
     /**
      * Create an expression for substring extraction.
@@ -1339,7 +1342,7 @@ public interface CriteriaBuilder {
      * @param from  start position 
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, int from);
+    TextExpression substring(Expression<String> x, int from);
 
     /**
      * Create an expression for substring extraction.
@@ -1351,7 +1354,7 @@ public interface CriteriaBuilder {
      * @param len  length expression
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, Expression<Integer> from, Expression<Integer> len);
+    TextExpression substring(Expression<String> x, Expression<Integer> from, Expression<Integer> len);
 	
     /**
      * Create an expression for substring extraction.
@@ -1363,7 +1366,7 @@ public interface CriteriaBuilder {
      * @param len  length
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, int from, int len);
+    TextExpression substring(Expression<String> x, int from, int len);
 	
     /**
      * Used to specify how strings are trimmed.
@@ -1392,7 +1395,7 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Expression<String> x);
+    TextExpression trim(Expression<String> x);
 	
     /**
      * Create expression to trim blanks from a string.
@@ -1400,7 +1403,7 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Trimspec ts, Expression<String> x);
+    TextExpression trim(Trimspec ts, Expression<String> x);
 
     /**
      * Create expression to trim character from both ends of
@@ -1409,7 +1412,7 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Expression<Character> t, Expression<String> x);
+    TextExpression trim(Expression<Character> t, Expression<String> x);
 
     /**
      * Create expression to trim character from a string.
@@ -1418,7 +1421,7 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Trimspec ts, Expression<Character> t, Expression<String> x);
+    TextExpression trim(Trimspec ts, Expression<Character> t, Expression<String> x);
 	
     /**
      * Create expression to trim character from both ends of
@@ -1427,7 +1430,7 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(char t, Expression<String> x);
+    TextExpression trim(char t, Expression<String> x);
 	
     /**
      * Create expression to trim character from a string.
@@ -1436,28 +1439,28 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Trimspec ts, char t, Expression<String> x);
+    TextExpression trim(Trimspec ts, char t, Expression<String> x);
 	
     /**
      * Create expression for converting a string to lowercase.
      * @param x  string expression
      * @return expression to convert to lowercase
      */
-    Expression<String> lower(Expression<String> x);
+    TextExpression lower(Expression<String> x);
 	
     /**
      * Create expression for converting a string to uppercase.
      * @param x  string expression
      * @return expression to convert to uppercase
      */
-    Expression<String> upper(Expression<String> x);
+    TextExpression upper(Expression<String> x);
 	
     /**
      * Create expression to return length of a string.
      * @param x  string expression
      * @return length expression
      */
-    Expression<Integer> length(Expression<String> x);
+    NumericExpression<Integer> length(Expression<String> x);
 
     /**
      * Create an expression for the leftmost substring of a string,
@@ -1465,7 +1468,7 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the leftmost substring
      */
-    Expression<String> left(Expression<String> x, int len);
+    TextExpression left(Expression<String> x, int len);
 
     /**
      * Create an expression for the rightmost substring of a string,
@@ -1473,7 +1476,7 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the rightmost substring
      */
-    Expression<String> right(Expression<String> x, int len);
+    TextExpression right(Expression<String> x, int len);
 
     /**
      * Create an expression for the leftmost substring of a string,
@@ -1481,7 +1484,7 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the leftmost substring
      */
-    Expression<String> left(Expression<String> x, Expression<Integer> len);
+    TextExpression left(Expression<String> x, Expression<Integer> len);
 
     /**
      * Create an expression for the rightmost substring of a string,
@@ -1489,7 +1492,7 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the rightmost substring
      */
-    Expression<String> right(Expression<String> x, Expression<Integer> len);
+    TextExpression right(Expression<String> x, Expression<Integer> len);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1499,7 +1502,7 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, Expression<String> substring, Expression<String> replacement);
+    TextExpression replace(Expression<String> x, Expression<String> substring, Expression<String> replacement);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1509,7 +1512,7 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, String substring, Expression<String> replacement);
+    TextExpression replace(Expression<String> x, String substring, Expression<String> replacement);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1519,7 +1522,7 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, Expression<String> substring, String replacement);
+    TextExpression replace(Expression<String> x, Expression<String> substring, String replacement);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1529,8 +1532,7 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, String substring, String replacement);
-
+    TextExpression replace(Expression<String> x, String substring, String replacement);
 
     /**
      * Create expression to locate the position of one string
@@ -1545,7 +1547,7 @@ public interface CriteriaBuilder {
      * @param pattern  expression for string to be located
      * @return expression corresponding to position
      */
-    Expression<Integer> locate(Expression<String> x, Expression<String> pattern);
+    NumericExpression<Integer> locate(Expression<String> x, Expression<String> pattern);
 	
     /**
      * Create expression to locate the position of one string
@@ -1560,7 +1562,7 @@ public interface CriteriaBuilder {
      * @param pattern  string to be located
      * @return expression corresponding to position
      */
-    Expression<Integer> locate(Expression<String> x, String pattern);
+    NumericExpression<Integer> locate(Expression<String> x, String pattern);
 
     /**
      * Create expression to locate the position of one string
@@ -1576,7 +1578,7 @@ public interface CriteriaBuilder {
      * @param from  expression for position at which to start search
      * @return expression corresponding to position
      */
-    Expression<Integer> locate(Expression<String> x, Expression<String> pattern, Expression<Integer> from);
+    NumericExpression<Integer> locate(Expression<String> x, Expression<String> pattern, Expression<Integer> from);
 
     /**
      * Create expression to locate the position of one string
@@ -1591,8 +1593,8 @@ public interface CriteriaBuilder {
      * @param pattern  string to be located
      * @param from  position at which to start search
      * @return expression corresponding to position
-     */	
-    Expression<Integer> locate(Expression<String> x, String pattern, int from);
+     */
+    NumericExpression<Integer> locate(Expression<String> x, String pattern, int from);
 	
 
     // Date/time/timestamp functions:
@@ -1619,19 +1621,19 @@ public interface CriteriaBuilder {
      * Create expression to return current local date.
      * @return expression for current date
      */
-    Expression<java.time.LocalDate> localDate();
+    TemporalExpression<LocalDate> localDate();
 
     /**
      * Create expression to return current local datetime.
      * @return expression for current timestamp
      */
-    Expression<java.time.LocalDateTime> localDateTime();
+    TemporalExpression<LocalDateTime> localDateTime();
 
     /**
      * Create expression to return current local time.
      * @return expression for current time
      */
-    Expression<java.time.LocalTime> localTime();
+    TemporalExpression<LocalTime> localTime();
 
     /**
      * Create an expression that returns the value of a
