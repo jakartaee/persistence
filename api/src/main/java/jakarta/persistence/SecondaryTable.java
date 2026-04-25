@@ -62,7 +62,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 1.0
  */
 @Repeatable(SecondaryTables.class)
-@Target(TYPE) 
+@Target(TYPE)
 @Retention(RUNTIME)
 public @interface SecondaryTable {
 
@@ -138,6 +138,15 @@ public @interface SecondaryTable {
      * @since 3.2
      */
     String comment() default "";
+
+    /**
+     * (Optional) A SQL fragment representing the table kind,
+     * usually inserted before the keyword {@code table} in
+     * the generated DDL which creates this table.
+     *
+     * @since 4.0
+     */
+    String kind() default "";
 
     /**
      * (Optional) A SQL fragment appended to the generated DDL
