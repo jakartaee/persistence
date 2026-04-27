@@ -165,7 +165,7 @@ public @interface JoinTable {
     String comment() default "";
 
     /**
-     * (Optional) A SQL fragment representing the table kind,
+     * (Optional) A SQL fragment indicating the type of table,
      * usually inserted before the keyword {@code table} in
      * the generated DDL which creates this table.
      *
