@@ -63,7 +63,7 @@ public @interface Index {
     boolean unique() default false;
 
     /**
-     * (Optional) A SQL fragment representing the index kind,
+     * (Optional) A SQL fragment indicating the type of index,
      * usually inserted before the keyword {@code index} in the
      * generated DDL which creates this index.
      *
