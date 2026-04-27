@@ -2352,8 +2352,8 @@ public @interface Index {
     String name() default "";
     String columnList();
     boolean unique() default false;
-    String kind() default "";
     String type() default "";
+    String using() default "";
     String options() default "";
 }
 ----
@@ -2387,13 +2387,13 @@ included in the index.
 |false
 
 |String
-|kind
-|(Optional) A SQL fragment representing the index kind, usually inserted before the keyword `index` in the generated DDL which creates this index.
+|type
+|(Optional) A SQL fragment representing the index type, usually inserted before the keyword `type` in the generated DDL which creates this index.
 |Nothing appended.
 
 |String
-|type
-|(Optional) A SQL fragment representing the index type. When specified, it is inserted into the generated DDL which creates this index.
+|using
+|(Optional) A SQL fragment representing the indexing method. When specified, it is added into the generated DDL which creates this index, usually following a `USING` keyword.
 |Nothing appended.
 
 |String

@@ -64,21 +64,21 @@ public @interface Index {
 
     /**
      * (Optional) A SQL fragment representing the index kind,
-     * usually inserted before the keyword {@code index} in 
-     * the generated DDL which creates this index.
-     *
-     * @since 4.0
-     */
-    String kind() default "";
-
-    /**
-     * (Optional) A SQL fragment representing the index type.
-     * When specified, it is inserted into the generated DDL 
-     * which creates this index.
+     * usually inserted before the keyword {@code index} in the
+     * generated DDL which creates this index.
      *
      * @since 4.0
      */
     String type() default "";
+
+    /**
+     * (Optional) A SQL fragment representing the indexing method.
+     * When specified, it is inserted into the generated DDL which
+     * creates this index, usually following a {@code USING} keyword.
+     *
+     * @since 4.0
+     */
+    String using() default "";
 
     /**
      * (Optional) A SQL fragment appended to the generated DDL
