@@ -67,6 +67,9 @@ public @interface Index {
      * usually inserted before the keyword {@code index} in the
      * generated DDL which creates this index.
      *
+     * <p>For example, {@code type = "UNIQUE"} results in
+     * {@code CREATE UNIQUE INDEX ...}.
+     *
      * @since 4.0
      */
     String type() default "";
@@ -76,6 +79,9 @@ public @interface Index {
      * When specified, it is inserted into the generated DDL which
      * creates this index, usually following a {@code USING} keyword.
      *
+     * <p>For example, {@code using = "BTREE"} results in
+     * {@code CREATE INDEX ... USING BTREE ...}.
+     *
      * @since 4.0
      */
     String using() default "";
@@ -83,6 +89,9 @@ public @interface Index {
     /**
      * (Optional) A SQL fragment appended to the generated DDL
      * which creates this index.
+     *
+     * <p>For example, {@code options = "INCLUDE (total)"}
+     * results in {@code CREATE INDEX ... INCLUDE (total)}.
      *
      * @since 3.2
      */
