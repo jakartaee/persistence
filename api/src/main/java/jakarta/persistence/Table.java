@@ -106,6 +106,9 @@ public @interface Table {
      * usually inserted before the keyword {@code table} in
      * the generated DDL which creates this table.
      *
+     * <p>For example, {@code type = "GLOBAL TEMPORARY"}
+     * results in {@code CREATE GLOBAL TEMPORARY TABLE ...}.
+     *
      * @since 4.0
      */
     String type() default "";
@@ -114,6 +117,9 @@ public @interface Table {
      * (Optional) A SQL fragment appended to the generated DDL
      * statement which creates this table. This is only used if
      * table generation is in effect.
+     *
+     * <p>For example, {@code options = "PARTITION BY HASH (name)"}
+     * results in {@code CREATE TABLE ... PARTITION BY HASH (name)}.
      *
      * @since 3.2
      */
