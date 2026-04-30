@@ -65,12 +65,17 @@ public interface Graph<T> {
      * except when the effect of this call is simply to cancel the
      * effect of a prior {@linkplain #removeAttributeNode removal}.
      *
-     * @param attributeName  name of the attribute
+     * @param attributeName the name of an attribute of the managed type
      * @return the attribute node
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
+     * @throws IllegalArgumentException if there is no attribute
+     *         for the given name
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addAttributeNode(Attribute)}.
+     *          Use of the typesafe version is strongly preferred.
      *
      * @since 3.2
      */
@@ -99,10 +104,17 @@ public interface Graph<T> {
      * Determine if there is an existing attribute node for the attribute
      * with the given name.
      *
-     * @param attributeName  name of the attribute
+     * @param attributeName the name of an attribute of the managed type
      * @return true if there is an existing attribute node
      * @throws IllegalArgumentException if the attribute is not an
      *         attribute of this entity.
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #hasAttributeNode(Attribute)}.
+     *          Use of the typesafe version is strongly preferred.
      *
      * @since 3.2
      */
@@ -123,12 +135,19 @@ public interface Graph<T> {
      * Get an existing attribute node for the attribute with the given
      * name.
      *
-     * @param attributeName  name of the attribute
+     * @param attributeName the name of an attribute of the managed type
      * @return the attribute node
      * @throws IllegalArgumentException if the attribute is not an
      *         attribute of this entity.
      * @throws java.util.NoSuchElementException if there is no existing
      *         node for the attribute
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #getAttributeNode(Attribute)}.
+     *          Use of the typesafe version is strongly preferred.
      *
      * @since 3.2
      */
@@ -161,7 +180,15 @@ public interface Graph<T> {
      * when the effect of this call is simply to cancel the effect of a
      * prior {@linkplain #addAttributeNode addition}.
      *
-     * @param attributeName  name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #removeAttributeNode(Attribute)}.
+     *          Use of the typesafe version is strongly preferred.
      *
      * @since 3.2
      */
@@ -217,11 +244,16 @@ public interface Graph<T> {
      * except when the effect of this call is simply to cancel the
      * effect of a prior {@linkplain #removeAttributeNode removal}.
      *
-     * @param attributeName  name of the attribute     
-     * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this managed type.
+     * @param attributeName the name of an attribute of the managed
+     *                      type
+     * @throws IllegalArgumentException if there is no attribute
+     *         for one of the given names
      * @throws IllegalStateException if the EntityGraph has been 
      *         statically defined
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addAttributeNodes(Attribute...)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     void addAttributeNodes(String... attributeName);
 
@@ -283,15 +315,21 @@ public interface Graph<T> {
      * This allows for construction of multi-node entity graphs
      * that include related managed types.
      *
-     * @param attributeName the name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type
      * @param <X> the managed type of the attribute
      * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this managed type.
+     * @throws IllegalArgumentException if there is no attribute
+     *         for the given name
      * @throws IllegalArgumentException if the attribute's target 
      *         type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been 
      *         statically defined
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addSubgraph(Attribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <X> Subgraph<X> addSubgraph(String attributeName);
 
@@ -302,16 +340,22 @@ public interface Graph<T> {
      * graph. Subclass subgraphs will automatically include the
      * specified attributes of superclass subgraphs
      *
-     * @param attributeName the name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type
      * @param type an entity subclass of the collection element type
      * @param <X> the type of the subclass
      * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not 
-     *         an attribute of this managed type.
+     * @throws IllegalArgumentException if there is no attribute
+     *         for the given name
      * @throws IllegalArgumentException if the attribute's target 
      *         type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been 
-      *        statically defined
+     *         statically defined
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addSubgraph(Attribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
 
@@ -354,15 +398,21 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attributeName the name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type
      * @param <X> the managed type of the collection element
      * @return subgraph for the element attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
+     * @throws IllegalArgumentException if there is no attribute
+     *         for the given name
      * @throws IllegalArgumentException if the attribute's target
      *         type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addElementSubgraph(PluralAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <X> Subgraph<X> addElementSubgraph(String attributeName);
 
@@ -371,16 +421,22 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attributeName the name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type
      * @param type an entity subclass of the collection element type
      * @param <X> the type of the subclass
      * @return subgraph for the element attribute
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
+     * @throws IllegalArgumentException if there is no attribute
+     *         for the given name
      * @throws IllegalArgumentException if the attribute's target
      *         type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addElementSubgraph(PluralAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <X> Subgraph<X> addElementSubgraph(String attributeName, Class<X> type);
 
@@ -422,15 +478,21 @@ public interface Graph<T> {
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
-     * @param attributeName the name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type
      * @param <X> the managed type of the map key
      * @return subgraph for the key attribute
-     * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this entity.
+     * @throws IllegalArgumentException if there is no attribute
+     *         for the given name
      * @throws IllegalArgumentException if the attribute's target 
      *         type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addMapKeySubgraph(MapAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <X> Subgraph<X> addKeySubgraph(String attributeName);
 
@@ -441,16 +503,22 @@ public interface Graph<T> {
      * managed types. Subclass subgraphs will include the specified
      * attributes of superclass subgraphs
      *
-     * @param attributeName the name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type
      * @param type an entity subclass of the map key type
      * @param <X> the type of the subclass
      * @return subgraph for the attribute
-     * @throws IllegalArgumentException if the attribute is not an 
-     *         attribute of this entity.
+     * @throws IllegalArgumentException if there is no attribute
+     *         for the given name
      * @throws IllegalArgumentException if the attribute's target
      *         type is not a managed type
      * @throws IllegalStateException if this EntityGraph has been 
      *         statically defined
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #addMapKeySubgraph(MapAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
 
