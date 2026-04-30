@@ -157,12 +157,18 @@ public interface Path<X> extends Expression<X> {
      *  .where(cb.isMember("joe", nicknames));
      * }
      *
-     * @param attributeName  name of the attribute
+     * @param attributeName the name of an attribute of the managed
+     *                      type of the path
      * @return path corresponding to the referenced attribute
      * @throws IllegalStateException if invoked on a path that
      *         corresponds to a basic type
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not otherwise exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #get(SingularAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> Path<Y> get(String attributeName);
 }

@@ -195,115 +195,165 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
 
     /**
      * Create an inner join to the specified attribute.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(SingularAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> Join<X, Y> join(String attributeName);
 
     /**
      * Create an inner join to the specified {@link Collection}-valued
      * attribute.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(CollectionAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> CollectionJoin<X, Y> joinCollection(String attributeName);
 
     /**
      * Create an inner join to the specified {@link Set}-valued
      * attribute.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(SetAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> SetJoin<X, Y> joinSet(String attributeName);
 
     /**
      * Create an inner join to the specified {@link List}-valued
      * attribute.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(ListAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> ListJoin<X, Y> joinList(String attributeName);
     
     /**
      * Create an inner join to the specified {@link Map}-valued
      * attribute.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(MapAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <K, V> MapJoin<X, K, V> joinMap(String attributeName);
 
     /**
      * Create a join to the specified attribute using the given
      * join type.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
-     * @param jt  join type
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
+     * @param jt the join type
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(SingularAttribute, JoinType)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> Join<X, Y> join(String attributeName, JoinType jt);
     
     /**
      * Create a join to the specified {@link Collection}-valued
      * attribute using the given join type.
-     * @param attributeName  name of the attribute for the 
-     *                       target of the join
-     * @param jt  join type
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
+     * @param jt the join type
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(CollectionAttribute, JoinType)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> CollectionJoin<X, Y> joinCollection(String attributeName, JoinType jt);
 
     /**
      * Create a join to the specified {@link Set}-valued attribute
      * using the given join type.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
-     * @param jt  join type
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
+     * @param jt the join type
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(SetAttribute, JoinType)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> SetJoin<X, Y> joinSet(String attributeName, JoinType jt);
 
     /**
      * Create a join to the specified {@link List}-valued attribute
      * using the given join type.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
-     * @param jt  join type
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
+     * @param jt the join type
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(ListAttribute, JoinType)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <Y> ListJoin<X, Y> joinList(String attributeName, JoinType jt);
 
     /**
      * Create a join to the specified {@link Map}-valued attribute
      * using the given join type.
-     * @param attributeName  name of the attribute for the
-     *                       target of the join
-     * @param jt  join type
+     * @param attributeName the name of the attribute that is the
+     *                      target of the join
+     * @param jt the join type
      * @return the resulting join
-     * @throws IllegalArgumentException if attribute of the given
-     *        name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #join(MapAttribute, JoinType)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     <K, V> MapJoin<X, K, V> joinMap(String attributeName, JoinType jt);
 }

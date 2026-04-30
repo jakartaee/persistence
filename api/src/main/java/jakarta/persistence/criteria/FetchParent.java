@@ -79,23 +79,35 @@ public interface FetchParent<Z, X> {
     /**
      * Create a fetch join to the specified attribute using an 
      * inner join.
-     * @param attributeName  name of the attribute for the
+     * @param attributeName the name of the attribute for the
      *        target of the join
      * @return the resulting fetch join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #fetch(SingularAttribute)}
+     *          or {@link #fetch(PluralAttribute)}.
+     *          Use of the typesafe version is strongly preferred.
      */	
     <Y> Fetch<X, Y> fetch(String attributeName);
 
     /**
      * Create a fetch join to the specified attribute using 
      * the given join type.
-     * @param attributeName  name of the attribute for the
-     *              target of the join
-     * @param jt  join type
+     * @param attributeName the name of the attribute that is the
+     *        target of the join
+     * @param jt the join type
      * @return the resulting fetch join
-     * @throws IllegalArgumentException if attribute of the given
-     *         name does not exist
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #fetch(SingularAttribute, JoinType)}
+     *          or {@link #fetch(PluralAttribute, JoinType)}.
+     *          Use of the typesafe version is strongly preferred.
      */	
     <Y> Fetch<X, Y> fetch(String attributeName, JoinType jt);
 }

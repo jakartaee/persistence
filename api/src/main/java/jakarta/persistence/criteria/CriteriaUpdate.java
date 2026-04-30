@@ -39,41 +39,48 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
 
     /**
      * Update the value of the specified attribute.
-     * @param attribute  attribute to be updated
-     * @param value  new value
-     * @return  the modified update query
+     * @param attribute the attribute to be updated
+     * @param value the new value to set
+     * @return the modified update query
      */
     <Y, X extends Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, X value);
 
     /**
      * Update the value of the specified attribute.
-     * @param attribute  attribute to be updated
-     * @param value  new value
-     * @return  the modified update query
+     * @param attribute the attribute to be updated
+     * @param value the new value to set
+     * @return the modified update query
      */
     <Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, Expression<? extends Y> value);
 
     /**
      * Update the value of the specified attribute.
-     * @param attribute  attribute to be updated
-     * @param value  new value
-     * @return  the modified update query
+     * @param attribute the attribute to be updated
+     * @param value the new value to set
+     * @return the modified update query
      */
     <Y, X extends Y> CriteriaUpdate<T> set(Path<Y> attribute, X value);
 
     /**
      * Update the value of the specified attribute.
-     * @param attribute  attribute to be updated
-     * @param value  new value
-     * @return  the modified update query
+     * @param attribute the attribute to be updated
+     * @param value the new value to set
+     * @return the modified update query
      */
     <Y> CriteriaUpdate<T> set(Path<Y> attribute, Expression<? extends Y> value);
 
     /**
      * Update the value of the specified attribute.
-     * @param attributeName  name of the attribute to be updated
-     * @param value  new value
-     * @return  the modified update query
+     * @param attributeName the name of the attribute to be updated
+     * @param value the new value to set
+     * @return the modified update query
+     * @throws IllegalArgumentException if there is no attribute
+     *         with the given name
+     *
+     * @apiNote This method accepts a string-valued attribute name,
+     *          and lacks type safety compared to passing a static
+     *          metamodel element to {@link #set(SingularAttribute,Expression)}.
+     *          Use of the typesafe version is strongly preferred.
      */
     CriteriaUpdate<T> set(String attributeName, Object value);
 
