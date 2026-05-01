@@ -18,6 +18,11 @@ package jakarta.persistence;
 /**
  * Represents an action that can be performed by the schema management tooling.
  *
+ * @see PersistenceConfiguration#schemaManagementDatabaseAction()
+ * @see PersistenceConfiguration#schemaManagementScriptsAction()
+ * @see Persistence.SchemaManagementProperties#SCHEMAGEN_DATABASE_ACTION
+ * @see Persistence.SchemaManagementProperties#SCHEMAGEN_SCRIPTS_ACTION
+ *
  * @since 4.0
  */
 public enum SchemaManagementAction {

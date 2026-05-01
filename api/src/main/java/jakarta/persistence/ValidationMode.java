@@ -19,7 +19,19 @@ package jakarta.persistence;
 /**
  * The validation mode to be used by the provider for the persistence
  * unit.
- * 
+ * <p>
+ * A {@code ValidationMode} may be specified by:
+ * <ul>
+ * <li>the {@code <validation-mode>} element of {@code persistence.xml},
+ * <li>the property
+ *     {@value Persistence.ValidationProperties#VALIDATION_MODE}, or
+ * <li>{@link PersistenceConfiguration#validationMode(ValidationMode)}.
+ * </ul>
+ *
+ * @see jakarta.persistence.spi.PersistenceUnitInfo#getValidationMode()
+ * @see PersistenceConfiguration#validationMode()
+ * @see Persistence.ValidationProperties#VALIDATION_MODE
+ *
  * @since 2.0
  */
 public enum ValidationMode {
