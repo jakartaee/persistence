@@ -23,8 +23,8 @@ import java.util.List;
  * {@link EntityHandler#findMultiple}, {@link EntityHandler#get},
  * or {@link EntityHandler#getMultiple}.
  * Built-in options control {@linkplain LockModeType locking},
- * {@linkplain CacheRetrieveMode cache interaction}, and
- * {@linkplain Timeout timeouts}.
+ * {@linkplain CacheRetrieveMode cache interaction},
+ * {@linkplain BatchSize batching}, and {@linkplain Timeout timeouts}.
  *
  * <p>This interface may be implemented by custom provider-specific
  * options which extend the options defined by the specification.
@@ -33,6 +33,7 @@ import java.util.List;
  * @see PessimisticLockScope
  * @see CacheRetrieveMode
  * @see CacheStoreMode
+ * @see BatchSize
  * @see Timeout
  *
  * @see EntityHandler#find(Class, Object, FindOption...)
