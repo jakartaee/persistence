@@ -52,37 +52,51 @@ public final class Persistence {
     /**
      * Create and return an {@link EntityManagerFactory} for the named
      * persistence unit.
-     * 
-     * @param persistenceUnitName the name of the persistence unit
-     * @return the factory that creates {@link EntityManager}s configured
-     *         according to the specified persistence unit
+     *
+     * @param unitName the name of the persistence unit; usually the
+     *                 name specified by the {@code name} attribute of
+     *                 the {@code <persistence-unit>} element in the
+     *                 {@code persistence.xml} file
+     * @return an {@link EntityManagerFactory} for the named persistence
+     *         unit
      */
-    public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName) {
-        return createEntityManagerFactory(persistenceUnitName, null);
+    public static EntityManagerFactory createEntityManagerFactory(String unitName) {
+        return createEntityManagerFactory(unitName, null);
     }
 
     /**
      * Create and return an {@link EntityManagerFactory} for the named
-     * persistence unit, using the given properties.
+     * persistence unit, using the given properties. Standard properties
+     * are enumerated by {@link UnitProperties}, {@link CacheProperties},
+     * {@link ConnectionProperties}, {@link JdbcProperties},
+     * {@link DatabaseProperties}, {@link SchemaManagementProperties},
+     * {@link ValidationProperties}, and {@link BeanManagementProperties}.
+     * A provider might recognize additional vendor-specific properties.
+     * Property values specified via the second argument of this method
+     * override property values specified in the {@code persistence.xml}
+     * file.
      * 
-     * @param persistenceUnitName the name of the persistence unit
+     * @param unitName the name of the persistence unit; usually the name
+     *                 specified by the {@code name} attribute of the
+     *                 {@code <persistence-unit>} element in the
+     *                 {@code persistence.xml} file
      * @param properties additional properties to use when creating the
      *                   factory. These properties may include properties
      *                   to control schema generation. The values of these
      *                   properties override any values that may have been
      *                   configured elsewhere.
-     * @return the factory that creates {@link EntityManager}s configured
-     *        according to the specified persistence unit
+     * @return an {@link EntityManagerFactory} for the named persistence
+     *         unit
      */
-    public static EntityManagerFactory createEntityManagerFactory(String persistenceUnitName, Map<?,?> properties) {
+    public static EntityManagerFactory createEntityManagerFactory(String unitName, Map<?,?> properties) {
         for (var provider : getPersistenceProviders()) {
-            var entityManagerFactory = provider.createEntityManagerFactory(persistenceUnitName, properties);
+            var entityManagerFactory = provider.createEntityManagerFactory(unitName, properties);
             if (entityManagerFactory != null) {
                 return entityManagerFactory;
             }
         }
 
-        throw new PersistenceException("No Persistence provider for EntityManager named " + persistenceUnitName);
+        throw new PersistenceException("No Persistence provider for EntityManager named " + unitName);
     }
 
     /**
@@ -108,12 +122,21 @@ public final class Persistence {
 
     /**
      * Create database schemas and/or tables and/or create DDL scripts
-     * as determined by the supplied properties.
+     * as determined by the supplied properties. Standard properties
+     * are enumerated by {@link SchemaManagementProperties},
+     * {@link DatabaseProperties}, {@link ConnectionProperties}, and
+     * {@link UnitProperties}. A provider might recognize additional
+     * vendor-specific properties. Property values specified via the
+     * second argument of this method override property values
+     * specified in the {@code persistence.xml} file.
      * <p>
      * Called when schema generation is to occur as a separate phase
      * from creation of the entity manager factory.
      *
-     * @param persistenceUnitName the name of the persistence unit
+     * @param unitName the name of the persistence unit; usually the
+     *                 name specified by the {@code name} attribute
+     *                 of the {@code <persistence-unit>} element in
+     *                 the {@code persistence.xml} file
      * @param map properties for schema generation; these may also
      *            contain provider-specific properties. The values
      *            of these properties override any values that may
@@ -124,14 +147,14 @@ public final class Persistence {
      *
      * @since 2.1
      */
-    public static void generateSchema(String persistenceUnitName, Map<?,?> map) {
+    public static void generateSchema(String unitName, Map<?,?> map) {
         for (var provider : getPersistenceProviders()) {
-            if (provider.generateSchema(persistenceUnitName, map)) {
+            if (provider.generateSchema(unitName, map)) {
                 return;
             }
         }
         
-        throw new PersistenceException("No Persistence provider to generate schema named " + persistenceUnitName);
+        throw new PersistenceException("No Persistence provider to generate schema named " + unitName);
     }
 
     /**

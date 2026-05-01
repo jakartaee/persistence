@@ -21,14 +21,21 @@ import jakarta.persistence.spi.PersistenceUnitInfo;
 /**
  * Enumerates policies which control how the provider determines if
  * an entity type is eligible for storage in the second-level cache.
+ * The shared cache mode is determined by the
+ * {@linkplain PersistenceConfiguration#sharedCacheMode() configuration
+ * of the persistence unit}, and is common across all entity managers
+ * and entity agents for the given persistence unit.
  * <p>
- * A {@code SharedCacheMode} may be specified by the
- * {@code <shared-cache-mode>} element of {@code persistence.xml}
- * or by calling
- * {@link PersistenceConfiguration#sharedCacheMode(SharedCacheMode)}.
+ * A {@code SharedCacheMode} may be specified by:
+ * <ul>
+ * <li>the {@code <shared-cache-mode>} element of {@code persistence.xml},
+ * <li>the property {@value Persistence.CacheProperties#CACHE_MODE}, or
+ * <li>{@link PersistenceConfiguration#sharedCacheMode(SharedCacheMode)}.
+ * </ul>
  *
  * @see PersistenceUnitInfo#getSharedCacheMode()
  * @see PersistenceConfiguration#sharedCacheMode()
+ * @see Persistence.CacheProperties#CACHE_MODE
  *
  * @since 2.0
  */

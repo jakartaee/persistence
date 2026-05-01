@@ -29,6 +29,20 @@ package jakarta.persistence;
  *     persistence provider and the transaction lifecycle is controlled via
  *     the {@link EntityTransaction} interface.
  * </ul>
+ * <p>
+ * A {@code PersistenceUnitTransactionType} may be specified by:
+ * <ul>
+ * <li>the {@code transaction-type} attribute of {@code <persistence-unit>}
+ *     in {@code persistence.xml},
+ * <li>the property
+ *     {@value Persistence.UnitProperties#PERSISTENCE_UNIT_TRANSACTION_TYPE},
+ *     or
+ * <li>{@link PersistenceConfiguration#sharedCacheMode(SharedCacheMode)}.
+ * </ul>
+ *
+ * @see jakarta.persistence.spi.PersistenceUnitInfo#getTransactionType()
+ * @see PersistenceConfiguration#transactionType()
+ * @see Persistence.UnitProperties#PERSISTENCE_UNIT_TRANSACTION_TYPE
  *
  * @since 3.2
  */

@@ -73,6 +73,7 @@ package jakarta.persistence;
  * @see ManyToOne
  * @see OneToOne
  * @see AttributeNode#addOption(FetchOption)
+ * @see PersistenceConfiguration#defaultToOneFetchType()
  *
  * @since 1.0
  */
