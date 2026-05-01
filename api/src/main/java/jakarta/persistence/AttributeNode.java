@@ -92,7 +92,8 @@ public interface AttributeNode<T> {
 
     /**
      * Specify an {@linkplain FetchOption option} controlling
-     * how this node is fetched.
+     * how this node is fetched, overwriting any existing
+     * option of the same type.
      * @param option The option
      * @return the receiving instance
      * @since 4.0
@@ -108,6 +109,8 @@ public interface AttributeNode<T> {
      * <li>If this is a {@linkplain Graph#removeAttributeNode removed}
      *     node, the returned options contain {@link FetchType#LAZY}.
      * </ul>
+     * Mutation of the returned set does not affect the options
+     * of the node.
      * @return The options for this node
      * @since 4.0
      */

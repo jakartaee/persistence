@@ -82,7 +82,8 @@ package jakarta.persistence;
  * @since 1.0
  *
  */
-public enum LockModeType implements FindOption, RefreshOption {
+public enum LockModeType
+        implements FindOption, RefreshOption, TypedQuery.Option {
     /**
      * Synonymous with {@link #OPTIMISTIC}.
      * <p>
