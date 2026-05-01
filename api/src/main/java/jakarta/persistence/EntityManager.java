@@ -859,7 +859,7 @@ public interface EntityManager extends EntityHandler {
      * {@link #setFlushMode}. Mutation of the returned set does not
      * affect the options of the entity manager.
      *
-     * @return the options for this query
+     * @return the options for this entity manager
      * @since 4.0
      */
     Set<Option> getOptions();
