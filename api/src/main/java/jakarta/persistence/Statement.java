@@ -449,9 +449,12 @@ public interface Statement extends Query {
     Set<Option> getOptions();
 
     /**
-     * An option influencing execution of a statement.
-     * This provides a more type safe alternative to
-     * the use of {@linkplain #setHint hints}.
+     * An option influencing execution of a statement. This provides
+     * a more type safe alternative to the use of {@linkplain #setHint
+     * hints}.
+     *
+     * <p>This interface may be implemented by custom provider-specific
+     * options which extend the options defined by the specification.
      *
      * @see QueryFlushMode
      * @see Timeout
