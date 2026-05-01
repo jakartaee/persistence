@@ -20,6 +20,7 @@
 package jakarta.persistence;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -841,4 +842,42 @@ public interface EntityManager extends EntityHandler {
 	@Deprecated(since = "4.0")
     Object getDelegate();
 
+    /**
+     * Specify an {@linkplain Option option} controlling the
+     * behavior of this entity manager.
+     *
+     * @param option the option
+     * @since 4.0
+     */
+    void addOption(Option option);
+
+    /**
+     * Get the {@linkplain Option options} controlling the behavior
+     * of this entity manager. The returned set includes options set
+     * via {@link #addOption}, along with options specified via
+     * {@link #setCacheRetrieveMode}, {@link #setCacheStoreMode}, or
+     * {@link #setFlushMode}. Mutation of the returned set does not
+     * affect the options of the entity manager.
+     *
+     * @return the options for this query
+     * @since 4.0
+     */
+    Set<Option> getOptions();
+
+    /**
+     * An option controlling the behavior of an entity manager.
+     * This provides a more type safe alternative to the use of
+     * {@linkplain #setProperty properties and hints}.
+     *
+     * <p>This interface may be implemented by custom provider-specific
+     * options which extend the options defined by the specification.
+     *
+     * @see FlushModeType
+     * @see CacheRetrieveMode
+     * @see CacheStoreMode
+     *
+     * @since 4.0
+     */
+    interface Option {
+    }
 }

@@ -573,6 +573,10 @@ public interface EntityHandler extends AutoCloseable {
      * @throws IllegalArgumentException if the property or hint name
      *         is recognized by the implementation, but the second
      *         argument is not a valid value for that hint
+     * @apiNote The use of named properties and hints lacks type
+     *          safety compared to the use of
+     *          {@linkplain EntityManager.Option manager options}
+     *          or {@linkplain EntityAgent.Option agent options}.
      * @since 2.0
      */
     void setProperty(String propertyName, Object value);

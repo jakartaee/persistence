@@ -33,6 +33,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.SchemaManager;
 import jakarta.persistence.Statement;
 import jakarta.persistence.StatementReference;
+import jakarta.persistence.SynchronizationType;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -94,7 +95,7 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		return null;
 	}
 
-	public EntityManager createEntityManager() {
+	public EntityManager createEntityManager(EntityManager.Option... options) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager()");
 		verifyOpen();
 		EntityManagerImpl em = new EntityManagerImpl();
@@ -112,7 +113,7 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		return em;
 	}
 
-	public EntityManager createEntityManager(jakarta.persistence.SynchronizationType st) {
+	public EntityManager createEntityManager(SynchronizationType st, EntityManager.Option... options) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager(Map)");
 		verifyOpen();
 		EntityManagerImpl em = new EntityManagerImpl();
@@ -122,7 +123,7 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 	}
 
     @Override
-    public EntityAgent createEntityAgent() {
+    public EntityAgent createEntityAgent(EntityAgent.Option... options) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -131,7 +132,7 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-	public EntityManager createEntityManager(jakarta.persistence.SynchronizationType st, Map map) {
+	public EntityManager createEntityManager(SynchronizationType st, Map map) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager(Map)");
 		verifyOpen();
 		EntityManagerImpl em = new EntityManagerImpl();
