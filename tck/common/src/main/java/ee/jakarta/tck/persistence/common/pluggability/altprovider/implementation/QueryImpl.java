@@ -333,4 +333,13 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 		return this;
 	}
 
+	@Override
+	public TypedQuery<X> addOption(Option option) {
+		return this;
+	}
+
+	@Override
+	public Set<Option> getOptions() {
+		return null;
+	}
 }
