@@ -42,16 +42,6 @@ public sealed interface Reference
     String getName();
 
     /**
-     * A map keyed by hint name of all hints specified via
-     * {@link NamedQuery#hints}, {@link NamedNativeQuery#hints},
-     * {@link jakarta.persistence.query.StaticQueryOptions#hints}, or
-     * <p>
-     * Any attempted mutation of the returned map results in an
-     * {@link UnsupportedOperationException}.
-     */
-    Map<String,Object> getHints();
-
-    /**
      * The types of the supplied
      * {@linkplain #getArguments arguments} to parameters of the
      * statement or query, or {@code null} if no arguments were
@@ -106,14 +96,14 @@ public sealed interface Reference
      * @since 4.0
      */
     List<Object> getArguments();
-    
+
     /**
-     * The specified {@link Timeout}, if any, or
-     * {@code null} if no timeout was specified.
-     *
-     * @see Query#setTimeout(Timeout) 
-     * @see jakarta.persistence.query.StaticQueryOptions#timeout
-     * @since 4.0
+     * A map keyed by hint name of all hints specified via
+     * {@link NamedQuery#hints}, {@link NamedNativeQuery#hints},
+     * {@link jakarta.persistence.query.StaticQueryOptions#hints}, or
+     * <p>
+     * Any attempted mutation of the returned map results in an
+     * {@link UnsupportedOperationException}.
      */
-    Timeout getTimeout();
+    Map<String,Object> getHints();
 }

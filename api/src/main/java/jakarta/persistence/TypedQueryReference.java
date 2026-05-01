@@ -16,7 +16,7 @@
 
 package jakarta.persistence;
 
-import jakarta.persistence.query.StaticQueryOptions;
+import java.util.Set;
 
 /**
  * A reference to a typed named query declared via the
@@ -104,50 +104,22 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
     Class<? extends R> getResultType();
 
     /**
-     * The specified {@link CacheRetrieveMode}, if any,
-     * or {@code null} when the default mode of the
-     * {@link EntityHandler} should be used.
+     * All {@linkplain TypedQuery.Option options} specified by
+     * {@link jakarta.persistence.query.StaticQueryOptions},
+     * {@link NamedQuery}, or {@link NamedNativeQuery}, or an
+     * empty set if no options were specified.
      *
-     * @see TypedQuery#setCacheRetrieveMode
-     * @see StaticQueryOptions#cacheRetrieveMode
+     * @see TypedQuery#addOption
+     * @see jakarta.persistence.query.StaticQueryOptions#cacheStoreMode
+     * @see jakarta.persistence.query.StaticQueryOptions#cacheRetrieveMode
+     * @see jakarta.persistence.query.StaticQueryOptions#lockMode
+     * @see jakarta.persistence.query.StaticQueryOptions#lockScope
+     * @see jakarta.persistence.query.StaticQueryOptions#timeout
+     * @see jakarta.persistence.query.StaticQueryOptions#flush
+     *
      * @since 4.0
      */
-    CacheRetrieveMode getCacheRetrieveMode();
-
-    /**
-     * The specified {@link CacheStoreMode}, if any,
-     * or {@code null} when the default mode of the
-     * {@link EntityHandler} should be used.
-     *
-     * @see TypedQuery#setCacheStoreMode
-     * @see StaticQueryOptions#cacheStoreMode
-     * @since 4.0
-     */
-    CacheStoreMode getCacheStoreMode();
-
-    /**
-     * The specified {@link LockModeType}, if any,
-     * oo {@link LockModeType#NONE} if no lock mode
-     * was specified.
-     *
-     * @see TypedQuery#setLockMode
-     * @see NamedQuery#lockMode
-     * @see StaticQueryOptions#lockMode
-     * @since 4.0
-     */
-    LockModeType getLockMode();
-
-    /**
-     * The specified {@link PessimisticLockScope},
-     * if any, or {@link PessimisticLockScope#NORMAL}
-     * if no lock scope was specified.
-     *
-     * @see TypedQuery#setLockScope
-     * @see NamedQuery#lockScope
-     * @see StaticQueryOptions#lockScope
-     * @since 4.0
-     */
-    PessimisticLockScope getPessimisticLockScope();
+    Set<TypedQuery.Option> getOptions();
 
     /**
      * The specified entity graph name, if any,
@@ -155,7 +127,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * specified.
      *
      * @see NamedQuery#entityGraph
-     * @see StaticQueryOptions#entityGraph
+     * @see jakarta.persistence.query.StaticQueryOptions#entityGraph
      * @since 4.0
      */
     String getEntityGraphName();
