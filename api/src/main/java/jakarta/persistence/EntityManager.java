@@ -865,6 +865,19 @@ public interface EntityManager extends EntityHandler {
     Set<Option> getOptions();
 
     /**
+     * An option controlling the creation of an entity manager.
+     *
+     * <p>This interface may be implemented by custom provider-specific
+     * options which extend the options defined by the specification.
+     *
+     * @see SynchronizationType
+     *
+     * @since 4.0
+     */
+    interface CreationOption {
+    }
+
+    /**
      * An option controlling the behavior of an entity manager.
      * This provides a more type safe alternative to the use of
      * {@linkplain #setProperty properties and hints}.
@@ -878,6 +891,6 @@ public interface EntityManager extends EntityHandler {
      *
      * @since 4.0
      */
-    interface Option {
+    interface Option extends CreationOption {
     }
 }

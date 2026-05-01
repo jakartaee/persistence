@@ -95,7 +95,7 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		return null;
 	}
 
-	public EntityManager createEntityManager(EntityManager.Option... options) {
+	public EntityManager createEntityManager(EntityManager.CreationOption... options) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager()");
 		verifyOpen();
 		EntityManagerImpl em = new EntityManagerImpl();
@@ -113,17 +113,8 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		return em;
 	}
 
-	public EntityManager createEntityManager(SynchronizationType st, EntityManager.Option... options) {
-		logger.log("Called EntityManagerFactoryImpl.createEntityManager(Map)");
-		verifyOpen();
-		EntityManagerImpl em = new EntityManagerImpl();
-		em.emf = this;
-		em.properties = new java.util.HashMap(properties);
-		return em;
-	}
-
     @Override
-    public EntityAgent createEntityAgent(EntityAgent.Option... options) {
+    public EntityAgent createEntityAgent(EntityAgent.CreationOption... options) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
