@@ -24,6 +24,7 @@ import jakarta.persistence.metamodel.Type;
 import java.util.List;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -769,4 +770,46 @@ public interface TypedQuery<X> extends Query {
     @Deprecated(since = "4.0", forRemoval = true)
     @Override @SuppressWarnings("removal")
     int executeUpdate();
+
+    /**
+     * Specify an {@linkplain Option option} influencing execution
+     * of this typed query, overwriting any existing option of the
+     * same type.
+     *
+     * @param option the option
+     * @return the same query instance
+     * @since 4.0
+     */
+    TypedQuery<X> addOption(Option option);
+
+    /**
+     * Get the {@linkplain Option options} influencing execution of
+     * this typed query. The returned set includes options set via
+     * {@link #addOption} along with options specified via
+     * {@link #setTimeout}, {@link #setQueryFlushMode},
+     * {@link #setCacheRetrieveMode}, {@link #setCacheStoreMode},
+     * {@link #setLockMode}, and {@link #setLockScope}. Mutation
+     * of the returned set does not affect the options of the query.
+     *
+     * @return the options for this query
+     * @since 4.0
+     */
+    Set<Option> getOptions();
+
+    /**
+     * An option influencing execution of a typed query.
+     * This provides a more type safe alternative to the
+     * use of {@linkplain #setHint hints}.
+     *
+     * @see CacheRetrieveMode
+     * @see CacheStoreMode
+     * @see LockModeType
+     * @see PessimisticLockScope
+     * @see QueryFlushMode
+     * @see Timeout
+     *
+     * @since 4.0
+     */
+    interface Option {
+    }
 }

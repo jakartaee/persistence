@@ -38,7 +38,8 @@ package jakarta.persistence;
  *
  * @since 2.0
  */
-public enum CacheStoreMode implements FindOption, RefreshOption, FetchOption {
+public enum CacheStoreMode
+        implements FindOption, RefreshOption, FetchOption, TypedQuery.Option {
 
     /**
      * Specifies that entity data may be inserted into the

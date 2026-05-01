@@ -37,7 +37,8 @@ package jakarta.persistence;
  *
  * @since 2.0
  */
-public enum PessimisticLockScope implements FindOption, RefreshOption, LockOption {
+public enum PessimisticLockScope
+        implements FindOption, RefreshOption, LockOption, TypedQuery.Option {
 
     /**
      * <p>The persistence provider must lock the row or rows of the

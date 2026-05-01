@@ -19,6 +19,7 @@ import jakarta.persistence.metamodel.Type;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Interface used to control the execution of executable statements.
@@ -85,7 +86,7 @@ public interface Statement extends Query {
      *
      * @param hintName The name of the property or hint
      * @param value The value for the property or hint
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
@@ -99,7 +100,7 @@ public interface Statement extends Query {
      *
      * @param timeout The timeout, in milliseconds, or null to
      *                indicate no timeout
-     * @return the same query instance
+     * @return the same statement instance
      * @since 3.2
      */
     @Override
@@ -109,7 +110,7 @@ public interface Statement extends Query {
      * Set the query timeout. This is a hint.
      *
      * @param timeout the timeout, or null to indicate no timeout
-     * @return the same query instance
+     * @return the same statement instance
      * @since 4.0
      */
     @Override
@@ -122,7 +123,7 @@ public interface Statement extends Query {
      * of the entity manager}.
      *
      * @param flushMode The new flush mode
-     * @return the same query instance
+     * @return the same statement instance
      *
      * @since 4.0
      */
@@ -136,7 +137,7 @@ public interface Statement extends Query {
      * of the entity manager}.
      *
      * @param flushMode The new flush mode
-     * @return the same query instance
+     * @return the same statement instance
      *
      * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
      */
@@ -149,7 +150,7 @@ public interface Statement extends Query {
      *
      * @param parameter The parameter object
      * @param value The argument to the parameter
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter
      *         does not correspond to a parameter of the
      *         query
@@ -164,7 +165,7 @@ public interface Statement extends Query {
      * @param param The parameter object
      * @param value The argument to the parameter
      * @param temporalType A {@linkplain TemporalType temporal type}
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
@@ -180,7 +181,7 @@ public interface Statement extends Query {
      * @param param The parameter object
      * @param value The argument to the parameter
      * @param temporalType A {@linkplain TemporalType temporal type}
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter does not
      *         correspond to a parameter of the query
      * @since 2.0
@@ -195,7 +196,7 @@ public interface Statement extends Query {
      *
      * @param name The name of the parameter
      * @param value The argument to the parameter
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
@@ -218,7 +219,7 @@ public interface Statement extends Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param type A class object representing the parameter type
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
@@ -241,7 +242,7 @@ public interface Statement extends Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param type The {@link Type} of the parameter
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
@@ -264,7 +265,7 @@ public interface Statement extends Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param converter The class of the attribute converter
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
@@ -280,7 +281,7 @@ public interface Statement extends Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param temporalType A {@linkplain TemporalType temporal type}
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
      *         the value argument is of incompatible type
@@ -296,7 +297,7 @@ public interface Statement extends Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param temporalType A {@linkplain TemporalType temporal type}
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
      *         the value argument is of incompatible type
@@ -311,7 +312,7 @@ public interface Statement extends Query {
      *
      * @param position The parameter position
      * @param value The argument to the parameter
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a positional parameter of the query,
      *         or if the argument is of incompatible type
@@ -334,7 +335,7 @@ public interface Statement extends Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param type A class object representing the parameter type
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
@@ -357,7 +358,7 @@ public interface Statement extends Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param type The {@link Type} of the parameter
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a positional parameter of the query,
      *         or if the argument is of incompatible type
@@ -380,7 +381,7 @@ public interface Statement extends Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param converter The class of the attribute converter
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
@@ -397,7 +398,7 @@ public interface Statement extends Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param temporalType A {@linkplain TemporalType temporal type}
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a positional parameter of the query,
      *         or if the argument is of incompatible type
@@ -414,7 +415,7 @@ public interface Statement extends Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param temporalType A {@linkplain TemporalType temporal type}
-     * @return the same query instance
+     * @return the same statement instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a positional parameter of the query,
      *         or if the argument is of incompatible type
@@ -423,4 +424,40 @@ public interface Statement extends Query {
      */
     @Deprecated(since = "3.2") @Override
     Statement setParameter(int position, Date value, TemporalType temporalType);
+
+    /**
+     * Specify an {@linkplain Option option} influencing execution
+     * of this statement, overwriting any existing option of the
+     * same type.
+     *
+     * @param option the option
+     * @return the same statement instance
+     * @since 4.0
+     */
+    Statement addOption(Option option);
+
+    /**
+     * Get the {@linkplain Option options} influencing execution of
+     * this statement.  The returned set includes options set via
+     * {@link #addOption}, along with options specified via
+     * {@link #setTimeout} or {@link #setQueryFlushMode}. Mutation of
+     * the returned set does not affect the options of the statement.
+     *
+     * @return the options for this query
+     * @since 4.0
+     */
+    Set<Option> getOptions();
+
+    /**
+     * An option influencing execution of a statement.
+     * This provides a more type safe alternative to
+     * the use of {@linkplain #setHint hints}.
+     *
+     * @see QueryFlushMode
+     * @see Timeout
+     *
+     * @since 4.0
+     */
+    interface Option {
+    }
 }
