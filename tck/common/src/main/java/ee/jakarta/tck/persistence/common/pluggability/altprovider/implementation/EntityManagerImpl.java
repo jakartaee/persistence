@@ -19,6 +19,7 @@ package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementatio
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
@@ -39,7 +40,6 @@ import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaSelect;
 import jakarta.persistence.criteria.CriteriaStatement;
 import jakarta.persistence.metamodel.Metamodel;
@@ -430,6 +430,16 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	@Override
 	public void setProperty(String arg0, Object arg1) {
 
+	}
+
+	@Override
+	public void addOption(Option option) {
+
+	}
+
+	@Override
+	public Set<Option> getOptions() {
+		return null;
 	}
 
 	@Override
