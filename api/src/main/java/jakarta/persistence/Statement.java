@@ -89,6 +89,9 @@ public interface Statement extends Query {
      * @return the same statement instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
+     *
+     * @apiNote The use of named hints lacks type safety compared
+     *          to the use of {@linkplain Option options}.
      */
     @Override
     Statement setHint(String hintName, Object value);
@@ -443,7 +446,7 @@ public interface Statement extends Query {
      * {@link #setTimeout} or {@link #setQueryFlushMode}. Mutation of
      * the returned set does not affect the options of the statement.
      *
-     * @return the options for this query
+     * @return the options for this statement
      * @since 4.0
      */
     Set<Option> getOptions();
