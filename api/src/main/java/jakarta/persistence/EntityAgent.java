@@ -370,16 +370,16 @@ public interface EntityAgent extends EntityHandler {
      * Get the {@linkplain Option options} controlling the behavior
      * of this entity agent. The returned set includes options set
      * via {@link #addOption}, along with options specified via
-     * {@link #setCacheRetrieveMode}, {@link #setCacheStoreMode}.
+     * {@link #setCacheRetrieveMode} or {@link #setCacheStoreMode}.
      * Mutation of the returned set does not affect the options of
      * the entity agent.
      *
-     * @return the options for this query
+     * @return the options for this entity agent
      */
     Set<Option> getOptions();
 
     /**
-     * An option controlling the creation of an entity manager.
+     * An option controlling the creation of an entity agent.
      *
      * <p>This interface may be implemented by custom provider-specific
      * options which extend the options defined by the specification.

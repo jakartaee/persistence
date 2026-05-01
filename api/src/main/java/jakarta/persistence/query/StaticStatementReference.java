@@ -181,7 +181,7 @@ public class StaticStatementReference
                 + "name=" + name + ", "
                 + "parameterNames=" + parameterNames + ", "
                 + "arguments=" + arguments + ", "
-                + "timeout=" + options + ", "
+                + "options=" + options + ", "
                 + "hints=" + hints
                 + ']';
     }

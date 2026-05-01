@@ -226,7 +226,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * <p>The {@link EntityAgent#isOpen} method will return true
      * on the returned instance.
      * @param options options controlling the behavior of the entity
-     *                manager
+     *                agent
      * @return entity agent instance
      * @throws IllegalStateException if the entity manager factory
      * has been closed
