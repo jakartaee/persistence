@@ -37,7 +37,8 @@ package jakarta.persistence;
  * @since 2.0
  */
 public enum CacheRetrieveMode
-        implements FindOption, FetchOption, TypedQuery.Option {
+        implements FindOption, FetchOption, TypedQuery.Option,
+                   EntityManager.Option, EntityAgent.Option {
 
     /**
      * Specifies that data may be read from the second-level cache

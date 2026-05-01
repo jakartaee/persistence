@@ -61,7 +61,7 @@ package jakarta.persistence;
  *
  * @since 1.0
  */
-public enum FlushModeType {
+public enum FlushModeType implements EntityManager.Option {
     /**
      * Every flush is an explicit operation requested by the
      * application program by calling {@link EntityManager#flush()}.

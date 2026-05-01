@@ -16,6 +16,7 @@
 package jakarta.persistence;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -356,4 +357,38 @@ public interface EntityAgent extends EntityHandler {
      *         read from the database
      */
     <T> T fetch(T association);
+
+    /**
+     * Specify an {@linkplain Option option} controlling the
+     * behavior of this entity agent.
+     *
+     * @param option the option
+     */
+    void addOption(Option option);
+
+    /**
+     * Get the {@linkplain Option options} controlling the behavior
+     * of this entity agent. The returned set includes options set
+     * via {@link #addOption}, along with options specified via
+     * {@link #setCacheRetrieveMode}, {@link #setCacheStoreMode}.
+     * Mutation of the returned set does not affect the options of
+     * the entity agent.
+     *
+     * @return the options for this query
+     */
+    Set<Option> getOptions();
+
+    /**
+     * An option controlling the behavior of an entity agent.
+     * This provides a more type safe alternative to the use of
+     * {@linkplain #setProperty properties and hints}.
+     *
+     * <p>This interface may be implemented by custom provider-specific
+     * options which extend the options defined by the specification.
+     *
+     * @see CacheRetrieveMode
+     * @see CacheStoreMode
+     */
+    interface Option {
+    }
 }
