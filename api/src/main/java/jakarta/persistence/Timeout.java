@@ -24,7 +24,8 @@ package jakarta.persistence;
  */
 public class Timeout
         implements FindOption, RefreshOption, LockOption,
-                   TypedQuery.Option, Statement.Option {
+                   TypedQuery.Option, Statement.Option,
+                   StoredProcedureQuery.Option {
     private final int milliseconds;
 
     private Timeout(int milliseconds) {

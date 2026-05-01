@@ -80,7 +80,9 @@ package jakarta.persistence;
  *
  * @author Gavin King
  */
-public enum QueryFlushMode implements TypedQuery.Option, Statement.Option {
+public enum QueryFlushMode
+		implements TypedQuery.Option, Statement.Option,
+		           StoredProcedureQuery.Option {
 	/**
 	 * The persistence provider is required to flush pending
 	 * modifications to the database before executing the query.

@@ -281,6 +281,9 @@ public interface TypedQuery<X> extends Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
+     *
+     * @apiNote The use of named hints lacks type safety compared
+     *          to the use of {@linkplain Option options}.
      */
     @Override
     TypedQuery<X> setHint(String hintName, Object value);

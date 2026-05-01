@@ -23,6 +23,7 @@ import jakarta.persistence.sql.ResultSetMapping;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface used to control execution of a stored procedure query.
@@ -121,6 +122,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same query instance
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
+     *
+     * @apiNote The use of named hints lacks type safety compared
+     *          to the use of {@linkplain Option options}.
      */
     @Override
     StoredProcedureQuery setHint(String hintName, Object value);
@@ -962,4 +966,44 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      */
     @Override
     void close();
+
+    /**
+     * Specify an {@linkplain Option option} influencing execution
+     * of this stored procedure, overwriting any existing option of
+     * the same type.
+     *
+     * @param option the option
+     * @return the same statement instance
+     * @since 4.0
+     */
+    StoredProcedureQuery addOption(Option option);
+
+    /**
+     * Get the {@linkplain Option options} influencing execution of
+     * this stored procedure. The returned set includes options set
+     * via {@link #addOption}, along with options specified via
+     * {@link #setTimeout} or {@link #setQueryFlushMode}. Mutation of
+     * the returned set does not affect the options of the stored
+     * procedure.
+     *
+     * @return the options for this stored procedure
+     * @since 4.0
+     */
+    Set<Option> getOptions();
+
+    /**
+     * An option influencing execution of a stored procedure. This
+     * provides a more type safe alternative to the use of
+     * {@linkplain #setHint hints}.
+     *
+     * <p>This interface may be implemented by custom provider-specific
+     * options which extend the options defined by the specification.
+     *
+     * @see QueryFlushMode
+     * @see Timeout
+     *
+     * @since 4.0
+     */
+    interface Option {
+    }
 }
