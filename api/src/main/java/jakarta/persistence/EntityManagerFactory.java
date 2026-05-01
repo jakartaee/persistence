@@ -179,7 +179,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      */
-    EntityManager createEntityManager(EntityManager.Option... options);
+    EntityManager createEntityManager(EntityManager.CreationOption... options);
     
     /**
      * Create a new application-managed {@link EntityManager} with
@@ -193,29 +193,9 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      * @apiNote The use of named properties lacks type safety compared
-     *          to the use of {@linkplain EntityManager.Option options}.
+     * to the use of {@linkplain EntityManager.CreationOption options}.
      */
     EntityManager createEntityManager(Map<?, ?> map);
-
-    /**
-     * Create a new JTA application-managed {@link EntityManager} with
-     * the specified synchronization type. This method returns a new
-     * {@code EntityManager} instance each time it is invoked.
-     * <p>The {@link EntityManager#isOpen} method will return true on
-     * the returned instance.
-     * @param synchronizationType how and when the entity manager should
-     *                            be synchronized with the current JTA
-     *                            transaction
-     * @param options options controlling the behavior of the entity
-     *                manager
-     * @return entity manager instance
-     * @throws IllegalStateException if the entity manager factory has
-     * been configured for resource-local entity managers or is closed
-     *
-     * @since 2.1
-     */
-    EntityManager createEntityManager(SynchronizationType synchronizationType,
-                                      EntityManager.Option... options);
 
     /**
      * Create a new JTA application-managed {@link EntityManager} with
@@ -231,6 +211,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @return entity manager instance
      * @throws IllegalStateException if the entity manager factory has
      * been configured for resource-local entity managers or is closed
+     * @apiNote The use of named properties lacks type safety compared
+     * to the use of {@linkplain EntityManager.CreationOption options}.
      *
      * @since 2.1
      */
@@ -251,7 +233,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 4.0
      */
-    EntityAgent createEntityAgent(EntityAgent.Option... options);
+    EntityAgent createEntityAgent(EntityAgent.CreationOption... options);
 
     /**
      * Create a new application-managed {@link EntityAgent} with
@@ -265,7 +247,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @throws IllegalStateException if the entity manager factory
      * has been closed
      * @apiNote The use of named properties lacks type safety compared
-     *          to the use of {@linkplain EntityAgent.Option options}.
+     * to the use of {@linkplain EntityAgent.CreationOption options}.
      *
      * @since 4.0
      */
