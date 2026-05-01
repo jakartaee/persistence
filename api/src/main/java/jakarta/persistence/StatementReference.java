@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import java.util.Set;
+
 /**
  * A reference to an executable named statement for an operation
  * that returns a row count. The named statement is declared via the
@@ -85,4 +87,16 @@ package jakarta.persistence;
  *
  * @since 4.0
  */
-public non-sealed interface StatementReference extends Reference {}
+public non-sealed interface StatementReference extends Reference {
+    /**
+     * All {@linkplain Statement.Option options} specified by
+     * {@link jakarta.persistence.query.StaticQueryOptions},
+     * {@link NamedQuery}, or {@link NamedNativeQuery}, or an
+     * empty set if no options were specified.
+     *
+     * @see Statement#addOption
+     * @see jakarta.persistence.query.StaticQueryOptions#timeout
+     * @see jakarta.persistence.query.StaticQueryOptions#flush
+     */
+    Set<Statement.Option> getOptions();
+}
