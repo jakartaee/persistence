@@ -53,7 +53,7 @@ import jakarta.persistence.criteria.CriteriaStatement;
  * </ul>
  *
  * <p>An application-managed {@code EntityManager} may be created
- * via a call to {@link EntityManagerFactory#createEntityManager()}.
+ * via a call to {@link EntityManagerFactory#createEntityManager}.
  * The {@code EntityManager} must be explicitly closed via a call
  * to {@link #close()}, to allow resources to be cleaned up by the
  * persistence provider. This approach places almost complete
