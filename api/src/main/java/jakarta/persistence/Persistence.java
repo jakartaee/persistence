@@ -27,16 +27,37 @@ import static jakarta.persistence.spi.PersistenceProviderResolverHolder.getPersi
 
 /**
  * Bootstrap class used to obtain an {@link EntityManagerFactory}
- * in Java SE environments. It may also be used to cause schema
- * generation to occur.
- * 
- * <p>The {@code Persistence} class is available in a Jakarta EE
- * container environment as well; however, support for the Java SE
- * bootstrapping APIs is not required in container environments.
- * 
- * <p>The {@code Persistence} class is used to obtain a
+ * in Java SE environments.
+ * {@snippet :
+ * EntityManagerFactory factory =
+ *         Persistence.createEntityManagerFactory("Library", // name of the persistence unit
+ *                 // property overrides
+ *                 Map.of(Persistence.ConnectionProperties.JDBC_USER, userName,
+ *                        Persistence.ConnectionProperties.JDBC_PASSWORD, password));
+ * }
+ * <p>This class also allows schema management to be decoupled
+ * from creation of the entity manager factory.
+ * {@snippet :
+ * Persistence.generateSchema("Library", // name of the persistence unit
+ *         // property overrides
+ *         Map.of(Persistence.SchemaManagementProperties.SCHEMAGEN_DATABASE_ACTION, "create",
+ *                Persistence.ConnectionProperties.JDBC_USER, userName,
+ *                Persistence.ConnectionProperties.JDBC_PASSWORD, password));
+ * }
+ *
+ * <p>The {@code Persistence} class may be used to obtain a
  * {@link PersistenceUtil PersistenceUtil} instance in both
  * Jakarta EE and Java SE environments.
+ * {@snippet :
+ * boolean loaded = Persistence.getPersistenceUtil().isLoaded(entity);
+ * }
+ *
+ * @apiNote The {@code Persistence} class is available in a Jakarta EE
+ * container environment. However, support for the Java SE bootstrapping
+ * APIs is not required in container environments.
+ *
+ * @see PersistenceConfiguration
+ * @see PersistenceProvider
  *
  * @since 1.0
  */

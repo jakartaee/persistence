@@ -24,6 +24,10 @@ import jakarta.persistence.FetchType;
  * implementation to determine the load status of an entity or entity
  * attribute.
  *
+ * @apiNote This is an SPI interface forming part of the Jakarta EE
+ * container / persistence provider contract. It is not intended for
+ * direct use by application programs.
+ *
  * @since 2.0
  */
 public interface ProviderUtil { 

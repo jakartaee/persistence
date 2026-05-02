@@ -26,6 +26,10 @@ import java.security.ProtectionDomain;
  * loaded or redefined. The transformation occurs before  
  * the class is defined by the JVM.
  *
+ * @apiNote This is an SPI interface forming part of the Jakarta EE
+ * container / persistence provider contract. It is not intended for
+ * direct use by application programs.
+ *
  * @since 1.0
  */
 public interface ClassTransformer {

@@ -32,6 +32,10 @@ import java.util.Map;
  * an {@link EntityManagerFactory} and/or to cause schema generation
  * to occur.
  *
+ * @apiNote This is an SPI interface forming part of the Jakarta EE
+ * container / persistence provider contract. It is not intended for
+ * direct use by application programs.
+ *
  * @since 1.0
  */
 public interface PersistenceProvider {
