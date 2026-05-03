@@ -21,6 +21,10 @@
  *     {@link jakarta.persistence.EntityManagerFactory},
  *     {@link jakarta.persistence.Persistence}, and
  *     {@link jakarta.persistence.PersistenceConfiguration}.
+ *     It also provides annotations for declaring entity
+ *     types, their relationships, and their persistent
+ *     attributes, and for mapping these program elements
+ *     to the database.
  * <li>{@link jakarta.persistence.criteria} defines the
  *     {@linkplain jakarta.persistence.criteria.CriteriaBuilder
  *     criteria query} API.

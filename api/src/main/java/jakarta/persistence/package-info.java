@@ -58,10 +58,6 @@
  *     specify the boundaries of an operation on entity types.
  * </ul>
  * <p>
- * Furthermore, this package provides a suite of annotation
- * types which may be used to specify a model of persistent
- * entity types and map the entity types to database tables.
- * <p>
  * The following example demonstrates one way to quickly
  * configure and start Jakarta Persistence in Java SE:
  * {@snippet :
@@ -84,5 +80,23 @@
  *     });
  * }
  * }
+ * <p>
+ * Furthermore, this package provides a suite of annotation
+ * types which may be used:
+ * <ul>
+ * <li>to specify a model of persistent entity types, their
+ *     relationships, and their attributes,
+ * <li>map the entity types to database tables,
+ * <li>declare
+ *     {@linkplain jakarta.persistence.NamedQuery named queries},
+ *     {@linkplain jakarta.persistence.NamedNativeQuery named
+ *     native SQL queries}, and
+ *     {@linkplain jakarta.persistence.NamedStoredProcedureQuery
+ *     named stored procedures}, and
+ * <li>declare {@linkplain jakarta.persistence.NamedEntityGraph
+ *     named entity graphs} and
+ *     {@linkplain jakarta.persistence.SqlResultSetMapping
+ *     named SQL result set mappings}.
+ * </ul>
  */
 package jakarta.persistence;
