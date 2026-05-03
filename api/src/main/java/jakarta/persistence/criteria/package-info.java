@@ -15,6 +15,41 @@
 //     Linda DeMichiel - 2.0
 
 /**
- * Jakarta Persistence Criteria API
+ * Defines the Jakarta Persistence Criteria Query API.
+ * Criteria queries allow programmatic construction or
+ * manipulation of Jakarta Persistence queries.
+ * <ul>
+ * <li>{@link jakarta.persistence.criteria.CriteriaBuilder}
+ *     is the entry point for constructing queries,
+ *     expressions, predicates, projections, and ordering
+ *     criteria.
+ * <li>{@link jakarta.persistence.criteria.CriteriaQuery}
+ *     represents a top-level query slection query.
+ * <li>{@link jakarta.persistence.criteria.CriteriaUpdate}
+ *     and {@link jakarta.persistence.criteria.CriteriaDelete}
+ *     represents update and delete statements, respectively.
+ * <li>{@link jakarta.persistence.criteria.Expression}
+ *     and its subtypes represent expressions of various
+ *     types.
+ * <li>{@link jakarta.persistence.criteria.Selection}
+ *     represents a projected value in a query result list.
+ * <li>{@link jakarta.persistence.criteria.Order} represents
+ *     an ordering criterion.
+ * </ul>
+ * <p>
+ * This example demonstrates the use of the Criteria API:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * // specify the root entity of the query
+ * var book = query.from(Book.class);
+ * // fetch an association belonging to the root entity
+ * book.fetch(Book_.authors, JoinType.LEFT);
+ * if (titlePattern != null) {
+ *     // add a restriction to the query
+ *     query.where(book.get(Book_.title).like("%Persistence%"));
+ * }
+ * var books = agent.createQuery(query).getResultList();
+ * }
  */
 package jakarta.persistence.criteria;

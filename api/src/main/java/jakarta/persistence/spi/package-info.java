@@ -15,6 +15,20 @@
 //     Linda DeMichiel - 2.0
 
 /**
- * SPI for Jakarta Persistence providers
+ * Defines an SPI for integrating with the persistence provider
+ * and with the Jakarta EE platform.
+ * <ul>
+ * <li>{@link jakarta.persistence.spi.PersistenceProvider} must
+ *     be implemented by every persistence provider.
+ * <li>{@link jakarta.persistence.spi.ClassTransformer} allows
+ *     the persistence provider to peform its own custom bytecode
+ *     processing in a Jakarta EE environment.
+ * <li>{@link jakarta.persistence.spi.PersistenceUnitInfo}
+ *     carries information about a persistence unit under the
+ *     management of the Jakarta EE container.
+ * <li>The {@link jakarta.persistence.spi.Discoverable}
+ *     meta-annotation identifies annotation types which trigger
+ *     automatic discovery of classes by the Jakarta EE container.
+ * </ul>
  */
 package jakarta.persistence.spi;
