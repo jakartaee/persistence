@@ -46,29 +46,8 @@
  * This module provides standard interfaces. An implementation
  * of Jakarta Persistence is called a <em>persistence provider</em>.
  * <p>
- * Jakarta Persistence fully supports usage within a Java SE or
- * Jakarta EE. The following example demonstrates one way to
- * quickly configure and start Jakarta Persistence in Java SE:
- * {@snippet :
- * // configure the persistence unit
- * var library = new PersistenceConfiguration("Library");
- * library.nonJtaDataSource("java:global/jdbc/LibraryDatabase");
- * library.defaultToOneFetchType(FetchType.LAZY);
- * // register the entity classes
- * List.of(Book.class, Author.class, Publisher.class)
- * 	       .forEach(library::managedClass);
- * // create the entity manager factory
- * try (var factory = config.createEntityManagerFactory()) {
- * 	   // export the schema and test data
- *     factory.getSchemaManager().create(true);
- *     // start a transaction and obtain an entity agent
- *     factory.runInTransaction(EntityAgent.class, agent -> {
- *         // obtain an entity instance by providing its primary key
- *         var book = agent.get(Book.class, isbn);
- *         ...
- *     });
- * }
- * }
+ * Jakarta Persistence fully supports usage within Java SE or
+ * Jakarta EE.
  */
 module jakarta.persistence {
 
