@@ -45,5 +45,7 @@
  * {@snippet :
  * SingularAttribute<Book,String> isbnAttribute = Book_.isbn;
  * }
+ *
+ * @since 2.0
  */
 package jakarta.persistence.metamodel;
