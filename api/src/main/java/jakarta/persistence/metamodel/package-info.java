@@ -15,6 +15,35 @@
 //     Linda DeMichiel - 2.0
 
 /**
- * Jakarta Persistence Metamodel API
+ * Defines the Jakarta Persistence Metamodel API, allowing runtime
+ * reflection on the managed types declared by a persistence unit.
+ * <p>
+ * Instances of metamodel types may be obtained either:
+ * <ul>
+ * <li>via programmatic lookup using an instance of
+ *     {@link jakarta.persistence.metamodel.Metamodel} obtained by
+ *     calling
+ *     {@link jakarta.persistence.EntityManagerFactory#getMetamodel()},
+ *     or
+ * <li>in a typesafe way, using members of the generated
+ *     {@linkplain jakarta.persistence.metamodel.StaticMetamodel
+ *     static metamodel classes}.
+ * </ul>
+ * <p>
+ * The {@code Metamodel} API allows programmatic lookup, but is not
+ * in general typesafe.
+ * {@snippet :
+ * SingularAttribute<Book,String> isbnAttribute =
+ *         factory.getMetamodel()
+ *             .entity(Book.class)
+ *             .getId(String.class);
+ * }
+ * <p>
+ * A static metamodel class is a class with static members providing
+ * direct type safe access to the metamodel objects representing the
+ * persistent members of a given managed class.
+ * {@snippet :
+ * SingularAttribute<Book,String> isbnAttribute = Book_.isbn;
+ * }
  */
 package jakarta.persistence.metamodel;

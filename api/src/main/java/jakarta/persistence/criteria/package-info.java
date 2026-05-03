@@ -51,5 +51,13 @@
  * }
  * var books = agent.createQuery(query).getResultList();
  * }
+ * <p>
+ * The example demonstrates the use of the
+ * {@linkplain jakarta.persistence.metamodel.StaticMetamodel
+ * static metamodel} type {@code Book_} corresponding to the
+ * entity type {@code Book} to obtain references to persistent
+ * members of {@code Book}. Use of the static metamodel is
+ * usually preferred to passing string-valued attribute names
+ * during query construction.
  */
 package jakarta.persistence.criteria;
