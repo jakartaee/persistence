@@ -14,6 +14,61 @@
  * The Jakarta Persistence API, the standard for management
  * of persistence and object/relational mapping in Java(R)
  * environments.
+ * <ul>
+ * <li>{@link jakarta.persistence} defines the core APIs,
+ *     including {@link jakarta.persistence.EntityManager},
+ *     {@link jakarta.persistence.EntityAgent},
+ *     {@link jakarta.persistence.EntityManagerFactory},
+ *     {@link jakarta.persistence.Persistence}, and
+ *     {@link jakarta.persistence.PersistenceConfiguration}.
+ * <li>{@link jakarta.persistence.criteria} defines the
+ *     {@linkplain jakarta.persistence.criteria.CriteriaBuilder
+ *     criteria query} API.
+ * <li>{@link jakarta.persistence.sql} defines an API for
+ *     {@linkplain jakarta.persistence.sql.ResultSetMapping
+ *     mapping SQL result sets} to Java objects.
+ * <li>{@link jakarta.persistence.query} defines an API for
+ *     expressing
+ *     {@linkplain jakarta.persistence.query.StaticQuery
+ *     statically type safe queries} by annotating a query
+ *     method.
+ * <li>{@link jakarta.persistence.metamodel} defines an API
+ *     representing the
+ *     {@linkplain jakarta.persistence.metamodel.ManagedType
+ *     managed classes} of a persistence unit and allowing
+ *     programatic reflection on this metamodel.
+ * <li>{@link jakarta.persistence.spi} defines an SPI
+ *     allowing integration of a
+ *     {@linkplain jakarta.persistence.spi.PersistenceProvider
+ *     persistence provider} with the Jakarta environment.
+ * </ul>
+ * <p>
+ * This module provides standard interfaces. An implementation
+ * of Jakarta Persistence is called a <em>persistence provider</em>.
+ * <p>
+ * Jakarta Persistence fully supports usage within a Java SE or
+ * Jakarta EE. The following example demonstrates one way to
+ * quickly configure and start Jakarta Persistence in Java SE:
+ * {@snippet :
+ * // configure the persistence unit
+ * var library = new PersistenceConfiguration("Library");
+ * library.nonJtaDataSource("java:global/jdbc/LibraryDatabase");
+ * library.defaultToOneFetchType(FetchType.LAZY);
+ * // register the entity classes
+ * List.of(Book.class, Author.class, Publisher.class)
+ * 	       .forEach(library::managedClass);
+ * // create the entity manager factory
+ * try (var factory = config.createEntityManagerFactory()) {
+ * 	   // export the schema and test data
+ *     factory.getSchemaManager().create(true);
+ *     // start a transaction and obtain an entity agent
+ *     factory.runInTransaction(EntityAgent.class, agent -> {
+ *         // obtain an entity instance by providing its primary key
+ *         var book = agent.get(Book.class, isbn);
+ *         ...
+ *     });
+ * }
+ * }
  */
 module jakarta.persistence {
 
