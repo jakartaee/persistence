@@ -15,6 +15,74 @@
 //     Linda DeMichiel - 2.0
 
 /**
- * Jakarta Persistence is the API for the management for persistence and object/relational mapping.
+ * Defines the core APIs for the management for persistence and
+ * object/relational mapping.
+ * <ul>
+ * <li>{@link jakarta.persistence.EntityManager} is the central
+ *     interface used to interact with a stateful persistence
+ *     context. An instance of {@code EntityManager} must never
+ *     be shared across independent units of work nor between
+ *     concurrently executing threads.
+ * <li>{@link jakarta.persistence.EntityAgent} provides an
+ *     alternative more direct approach to interaction with the
+ *     database, with no intermediating persistence context. An
+ *     instance of {@code EntityAgent} must never be shared
+ *     between concurrently executing threads.
+ * <li>{@link jakarta.persistence.TypedQuery},
+ *     {@link jakarta.persistence.Statement}, and
+ *     {@link jakarta.persistence.StoredProcedureQuery} allow
+ *     control over the execution of queries, statememts, and
+ *     stored procedures.
+ * <li>{@link jakarta.persistence.EntityManagerFactory} acts
+ *     as a factory for instances of {@code EntityManager} and
+ *     {@code EntityAgent} and provides access to other APIs
+ *     including {@link jakarta.persistence.Cache},
+ *     {@link jakarta.persistence.SchemaManager},
+ *     {@link jakarta.persistence.criteria.CriteriaBuilder},
+ *     {@link jakarta.persistence.metamodel.Metamodel}, and
+ *     {@link jakarta.persistence.PersistenceUnitUtil}. There
+ *     is usally one instance of {@code EntityManager} for each
+ *     configured persistence unit.
+ * <li>{@link jakarta.persistence.Persistence} is an entry point
+ *     for construction of an {@code EntityManagerFactory} and
+ *     defines standard configuration properties.
+ * <li>As an alternative to the use of {@code persistence.xml},
+ *     {@link jakarta.persistence.PersistenceConfiguration}
+ *     allows a persistence unit to be configured programatically.
+ * <li>{@link jakarta.persistence.SchemaManager} provides
+ *     operations for direct programmatic management of the
+ *     database schema.
+ * <li>{@link jakarta.persistence.Cache} provides operations for
+ *     direct management of the second-level cache.
+ * <li>{@link jakarta.persistence.EntityGraph} provides a way to
+ *     specify the boundaries of an operation on entity types.
+ * </ul>
+ * <p>
+ * Furthermore, this package provides a suite of annotation
+ * types which may be used to specify a model of persistent
+ * entity types and map the entity types to database tables.
+ * <p>
+ * The following example demonstrates one way to quickly
+ * configure and start Jakarta Persistence in Java SE:
+ * {@snippet :
+ * // configure the persistence unit
+ * var library = new PersistenceConfiguration("Library");
+ * library.nonJtaDataSource("java:global/jdbc/LibraryDatabase");
+ * library.defaultToOneFetchType(FetchType.LAZY);
+ * // register the entity classes
+ * List.of(Book.class, Author.class, Publisher.class)
+ * 	       .forEach(library::managedClass);
+ * // create the entity manager factory
+ * try (var factory = config.createEntityManagerFactory()) {
+ * 	   // export the schema and test data
+ *     factory.getSchemaManager().create(true);
+ *     // start a transaction and obtain an entity agent
+ *     factory.runInTransaction(EntityAgent.class, agent -> {
+ *         // obtain an entity instance by providing its primary key
+ *         var book = agent.get(Book.class, isbn);
+ *         ...
+ *     });
+ * }
+ * }
  */
 package jakarta.persistence;
