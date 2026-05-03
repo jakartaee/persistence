@@ -37,7 +37,7 @@ package jakarta.persistence;
  * <li>the property
  *     {@value Persistence.UnitProperties#PERSISTENCE_UNIT_TRANSACTION_TYPE},
  *     or
- * <li>{@link PersistenceConfiguration#sharedCacheMode(SharedCacheMode)}.
+ * <li>{@link PersistenceConfiguration#transactionType(PersistenceUnitTransactionType)}.
  * </ul>
  *
  * @see jakarta.persistence.spi.PersistenceUnitInfo#getTransactionType()
