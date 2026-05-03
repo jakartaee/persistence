@@ -59,5 +59,7 @@
  * members of {@code Book}. Use of the static metamodel is
  * usually preferred to passing string-valued attribute names
  * during query construction.
+ *
+ * @since 2.0
  */
 package jakarta.persistence.criteria;

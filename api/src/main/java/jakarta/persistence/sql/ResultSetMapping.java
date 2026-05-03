@@ -15,7 +15,6 @@
 
 package jakarta.persistence.sql;
 
-import jakarta.persistence.LockModeType;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 /**
