@@ -27,8 +27,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <ul>
  * <li>any method of any class or interface belonging to the persistence
  *     unit, or
- * <li>a query method of a Jakarta Data repository with
- *     an implementation backed by Jakarta Persistence.
+ * <li>a query method of a Jakarta Data repository with an implementation
+ *     backed by Jakarta Persistence.
  * </ul>
  * <p> The return type of the method must agree with the type returned by
  * the query. The parameter types of the method must agree with the types
@@ -98,6 +98,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * by position or by name, depending on whether the query uses positional or
  * named parameters.
  *
+ * <p> The parameter types of the annotated method must be basic types.
+ * If this annotation occurs on a generic method, on a method with a
+ * parameter type which is not a basic type, or on a method with a
+ * return type or parameter type involving a type variable, the behavior
+ * is undefined.
+ *
+ * <p> Any implementation of Jakarta Data backed by Jakarta Persistence
+ * must support the use of this annotation as a Jakarta Data query
+ * annotation. Thus, a repository method annotated {@code @StaticQuery}
+ * is treated by the Jakarta Data provider as a query method, and an
+ * implementation of the method is supplied by the Jakarta Data provider.
+ *
  * <p> When this annotation is applied to a method of a class or interface
  * belonging to the persistence unit, a reference to a query declared using
  * this annotation may be obtained from the static metamodel class of the
@@ -122,15 +134,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * name is the concatenation of the unqualified name of the type, with the
  * string {@code "."}, and the name of the annotated member, for example,
  * {@code "Library.findBooksByTitle"}.
- *
- * <p> An implementation of Jakarta Data backed by Jakarta Persistence
- * must treat this annotation as a Jakarta Data query annotation.
- *
- * <p> The parameter types of the annotated method must be basic types.
- * If this annotation occurs on a generic method, on a method with a
- * parameter type which is not a basic type, or on a method with a
- * return type or parameter type involving a type variable, the behavior
- * is undefined.
  *
  * @since 4.0
  */
