@@ -67,13 +67,17 @@ Added overloads of `setParameter()` which accept a disambiguating `Class` or `Ty
 
 Allow named queries to be declared by a module or package descriptor
 
-Improved `@Index` to allow more customization of the generated DDL
+Improved `@Index` and `@Table` to allow more customization of the generated DDL
 
 Added operations to `CriteriaBuilder` accepting JPQL query strings, returning corresponding criteria objects
+
+Added additional overload of `CriteriaBuilder.between()`
 
 Added `QueryFlushMode`, `Query.setQueryFlushMode()`, and `flush` to `@NamedQuery` and `@NamedNativeQuery`
 
 Added `FlushModeType.EXPLICIT`
+
+Added specialized `Option` types to `EntityManager`, `EntityAgent`, `TypedQuery`, `Statement`, `StoredProcedureQuery`, and `CreationOption` types to `EntityManager` and `EntityAgent`
 
 ==== Changes to Query Language
 
