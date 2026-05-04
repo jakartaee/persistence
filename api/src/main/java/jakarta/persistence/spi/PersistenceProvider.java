@@ -26,11 +26,32 @@ import java.util.Map;
 
 /**
  * Interface implemented by the persistence provider.
- *
- * <p> It is invoked by the container in Jakarta EE environments and
- * by the {@link Persistence} class in Java SE environments to create
- * an {@link EntityManagerFactory} and/or to cause schema generation
- * to occur.
+ * <p>
+ * In Java SE, the {@link Persistence} class calls:
+ * <ul>
+ * <li>{@link #createEntityManagerFactory(String, Map)} when the
+ *     application program calls
+ *     {@link Persistence#createEntityManagerFactory(String, Map)},
+ * <li>{@link #createEntityManagerFactory(PersistenceConfiguration)}
+ *    when the application program calls
+ *    {@link PersistenceConfiguration#createEntityManagerFactory},
+ * <li>{@link #generateSchema(String, Map)} when the application,
+ *     program calls {@link Persistence#generateSchema(String, Map)},
+ * <li>{@link #generateSchema(PersistenceConfiguration)} when the
+ *     application program calls
+ *     {@link PersistenceConfiguration#exportSchema()}, and
+ * <li>{@link #getProviderUtil()} to obtain a {@link ProviderUtil}.
+ * </ul>
+ * <p>In a Jakarta EE environment, the container calls:
+ * <ul>
+ * <li>{@link #createContainerEntityManagerFactory(PersistenceUnitInfo, Map)}
+ *     to create an {@link EntityManagerFactory} for a container-managed
+ *     persistence unit.
+ * <li>{@link #generateSchema(PersistenceUnitInfo, Map)} to delegate
+ *     DDL schema management to the persistence provider, and
+ *     {@link #getClassTransformer(PersistenceUnitInfo, Map)} to
+ *     obtain a provider-supplied {@link ClassTransformer}.
+ * </ul>
  *
  * @apiNote This is an SPI interface forming part of the Jakarta EE
  * container / persistence provider contract. It is not intended for
