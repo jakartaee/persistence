@@ -11,11 +11,12 @@
  */
 
 // Contributors:
-//     Gavin King      - 4.0
-//     Christian Beikov - 4.0
-//     Gavin King      - 3.2
-//     Linda DeMichiel - 2.1
-//     Linda DeMichiel - 2.0
+//     Gavin King           - 4.0
+//     Christian Beikov     - 4.0
+//     Henrique Dias Campos - 4.0
+//     Gavin King           - 3.2
+//     Linda DeMichiel      - 2.1
+//     Linda DeMichiel      - 2.0
 
 
 package jakarta.persistence.criteria;
@@ -627,6 +628,16 @@ public interface CriteriaBuilder {
      */
     <Y extends Comparable<? super Y>> Predicate between(Expression<? extends Y> v, Y x, Y y);
 	
+    /**
+     * Create a predicate for testing whether the first argument is 
+     * between the second and third arguments in value.
+     * @param v  value 
+     * @param x  expression
+     * @param y  expression
+     * @return between predicate
+     * @since 4.0
+     */
+    <Y extends Comparable<? super Y>> Predicate between(Y v, Expression<? extends Y> x, Expression<? extends Y> y);    
 
     //comparisons for numeric operands:
 	
