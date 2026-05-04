@@ -18,6 +18,8 @@ package jakarta.persistence;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+import java.sql.JDBCType;
+
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static jakarta.persistence.DiscriminatorType.STRING;
@@ -91,6 +93,15 @@ public @interface DiscriminatorColumn {
      * Ignored for other discriminator types.
      */
     int length() default 31;
+
+    /**
+     * (Optional) The JDBC type of the column.
+     * This is only used if table generation is in effect.
+     * @since 4.0
+     * @apiNote The default value indicates the column type should be
+     *          inferred from the model.
+     */
+    JDBCType jdbcType() default JDBCType.NULL;
 
     /**
      * (Optional) A comment to be applied to the column.
