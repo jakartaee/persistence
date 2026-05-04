@@ -41,32 +41,40 @@ import java.util.Map;
 public interface PersistenceProvider {
 
     /**
-     * Called by {@link Persistence} class when an
-     * {@link EntityManagerFactory} is to be created.
+     * Called by {@link Persistence} class to create a new
+     * {@link EntityManagerFactory} for the persistence unit with the
+     * given name, optionally specifying configuration properties which
+     * override the settings specified in the {@code persistence.xml}
+     * file for the given persistence unit.
      *
-     * @param emName  the name of the persistence unit
-     * @param map  a Map of properties for use by the 
-     * persistence provider. These properties may be used to
-     * override the values of the corresponding elements in 
-     * the {@code persistence.xml} file or specify values for
-     * properties not specified in the {@code persistence.xml}
-     * (and may be null if no properties are specified).
-     * @return a newly created {@link EntityManagerFactory}
-     *         for the persistence unit,
-     * or null if the provider is not the right provider
+     * @param unitName the name of the persistence unit
+     * @param properties property settings for use by the persistence
+     *                   provider. These properties may be used to
+     *                   specify values for properties not specified
+     *                   in the {@code persistence.xml} file for the
+     *                   given persistence unit or to override the
+     *                   values specified by the corresponding elements
+     *                   of the {@code persistence.xml} file. The map
+     *                   may be null when no properties are specified.
+     * @return a newly created {@link EntityManagerFactory} for the
+     *         named persistence unit, or null if the persistence unit
+     *         configuration specified a different persistence provider
      *
      * @see Persistence#createEntityManagerFactory(String, Map)
      */
-    EntityManagerFactory createEntityManagerFactory(String emName, Map<?, ?> map);
+    EntityManagerFactory createEntityManagerFactory(String unitName,
+                                                    Map<?, ?> properties);
 
     /**
-     * Called by {@link Persistence} class when an
-     * {@link EntityManagerFactory} is to be created.
+     * Called by {@link Persistence} class to create a new
+     * {@link EntityManagerFactory} for a persistence unit with the
+     * given programmatic configuration.
      *
      * @param configuration the configuration of the persistence unit
-     * @return a newly created {@link EntityManagerFactory}
-     *         for the persistence unit,
-     * or null if the provider is not the right provider
+     * @return a newly created {@link EntityManagerFactory} for the
+     *         persistence unit with the given configuration, or null
+     *         if the persistence unit configuration specified a
+     *         different persistence provider
      * @throws IllegalStateException if any required configuration
      *                               is missing
      *
@@ -77,58 +85,66 @@ public interface PersistenceProvider {
     EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration);
 
     /**
-     * Called by the container when an {@link EntityManagerFactory}
-     * is to be created. 
+     * Called by the Jakarta EE container to create a new
+     * {@link EntityManagerFactory} for the persistence unit with the
+     * given {@linkplain PersistenceUnitInfo metadata}, optionally
+     * specifying configuration properties which override the settings
+     * specified in the given {@link PersistenceUnitInfo}.
+     * <ul>
+     * <li>If a Bean Validation provider is present in the classpath,
+     * the container must pass the {@code ValidatorFactory} instance
+     * as an entry in the given map with the key
+     * {@link jakarta.persistence.Persistence.ValidationProperties#VALIDATION_FACTORY}.
+     * <li>If the containing archive is a bean archive, the container
+     * must pass the {@code BeanManager} instance as an entry in the
+     * given map with the key
+     * {@link jakarta.persistence.Persistence.BeanManagementProperties#BEAN_MANAGER}.
+     * </ul>
      *
-     * @param info  metadata for use by the persistence provider
-     * @param map  a Map of integration-level properties for use 
-     * by the persistence provider (might be null if no properties
-     * are specified). These properties may include properties to
-     * control schema generation. If a Bean Validation provider is
-     * present in the classpath, the container must pass the
-     * {@code ValidatorFactory} instance in the map with the key
-     * {@code "jakarta.persistence.validation.factory"}. If the
-     * containing archive is a bean archive, the container must
-     * pass the {@code BeanManager} instance in the map with the
-     * key {@code "jakarta.persistence.bean.manager"}.
-     * @return a newly created {@link EntityManagerFactory}
-     *         for the persistence unit configured by the metadata
+     * @param info metadata describing the persistence unit
+     * @param properties integration-level property settings for use by
+     *                   the persistence provider. The given properties
+     *                   may include properties to control schema
+     *                   generation. The map may be null when no
+     *                   properties are specified.
+     * @return a newly created {@link EntityManagerFactory} for the
+     *         persistence unit described by the given metadata
      */
-    EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo info, Map<?, ?> map);
-
+    EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo info,
+                                                             Map<?, ?> properties);
 
     /**
-     * Create database schemas and/or tables and/or create DDL
-     * scripts as determined by the supplied properties.
+     * Create database schemas and/or tables and/or create DDL scripts,
+     * as determined by the supplied properties.
      * <p>
-     * Called by the container when schema generation is to
-     * occur as a separate phase from the creation of the entity
-     * manager factory.
+     * Called by the container when schema generation is to occur as a
+     * separate phase from the creation of the entity manager factory.
      *
-     * @param info metadata for use by the persistence provider
-     * @param map properties for schema generation; these may
-     *            also include provider-specific properties
+     * @param info metadata describing the persistence unit
+     * @param properties property settings for schema generation;
+     *                   these may include provider-specific
+     *                   properties
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
      *         generation otherwise fails
      *
      * @since 2.1
      */
-    void generateSchema(PersistenceUnitInfo info, Map<?, ?> map);
+    void generateSchema(PersistenceUnitInfo info, Map<?, ?> properties);
 
     /**
-     * Create database schemas and/or tables and/or create DDL
-     * scripts as determined by the supplied properties.
+     * Create database schemas and/or tables and/or create DDL scripts,
+     * as determined by the supplied properties.
      * <p>
      * Called by the {@link Persistence} class when schema generation
      * is to occur as a separate phase from creation of the entity
      * manager factory.
      *
      * @param persistenceUnitName the name of the persistence unit
-     * @param map properties for schema generation; these may
-     *            also contain provider-specific properties. The
-     *            values of these properties override any values that
-     *            may have been configured elsewhere.
+     * @param properties property settings for schema generation;
+     *                   these may include provider-specific
+     *                   properties. The values of these properties
+     *                   override any values configured elsewhere.
      * @return true if the schema was generated, otherwise false
      * @throws PersistenceException if insufficient or inconsistent
      *         configuration information is provided or if schema
@@ -136,12 +152,11 @@ public interface PersistenceProvider {
      *
      * @since 2.1
      */
-    boolean generateSchema(String persistenceUnitName, Map<?, ?> map);
-
+    boolean generateSchema(String persistenceUnitName, Map<?, ?> properties);
 
     /**
-     * Create database schemas and/or tables and/or create DDL
-     * scripts as determined by the supplied properties.
+     * Create database schemas and/or tables and/or create DDL scripts,
+     * as determined by the supplied properties.
      * <p>
      * Called by the {@link Persistence} class when schema generation
      * is to occur as a separate phase from creation of the entity
@@ -167,35 +182,40 @@ public interface PersistenceProvider {
     ProviderUtil getProviderUtil();
 
     /**
-     * Obtain a transformer supplied by the provider that is called
-     * for every new class definition or class redefinition that gets
-     * loaded by the loader returned by the
-     * {@link PersistenceUnitInfo#getClassLoader} method. The
-     * transformer has no effect on the result returned by the
-     * {@link PersistenceUnitInfo#getNewTempClassLoader} method.
-     * Classes are only transformed once within the same classloading
-     * scope, regardless of how many persistence units they may be
-     * a part of.
+     * Obtain a provider-supplied class transformer that is called
+     * for every new class definition or class redefinition performed
+     * by the class loader returned by
+     * {@link PersistenceUnitInfo#getClassLoader}. The transformer
+     * has no effect on the class loader returned by
+     * {@link PersistenceUnitInfo#getNewTempClassLoader}.
+     * <p>
+     * A class is transformed exactly once within a given classloading
+     * scope, regardless of how many persistence units it belongs to.
      * <p>The given instance of {@link PersistenceUnitInfo} may
      * return {@code null} when any of the accessor methods
      * {@link PersistenceUnitInfo#getClassLoader()},
      * {@link PersistenceUnitInfo#getJtaDataSource()}, or
      * {@link PersistenceUnitInfo#getNonJtaDataSource()} is called
      * by an implementation of this method.
-     * <p>If the container calls this method before invoking
+     * <p>
+     * If the container calls this method before invoking
      * {@link #createContainerEntityManagerFactory} to create the
      * {@link EntityManagerFactory}, then the transformer returned
      * by this method is used instead of any transformer registered
      * via {@link PersistenceUnitInfo#addTransformer}. The container
      * is not required to call this method.
-     * @return  provider-supplied transformer that the
-     * container invokes at class-(re)definition time
-     * @param info metadata for use by the persistence provider
-     * @param map a {@code Map} of integration-level properties for use
-     * by the persistence provider, which will not usually contain
-     * a {@code ValidatorFactory} or {@code BeanManager}.
+     *
+     * @return a provider-supplied transformer that is later invoked
+     *         by the container when a managed class belonging to the
+     *         persistence unit is defined or redefined
+     * @param info metadata describing the persistence unit
+     * @param properties integration-level property settings for use
+     *                   by the persistence provider, which will not
+     *                   usually contain a {@code ValidatorFactory}
+     *                   or {@code BeanManager}.
      * @since 4.0
      */
-    ClassTransformer getClassTransformer(PersistenceUnitInfo info, Map<?, ?> map);
+    ClassTransformer getClassTransformer(PersistenceUnitInfo info,
+                                         Map<?, ?> properties);
 }
 
