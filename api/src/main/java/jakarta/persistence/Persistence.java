@@ -26,8 +26,8 @@ import jakarta.persistence.spi.PersistenceProvider;
 import static jakarta.persistence.spi.PersistenceProviderResolverHolder.getPersistenceProviderResolver;
 
 /**
- * Bootstrap class used to obtain an {@link EntityManagerFactory}
- * in Java SE environments.
+ * Bootstrap class used to obtain an {@link EntityManagerFactory} in
+ * Java SE environments.
  * {@snippet :
  * EntityManagerFactory factory =
  *         Persistence.createEntityManagerFactory("Library", // name of the persistence unit
@@ -35,8 +35,13 @@ import static jakarta.persistence.spi.PersistenceProviderResolverHolder.getPersi
  *                 Map.of(Persistence.ConnectionProperties.JDBC_USER, userName,
  *                        Persistence.ConnectionProperties.JDBC_PASSWORD, password));
  * }
- * <p>This class also allows schema management to be decoupled
- * from creation of the entity manager factory.
+ * Since {@link #createEntityManagerFactory} is an expensive operation,
+ * and since the {@code EntityManagerFactory} is a heavyweight object,
+ * the application program should create no more than one factory for
+ * each persistence unit.
+ *
+ * <p>This class also allows schema management to be decoupled from
+ * creation of the entity manager factory.
  * {@snippet :
  * Persistence.generateSchema("Library", // name of the persistence unit
  *         // property overrides
@@ -46,11 +51,14 @@ import static jakarta.persistence.spi.PersistenceProviderResolverHolder.getPersi
  * }
  *
  * <p>The {@code Persistence} class may be used to obtain a
- * {@link PersistenceUtil PersistenceUtil} instance in both
- * Jakarta EE and Java SE environments.
+ * {@link PersistenceUtil PersistenceUtil} instance in both Jakarta EE
+ * and Java SE environments.
  * {@snippet :
  * boolean loaded = Persistence.getPersistenceUtil().isLoaded(entity);
  * }
+ *
+ * <p>The nested interfaces of this class list the standard configuration
+ * properties defined by the Jakarta Persistence specification.
  *
  * @apiNote The {@code Persistence} class is available in a Jakarta EE
  * container environment. However, support for the Java SE bootstrapping
@@ -80,6 +88,8 @@ public final class Persistence {
      *                 {@code persistence.xml} file
      * @return an {@link EntityManagerFactory} for the named persistence
      *         unit
+     * @apiNote This operation is very expensive. It should usually be
+     *          called just once for each persistence unit.
      */
     public static EntityManagerFactory createEntityManagerFactory(String unitName) {
         return createEntityManagerFactory(unitName, null);
@@ -108,6 +118,8 @@ public final class Persistence {
      *                   configured elsewhere.
      * @return an {@link EntityManagerFactory} for the named persistence
      *         unit
+     * @apiNote This operation is very expensive. It should usually be
+     *          called just once for each persistence unit.
      */
     public static EntityManagerFactory createEntityManagerFactory(String unitName, Map<?,?> properties) {
         for (var provider : getPersistenceProviders()) {
@@ -127,6 +139,8 @@ public final class Persistence {
      * @param configuration configuration of the persistence unit
      * @return the factory that creates {@link EntityManager}s configured
      *         according to the specified persistence unit
+     * @apiNote This operation is very expensive. It should usually be
+     *          called just once for each persistence unit.
      *
      * @since 3.2
      */

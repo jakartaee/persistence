@@ -170,14 +170,14 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Create a new application-managed {@link EntityManager}. This
      * method returns a new {@code EntityManager} instance each time
-     * it is invoked. 
-     * <p>The {@link EntityManager#isOpen} method will return true
-     * on the returned instance.
+     * it is invoked. The returned object must not be reused across
+     * distinct units of work or shared between concurrent threads.
      * @param options options controlling the behavior of the entity
      *                manager
-     * @return entity manager instance
+     * @return a new {@linkplain EntityManager#isOpen open} entity
+     *         manager
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      */
     EntityManager createEntityManager(EntityManager.CreationOption... options);
     
@@ -185,51 +185,55 @@ public interface EntityManagerFactory extends AutoCloseable {
      * Create a new application-managed {@link EntityManager} with
      * the given {@link Map} specifying property settings. This
      * method returns a new {@code EntityManager} instance each time
-     * it is invoked.
-     * <p>The {@link EntityManager#isOpen} method will return true
-     * on the returned instance.
-     * @param map properties for entity manager
-     * @return entity manager instance
+     * it is invoked. The returned object must not be reused across
+     * distinct units of work or shared between concurrent threads.
+     * @param properties properties and hints affecting the behavior
+     *                   of the returned entity manager
+     * @return a new {@linkplain EntityManager#isOpen open} entity
+     *         manager
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      * @apiNote The use of named properties lacks type safety compared
      * to the use of {@linkplain EntityManager.CreationOption options}.
      */
-    EntityManager createEntityManager(Map<?, ?> map);
+    EntityManager createEntityManager(Map<?, ?> properties);
 
     /**
-     * Create a new JTA application-managed {@link EntityManager} with
-     * the specified synchronization type and map of properties. This
-     * method returns a new {@code EntityManager} instance each time it
-     * is invoked.
-     * <p>The {@link EntityManager#isOpen} method will return true on the
-     * returned instance.
+     * Create a new application-managed JTA  {@link EntityManager} with
+     * the specified {@linkplain SynchronizationType synchronization
+     * type} and given property settings. This method returns a new
+     * {@code EntityManager} instance each time it is invoked. The
+     * returned object must not be reused across distinct units of work
+     * or shared between concurrent threads.
      * @param synchronizationType how and when the entity manager should
      *                            be synchronized with the current JTA
      *                            transaction
-     * @param map properties for entity manager
-     * @return entity manager instance
+     * @param properties properties and hints affecting the behavior
+     *                   of the returned entity manager
+     * @return a new {@linkplain EntityManager#isOpen open} entity
+     *         manager
      * @throws IllegalStateException if the entity manager factory has
-     * been configured for resource-local entity managers or is closed
+     *         {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
+     *         resource local} transaction type or has been closed
      * @apiNote The use of named properties lacks type safety compared
      * to the use of {@linkplain EntityManager.CreationOption options}.
      *
      * @since 2.1
      */
     EntityManager createEntityManager(SynchronizationType synchronizationType,
-                                      Map<?, ?> map);
+                                      Map<?, ?> properties);
 
     /**
      * Create a new application-managed {@link EntityAgent}. This
      * method returns a new {@code EntityAgent} instance each time
-     * it is invoked.
-     * <p>The {@link EntityAgent#isOpen} method will return true
-     * on the returned instance.
+     * it is invoked. The returned object most not be shared
+     * between concurrent threads.
      * @param options options controlling the behavior of the entity
      *                agent
-     * @return entity agent instance
+     * @return a new {@linkplain EntityAgent#isOpen open} entity
+     *         agent
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      *
      * @since 4.0
      */
@@ -239,19 +243,20 @@ public interface EntityManagerFactory extends AutoCloseable {
      * Create a new application-managed {@link EntityAgent} with
      * the given {@link Map} specifying property settings. This
      * method returns a new {@code EntityAgent} instance each time
-     * it is invoked.
-     * <p>The {@link EntityAgent#isOpen} method will return true
-     * on the returned instance.
-     * @param map properties for entity agent
-     * @return entity agent instance
+     * it is invoked. The returned object most not be shared
+     * between concurrent threads.
+     * @param properties properties and hints affecting the behavior
+     *                   of the returned entity agent
+     * @return a new {@linkplain EntityAgent#isOpen open} entity
+     *         agent
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      * @apiNote The use of named properties lacks type safety compared
      * to the use of {@linkplain EntityAgent.CreationOption options}.
      *
      * @since 4.0
      */
-    EntityAgent createEntityAgent(Map<?, ?> map);
+    EntityAgent createEntityAgent(Map<?, ?> properties);
 
     /**
      * Return an instance of {@link CriteriaBuilder} which may be used
@@ -259,7 +264,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * objects.
      * @return an instance of {@link CriteriaBuilder}
      * @throws IllegalStateException if the entity manager factory has
-     * been closed
+     *         been closed
      *
      * @see EntityHandler#getCriteriaBuilder()
      *
@@ -272,7 +277,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * to the metamodel of the persistence unit.
      * @return an instance of {@link Metamodel}
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      *
      * @since 2.0
      */
@@ -293,7 +298,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * {@code EntityManagerFactory} has been closed, all its
      * entity managers are considered to be in the closed state.
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      */
     void close();
 
@@ -310,7 +315,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * map does not change the configuration in effect.
      * @return properties
      * @throws IllegalStateException if the entity manager factory 
-     * has been closed
+     *         has been closed
      *
      * @since 2.0
      */
@@ -322,7 +327,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @return an instance of {@link Cache}, or null if there is no
      * second-level cache in use
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      *
      * @since 2.0
      */
@@ -333,7 +338,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * persistence unit.
      * @return an instance of {@link PersistenceUnitUtil}
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      *
      * @since 2.0
      */
@@ -352,7 +357,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * operations for the persistence unit.
      * @return an instance of {@link SchemaManager}
      * @throws IllegalStateException if the entity manager factory
-     * has been closed
+     *         has been closed
      *
      * @since 3.2
      */
@@ -461,7 +466,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *            interface it implements.
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not support
-     *        the given type
+     *         the given type
      * @since 2.1
      */
     <T> T unwrap(Class<T> cls);

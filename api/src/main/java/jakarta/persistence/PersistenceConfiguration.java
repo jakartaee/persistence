@@ -115,7 +115,9 @@ public class PersistenceConfiguration
     /**
      * Create a new {@link EntityManagerFactory} based on this configuration.
      * @throws PersistenceException if required configuration is missing or
-     *                             if the factory could not be created
+     *                              if the factory could not be created
+     * @apiNote This operation is very expensive. It should usually be called
+     *          just once for each persistence unit.
      */
     public EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(this);
@@ -383,6 +385,13 @@ public class PersistenceConfiguration
      * @param name the property name
      * @param value the property value
      * @return this configuration
+     * @see Persistence.JdbcProperties
+     * @see Persistence.ConnectionProperties
+     * @see Persistence.DatabaseProperties
+     * @see Persistence.SchemaManagementProperties
+     * @see Persistence.ValidationProperties
+     * @see Persistence.CacheProperties
+     * @see Persistence.BeanManagementProperties
      */
     public PersistenceConfiguration property(String name, Object value) {
         properties.put(name, value);
