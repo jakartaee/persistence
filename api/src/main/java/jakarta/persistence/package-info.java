@@ -44,8 +44,8 @@
  *     is usally one instance of {@code EntityManager} for each
  *     configured persistence unit.
  * <li>{@link jakarta.persistence.Persistence} is an entry point
- *     for construction of an {@code EntityManagerFactory} and
- *     defines standard configuration properties.
+ *     for construction of an {@code EntityManagerFactory} in
+ *     Java SE and defines standard configuration properties.
  * <li>As an alternative to the use of {@code persistence.xml},
  *     {@link jakarta.persistence.PersistenceConfiguration}
  *     allows a persistence unit to be configured programatically.
@@ -80,6 +80,9 @@
  *     });
  * }
  * }
+ * Note, however, that {@code createEntityManagerFactory} is an
+ * expensive operation which should be called just once for each
+ * persistence unit in the application program.
  * <p>
  * Furthermore, this package provides a suite of annotation
  * types which may be used:
@@ -92,11 +95,15 @@
  *     {@linkplain jakarta.persistence.NamedNativeQuery named
  *     native SQL queries}, and
  *     {@linkplain jakarta.persistence.NamedStoredProcedureQuery
- *     named stored procedures}, and
+ *     named stored procedures},
  * <li>declare {@linkplain jakarta.persistence.NamedEntityGraph
  *     named entity graphs} and
  *     {@linkplain jakarta.persistence.SqlResultSetMapping
- *     named SQL result set mappings}.
+ *     named SQL result set mappings}, and
+ * <li>inject an {@linkplain jakarta.persistence.PersistenceContext
+ *     entity manager} or
+ *     {@linkplain jakarta.persistence.PersistenceUnit factory}
+ *     in a Jakarta EE environment.
  * </ul>
  */
 package jakarta.persistence;
