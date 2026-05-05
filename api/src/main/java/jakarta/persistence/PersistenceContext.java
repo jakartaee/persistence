@@ -32,8 +32,8 @@ import static java.lang.annotation.RetentionPolicy.*;
 /**
  * Expresses a dependency on a container-managed {@link EntityManager}
  * and its associated persistence context. When this annotation occurs
- * on a method or field of a managed bean, it declares an injection point
- * of type {@link EntityManager}.
+ * on a method or field of a managed bean, it declares an injection
+ * point of type {@code EntityManager}.
  * {@snippet :
  * @PersistenceContext EntityManager manager;
  * }
@@ -44,7 +44,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  * @PersistenceContext(name = "LibraryManager")
  * class Bean
  *     ...
- *     EntityManagerFactory =
+ *     EntityManager manager =
  *             new InitialContext()
  *                     .lookup("java:comp/env/LibraryManager");
  *     ...
