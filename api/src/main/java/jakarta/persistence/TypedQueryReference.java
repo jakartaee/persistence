@@ -105,17 +105,17 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
 
     /**
      * All {@linkplain TypedQuery.Option options} specified by
-     * {@link jakarta.persistence.query.StaticQueryOptions},
+     * {@link jakarta.persistence.query.QueryOptions},
      * {@link NamedQuery}, or {@link NamedNativeQuery}, or an
      * empty set if no options were specified.
      *
      * @see TypedQuery#addOption
-     * @see jakarta.persistence.query.StaticQueryOptions#cacheStoreMode
-     * @see jakarta.persistence.query.StaticQueryOptions#cacheRetrieveMode
-     * @see jakarta.persistence.query.StaticQueryOptions#lockMode
-     * @see jakarta.persistence.query.StaticQueryOptions#lockScope
-     * @see jakarta.persistence.query.StaticQueryOptions#timeout
-     * @see jakarta.persistence.query.StaticQueryOptions#flush
+     * @see jakarta.persistence.query.QueryOptions#cacheStoreMode
+     * @see jakarta.persistence.query.QueryOptions#cacheRetrieveMode
+     * @see jakarta.persistence.query.QueryOptions#lockMode
+     * @see jakarta.persistence.query.QueryOptions#lockScope
+     * @see jakarta.persistence.query.QueryOptions#timeout
+     * @see jakarta.persistence.query.QueryOptions#flush
      *
      * @since 4.0
      */
