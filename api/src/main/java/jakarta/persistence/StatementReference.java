@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025,2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -90,13 +90,13 @@ import java.util.Set;
 public non-sealed interface StatementReference extends Reference {
     /**
      * All {@linkplain Statement.Option options} specified by
-     * {@link jakarta.persistence.query.StaticQueryOptions},
+     * {@link jakarta.persistence.query.QueryOptions},
      * {@link NamedQuery}, or {@link NamedNativeQuery}, or an
      * empty set if no options were specified.
      *
      * @see Statement#addOption
-     * @see jakarta.persistence.query.StaticQueryOptions#timeout
-     * @see jakarta.persistence.query.StaticQueryOptions#flush
+     * @see jakarta.persistence.query.QueryOptions#timeout
+     * @see jakarta.persistence.query.QueryOptions#flush
      */
     Set<Statement.Option> getOptions();
 }
