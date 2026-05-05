@@ -62,6 +62,15 @@ import java.util.function.Function;
  * });
  * }
  *
+ * <p>In the Jakarta EE environment, a container-managed
+ * {@link EntityAgent} may be obtained by dependency injection,
+ * using {@link PersistenceAgent}.
+ * {@snippet :
+ * // inject the container-managed entity agent
+ * @PersistenceAgent(unitName="orderMgt")
+ * EntityAgent entityAgent;
+ * }
+ *
  * <p>If the persistence unit has
  * {@linkplain PersistenceUnitTransactionType#RESOURCE_LOCAL
  * resource local} transaction management, transactions must
@@ -97,15 +106,6 @@ import java.util.function.Function;
  * there is no {@linkplain EntityManager#flush flush operation},
  * and since the entities themselves are detached, modifications to
  * the entities are never automatically detected and made persistent.
- *
- * <p>In the Jakarta EE environment, a container-managed
- * {@link EntityAgent} may be obtained by dependency injection,
- * using {@link PersistenceAgent}.
- * {@snippet :
- * // inject the container-managed entity agent
- * @PersistenceAgent(unitName="orderMgt")
- * EntityAgent entityAgent;
- * }
  *
  * @since 4.0
  *

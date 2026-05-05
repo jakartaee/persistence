@@ -40,7 +40,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  * @PersistenceUnit(name = "Library")
  * class Bean
  *     ...
- *     EntityManagerFactory =
+ *     EntityManagerFactory factory =
  *             new InitialContext()
  *                     .lookup("java:comp/env/Library");
  *     ...

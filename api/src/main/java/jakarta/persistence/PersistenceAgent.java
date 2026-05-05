@@ -25,9 +25,27 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 
 /**
- * Expresses a dependency on an {@link EntityAgent} and its
- * associated persistence unit. Every container-manager entity
- * agent is a JTA entity agent.
+ * Expresses a dependency on a container-managed {@link EntityAgent}
+ * and its associated persistence unit. When this annotation occurs
+ * on a method or field of a managed bean, it declares an injection
+ * point of type {@code EntityAgent}.
+ * {@snippet :
+ * @PersistenceAgent EntityAgent agent;
+ * }
+ * When the annotation occurs on a managed bean class, it assigns a
+ * name to the {@code EntityAgent} in the environment referencing
+ * context {@code java:comp/env} of the containing module.
+ * {@snippet :
+ * @PersistenceAgent(name = "LibraryAgent")
+ * class Bean
+ *     ...
+ *     EntityAgent agent =
+ *             new InitialContext()
+ *                     .lookup("java:comp/env/LibraryAgent");
+ *     ...
+ * }
+ * <p>
+ * Every container-manager entity agent is a JTA entity agent.
  *
  * @since 4.0
  */
