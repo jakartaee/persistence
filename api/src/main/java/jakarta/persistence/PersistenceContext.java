@@ -50,7 +50,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  *     ...
  * }
  * <p>
- * Every container-manager entity manager is a JTA entity manager.
+ * Every container-managed entity manager is a JTA entity manager.
  *
  * @since 1.0
  */
