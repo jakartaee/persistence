@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -45,7 +45,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     ...
  * }
  * <p>
- * Every container-manager entity agent is a JTA entity agent.
+ * Every container-managed entity agent is a JTA entity agent.
  *
  * @since 4.0
  */
@@ -55,17 +55,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface PersistenceAgent {
 
     /**
-     * (Optional) The name by which the entity agent is to be
-     * accessed in the environment referencing context;
-     * not needed when dependency injection is used.
+     * (Optional) The name at which the {@link EntityAgent} is
+     * accessed in the environment referencing context. If the
+     * specified name does not begin with {@code java:}, then the
+     * prefix {@code java:comp/env} is assumed. This member is not
+     * usually specified when {@code @PersistenceAgent} annotates an
+     * injection point.
      */
     String name() default "";
 
     /**
-     * (Optional) The name of the persistence unit as defined
-     * in the {@code persistence.xml} file. If specified, the
-     * persistence unit for the entity manager factory that is
-     * accessible in JNDI must have the same name.
+     * (Optional) The name of the persistence unit as defined in the
+     * {@code persistence.xml} file. This member is optional if there
+     * is only one persistence unit defined by the containing module.
      */
     String unitName() default "";
 

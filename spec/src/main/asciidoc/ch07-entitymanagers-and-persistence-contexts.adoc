@@ -144,7 +144,7 @@ For example,
 EntityAgent agent;
 ----
 
-The JNDI lookup of an entity manager is illustrated below:
+The JNDI lookup of an entity agent is illustrated below:
 
 [source,java]
 ----
@@ -153,7 +153,7 @@ The JNDI lookup of an entity manager is illustrated below:
 public class MyBean implements MyInterface {
 
     public void doSomething() {
-        EntityAgent em = (EntityAgent) ctx.lookup("OrderEA");
+        EntityAgent em = (EntityAgent) ctx.lookup("java:comp/env/OrderEA");
 
         // ...
     }
