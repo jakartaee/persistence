@@ -243,7 +243,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * Create a new application-managed {@link EntityAgent} with
      * the given {@link Map} specifying property settings. This
      * method returns a new {@code EntityAgent} instance each time
-     * it is invoked. The returned object most not be shared
+     * it is invoked. The returned object must not be shared
      * between concurrent threads.
      * @param properties properties and hints affecting the behavior
      *                   of the returned entity agent

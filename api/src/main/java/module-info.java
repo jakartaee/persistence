@@ -33,7 +33,7 @@
  *     mapping SQL result sets} to Java objects.
  * <li>{@link jakarta.persistence.query} defines an API for
  *     expressing
- *     {@linkplain jakarta.persistence.query.StaticQuery
+ *     {@linkplain jakarta.persistence.query.JakartaQuery
  *     statically type safe queries} by annotating a query
  *     method.
  * <li>{@link jakarta.persistence.metamodel} defines an API

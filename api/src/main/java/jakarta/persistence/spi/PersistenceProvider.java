@@ -112,7 +112,7 @@ public interface PersistenceProvider {
      * specifying configuration properties which override the settings
      * specified in the given {@link PersistenceUnitInfo}.
      * <ul>
-     * <li>If a Bean Validation provider is present in the classpath,
+     * <li>If a Jakarta Validation provider is present in the classpath,
      * the container must pass the {@code ValidatorFactory} instance
      * as an entry in the given map with the key
      * {@link jakarta.persistence.Persistence.ValidationProperties#VALIDATION_FACTORY}.
