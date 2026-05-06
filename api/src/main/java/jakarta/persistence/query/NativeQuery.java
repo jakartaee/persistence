@@ -82,7 +82,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p> Any implementation of Jakarta Data backed by Jakarta Persistence
  * must support the use of this annotation as a Jakarta Data query
- * annotation. Thus, a repository method annotated {@code @StaticQuery}
+ * annotation. Thus, a repository method annotated {@code @NativeQuery}
  * is treated by the Jakarta Data provider as a query method, and an
  * implementation of the method is supplied by the Jakarta Data provider.
  *

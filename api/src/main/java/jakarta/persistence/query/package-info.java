@@ -19,13 +19,13 @@
  * {@linkplain jakarta.persistence.spi.Discoverable discoverable} type
  * or Jakarta Data repository.
  * <ul>
- * <li>{@link jakarta.persistence.query.StaticQuery} declares a query
+ * <li>{@link jakarta.persistence.query.JakartaQuery} declares a query
  *     method and specifies the query or statement in the Jakarta
  *     Persistence query language.
- * <li>{@link jakarta.persistence.query.StaticNativeQuery} declares a
- *     query method and specifies the query or statement in yje native
+ * <li>{@link jakarta.persistence.query.NativeQuery} declares a
+ *     query method and specifies the query or statement in the native
  *     SQL dialect of the database.
- * <li>{@link jakarta.persistence.query.StaticQueryOptions} specifies
+ * <li>{@link jakarta.persistence.query.QueryOptions} specifies
  *     additional options affecting execution of the query or statement.
  * </ul>
  *
