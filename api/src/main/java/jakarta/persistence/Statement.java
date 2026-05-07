@@ -28,6 +28,17 @@ import java.util.Set;
  * hand, a native SQL statement is considered executable if it returns
  * a row count instead of a result set.
  *
+ * @apiNote Just like any other data access API, including JDBC
+ * itself, native SQL statement strings and Jakarta Persistence
+ * query language strings executed via this API must never be
+ * composed by concatenating user input or other untrusted data.
+ * User input should be properly validated and passed as a
+ * {@linkplain #setParameter(String, Object) parameter} to a
+ * parameterized statement string. In particular, native SQL
+ * statement strings executed via this API are typically executed
+ * verbatim with no additional validation or sanitization beyond
+ * that performed by the JDBC driver.
+ *
  * @see EntityHandler#createStatement(String)
  * @see EntityHandler#createStatement(jakarta.persistence.criteria.CriteriaStatement)
  * @see EntityHandler#createStatement(StatementReference)
