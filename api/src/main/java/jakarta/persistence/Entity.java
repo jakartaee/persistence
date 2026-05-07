@@ -48,6 +48,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the entity. The state of the entity is available to clients only
  * through the methods of the entity.
  *
+ * <p>The persistent state is accessed by the persistence provider
+ * runtime using either:
+ * <ul>
+ * <li>indirect {@linkplain AccessType#PROPERTY property access} via
+ *     JavaBeans-style property accessors, or
+ * <li>{@linkplain AccessType#FIELD field access}, that is, direct
+ *     access to instance variables.
+ * </ul>
+ * <p>The entity {@linkplain AccessType access type} determines whether
+ * the provider accesses the state of the entity using getter and setter
+ * methods, or by direct to its fields. It is almost never necessary to
+ * {@linkplain Access explicitly specify} an {@link AccessType}, since
+ * the default access type for an entity is determined by the placement
+ * of mapping annotations on the entity class.
+ *
+ * <p>The instance variables of a class must have either private,
+ * protected, or package visibility, independent of whether field
+ * access or property access is used. When property access is used,
+ * the property accessor methods must be public or protected.
+ *
+ * <p>The declared type of a persistent field or property must not
+ * involve a type variable.
+ *
  * <p>An entity has a primary table, mapped using the {@link Table}
  * annotation, and may have one or more secondary tables, mapped using
  * the {@link SecondaryTable} annotation.
@@ -86,13 +109,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The {@link Transient} annotation or the Java {@code transient} keyword
  * must be used to explicitly declare any field or property of an entity
  * which is <em>not</em> persistent.
- *
- * <p>The entity {@linkplain AccessType access type} determines whether
- * the persistence provider accesses the state of the entity using getter
- * and setter methods, or via direct field access. It is almost never
- * necessary to explicitly specify an {@link AccessType}, since the
- * default access type for an entity is determined by the placement of
- * mapping annotations on the entity class.
  *
  * <p>A field or property of an entity instance might be fetched eagerly
  * when the entity is loaded from the database, or it might be fetched

@@ -28,13 +28,17 @@ package jakarta.persistence;
 public enum AccessType {
 
     /**
-     * Field-based access is used.
+     * Direct field access is used. Instance variables must have
+     * private, protected, or package visibility. Property
+     * accessor methods are not required.
      */
     FIELD,
 
     /**
-     * Property-based access is used, that is, state is accessed
-     * via getter and setter methods.
+     * Property access is used; that is, state is accessed via
+     * getter and setter methods. Property accessor methods must
+     * have public or protected visibility. Instance variables
+     * must have private, protected, or package visibility.
      */
     PROPERTY
 }
