@@ -1885,8 +1885,17 @@ public interface CriteriaBuilder {
     <R> Case<R> selectCase();
 
     /**
-     * Create an expression for the execution of a database
-     * function.
+     * Create an expression for the execution of the database
+     * function with the given name.
+     *
+     * @apiNote This operation allows invocation of arbitrary
+     * SQL functions. The persistence provider is permitted to
+     * pass the given function name verbatim to the database,
+     * with no additional validation or sanitization. Therefore,
+     * the client must never pass unvalidated user input nor
+     * any other untrusted string value to the first parameter
+     * of this method.
+     *
      * @param name  function name
      * @param type  expected result type
      * @param args  function arguments
