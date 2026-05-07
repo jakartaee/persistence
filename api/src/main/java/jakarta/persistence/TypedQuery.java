@@ -37,6 +37,17 @@ import java.util.stream.Stream;
  * On the other hand, a native SQL query is considered a typed
  * query if it returns a result set.
  *
+ * @apiNote Just like any other data access API, including JDBC
+ * itself, native SQL query strings and Jakarta Persistence query
+ * language strings executed via this API must never be composed
+ * by concatenating user input or other untrusted data. User
+ * input should be properly validated and passed as a
+ * {@linkplain #setParameter(String, Object) parameter} to a
+ * parameterized query string. In particular, native SQL query
+ * strings executed via this API are typically executed verbatim
+ * with no additional validation or sanitization beyond that
+ * performed by the JDBC driver.
+ *
  * @param <X> query result type
  *
  * @see EntityHandler#createQuery(String,Class)
