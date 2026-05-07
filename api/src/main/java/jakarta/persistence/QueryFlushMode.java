@@ -77,8 +77,6 @@ package jakarta.persistence;
  * @see NamedNativeQuery#flush
  * @see jakarta.persistence.query.QueryOptions#flush
  * @see FlushModeType
- *
- * @author Gavin King
  */
 public enum QueryFlushMode
 		implements TypedQuery.Option, Statement.Option,
