@@ -72,6 +72,8 @@ The type of a persistent field or property of an entity class may be:
 - an embeddable class, as defined in <<a487>>, or
 - a collection of a basic type or embeddable type, as specified in <<a494>>.
 
+The declared type of a persistent field or property must not involve a type variable.
+
 Object/relational mapping metadata may be specified to customize the
 object/relational mapping and the loading and storing of the entity state
 and relationships, as specified in <<a13915>>.
