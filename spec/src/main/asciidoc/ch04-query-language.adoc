@@ -203,12 +203,15 @@ related entities and use their abstract schema types in the query.
 
 ==== Naming [[naming]]
 
-Entities are designated in query strings by their entity names. The
-entity name is specified by the `name` element of the `Entity` annotation,
-as defined in <<entity-annotation>>, or by the `entity-name` XML descriptor
-element, and defaults to the unqualified name of the entity class. Entity
-names are scoped within the persistence unit and must be unique within the
-persistence unit.
+An entity is designated in a query by its _entity name_. The entity
+name is specified by the `name` element of the `@Entity` annotation,
+as defined in <<entity-annotation>>, or by the `entity-name` XML
+descriptor element, and defaults to the unqualified name of the entity
+class.footnote:[The unqualified name of a nested entity class
+`org.example.Outer.Inner` is just `Inner`.]
+
+Entity names are scoped within the persistence unit and must be unique
+within the persistence unit.
 
 ==== Example [[a4713]]
 
