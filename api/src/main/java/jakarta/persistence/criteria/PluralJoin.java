@@ -38,4 +38,12 @@ public interface PluralJoin<Z, C, E> extends Join<Z, E> {
      *         to the target of the join
      */
     PluralAttribute<? super Z, C, E> getModel();
+
+    /**
+     * Downcast the element type to the given type.
+     * @param type a subtype of the element type
+     * @return this plural join downcast to the given element type
+     * @since 4.0
+     */
+    <T extends E> PluralJoin<Z, ?, T> treat(Class<T> type);
 }

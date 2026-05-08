@@ -76,4 +76,12 @@ public interface Join<Z, X> extends From<Z, X> {
      * @return join type
      */
     JoinType getJoinType();
+
+    /**
+     * Downcast the joined type to the given type.
+     * @param type a subtype of the joined type
+     * @return this join downcast to the given type
+     * @since 4.0
+     */
+    <T extends X> Join<Z, T> treat(Class<T> type);
 }

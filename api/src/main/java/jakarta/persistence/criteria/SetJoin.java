@@ -57,4 +57,12 @@ public interface SetJoin<Z, E> extends PluralJoin<Z, Set<E>, E> {
      *         the target of the join
      */
     SetAttribute<? super Z, E> getModel();
+
+    /**
+     * Downcast the element type to the given type.
+     * @param type a subtype of the element type
+     * @return this join downcast to the given element type
+     * @since 4.0
+     */
+    <T extends E> SetJoin<Z, T> treat(Class<T> type);
 }
