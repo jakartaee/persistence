@@ -70,4 +70,12 @@ public interface ListJoin<Z, E>
      * @return expression denoting the index
      */
     Expression<Integer> index();
+
+    /**
+     * Downcast the element type to the given type.
+     * @param type a subtype of the element type
+     * @return this join downcast to the given element type
+     * @since 4.0
+     */
+    <T extends E> ListJoin<Z, T> treat(Class<T> type);
 }

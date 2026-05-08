@@ -78,4 +78,12 @@ public interface MapJoin<Z, K, V>
      * @return expression corresponding to the map entry
      */
     Expression<Map.Entry<K, V>> entry();
+
+    /**
+     * Downcast the value type to the given type.
+     * @param type a subtype of the value type
+     * @return this join downcast to the given value type
+     * @since 4.0
+     */
+    <T extends V> MapJoin<Z, K, T> treat(Class<T> type);
 }

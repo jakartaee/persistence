@@ -33,4 +33,12 @@ public interface Root<X> extends From<X, X> {
      * @return metamodel entity corresponding to the root
      */
     EntityType<X> getModel();
+
+    /**
+     * Downcast the root type to the given type.
+     * @param type a subtype of the root type
+     * @return this root downcast to the given type
+     * @since 4.0
+     */
+    <T extends X> Root<T> treat(Class<T> type);
 }

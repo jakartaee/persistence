@@ -1963,6 +1963,15 @@ Expression<?>... args);
     <X, T extends X> Path<T> treat(Path<X> path, Class<T> type);
 
     /**
+     * Downcast Root or Join to the specified type.
+     * @param from  root or join
+     * @param type type to be downcast to
+     * @return  Root or Join of the specified type
+     * @since 4.0
+     */
+    <X, Y, T extends Y> From<X, T> treat(From<X, Y> from, Class<T> type);
+
+    /**
      * Downcast Root object to the specified type.
      * @param root  root
      * @param type type to be downcast to

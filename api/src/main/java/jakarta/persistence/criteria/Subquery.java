@@ -161,7 +161,16 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the modified subquery.
      */
     Subquery<T> distinct(boolean distinct);
-	
+
+    /**
+     * Create a subquery root or join correlated to a root or join
+     * of the enclosing query.
+     * @param parent  root or join of the containing query
+     * @return subquery from
+     * @since 4.0
+     */
+    <X, Y> From<X, Y> correlate(From<X, Y> parent);
+
     /**
      * Create a subquery root correlated to a root of the 
      * enclosing query.

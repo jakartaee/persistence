@@ -171,4 +171,12 @@ public interface Path<X> extends Expression<X> {
      *          Use of the typesafe version is strongly preferred.
      */
     <Y> Path<Y> get(String attributeName);
+
+    /**
+     * Downcast the type of the path to the given type.
+     * @param type a subtype of the path type
+     * @return this path downcast to the given type
+     * @since 4.0
+     */
+    <T extends X> Path<T> treat(Class<T> type);
 }

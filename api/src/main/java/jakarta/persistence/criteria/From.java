@@ -356,4 +356,12 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          Use of the typesafe version is strongly preferred.
      */
     <K, V> MapJoin<X, K, V> joinMap(String attributeName, JoinType jt);
+
+    /**
+     * Downcast the bound type to the given type.
+     * @param type a subtype of the bound type
+     * @return this root or join downcast to the given type
+     * @since 4.0
+     */
+    <T extends X> From<?, T> treat(Class<T> type);
 }
