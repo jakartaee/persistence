@@ -640,6 +640,7 @@
           Index[] indexes() default {};
           CheckConstraint[] check() default {};
           String comment() default "";
+          String type() default "";
           String options() default "";
         }
 
@@ -663,6 +664,7 @@
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
     <xsd:attribute name="schema" type="xsd:string"/>
+    <xsd:attribute name="type" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
@@ -718,7 +720,7 @@
     <xsd:annotation>
       <xsd:documentation><![CDATA[
 
-        @Target({}) @Retention(RUNTIME)
+        @Target(METHOD) @Retention(RUNTIME)
         public @interface ColumnResult {
           String name();
           Class<?> type() default void.class;
@@ -754,17 +756,20 @@
     <xsd:annotation>
       <xsd:documentation><![CDATA[
 
-        @Target({}) @Retention(RUNTIME)
+        @Target(METHOD) @Retention(RUNTIME)
         public @interface ConstructorResult {
           Class<?> targetClass();
-          ColumnResult[] columns();
+          ColumnResult[] columns() default {};
+          EntityResult[] entities() default {};
         }
 
       ]]></xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
       <xsd:element name="column" type="orm:column-result"
-                   maxOccurs="unbounded"/>
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="entity" type="orm:entity-result"
+                   minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <xsd:attribute name="target-class" type="xsd:string" use="required"/>
   </xsd:complexType>
@@ -1242,10 +1247,10 @@
     <xsd:annotation>
       <xsd:documentation><![CDATA[
 
-        @Target({}) @Retention(RUNTIME)
+        @Target(METHOD) @Retention(RUNTIME)
         public @interface EntityResult {
           Class<?> entityClass();
-          LockModeType lockMode() default LockModeType.OPTIMISTIC;
+          LockModeType lockMode() default LockModeType.NONE;
           FieldResult[] fields() default {};
           String discriminatorColumn() default "";
         }
@@ -1559,6 +1564,7 @@
           Index[] indexes() default {};
           CheckConstraint[] check() default {};
           String comment() default "";
+          String type() default "";
           String options() default "";
         }
 
@@ -1588,6 +1594,7 @@
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
     <xsd:attribute name="schema" type="xsd:string"/>
+    <xsd:attribute name="type" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
@@ -2564,6 +2571,7 @@
           Index[] indexes() default {};
           CheckConstraint[] check() default {};
           String comment() default "";
+          String type() default "";
           String options() default "";
         }
 
@@ -2591,6 +2599,7 @@
     <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
     <xsd:attribute name="schema" type="xsd:string"/>
+    <xsd:attribute name="type" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
@@ -2694,6 +2703,7 @@
           Index[] indexes() default {};
           CheckConstraint[] check() default {};
           String comment() default "";
+          String type() default "";
           String options() default "";
         }
 
@@ -2711,6 +2721,7 @@
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
     <xsd:attribute name="schema" type="xsd:string"/>
+    <xsd:attribute name="type" type="xsd:string"/>
     <xsd:attribute name="options" type="xsd:string"/>
   </xsd:complexType>
 
