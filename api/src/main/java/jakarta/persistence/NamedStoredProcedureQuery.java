@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * entity or mapped superclass.
  *
  * <p>The {@link #name} element is the name that is passed as an argument
- * to the {@link EntityManager#createNamedStoredProcedureQuery} method to
+ * to the {@link EntityHandler#createNamedStoredProcedureQuery} method to
  * create an executable {@link StoredProcedureQuery} object. Names are
  * scoped to the persistence unit.
  *

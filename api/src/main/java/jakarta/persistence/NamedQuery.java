@@ -43,7 +43,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  *
  * <p> A named query may be executed by calling
- * {@link EntityManager#createNamedQuery(String, Class)}.
+ * {@link EntityHandler#createNamedQuery(String, Class)}.
  * {@snippet :
  * List<Customer> customers =
  *         em.createNamedQuery("findAllCustomersWithName", Customer.class)
@@ -79,7 +79,7 @@ public @interface NamedQuery {
 
     /** 
      * (Required) The name used to identify the query in calls to
-     * {@link EntityManager#createNamedQuery}.
+     * {@link EntityHandler#createNamedQuery}.
      */
     String name();
 
@@ -122,7 +122,7 @@ public @interface NamedQuery {
      *
      * <p>The result class may be overridden by explicitly
      * passing a class object to
-     * {@link EntityManager#createNamedQuery(String, Class)}.
+     * {@link EntityHandler#createNamedQuery(String, Class)}.
      *
      * @since 3.2
      */
@@ -134,7 +134,7 @@ public @interface NamedQuery {
      * is specified, the query must be executed in a transaction
      * and the persistence context joined to the transaction.
      * @since 2.0
-     * @see Query#setLockMode
+     * @see TypedQuery#setLockMode
      */
     LockModeType lockMode() default LockModeType.NONE;
 

@@ -32,7 +32,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Declares a named native SQL query and, optionally, the mapping
  * of the result of the native SQL query. Query names are scoped
  * to the persistence unit. A named query may be executed by
- * calling {@link EntityManager#createNamedQuery(String, Class)}.
+ * calling {@link EntityHandler#createNamedQuery(String, Class)}.
  * The SQL query should return a result set.
  *
  * <p> In simple cases, a {@link #resultClass} specifies how the
@@ -105,7 +105,7 @@ public @interface NamedNativeQuery {
 
     /**
      * The name used to identify the query in calls to
-     * {@link EntityManager#createNamedQuery}.
+     * {@link EntityHandler#createNamedQuery}.
      */
     String name();
 
@@ -157,7 +157,7 @@ public @interface NamedNativeQuery {
      * defined by the JDBC specification.
      *
      * <p>The result class may be overridden by explicitly passing a class
-     * object to {@link EntityManager#createNamedQuery(String, Class)}.
+     * object to {@link EntityHandler#createNamedQuery(String, Class)}.
      */
     Class<?> resultClass() default void.class;
 
