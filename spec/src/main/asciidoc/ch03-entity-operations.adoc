@@ -2425,14 +2425,15 @@ find and query operations are described in <<a2814>>.
 Use of an entity graph may be requested by passing the instance of
 `EntityGraph` to:
 
-- the first parameter of the `find()` method of `EntityManager`, to
-  control the data fetched by `find()`,
-- the second parameter of the `createQuery()` method of `EntityManager`,
-  or to the `setEntityGraph()` method of `TypedQuery` to control the
-  data fetched by the JPQL query, or
-- the `find()` method or `setHint()` method of `Query` via one of the
-  standard properties `jakarta.persistence.fetchgraph` or
-  `jakarta.persistence.loadgraph`.
+- the first parameter of the `find(EntityGraph, Object, FindOption...)`
+  method of `EntityHandler`, to control the data fetched by `find()`,
+- the second parameter of the `createQuery(String, EntityGraph)` method
+  of `EntityHandler`, or to the `withEntityGraph()` method of
+  `StatementOrTypedQuery`, to control the data fetched by the JPQL query,
+  or
+- either `find()` method of `EntityManager` accepting a properties map,
+  or the `setHint()` method of `Query`, via one of the standard properties
+  `jakarta.persistence.fetchgraph` or `jakarta.persistence.loadgraph`.
 
 An entity graph is interpreted as _load graph_, as specified below in
 <<load-graph-semantics>> unless it is passed as a hint via the property
@@ -2706,7 +2707,7 @@ public class Employee {
 
     @OneToMany
     // include phoneNumbers as a node in the graph
-    @NamedEntityGraph.AttributeNode(name = "employeeWithPhoneNumbers")
+    @NamedEntityGraph.AttributeNode(graph = "employeeWithPhoneNumbers")
     protected List<PhoneNumber> phoneNumbers;
 
     // ...
@@ -3891,13 +3892,20 @@ The mapping to constructors is specified
 using the `ConstructorResult` annotation element of the
 `SqlResultSetMapping` annotation. The `targetClass` element of the
 `ConstructorResult` annotation specifies the class whose constructor
-corresponds to the specified columns. All columns corresponding to
-arguments of the intended constructor must be specified using the
-`columns` element of the `ConstructorResult` annotation in the same
-order as that of the argument list of the constructor. Any entities
-returned as constructor results will be in either the new or the
-detached state, depending on whether a primary key is retrieved for the
-constructed object.
+corresponds to the specified result mappings. If the `targetClass`
+is an entity class, any entities returned as constructor results
+are in either the new or the detached state, depending on whether a
+primary key is retrieved for the constructed object.
+
+- Constructor arguments mapped directly to column results must be
+  specified using the `columns` element of the `ConstructorResult`
+  annotation in the same order as the corresponding arguments of
+  the constructor, before constructor arguments mapped to entity
+  results.
+- Constructor arguments mapped to entity results must be specified
+  using the `entities` element of the `ConstructorResult` annotation,
+  again in the same order as the corresponding arguments of the
+  constructor.
 
 Example:
 

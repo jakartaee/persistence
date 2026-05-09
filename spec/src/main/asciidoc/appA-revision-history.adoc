@@ -53,7 +53,7 @@ Added `FetchOption` and `AttributeNode.addOption()`
 
 Added `BatchSize`
 
-Added `setEntityGraph()` to `TypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityManager`.
+Added `withEntityGraph()` to `StatementOrTypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityHandler`.
 
 Specified that the graph returned by `getEntityGraph()` is now mutable, and added `getEntityGraph(Class, String)`
 
