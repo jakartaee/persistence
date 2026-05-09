@@ -183,17 +183,24 @@ Entity graphs are specified in <<a2397>>.
 
 ==== NamedEntityGraph and NamedEntityGraphs Annotations
 
-The `NamedEntityGraph` annotation defines a named entity graph. The
-annotation must be applied to the root entity of the graph, and specifies
-the limits of the graph of associated attributes and entities fetched when
-an operation which retrieves an instance or instances of the root entity is
-executed.
+The `NamedEntityGraph` annotation defines a named entity graph, or a
+subgraph of a named entity graph. The annotation must be applied to the
+root entity of the graph or subgraph. The nodes and subgraphs of the
+entity graph specify the limits of the graph of associated attributes and
+entities fetched when an operation which retrieves an instance or
+instances of the root entity is executed.
+
+A well-defined entity graph is a tree. The application is responsible
+for ensuring that every named entity graph is acyclic. If a named entity
+graph contains a cycle, the behavior is undefined.
 
 The `name` element assigns a name to the entity graph, and is used to
 identify the entity graph in calls to `EntityHandler.getEntityGraph()`.
 If no name is explicitly specified, the name defaults to the entity name
 of the annotated root entity. Entity graph names must be unique within the
-persistence unit.
+persistence unit, unless two `NamedEntityGraph` annotations declare the
+same name and one is a subgraph of the other, as specified by
+`NamedEntityGraph.Subgraph` annotations.
 
 The `attributeNodes` element lists attributes
 of the annotated entity class that are to be included in the entity
@@ -211,6 +218,12 @@ subgraphs are referenced by name from `NamedAttributeNode` definitions.
 The `subclassSubgraphs` element specifies a
 list of subgraphs that add additional attributes for subclasses of the
 root entity to which the annotation is applied.
+
+The nodes and subgraphs of a named entity graph defined using annotations
+may be specified by nesting `NamedAttributeNode` and `NamedSubgraph`
+annotations within the `NamedEntityGraph` annotation, by annotating
+persistent attributes with `NamedEntityGraph.AttributeNode` and
+`NamedEntityGraph.Subgraph`, or by mixing these two approaches.
 
 The `NamedEntityGraphs` annotation can be
 used to specify multiple named entity graphs for the entity to which it
