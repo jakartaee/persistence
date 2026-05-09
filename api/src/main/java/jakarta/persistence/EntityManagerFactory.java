@@ -366,8 +366,8 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Define the query, typed query, or stored procedure query as
      * a named query such that future query objects can be created
-     * from it using the {@link EntityManager#createNamedQuery} or
-     * {@link EntityManager#createNamedStoredProcedureQuery} methods.
+     * from it using the {@link EntityHandler#createNamedQuery} or
+     * {@link EntityHandler#createNamedStoredProcedureQuery} methods.
      * <p>Any configuration of the query object (except for actual
      * parameter binding) in effect when the named query is added
      * is retained as part of the named query definition. This
@@ -395,8 +395,8 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Define the given {@link TypedQuery} as a named query such that
      * future query objects can be created from it by calling either
-     * {@link EntityManager#createQuery(TypedQueryReference)} or
-     * {@link EntityManager#createNamedQuery(String,Class)}. Return a
+     * {@link EntityHandler#createQuery(TypedQueryReference)} or
+     * {@link EntityHandler#createNamedQuery(String,Class)}. Return a
      * {@linkplain TypedQueryReference reference} to the query.
      * <p>Any configuration of the query object (except for actual
      * parameter binding) in effect when the named query is added
@@ -427,8 +427,8 @@ public interface EntityManagerFactory extends AutoCloseable {
     /**
      * Define the given {@link Statement} as a named statement such that
      * future statement objects can be created from it by calling either
-     * {@link EntityManager#createStatement(StatementReference)} or
-     * {@link EntityManager#createNamedStatement(String)}. Returns a
+     * {@link EntityHandler#createStatement(StatementReference)} or
+     * {@link EntityHandler#createNamedStatement(String)}. Returns a
      * {@linkplain StatementReference reference} to the statement.
      * <p>Any configuration of the statement object (except for actual
      * parameter binding) in effect when the named query is added

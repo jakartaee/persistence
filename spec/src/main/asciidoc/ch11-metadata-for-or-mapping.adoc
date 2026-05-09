@@ -1154,7 +1154,7 @@ an inherited basic attribute.
 @Retention(RUNTIME)
 @Repeatable(Converts.class)
 public @interface Convert {
-    Class converter() default void.class;
+    Class<? extends AttributeConverter> converter() default AttributeConverter.class;
     String attributeName() default "";
     boolean disableConversion() default false;
 }
@@ -2027,7 +2027,7 @@ version field or property of the entity.
 ----
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
-public @interface ExcludeFromVersioning {}
+public @interface ExcludedFromVersioning {}
 ----
 
 This annotation indicates that the application tolerates lost updates
@@ -4657,6 +4657,7 @@ public @interface OrderColumn {
     boolean updatable() default true;
     String columnDefinition() default "";
     String options() default "";
+    String comment() default "";
 }
 ----
 

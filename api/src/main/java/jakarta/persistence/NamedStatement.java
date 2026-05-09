@@ -39,15 +39,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * class Customer { ... }
  * }
  * <p> A named statement may be executed by calling
- * {@link EntityManager#createNamedStatement(String)}.
+ * {@link EntityHandler#createNamedStatement(String)}.
  * {@snippet :
  * em.createNamedStatement("deleteNamedCustomers")
  *             .setParameter("custName", "Smith")
  *             .execute();
  * }
  *
- * @see EntityManager#createNamedStatement(String)
- * @see EntityManager#createStatement(StatementReference)
+ * @see EntityHandler#createNamedStatement(String)
+ * @see EntityHandler#createStatement(StatementReference)
  * @see EntityManagerFactory#addNamedStatement(String, Statement)
  * @see NamedNativeStatement
  *
@@ -60,7 +60,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedStatement {
 	/**
 	 * (Required) The name used to identify the query in calls to
-	 * {@link EntityManager#createNamedStatement(String)}.
+	 * {@link EntityHandler#createNamedStatement(String)}.
 	 */
 	String name();
 

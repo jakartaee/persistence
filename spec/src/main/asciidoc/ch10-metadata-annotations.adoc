@@ -412,7 +412,7 @@ must be ignored.
 The `entityGraph` element may specify the name of a named entity graph
 interpreted as a load graph and applied to the entity returned by the
 query. The named `EntityGraph` may be overridden by calling
-`TypedQuery.setEntityGraph()`.
+`StatementOrTypedQuery.withEntityGraph()`.
 
 The `NamedQuery` and `NamedQueries` annotations can be applied to any
 class belonging to the persistence unit, as specified in <<a12305>>.
@@ -686,7 +686,8 @@ the SELECT list—i.e., column alias, if applicable.
 @Repeatable(ConstructorResult.ConstructorResults.class)
 public @interface ConstructorResult {
     Class<?> targetClass();
-    ColumnResult[] columns();
+    ColumnResult[] columns() default {};
+    EntityResult[] entities() default {};
     ...
 }
 ----

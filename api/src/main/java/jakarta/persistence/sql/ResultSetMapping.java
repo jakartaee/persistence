@@ -55,7 +55,7 @@ import jakarta.persistence.metamodel.SingularAttribute;
  * may be obtained via {@link jakarta.persistence.EntityManagerFactory#getResultSetMappings}.
  *
  * <p>A {@code ResultSetMapping} may be used to
- * {@linkplain jakarta.persistence.EntityManager#createNativeQuery(String, ResultSetMapping) obtain}
+ * {@linkplain jakarta.persistence.EntityHandler#createNativeQuery(String, ResultSetMapping) obtain}
  * and execute a {@link jakarta.persistence.TypedQuery TypedQuery}.
  *
  * @see jakarta.persistence.SqlResultSetMapping
