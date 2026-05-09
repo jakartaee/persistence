@@ -10,6 +10,7 @@ include::../../../../api/src/main/java/jakarta/persistence/query/JakartaQuery.ja
 ----
 
 === `NativeQuery`
+[source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/query/NativeQuery.java[lines=18..-1]
 ----

@@ -312,7 +312,7 @@ only subclass-specific attributes are listed.
 @Retention(RUNTIME)
 public @interface NamedSubgraph {
     String name();
-    Class type() default void.class;
+    Class<?> type() default void.class;
     NamedAttributeNode[] attributeNodes();
 }
 ----

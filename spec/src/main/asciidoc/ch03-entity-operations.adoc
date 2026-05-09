@@ -3970,7 +3970,7 @@ In the programmatic API:
   the children of the `TupleMapping`,
 - `ColumnMapping`, found in <<_column-mapping_>> is an alternative
   to `@ColumnResult`, as specified in <<scalar-results>>, and
-- `@EmbeddableMapping`, found in <<_embedded-mapping_>> is an
+- `EmbeddedMapping`, found in <<_embedded-mapping_>> is an
   alternative to the use of dot notation to map embedded objects
   within an `EntityMapping`.
 
