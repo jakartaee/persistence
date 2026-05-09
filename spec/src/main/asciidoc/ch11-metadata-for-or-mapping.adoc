@@ -2420,7 +2420,7 @@ enumerated by the `InheritanceType` enum:
 
 [source,java]
 ----
-public enum InheritanceType { SINGLE_TABLE, JOINED, TABLE_PER_CLASS }
+public enum InheritanceType { SINGLE_TABLE, TABLE_PER_CLASS, JOINED }
 ----
 
 If the root entity of an entity class hierarchy is not annotated with
