@@ -105,11 +105,12 @@ We say that an entity instance is _persistent_ if it represents a
 database record or if insertion of a record has been scheduled with
 the entity manager.
 
-=== Properties and Hints [[properties-hints]]
+=== Properties, Hints, and Options [[properties-hints]]
 
 The `EntityManager` and `EntityAgent` interfaces--along with some other
 interfaces defined by this specification--contain methods that take
-"properties" or "hints" as arguments. This specification distinguishes
+"properties" or "hints" as arguments. A property or hint is a named value,
+with the name represented as a string. This specification distinguishes
 between properties and hints as follows:
 
 * A _property_ defined by this specification must be observed by the
@@ -119,6 +120,20 @@ between properties and hints as follows:
   a hint defined by this specification should be observed by the provider
   if possible, a hint may or may not always be observed. A portable
   application must not depend on the observance of a hint.
+
+Alternatively, an _option_ is a type safe object carrying the same sort
+of information which might be provided in a property or hint. The
+interfaces `EntityManager` and `EntityAgent` define inner interfaces
+`Option` and `CreationOption`, and this specification provides several
+built-in concrete option types implementing these option interfaces.
+Providers are encouraged to define additional custom option types
+controlling vendor-specific behavior.
+
+NOTE: Custom options are type safe and result in more elegant code.
+However, their use results in a dependency on vendor-specific APIs.
+Application programs desiring portability between persistence providers
+might choose to use string-based properties and hints in preference to
+custom options.
 
 === EntityHandler Interface [[entity-handler]]
 
@@ -3345,7 +3360,7 @@ representing a native SQL query or stored procedure, the persistence
 provider is permitted to throw `IllegalStateException`. Alternatively,
 execution of the query might fail.
 
-==== Query Hints [[a4391]]
+==== Query Hints and Options [[a4391]]
 
 A _query hint_ is a named value which may be:
 
@@ -3381,6 +3396,20 @@ A persistence provider is permitted to support the use of additional,
 vendor-specific hints. Vendor-specific hints must not have names in
 the `jakarta.persistence` namespace. A vendor-specific hint must be
 ignored if it is not understood by the provider.
+
+Alternatively, a _query option_ is a type safe object carrying the
+same sort of information which might be provided in a query hint. The
+interfaces `Statememt`, and `TypedQuery`, and `StoredProcedureQuery`
+define inner `Option` interfaces, and this specification provides a
+number of built-in concrete option types implementing these option
+interfaces. Providers are encouraged to define additional custom
+option types controlling vendor-specific behavior.
+
+NOTE: Custom query options are type safe and result in more elegant
+code. However, their use results in a dependency on vendor-specific
+APIs. Application programs desiring portability between persistence
+providers might choose to use string-based query hints in preference
+to custom query options.
 
 ==== Parameter Objects [[a4397]]
 
