@@ -1,0 +1,88 @@
+/*
+ * Copyright (c) 2026 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0, which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * This Source Code may also be made available under the following Secondary
+ * Licenses when the conditions for such availability set forth in the
+ * Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+ * version 2 with the GNU Classpath Exception, which is available at
+ * https://www.gnu.org/software/classpath/license.html.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+ */
+
+package ee.jakarta.tck.persistence.jpa40.querygraph;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity(name = "Jpa40QueryGraphBook")
+@Table(name = "JPA40_QUERY_GRAPH_BOOK")
+@NamedEntityGraph(
+        name = QueryGraphBook.GRAPH,
+        attributeNodes = @NamedAttributeNode("publisher"))
+@NamedQuery(
+        name = QueryGraphBook.QUERY,
+        query = "SELECT b FROM Jpa40QueryGraphBook b WHERE b.id = 1",
+        resultClass = QueryGraphBook.class,
+        entityGraph = QueryGraphBook.GRAPH)
+public class QueryGraphBook {
+    public static final String GRAPH = "Jpa40QueryGraphBook.withPublisher";
+    public static final String QUERY = "Jpa40QueryGraphBook.findOneWithGraph";
+
+    @Id
+    private Integer id;
+
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private QueryGraphPublisher publisher;
+
+    @ManyToMany
+    @JoinTable(
+            name = "JPA40_QUERY_GRAPH_BOOK_AUTHOR",
+            joinColumns = @JoinColumn(name = "BOOK_ID"),
+            inverseJoinColumns = @JoinColumn(name = "AUTHOR_ID"))
+    private Set<QueryGraphAuthor> authors = new HashSet<>();
+
+    public QueryGraphBook() {
+    }
+
+    public QueryGraphBook(Integer id, String title, QueryGraphPublisher publisher) {
+        this.id = id;
+        this.title = title;
+        this.publisher = publisher;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public QueryGraphPublisher getPublisher() {
+        return publisher;
+    }
+
+    public Set<QueryGraphAuthor> getAuthors() {
+        return authors;
+    }
+
+    public void addAuthor(QueryGraphAuthor author) {
+        authors.add(author);
+        author.getBooks().add(this);
+    }
+}
