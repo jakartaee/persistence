@@ -89,7 +89,9 @@ Made `ELSE` branch in `CASE` expressions optional in JPQL
 
 ==== Changes to Configuration and Bootstrap
 
-Allow named queries and statements to be defined on non-managed classes and interfaces.
+Added `@PersistenceAgent` for injection of Jakarta EE container-managed `EntityAgent`
+
+Allow named queries and statements to be defined on non-managed classes and interfaces
 
 Overloaded `Persistence.generateSchema()` to accept `PersistenceConfiguration` and added related functionality to `PersistenceConfiguration`: `exportSchema()`, `schemaManagementDatabaseAction()`, `schemaManagementScriptsAction()`, `SchemaManagementAction`
 
