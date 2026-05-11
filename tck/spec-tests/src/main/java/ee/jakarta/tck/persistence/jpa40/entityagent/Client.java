@@ -24,8 +24,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Client extends PMClientBase {
 
@@ -59,16 +58,20 @@ public class Client extends PMClientBase {
     /**
      * Tests the Jakarta Persistence 4.0 {@link EntityAgent} API. The test
      * verifies creation of an application-managed agent, direct insert, get,
-     * update, upsert, and delete operations, and explicit closing of the agent.
+     * update, upsert, and delete operations.
      */
     @Test
     public void entityAgentDirectOperationsTest() {
         EntityAgent agent = getEntityManagerFactory().createEntityAgent();
         EntityTransaction transaction = agent.getTransaction();
         try {
+            assertEquals(0L, countBooks());
+
             transaction.begin();
             agent.insert(new AgentBook(1, "inserted"));
             transaction.commit();
+
+            assertEquals(1L, countBooks());
 
             AgentBook inserted = agent.get(AgentBook.class, 1);
             assertEquals("inserted", inserted.getTitle());
@@ -77,16 +80,30 @@ public class Client extends PMClientBase {
             inserted.setTitle("updated");
             agent.update(inserted);
             transaction.commit();
+
+            assertEquals(1L, countBooks());
             assertEquals("updated", agent.get(AgentBook.class, 1).getTitle());
 
             transaction.begin();
-            agent.upsert(new AgentBook(2, "upserted"));
+            agent.upsert(new AgentBook(2, "upserted new"));
             transaction.commit();
-            assertEquals("upserted", agent.get(AgentBook.class, 2).getTitle());
 
             transaction.begin();
-            agent.delete(agent.get(AgentBook.class, 1));
+            inserted.setTitle("upserted old");
+            agent.upsert(inserted);
             transaction.commit();
+
+            assertEquals(2L, countBooks());
+            assertEquals("upserted old", agent.get(AgentBook.class, 1).getTitle());
+            assertEquals("upserted new", agent.get(AgentBook.class, 2).getTitle());
+
+            transaction.begin();
+            agent.delete(inserted);
+            transaction.commit();
+
+            assertEquals(1L, countBooks());
+            assertNull(agent.find(AgentBook.class, 1));
+            assertNotNull(agent.find(AgentBook.class, 2));
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -104,4 +121,11 @@ public class Client extends PMClientBase {
         getEntityManagerFactory().getSchemaManager().truncate();
         getEntityManager().clear();
     }
+
+    private long countBooks() {
+        return getEntityManagerFactory().callInTransaction(entityManager -> entityManager
+                .createQuery("SELECT COUNT(b) FROM Jpa40AgentBook b", Long.class)
+                .getSingleResult());
+    }
+
 }
