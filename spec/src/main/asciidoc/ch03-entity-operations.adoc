@@ -2394,10 +2394,10 @@ The annotations `@NamedEntityGraph`, `@NamedAttributeNode`, and
 `@NamedSubgraph` described in <<a13662>> are used to statically define
 entity graphs. The `named-entity-graph` XML element and its subelements
 may be used to override these annotations or to define additional named
-entity graphs. As an alternative to `@NamedAttributeNode` and
-`@NamedSubgraph`, the annotations `@NamedEntityGraph.AttributeNode` and
-`@NamedEntityGraph.Subgraph`, also found in <<a13662>>, may be used
-to specify the nodes and subgraphs of a named entity graph declared via
+entity graphs. As an alternative to nesting `@NamedAttributeNode` and
+`@NamedSubgraph` within `@NamedEntityGraph`, the annotation `@Fetch`,
+also found in <<a13662>>, may be applied to persistent attributes to
+specify the nodes and subgraphs of a named entity graph declared via
 the `@NamedEntityGraph` annotation.
 
 A well-defined entity graph is a tree. The application program is
@@ -2408,14 +2408,14 @@ is initialized; or it may transform the graph into an acyclic graph
 according to some vendor-specific algorithm. Portable applications must
 avoid relying on such behavior.
 
-When `@NamedEntityGraph.Subgraph` is used, there might be multiple entities
-with `@NamedEntityGraph` annotations specifying identical values for the
-`name` member. In this scenario, the root entity of the named graph is
-identified by it being the unique entity class that is not referenced by
-the `subgraph` member of any `NamedEntityGraph.Subgraph` annotation
-belonging to the named graph. If there is no such entity class, or if it
-is not unique, the behavior is undefined. An application must ensure that
-each named entity graph has a unique root entity.
+When the `subgraph` member of `@Fetch` is used, there might be multiple
+entities with `@NamedEntityGraph` annotations specifying identical values
+for the `name` member. In this scenario, the root entity of the named graph
+is identified by it being the unique entity class that is not referenced
+by the `subgraph` member of any `Fetch` annotation belonging to the named
+graph. If there is no such entity class, or if it is not unique, the
+behavior is undefined. An application must ensure that each named entity
+graph has a unique root entity.
 
 The semantics of entity graphs with regard to
 find and query operations are described in <<a2814>>.
@@ -2554,7 +2554,7 @@ public class Employee {
 
     @OneToMany
     // include projects as a node in the graph
-    @NamedEntityGraph.AttributeNode(graph = "employeeWithProjects")
+    @Fetch(graph = "employeeWithProjects")
     protected List<Project> projects;
 
     @OneToMany
@@ -2706,7 +2706,7 @@ public class Employee {
 
     @OneToMany
     // include phoneNumbers as a node in the graph
-    @NamedEntityGraph.AttributeNode(name = "employeeWithPhoneNumbers")
+    @Fetch(graph = "employeeWithPhoneNumbers")
     protected List<PhoneNumber> phoneNumbers;
 
     // ...
