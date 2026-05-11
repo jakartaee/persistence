@@ -16,21 +16,20 @@
 
 package ee.jakarta.tck.persistence.jpa40.callbacks;
 
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PostInsert;
 import jakarta.persistence.PreInsert;
-import jakarta.persistence.PostUpdate;
 
-public class PackageCallbackListener {
-
-    public PackageCallbackListener() {
-    }
+@MappedSuperclass
+public abstract class CallbackMappedSuperclass {
 
     @PreInsert
-    public void preInsert(CallbackEntity entity) {
-        CallbackEventLog.record("package-pre-insert");
+    public void mappedSuperclassPreInsert() {
+        CallbackEventLog.record("mapped-superclass-pre-insert");
     }
 
-    @PostUpdate
-    public void postUpdate(CallbackEntity entity) {
-        CallbackEventLog.record("package-post-update");
+    @PostInsert
+    public void mappedSuperclassPostInsert() {
+        CallbackEventLog.record("mapped-superclass-post-insert");
     }
 }

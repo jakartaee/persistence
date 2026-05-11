@@ -18,9 +18,17 @@ package ee.jakarta.tck.persistence.jpa40.callbacks;
 
 import jakarta.persistence.EntityListener;
 import jakarta.persistence.PostInsert;
+import jakarta.persistence.PostUpdate;
+import jakarta.persistence.PreInsert;
+import jakarta.persistence.PreUpdate;
 
 @EntityListener
 public class AnnotatedCallbackListener {
+
+    @PreInsert
+    public void preInsertCallbackEntity(CallbackEntity entity) {
+        CallbackEventLog.record("annotated-pre-insert-callback-entity");
+    }
 
     @PostInsert
     public void postInsertCallbackEntity(CallbackEntity entity) {
@@ -30,5 +38,17 @@ public class AnnotatedCallbackListener {
     @PostInsert
     public void postInsertObject(Object entity) {
         CallbackEventLog.record("annotated-post-insert-object");
+    }
+
+    @PreUpdate
+    public void preUpdateObject(Object entity) {
+        if (entity instanceof CallbackEntity) {
+            CallbackEventLog.record("annotated-pre-update-object");
+        }
+    }
+
+    @PostUpdate
+    public void postUpdateCallbackEntity(CallbackEntity entity) {
+        CallbackEventLog.record("annotated-post-update-callback-entity");
     }
 }

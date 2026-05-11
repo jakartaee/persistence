@@ -20,10 +20,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PostDelete;
 import jakarta.persistence.PostInsert;
+import jakarta.persistence.PostUpdate;
 import jakarta.persistence.PostUpsert;
 import jakarta.persistence.PreDelete;
 import jakarta.persistence.PreInsert;
 import jakarta.persistence.PreMerge;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.PreUpsert;
 import jakarta.persistence.Table;
 
@@ -63,11 +65,31 @@ public class CallbackEntity {
     @PreInsert
     public void preInsert() {
         CallbackEventLog.record("entity-pre-insert");
+        if ("change-on-pre-insert".equals(title)) {
+            title = "changed-by-pre-insert";
+        }
+        if ("throw-on-pre-insert".equals(title)) {
+            CallbackEventLog.record("entity-pre-insert-throwing");
+            throw new IllegalStateException("throwing from @PreInsert");
+        }
     }
 
     @PostInsert
     public void postInsert() {
         CallbackEventLog.record("entity-post-insert");
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        CallbackEventLog.record("entity-pre-update");
+        if ("change-on-pre-update".equals(title)) {
+            title = "changed-by-pre-update";
+        }
+    }
+
+    @PostUpdate
+    public void postUpdate() {
+        CallbackEventLog.record("entity-post-update");
     }
 
     @PreUpsert
