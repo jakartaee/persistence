@@ -178,16 +178,16 @@ public @interface PostLoad {}
 
 === EntityGraph Annotations [[a13662]]
 
-The following annotations are used to declare named entity graphs.
-Entity graphs are specified in <<a2397>>.
+The following annotations are used to declare named entity graphs and
+attribute-level fetch options. Entity graphs are specified in <<a2397>>.
 
 ==== NamedEntityGraph and NamedEntityGraphs Annotations
 
 The `NamedEntityGraph` annotation defines a named entity graph, or a
 subgraph of a named entity graph. The annotation must be applied to the
 root entity of the graph or subgraph. The nodes and subgraphs of the
-entity graph specify the limits of the graph of associated attributes and
-entities fetched when an operation which retrieves an instance or
+entity graph specify the limits of the graph of associated attributes
+and entities fetched when an operation which retrieves an instance or
 instances of the root entity is executed.
 
 A well-defined entity graph is a tree. The application is responsible
@@ -199,8 +199,8 @@ identify the entity graph in calls to `EntityHandler.getEntityGraph()`.
 If no name is explicitly specified, the name defaults to the entity name
 of the annotated root entity. Entity graph names must be unique within the
 persistence unit, unless two `NamedEntityGraph` annotations declare the
-same name and one is a subgraph of the other, as specified by
-`NamedEntityGraph.Subgraph` annotations.
+same name and one is a subgraph of the other, as specified by `@Fetch`
+annotations belonging to the named graph.
 
 The `attributeNodes` element lists attributes
 of the annotated entity class that are to be included in the entity
@@ -222,12 +222,18 @@ root entity to which the annotation is applied.
 The nodes and subgraphs of a named entity graph defined using annotations
 may be specified by nesting `NamedAttributeNode` and `NamedSubgraph`
 annotations within the `NamedEntityGraph` annotation, by annotating
-persistent attributes with `NamedEntityGraph.AttributeNode` and
-`NamedEntityGraph.Subgraph`, or by mixing these two approaches.
+persistent attributes with `Fetch`, or by mixing these two approaches.
 
 The `NamedEntityGraphs` annotation can be
 used to specify multiple named entity graphs for the entity to which it
 is applied.
+
+As an alternative to nesting `NamedAttributeNode` and `NamedSubgraph`
+annotations within `NamedEntityGraph`, the `Fetch` annotation may be
+applied to a persistent attribute of an entity class. When its `graph`
+member names a named entity graph, the annotated attribute is an
+attribute node of that graph. Its `subgraph` member names one or more
+entity graphs to be attached as subgraphs to the attribute node.
 
 [source,java]
 ----
@@ -317,52 +323,66 @@ public @interface NamedSubgraph {
 }
 ----
 
-==== NamedEntityGraph.AttributeNode
+==== Fetch Annotation
 
-The `NamedEntityGraph.AttributeNode` annotation is an alternative to
-`NamedAttributeNode`. It may be placed on the persistent attribute
-represented by the graph node instead of being nested inside the
-`NamedEntityGraph` annotation.
+The `Fetch` annotation specifies options which influence how a persistent
+attribute is fetched.
 
-[source,java]
-----
-@Repeatable(AttributeNodes.class)
-@Target({FIELD, METHOD})
-@Retention(RUNTIME)
-public @interface AttributeNode {
-    String graph() default "";
-}
-----
+When the `graph` member specifies the name of a named entity graph, the
+annotated attribute is an attribute node of the named graph, and the
+fetching options specified by the annotation apply when the attribute is
+fetched using that entity graph.
 
-The `graph` member specifies the name of the entity graph to which
-the node belongs. It defaults to the entity name of the annotated
-entity class.
+When the `graph` member is not specified, the annotation does not declare
+an attribute node of an entity graph. The fetching options specified by
+the annotation apply when the attribute is fetched without the use of an
+entity graph.
 
-==== NamedEntityGraph.Subgraph
-
-The `NamedEntityGraph.Subgraph` annotation is an alternative to
-`NamedSubgraph`. It may be placed on the association represented
-by the subgraph instead of being nested inside the `NamedEntityGraph`
-annotation.
+Multiple `Fetch` annotations may be specified for a persistent attribute.
 
 [source,java]
 ----
-@Repeatable(Subgraphs.class)
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
-public @interface Subgraph {
+@Repeatable(Fetch.Fetches.class)
+public @interface Fetch {
     String graph() default "";
-    String subgraph() default "";
+    String[] subgraph() default {};
+    FetchType type() default FetchType.EAGER;
+    int batchSize() default -1;
+    CacheStoreMode cacheStoreMode() default CacheStoreMode.USE;
+    CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
+    QueryHint[] hints() default {};
 }
 ----
 
-The `graph` member specifies the name of the entity graph to which
-the subgraph belongs. It defaults to the entity name of the annotated
-entity class.
+The `graph` member specifies the name of an entity graph. When a graph
+name is specified, the annotated attribute is an attribute node of that
+graph. Otherwise, the annotation specifies fetching options which apply
+when the attribute is fetched without the use of an entity graph.
 
-The `subgraph` member specifies the name of an entity graph rooted
-at the associated entity type. If not explicitly specified, it
-defaults to the name of the entity graph to which the node belongs.
+The `subgraph` member specifies the names of one or more named entity
+graphs to be attached as subgraphs of the entity graph named by the
+`graph` member, to the attribute node representing the annotated
+association. The annotated attribute must be an association.
+
+The `type` member specifies the fetching policy for the annotated
+attribute. It overrides the value specified by the `fetch` member of the
+`Basic`, `OneToOne`, `ManyToOne`, `OneToMany`, `ManyToMany`, or
+`ElementCollection` annotation.
+
+The `batchSize` member is a hint specifying how many entities should be
+fetched in each request to the database. The persistence provider may
+ignore this hint.
+
+The `cacheStoreMode` member specifies whether the persistence provider
+should cache the associated entity after fetching it from the database.
+
+The `cacheRetrieveMode` member specifies whether the persistence provider
+is permitted to read the associated entity data from the cache.
+
+The `hints` member specifies vendor-specific fetching hints. Any hint not
+recognized by a provider is ignored.
 
 === Annotations for Queries [[a13710]]
 
