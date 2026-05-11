@@ -198,11 +198,12 @@ public interface Expression<T> extends Selection<T> {
 
     /**
      * Create a simple case expression to test against this expression.
+     * @param type the type of the result of the case expression
      * @param <R> the result type of the case expression
      * @return simple case expression
      * @since 4.0
      */
-    <R> SimpleCase<T,R> selectCase();
+    <R> SimpleCase<T,R> selectCase(Class<R> type);
 
     //collection operations:
 
