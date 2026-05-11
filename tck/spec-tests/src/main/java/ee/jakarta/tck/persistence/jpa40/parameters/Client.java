@@ -20,6 +20,7 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.ParameterMode;
+import jakarta.persistence.Statement;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class Client extends PMClientBase {
 
@@ -69,7 +71,8 @@ public class Client extends PMClientBase {
     /**
      * Tests Jakarta Persistence 4.0 typed parameter binding overloads. The
      * test verifies {@code setParameter()} overloads accepting a Java
-     * {@link Class} and a metamodel {@link Type}.
+     * {@link Class} and a metamodel {@link Type}, including positional
+     * parameters and a converted attribute type.
      */
     @Test
     public void typedSetParameterOverloadsTest() {
@@ -92,6 +95,39 @@ public class Client extends PMClientBase {
                 .setParameter("title", "Alpha", titleType)
                 .getSingleResult();
         assertEquals(1, byType.getId());
+
+        ParameterBook byPositionalClass = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.title = ?1",
+                        ParameterBook.class)
+                .setParameter(1, "Alpha", String.class)
+                .getSingleResult();
+        assertEquals(1, byPositionalClass.getId());
+
+        ParameterBook byPositionalType = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.title = ?1",
+                        ParameterBook.class)
+                .setParameter(1, "Beta", titleType)
+                .getSingleResult();
+        assertEquals(2, byPositionalType.getId());
+
+        Type<Code> codeType = getEntityManager()
+                .getMetamodel()
+                .entity(ParameterBook.class)
+                .getSingularAttribute("code", Code.class)
+                .getType();
+        ParameterBook byConvertedAttributeType = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.code = :code",
+                        ParameterBook.class)
+                .setParameter("code", new Code("A"), codeType)
+                .getSingleResult();
+        assertEquals(1, byConvertedAttributeType.getId());
+
+        ParameterBook byPositionalConvertedAttributeType = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.code = ?1",
+                        ParameterBook.class)
+                .setParameter(1, new Code("B"), codeType)
+                .getSingleResult();
+        assertEquals(2, byPositionalConvertedAttributeType.getId());
     }
 
     /**
@@ -102,12 +138,22 @@ public class Client extends PMClientBase {
      */
     @Test
     public void convertedParameterBindingTest() {
-        ParameterBook byQuery = getEntityManager()
+        TypedQuery<ParameterBook> typedQuery = getEntityManager()
                 .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.code = :code",
-                        ParameterBook.class)
-                .setConvertedParameter("code", new Code("A"), CodeConverter.class)
-                .getSingleResult();
+                        ParameterBook.class);
+        TypedQuery<ParameterBook> returnedQuery =
+                typedQuery.setConvertedParameter("code", new Code("A"), CodeConverter.class);
+        assertSame(typedQuery, returnedQuery);
+
+        ParameterBook byQuery = returnedQuery.getSingleResult();
         assertEquals(1, byQuery.getId());
+
+        ParameterBook byPositionalQuery = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.code = ?1",
+                        ParameterBook.class)
+                .setConvertedParameter(1, new Code("B"), CodeConverter.class)
+                .getSingleResult();
+        assertEquals(2, byPositionalQuery.getId());
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ParameterBook> criteria = builder.createQuery(ParameterBook.class);
@@ -120,6 +166,87 @@ public class Client extends PMClientBase {
                 .setParameter(code, new Code("A"))
                 .getSingleResult();
         assertEquals(1, byCriteria.getId());
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 typed parameter binding overloads on
+     * {@link Statement}. The test verifies named and positional executable
+     * statements accept Java {@link Class} and metamodel {@link Type}
+     * parameter declarations.
+     */
+    @Test
+    public void statementTypedSetParameterOverloadsTest() {
+        Type<String> titleType = getEntityManager()
+                .getMetamodel()
+                .entity(ParameterBook.class)
+                .getSingularAttribute("title", String.class)
+                .getType();
+        Type<Integer> idType = getEntityManager()
+                .getMetamodel()
+                .entity(ParameterBook.class)
+                .getSingularAttribute("id", Integer.class)
+                .getType();
+
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        Statement namedStatement = getEntityManager()
+                .createStatement("UPDATE Jpa40ParameterBook b SET b.title = :title WHERE b.id = :id");
+        Statement returnedStatement = namedStatement
+                .setParameter("title", "Typed named", String.class)
+                .setParameter("id", 1, Integer.class);
+        assertSame(namedStatement, returnedStatement);
+        int namedCount = returnedStatement.execute();
+
+        int positionalCount = getEntityManager()
+                .createStatement("UPDATE Jpa40ParameterBook b SET b.title = ?1 WHERE b.id = ?2")
+                .setParameter(1, "Typed positional", titleType)
+                .setParameter(2, 2, idType)
+                .execute();
+        transaction.commit();
+        getEntityManager().clear();
+
+        assertEquals(1, namedCount);
+        assertEquals(1, positionalCount);
+        assertEquals("Typed named", getEntityManager().find(ParameterBook.class, 1).getTitle());
+        assertEquals("Typed positional", getEntityManager().find(ParameterBook.class, 2).getTitle());
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 converted parameter binding on
+     * {@link Statement}. The test verifies executable statements accept
+     * converted bindings by metamodel {@link Type} and by explicit converter
+     * class, for both named and positional parameters.
+     */
+    @Test
+    public void statementConvertedSetParameterOverloadsTest() {
+        Type<Code> codeType = getEntityManager()
+                .getMetamodel()
+                .entity(ParameterBook.class)
+                .getSingularAttribute("code", Code.class)
+                .getType();
+
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        int namedTypeCount = getEntityManager()
+                .createStatement("UPDATE Jpa40ParameterBook b SET b.title = :title WHERE b.code = :code")
+                .setParameter("title", "Converted type", String.class)
+                .setParameter("code", new Code("A"), codeType)
+                .execute();
+
+        Statement positionalStatement = getEntityManager()
+                .createStatement("UPDATE Jpa40ParameterBook b SET b.title = ?1 WHERE b.code = ?2");
+        Statement returnedStatement = positionalStatement
+                .setParameter(1, "Converted class", String.class)
+                .setConvertedParameter(2, new Code("B"), CodeConverter.class);
+        assertSame(positionalStatement, returnedStatement);
+        int positionalConvertedCount = returnedStatement.execute();
+        transaction.commit();
+        getEntityManager().clear();
+
+        assertEquals(1, namedTypeCount);
+        assertEquals(1, positionalConvertedCount);
+        assertEquals("Converted type", getEntityManager().find(ParameterBook.class, 1).getTitle());
+        assertEquals("Converted class", getEntityManager().find(ParameterBook.class, 2).getTitle());
     }
 
     /**
@@ -142,6 +269,7 @@ public class Client extends PMClientBase {
         EntityTransaction transaction = getEntityTransaction();
         transaction.begin();
         getEntityManager().persist(new ParameterBook(1, "Alpha", new Code("A")));
+        getEntityManager().persist(new ParameterBook(2, "Beta", new Code("B")));
         transaction.commit();
         getEntityManager().clear();
     }
