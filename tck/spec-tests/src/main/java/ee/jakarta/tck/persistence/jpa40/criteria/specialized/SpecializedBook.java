@@ -16,11 +16,14 @@
 
 package ee.jakarta.tck.persistence.jpa40.criteria.specialized;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "Jpa40SpecializedBook")
 @Table(name = "JPA40_SPECIALIZED_BOOK")
@@ -38,17 +41,23 @@ public class SpecializedBook {
 
     private String category;
 
+    @ElementCollection
+    private Set<String> tags = new HashSet<>();
+
     public SpecializedBook() {
     }
 
     public SpecializedBook(Integer id, String title, Integer quantity, LocalDate publishedOn,
-                           Boolean available, String category) {
+                           Boolean available, String category, Set<String> tags) {
         this.id = id;
         this.title = title;
         this.quantity = quantity;
         this.publishedOn = publishedOn;
         this.available = available;
         this.category = category;
+        if (tags != null) {
+            this.tags.addAll(tags);
+        }
     }
 
     public String getTitle() {

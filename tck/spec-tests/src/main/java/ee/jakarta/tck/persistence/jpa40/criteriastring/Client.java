@@ -21,8 +21,10 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaSelect;
 import jakarta.persistence.criteria.CriteriaStatement;
 import jakarta.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.criteria.Root;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -190,11 +192,108 @@ public class Client extends PMClientBase {
         assertEquals(List.of(3), idsById());
     }
 
-    private void assertCriteriaStatementRepresentsParsedJpql(CriteriaStatement<CriteriaStringBook> statement,
+    /**
+     * Tests Jakarta Persistence 4.0 untyped JPQL parsing overloads for select,
+     * update, and delete criteria objects.
+     */
+    @Test
+    public void criteriaBuilderUntypedJpqlStringOverloadsTest() {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+
+        CriteriaQuery<?> select = builder.createQuery(
+                "SELECT b.title FROM Jpa40CriteriaStringBook b WHERE b.id = :id");
+        assertEquals(String.class, select.getSelection().getJavaType());
+        assertEquals(1, select.getParameters().size());
+        Object title = getEntityManager()
+                .createQuery(select)
+                .setParameter("id", 1)
+                .getSingleResult();
+        assertEquals("Alpha", title);
+
+        CriteriaUpdate<?> update = builder.createCriteriaUpdate(
+                "UPDATE Jpa40CriteriaStringBook b SET b.title = :title WHERE b.id = :id");
+        assertCriteriaStatementRepresentsParsedJpql(update, 2);
+
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        int updated = getEntityManager()
+                .createStatement(update)
+                .setParameter("title", "Untyped")
+                .setParameter("id", 2)
+                .execute();
+        transaction.commit();
+        getEntityManager().clear();
+
+        assertEquals(1, updated);
+        assertEquals(List.of("Alpha", "Untyped", "Gamma"), titlesById());
+
+        resetTestData();
+
+        CriteriaDelete<?> delete = builder.createCriteriaDelete(
+                "DELETE FROM Jpa40CriteriaStringBook b WHERE b.id < :id");
+        assertCriteriaStatementRepresentsParsedJpql(delete, 1);
+
+        transaction = getEntityTransaction();
+        transaction.begin();
+        int deleted = getEntityManager()
+                .createStatement(delete)
+                .setParameter("id", 3)
+                .execute();
+        transaction.commit();
+        getEntityManager().clear();
+
+        assertEquals(2, deleted);
+        assertEquals(List.of(3), idsById());
+    }
+
+    /**
+     * Tests criteria set operation selects using the {@link CriteriaSelect}
+     * execution path.
+     */
+    @Test
+    public void criteriaBuilderSetOperationSelectsTest() {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+
+        assertEquals(List.of(1, 2, 3),
+                sortedIds(builder.union(idLessThanOrEqualTo(builder, 2), idGreaterThanOrEqualTo(builder, 2))));
+        assertEquals(List.of(1, 2, 2, 3),
+                sortedIds(builder.unionAll(idLessThanOrEqualTo(builder, 2), idGreaterThanOrEqualTo(builder, 2))));
+        assertEquals(List.of(2),
+                sortedIds(builder.intersect(idLessThanOrEqualTo(builder, 2), idGreaterThanOrEqualTo(builder, 2))));
+        assertEquals(List.of(1),
+                sortedIds(builder.except(idLessThanOrEqualTo(builder, 2), idGreaterThanOrEqualTo(builder, 2))));
+    }
+
+    private void assertCriteriaStatementRepresentsParsedJpql(CriteriaStatement<?> statement,
                                                              int expectedParameterCount) {
         assertEquals(CriteriaStringBook.class, statement.getRoot().getModel().getJavaType());
         assertNotNull(statement.getRestriction());
         assertEquals(expectedParameterCount, statement.getParameters().size());
+    }
+
+    private CriteriaQuery<Integer> idLessThanOrEqualTo(CriteriaBuilder builder, int id) {
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<CriteriaStringBook> book = criteria.from(CriteriaStringBook.class);
+        criteria.select(book.get("id"))
+                .where(builder.le(book.get("id"), id));
+        return criteria;
+    }
+
+    private CriteriaQuery<Integer> idGreaterThanOrEqualTo(CriteriaBuilder builder, int id) {
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<CriteriaStringBook> book = criteria.from(CriteriaStringBook.class);
+        criteria.select(book.get("id"))
+                .where(builder.ge(book.get("id"), id));
+        return criteria;
+    }
+
+    private List<Integer> sortedIds(CriteriaSelect<Integer> select) {
+        return getEntityManager()
+                .createQuery(select)
+                .getResultList()
+                .stream()
+                .sorted()
+                .toList();
     }
 
     private void resetTestData() {
