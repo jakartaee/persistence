@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Client extends PMClientBase {
@@ -72,10 +73,14 @@ public class Client extends PMClientBase {
 
         EntityGraph<EntityTypeGraphBook> graph = entityType.createEntityGraph();
         graph.addAttributeNode("title");
+        assertEquals(EntityTypeGraphBook.class, graph.getGraphedType().getJavaType());
         assertTrue(graph.hasAttributeNode("title"));
+        assertEquals("title", graph.getAttributeNode("title").getAttribute().getName());
 
         Map<String, EntityGraph<EntityTypeGraphBook>> namedGraphs = entityType.getNamedEntityGraphs();
         assertTrue(namedGraphs.containsKey(EntityTypeGraphBook.GRAPH));
+        assertEquals(EntityTypeGraphBook.class,
+                namedGraphs.get(EntityTypeGraphBook.GRAPH).getGraphedType().getJavaType());
         assertTrue(namedGraphs.get(EntityTypeGraphBook.GRAPH).hasAttributeNode("title"));
     }
 

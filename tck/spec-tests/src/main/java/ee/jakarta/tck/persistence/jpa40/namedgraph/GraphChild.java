@@ -19,12 +19,15 @@ package ee.jakarta.tck.persistence.jpa40.namedgraph;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 
 @Entity(name = "Jpa40NamedGraphChild")
 @Table(name = "JPA40_NAMED_GRAPH_CHILD")
+@Inheritance(strategy = InheritanceType.JOINED)
 @NamedEntityGraph(name = GraphChild.GRAPH)
 public class GraphChild {
     public static final String GRAPH = "Jpa40NamedGraphChild.details";

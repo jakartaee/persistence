@@ -18,6 +18,7 @@ package ee.jakarta.tck.persistence.jpa40.fetchoption;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.AttributeNode;
+import jakarta.persistence.BatchSize;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.FetchOption;
@@ -28,6 +29,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -84,6 +88,72 @@ public class Client extends PMClientBase {
         FetchOptionBook eagerBook = getEntityManager().find(eagerGraph, 1);
         assertTrue(Persistence.getPersistenceUtil().isLoaded(eagerBook, "publisher"));
         assertTrue(Persistence.getPersistenceUtil().isLoaded(eagerBook.getPublisher()));
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 fetch option metadata on entity graph
+     * attribute nodes. The test verifies default options for added and
+     * removed nodes, option replacement, {@link BatchSize}, and defensive
+     * option set semantics. Note that {@code addOption()} overwrites
+     * existing options of the same type.
+     */
+    @Test
+    public void attributeNodeFetchOptionMetadataTest() {
+        EntityGraph<FetchOptionBook> graph = getEntityManager().createEntityGraph(FetchOptionBook.class);
+        AttributeNode<FetchOptionPublisher> publisher = graph.addAttributeNode("publisher");
+
+        assertEquals("publisher", publisher.getAttributeName());
+        assertEquals("publisher", publisher.getAttribute().getName());
+        assertTrue(publisher.getOptions().contains(FetchType.EAGER));
+
+        BatchSize batchSize = new BatchSize(5);
+        publisher.addOption(batchSize);
+        publisher.addOption(FetchType.LAZY); // overwrite
+
+        Set<FetchOption> options = publisher.getOptions();
+        assertTrue(options.contains(batchSize));
+        assertTrue(options.contains(FetchType.LAZY));
+        assertFalse(options.contains(FetchType.EAGER));
+
+        // mutation of the Set should not affect the original options
+        options.clear();
+        Set<FetchOption> fetchOptions = publisher.getOptions();
+        assertTrue(fetchOptions.contains(batchSize));
+        assertTrue(fetchOptions.contains(FetchType.LAZY));
+        assertFalse(fetchOptions.contains(FetchType.EAGER));
+
+        publisher.addOption(new BatchSize(10));
+        assertTrue(publisher.getOptions().contains(new BatchSize(10)));
+        assertFalse(publisher.getOptions().contains(new BatchSize(5)));
+    }
+
+    /**
+     * Tests that removing a node (that was not added) from an entity graph
+     * is the same as setting the option {@code FetchType.LAZY}.
+     */
+    @Test
+    public void attributeNodeRemoveTest() {
+        EntityGraph<FetchOptionBook> removedGraph =
+                getEntityManager().createEntityGraph(FetchOptionBook.class);
+        removedGraph.removeAttributeNode("publisher");
+        AttributeNode<?> removedPublisher = removedGraph.getAttributeNode("publisher");
+        assertEquals("publisher", removedPublisher.getAttribute().getName());
+        assertTrue(removedPublisher.getOptions().contains(FetchType.LAZY));
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 removed graph nodes. The test verifies
+     * removing an eager to-one attribute node suppresses its default eager
+     * fetch when the graph is used as a load graph.
+     */
+    @Test
+    public void removedAttributeNodeSuppressesEagerFetchTest() {
+        EntityGraph<FetchOptionBook> graph =
+                getEntityManager().createEntityGraph(FetchOptionBook.class);
+        graph.removeAttributeNode("publisher");
+        FetchOptionBook book = getEntityManager().find(graph, 1);
+        assertFalse(Persistence.getPersistenceUtil().isLoaded(book, "publisher")
+                && Persistence.getPersistenceUtil().isLoaded(book.getPublisher()));
     }
 
     private void createTestData() {
