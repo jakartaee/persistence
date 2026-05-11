@@ -55,18 +55,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * definition.
  *
  * <p> In the first approach, the definition of the named entity graph
- * is distributed across the entity class and its associated classes.
+ * is distributed across the entity class and its associated classes,
+ * with the help of the {@link Fetch} annotation.
  * {@snippet :
  * @NamedEntityGraph(name = "EmployeeWithProjectTasksAndEmployer")
  * @Entity // root entity of graph
  * public class Employee {
  *     ...
  *     // fetched attribute node
- *     @NamedEntityGraph.AttributeNode(graph = "EmployeeWithProjectTasksAndEmployer")
+ *     @Fetch(graph = "EmployeeWithProjectTasksAndEmployer")
  *     @ManyToOne(fetch=LAZY) Employer employer;
  *
  *     // reference to subgraph defined in Project class
- *     @NamedEntityGraph.Subgraph(graph = "EmployeeWithProjectTasksAndEmployer")
+ *     @Fetch(graph = "EmployeeWithProjectTasksAndEmployer"
+ *            subgraph = "EmployeeWithProjectTasksAndEmployer")
  *     @ManyToMany Set<Project> projects;
  * }
  *
@@ -75,17 +77,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public class Project {
  *     ...
  *     // reference to subgraph defined in Task class
- *     @NamedEntityGraph.Subgraph(graph = "EmployeeWithProjectTasksAndEmployer")
+ *     @Fetch(graph = "EmployeeWithProjectTasksAndEmployer")
  *     @OneToMany List<Task> tasks;
  * }
  * }
  *
- * <p> When {@link Subgraph} is used, there might be multiple entity
- * classes with {@code NamedEntityGraph} annotations specifying
+ * <p> When a {@code subgraph} is declared, there might be multiple
+ * entity classes with {@code NamedEntityGraph} annotations specifying
  * identical values for the {@code name} member. In this scenario,
  * the root entity of the named graph is identified by it being the
  * unique entity class that is not referenced by the {@code subgraph}
- * member of any {@link Subgraph} annotation belonging to the named
+ * member of any {@link Fetch} annotation belonging to the named
  * graph. If there is no such entity class, or if it is not unique,
  * the behavior is undefined. An application must ensure that each
  * named entity graph has a unique root entity.
@@ -219,120 +221,5 @@ public @interface NamedEntityGraph {
      * @see EntityGraph#addTreatedSubgraph(Class)
      */
     NamedSubgraph[] subclassSubgraphs() default {};
-
-    /**
-     * Declares that the annotated attribute is an attribute
-     * node in a {@linkplain NamedEntityGraph named entity graph}.
-     * The {@link #graph} member must specify the name of the
-     * graph.
-     *
-     * <p>Multiple {@code @AttributeNode} annotations may be
-     * applied to a single attribute, but each must specify the
-     * name of a distinct parent graph.
-     *
-     * <p>An {@code AttributeNode} is reified at runtime as an
-     * instance of {@link jakarta.persistence.AttributeNode}.
-     *
-     * @apiNote Alternatively, use {@link NamedAttributeNode}
-     * when nesting the declaration of the attribute node
-     * directly within a {@link NamedEntityGraph} annotation.
-     *
-     * @see NamedEntityGraph
-     * @see Subgraph
-     * @see EntityGraph#addAttributeNode
-     *
-     * @since 4.0
-     */
-    @Repeatable(AttributeNodes.class)
-    @Target({FIELD, METHOD})
-    @Retention(RUNTIME)
-    @interface AttributeNode {
-        /**
-         * The name of the containing entity graph, as specified by
-         * {@link NamedEntityGraph#name}. If no name is explicitly
-         * specified, the name defaults to the entity name of the
-         * annotated entity class.
-         */
-        String graph() default "";
-    }
-
-    /**
-     * Declares that the annotated association is the root of a
-     * subgraph of a {@linkplain NamedEntityGraph named entity
-     * graph}.
-     * <ul>
-     * <li>The {@link #graph} member specifies the name of
-     *     the containing graph.
-     * <li>The {@link #subgraph} member specifies the name of
-     *     a {@linkplain NamedEntityGraph named entity graph}
-     *     whose root is the associated entity.
-     * </ul>
-     * <p>Multiple {@code @Subgraph} annotations may be applied
-     * to a single attribute, but each must specify the name of
-     * a distinct parent graph.
-     *
-     * <p>A {@code Subgraph} is reified at runtime as an
-     * instance of {@link jakarta.persistence.Subgraph}.
-     *
-     * @apiNote Alternatively, use {@link NamedSubgraph} when
-     * nesting the definition of a subgraph directly within a
-     * {@link NamedEntityGraph} annotation.
-     *
-     * @see NamedEntityGraph
-     * @see AttributeNode
-     * @see EntityGraph#addSubgraph
-     * @see EntityGraph#addElementSubgraph
-     *
-     * @since 4.0
-     */
-    @Repeatable(Subgraphs.class)
-    @Target({FIELD, METHOD})
-    @Retention(RUNTIME)
-    @interface Subgraph {
-        /**
-         * The name of the containing entity graph, as specified by
-         * {@link NamedEntityGraph#name}. If no name is explicitly
-         * specified, the name defaults to the entity name of the
-         * annotated entity class.
-         */
-        String graph() default "";
-
-        /**
-         * The name of an entity graph whose root is the associated
-         * entity, as specified by {@link NamedEntityGraph#name}.
-         * If no subgraph name is explicitly specified, the subgraph
-         * name defaults to the {@linkplain #graph name of the
-         * containing graph}.
-         *
-         * <p>The target subgraph must be explicitly declared via a
-         * {@link NamedEntityGraph} annotation of the target entity
-         * of the annotated association.
-         */
-        String subgraph() default "";
-    }
-
-    /**
-     * Groups {@link AttributeNode} annotations.
-     *
-     * @see AttributeNode
-     * @since 4.0
-     */
-    @Target({FIELD, METHOD})
-    @Retention(RUNTIME)
-    @interface AttributeNodes {
-        AttributeNode[] value();
-    }
-
-    /**
-     * Groups {@link Subgraph} annotations.
-     *
-     * @see Subgraph
-     * @since 4.0
-     */
-    @Target({FIELD, METHOD})
-    @Retention(RUNTIME)
-    @interface Subgraphs {
-        Subgraph[] value();
-    }
 }
 
