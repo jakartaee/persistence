@@ -3399,7 +3399,7 @@ ignored if it is not understood by the provider.
 
 Alternatively, a _query option_ is a type safe object carrying the
 same sort of information which might be provided in a query hint. The
-interfaces `Statememt`, and `TypedQuery`, and `StoredProcedureQuery`
+interfaces `Statement`, `TypedQuery`, and `StoredProcedureQuery`
 define inner `Option` interfaces, and this specification provides a
 number of built-in concrete option types implementing these option
 interfaces. Providers are encouraged to define additional custom
