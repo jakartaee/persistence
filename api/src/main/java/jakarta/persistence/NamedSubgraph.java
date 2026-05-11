@@ -33,10 +33,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>A {@code NamedSubgraph} is reified at runtime as an
  * instance of {@link Subgraph}.
  *
- * @apiNote Alternatively, use {@link NamedEntityGraph} to
- * declare the subgraph, and use {@link NamedEntityGraph.Subgraph}
- * to reference the subgraph by annotating a field of the graphed
- * entity class.
+ * @apiNote Alternatively, use {@link NamedEntityGraph} to declare
+ * the subgraph, and use {@link Fetch} to reference the subgraph
+ * by annotating a field of the graphed entity class.
  *
  * @see NamedEntityGraph
  * @see NamedAttributeNode
