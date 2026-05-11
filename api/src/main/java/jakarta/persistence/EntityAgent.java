@@ -369,7 +369,8 @@ public interface EntityAgent extends EntityHandler {
 
     /**
      * Specify an {@linkplain Option option} controlling the
-     * behavior of this entity agent.
+     * behavior of this entity agent, overwriting any existing
+     * option of the same type.
      *
      * @param option the option
      */

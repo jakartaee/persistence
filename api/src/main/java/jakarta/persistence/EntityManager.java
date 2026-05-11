@@ -849,7 +849,8 @@ public interface EntityManager extends EntityHandler {
 
     /**
      * Specify an {@linkplain Option option} controlling the
-     * behavior of this entity manager.
+     * behavior of this entity manager, overwriting any existing
+     * option of the same type.
      *
      * @param option the option
      * @since 4.0
