@@ -17,12 +17,21 @@
 package ee.jakarta.tck.persistence.jpa40.entityagent;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
+import jakarta.persistence.CacheRetrieveMode;
+import jakarta.persistence.CacheStoreMode;
 import jakarta.persistence.EntityAgent;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.OptimisticLockException;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +39,10 @@ public class Client extends PMClientBase {
 
     public JavaArchive createDeployment() throws Exception {
         String packageName = Client.class.getPackageName();
-        String[] classes = {packageName + ".AgentBook"};
+        String[] classes = {
+                packageName + ".AgentBook",
+                packageName + ".AgentPublisher"
+        };
         return createDeploymentJar("jpa_jpa40_entityagent.jar", packageName, classes);
     }
 
@@ -113,6 +125,192 @@ public class Client extends PMClientBase {
         assertFalse(agent.isOpen());
     }
 
+    /**
+     * Verifies the bulk EntityAgent operations perform the corresponding
+     * database changes for every entity in the supplied list.
+     */
+    @Test
+    public void entityAgentBulkOperationsTest() {
+        getEntityManagerFactory().runInTransaction(EntityAgent.class, agent ->
+                agent.insertMultiple(List.of(
+                        new AgentBook(1, "Alpha"),
+                        new AgentBook(2, "Beta"))));
+
+        assertEquals(2L, countBooks());
+        assertEquals(List.of("Alpha", "Beta"), titlesById(1, 2));
+
+        getEntityManagerFactory().runInTransaction(EntityAgent.class, agent -> {
+            List<AgentBook> books = agent.getMultiple(AgentBook.class, List.of(1, 2));
+            books.get(0).setTitle("Alpha updated");
+            books.get(1).setTitle("Beta updated");
+            agent.updateMultiple(books);
+        });
+
+        assertEquals(2L, countBooks());
+        assertEquals(List.of("Alpha updated", "Beta updated"), titlesById(1, 2));
+
+        getEntityManagerFactory().runInTransaction(EntityAgent.class, agent -> {
+            AgentBook existing = agent.get(AgentBook.class, 2);
+            existing.setTitle("Beta upserted");
+            agent.upsertMultiple(List.of(
+                    existing,
+                    new AgentBook(3, "Gamma upserted")));
+        });
+
+        assertEquals(3L, countBooks());
+        assertEquals(List.of("Alpha updated", "Beta upserted", "Gamma upserted"), titlesById(1, 2, 3));
+
+        getEntityManagerFactory().runInTransaction(EntityAgent.class, agent ->
+                agent.deleteMultiple(agent.getMultiple(AgentBook.class, List.of(1, 3))));
+
+        assertEquals(1L, countBooks());
+        assertNull(findBook(1));
+        assertEquals("Beta upserted", titleById(2));
+        assertNull(findBook(3));
+    }
+
+    /**
+     * Verifies instances returned by an EntityAgent are detached, are not
+     * reused as an identity map, and may be refreshed from the database.
+     */
+    @Test
+    public void entityAgentDetachedAndRefreshOperationsTest() {
+        createBooks(
+                new AgentBook(1, "Alpha"),
+                new AgentBook(2, "Beta"));
+
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent()) {
+            AgentBook first = agent.get(AgentBook.class, 1);
+            AgentBook second = agent.get(AgentBook.class, 1);
+            assertNotSame(first, second);
+
+            first.setTitle("changed only in memory");
+            assertEquals("Alpha", titleById(1));
+
+            updateTitle(1, "Alpha refreshed");
+            agent.refresh(first);
+            assertEquals("Alpha refreshed", first.getTitle());
+
+            updateTitle(1, "Alpha lock refreshed");
+            agent.refresh(first, LockModeType.NONE);
+            assertEquals("Alpha lock refreshed", first.getTitle());
+
+            AgentBook beta = agent.get(AgentBook.class, 2);
+            first.setTitle("stale Alpha");
+            beta.setTitle("stale Beta");
+            updateTitle(1, "Alpha refreshed multiple");
+            updateTitle(2, "Beta refreshed multiple");
+
+            agent.refreshMultiple(List.of(first, beta));
+
+            assertEquals("Alpha refreshed multiple", first.getTitle());
+            assertEquals("Beta refreshed multiple", beta.getTitle());
+        }
+    }
+
+    /**
+     * Verifies EntityAgent.fetch() initializes a lazy association belonging to
+     * a detached entity returned by the agent.
+     */
+    @Test
+    public void entityAgentFetchLazyAssociationTest() {
+        createPublisherTestData();
+
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent()) {
+            AgentPublisher publisher = agent.get(AgentPublisher.class, 10);
+            List<AgentBook> books = publisher.getBooks();
+
+            assertSame(books, agent.fetch(books));
+            assertEquals(List.of("Alpha", "Beta"), books.stream()
+                    .map(AgentBook::getTitle)
+                    .toList());
+        }
+    }
+
+    /**
+     * Verifies EntityAgent options can be supplied at creation time and changed
+     * through the type-safe option APIs.
+     */
+    @Test
+    public void entityAgentOptionsTest() {
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent(
+                CacheRetrieveMode.BYPASS,
+                CacheStoreMode.BYPASS)) {
+            assertEquals(CacheRetrieveMode.BYPASS, agent.getCacheRetrieveMode());
+            assertEquals(CacheStoreMode.BYPASS, agent.getCacheStoreMode());
+            assertTrue(agent.getOptions().contains(CacheRetrieveMode.BYPASS));
+            assertTrue(agent.getOptions().contains(CacheStoreMode.BYPASS));
+
+            Set<EntityAgent.Option> options = agent.getOptions();
+            options.clear();
+            assertTrue(agent.getOptions().contains(CacheRetrieveMode.BYPASS));
+            assertTrue(agent.getOptions().contains(CacheStoreMode.BYPASS));
+
+            agent.addOption(CacheRetrieveMode.USE);
+            assertEquals(CacheRetrieveMode.USE, agent.getCacheRetrieveMode());
+            assertTrue(agent.getOptions().contains(CacheRetrieveMode.USE));
+
+            agent.setCacheStoreMode(CacheStoreMode.REFRESH);
+            assertEquals(CacheStoreMode.REFRESH, agent.getCacheStoreMode());
+            assertTrue(agent.getOptions().contains(CacheStoreMode.REFRESH));
+        }
+
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent(Map.of(
+                "jakarta.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS,
+                "jakarta.persistence.cache.storeMode", CacheStoreMode.BYPASS))) {
+            assertEquals(CacheRetrieveMode.BYPASS, agent.getCacheRetrieveMode());
+            assertEquals(CacheStoreMode.BYPASS, agent.getCacheStoreMode());
+        }
+    }
+
+    /**
+     * Verifies rollback leaves no database changes, and that EntityAgent
+     * reports the specified failures for invalid or conflicting operations.
+     */
+    @Test
+    public void entityAgentFailureAndRollbackTest() {
+        createBooks(new AgentBook(1, "initial"));
+
+        EntityAgent agent = getEntityManagerFactory().createEntityAgent();
+        EntityTransaction transaction = agent.getTransaction();
+        try {
+            transaction.begin();
+            agent.insert(new AgentBook(2, "rolled back"));
+            transaction.rollback();
+            assertNull(findBook(2));
+
+            transaction.begin();
+            assertThrows(EntityExistsException.class, () -> agent.insert(new AgentBook(1, "duplicate")));
+            rollbackIfActive(transaction);
+
+            AgentBook stale = agent.get(AgentBook.class, 1);
+            updateTitle(1, "updated elsewhere");
+            stale.setTitle("stale update");
+            transaction.begin();
+            assertThrows(OptimisticLockException.class, () -> agent.update(stale));
+            rollbackIfActive(transaction);
+            assertEquals("updated elsewhere", titleById(1));
+
+            transaction.begin();
+            assertThrows(OptimisticLockException.class, () -> agent.update(new AgentBook(99, "missing update")));
+            rollbackIfActive(transaction);
+
+            transaction.begin();
+            assertThrows(OptimisticLockException.class, () -> agent.delete(new AgentBook(99, "missing delete")));
+            rollbackIfActive(transaction);
+
+            transaction.begin();
+            assertThrows(IllegalArgumentException.class, () -> agent.upsert(new AgentBook(null, "missing id")));
+            rollbackIfActive(transaction);
+        } finally {
+            rollbackIfActive(transaction);
+            agent.close();
+        }
+
+        assertEquals(1L, countBooks());
+        assertEquals("updated elsewhere", titleById(1));
+    }
+
     private void removeTestData() {
         EntityTransaction transaction = getEntityTransaction();
         if (transaction.isActive()) {
@@ -126,6 +324,51 @@ public class Client extends PMClientBase {
         return getEntityManagerFactory().callInTransaction(entityManager -> entityManager
                 .createQuery("SELECT COUNT(b) FROM Jpa40AgentBook b", Long.class)
                 .getSingleResult());
+    }
+
+    private void createBooks(AgentBook... books) {
+        getEntityManagerFactory().runInTransaction(entityManager -> {
+            for (AgentBook book : books) {
+                entityManager.persist(book);
+            }
+        });
+    }
+
+    private void createPublisherTestData() {
+        getEntityManagerFactory().runInTransaction(entityManager -> {
+            AgentPublisher publisher = new AgentPublisher(10, "Agent Publisher");
+            entityManager.persist(publisher);
+            entityManager.persist(new AgentBook(1, "Alpha", publisher));
+            entityManager.persist(new AgentBook(2, "Beta", publisher));
+        });
+    }
+
+    private AgentBook findBook(int id) {
+        return getEntityManagerFactory().callInTransaction(entityManager ->
+                entityManager.find(AgentBook.class, id));
+    }
+
+    private String titleById(int id) {
+        AgentBook book = findBook(id);
+        return book == null ? null : book.getTitle();
+    }
+
+    private List<String> titlesById(Integer... ids) {
+        return getEntityManagerFactory().callInTransaction(entityManager -> entityManager
+                .createQuery("SELECT b.title FROM Jpa40AgentBook b WHERE b.id IN :ids ORDER BY b.id", String.class)
+                .setParameter("ids", List.of(ids))
+                .getResultList());
+    }
+
+    private void updateTitle(int id, String title) {
+        getEntityManagerFactory().runInTransaction(entityManager ->
+                entityManager.find(AgentBook.class, id).setTitle(title));
+    }
+
+    private void rollbackIfActive(EntityTransaction transaction) {
+        if (transaction.isActive()) {
+            transaction.rollback();
+        }
     }
 
 }

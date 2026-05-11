@@ -19,61 +19,43 @@ package ee.jakarta.tck.persistence.jpa40.entityagent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
-import jakarta.persistence.Version;
 
-@Entity(name = "Jpa40AgentBook")
-@Table(name = "JPA40_AGENT_BOOK")
-public class AgentBook {
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity(name = "Jpa40AgentPublisher")
+@Table(name = "JPA40_AGENT_PUBLISHER")
+public class AgentPublisher {
 
     @Id
     private Integer id;
 
-    private String title;
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PUBLISHER_ID")
-    private AgentPublisher publisher;
+    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
+    @OrderBy("id")
+    private List<AgentBook> books = new ArrayList<>();
 
-    @Version
-    private int version;
-
-    public AgentBook() {
+    public AgentPublisher() {
     }
 
-    public AgentBook(Integer id, String title) {
+    public AgentPublisher(Integer id, String name) {
         this.id = id;
-        this.title = title;
-    }
-
-    public AgentBook(Integer id, String title, AgentPublisher publisher) {
-        this(id, title);
-        this.publisher = publisher;
+        this.name = name;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public AgentPublisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(AgentPublisher publisher) {
-        this.publisher = publisher;
+    public List<AgentBook> getBooks() {
+        return books;
     }
 }
