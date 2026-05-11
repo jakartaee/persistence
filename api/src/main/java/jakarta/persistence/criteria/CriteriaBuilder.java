@@ -1910,16 +1910,26 @@ public interface CriteriaBuilder {
 		 */
 		Expression<R> otherwise(Expression<? extends R> result);
 	}
-	
+
+    /**
+     * Create a simple case expression.
+     * @param expression  to be tested against the case conditions
+     * @param type the type of the result of the case expression
+     * @return simple case expression
+     */
+    <C, R> SimpleCase<C,R> selectCase(Expression<? extends C> expression, Class<R> type);
+
     /**
      * Create a simple case expression.
      * @param expression  to be tested against the case conditions
      * @param <C> the type of the case expression
      * @param <R> the result type of the case expression
      * @return simple case expression
+     * @deprecated This operation declares an unconstrained type variable.
+     *             Use {@link #selectCase(Expression,Class)} instead.
      */
+    @Deprecated(since = "4.0")
     <C, R> SimpleCase<C,R> selectCase(Expression<? extends C> expression);
-
 
     /**
      * Interface used to build general case expressions.
@@ -1960,12 +1970,22 @@ public interface CriteriaBuilder {
 		 */
 		Expression<R> otherwise(Expression<? extends R> result);
 	}
-	
+
+    /**
+     * Create a general case expression.
+     * @param type the type of the result of the case expression
+     * @return general case expression
+     */
+    <R> Case<R> selectCase(Class<R> type);
+
     /**
      * Create a general case expression.
      * @param <R> the result type of the case expression
      * @return general case expression
+     * @deprecated This operation declares an unconstrained type variable.
+     *             Use {@link #selectCase(Class)} instead.
      */
+    @Deprecated(since = "4.0")
     <R> Case<R> selectCase();
 
     /**
