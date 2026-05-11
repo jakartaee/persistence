@@ -17,45 +17,31 @@
 package ee.jakarta.tck.persistence.jpa40.find;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity(name = "Jpa40AccessBook")
-@Table(name = "JPA40_ACCESS_BOOK")
-public class AccessBook {
+@Entity(name = "Jpa40AccessPublisher")
+@Table(name = "JPA40_ACCESS_PUBLISHER")
+public class AccessPublisher {
 
     @Id
     private Integer id;
 
-    private String title;
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private AccessPublisher publisher;
-
-    public AccessBook() {
+    public AccessPublisher() {
     }
 
-    public AccessBook(Integer id, String title) {
+    public AccessPublisher(Integer id, String name) {
         this.id = id;
-        this.title = title;
-    }
-
-    public AccessBook(Integer id, String title, AccessPublisher publisher) {
-        this(id, title);
-        this.publisher = publisher;
+        this.name = name;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public AccessPublisher getPublisher() {
-        return publisher;
+    public String getName() {
+        return name;
     }
 }
