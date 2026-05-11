@@ -26,6 +26,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Client extends PMClientBase {
@@ -34,7 +37,9 @@ public class Client extends PMClientBase {
         String packageName = Client.class.getPackageName();
         String[] classes = {
                 packageName + ".CallbackEntity",
+                packageName + ".CallbackDerivedEntity",
                 packageName + ".CallbackEventLog",
+                packageName + ".CallbackMappedSuperclass",
                 packageName + ".AnnotatedCallbackListener",
                 packageName + ".PackageCallbackListener",
                 packageName + ".package-info"};
@@ -132,8 +137,157 @@ public class Client extends PMClientBase {
 
         List<String> events = CallbackEventLog.events();
         assertTrue(events.contains("package-pre-insert"));
+        assertTrue(events.contains("annotated-pre-insert-callback-entity"));
         assertTrue(events.contains("annotated-post-insert-callback-entity"));
         assertTrue(events.contains("annotated-post-insert-object"));
+        assertEventOrder(events, "annotated-pre-insert-callback-entity", "package-pre-insert");
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 database update callbacks are
+     * invoked for updates performed through an {@link EntityAgent}.
+     */
+    @Test
+    public void entityAgentUpdateLifecycleCallbacksTest() {
+        createCallbackEntity(new CallbackEntity(4, "original"));
+        CallbackEventLog.reset();
+
+        EntityAgent agent = getEntityManagerFactory().createEntityAgent();
+        EntityTransaction transaction = agent.getTransaction();
+        try {
+            CallbackEntity entity = agent.get(CallbackEntity.class, 4);
+            entity.setTitle("updated");
+
+            transaction.begin();
+            agent.update(entity);
+            transaction.commit();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            agent.close();
+        }
+
+        List<String> events = CallbackEventLog.events();
+        assertTrue(events.contains("entity-pre-update"));
+        assertTrue(events.contains("entity-post-update"));
+        assertTrue(events.contains("annotated-pre-update-object"));
+        assertTrue(events.contains("annotated-post-update-callback-entity"));
+        assertTrue(events.contains("package-post-update"));
+        assertEquals("updated", titleById(4));
+    }
+
+    /**
+     * Verifies lifecycle callback methods may modify non-relationship state and
+     * that the changed state is written to the database.
+     */
+    @Test
+    public void lifecycleCallbackStateChangesArePersistedTest() {
+        createCallbackEntity(new CallbackEntity(5, "change-on-pre-insert"));
+        assertEquals("changed-by-pre-insert", titleById(5));
+
+        CallbackEventLog.reset();
+
+        EntityAgent agent = getEntityManagerFactory().createEntityAgent();
+        EntityTransaction transaction = agent.getTransaction();
+        try {
+            CallbackEntity entity = agent.get(CallbackEntity.class, 5);
+            entity.setTitle("change-on-pre-update");
+
+            transaction.begin();
+            agent.update(entity);
+            transaction.commit();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            agent.close();
+        }
+
+        assertEquals("changed-by-pre-update", titleById(5));
+        assertTrue(CallbackEventLog.events().contains("entity-pre-update"));
+        assertTrue(CallbackEventLog.events().contains("entity-post-update"));
+    }
+
+    /**
+     * Verifies lifecycle callback methods declared by a mapped superclass are
+     * invoked for a concrete entity subclass.
+     */
+    @Test
+    public void mappedSuperclassLifecycleCallbacksTest() {
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        getEntityManager().persist(new CallbackDerivedEntity(6, "derived"));
+        transaction.commit();
+
+        List<String> events = CallbackEventLog.events();
+        assertTrue(events.contains("mapped-superclass-pre-insert"));
+        assertTrue(events.contains("mapped-superclass-post-insert"));
+        assertTrue(events.contains("derived-entity-pre-insert"));
+        assertTrue(events.contains("derived-entity-post-insert"));
+    }
+
+    /**
+     * Verifies bulk update and delete statements do not trigger entity
+     * lifecycle callbacks.
+     */
+    @Test
+    public void statementOperationsDoNotInvokeEntityLifecycleCallbacksTest() {
+        createCallbackEntity(new CallbackEntity(7, "statement"));
+        CallbackEventLog.reset();
+
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        int updated = getEntityManager()
+                .createStatement("UPDATE Jpa40CallbackEntity e SET e.title = 'bulk-updated' WHERE e.id = 7")
+                .execute();
+        transaction.commit();
+
+        assertEquals(1, updated);
+        assertEquals("bulk-updated", titleById(7));
+        assertFalse(CallbackEventLog.events().contains("entity-pre-update"));
+        assertFalse(CallbackEventLog.events().contains("entity-post-update"));
+
+        CallbackEventLog.reset();
+
+        transaction = getEntityTransaction();
+        transaction.begin();
+        int deleted = getEntityManager()
+                .createStatement("DELETE FROM Jpa40CallbackEntity e WHERE e.id = 7")
+                .execute();
+        transaction.commit();
+
+        assertEquals(1, deleted);
+        assertEquals(0L, countCallbackEntities());
+        assertFalse(CallbackEventLog.events().contains("entity-pre-delete"));
+        assertFalse(CallbackEventLog.events().contains("entity-post-delete"));
+    }
+
+    /**
+     * Verifies a runtime exception from a lifecycle callback prevents the
+     * database operation from completing and the post callback from firing.
+     */
+    @Test
+    public void lifecycleCallbackExceptionPreventsInsertTest() {
+        EntityTransaction transaction = getEntityTransaction();
+        try {
+            transaction.begin();
+            assertThrows(RuntimeException.class, () -> {
+                getEntityManager().persist(new CallbackEntity(8, "throw-on-pre-insert"));
+                getEntityManager().flush();
+            });
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            getEntityManager().clear();
+        }
+
+        List<String> events = CallbackEventLog.events();
+        assertTrue(events.contains("entity-pre-insert"));
+        assertTrue(events.contains("entity-pre-insert-throwing"));
+        assertFalse(events.contains("entity-post-insert"));
+        assertEquals(0L, countCallbackEntities());
     }
 
     private void removeTestData() {
@@ -143,5 +297,30 @@ public class Client extends PMClientBase {
         }
         getEntityManagerFactory().getSchemaManager().truncate();
         getEntityManager().clear();
+    }
+
+    private void createCallbackEntity(CallbackEntity entity) {
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        getEntityManager().persist(entity);
+        transaction.commit();
+        getEntityManager().clear();
+    }
+
+    private String titleById(int id) {
+        return getEntityManagerFactory().callInTransaction(entityManager ->
+                entityManager.find(CallbackEntity.class, id).getTitle());
+    }
+
+    private long countCallbackEntities() {
+        return getEntityManagerFactory().callInTransaction(entityManager -> entityManager
+                .createQuery("SELECT COUNT(e) FROM Jpa40CallbackEntity e", Long.class)
+                .getSingleResult());
+    }
+
+    private void assertEventOrder(List<String> events, String first, String second) {
+        assertTrue(events.indexOf(first) >= 0);
+        assertTrue(events.indexOf(second) >= 0);
+        assertTrue(events.indexOf(first) < events.indexOf(second));
     }
 }
