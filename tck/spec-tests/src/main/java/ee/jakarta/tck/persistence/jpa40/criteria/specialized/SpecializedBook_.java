@@ -19,6 +19,7 @@ package ee.jakarta.tck.persistence.jpa40.criteria.specialized;
 import jakarta.persistence.metamodel.BooleanAttribute;
 import jakarta.persistence.metamodel.ComparableAttribute;
 import jakarta.persistence.metamodel.NumericAttribute;
+import jakarta.persistence.metamodel.SetAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
 import jakarta.persistence.metamodel.TemporalAttribute;
 import jakarta.persistence.metamodel.TextAttribute;
@@ -32,4 +33,5 @@ public abstract class SpecializedBook_ {
     public static volatile TemporalAttribute<SpecializedBook, LocalDate> publishedOn;
     public static volatile BooleanAttribute<SpecializedBook> available;
     public static volatile ComparableAttribute<SpecializedBook, String> category;
+    public static volatile SetAttribute<SpecializedBook, String> tags;
 }
