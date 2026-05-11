@@ -44,4 +44,12 @@ public class ParameterBook {
     public Integer getId() {
         return id;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Code getCode() {
+        return code;
+    }
 }
