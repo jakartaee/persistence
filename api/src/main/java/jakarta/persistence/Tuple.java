@@ -30,6 +30,7 @@ public interface Tuple {
     /**
      * Get the value of the specified tuple element.
      * @param tupleElement  tuple element
+     * @param <X> the type of the tuple element
      * @return value of tuple element
      * @throws IllegalArgumentException if tuple element
      *         does not correspond to an element in the
@@ -42,6 +43,7 @@ public interface Tuple {
      * specified alias has been assigned.
      * @param alias  alias assigned to tuple element
      * @param type of the tuple element
+     * @param <X> the type of the tuple element
      * @return value of the tuple element
      * @throws IllegalArgumentException if alias
      *         does not correspond to an element in the
@@ -67,10 +69,12 @@ public interface Tuple {
      * is 0.
      * @param i  position in result tuple
      * @param type  type of the tuple element
+     * @param <X> the type of the tuple element
      * @return value of the tuple element
-     * @throws IllegalArgumentException if i exceeds
-     *         length of result tuple  or element cannot
-     *         be assigned to the specified type
+     * @throws IllegalArgumentException if the position
+     *         exceeds the length of the result tuple or
+     *         if the element cannot be assigned to the
+     *         specified type
      */
     <X> X get(int i, Class<X> type);
 

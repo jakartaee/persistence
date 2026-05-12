@@ -339,6 +339,7 @@ public interface Query {
      *
      * @param parameter The parameter object
      * @param value The argument to the parameter
+     * @param <T> the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter
      *         does not correspond to a parameter of the
@@ -415,6 +416,7 @@ public interface Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param type A class object representing the parameter type
+     * @param <P> the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
@@ -438,6 +440,7 @@ public interface Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param type The {@link Type} of the parameter
+     * @param <P> the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
@@ -462,6 +465,7 @@ public interface Query {
      * @param name The name of the parameter
      * @param value The argument to the parameter
      * @param converter The class of the attribute converter
+     * @param <P> the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query, or if
@@ -539,6 +543,7 @@ public interface Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param type A class object representing the parameter type
+     * @param <P> the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a parameter of the query, or if
@@ -562,6 +567,7 @@ public interface Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param type The {@link Type} of the parameter
+     * @param <P> the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a positional parameter of the query,
@@ -586,6 +592,7 @@ public interface Query {
      * @param position The parameter position
      * @param value The argument to the parameter
      * @param converter The class of the attribute converter
+     * @param <P> the parameter type
      * @return the same query instance
      * @throws IllegalArgumentException if the given position does
      *         not correspond to a parameter of the query, or if
@@ -672,6 +679,7 @@ public interface Query {
      *
      * @param name The name of the parameter
      * @param type A class object representing the parameter type
+     * @param <T> the parameter type
      * @return The parameter object representing the named
      *         parameter
      * @throws IllegalArgumentException if the parameter of the
@@ -709,6 +717,7 @@ public interface Query {
      *
      * @param position The parameter position
      * @param type A class object representing the parameter type
+     * @param <T> the parameter type
      * @return The parameter object representing the positional
      *         parameter
      * @throws IllegalArgumentException if the parameter with the
@@ -738,6 +747,7 @@ public interface Query {
      * (Note that OUT parameters are unbound.)
      *
      * @param parameter The parameter object
+     * @param <T> the parameter type
      * @return parameter value
      * @throws IllegalArgumentException if the parameter is not 
      *         a parameter of the query
@@ -966,6 +976,7 @@ public interface Query {
      *             This is usually either the underlying class
      *             implementing {@code Query} or an interface it
      *             implements.
+     * @param <T> the type of the object to be returned
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not support
      *         the given type

@@ -42,6 +42,8 @@ import java.util.List;
  * @see EntityGraph
  * @see Subgraph
  *
+ * @param <T> The type of the root entity.
+ *
  * @since 3.2
  */
 public interface Graph<T> {
@@ -66,6 +68,7 @@ public interface Graph<T> {
      * effect of a prior {@linkplain #removeAttributeNode removal}.
      *
      * @param attributeName the name of an attribute of the managed type
+     * @param <Y> the type of the attribute
      * @return the attribute node
      * @throws IllegalArgumentException if there is no attribute
      *         for the given name
@@ -92,6 +95,7 @@ public interface Graph<T> {
      * effect of a prior {@linkplain #removeAttributeNode removal}.
      *
      * @param attribute  attribute
+     * @param <Y> the type of the attribute
      * @return the attribute node
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
@@ -149,6 +153,7 @@ public interface Graph<T> {
      *          metamodel element to {@link #getAttributeNode(Attribute)}.
      *          Use of the typesafe version is strongly preferred.
      *
+     * @param <Y> the type of the attribute
      * @since 3.2
      */
     <Y> AttributeNode<Y> getAttributeNode(String attributeName);
@@ -157,6 +162,7 @@ public interface Graph<T> {
      * Get an existing attribute node for the given attribute.
      *
      * @param attribute  attribute
+     * @param <Y> the type of the attribute
      * @return the attribute node
      * @throws java.util.NoSuchElementException if there is no existing
      *         node for the attribute

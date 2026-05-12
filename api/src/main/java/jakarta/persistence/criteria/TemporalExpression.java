@@ -21,6 +21,8 @@ import java.time.temporal.Temporal;
 /**
  * Type for temporal query expressions.
  *
+ * @param <T> the temporal type of the expression
+ *
  * @since 4.0
  */
 public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
@@ -30,6 +32,7 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 	 * Create an expression that returns the value of a
 	 * field extracted from this date.
 	 * @param field a temporal field type
+	 * @param <N> the type of the extracted value
 	 * @return expression for the value of the extracted field
 	 * @see CriteriaBuilder#extract(TemporalField, Expression)
 	 */

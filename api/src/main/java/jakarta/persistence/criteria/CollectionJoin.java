@@ -64,6 +64,7 @@ public interface CollectionJoin<Z, E>
     /**
      * Downcast the element type to the given type.
      * @param type a subtype of the element type
+     * @param <T> the subtype of the element type
      * @return this join downcast to the given element type
      * @since 4.0
      */

@@ -65,6 +65,8 @@ import jakarta.persistence.metamodel.SingularAttribute;
  * @see jakarta.persistence.StoredProcedureQuery#getSingleResult(ResultSetMapping)
  * @see jakarta.persistence.StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)
  *
+ * @param <T> The result type of the mapping
+ *
  * @since 4.0
  */
 public sealed interface ResultSetMapping<T>
@@ -79,6 +81,7 @@ public sealed interface ResultSetMapping<T>
      *
      * @param columnName The colum name
      * @param type The Java type of the scalar value
+     * @param <T> The type of the scalar value
      *
      * @see jakarta.persistence.ColumnResult
      */
@@ -102,6 +105,7 @@ public sealed interface ResultSetMapping<T>
      *
      * @param targetClass The Java class which declares the constructor
      * @param arguments Mappings for the constructor parameters, in order
+     * @param <T> The type of the Java class
      *
      * @see jakarta.persistence.ConstructorResult
      */
@@ -133,6 +137,7 @@ public sealed interface ResultSetMapping<T>
      *
      * @param entityClass The Java class of the entity
      * @param fields Mappings for fields or properties of the entity
+     * @param <T> The entity type
      *
      * @see jakarta.persistence.EntityResult
      */
@@ -149,6 +154,7 @@ public sealed interface ResultSetMapping<T>
      *        an empty string indicates that there is no discriminator column
      * @param fields Mappings for fields or properties of the entity
      *               and of its entity subclasses
+     * @param <T> The entity type
      *
      * @see jakarta.persistence.EntityResult
      */
@@ -164,6 +170,8 @@ public sealed interface ResultSetMapping<T>
      * @param embeddableClass The Java class of the embedded object
      * @param name The name of the field holding the embedded object
      * @param fields Mappings for fields or properties of the entity
+     * @param <C> The container type
+     * @param <T> The embeddable type
      */
     @SafeVarargs
     static <C,T> EmbeddedMapping<C,T> embedded(Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
@@ -175,6 +183,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param embedded The metamodel attribute representing the field or property holding the embedded object
      * @param fields Mappings for fields or properties of the entity
+     * @param <C> The container type
+     * @param <T> The embeddable type
      */
     @SafeVarargs
     static <C,T> EmbeddedMapping<C,T> embedded(SingularAttribute<? super C,T> embedded, MemberMapping<T>... fields) {
@@ -188,6 +198,8 @@ public sealed interface ResultSetMapping<T>
      * @param type The type of the field or property
      * @param name The name of the field or property
      * @param columnName The name of the mapped column
+     * @param <C> The type of the entity or embeddable type
+     * @param <T> The type of the field or property
      *
      * @see jakarta.persistence.FieldResult
      */
@@ -200,6 +212,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param attribute The metamodel attribute representing the field or property
      * @param columnName The name of the mapped column
+     * @param <C> The type of the entity or embeddable type
+     * @param <T> The type of the field or property
      *
      * @see jakarta.persistence.FieldResult
      */

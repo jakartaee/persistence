@@ -74,6 +74,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
     /**
      * Create and add an inner join to the given entity.
      * @param entityClass  the target entity class
+     * @param <Y> the target entity type
      * @return the resulting join
      * @since 3.2
      */
@@ -83,6 +84,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create and add a join to the given entity.
      * @param entityClass  the target entity class
      * @param joinType  join type
+     * @param <Y> the target entity type
      * @return the resulting join
      * @since 3.2
      */
@@ -91,6 +93,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
     /**
      * Create and add an inner join to the given entity.
      * @param entity  metamodel entity representing the join target
+     * @param <Y> the target entity type
      * @return the resulting join
      * @since 3.2
      */
@@ -100,6 +103,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create and add a join to the given entity.
      * @param entity  metamodel entity representing the join target
      * @param joinType  join type
+     * @param <Y> the target entity type
      * @return the resulting join
      * @since 3.2
      */
@@ -109,6 +113,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified single-valued 
      * attribute.
      * @param attribute  target of the join
+     * @param <Y> the type of the joined attribute
      * @return the resulting join
      */
     <Y> Join<X, Y> join(SingularAttribute<? super X, Y> attribute);
@@ -118,6 +123,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * using the given join type.
      * @param attribute  target of the join
      * @param jt  join type 
+     * @param <Y> the type of the joined attribute
      * @return the resulting join
      */
     <Y> Join<X, Y> join(SingularAttribute<? super X, Y> attribute, JoinType jt);
@@ -126,6 +132,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified {@link Collection}-valued
      * attribute.
      * @param collection  target of the join
+     * @param <Y> the element type of the joined collection
      * @return the resulting join
      */
     <Y> CollectionJoin<X, Y> join(CollectionAttribute<? super X, Y> collection);
@@ -134,6 +141,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified {@link Set}-valued
      * attribute.
      * @param set  target of the join
+     * @param <Y> the element type of the joined set
      * @return the resulting join
      */
     <Y> SetJoin<X, Y> join(SetAttribute<? super X, Y> set);
@@ -142,6 +150,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified
      * {@link List}-valued attribute.
      * @param list  target of the join
+     * @param <Y> the element type of the joined list
      * @return the resulting join
      */
     <Y> ListJoin<X, Y> join(ListAttribute<? super X, Y> list);
@@ -150,6 +159,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified {@link Map}-valued
      * attribute.
      * @param map  target of the join
+     * @param <K> the key type of the joined map
+     * @param <V> the value type of the joined map
      * @return the resulting join
      */
     <K, V> MapJoin<X, K, V> join(MapAttribute<? super X, K, V> map);
@@ -159,6 +170,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * attribute using the given join type.
      * @param collection  target of the join
      * @param jt  join type 
+     * @param <Y> the element type of the joined collection
      * @return the resulting join
      */
     <Y> CollectionJoin<X, Y> join(CollectionAttribute<? super X, Y> collection, JoinType jt);
@@ -168,6 +180,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * using the given join type.
      * @param set  target of the join
      * @param jt  join type 
+     * @param <Y> the element type of the joined set
      * @return the resulting join
      */
     <Y> SetJoin<X, Y> join(SetAttribute<? super X, Y> set, JoinType jt);
@@ -177,6 +190,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * using the given join type.
      * @param list  target of the join
      * @param jt  join type 
+     * @param <Y> the element type of the joined list
      * @return the resulting join
      */
     <Y> ListJoin<X, Y> join(ListAttribute<? super X, Y> list, JoinType jt);
@@ -186,6 +200,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * using the given join type.
      * @param map  target of the join
      * @param jt  join type 
+     * @param <K> the key type of the joined map
+     * @param <V> the value type of the joined map
      * @return the resulting join
      */
     <K, V> MapJoin<X, K, V> join(MapAttribute<? super X, K, V> map, JoinType jt);
@@ -197,6 +213,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Create an inner join to the specified attribute.
      * @param attributeName the name of the attribute that is the
      *                      target of the join
+     * @param <Y> the type of the joined attribute
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -213,6 +230,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * attribute.
      * @param attributeName the name of the attribute that is the
      *                      target of the join
+     * @param <Y> the element type of the joined collection
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -229,6 +247,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * attribute.
      * @param attributeName the name of the attribute that is the
      *                      target of the join
+     * @param <Y> the element type of the joined set
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -245,6 +264,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * attribute.
      * @param attributeName the name of the attribute that is the
      *                      target of the join
+     * @param <Y> the element type of the joined list
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -261,6 +281,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * attribute.
      * @param attributeName the name of the attribute that is the
      *                      target of the join
+     * @param <K> the key type of the joined map
+     * @param <V> the value type of the joined map
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -278,6 +300,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param attributeName the name of the attribute that is the
      *                      target of the join
      * @param jt the join type
+     * @param <Y> the type of the joined attribute
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -295,6 +318,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param attributeName the name of the attribute that is the
      *                      target of the join
      * @param jt the join type
+     * @param <Y> the element type of the joined collection
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -312,6 +336,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param attributeName the name of the attribute that is the
      *                      target of the join
      * @param jt the join type
+     * @param <Y> the element type of the joined set
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -329,6 +354,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param attributeName the name of the attribute that is the
      *                      target of the join
      * @param jt the join type
+     * @param <Y> the element type of the joined list
      * @return the resulting join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -354,12 +380,16 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          and lacks type safety compared to passing a static
      *          metamodel element to {@link #join(MapAttribute, JoinType)}.
      *          Use of the typesafe version is strongly preferred.
+     *
+     * @param <K> the key type of the joined map
+     * @param <V> the value type of the joined map
      */
     <K, V> MapJoin<X, K, V> joinMap(String attributeName, JoinType jt);
 
     /**
      * Downcast the bound type to the given type.
      * @param type a subtype of the bound type
+     * @param <T> the subtype of the bound type
      * @return this root or join downcast to the given type
      * @since 4.0
      */

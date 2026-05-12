@@ -62,6 +62,7 @@ public interface Cache {
      *             This is usually either the underlying class
      *             implementing {@code Cache}, or an interface it
      *             implements.
+     * @param <T> the type of the object to be returned
      * @return an instance of the specified type
      * @throws PersistenceException if the provider does not support
      *         the given type

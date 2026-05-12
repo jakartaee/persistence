@@ -37,6 +37,7 @@ public interface Root<X> extends From<X, X> {
     /**
      * Downcast the root type to the given type.
      * @param type a subtype of the root type
+     * @param <T> the subtype of the root type
      * @return this root downcast to the given type
      * @since 4.0
      */

@@ -80,6 +80,7 @@ public interface Join<Z, X> extends From<Z, X> {
     /**
      * Downcast the joined type to the given type.
      * @param type a subtype of the joined type
+     * @param <T> the subtype of the element type
      * @return this join downcast to the given type
      * @since 4.0
      */

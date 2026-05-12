@@ -466,6 +466,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * The result may be retrieved after execution by calling
      * {@link #getOutputParameterValue(Parameter)}.
      * @param resultType the type of the result parameter
+     * @param <T> the result parameter type
      * @return an object representing the parameter, which may
      *         be passed to {@link #setParameter(Parameter, Object)}
      *         and {@link #getOutputParameterValue(Parameter)}
@@ -481,6 +482,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @param position the parameter position
      * @param type the type of the parameter
      * @param mode the parameter mode
+     * @param <T> the parameter type
      * @return an object representing the parameter, which may
      *         be passed to {@link #setParameter(Parameter, Object)}
      *         and {@link #getOutputParameterValue(Parameter)}
@@ -498,6 +500,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *                      or specified in metadata
      * @param type the type of the parameter
      * @param mode the parameter mode
+     * @param <T> the parameter type
      * @return an object representing the parameter, which may
      *         be passed to {@link #setParameter(Parameter, Object)}
      *         and {@link #getOutputParameterValue(Parameter)}
@@ -515,6 +518,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @param position the parameter position
      * @param converter the class of the attribute converter
      * @param mode the parameter mode
+     * @param <T> the parameter type
      * @return an object representing the parameter, which may
      *         be passed to {@link #setParameter(Parameter, Object)}
      *         and {@link #getOutputParameterValue(Parameter)}
@@ -534,6 +538,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *                      or specified in metadata
      * @param converter the class of the attribute converter
      * @param mode the parameter mode
+     * @param <T> the parameter type
      * @return an object representing the parameter, which may
      *         be passed to {@link #setParameter(Parameter, Object)}
      *         and {@link #getOutputParameterValue(Parameter)}
@@ -604,6 +609,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * output parameters.
      *
      * @param parameter The parameter object
+     * @param <T> the parameter type
      * @return the result that is passed back through the parameter
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or is
@@ -741,6 +747,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * </ul>
      *
      * @param resultClass The type of the query result
+     * @param <R> the query result type
      * @return a list of the results or null if the next item is not
      *         a result set
      * @throws QueryTimeoutException if the query execution exceeds
@@ -762,6 +769,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * was registered with the query.
      *
      * @param mapping The result set mapping to apply to the results
+     * @param <R> the query result type
      * @return a list of the results or null if the next item is not a
      *         result set
      * @throws QueryTimeoutException if the query execution exceeds
@@ -804,6 +812,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * </ul>
      *
      * @param resultClass The type of the query result
+     * @param <R> the query result type
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
      *         result set
@@ -827,6 +836,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * was registered with the query.
      *
      * @param mapping The result set mapping to apply to the results
+     * @param <R> the query result type
      * @return the result or null if the next item is not a result set
      * @throws NoResultException if there is no result in the next
      *         result set
@@ -871,6 +881,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * </ul>
      *
      * @param resultClass The type of the query result
+     * @param <R> the query result type
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set
      * @throws NonUniqueResultException if more than one result
@@ -908,6 +919,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * </ul>
      *
      * @param mapping The result set mapping to apply to the results
+     * @param <R> the query result type
      * @return the result or null if the next item is not a result set
      *         or if there is no result in the next result set
      * @throws NonUniqueResultException if more than one result

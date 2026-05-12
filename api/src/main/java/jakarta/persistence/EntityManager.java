@@ -251,6 +251,7 @@ public interface EntityManager extends EntityHandler {
      * itself ignored, but the operation still cascades, and it is
      * returned directly.
      * @param entity  a new, managed, or detached entity instance
+     * @param <T> the entity type
      * @return the managed instance that the state was merged to
      * @throws IllegalArgumentException if the instance is not an entity
      *         or is a removed entity
@@ -298,6 +299,7 @@ public interface EntityManager extends EntityHandler {
      * @param primaryKey   primary key
      * @param properties  standard and vendor-specific properties
      *        and hints
+     * @param <T> the entity type
      * @return the found entity instance or null if the entity does
      *         not exist
      * @throws IllegalArgumentException if the first argument does
@@ -341,6 +343,7 @@ public interface EntityManager extends EntityHandler {
      * @param lockMode  lock mode
      * @param properties  standard and vendor-specific properties
      *        and hints
+     * @param <T> the entity type
      * @return the found entity instance or null if the entity does
      *         not exist
      * @throws IllegalArgumentException if the first argument does
@@ -385,6 +388,7 @@ public interface EntityManager extends EntityHandler {
      * application while the entity manager was open.
      * @param entityClass  entity class
      * @param primaryKey  primary key
+     * @param <T> the entity type
      * @return a reference to the entity instance
      * @throws IllegalArgumentException if the first argument does
      *         not denote an entity type, or the second argument is
@@ -413,6 +417,7 @@ public interface EntityManager extends EntityHandler {
      * be available upon detachment unless it was accessed by the
      * application while the entity manager was open.
      * @param entity  a persistent or detached entity instance
+     * @param <T> the entity type
      * @return a reference to the entity instance
      * @throws IllegalArgumentException if the given object is not
      *         an entity, or if it is neither persistent nor detached

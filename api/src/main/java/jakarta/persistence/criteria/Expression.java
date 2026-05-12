@@ -128,6 +128,7 @@ public interface Expression<T> extends Selection<T> {
      * type conversion: the runtime type is not changed.
      * <p><em>Warning: may result in a runtime failure.</em>
      * @param type  intended type of the expression
+     * @param <X> the intended type of the expression
      * @return new expression of the given type
      * @see #cast(Class)
      */
@@ -145,6 +146,7 @@ public interface Expression<T> extends Selection<T> {
      * Support for typecasts between other basic types is
      * not required.</em>
      * @param type  a basic type
+     * @param <X> the target type of the cast
      * @return a scalar expression of the given basic type
      * @since 3.2
      */
@@ -196,6 +198,7 @@ public interface Expression<T> extends Selection<T> {
 
     /**
      * Create a simple case expression to test against this expression.
+     * @param <R> the result type of the case expression
      * @return simple case expression
      * @since 4.0
      */

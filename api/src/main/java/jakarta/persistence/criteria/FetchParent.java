@@ -43,6 +43,7 @@ public interface FetchParent<Z, X> {
      * Create a fetch join to the specified single-valued attribute 
      * using an inner join.
      * @param attribute  target of the join
+     * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
      */	
     <Y> Fetch<X, Y> fetch(SingularAttribute<? super X, Y> attribute);
@@ -52,6 +53,7 @@ public interface FetchParent<Z, X> {
      * using the given join type.
      * @param attribute  target of the join
      * @param jt  join type
+     * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
      */	
     <Y> Fetch<X, Y> fetch(SingularAttribute<? super X, Y> attribute, JoinType jt);
@@ -60,6 +62,7 @@ public interface FetchParent<Z, X> {
      * Create a fetch join to the specified collection-valued 
      * attribute using an inner join. 
      * @param attribute  target of the join
+     * @param <Y> the type of the fetched attribute
      * @return the resulting join
      */
     <Y> Fetch<X, Y> fetch(PluralAttribute<? super X, ?, Y> attribute);
@@ -69,6 +72,7 @@ public interface FetchParent<Z, X> {
      * attribute using the given join type.
      * @param attribute  target of the join
      * @param jt  join type
+     * @param <Y> the type of the fetched attribute
      * @return the resulting join
      */
     <Y> Fetch<X, Y> fetch(PluralAttribute<? super X, ?, Y> attribute, JoinType jt);
@@ -81,6 +85,7 @@ public interface FetchParent<Z, X> {
      * inner join.
      * @param attributeName the name of the attribute for the
      *        target of the join
+     * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
@@ -99,6 +104,7 @@ public interface FetchParent<Z, X> {
      * @param attributeName the name of the attribute that is the
      *        target of the join
      * @param jt the join type
+     * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name

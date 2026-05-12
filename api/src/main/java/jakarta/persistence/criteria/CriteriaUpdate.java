@@ -41,6 +41,8 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * Update the value of the specified attribute.
      * @param attribute the attribute to be updated
      * @param value the new value to set
+     * @param <Y> the type of the attribute
+     * @param <X> the type of the value
      * @return the modified update query
      */
     <Y, X extends Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, X value);
@@ -49,6 +51,7 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * Update the value of the specified attribute.
      * @param attribute the attribute to be updated
      * @param value the new value to set
+     * @param <Y> the type of the attribute
      * @return the modified update query
      */
     <Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, Expression<? extends Y> value);
@@ -57,6 +60,8 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * Update the value of the specified attribute.
      * @param attribute the attribute to be updated
      * @param value the new value to set
+     * @param <Y> the type of the attribute
+     * @param <X> the type of the value
      * @return the modified update query
      */
     <Y, X extends Y> CriteriaUpdate<T> set(Path<Y> attribute, X value);
@@ -65,6 +70,7 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * Update the value of the specified attribute.
      * @param attribute the attribute to be updated
      * @param value the new value to set
+     * @param <Y> the type of the attribute
      * @return the modified update query
      */
     <Y> CriteriaUpdate<T> set(Path<Y> attribute, Expression<? extends Y> value);

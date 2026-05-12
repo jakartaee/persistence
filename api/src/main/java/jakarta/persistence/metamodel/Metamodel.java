@@ -40,6 +40,7 @@ public interface Metamodel {
     /**
      * Return the metamodel entity type representing the entity.
      * @param cls  the type of the represented entity
+     * @param <X> The type of the represented entity
      * @return the metamodel entity type
      * @throws IllegalArgumentException if not an entity
      */
@@ -49,6 +50,7 @@ public interface Metamodel {
      * Return the metamodel managed type representing the 
      * entity, mapped superclass, or embeddable class.
      * @param cls  the type of the represented managed class
+     * @param <X> The type of the represented managed class
      * @return the metamodel managed type
      * @throws IllegalArgumentException if not a managed class
      */
@@ -58,6 +60,7 @@ public interface Metamodel {
      * Return the metamodel embeddable type representing the
      * embeddable class.
      * @param cls  the type of the represented embeddable class
+     * @param <X> The type of the represented embeddable class
      * @return the metamodel embeddable type
      * @throws IllegalArgumentException if not an embeddable class
      */

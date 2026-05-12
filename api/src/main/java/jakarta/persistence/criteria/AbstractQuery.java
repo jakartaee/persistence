@@ -41,6 +41,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * Create and add a query root corresponding to the given entity,
      * forming a cartesian product with any existing roots.
      * @param entityClass  the entity class
+     * @param <X> the entity type
      * @return query root corresponding to the given entity
      */
     <X> Root<X> from(Class<X> entityClass);
@@ -50,6 +51,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * forming a cartesian product with any existing roots.
      * @param entity  metamodel entity representing the entity
      *                of type X
+     * @param <X> the entity type
      * @return query root corresponding to the given entity
      */
     <X> Root<X> from(EntityType<X> entity);
