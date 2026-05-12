@@ -56,12 +56,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>{@linkplain AccessType#FIELD field access}, that is, direct
  *     access to instance variables.
  * </ul>
- * <p>The entity {@linkplain AccessType access type} determines whether
- * the provider accesses the state of the entity using getter and setter
- * methods, or by directly accessing its fields. It is almost never necessary to
- * {@linkplain Access explicitly specify} an {@link AccessType}, since
- * the default access type for an entity is determined by the placement
- * of mapping annotations on the entity class.
+ * <p>The entity-level {@linkplain AccessType access type} determines
+ * whether the provider accesses the state of an entity using getter
+ * and setter methods or by directly reading and writing its fields.
+ * It is almost never necessary to {@linkplain Access explicitly
+ * specify} an {@link AccessType}, since the default access type for
+ * an entity is determined by the placement of mapping annotations on
+ * the entity class: if the mapping annotations are placed on getters,
+ * property access is assumed; if the mapping annotations are placed
+ * on fields, field access is assumed.
  *
  * <p>The instance variables of a class must have either private,
  * protected, or package visibility, independent of whether field
