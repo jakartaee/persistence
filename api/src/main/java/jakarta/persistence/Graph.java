@@ -222,7 +222,7 @@ public interface Graph<T> {
     void removeAttributeNode(Attribute<? super T, ?> attribute);
 
     /**
-     * Remove all attribute nodes of the given attribute types.
+     * Remove all attribute nodes of the given attribute type.
      * When this graph is interpreted as a load graph, this operation
      * suppresses inclusion of attributes mapped for eager fetching.
      * The effect of this call may be overridden by subsequent
@@ -234,9 +234,11 @@ public interface Graph<T> {
      * when the effect of this call is simply to cancel the effect of a
      * prior {@linkplain #addAttributeNode addition}.
      *
+     * @param nodeType the type of attribute to remove
+     *
      * @since 3.2
      */
-    void removeAttributeNodes(Attribute.PersistentAttributeType nodeTypes);
+    void removeAttributeNodes(Attribute.PersistentAttributeType nodeType);
 
     /**
      * Add one or more attribute nodes to the entity graph.
@@ -388,6 +390,7 @@ public interface Graph<T> {
      * multi-node entity graphs that include related managed types.
      *
      * @param attribute the attribute
+     * @param type an entity subclass of the collection element type
      * @param <E> the managed type of the collection element
      * @return subgraph for the element attribute
      * @throws IllegalArgumentException if the attribute's target type
