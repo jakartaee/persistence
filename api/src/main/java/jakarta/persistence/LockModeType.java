@@ -39,9 +39,10 @@ package jakarta.persistence;
  * for {@code OPTIMISTIC} and {@code OPTIMISTIC_FORCE_INCREMENT}
  * respectively. The latter are preferred for new applications.
  *
- * <p>The persistence implementation is not required to accept
- * requests for optimistic locks on non-versioned entities. When
- * a provider does not support such a lock request, it must throw
+ * <p>Optimistic locking usually requires a {@linkplain Version
+ * version}. The persistence implementation is not required to
+ * accept requests for optimistic locks on non-versioned entities.
+ * When a provider rejects such a lock request, it must throw
  * {@link PersistenceException}.
  *
  * <p>An immediate pessimistic database-level lock is requested by
