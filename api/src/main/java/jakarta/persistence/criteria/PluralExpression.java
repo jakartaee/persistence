@@ -19,6 +19,9 @@ package jakarta.persistence.criteria;
 /**
  * Type for collection query expressions.
  *
+ * @param <C> the collection type
+ * @param <E> the element type of the collection
+ *
  * @since 4.0
  */
 public interface PluralExpression<C, E> extends Expression<C> {

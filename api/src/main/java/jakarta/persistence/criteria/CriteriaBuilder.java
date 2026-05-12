@@ -55,6 +55,7 @@ public interface CriteriaBuilder {
      * Create a {@link CriteriaQuery} object with the given
      * result type.
      * @param resultClass  type of the query result
+     * @param <T> the query result type
      * @return criteria query object
      */
     <T> CriteriaQuery<T> createQuery(Class<T> resultClass);
@@ -66,6 +67,7 @@ public interface CriteriaBuilder {
      * @param resultClass type of the query result
      * @param jpql A Jakarta Persistence query language
      *             {@code SELECT} query
+     * @param <T> the query result type
      * @return criteria query object
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the query result is
@@ -102,6 +104,7 @@ public interface CriteriaBuilder {
      * Create a {@link CriteriaUpdate} object to perform a bulk
      * update operation.
      * @param targetEntity  target type for update operation
+     * @param <T> the target entity type
      * @return the criteria statement object
      * @since 2.1
      */
@@ -114,6 +117,7 @@ public interface CriteriaBuilder {
      * @param jpql A Jakarta Persistence query language
      *             {@code UPDATE} query
      * @param targetEntity target type for update operation
+     * @param <T> the target entity type
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the entity type updated
      *         by the query is not exactly the same as the
@@ -140,6 +144,7 @@ public interface CriteriaBuilder {
      * Create a {@link CriteriaDelete} object to perform a bulk
      * delete operation.
      * @param targetEntity  target type for delete operation
+     * @param <T> the target entity type
      * @return the criteria statement object
      * @since 2.1
      */
@@ -152,6 +157,7 @@ public interface CriteriaBuilder {
      * @param jpql A Jakarta Persistence query language
      *             {@code DELETE} query
      * @param targetEntity target type for delete operation
+     * @param <T> the target entity type
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid, or if the entity type deleted
      *         by the query is not exactly the same as the
@@ -185,6 +191,7 @@ public interface CriteriaBuilder {
      * will be in the new state after the query is executed.
      * @param resultClass  class whose instance is to be constructed
      * @param selections  arguments to the constructor
+     * @param <Y> the type of the constructed result
      * @return compound selection item
      * @throws IllegalArgumentException if an argument is a 
      *         tuple- or array-valued selection item
@@ -270,6 +277,7 @@ public interface CriteriaBuilder {
     /**
      * Create an aggregate expression applying the avg operation.
      * @param x  expression representing input value to avg operation
+     * @param <N> the numeric type of the expression
      * @return avg expression
      */
     <N extends Number> Expression<Double> avg(Expression<N> x);
@@ -277,6 +285,7 @@ public interface CriteriaBuilder {
     /**
      * Create an aggregate expression applying the sum operation.
      * @param x  expression representing input value to sum operation
+     * @param <N> the numeric type of the expression
      * @return sum expression
      */
     <N extends Number> Expression<N> sum(Expression<N> x);
@@ -301,6 +310,7 @@ public interface CriteriaBuilder {
      * Create an aggregate expression applying the numerical max 
      * operation.
      * @param x  expression representing input value to max operation
+     * @param <N> the numeric type of the expression
      * @return max expression
      */
     <N extends Number> Expression<N> max(Expression<N> x);
@@ -309,6 +319,7 @@ public interface CriteriaBuilder {
      * Create an aggregate expression applying the numerical min 
      * operation.
      * @param x  expression representing input value to min operation
+     * @param <N> the numeric type of the expression
      * @return min expression
      */
     <N extends Number> Expression<N> min(Expression<N> x);
@@ -318,6 +329,7 @@ public interface CriteriaBuilder {
      * the values (strings, dates, etc).
      * @param x  expression representing input value to greatest
      *           operation
+     * @param <X> the type of the expression
      * @return greatest expression
      */
     <X extends Comparable<? super X>> Expression<X> greatest(Expression<X> x);
@@ -327,6 +339,7 @@ public interface CriteriaBuilder {
      * the values (strings, dates, etc).
      * @param x  expression representing input value to least
      *           operation
+     * @param <X> the type of the expression
      * @return least expression
      */
     <X extends Comparable<? super X>> Expression<X> least(Expression<X> x);
@@ -362,6 +375,7 @@ public interface CriteriaBuilder {
     /**
      * Create an all expression over the subquery results.
      * @param subquery  subquery
+     * @param <Y> the subquery result type
      * @return all expression
      */
     <Y> Expression<Y> all(Subquery<Y> subquery);
@@ -370,6 +384,7 @@ public interface CriteriaBuilder {
      * Create a some expression over the subquery results.
      * This expression is equivalent to an {@code any} expression.
      * @param subquery  subquery
+     * @param <Y> the subquery result type
      * @return some expression
      */
     <Y> Expression<Y> some(Subquery<Y> subquery);
@@ -378,6 +393,7 @@ public interface CriteriaBuilder {
      * Create an any expression over the subquery results. 
      * This expression is equivalent to a {@code some} expression.
      * @param subquery  subquery
+     * @param <Y> the subquery result type
      * @return any expression
      */
     <Y> Expression<Y> any(Subquery<Y> subquery);
@@ -533,6 +549,7 @@ public interface CriteriaBuilder {
      * greater than the second.
      * @param x  expression
      * @param y  expression
+     * @param <Y> the type of the compared expressions
      * @return greater-than predicate
      * @see #gt(Expression, Expression)
      */
@@ -543,6 +560,7 @@ public interface CriteriaBuilder {
      * greater than the second.
      * @param x  expression
      * @param y  value
+     * @param <Y> the type of the compared values
      * @return greater-than predicate
      * @see #gt(Expression, Number)
      */
@@ -553,6 +571,7 @@ public interface CriteriaBuilder {
      * greater than or equal to the second.
      * @param x  expression
      * @param y  expression
+     * @param <Y> the type of the compared expressions
      * @return greater-than-or-equal predicate
      * @see #ge(Expression, Expression)
      */
@@ -563,6 +582,7 @@ public interface CriteriaBuilder {
      * greater than or equal to the second.
      * @param x  expression
      * @param y  value
+     * @param <Y> the type of the compared values
      * @return greater-than-or-equal predicate
      * @see #ge(Expression, Number)
      */
@@ -573,6 +593,7 @@ public interface CriteriaBuilder {
      * less than the second.
      * @param x  expression
      * @param y  expression
+     * @param <Y> the type of the compared expressions
      * @return less-than predicate
      * @see #lt(Expression, Expression)
      */
@@ -583,6 +604,7 @@ public interface CriteriaBuilder {
      * less than the second.
      * @param x  expression
      * @param y  value
+     * @param <Y> the type of the compared values
      * @return less-than predicate
      * @see #lt(Expression, Number)
      */
@@ -593,6 +615,7 @@ public interface CriteriaBuilder {
      * less than or equal to the second.
      * @param x  expression
      * @param y  expression
+     * @param <Y> the type of the compared expressions
      * @return less-than-or-equal predicate
      * @see #le(Expression, Expression)
      */
@@ -603,6 +626,7 @@ public interface CriteriaBuilder {
      * less than or equal to the second.
      * @param x  expression
      * @param y  value
+     * @param <Y> the type of the compared values
      * @return less-than-or-equal predicate
      * @see #le(Expression, Number)
      */
@@ -614,6 +638,7 @@ public interface CriteriaBuilder {
      * @param v  expression 
      * @param x  expression
      * @param y  expression
+     * @param <Y> the type of the compared expressions
      * @return between predicate
      */
     <Y extends Comparable<? super Y>> Predicate between(Expression<? extends Y> v, Expression<? extends Y> x, Expression<? extends Y> y);
@@ -624,6 +649,7 @@ public interface CriteriaBuilder {
      * @param v  expression 
      * @param x  value
      * @param y  value
+     * @param <Y> the type of the compared values
      * @return between predicate
      */
     <Y extends Comparable<? super Y>> Predicate between(Expression<? extends Y> v, Y x, Y y);
@@ -634,6 +660,7 @@ public interface CriteriaBuilder {
      * @param v  value 
      * @param x  expression
      * @param y  expression
+     * @param <Y> the type of the compared values
      * @return between predicate
      * @since 4.0
      */
@@ -738,6 +765,7 @@ public interface CriteriaBuilder {
      * Create an expression that returns the arithmetic negation
      * of its argument.
      * @param x expression
+     * @param <N> the numeric type of the expression
      * @return arithmetic negation
      */
     <N extends Number> Expression<N> neg(Expression<N> x);
@@ -746,6 +774,7 @@ public interface CriteriaBuilder {
      * Create an expression that returns the absolute value
      * of its argument.
      * @param x expression
+     * @param <N> the numeric type of the expression
      * @return absolute value
      */
     <N extends Number> Expression<N> abs(Expression<N> x);
@@ -755,6 +784,7 @@ public interface CriteriaBuilder {
      * argument, that is, the smallest integer greater than
      * or equal to its argument.
      * @param x expression
+     * @param <N> the numeric type of the expression
      * @return ceiling
      */
     <N extends Number> Expression<N> ceiling(Expression<N> x);
@@ -764,6 +794,7 @@ public interface CriteriaBuilder {
      * argument, that is, the largest integer smaller than
      * or equal to its argument.
      * @param x expression
+     * @param <N> the numeric type of the expression
      * @return floor
      */
     <N extends Number> Expression<N> floor(Expression<N> x);
@@ -772,6 +803,7 @@ public interface CriteriaBuilder {
      * of its arguments.
      * @param x expression
      * @param y expression
+     * @param <N> the numeric type of the expressions
      * @return sum
      */
     <N extends Number> Expression<N> sum(Expression<? extends N> x, Expression<? extends N> y);
@@ -781,6 +813,7 @@ public interface CriteriaBuilder {
      * of its arguments.
      * @param x expression
      * @param y value
+     * @param <N> the numeric type of the arguments
      * @return sum
      */
     <N extends Number> Expression<N> sum(Expression<? extends N> x, N y);
@@ -790,6 +823,7 @@ public interface CriteriaBuilder {
      * of its arguments.
      * @param x value
      * @param y expression
+     * @param <N> the numeric type of the arguments
      * @return sum
      */
     <N extends Number> Expression<N> sum(N x, Expression<? extends N> y);
@@ -799,6 +833,7 @@ public interface CriteriaBuilder {
      * of its arguments.
      * @param x expression
      * @param y expression
+     * @param <N> the numeric type of the expressions
      * @return product
      */
     <N extends Number> Expression<N> prod(Expression<? extends N> x, Expression<? extends N> y);
@@ -808,6 +843,7 @@ public interface CriteriaBuilder {
      * of its arguments.
      * @param x expression
      * @param y value
+     * @param <N> the numeric type of the arguments
      * @return product
      */
     <N extends Number> Expression<N> prod(Expression<? extends N> x, N y);
@@ -817,6 +853,7 @@ public interface CriteriaBuilder {
      * of its arguments.
      * @param x value
      * @param y expression
+     * @param <N> the numeric type of the arguments
      * @return product
      */
     <N extends Number> Expression<N> prod(N x, Expression<? extends N> y);
@@ -826,6 +863,7 @@ public interface CriteriaBuilder {
      * between its arguments.
      * @param x expression
      * @param y expression
+     * @param <N> the numeric type of the expressions
      * @return difference
      */
     <N extends Number> Expression<N> diff(Expression<? extends N> x, Expression<? extends N> y);
@@ -835,6 +873,7 @@ public interface CriteriaBuilder {
      * between its arguments.
      * @param x expression
      * @param y value
+     * @param <N> the numeric type of the arguments
      * @return difference
      */
     <N extends Number> Expression<N> diff(Expression<? extends N> x, N y);
@@ -844,6 +883,7 @@ public interface CriteriaBuilder {
      * between its arguments.
      * @param x value
      * @param y expression
+     * @param <N> the numeric type of the arguments
      * @return difference
      */
     <N extends Number> Expression<N> diff(N x, Expression<? extends N> y);
@@ -954,6 +994,7 @@ public interface CriteriaBuilder {
      * second argument.
      * @param x base
      * @param n number of decimal places
+     * @param <T> the numeric type of the expression
      * @return the rounded value
      */
     <T extends Number> Expression<T> round(Expression<T> x, Integer n);
@@ -1016,6 +1057,7 @@ public interface CriteriaBuilder {
     /**
      * Create an expression for a literal.
      * @param value  value represented by the expression
+     * @param <T> the type of the literal value
      * @return expression literal
      * @throws IllegalArgumentException if value is null
      */
@@ -1024,6 +1066,7 @@ public interface CriteriaBuilder {
     /**
      * Create a number expression for a literal.
      * @param value  value represented by the expression
+     * @param <N> the numeric type of the literal value
      * @return expression literal
      * @throws IllegalArgumentException if value is null
      * @since 4.0
@@ -1042,6 +1085,7 @@ public interface CriteriaBuilder {
     /**
      * Create a local date expression for a literal.
      * @param value  value represented by the expression
+     * @param <T> the temporal type of the literal value
      * @return expression literal
      * @throws IllegalArgumentException if value is null
      * @since 4.0
@@ -1058,6 +1102,7 @@ public interface CriteriaBuilder {
     /**
      * Create an expression for a null literal with the given type.
      * @param resultClass  type of the null literal
+     * @param <T> the type of the null literal
      * @return null expression literal
      */
     <T> Expression<T> nullLiteral(Class<T> resultClass);
@@ -1067,6 +1112,7 @@ public interface CriteriaBuilder {
     /**
      * Create a parameter expression.
      * @param paramClass parameter class
+     * @param <T> the parameter type
      * @return parameter expression
      */
     <T> ParameterExpression<T> parameter(Class<T> paramClass);
@@ -1076,6 +1122,7 @@ public interface CriteriaBuilder {
      * @param paramClass parameter class
      * @param name  name that can be used to refer to 
      *              the parameter
+     * @param <T> the parameter type
      * @return parameter expression
      */
     <T> ParameterExpression<T> parameter(Class<T> paramClass, String name);
@@ -1084,6 +1131,7 @@ public interface CriteriaBuilder {
      * Create a parameter expression whose value is bound via a
      * {@linkplain AttributeConverter converter}.
      * @param converter the class of the attribute converter
+     * @param <T> the parameter type
      * @return parameter expression
      * @since 4.0
      */
@@ -1094,6 +1142,7 @@ public interface CriteriaBuilder {
     /**
      * Create a predicate that tests whether a collection is empty.
      * @param collection expression
+     * @param <C> the collection type
      * @return is-empty predicate
      */
     <C extends Collection<?>> Predicate isEmpty(Expression<C> collection);
@@ -1102,6 +1151,7 @@ public interface CriteriaBuilder {
      * Create a predicate that tests whether a collection is
      * not empty.
      * @param collection expression
+     * @param <C> the collection type
      * @return is-not-empty predicate
      */
     <C extends Collection<?>> Predicate isNotEmpty(Expression<C> collection);
@@ -1109,6 +1159,7 @@ public interface CriteriaBuilder {
     /**
      * Create an expression that tests the size of a collection.
      * @param collection expression
+     * @param <C> the collection type
      * @return size expression
      */ 
     <C extends Collection<?>> Expression<Integer> size(Expression<C> collection);
@@ -1116,6 +1167,7 @@ public interface CriteriaBuilder {
     /**
      * Create an expression that tests the size of a collection.
      * @param collection collection
+     * @param <C> the collection type
      * @return size expression
      */ 
     <C extends Collection<?>> Expression<Integer> size(C collection);
@@ -1126,6 +1178,8 @@ public interface CriteriaBuilder {
      * If the collection is empty, the predicate will be false.
      * @param elem element expression
      * @param collection expression
+     * @param <E> the element type
+     * @param <C> the collection type
      * @return is-member predicate
      */
     <E, C extends Collection<E>> Predicate isMember(Expression<E> elem, Expression<C> collection);
@@ -1136,6 +1190,8 @@ public interface CriteriaBuilder {
      * If the collection is empty, the predicate will be false.
      * @param elem element
      * @param collection expression
+     * @param <E> the element type
+     * @param <C> the collection type
      * @return is-member predicate
      */
     <E, C extends Collection<E>> Predicate isMember(E elem, Expression<C> collection);
@@ -1146,6 +1202,8 @@ public interface CriteriaBuilder {
      * If the collection is empty, the predicate will be true.
      * @param elem element expression
      * @param collection expression
+     * @param <E> the element type
+     * @param <C> the collection type
      * @return is-not-member predicate
      */
     <E, C extends Collection<E>> Predicate isNotMember(Expression<E> elem, Expression<C> collection);
@@ -1156,6 +1214,8 @@ public interface CriteriaBuilder {
      * If the collection is empty, the predicate will be true.
      * @param elem element
      * @param collection expression
+     * @param <E> the element type
+     * @param <C> the collection type
      * @return is-not-member predicate
      */
     <E, C extends Collection<E>> Predicate isNotMember(E elem, Expression<C> collection);
@@ -1167,6 +1227,8 @@ public interface CriteriaBuilder {
     /**
      * Create an expression that returns the values of a map.
      * @param map  map
+     * @param <V> the value type of the map
+     * @param <M> the map type
      * @return collection expression
      */
     <V, M extends Map<?, V>> Expression<Collection<V>> values(M map);
@@ -1174,6 +1236,8 @@ public interface CriteriaBuilder {
     /**
      * Create an expression that returns the keys of a map.
      * @param map  map
+     * @param <K> the key type of the map
+     * @param <M> the map type
      * @return set expression
      */
     <K, M extends Map<K, ?>> Expression<Set<K>> keys(M map);
@@ -1649,6 +1713,8 @@ public interface CriteriaBuilder {
      * field extracted from a date, time, or datetime.
      * @param field a temporal field type
      * @param temporal a date, time, or datetime
+     * @param <N> the type of the extracted value
+     * @param <T> the temporal type
      * @return expression for the value of the extracted field
      * @since 3.2
      */
@@ -1659,6 +1725,8 @@ public interface CriteriaBuilder {
 	
     /**
      * Interface used to build in predicates.
+     *
+     * @param <T> the type of the tested expression
      */
     interface In<T> extends Predicate {
 
@@ -1688,6 +1756,7 @@ public interface CriteriaBuilder {
      * Create predicate to test whether given expression
      * is contained in a list of values.
      * @param  expression to be tested against list of values
+     * @param <T> the type of the expression
      * @return  in predicate
      */
     <T> In<T> in(Expression<? extends T> expression);
@@ -1701,6 +1770,7 @@ public interface CriteriaBuilder {
      * otherwise.
      * @param x expression
      * @param y expression
+     * @param <Y> the type of the expression
      * @return coalesce expression
      */
     <Y> Expression<Y> coalesce(Expression<? extends Y> x, Expression<? extends Y> y);
@@ -1711,6 +1781,7 @@ public interface CriteriaBuilder {
      * otherwise.
      * @param x expression
      * @param y value
+     * @param <Y> the type of the expression
      * @return coalesce expression
      */
     <Y> Expression<Y> coalesce(Expression<? extends Y> x, Y y);
@@ -1721,6 +1792,7 @@ public interface CriteriaBuilder {
      * first expression if they are not.
      * @param x expression
      * @param y expression
+     * @param <Y> the type of the expression
      * @return nullif expression
      */
     <Y> Expression<Y> nullif(Expression<Y> x, Expression<?> y);
@@ -1731,6 +1803,7 @@ public interface CriteriaBuilder {
      * first expression if they are not.
      * @param x expression
      * @param y value
+     * @param <Y> the type of the expression
      * @return nullif expression 
      */
     <Y> Expression<Y> nullif(Expression<Y> x, Y y);
@@ -1744,6 +1817,8 @@ public interface CriteriaBuilder {
      * A coalesce expression is equivalent to a case expression
      * that returns null if all its arguments evaluate to null,
      * and the value of its first non-null argument otherwise.
+     *
+     * @param <T> the type of the coalesce expression
      */
     interface Coalesce<T> extends Expression<T> {
 
@@ -1764,6 +1839,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create a coalesce expression.
+     * @param <T> the type of the coalesce expression
      * @return coalesce expression
      */
     <T> Coalesce<T> coalesce();
@@ -1775,6 +1851,9 @@ public interface CriteriaBuilder {
      * Interface used to build simple case expressions.
      * Case conditions are evaluated in the order in which
      * they are specified.
+     *
+     * @param <C> the type of the case expression
+     * @param <R> the result type of the case expression
      */
     interface SimpleCase<C,R> extends Expression<R> {
 
@@ -1835,6 +1914,8 @@ public interface CriteriaBuilder {
     /**
      * Create a simple case expression.
      * @param expression  to be tested against the case conditions
+     * @param <C> the type of the case expression
+     * @param <R> the result type of the case expression
      * @return simple case expression
      */
     <C, R> SimpleCase<C,R> selectCase(Expression<? extends C> expression);
@@ -1844,6 +1925,8 @@ public interface CriteriaBuilder {
      * Interface used to build general case expressions.
      * Case conditions are evaluated in the order in which
      * they are specified.
+     *
+     * @param <R> the result type of the case expression
      */
     interface Case<R> extends Expression<R> {
 
@@ -1880,6 +1963,7 @@ public interface CriteriaBuilder {
 	
     /**
      * Create a general case expression.
+     * @param <R> the result type of the case expression
      * @return general case expression
      */
     <R> Case<R> selectCase();
@@ -1899,6 +1983,7 @@ public interface CriteriaBuilder {
      * @param name  function name
      * @param type  expected result type
      * @param args  function arguments
+     * @param <T> the function result type
      * @return expression
      */
    <T> Expression<T> function(String name, Class<T> type,
@@ -1911,6 +1996,9 @@ Expression<?>... args);
      * Downcast Join object to the specified type.
      * @param join  Join object
      * @param type type to be downcast to
+     * @param <X> the source type of the join
+     * @param <T> the target type of the join
+     * @param <V> the subtype to treat the join as
      * @return  Join object of the specified type
      * @since 2.1
      */
@@ -1920,6 +2008,9 @@ Expression<?>... args);
      * Downcast CollectionJoin object to the specified type.
      * @param join  CollectionJoin object
      * @param type type to be downcast to
+     * @param <X> the source type of the join
+     * @param <T> the element type of the join
+     * @param <E> the subtype to treat the join as
      * @return  CollectionJoin object of the specified type
      * @since 2.1
      */
@@ -1929,6 +2020,9 @@ Expression<?>... args);
      * Downcast SetJoin object to the specified type.
      * @param join  SetJoin object
      * @param type type to be downcast to
+     * @param <X> the source type of the join
+     * @param <T> the element type of the join
+     * @param <E> the subtype to treat the join as
      * @return  SetJoin object of the specified type
      * @since 2.1
      */
@@ -1938,6 +2032,9 @@ Expression<?>... args);
      * Downcast ListJoin object to the specified type.
      * @param join  ListJoin object
      * @param type type to be downcast to
+     * @param <X> the source type of the join
+     * @param <T> the element type of the join
+     * @param <E> the subtype to treat the join as
      * @return  ListJoin object of the specified type
      * @since 2.1
      */
@@ -1947,6 +2044,10 @@ Expression<?>... args);
      * Downcast MapJoin object to the specified type.
      * @param join  MapJoin object
      * @param type type to be downcast to
+     * @param <X> the source type of the join
+     * @param <K> the key type of the join
+     * @param <T> the value type of the join
+     * @param <V> the subtype to treat the join as
      * @return  MapJoin object of the specified type
      * @since 2.1
      */
@@ -1957,6 +2058,8 @@ Expression<?>... args);
      * Downcast Path object to the specified type.
      * @param path  path
      * @param type type to be downcast to
+     * @param <X> the type of the path
+     * @param <T> the subtype to treat the path as
      * @return  Path object of the specified type
      * @since 2.1
      */
@@ -1966,6 +2069,9 @@ Expression<?>... args);
      * Downcast Root or Join to the specified type.
      * @param from  root or join
      * @param type type to be downcast to
+     * @param <X> the source type
+     * @param <Y> the target type
+     * @param <T> the subtype to treat the root or join as
      * @return  Root or Join of the specified type
      * @since 4.0
      */
@@ -1975,6 +2081,8 @@ Expression<?>... args);
      * Downcast Root object to the specified type.
      * @param root  root
      * @param type type to be downcast to
+     * @param <X> the type of the root
+     * @param <T> the subtype to treat the root as
      * @return  Root object of the specified type
      * @since 2.1
      */
@@ -1982,6 +2090,7 @@ Expression<?>... args);
 
     /**
      * Create a query which is the union of the given queries.
+     * @param <T> the result type of the query
      * @return a new criteria query which returns the union of
      *         the results of the given queries
      * @since 3.2
@@ -1991,6 +2100,7 @@ Expression<?>... args);
     /**
      * Create a query which is the union of the given queries,
      * without elimination of duplicate results.
+     * @param <T> the result type of the query
      * @return a new criteria query which returns the union of
      *         the results of the given queries
      * @since 3.2
@@ -1999,6 +2109,7 @@ Expression<?>... args);
 
     /**
      * Create a query which is the intersection of the given queries.
+     * @param <T> the result type of the query
      * @return a new criteria query which returns the intersection of
      *         the results of the given queries
      * @since 3.2
@@ -2008,6 +2119,7 @@ Expression<?>... args);
     /**
      * Create a query which is the intersection of the given queries,
      * without elimination of duplicate results.
+     * @param <T> the result type of the query
      * @return a new criteria query which returns the intersection of
      *         the results of the given queries
      * @since 3.2
@@ -2017,6 +2129,7 @@ Expression<?>... args);
     /**
      * Create a query by (setwise) subtraction of the second query
      * from the first query.
+     * @param <T> the result type of the query
      * @return a new criteria query which returns the result of
      *         subtracting the results of the second query from the
      *         results of the first query
@@ -2027,6 +2140,7 @@ Expression<?>... args);
     /**
      * Create a query by (setwise) subtraction of the second query
      * from the first query, without elimination of duplicate results.
+     * @param <T> the result type of the query
      * @return a new criteria query which returns the result of
      *         subtracting the results of the second query from the
      *         results of the first query
@@ -2034,7 +2148,3 @@ Expression<?>... args);
      */
     <T> CriteriaSelect<T> exceptAll(CriteriaSelect<T> left, CriteriaSelect<?> right);
 }
-
-
-
-

@@ -105,6 +105,7 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @param entityClass The class of the entity to retrieve
      * @param id The identifier of the entity to retrieve
+     * @param <T> The entity type
      *
      * @return an entity instance with the given identifier
      *
@@ -144,6 +145,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param entityClass The class of the entity to retrieve
      * @param id The identifier of the entity to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      *
      * @return an entity instance with the given identifier
      *
@@ -187,6 +189,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param graph The {@linkplain EntityGraph load graph}
      * @param id The identifier of the entity to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      *
      * @return an entity instance with the given identifier
      *
@@ -231,6 +234,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param entityClass The class of the entity to retrieve
      * @param ids The identifiers of the entities to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      * @return an ordered list of entity instances
      *
      * @throws IllegalArgumentException if the given class is
@@ -275,6 +279,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param graph The {@linkplain EntityGraph load graph}
      * @param ids The identifiers of the entities to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      * @return an ordered list of entity instances
      *
      * @throws IllegalArgumentException if the given class is
@@ -305,6 +310,7 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @param entityClass The class of the entity to retrieve
      * @param id The identifier of the entity to retrieve
+     * @param <T> The entity type
      * @return an entity instance with the given identifier,
      *         or {@code null} if there is no matching record
      *         in the database
@@ -340,6 +346,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param entityClass The class of the entity to retrieve
      * @param id The identifier of the entity to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      * @return an entity instance with the given identifier,
      *         or {@code null} if there is no matching record
      *         in the database
@@ -392,6 +399,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param graph The {@linkplain EntityGraph load graph}
      * @param id The identifier of the entity to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      * @return an entity instance with the given identifier,
      *         or {@code null} if there is no matching record
      *         in the database
@@ -445,6 +453,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param entityClass The class of the entity to retrieve
      * @param ids The identifiers of the entities to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      * @return an ordered list of entity instances with the
      *         given identifiers, with {@code null} in
      *         positions where there is no matching record
@@ -502,6 +511,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param graph The {@linkplain EntityGraph load graph}
      * @param ids The identifiers of the entities to retrieve
      * @param options Standard and vendor-specific options
+     * @param <T> The entity type
      * @return an ordered list of entity instances with the
      *         given identifiers, with {@code null} in
      *         positions where there is no matching record
@@ -652,6 +662,7 @@ public interface EntityHandler extends AutoCloseable {
      * top-level query or a union or intersection of top-level
      * queries.
      * @param selectQuery A criteria select query object
+     * @param <T> The query result type
      * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the criteria query is
@@ -700,6 +711,7 @@ public interface EntityHandler extends AutoCloseable {
      * class by calling the matching constructor.
      * @param qlString A Jakarta Persistence query string
      * @param resultClass The result class
+     * @param <T> The query result type
      * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the query string is
@@ -720,6 +732,7 @@ public interface EntityHandler extends AutoCloseable {
      * assignable to the root type of the given entity graph.
      * @param qlString A Jakarta Persistence query string
      * @param resultGraph The {@linkplain EntityGraph load graph}
+     * @param <T> The query result type
      * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if the query string is
@@ -813,6 +826,7 @@ public interface EntityHandler extends AutoCloseable {
      * annotation which declares the named query.
      * @param name The name of a query defined in metadata
      * @param resultClass The type of the query result
+     * @param <T> The query result type
      * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if a query has not been
@@ -857,6 +871,7 @@ public interface EntityHandler extends AutoCloseable {
      *     {@link NamedNativeQuery} annotation.
      * </ul>
      * @param reference A reference to the query defined in metadata
+     * @param <T> The query result type
      * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @throws IllegalArgumentException if a query has not been
@@ -949,6 +964,7 @@ public interface EntityHandler extends AutoCloseable {
      * </ul>
      * @param sqlString A native SQL query string
      * @param resultClass The type of the query result
+     * @param <T> The query result type
      * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @since 1.0
@@ -990,6 +1006,7 @@ public interface EntityHandler extends AutoCloseable {
      * the JDBC result set.
      * @param sqlString A native SQL query string
      * @param resultSetMapping The result set mapping
+     * @param <T> The query result type
      * @return An instance of {@link TypedQuery} which may be used
      *         to execute the given query
      * @since 4.0
@@ -1119,6 +1136,7 @@ public interface EntityHandler extends AutoCloseable {
      *             This is usually either the underlying class
      *             implementing {@code EntityHandler} or an
      *             interface it implements
+     * @param <T> The type of the object to be returned
      * @return An instance of the specified class
      * @throws PersistenceException if the provider does not
      *         support the given type
@@ -1198,6 +1216,7 @@ public interface EntityHandler extends AutoCloseable {
      * Create a new mutable {@link EntityGraph}, allowing programmatic
      * definition of the graph.
      * @param rootType the root entity type of the new graph
+     * @param <T> The root entity type
      * @return a trivial entity graph with only a root node
      * @see jakarta.persistence.metamodel.EntityType#createEntityGraph()
      * @since 2.1
@@ -1219,6 +1238,7 @@ public interface EntityHandler extends AutoCloseable {
      * whose root type is exactly the given entity type.
      * @param rootType the root entity type of the graph
      * @param graphName the name of an existing entity graph
+     * @param <T> The root entity type
      * @return the entity graph with the given name
      * @throws IllegalArgumentException if there is no entity
      *         graph with the given name, or if the entity
@@ -1232,6 +1252,7 @@ public interface EntityHandler extends AutoCloseable {
      * Return all named {@link EntityGraph}s that are defined for
      * the given entity class type.
      * @param entityClass An entity class
+     * @param <T> The entity type
      * @return A list of all entity graphs whose root entity type
      *         is a supertype of the given entity class
      * @throws IllegalArgumentException if the class is not an entity

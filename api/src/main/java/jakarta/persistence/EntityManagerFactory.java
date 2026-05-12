@@ -415,6 +415,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @param name name for the query
      * @param query a {@link TypedQuery}
+     * @param <R> the query result type
      * @return a reference to the query
      *
      * @since 4.0
@@ -464,6 +465,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *            This is usually either the underlying class
      *            implementing {@code EntityManagerFactory} or an
      *            interface it implements.
+     * @param <T> the type of the object to be returned
      * @return an instance of the specified class
      * @throws PersistenceException if the provider does not support
      *         the given type
@@ -477,6 +479,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * given name already exists, it is replaced.
      * @param graphName  name for the entity graph
      * @param entityGraph  entity graph
+     * @param <T> the entity graph type
      * @since 2.1
      */
     <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph);
@@ -566,6 +569,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *                     {@link PreUpsert}, {@link PostUpsert},
      *                     {@link PreDelete}, {@link PostDelete}.
      * @param listener The callback listener
+     * @param <E> the entity type
      * @return An {@link EntityListenerRegistration} representing the
      *         registration of the given listener with this factory
      * @throws IllegalArgumentException if the given annotation type
@@ -627,6 +631,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * control to the client.
      *
      * @param work a function to be called in the scope of the transaction
+     * @param <R> the function result type
      * @return the value returned by the given function
      *
      * @since 3.2
@@ -657,6 +662,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @param handlerClass the type of {@link EntityHandler} to create, for
      *                     example, {@link EntityAgent EntityAgent.class}.
      * @param work a function to be executed in the scope of the transaction
+     * @param <H> the entity handler type
      *
      * @since 4.0
      */
@@ -686,6 +692,8 @@ public interface EntityManagerFactory extends AutoCloseable {
      * @param handlerClass the type of {@link EntityHandler} to create, for
      *                     example, {@link EntityAgent EntityAgent.class}.
      * @param work a function to be called in the scope of the transaction
+     * @param <R> the function result type
+     * @param <H> the entity handler type
      * @return the value returned by the given function
      *
      * @since 4.0

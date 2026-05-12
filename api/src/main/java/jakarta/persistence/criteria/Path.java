@@ -59,6 +59,7 @@ public interface Path<X> extends Expression<X> {
      * Create a path corresponding to the referenced
      * single-valued attribute.
      * @param attribute single-valued attribute
+     * @param <Y> the type of the attribute
      * @return path corresponding to the referenced attribute
      */
     <Y> Path<Y> get(SingularAttribute<? super X, Y> attribute);
@@ -76,6 +77,7 @@ public interface Path<X> extends Expression<X> {
      *  Create a path corresponding to the referenced
      *  single-valued attribute.
      *  @param attribute single-valued attribute
+     *  @param <C> the comparable type of the attribute
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
@@ -85,6 +87,7 @@ public interface Path<X> extends Expression<X> {
      *  Create a path corresponding to the referenced
      *  single-valued attribute.
      *  @param attribute single-valued attribute
+     *  @param <T> the temporal type of the attribute
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
@@ -94,6 +97,7 @@ public interface Path<X> extends Expression<X> {
      *  Create a path corresponding to the referenced
      *  single-valued attribute.
      *  @param attribute single-valued attribute
+     *  @param <N> the numeric type of the attribute
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
@@ -112,6 +116,8 @@ public interface Path<X> extends Expression<X> {
      * Create a path corresponding to the referenced
      * collection-valued attribute.
      * @param collection collection-valued attribute
+     * @param <E> the element type of the collection
+     * @param <C> the collection type
      * @return expression corresponding to the referenced attribute
      */
     <E, C extends Collection<E>> PluralExpression<C,E> get(PluralAttribute<? super X, C, E> collection);
@@ -120,6 +126,9 @@ public interface Path<X> extends Expression<X> {
      * Create a path corresponding to the referenced
      * map-valued attribute.
      * @param map map-valued attribute
+     * @param <K> the key type of the map
+     * @param <V> the value type of the map
+     * @param <M> the map type
      * @return expression corresponding to the referenced attribute
      */
     <K, V, M extends Map<K, V>> PluralExpression<M,V> get(MapAttribute<? super X, K, V> map);
@@ -169,12 +178,15 @@ public interface Path<X> extends Expression<X> {
      *          and lacks type safety compared to passing a static
      *          metamodel element to {@link #get(SingularAttribute)}.
      *          Use of the typesafe version is strongly preferred.
+     *
+     * @param <Y> the type of the attribute
      */
     <Y> Path<Y> get(String attributeName);
 
     /**
      * Downcast the type of the path to the given type.
      * @param type a subtype of the path type
+     * @param <T> the subtype of the path type
      * @return this path downcast to the given type
      * @since 4.0
      */

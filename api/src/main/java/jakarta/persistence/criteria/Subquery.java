@@ -166,6 +166,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a subquery root or join correlated to a root or join
      * of the enclosing query.
      * @param parent  root or join of the containing query
+     * @param <X> the source type
+     * @param <Y> the target type
      * @return subquery from
      * @since 4.0
      */
@@ -175,6 +177,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a subquery root correlated to a root of the 
      * enclosing query.
      * @param parentRoot  a root of the containing query
+     * @param <Y> the entity type
      * @return subquery root
      */
     <Y> Root<Y> correlate(Root<Y> parentRoot);
@@ -183,6 +186,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a subquery join object correlated to a join object
      * of the enclosing query.
      * @param parentJoin  join object of the containing query
+     * @param <X> the source type
+     * @param <Y> the target type
      * @return subquery join
      */
     <X, Y> Join<X, Y> correlate(Join<X, Y> parentJoin);
@@ -191,6 +196,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a subquery collection join object correlated to a 
      * collection join object of the enclosing query.
      * @param parentCollection  join object of the containing query
+     * @param <X> the source type
+     * @param <Y> the element type
      * @return subquery join
      */
     <X, Y> CollectionJoin<X, Y> correlate(CollectionJoin<X, Y> parentCollection);
@@ -199,6 +206,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a subquery set join object correlated to a set join
      * object of the enclosing query.
      * @param parentSet  join object of the containing query
+     * @param <X> the source type
+     * @param <Y> the element type
      * @return subquery join
      */
     <X, Y> SetJoin<X, Y> correlate(SetJoin<X, Y> parentSet);
@@ -207,6 +216,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a subquery list join object correlated to a list join
      * object of the enclosing query.
      * @param parentList join object of the containing query
+     * @param <X> the source type
+     * @param <Y> the element type
      * @return subquery join
      */
     <X, Y> ListJoin<X, Y> correlate(ListJoin<X, Y> parentList);
@@ -215,6 +226,9 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Create a subquery map join object correlated to a map join
      * object of the enclosing query.
      * @param parentMap join object of the containing query
+     * @param <X> the source type
+     * @param <K> the key type
+     * @param <V> the value type
      * @return subquery join
      */
     <X, K, V> MapJoin<X, K, V> correlate(MapJoin<X, K, V> parentMap);
@@ -287,4 +301,3 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
     Expression<T> any();
 
 }
-

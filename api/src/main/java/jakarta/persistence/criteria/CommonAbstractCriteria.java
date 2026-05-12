@@ -39,6 +39,7 @@ public interface CommonAbstractCriteria {
     /**
      * Create a subquery of the query. 
      * @param type  the subquery result type
+     * @param <U> the subquery result type
      * @return subquery 
      */
     <U> Subquery<U> subquery(Class<U> type);
@@ -46,6 +47,7 @@ public interface CommonAbstractCriteria {
     /**
      * Create a subquery of the query.
      * @param type  the subquery result type
+     * @param <U> the subquery result type
      * @return subquery
      */
     <U> Subquery<U> subquery(EntityType<U> type);

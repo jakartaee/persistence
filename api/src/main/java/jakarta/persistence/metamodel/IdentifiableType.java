@@ -33,6 +33,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * Return the attribute that corresponds to the id attribute of 
      * the entity or mapped superclass.
      * @param type  the type of the represented id attribute
+     * @param <Y> The type of the represented id attribute
      * @return id attribute
      * @throws IllegalArgumentException if id attribute of the given
      *         type is not present in the identifiable type or if
@@ -45,6 +46,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * declared by the entity or mapped superclass.
      * @param type  the type of the represented declared 
      *              id attribute
+     * @param <Y> The type of the represented declared id attribute
      * @return declared id attribute
      * @throws IllegalArgumentException if id attribute of the given
      *         type is not declared in the identifiable type or if
@@ -56,6 +58,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * Return the attribute that corresponds to the version 
      * attribute of the entity or mapped superclass.
      * @param type  the type of the represented version attribute
+     * @param <Y> The type of the represented version attribute
      * @return version attribute
      * @throws IllegalArgumentException if version attribute of the 
      * 	        given type is not present in the identifiable type
@@ -67,6 +70,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * attribute declared by the entity or mapped superclass.
      * @param type  the type of the represented declared version 
      *              attribute
+     * @param <Y> The type of the represented declared version attribute
      * @return declared version attribute
      * @throws IllegalArgumentException if version attribute of the 
      *         type is not declared in the identifiable type

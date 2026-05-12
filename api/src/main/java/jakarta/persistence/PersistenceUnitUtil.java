@@ -47,6 +47,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * of an entity belonging to the persistence unit.
      * @param entity  entity instance containing the attribute
      * @param attribute  attribute whose load state is to be determined
+     * @param <E> the entity type
      * @return false if entity's state has not been loaded or if
      *         the attribute state has not been loaded, else true
      * @since 3.2
@@ -92,6 +93,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * must return true with the given entity instance and attribute.
      * @param entity  entity instance to be loaded
      * @param attribute  the attribute to be loaded
+     * @param <E> the entity type
      * @throws IllegalArgumentException if the given object is not an
      * instance of an entity class belonging to the persistence unit
      * @throws PersistenceException if the entity is not associated
@@ -141,6 +143,7 @@ public interface PersistenceUnitUtil extends PersistenceUtil {
      * This method may, but is not required to, load the given entity
      * by side effect.
      * @param entity  entity instance
+     * @param <T> the entity type
      * @return an entity class belonging to the persistence unit
      * @throws IllegalArgumentException if the given object is not an
      * instance of an entity class belonging to the persistence unit

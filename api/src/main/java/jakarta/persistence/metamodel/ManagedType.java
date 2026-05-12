@@ -48,6 +48,7 @@ public interface ManagedType<X> extends Type<X> {
      * type that corresponds to the specified name and Java type.
      * @param name  the name of the represented attribute
      * @param type  the type of the represented attribute
+     * @param <Y> The type of the represented attribute
      * @return single-valued attribute with given name and type
      * @throws IllegalArgumentException if attribute of the given
      *         name and type is not present in the managed type
@@ -60,6 +61,7 @@ public interface ManagedType<X> extends Type<X> {
      * Java type.
      * @param name  the name of the represented attribute
      * @param type  the type of the represented attribute
+     * @param <Y> The type of the represented attribute
      * @return declared single-valued attribute of the given 
      *         name and type
      * @throws IllegalArgumentException if attribute of the given
@@ -90,6 +92,7 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param elementType  the element type of the represented 
      *                     attribute
+     * @param <E> The element type of the represented collection
      * @return CollectionAttribute of the given name and element
      *         type
      * @throws IllegalArgumentException if attribute of the given
@@ -104,6 +107,7 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param elementType  the element type of the represented 
      *                     attribute
+     * @param <E> The element type of the represented collection
      * @return declared {@code CollectionAttribute} of the given name and 
      *         element type
      * @throws IllegalArgumentException if attribute of the given
@@ -117,6 +121,7 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param elementType  the element type of the represented 
      *                     attribute
+     * @param <E> The element type of the represented set
      * @return SetAttribute of the given name and element type
      * @throws IllegalArgumentException if attribute of the given
      *         name and type is not present in the managed type
@@ -129,6 +134,7 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param elementType  the element type of the represented 
      *                     attribute
+     * @param <E> The element type of the represented set
      * @return declared SetAttribute of the given name and 
      *         element type
      * @throws IllegalArgumentException if attribute of the given
@@ -142,6 +148,7 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param elementType  the element type of the represented 
      *                     attribute
+     * @param <E> The element type of the represented list
      * @return ListAttribute of the given name and element type
      * @throws IllegalArgumentException if attribute of the given
      *         name and type is not present in the managed type
@@ -155,6 +162,7 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param elementType  the element type of the represented 
      *                     attribute
+     * @param <E> The element type of the represented list
      * @return declared ListAttribute of the given name and 
      *         element type
      * @throws IllegalArgumentException if attribute of the given
@@ -169,6 +177,8 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param keyType  the key type of the represented attribute
      * @param valueType  the value type of the represented attribute
+     * @param <K> The key type of the represented map
+     * @param <V> The value type of the represented map
      * @return MapAttribute of the given name and key and value
      * types
      * @throws IllegalArgumentException if attribute of the given
@@ -185,6 +195,8 @@ public interface ManagedType<X> extends Type<X> {
      * @param name  the name of the represented attribute
      * @param keyType  the key type of the represented attribute
      * @param valueType  the value type of the represented attribute
+     * @param <K> The key type of the represented map
+     * @param <V> The value type of the represented map
      * @return declared MapAttribute of the given name and key 
      *         and value types
      * @throws IllegalArgumentException if attribute of the given

@@ -82,6 +82,7 @@ public interface MapJoin<Z, K, V>
     /**
      * Downcast the value type to the given type.
      * @param type a subtype of the value type
+     * @param <T> the subtype of the value type
      * @return this join downcast to the given value type
      * @since 4.0
      */
