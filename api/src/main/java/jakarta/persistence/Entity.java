@@ -58,7 +58,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </ul>
  * <p>The entity {@linkplain AccessType access type} determines whether
  * the provider accesses the state of the entity using getter and setter
- * methods, or by direct to its fields. It is almost never necessary to
+ * methods, or by directly accessing its fields. It is almost never necessary to
  * {@linkplain Access explicitly specify} an {@link AccessType}, since
  * the default access type for an entity is determined by the placement
  * of mapping annotations on the entity class.
