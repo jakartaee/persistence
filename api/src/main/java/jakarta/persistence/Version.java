@@ -23,18 +23,17 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares the version field or property of an entity class, which
- * is used to detect optimistic locking conflicts, ensuring the integrity
+ * Declares the version field or property of an entity class, which is
+ * used to detect optimistic locking conflicts, ensuring the integrity
  * of optimistic transactions. The version field or property holds a
  * version number or timestamp identifying the revision of the entity
  * data held by an entity class instance.
  *
  * <p>An {@linkplain OptimisticLockException optimistic locking conflict}
- * occurs when verification of the version or timestamp fails
- * during an attempt to update the entity, that is, if the version
- * or timestamp held in the database changes between reading the
- * state of an entity instance and attempting to update or delete
- * the state of the instance.
+ * occurs when verification of the version or timestamp fails during an
+ * attempt to update the entity, that is, if the version or timestamp
+ * held in the database changes between reading the state of an entity
+ * instance and attempting to update or delete the state of the instance.
  *
  * <p>The version attribute must be of one of the following basic
  * types: {@code int}, {@link Integer}, {@code short}, {@link Short},
@@ -64,6 +63,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>The {@code Version} field or property should be mapped to the
  * primary table of the entity.
+ *
+ * <p>The entity version must be updated by the persistence provider each
+ * time the state of an entity instance is written to the database.
+ * Furthermore, if the current persistence context contains a revision
+ * of the entity instance when the instance is written to the database,
+ * the persistence provider must verify that the revision held in the
+ * persistence context is identical to the revision held in the database
+ * by comparing the versions held in memory and in the database.
+ * If the versions do not match, the persistence provider must throw an
+ * {@link OptimisticLockException}.
  *
  * @see LockModeType
  * @see PersistenceUnitUtil#getVersion(Object)
