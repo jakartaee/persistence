@@ -17,16 +17,21 @@
 package jakarta.persistence;
 
 /**
- * The validation mode to be used by the provider for the persistence
- * unit.
+ * Controls whether the persistence provider performs automatic validation
+ * of entities annotated with Bean Validation constraints.
  * <p>
- * A {@code ValidationMode} may be specified by:
+ * A default {@code ValidationMode} may be specified by:
  * <ul>
  * <li>the {@code <validation-mode>} element of {@code persistence.xml},
  * <li>the property
  *     {@value Persistence.ValidationProperties#VALIDATION_MODE}, or
  * <li>{@link PersistenceConfiguration#validationMode(ValidationMode)}.
  * </ul>
+ * <p>
+ * The default mode may be overridden by specifying a different mode as a
+ * {@linkplain EntityManager.Option creation option} to
+ * {@link EntityManagerFactory#createEntityManager(EntityManager.CreationOption...)}
+ * or {@link EntityManagerFactory#createEntityAgent(EntityAgent.CreationOption...)}.
  *
  * @see jakarta.persistence.spi.PersistenceUnitInfo#getValidationMode()
  * @see PersistenceConfiguration#validationMode()
@@ -34,7 +39,8 @@ package jakarta.persistence;
  *
  * @since 2.0
  */
-public enum ValidationMode {
+public enum ValidationMode
+        implements EntityManager.CreationOption, EntityAgent.CreationOption {
    
     /**
      * If a Bean Validation provider is present in the environment,
