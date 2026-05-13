@@ -6710,3 +6710,170 @@ public class EmploymentPeriod implements Serializable {
     }
 }
 ----
+
+=== Derivation of schema metadata from Jakarta Validation constraints [[schema-generation-from-jakarta-validation-constraints]]
+
+Certain Jakarta Validation constraints can override
+the persistent attribute metadata and influence the
+schema generation.
+
+The following list describes how constraints affect
+the persistent attributes they are applied to:
+
+`jakarta.validation.constraints.NotNull`::
+This constraint is treated as a way to specify that
+the column mapped by the attribute is not nullable.
+Influence on metadata:::
+Overrides the `nullable` attribute and sets it to `false`.
+Influence on DDL:::
+Adds a `NOT NULL` constraint to the column.
+
+`jakarta.validation.constraints.NotBlank`::
+Similar to `jakarta.validation.constraints.NotNull`
+this constraint is treated as a way to specify that
+the column mapped by the attribute is not nullable.
+With difference being that `@NotBlank` constraint
+is applicable to fewer types compared to
+`@NotNull` constraint.
+Influence on metadata:::
+Overrides the `nullable` attribute and sets it to `false`.
+Influence on DDL:::
+Adds a `NOT NULL` constraint to the column.
+
+`jakarta.validation.constraints.NotEmpty`::
+Same as `jakarta.validation.constraints.NotNull`
+this constraint is treated as a way to specify that
+the column mapped by the attribute is not nullable.
+With difference being that `@NotEmpty` constraint
+is applicable to fewer types compared to
+`@NotNull` constraint.
+Influence on metadata:::
+Overrides the `nullable` attribute and sets it to `false`.
+Influence on DDL:::
+Adds a `NOT NULL` constraint to the column.
+
+`jakarta.validation.constraints.Digits`::
+This constraint is treated as a way to specify
+the precision and scale of a numeric column.
+Influence on metadata:::
+Sets the `precision` attribute to the sum of
+`integer` and `fraction`, and the `scale`
+attribute to `fraction`.
+Influence on DDL:::
+Defines the numeric type precision and scale,
+e.g. `DECIMAL(precision, scale)`.
+
+`jakarta.validation.constraints.Size`::
+If this constraint specifies the maximum value,
+e.g. `@Size(max = {someValue})`, then it is treated
+as a way to specify the length of the column mapped
+by the attribute, i.e. `length={someValue}`.
+Influence on metadata:::
+Sets the `length` attribute to `{someValue}`.
+Influence on DDL:::
+Defines the column length, e.g. `VARCHAR({someValue})`.
+
+`jakarta.validation.constraints.Min`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name >= value)`, where `value`
+is the value defined in the constraint.
+
+`jakarta.validation.constraints.Max`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name \<= value)`, where `value`
+is the value defined in the constraint.
+
+`jakarta.validation.constraints.DecimalMin`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name >= value)` if `inclusive`
+is `true` (default), or `CHECK (column_name > value)`
+otherwise.
+
+`jakarta.validation.constraints.DecimalMax`::
+This constraint is treated as a way to specify
+a check constraint on a numeric column.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g.
+`CHECK (column_name \<= value)` if `inclusive`
+is `true` (default), or `CHECK (column_name < value)`
+otherwise.
+
+`jakarta.validation.constraints.Negative`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Max(-1)` for integral types and
+`jakarta.validation.constraints.DecimalMax(value = BigDecimal.ZERO, inclusive = false)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name < 0)`.
+
+`jakarta.validation.constraints.NegativeOrZero`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Max(0)` for integral types and
+`jakarta.validation.constraints.DecimalMax(value = BigDecimal.ZERO)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name \<= 0)`.
+
+`jakarta.validation.constraints.Positive`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Min(1)` for integral types and
+`jakarta.validation.constraints.DecimalMin(value = BigDecimal.ZERO, inclusive = false)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name > 0)`.
+
+`jakarta.validation.constraints.PositiveOrZero`::
+This constraint is handled the same as
+`jakarta.validation.constraints.Min(0)` for integral types and
+`jakarta.validation.constraints.DecimalMin(value = BigDecimal.ZERO)`
+for decimal types.
+Influence on metadata:::
+None.
+Influence on DDL:::
+Adds a check constraint to the column, e.g. `CHECK (column_name >= 0)`.
+
+Persistence providers must comply with the following precedence
+and resolution rules:
+
+* Jakarta Validation constraint metadata takes precedence over
+Jakarta Persistence.
+* Jakarta Validation constraint metadata takes precedence over
+`@jakarta.annotation.Nonnull`.
+* When multiple Jakarta Validation constraints apply to the same
+attribute, the most restrictive constraint must be applied.
+* It is up to the persistence provider how to process multiple
+check clauses contributed by different constraints.
+
+[NOTE]
+====
+This specification expects that only constraints that belong to the
+`jakarta.validation.groups.Default` validation group are considered
+for this additional metadata contribution.
+
+Persistent providers may have a way to override this expectation
+and allow users to specify a different validation group or groups
+to be considered for DDL operations.
+====
