@@ -2257,11 +2257,11 @@ achieved through configuring the validation mode.
 
 This specification defines the following _validation modes_:
 
-* `callback` -- the persistence provider must perform the automatic validation
+* `CALLBACK` -- the persistence provider must perform the automatic validation
   of entities as described in <<a2380>>. If no Jakarta Validation provider is
   available, the persistence provider must throw a `PersistenceException`.
-* `none` -- the persistence provider must not perform any automatic validation.
-* `auto` -- if a Jakarta Validation provider is obtainable -- persistent provider
+* `NONE` -- the persistence provider must not perform any automatic validation.
+* `AUTO` -- if a Jakarta Validation provider is obtainable -- persistent provider
   must perform the automatic validation of entities. Otherwise, the
   behavior is the same as with `none`.
 
