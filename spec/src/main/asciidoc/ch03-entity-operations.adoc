@@ -2247,7 +2247,8 @@ and <<a2374,the integration is enabled>>, the persistence provider must:
 ==== Configuring the Jakarta Validation provider
 
 The persistence provider is not expected to implement Jakarta Validation.
-Instead, and instance of `jakarta.validation.ValidatorFactory` must be made available to the provider.
+Instead, an instance of `jakarta.validation.ValidatorFactory` must be made
+available to the provider.
 
 ===== Providing the ValidatorFactory [[a2394]]
 
