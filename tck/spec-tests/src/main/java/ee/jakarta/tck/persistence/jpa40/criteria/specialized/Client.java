@@ -252,7 +252,7 @@ public class Client extends PMClientBase {
         CriteriaQuery<String> label = builder.createQuery(String.class);
         Root<SpecializedBook> book = label.from(SpecializedBook.class);
         TextExpression title = book.get(SpecializedBook_.title);
-        label.select(title.<String>selectCase()
+        label.select(title.selectCase(String.class)
                         .when("Alpha", title.nullif("Alpha").coalesce("first"))
                         .otherwise("other"))
                 .where(title.equalTo("Alpha"));
