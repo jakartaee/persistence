@@ -452,7 +452,7 @@ public interface Statement extends Query {
 
     /**
      * Get the {@linkplain Option options} influencing execution of
-     * this statement.  The returned set includes options set via
+     * this statement. The returned set includes options set via
      * {@link #addOption}, along with options specified via
      * {@link #setTimeout} or {@link #setQueryFlushMode}. Mutation of
      * the returned set does not affect the options of the statement.
