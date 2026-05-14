@@ -34,12 +34,13 @@
     <packaging>jar</packaging>
 
     <properties>
-        <jdbc.db>derby</jdbc.db>
+        <h2.jdbc.version>2.4.240</h2.jdbc.version>
+        <jdbc.db>h2</jdbc.db>
         <jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>
-        <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
-        <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
-        <jakarta.persistence.jdbc.user>cts1</jakarta.persistence.jdbc.user>
-        <jakarta.persistence.jdbc.password>cts1</jakarta.persistence.jdbc.password>
+        <jakarta.persistence.jdbc.driver>org.h2.Driver</jakarta.persistence.jdbc.driver>
+        <jakarta.persistence.jdbc.url>jdbc:h2:mem:JPATCK;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000;NON_KEYWORDS=KEY,VALUE</jakarta.persistence.jdbc.url>
+        <jakarta.persistence.jdbc.user>sa</jakarta.persistence.jdbc.user>
+        <jakarta.persistence.jdbc.password/>
         <jpa.provider.implementation.specific.properties/>
         <jpa.provider.implementation.specific.additional.properties/>
         <db.supports.sequence>true</db.supports.sequence>
@@ -58,6 +59,11 @@
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.jdbc.version}</version>
         </dependency>
     </dependencies>
 
@@ -221,6 +227,9 @@
                 <derby.jdbc.version>10.15.2.0</derby.jdbc.version>
                 <jdbc.db>derby</jdbc.db>
                 <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
+                <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
+                <jakarta.persistence.jdbc.user>cts1</jakarta.persistence.jdbc.user>
+                <jakarta.persistence.jdbc.password>cts1</jakarta.persistence.jdbc.password>
             </properties>
             <dependencies>
                 <dependency>
@@ -239,20 +248,12 @@
         <profile>
             <id>h2</id>
             <properties>
-                <h2.jdbc.version>2.4.240</h2.jdbc.version>
                 <jdbc.db>h2</jdbc.db>
                 <jakarta.persistence.jdbc.driver>org.h2.Driver</jakarta.persistence.jdbc.driver>
                 <jakarta.persistence.jdbc.url>jdbc:h2:mem:JPATCK;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000;NON_KEYWORDS=KEY,VALUE</jakarta.persistence.jdbc.url>
                 <jakarta.persistence.jdbc.user>sa</jakarta.persistence.jdbc.user>
                 <jakarta.persistence.jdbc.password/>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>${h2.jdbc.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
 
         <profile>

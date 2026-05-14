@@ -43,19 +43,22 @@
         <!--tck properties-->
         <jpa.classes>${glassfish.module.dir}/jakarta.persistence-api.jar,${glassfish.module.dir}/org.eclipse.persistence.jpa.jar,${glassfish.module.dir}/jakarta.servlet-api.jar,${glassfish.module.dir}/jakarta.transaction-api.jar,${glassfish.module.dir}/jakarta.ejb-api.jar,${glassfish.module.dir}/org.eclipse.persistence.antlr.jar,${glassfish.module.dir}/org.eclipse.persistence.asm.jar,${glassfish.module.dir}/org.eclipse.persistence.core.jar,${glassfish.module.dir}/org.eclipse.persistence.dbws.jar,${glassfish.module.dir}/org.eclipse.persistence.jpa.jpql.jar,${glassfish.module.dir}/org.eclipse.persistence.jpa.modelgen.processor.jar,${glassfish.module.dir}/org.eclipse.persistence.moxy.jar,${glassfish.module.dir}/org.eclipse.persistence.oracle.jar,${glassfish.module.dir}/jboss-logging.jar,${glassfish.module.dir}/jakarta.el-api.jar,${glassfish.module.dir}/expressly.jar,${glassfish.module.dir}/classmate.jar,${glassfish.module.dir}/jakarta.validation-api.jar</jpa.classes>
         <validator.classes>${glassfish.module.dir}/jakarta.validation-api.jar,${glassfish.module.dir}/hibernate-validator-cdi.jar,${glassfish.module.dir}/hibernate-validator.jar</validator.classes>
-        <jdbc.lib.classpath>${javadb.lib}/derbyclient.jar,${javadb.lib}/derbyshared.jar,${javadb.lib}/derbytools.jar</jdbc.lib.classpath>
-        <jdbc.driver.classes>${javadb.lib}/derbyclient.jar:${javadb.lib}/derbyshared.jar:${javadb.lib}/derbytools.jar</jdbc.driver.classes>
-        <jdbc.db>derby</jdbc.db>
+        <h2.jdbc.version>2.4.240</h2.jdbc.version>
+        <jdbc.lib.classpath>${settings.localRepository}/com/h2database/h2/${h2.jdbc.version}/h2-${h2.jdbc.version}.jar</jdbc.lib.classpath>
+        <jdbc.driver.classes>${jdbc.lib.classpath}</jdbc.driver.classes>
+        <jdbc.db>h2</jdbc.db>
         <jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>
-        <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
-        <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
-        <jakarta.persistence.jdbc.user>cts1</jakarta.persistence.jdbc.user>
-        <jakarta.persistence.jdbc.password>cts1</jakarta.persistence.jdbc.password>
+        <jakarta.persistence.jdbc.driver>org.h2.Driver</jakarta.persistence.jdbc.driver>
+        <jakarta.persistence.jdbc.url>jdbc:h2:mem:JPATCK;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000;NON_KEYWORDS=KEY,VALUE</jakarta.persistence.jdbc.url>
+        <jakarta.persistence.jdbc.user>sa</jakarta.persistence.jdbc.user>
+        <jakarta.persistence.jdbc.password/>
         <jpa.provider.implementation.specific.properties/>
         <jpa.provider.implementation.specific.additional.properties/>
         <db.supports.sequence>true</db.supports.sequence>
         <persistence.second.level.caching.supported>true</persistence.second.level.caching.supported>
         <db.delimiter>;</db.delimiter>
+        <!-- H2 runs embedded; the generic external database SQL init scripts do not apply. -->
+        <maven.antrun.skip>true</maven.antrun.skip>
         <!--Dependencies version-->
         <tck.common.artifactId>persistence-tck-common</tck.common.artifactId>
         <tck.artifactId>persistence-tck-spec-tests</tck.artifactId>
@@ -96,6 +99,11 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -645,6 +653,7 @@
                 <jdbc.db>db2</jdbc.db>
                 <jakarta.persistence.jdbc.driver>com.ibm.db2.jcc.DB2Driver</jakarta.persistence.jdbc.driver>
                 <db.delimiter>!</db.delimiter>
+                <maven.antrun.skip>false</maven.antrun.skip>
             </properties>
             <dependencies>
                 <dependency>
@@ -660,6 +669,12 @@
                 <derby.jdbc.version>10.15.2.0</derby.jdbc.version>
                 <jdbc.db>derby</jdbc.db>
                 <jakarta.persistence.jdbc.driver>org.apache.derby.jdbc.ClientDriver</jakarta.persistence.jdbc.driver>
+                <jdbc.lib.classpath>${javadb.lib}/derbyclient.jar,${javadb.lib}/derbyshared.jar,${javadb.lib}/derbytools.jar</jdbc.lib.classpath>
+                <jdbc.driver.classes>${javadb.lib}/derbyclient.jar:${javadb.lib}/derbyshared.jar:${javadb.lib}/derbytools.jar</jdbc.driver.classes>
+                <jakarta.persistence.jdbc.url>jdbc:derby://localhost:1527/derbyDB;create=true</jakarta.persistence.jdbc.url>
+                <jakarta.persistence.jdbc.user>cts1</jakarta.persistence.jdbc.user>
+                <jakarta.persistence.jdbc.password>cts1</jakarta.persistence.jdbc.password>
+                <maven.antrun.skip>false</maven.antrun.skip>
             </properties>
             <dependencies>
                 <dependency>
@@ -760,7 +775,6 @@
         <profile>
             <id>h2</id>
             <properties>
-                <h2.jdbc.version>2.4.240</h2.jdbc.version>
                 <jdbc.db>h2</jdbc.db>
                 <jakarta.persistence.jdbc.driver>org.h2.Driver</jakarta.persistence.jdbc.driver>
                 <jakarta.persistence.jdbc.url>jdbc:h2:mem:JPATCK;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000;NON_KEYWORDS=KEY,VALUE</jakarta.persistence.jdbc.url>
@@ -771,13 +785,6 @@
                 <!-- H2 runs embedded; the generic external database SQL init scripts do not apply. -->
                 <maven.antrun.skip>true</maven.antrun.skip>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>${h2.jdbc.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
 
         <profile>
@@ -787,6 +794,7 @@
                 <jdbc.db>mssqlserver</jdbc.db>
                 <jakarta.persistence.jdbc.driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jakarta.persistence.jdbc.driver>
                 <db.delimiter>!</db.delimiter>
+                <maven.antrun.skip>false</maven.antrun.skip>
             </properties>
             <dependencies>
                 <dependency>
@@ -804,6 +812,7 @@
                 <jdbc.db>mysql</jdbc.db>
                 <jakarta.persistence.jdbc.driver>com.mysql.cj.jdbc.Driver</jakarta.persistence.jdbc.driver>
                 <db.delimiter>!</db.delimiter>
+                <maven.antrun.skip>false</maven.antrun.skip>
             </properties>
             <dependencies>
                 <dependency>
@@ -820,6 +829,7 @@
                 <jdbc.db>oracle</jdbc.db>
                 <jakarta.persistence.jdbc.driver>oracle.jdbc.OracleDriver</jakarta.persistence.jdbc.driver>
                 <db.delimiter>!</db.delimiter>
+                <maven.antrun.skip>false</maven.antrun.skip>
             </properties>
             <dependencies>
                 <dependency>
@@ -836,6 +846,7 @@
                 <postgresql.jdbc.version>42.7.4</postgresql.jdbc.version>
                 <jdbc.db>postgresql</jdbc.db>
                 <jakarta.persistence.jdbc.driver>org.postgresql.Driver</jakarta.persistence.jdbc.driver>
+                <maven.antrun.skip>false</maven.antrun.skip>
             </properties>
             <dependencies>
                 <dependency>
@@ -853,6 +864,7 @@
                 <jdbc.db>sybase</jdbc.db>
                 <jakarta.persistence.jdbc.driver>com.sybase.jdbc4.jdbc.SybDriver</jakarta.persistence.jdbc.driver>
                 <db.delimiter>!</db.delimiter>
+                <maven.antrun.skip>false</maven.antrun.skip>
             </properties>
             <!--
                 Install with:
