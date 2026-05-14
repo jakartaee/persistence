@@ -55,6 +55,7 @@ slashes as a path separator instead.
 [source,oac_no_warn]
 ----
 derby
+h2
 mysql
 sybase
 db2
@@ -156,4 +157,3 @@ database and avert errors caused by case-sensitive collation:
 ----
 ALTER DATABASE ctsdb COLLATE Latin1_General_CS_AS ;
 ----
-

@@ -237,6 +237,25 @@
         </profile>
 
         <profile>
+            <id>h2</id>
+            <properties>
+                <h2.jdbc.version>2.4.240</h2.jdbc.version>
+                <jdbc.db>h2</jdbc.db>
+                <jakarta.persistence.jdbc.driver>org.h2.Driver</jakarta.persistence.jdbc.driver>
+                <jakarta.persistence.jdbc.url>jdbc:h2:mem:JPATCK;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000;NON_KEYWORDS=KEY,VALUE</jakarta.persistence.jdbc.url>
+                <jakarta.persistence.jdbc.user>sa</jakarta.persistence.jdbc.user>
+                <jakarta.persistence.jdbc.password/>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>${h2.jdbc.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
             <id>mssqlserver</id>
             <properties>
                 <mssqlserver.jdbc.version>12.4.2.jre11</mssqlserver.jdbc.version>
