@@ -51,4 +51,40 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 
 	@Override
 	TemporalExpression<T> nullif(Expression<? extends T> y);
+
+	/**
+	 * Synonym for {@link #lessThan(Expression)}.
+	 * @param y expression
+	 * @return before predicate
+	 */
+	default Predicate before(Expression<? extends T> y) {
+		return lessThan(y);
+	}
+
+	/**
+	 * Synonym for {@link #lessThan(Comparable)}.
+	 * @param y value
+	 * @return before predicate
+	 */
+	default Predicate before(T y) {
+		return lessThan(y);
+	}
+
+	/**
+	 * Synonym for {@link #greaterThan(Expression)}.
+	 * @param y expression
+	 * @return after predicate
+	 */
+	default Predicate after(Expression<? extends T> y) {
+		return greaterThan(y);
+	}
+
+	/**
+	 * Synonym for {@link #greaterThan(Comparable)}.
+	 * @param y value
+	 * @return after predicate
+	 */
+	default Predicate after(T y) {
+		return greaterThan(y);
+	}
 }
