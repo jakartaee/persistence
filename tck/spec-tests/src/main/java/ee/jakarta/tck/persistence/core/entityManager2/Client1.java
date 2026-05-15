@@ -59,7 +59,7 @@ public class Client1 extends PMClientBase {
                 Employee.class.getName(),
                 Order.class.getName()
         };
-		return createDeploymentJar("jpa_core_entityManager1.jar", pkgNameWithoutSuffix, classes);
+		return createDeploymentJar("jpa_core_entityManager1_2.jar", pkgNameWithoutSuffix, classes);
 	}
 
 	/*
