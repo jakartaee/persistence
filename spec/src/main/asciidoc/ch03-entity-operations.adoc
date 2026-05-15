@@ -329,9 +329,10 @@ is applied to `e` via cascade:
 * if `e` is a managed entity already associated with the persistence
   context, `e` itself is ignored by the persist operation;
 * if `e` is a removed entity, it becomes managed; or
-* if `e` is a detached entity, the `EntityExistsException` may be thrown
-  when the persist operation is invoked, or the `EntityExistsException`
-  or another `PersistenceException` may be thrown at flush or commit time.
+* if `e` is a detached entity, either an `EntityExistsException` is thrown
+  immediately, or an `EntityExistsException` or some other subtype of
+  `PersistenceException` is thrown when the persistence context is flushed
+  or when the transaction commits.
 * If `e` is new, managed, or removed, the persist operation is also applied
   to every entity `t` referenced by a relationship owned by `e` and annotated
   with the `cascade` element value `cascade=PERSIST` or `cascade=ALL` or
@@ -4323,15 +4324,22 @@ Thrown by the persistence provider when:
 
 - a detached instance of an entity type is passed to `persist()`,
   or
-- an instance of an entity type with an identifier assigned by
-  the application is passed to `insert()`, and a record with the
-  assigned identifier value already exists in the database.
+- any kind of uniqueness constraint is violated when an entity
+  is inserted in the database.
 
 +
-If a detached instance is passed to the persist operation, an
-`EntityExistsException` may be immediately thrown by `persist()`,
-or the `EntityExistsException` or another `PersistenceException`
-may be thrown at flush or commit time.
+The persistence provider is always permitted to postpone an
+`EntityExistsException` until execution of the resulting database
+insert operation. If a detached instance is passed to the persist
+operation, either:
+
+- an `EntityExistsException` is immediately thrown by `persist()`,
+  or
+- an `EntityExistsException` or some other subtype of
+  `PersistenceException` is thrown when the persistence context
+  is flushed or when the transaction commits.
+
++
 If thrown by an `EntityManager` with a persistence context
 joined to an active transaction, the transaction is marked for
 rollback when this exception is thrown.
