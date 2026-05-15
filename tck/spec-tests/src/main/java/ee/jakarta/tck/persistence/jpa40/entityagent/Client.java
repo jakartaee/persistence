@@ -20,12 +20,11 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
 import jakarta.persistence.EntityAgent;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.OptimisticLockException;
-import jakarta.persistence.PersistenceException;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
@@ -338,6 +337,26 @@ public class Client extends PMClientBase {
     }
 
     /**
+     * Verifies EntityManager.flush() reports the specified exception type when
+     * an inserted entity violates a uniqueness constraint.
+     */
+    @Test
+    public void entityManagerFlushUniquenessViolationTest() {
+        EntityTransaction transaction = getEntityTransaction();
+        try {
+            transaction.begin();
+            getEntityManager().persist(new AgentBook(1, "duplicate title"));
+            getEntityManager().persist(new AgentBook(2, "duplicate title"));
+            assertThrows(EntityExistsException.class, () -> getEntityManager().flush());
+        } finally {
+            rollbackIfActive(transaction);
+            getEntityManager().clear();
+        }
+
+        assertEquals(0L, countBooks());
+    }
+
+    /**
      * Verifies bulk write operations and stale upsert operations report the
      * specified exception types for invalid, missing, or stale records.
      */
@@ -351,7 +370,7 @@ public class Client extends PMClientBase {
         var transaction = agent.getTransaction();
         try {
             transaction.begin();
-            assertThrows(PersistenceException.class,
+            assertThrows(EntityExistsException.class,
                     () -> agent.insertMultiple(List.of(new AgentBook(1, "duplicate bulk"))));
             rollbackIfActive(transaction);
 

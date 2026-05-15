@@ -16,6 +16,7 @@
 
 package ee.jakarta.tck.persistence.jpa40.entityagent;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -31,6 +32,7 @@ public class AgentBook {
     @Id
     private Integer id;
 
+    @Column(unique = true)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
