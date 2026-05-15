@@ -22,17 +22,22 @@ package jakarta.persistence;
  * <ul>
  * <li>a detached instance of an entity type is passed to
  *     {@link EntityManager#persist(Object)}, or
- * <li>an instance of an entity type with an identifier already
- *     assigned by the application is passed to
- *     {@link EntityAgent#insert(Object)}, and a record with the
- *     assigned identifier value already exists in the database.
+ * <li>any kind of uniqueness constraint is violated when an
+ *     entity is inserted in the database.
  * </ul>
  *
- * <p> If a detached instance is passed to the persist operation,
- * an {@code EntityExistsException} may be immediately thrown by
- * {@code persist()}, or the {@code EntityExistsException} or
- * another {@link PersistenceException} may be thrown at flush or
- * commit time.
+ * <p> The persistence provider is always permitted to postpone
+ * an {@code EntityExistsException} until execution of the
+ * resulting database insert operation. If a detached instance
+ * is passed to the persist operation, either:
+ * <ul>
+ * <li>an {@code EntityExistsException} is immediately thrown
+ *     by {@code persist()}, or
+ * <li>an {@code EntityExistsException} or some other subtype
+ *     of {@link PersistenceException} is thrown when the
+ *     persistence context is flushed or when the transaction
+ *     commits.
+ * </ul>
  *
  * <p> If an {@code EntityExistsException} is thrown by an
  * {@link EntityManager} with a persistence context joined to

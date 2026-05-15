@@ -136,10 +136,8 @@ public interface EntityAgent extends EntityHandler {
      *
      * @throws IllegalArgumentException if the given instance is
      *         determined to not be new or removed
-     * @throws EntityExistsException if the given entity has an
-     *         identifier assigned by the application, and a
-     *         record with the assigned identifier already exists
-     *         in the database
+     * @throws EntityExistsException if any kind of uniqueness
+     *         constraint is violated
      * @throws PersistenceException if a record could not be
      *         inserted in the database
      */
@@ -155,10 +153,8 @@ public interface EntityAgent extends EntityHandler {
      *
      * @throws IllegalArgumentException if one of the given
      *         instances is determined to not be new or removed
-     * @throws EntityExistsException if one of the given entities
-     *         has an identifier assigned by the application, and
-     *         a record with the assigned identifier already exists
-     *         in the database
+     * @throws EntityExistsException if any kind of uniqueness
+     *         constraint is violated
      * @throws PersistenceException if a record could not be
      *         inserted in the database
      *

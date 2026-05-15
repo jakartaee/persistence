@@ -227,11 +227,12 @@ public interface EntityManager extends EntityHandler {
      * to this persistence context and has not been marked for removal,
      * it is itself ignored, but the operation still cascades.
      * @param entity  a new, managed, or removed entity instance
-     * @throws EntityExistsException if the given entity is detached
-     * (if the entity is detached, the {@code EntityExistsException}
-     * may be thrown when the persist operation is invoked, or the
-     * {@code EntityExistsException} or another {@code PersistenceException}
-     * may be thrown at flush or commit time)
+     * @throws EntityExistsException if the given entity is detached; if
+     *         the entity is detached, either an {@code EntityExistsException}
+     *         is thrown immediately, or an {@code EntityExistsException}
+     *         or some other subtype of {@code PersistenceException} is
+     *         thrown when the persistence context is flushed or when the
+     *         transaction commits
      * @throws IllegalArgumentException if the given instance is not an
      *         entity
      * @throws TransactionRequiredException if there is no transaction
@@ -439,6 +440,9 @@ public interface EntityManager extends EntityHandler {
      * @throws TransactionRequiredException if there is
      *        no transaction or if the entity manager has not been
      *        joined to the current transaction
+     * @throws EntityExistsException if any kind of uniqueness
+     *         constraint is violated by an operation which inserts
+     *         an entity in the database
      * @throws PersistenceException if the flush fails
      * @throws OptimisticLockException if an optimistic locking
      *         conflict is detected
