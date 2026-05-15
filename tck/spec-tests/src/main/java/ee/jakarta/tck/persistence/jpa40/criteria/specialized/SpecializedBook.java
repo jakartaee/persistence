@@ -22,7 +22,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Entity(name = "Jpa40SpecializedBook")
@@ -35,6 +37,8 @@ public class SpecializedBook {
 
     private Integer quantity;
 
+    private Double price;
+
     private LocalDate publishedOn;
 
     private Boolean available;
@@ -44,19 +48,26 @@ public class SpecializedBook {
     @ElementCollection
     private Set<String> tags = new HashSet<>();
 
+    @ElementCollection
+    private Map<String, Integer> tagScores = new HashMap<>();
+
     public SpecializedBook() {
     }
 
-    public SpecializedBook(Integer id, String title, Integer quantity, LocalDate publishedOn,
-                           Boolean available, String category, Set<String> tags) {
+    public SpecializedBook(Integer id, String title, Integer quantity, Double price, LocalDate publishedOn,
+                           Boolean available, String category, Set<String> tags, Map<String, Integer> tagScores) {
         this.id = id;
         this.title = title;
         this.quantity = quantity;
+        this.price = price;
         this.publishedOn = publishedOn;
         this.available = available;
         this.category = category;
         if (tags != null) {
             this.tags.addAll(tags);
+        }
+        if (tagScores != null) {
+            this.tagScores.putAll(tagScores);
         }
     }
 

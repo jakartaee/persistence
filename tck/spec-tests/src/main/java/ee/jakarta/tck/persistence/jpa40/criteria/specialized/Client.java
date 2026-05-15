@@ -27,19 +27,32 @@ import jakarta.persistence.criteria.Nulls;
 import jakarta.persistence.criteria.NumericExpression;
 import jakarta.persistence.criteria.PluralExpression;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.SetJoin;
 import jakarta.persistence.criteria.Subquery;
 import jakarta.persistence.criteria.TemporalExpression;
 import jakarta.persistence.criteria.TextExpression;
+import jakarta.persistence.metamodel.BooleanAttribute;
+import jakarta.persistence.metamodel.ComparableAttribute;
+import jakarta.persistence.metamodel.EntityType;
+import jakarta.persistence.metamodel.MapAttribute;
+import jakarta.persistence.metamodel.NumericAttribute;
+import jakarta.persistence.metamodel.SetAttribute;
+import jakarta.persistence.metamodel.TemporalAttribute;
+import jakarta.persistence.metamodel.TextAttribute;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class Client extends PMClientBase {
 
@@ -102,6 +115,25 @@ public class Client extends PMClientBase {
     }
 
     /**
+     * Tests Jakarta Persistence 4.0 specialized runtime metamodel attribute
+     * types. This verifies that provider-created metamodel attributes expose
+     * the specialized interfaces, not only the injected static metamodel fields.
+     */
+    @Test
+    public void specializedCriteriaRuntimeMetamodelAttributeTypesTest() {
+        EntityType<SpecializedBook> bookType = getEntityManager().getMetamodel().entity(SpecializedBook.class);
+
+        assertInstanceOf(TextAttribute.class, bookType.getSingularAttribute("title"));
+        assertInstanceOf(NumericAttribute.class, bookType.getSingularAttribute("quantity"));
+        assertInstanceOf(NumericAttribute.class, bookType.getSingularAttribute("price"));
+        assertInstanceOf(TemporalAttribute.class, bookType.getSingularAttribute("publishedOn"));
+        assertInstanceOf(BooleanAttribute.class, bookType.getSingularAttribute("available"));
+        assertInstanceOf(ComparableAttribute.class, bookType.getSingularAttribute("category"));
+        assertInstanceOf(SetAttribute.class, bookType.getSet("tags", String.class));
+        assertInstanceOf(MapAttribute.class, bookType.getMap("tagScores", String.class, Integer.class));
+    }
+
+    /**
      * Tests Jakarta Persistence 4.0 fluent operations on specialized criteria
      * expressions. The predicates and selected expression are evaluated by the
      * database so the test verifies that the methods are not just exposed by the
@@ -138,6 +170,120 @@ public class Client extends PMClientBase {
     }
 
     /**
+     * Tests additional Jakarta Persistence 4.0 text expression shortcuts and
+     * overloads.
+     */
+    @Test
+    public void specializedCriteriaTextExpressionOperationsTest() {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<String> criteria = builder.createQuery(String.class);
+        Root<SpecializedBook> book = criteria.from(SpecializedBook.class);
+
+        TextExpression title = book.get(SpecializedBook_.title);
+
+        criteria.select(title.lower()
+                        .replace("alpha", "omega")
+                        .prepend("first-"))
+                .where(
+                        title.like(builder.stringLiteral("A%")),
+                        title.notLike("B%"),
+                        title.notEndsWith("zz"),
+                        title.trim(CriteriaBuilder.Trimspec.BOTH).equalTo("Alpha"),
+                        title.length().equalTo(5),
+                        title.left(2).equalTo("Al"),
+                        title.right(builder.numericLiteral(2)).equalTo("ha"),
+                        title.replace(builder.stringLiteral("Al"), "Br").equalTo("Brpha"),
+                        title.substring(builder.numericLiteral(2), builder.numericLiteral(2)).equalTo("lp"),
+                        title.locate(builder.stringLiteral("ph"), builder.numericLiteral(1)).equalTo(3));
+
+        assertEquals("first-omega", getEntityManager().createQuery(criteria).getSingleResult());
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 numeric expression shortcuts including
+     * unary, arithmetic, floating-point, type conversion, and null handling
+     * operations.
+     */
+    @Test
+    public void specializedCriteriaNumericExpressionOperationsTest() {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<SpecializedBook> book = criteria.from(SpecializedBook.class);
+
+        TextExpression title = book.get(SpecializedBook_.title);
+        NumericExpression<Integer> quantity = book.get(SpecializedBook_.quantity);
+        NumericExpression<Double> price = book.get(SpecializedBook_.price);
+
+        criteria.select(book.get("id"))
+                .where(
+                        title.equalTo("Alpha"),
+                        price.sign().equalTo(1),
+                        price.negated().abs().equalTo(4.0),
+                        price.ceiling().equalTo(4.0),
+                        price.floor().equalTo(4.0),
+                        price.dividedBy(2.0).equalTo(2.0),
+                        price.subtractedFrom(10.0).equalTo(6.0),
+                        price.dividedInto(20.0).equalTo(5.0),
+                        price.sqrt().equalTo(2.0),
+                        price.exp().between(54.0, 55.0),
+                        price.ln().between(1.3, 1.4),
+                        price.power(2).equalTo(16.0),
+                        price.round(0).equalTo(4.0),
+                        quantity.toLong().equalTo(10L),
+                        quantity.toInteger().equalTo(10),
+                        quantity.toFloat().between(9.9F, 10.1F),
+                        quantity.toDouble().between(9.9D, 10.1D),
+                        quantity.toBigDecimal().equalTo(BigDecimal.TEN),
+                        quantity.toBigInteger().equalTo(BigInteger.TEN),
+                        quantity.coalesce(0).equalTo(10),
+                        quantity.nullif(0).equalTo(10));
+
+        assertEquals(List.of(1), getEntityManager().createQuery(criteria).getResultList());
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 numeric aggregate expression shortcuts.
+     */
+    @Test
+    public void specializedCriteriaNumericAggregateShortcutsTest() {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
+        Root<SpecializedBook> book = criteria.from(SpecializedBook.class);
+        NumericExpression<Integer> quantity = book.get(SpecializedBook_.quantity);
+
+        criteria.multiselect(
+                quantity.avg(),
+                quantity.sumAsLong(),
+                quantity.max(),
+                quantity.min(),
+                quantity.toFloat().sumAsDouble());
+
+        Object[] result = getEntityManager().createQuery(criteria).getSingleResult();
+        assertEquals(20.0 / 3.0, ((Number) result[0]).doubleValue(), 0.01);
+        assertEquals(20L, ((Number) result[1]).longValue());
+        assertEquals(10, ((Number) result[2]).intValue());
+        assertEquals(3, ((Number) result[3]).intValue());
+        assertEquals(20.0, ((Number) result[4]).doubleValue(), 0.01);
+    }
+
+    /**
+     * Tests the Jakarta Persistence 4.0 value-first CriteriaBuilder.between()
+     * overload.
+     */
+    @Test
+    public void specializedCriteriaValueFirstBetweenOverloadTest() {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<SpecializedBook> book = criteria.from(SpecializedBook.class);
+        NumericExpression<Integer> quantity = book.get(SpecializedBook_.quantity);
+
+        criteria.select(book.get("id"))
+                .where(builder.between(10, quantity.minus(1), quantity.plus(1)));
+
+        assertEquals(List.of(1), getEntityManager().createQuery(criteria).getResultList());
+    }
+
+    /**
      * Tests Jakarta Persistence 4.0 null precedence ordering through the
      * specialized comparable expression ordering methods.
      */
@@ -162,6 +308,48 @@ public class Client extends PMClientBase {
 
         assertEquals(Nulls.FIRST, nullsFirst.getOrderList().get(0).getNullPrecedence());
         assertEquals(List.of(3, 2, 1), getEntityManager().createQuery(nullsFirst).getResultList());
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 boolean expression operations and boolean
+     * expression varargs accepted by joins and having clauses.
+     */
+    @Test
+    public void specializedCriteriaBooleanExpressionOperationsAndRestrictionsTest() {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<SpecializedBook> book = criteria.from(SpecializedBook.class);
+        SetJoin<SpecializedBook, String> tag = book.join(SpecializedBook_.tags);
+        BooleanExpression available = book.get(SpecializedBook_.available);
+
+        tag.on(
+                tag.equalTo("fiction").or(tag.equalTo("popular")),
+                tag.notEqualTo("archived"));
+
+        BooleanExpression availableOrNot = builder.or(new BooleanExpression[] {
+                available.and(builder.booleanLiteral(true)),
+                available.not()
+        });
+
+        criteria.select(book.get("id"))
+                .distinct(true)
+                .where(
+                        availableOrNot,
+                        available.coalesce(false).equalTo(true),
+                        available.nullif(false).isNotNull());
+
+        assertEquals(List.of(1), getEntityManager().createQuery(criteria).getResultList());
+
+        CriteriaQuery<Boolean> groups = builder.createQuery(Boolean.class);
+        Root<SpecializedBook> groupedBook = groups.from(SpecializedBook.class);
+        BooleanExpression groupedAvailable = groupedBook.get(SpecializedBook_.available);
+        groups.select(groupedAvailable)
+                .groupBy(groupedAvailable)
+                .having(
+                        groupedAvailable.or(builder.booleanLiteral(false)),
+                        groupedAvailable.isNotNull());
+
+        assertEquals(Boolean.TRUE, getEntityManager().createQuery(groups).getSingleResult());
     }
 
     /**
@@ -239,6 +427,18 @@ public class Client extends PMClientBase {
                 .where(tags.isEmpty());
 
         assertEquals(List.of(3), getEntityManager().createQuery(untagged).getResultList());
+
+        CriteriaQuery<Integer> scored = builder.createQuery(Integer.class);
+        book = scored.from(SpecializedBook.class);
+        PluralExpression<Map<String, Integer>, Integer> tagScores = book.get(SpecializedBook_.tagScores);
+        scored.select(book.get("id"))
+                .where(
+                        tagScores.isNotEmpty(),
+                        tagScores.contains(builder.numericLiteral(10)),
+                        tagScores.notContains(99),
+                        tagScores.size().equalTo(2));
+
+        assertEquals(List.of(1), getEntityManager().createQuery(scored).getResultList());
     }
 
     /**
@@ -280,14 +480,14 @@ public class Client extends PMClientBase {
         EntityTransaction transaction = getEntityTransaction();
         transaction.begin();
         getEntityManager().persist(new SpecializedBook(
-                1, "Alpha", 10, LocalDate.of(2026, 5, 10), true, "fiction",
-                Set.of("fiction", "popular")));
+                1, "Alpha", 10, 4.0, LocalDate.of(2026, 5, 10), true, "fiction",
+                Set.of("fiction", "popular"), Map.of("fiction", 10, "popular", 5)));
         getEntityManager().persist(new SpecializedBook(
-                2, "Beta", 3, LocalDate.of(2025, 1, 1), false, "reference",
-                Set.of("reference")));
+                2, "Beta", 3, 1.5, LocalDate.of(2025, 1, 1), false, "reference",
+                Set.of("reference"), Map.of("reference", 3)));
         getEntityManager().persist(new SpecializedBook(
-                3, "NoCategory", 7, LocalDate.of(2026, 6, 1), true, null,
-                Set.of()));
+                3, "NoCategory", 7, 3.0, LocalDate.of(2026, 6, 1), true, null,
+                Set.of(), Map.of()));
         transaction.commit();
         getEntityManager().clear();
     }
