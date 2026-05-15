@@ -25,6 +25,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TransactionRequiredException;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -236,6 +237,36 @@ public class Client extends PMClientBase {
                     () -> agent.getMultiple(graph, List.of(1, 99, 2),
                             CacheRetrieveMode.BYPASS, CacheStoreMode.BYPASS, LockModeType.NONE));
         });
+    }
+
+    /**
+     * Verifies EntityAgent find/get overloads reject lock modes other than
+     * NONE when no transaction is active.
+     */
+    @Test
+    public void agentFindAndGetLockModeRequiresTransactionTest() {
+        try (var agent = getEntityManagerFactory().createEntityAgent()) {
+            assertFalse(agent.getTransaction().isActive());
+            EntityGraph<AccessBook> graph = agent.createEntityGraph(AccessBook.class);
+
+            assertAll(
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.find(AccessBook.class, 1, LockModeType.PESSIMISTIC_READ)),
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.get(AccessBook.class, 1, LockModeType.PESSIMISTIC_READ)),
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.findMultiple(AccessBook.class, List.of(1, 2), LockModeType.PESSIMISTIC_READ)),
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.getMultiple(AccessBook.class, List.of(1, 2), LockModeType.PESSIMISTIC_READ)),
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.find(graph, 1, LockModeType.PESSIMISTIC_READ)),
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.get(graph, 1, LockModeType.PESSIMISTIC_READ)),
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.findMultiple(graph, List.of(1, 2), LockModeType.PESSIMISTIC_READ)),
+                    () -> assertThrows(TransactionRequiredException.class,
+                            () -> agent.getMultiple(graph, List.of(1, 2), LockModeType.PESSIMISTIC_READ)));
+        }
     }
 
     /**
