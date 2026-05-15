@@ -107,6 +107,11 @@ import java.util.function.Function;
  * and since the entities themselves are detached, modifications to
  * the entities are never automatically detected and made persistent.
  *
+ * <p>An exception thrown by a method of an {@code EntityAgent},
+ * or by a method of an instance of {@link Query} obtained from
+ * an {@code EntityAgent}, is considered recoverable and does not
+ * usually cause the active transaction to be marked for rollback.
+ *
  * @since 4.0
  *
  * @see EntityManager
