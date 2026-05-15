@@ -154,6 +154,18 @@ public interface EntityHandler extends AutoCloseable {
      *         unit, or if the given identifier is not a
      *         non-null instance of the identifier type of the
      *         given entity class
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
      * @throws PersistenceException if a given
@@ -198,6 +210,18 @@ public interface EntityHandler extends AutoCloseable {
      *         unit, or if the given identifier is not a
      *         non-null instance of the identifier type of the
      *         given entity class
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
      * @throws EntityNotFoundException if no record with the
      *         given identifier exists in the database
      * @throws PersistenceException if a given
@@ -242,6 +266,18 @@ public interface EntityHandler extends AutoCloseable {
      *         unit, or if one of the given identifiers is not
      *         a non-null instance of the identifier type of
      *         the given entity class
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
      * @throws EntityNotFoundException if no record exists in
      *         the database for one of the given identifiers
      * @throws PersistenceException if a given
@@ -287,6 +323,18 @@ public interface EntityHandler extends AutoCloseable {
      *         unit, or if one of the given identifiers is not
      *         a non-null instance of the identifier type of
      *         the given entity class
+     * @throws TransactionRequiredException if any lock mode
+     *         other than {@link LockModeType#NONE NONE} is
+     *         specified and there is no transaction
+     *         associated with this handler
+     * @throws OptimisticLockException if an optimistic version
+     *         check fails
+     * @throws PessimisticLockException if a pessimistic lock
+     *         could not be obtained and the transaction is
+     *         rolled back
+     * @throws LockTimeoutException if a pessimistic lock
+     *         could not be obtained and only the statement
+     *         is rolled back
      * @throws EntityNotFoundException if no record exists in
      *         the database for one of the given identifiers
      * @throws PersistenceException if a given
