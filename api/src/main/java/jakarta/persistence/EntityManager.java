@@ -184,6 +184,12 @@ import jakarta.persistence.criteria.CriteriaStatement;
  * calling {@link #setCacheRetrieveMode(CacheRetrieveMode)} and
  * {@link #setCacheStoreMode(CacheStoreMode)}.
  *
+ * <p>An exception thrown by a method of an {@code EntityManager},
+ * or by a method of an instance of {@link Query} obtained from an
+ * {@code EntityManager}, causes the active transaction to be marked
+ * for rollback unless the exception type is explicitly designated
+ * as recoverable.
+ *
  * <p>Some operations accept one or more built-in and vendor-specific
  * options:
  * <ul>
