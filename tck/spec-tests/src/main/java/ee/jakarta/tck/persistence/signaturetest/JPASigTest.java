@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2024 Oracle and/or its affiliates and others.
+ * Copyright (c) 2007, 2026 Oracle and/or its affiliates and others.
  * All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -56,7 +56,8 @@ public class JPASigTest extends SigTest {
    */
   protected String[] getPackages() {
      return new String[] { "jakarta.persistence", "jakarta.persistence.criteria",
-        "jakarta.persistence.metamodel", "jakarta.persistence.spi" };
+        "jakarta.persistence.metamodel", "jakarta.persistence.query",
+        "jakarta.persistence.sql", "jakarta.persistence.spi" };
   }
 
 
