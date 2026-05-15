@@ -65,6 +65,11 @@
             <artifactId>h2</artifactId>
             <version>${h2.jdbc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
