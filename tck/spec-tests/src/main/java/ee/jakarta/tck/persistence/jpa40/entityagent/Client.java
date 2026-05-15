@@ -20,10 +20,13 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
 import jakarta.persistence.EntityAgent;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PersistenceException;
+
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -209,6 +212,29 @@ public class Client extends PMClientBase {
     }
 
     /**
+     * Verifies refresh operations report the specified failure when the target
+     * database record no longer exists.
+     */
+    @Test
+    public void entityAgentRefreshFailureExceptionTypesTest() {
+        createBooks(
+                new AgentBook(1, "Alpha"),
+                new AgentBook(2, "Beta"),
+                new AgentBook(3, "Gamma"));
+
+        try (var agent = getEntityManagerFactory().createEntityAgent()) {
+            AgentBook first = agent.get(AgentBook.class, 1);
+            deleteBook(1);
+            assertThrows(EntityNotFoundException.class, () -> agent.refresh(first));
+
+            AgentBook beta = agent.get(AgentBook.class, 2);
+            AgentBook gamma = agent.get(AgentBook.class, 3);
+            deleteBook(3);
+            assertThrows(EntityNotFoundException.class, () -> agent.refreshMultiple(List.of(beta, gamma)));
+        }
+    }
+
+    /**
      * Verifies EntityAgent.fetch() initializes a lazy association belonging to
      * a detached entity returned by the agent.
      */
@@ -311,6 +337,81 @@ public class Client extends PMClientBase {
         assertEquals("updated elsewhere", titleById(1));
     }
 
+    /**
+     * Verifies bulk write operations and stale upsert operations report the
+     * specified exception types for invalid, missing, or stale records.
+     */
+    @Test
+    public void entityAgentBulkFailureExceptionTypesTest() {
+        createBooks(
+                new AgentBook(1, "initial"),
+                new AgentBook(2, "second"));
+
+        var agent = getEntityManagerFactory().createEntityAgent();
+        var transaction = agent.getTransaction();
+        try {
+            transaction.begin();
+            assertThrows(PersistenceException.class,
+                    () -> agent.insertMultiple(List.of(new AgentBook(1, "duplicate bulk"))));
+            rollbackIfActive(transaction);
+
+            transaction.begin();
+            assertThrows(OptimisticLockException.class,
+                    () -> agent.updateMultiple(List.of(new AgentBook(99, "missing update"))));
+            rollbackIfActive(transaction);
+
+            AgentBook staleUpdate = findBook(1);
+            updateTitle(1, "updated before bulk update");
+            staleUpdate.setTitle("stale bulk update");
+            transaction.begin();
+            assertThrows(OptimisticLockException.class,
+                    () -> agent.updateMultiple(List.of(staleUpdate)));
+            rollbackIfActive(transaction);
+            assertEquals("updated before bulk update", titleById(1));
+
+            transaction.begin();
+            assertThrows(OptimisticLockException.class,
+                    () -> agent.deleteMultiple(List.of(new AgentBook(99, "missing delete"))));
+            rollbackIfActive(transaction);
+
+            AgentBook staleDelete = findBook(1);
+            updateTitle(1, "updated before bulk delete");
+            transaction.begin();
+            assertThrows(OptimisticLockException.class,
+                    () -> agent.deleteMultiple(List.of(staleDelete)));
+            rollbackIfActive(transaction);
+            assertEquals("updated before bulk delete", titleById(1));
+
+            transaction.begin();
+            assertThrows(IllegalArgumentException.class,
+                    () -> agent.upsertMultiple(List.of(new AgentBook(null, "missing id"))));
+            rollbackIfActive(transaction);
+
+            AgentBook staleUpsert = findBook(1);
+            updateTitle(1, "updated before upsert");
+            staleUpsert.setTitle("stale upsert");
+            transaction.begin();
+            assertThrows(OptimisticLockException.class, () -> agent.upsert(staleUpsert));
+            rollbackIfActive(transaction);
+            assertEquals("updated before upsert", titleById(1));
+
+            AgentBook staleBulkUpsert = findBook(1);
+            updateTitle(1, "updated before bulk upsert");
+            staleBulkUpsert.setTitle("stale bulk upsert");
+            transaction.begin();
+            assertThrows(OptimisticLockException.class,
+                    () -> agent.upsertMultiple(List.of(staleBulkUpsert)));
+            rollbackIfActive(transaction);
+            assertEquals("updated before bulk upsert", titleById(1));
+        } finally {
+            rollbackIfActive(transaction);
+            agent.close();
+        }
+
+        assertEquals(2L, countBooks());
+        assertEquals(List.of("updated before bulk upsert", "second"), titlesById(1, 2));
+    }
+
     private void removeTestData() {
         EntityTransaction transaction = getEntityTransaction();
         if (transaction.isActive()) {
@@ -363,6 +464,15 @@ public class Client extends PMClientBase {
     private void updateTitle(int id, String title) {
         getEntityManagerFactory().runInTransaction(entityManager ->
                 entityManager.find(AgentBook.class, id).setTitle(title));
+    }
+
+    private void deleteBook(int id) {
+        getEntityManagerFactory().runInTransaction(entityManager -> {
+            AgentBook book = entityManager.find(AgentBook.class, id);
+            if (book != null) {
+                entityManager.remove(book);
+            }
+        });
     }
 
     private void rollbackIfActive(EntityTransaction transaction) {
