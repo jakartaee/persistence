@@ -38,7 +38,7 @@ public class Client extends PMClientBase {
 		String pkgNameWithoutSuffix = Client.class.getPackageName();
 		String pkgName = pkgNameWithoutSuffix + ".";
 		String[] classes = { pkgName + "DID6MedicalHistory", pkgName + "DID6Person", pkgName + "DID6PersonId" };
-		return createDeploymentJar("jpa_core_derivedid_ex6b.jar", pkgNameWithoutSuffix, classes);
+		return createDeploymentJar("jpa_core_derivedid_ex6a.jar", pkgNameWithoutSuffix, classes);
 
 	}
 

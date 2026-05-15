@@ -55,7 +55,7 @@ public class Client extends EntityCallbackClientBase {
 		String pkgName = pkgNameWithoutSuffix + ".";
 		String[] classes = { pkgName + "LineItem", pkgName + "Order", pkgName + "Product" };
 		String[] xmlFiles = { ORM_XML };
-		return createDeploymentJar("jpa_core_callback_listeneroverride.jar", pkgNameWithoutSuffix, classes, xmlFiles);
+		return createDeploymentJar("jpa_core_callback_listeneroverride_method.jar", pkgNameWithoutSuffix, classes, xmlFiles);
 
 	}
 

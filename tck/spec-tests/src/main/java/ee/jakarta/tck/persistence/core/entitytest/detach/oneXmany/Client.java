@@ -45,7 +45,7 @@ public class Client extends PMClientBase {
 		String pkgNameWithoutSuffix = Client.class.getPackageName();
 		String pkgName = pkgNameWithoutSuffix + ".";
 		String[] classes = { pkgName + "A", pkgName + "B" };
-		return createDeploymentJar("jpa_core_entitytest_remove_oneXone.jar", pkgNameWithoutSuffix, classes);
+		return createDeploymentJar("jpa_core_entitytest_detach_oneXmany.jar", pkgNameWithoutSuffix, classes);
 
 	}
 
