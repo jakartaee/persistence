@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -83,6 +83,7 @@ public class Client extends PMClientBase {
                                 + "CREATE OR REPLACE PROCEDURE GetEmpFirstNameFromOut(in IN_PARAM int, out OUT_PARAM text) LANGUAGE plpgsql AS $$ BEGIN SELECT FIRSTNAME INTO OUT_PARAM FROM EMPLOYEE WHERE ID=IN_PARAM; END; $$ ;\n"
                                 + "CREATE OR REPLACE PROCEDURE GetEmpLastNameFromInOut(inout INOUT_PARAM text) LANGUAGE plpgsql AS $$ BEGIN SELECT LASTNAME INTO INOUT_PARAM FROM EMPLOYEE WHERE ID=CAST(INOUT_PARAM AS int); END; $$ ;\n"
                                 + "CREATE OR REPLACE PROCEDURE GetEmpASCFromRS(out ref refcursor) LANGUAGE plpgsql AS $$ BEGIN OPEN ref FOR SELECT ID, FIRSTNAME, LASTNAME, HIREDATE, SALARY FROM EMPLOYEE ORDER BY ID ASC; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpFullByIdFromRS(in IN_PARAM int, out ref refcursor) LANGUAGE plpgsql AS $$ BEGIN OPEN ref FOR SELECT ID, FIRSTNAME, LASTNAME, HIREDATE, SALARY FROM EMPLOYEE WHERE ID=IN_PARAM; END; $$ ;\n"
                                 + "CREATE OR REPLACE PROCEDURE GetEmpIdFNameLNameFromRS(in IN_PARAM int, out ref refcursor) LANGUAGE plpgsql AS $$ BEGIN OPEN ref FOR SELECT ID, FIRSTNAME, LASTNAME FROM EMPLOYEE WHERE ID=IN_PARAM; END; $$ ;\n"
                                 + "CREATE OR REPLACE PROCEDURE GetEmpIdUsingHireDateFromOut(in IN_PARAM DATE, out OUT_PARAM int) LANGUAGE plpgsql AS $$ BEGIN SELECT ID INTO OUT_PARAM FROM EMPLOYEE WHERE HIREDATE=IN_PARAM; END; $$ ;\n"
                                 + "CREATE OR REPLACE PROCEDURE UpdateEmpSalaryColumn() LANGUAGE plpgsql AS $$ BEGIN UPDATE EMPLOYEE SET SALARY=0.00; END; $$ ;\n"

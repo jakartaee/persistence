@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,9 +34,22 @@ import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.Query;
+import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Timeout;
 import jakarta.persistence.TransactionRequiredException;
+import jakarta.persistence.metamodel.Type;
+import jakarta.persistence.sql.ConstructorMapping;
+
+import static jakarta.persistence.sql.ResultSetMapping.column;
+import static jakarta.persistence.sql.ResultSetMapping.constructor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Client1 extends Client {
 
@@ -50,7 +63,8 @@ public class Client1 extends Client {
         String pkgNameWithoutSuffix = Client1.class.getPackageName();
         String pkgName = pkgNameWithoutSuffix + ".";
         String[] xmlFiles = {MAPPING_FILE_XML};
-        String[] classes = {pkgName + "Employee", pkgName + "Employee2", pkgName + "EmployeeMappedSC"};
+        String[] classes = {pkgName + "Employee", pkgName + "Employee2", pkgName + "EmployeeMappedSC",
+                pkgName + "EmployeeId", pkgName + "EmployeeIdConverter"};
         return createDeploymentJar("jpa_core_types_StoredProcedureQuery1.jar", pkgNameWithoutSuffix, classes, xmlFiles);
 
     }
@@ -707,6 +721,264 @@ public class Client1 extends Client {
             throw new Exception("getSingleResultNonUniqueResultExceptionTest failed");
         }
 
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 typed parameter registration APIs
+     * and typed output parameter retrieval for stored procedures.
+     */
+    @Test
+    public void typedRegisterParameterAndOutputParameterValueTest() {
+        getEntityTransaction().begin();
+        try {
+            StoredProcedureQuery spq = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+            Parameter<Integer> id = spq.registerParameter(1, Integer.class, ParameterMode.IN);
+            Parameter<String> firstName = spq.registerParameter(2, String.class, ParameterMode.OUT);
+
+            assertEquals(Integer.valueOf(1), id.getPosition());
+            assertEquals(Integer.class, id.getParameterType());
+            assertEquals(Integer.valueOf(2), firstName.getPosition());
+            assertEquals(String.class, firstName.getParameterType());
+            assertSame(spq, spq.setParameter(id, emp0.getId()));
+
+            assertFalse(spq.execute());
+            assertEquals(emp0.getFirstName(), spq.getOutputParameterValue(firstName));
+            getEntityTransaction().commit();
+        } finally {
+            if (getEntityTransaction().isActive()) {
+                getEntityTransaction().rollback();
+            }
+        }
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 positional parameter overloads
+     * which explicitly specify the Java class or metamodel type.
+     */
+    @Test
+    public void typedStoredProcedureSetParameterOverloadsTest() {
+        getEntityTransaction().begin();
+        try {
+            StoredProcedureQuery classTyped = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+            classTyped.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            classTyped.registerStoredProcedureParameter(2, String.class, ParameterMode.OUT);
+
+            assertSame(classTyped, classTyped.setParameter(1, emp0.getId(), Integer.class));
+            assertFalse(classTyped.execute());
+            assertEquals(emp0.getFirstName(), classTyped.getOutputParameterValue(2));
+
+            Type<String> lastNameType = getEntityManager().getMetamodel()
+                    .entity(Employee.class)
+                    .getSingularAttribute("lastName", String.class)
+                    .getType();
+            StoredProcedureQuery metamodelTyped = getEntityManager()
+                    .createStoredProcedureQuery("GetEmpLastNameFromInOut");
+            metamodelTyped.registerStoredProcedureParameter(1, String.class, ParameterMode.INOUT);
+
+            assertSame(metamodelTyped, metamodelTyped.setParameter(1, String.valueOf(emp0.getId()), lastNameType));
+            assertFalse(metamodelTyped.execute());
+            assertEquals(emp0.getLastName(), metamodelTyped.getOutputParameterValue(1));
+            getEntityTransaction().commit();
+        } finally {
+            if (getEntityTransaction().isActive()) {
+                getEntityTransaction().rollback();
+            }
+        }
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 named parameter registration and
+     * binding overloads without depending on portable execution of named stored
+     * procedure parameters.
+     */
+    @Test
+    public void typedNamedStoredProcedureParameterApiTest() {
+        StoredProcedureQuery classTyped = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+        Parameter<Integer> id = classTyped.registerParameter("ID", Integer.class, ParameterMode.IN);
+        Parameter<String> firstName = classTyped.registerParameter("FIRSTNAME", String.class, ParameterMode.OUT);
+
+        assertEquals("ID", id.getName());
+        assertEquals(Integer.class, id.getParameterType());
+        assertEquals("FIRSTNAME", firstName.getName());
+        assertEquals(String.class, firstName.getParameterType());
+        assertSame(classTyped, classTyped.setParameter("ID", emp0.getId(), Integer.class));
+
+        Type<String> lastNameType = getEntityManager().getMetamodel()
+                .entity(Employee.class)
+                .getSingularAttribute("lastName", String.class)
+                .getType();
+        StoredProcedureQuery metamodelTyped = getEntityManager()
+                .createStoredProcedureQuery("GetEmpLastNameFromInOut");
+        metamodelTyped.registerStoredProcedureParameter("INOUT_PARAM", String.class, ParameterMode.INOUT);
+
+        assertSame(metamodelTyped,
+                metamodelTyped.setParameter("INOUT_PARAM", String.valueOf(emp0.getId()), lastNameType));
+
+        StoredProcedureQuery converted = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+        Parameter<EmployeeId> convertedId = converted.registerConvertedParameter("ID", EmployeeIdConverter.class,
+                ParameterMode.IN);
+
+        assertEquals("ID", convertedId.getName());
+        assertEquals(EmployeeId.class, convertedId.getParameterType());
+        assertSame(converted,
+                converted.setConvertedParameter("ID", new EmployeeId(emp0.getId()), EmployeeIdConverter.class));
+    }
+
+    /**
+     * Verifies Jakarta Persistence 4.0 converted parameter registration and
+     * converted positional parameter binding for stored procedures.
+     */
+    @Test
+    public void convertedStoredProcedureParameterTest() {
+        getEntityTransaction().begin();
+        try {
+            StoredProcedureQuery registered = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+            Parameter<EmployeeId> id = registered.registerConvertedParameter(1, EmployeeIdConverter.class,
+                    ParameterMode.IN);
+            Parameter<String> firstName = registered.registerParameter(2, String.class, ParameterMode.OUT);
+
+            assertEquals(Integer.valueOf(1), id.getPosition());
+            assertEquals(EmployeeId.class, id.getParameterType());
+            assertSame(registered, registered.setParameter(id, new EmployeeId(emp0.getId())));
+            assertFalse(registered.execute());
+            assertEquals(emp0.getFirstName(), registered.getOutputParameterValue(firstName));
+
+            StoredProcedureQuery bound = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+            bound.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            bound.registerStoredProcedureParameter(2, String.class, ParameterMode.OUT);
+
+            assertSame(bound,
+                    bound.setConvertedParameter(1, new EmployeeId(emp0.getId()), EmployeeIdConverter.class));
+            assertFalse(bound.execute());
+            assertEquals(emp0.getFirstName(), bound.getOutputParameterValue(2));
+            getEntityTransaction().commit();
+        } finally {
+            if (getEntityTransaction().isActive()) {
+                getEntityTransaction().rollback();
+            }
+        }
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 typed result class methods for
+     * stored procedure result sets.
+     */
+    @Test
+    public void typedStoredProcedureResultClassTest() {
+        getEntityTransaction().begin();
+        try {
+            StoredProcedureQuery listQuery = getEntityManager().createStoredProcedureQuery("GetEmpASCFromRS");
+            registerRefCursor(listQuery, 1);
+
+            List<Employee> employees = listQuery.getResultList(Employee.class);
+            assertTrue(verifyListEmployees(empRef, employees));
+
+            StoredProcedureQuery singleQuery = getEntityManager().createStoredProcedureQuery("GetEmpFullByIdFromRS");
+            singleQuery.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            registerRefCursor(singleQuery, 2);
+            singleQuery.setParameter(1, emp0.getId(), Integer.class);
+
+            assertEquals(emp0, singleQuery.getSingleResult(Employee.class));
+
+            StoredProcedureQuery emptyQuery = getEntityManager().createStoredProcedureQuery("GetEmpFullByIdFromRS");
+            emptyQuery.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            registerRefCursor(emptyQuery, 2);
+            emptyQuery.setParameter(1, 99, Integer.class);
+
+            assertNull(emptyQuery.getSingleResultOrNull(Employee.class));
+            getEntityTransaction().commit();
+        } finally {
+            if (getEntityTransaction().isActive()) {
+                getEntityTransaction().rollback();
+            }
+        }
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 stored procedure result methods
+     * which accept a programmatic SQL result set mapping.
+     */
+    @Test
+    public void typedStoredProcedureResultSetMappingTest() {
+        getEntityTransaction().begin();
+        try {
+            ConstructorMapping<Employee> mapping = constructor(Employee.class,
+                    column("ID", Integer.class),
+                    column("FIRSTNAME", String.class),
+                    column("LASTNAME", String.class));
+            Employee expected = new Employee(emp0.getId(), emp0.getFirstName(), emp0.getLastName());
+
+            StoredProcedureQuery listQuery = getEntityManager().createStoredProcedureQuery("GetEmpIdFNameLNameFromRS");
+            listQuery.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            registerRefCursor(listQuery, 2);
+            listQuery.setParameter(1, emp0.getId(), Integer.class);
+
+            assertEquals(List.of(expected), listQuery.getResultList(mapping));
+
+            StoredProcedureQuery singleQuery = getEntityManager().createStoredProcedureQuery("GetEmpIdFNameLNameFromRS");
+            singleQuery.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            registerRefCursor(singleQuery, 2);
+            singleQuery.setParameter(1, emp0.getId(), Integer.class);
+
+            assertEquals(expected, singleQuery.getSingleResult(mapping));
+
+            StoredProcedureQuery emptyQuery = getEntityManager().createStoredProcedureQuery("GetEmpIdFNameLNameFromRS");
+            emptyQuery.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            registerRefCursor(emptyQuery, 2);
+            emptyQuery.setParameter(1, 99, Integer.class);
+
+            assertNull(emptyQuery.getSingleResultOrNull(mapping));
+            getEntityTransaction().commit();
+        } finally {
+            if (getEntityTransaction().isActive()) {
+                getEntityTransaction().rollback();
+            }
+        }
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 StoredProcedureQuery option API.
+     */
+    @Test
+    public void storedProcedureOptionsTest() {
+        StoredProcedureQuery spq = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+        Timeout firstTimeout = Timeout.milliseconds(250);
+        Timeout secondTimeout = Timeout.milliseconds(500);
+
+        assertSame(spq, spq.setTimeout(firstTimeout));
+        assertTrue(spq.getOptions().contains(firstTimeout));
+        assertSame(spq, spq.addOption(secondTimeout));
+        assertTrue(spq.getOptions().contains(secondTimeout));
+        assertFalse(spq.getOptions().contains(firstTimeout));
+
+        assertSame(spq, spq.setQueryFlushMode(QueryFlushMode.NO_FLUSH));
+        assertTrue(spq.getOptions().contains(QueryFlushMode.NO_FLUSH));
+        assertSame(spq, spq.addOption(QueryFlushMode.FLUSH));
+        assertTrue(spq.getOptions().contains(QueryFlushMode.FLUSH));
+        assertFalse(spq.getOptions().contains(QueryFlushMode.NO_FLUSH));
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 result parameter registration API.
+     */
+    @Test
+    public void registerResultParameterTest() {
+        StoredProcedureQuery spq = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+        Parameter<String> result = spq.registerResultParameter(String.class);
+
+        assertEquals(String.class, result.getParameterType());
+    }
+
+    /**
+     * Verifies the Jakarta Persistence 4.0 close contract for stored procedure
+     * queries.
+     */
+    @Test
+    public void closeStoredProcedureQueryTest() {
+        StoredProcedureQuery spq = getEntityManager().createStoredProcedureQuery("GetEmpFirstNameFromOut");
+        spq.close();
+
+        assertThrows(IllegalStateException.class, spq::getParameters);
     }
 
     /*
@@ -2245,6 +2517,13 @@ public class Client1 extends Client {
             } catch (Exception fe) {
                 logger.log(Logger.Level.ERROR, "Unexpected exception rolling back TX:", fe);
             }
+        }
+    }
+
+    private void registerRefCursor(StoredProcedureQuery spq, int position) {
+        if (dataBaseName.equalsIgnoreCase(ORACLE) || dataBaseName.equalsIgnoreCase(POSTGRESQL)) {
+            logger.log(Logger.Level.TRACE, "register refcursor parameter");
+            spq.registerStoredProcedureParameter(position, void.class, ParameterMode.REF_CURSOR);
         }
     }
 
