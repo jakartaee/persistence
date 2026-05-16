@@ -592,6 +592,11 @@ A detached entity instance continues to live outside the persistence
 context in which it was persisted or retrieved. Its state does not
 remain synchronized with the database record it represents.
 
+When an entity instance is passed to an operation like `persist()`
+or `merge()`, the persistence provider is permitted to use the value
+of the identifier and version fields or properties of an entity
+instance to determine whether the instance is new or detached.
+
 ===== Detached Entities and Lazy Loading [[detached-lazy-state]]
 
 The _available_ state of a detached entity instance is the state which
