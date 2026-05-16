@@ -115,8 +115,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * mapping} may be specified by annotating the method with one or more
  * {@link jakarta.persistence.EntityResult},
  * {@link jakarta.persistence.ColumnResult}, or
- * {@link jakarta.persistence.ConstructorResult} annotations. The inferred
- * result set mapping has the same name as the query.
+ * {@link jakarta.persistence.ConstructorResult} annotations.
  * {@snippet :
  * @NativeQuery("select * from books where isbn = ?")
  * @EntityResult(entityClass = Book.class,
@@ -129,10 +128,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * row of the mapped query result set is represented as an instance of
  * {@code Object[]} whose elements are, in order:
  * <ol>
- * <li>entity results, in the order in which they are declared;
- * <li>constructor results, in the order in which they are declared;
- *     and then
- * <li>scalar results, in the order in which they are declared.
+ * <li>{@linkplain jakarta.persistence.EntityResult entity results},
+ *     in the order in which they are declared;
+ * <li>{@linkplain jakarta.persistence.ConstructorResult constructor
+ *     results}, in the order in which they are declared; and then
+ * <li>{@linkplain jakarta.persistence.ColumnResult scalar results},
+ *     in the order in which they are declared.
  * </ol>
  *
  * @since 4.0
