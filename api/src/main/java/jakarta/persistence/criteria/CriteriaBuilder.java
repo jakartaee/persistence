@@ -28,9 +28,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.StatementReference;
 import jakarta.persistence.Tuple;
+import jakarta.persistence.TypedQueryReference;
 
 /**
  * Used to construct criteria queries, compound selections, 
@@ -90,6 +93,20 @@ public interface CriteriaBuilder {
      * @since 4.0
      */
     CriteriaQuery<?> createQuery(String jpql);
+
+    /**
+     * Create a {@link CriteriaQuery} object representing the
+     * named Jakarta Persistence query language {@code SELECT}
+     * query designated by the given reference.
+     * @param reference A reference to a Jakarta Persistence
+     *                  query language {@code SELECT} query
+     * @return criteria query object
+     * @throws IllegalArgumentException if the given reference
+     *         does not represent a named Jakarta Persistence
+     *         query language {@code SELECT} query
+     * @since 4.0
+     */
+    <T> CriteriaQuery<T> createQuery(TypedQueryReference<T> reference);
 
     /**
      * Create a {@link CriteriaQuery} object that returns a
@@ -179,6 +196,59 @@ public interface CriteriaBuilder {
      * @since 4.0
      */
     CriteriaDelete<?> createCriteriaDelete(String jpql);
+
+    /**
+     * Create a {@link CriteriaStatement} object representing
+     * the named Jakarta Persistence query language statement
+     * designated by the given reference.
+     * @param reference A reference to a Jakarta Persistence
+     *                  query language statement
+     * @return criteria query object
+     * @throws IllegalArgumentException if the given reference
+     *         does not represent a named Jakarta Persistence
+     *         query language statement
+     * @since 4.0
+     */
+    CriteriaStatement<?> createCriteriaStatement(StatementReference reference);
+
+    /**
+     * Modify the Jakarta Persistence query language query
+     * represented by the given reference, returning a
+     * reference to the modified query inheriting all the
+     * options of the given reference. This operation never
+     * modifies the query represented by the given reference.
+     * @param reference A reference to a Jakarta Persistence
+     *                  query language {@code SELECT} query
+     * @param augmentation a consumer that modifies the query
+     * @param <T> the query result type
+     * @return a reference to the modified query
+     * @throws IllegalArgumentException if the given reference
+     *         does not represent a named Jakarta Persistence
+     *         query language {@code SELECT} query belonging
+     *         to the owning factory
+     * @since 4.0
+     */
+    <T> TypedQueryReference<T> augment(TypedQueryReference<T> reference,
+                                       Consumer<CriteriaQuery<T>> augmentation);
+
+    /**
+     * Modify the Jakarta Persistence query language statement
+     * represented by the given reference, returning a reference
+     * to the modified statement inheriting all the options of
+     * the given reference. This operation never modifies the
+     * query represented by the given reference.
+     * @param reference A reference to a Jakarta Persistence
+     *                  query language statement
+     * @param augmentation a consumer that modifies the statement
+     * @return a reference to the modified statement
+     * @throws IllegalArgumentException if the given reference
+     *         does not represent a named Jakarta Persistence
+     *         query language statement belonging to the owning
+     *         factory
+     * @since 4.0
+     */
+    StatementReference augment(StatementReference reference,
+                               Consumer<CriteriaStatement<?>> augmentation);
 
 
     // selection construction methods:
