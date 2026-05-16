@@ -74,6 +74,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * If the versions do not match, the persistence provider must throw an
  * {@link OptimisticLockException}.
  *
+ * <p>The persistence provider is permitted to use the value of the
+ * identifier and version fields or properties of an entity instance
+ * to determine whether the instance is new or detached.
+ *
  * @see LockModeType
  * @see PersistenceUnitUtil#getVersion(Object)
  * @see ExcludedFromVersioning

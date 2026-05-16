@@ -78,6 +78,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>The {@code @Id} annotation should never be applied to a field
  * or property of an embeddable id or id class.
  *
+ * <p>The persistence provider is permitted to use the value of the
+ * identifier and version fields or properties of an entity instance
+ * to determine whether the instance is new or detached.
+ *
  * @see Column
  * @see GeneratedValue
  * @see EmbeddedId
