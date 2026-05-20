@@ -306,6 +306,10 @@ including `@Entity`, `@Embeddable`, `@Converter`, `@NamedQuery`, and
 so on. A persistence provider may define its own custom discoverable
 annotation types.
 
+Exceptionally, the annotation `jakarta.data.repository.Repository`
+must be treated as a discoverable annotation type, even though it is
+not explicitly annotated `@Discoverable`.
+
 ====== Annotated Classes in the Root of the Persistence Unit
 
 By default, in the Java EE environment, the root of the persistence
