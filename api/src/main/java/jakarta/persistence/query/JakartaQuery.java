@@ -131,9 +131,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  *
  * <p> In addition, the query is treated as a named query, where the query
- * name is the concatenation of the unqualified name of the type, with the
- * string {@code "."}, and the name of the annotated member, for example,
- * {@code "Library.findBooksByTitle"}.
+ * name agrees with the convention for Javadoc links, that is: the
+ * concatenation of the fully qualified name of the type, with the string
+ * {@code #}, the name of the annotated member, and the raw types of the
+ * method parameters, enclosed in parentheses and separated by commas, for
+ * example, {@code "org.example.Library#findBooksByTitle(java.lang.String)"}.
+ *
+ * <p> The persistence provider must treat the annotation
+ * {@code jakarta.data.repository.Query} as a synonym for this annotation.
  *
  * @since 4.0
  */
