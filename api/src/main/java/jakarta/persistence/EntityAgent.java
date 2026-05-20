@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -141,7 +143,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws PersistenceException if a record could not be
      *         inserted in the database
      */
-    void insert(Object entity);
+    void insert(@Nonnull Object entity);
 
     /**
      * Insert every record in the given list. The records are
@@ -160,7 +162,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #insert(Object)
      */
-    void insertMultiple(List<?> entities);
+    void insertMultiple(@Nonnull List<?> entities);
 
     /**
      * Update a record.
@@ -183,7 +185,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws PersistenceException if a record could not be
      *         updated in the database
      */
-    void update(Object entity);
+    void update(@Nonnull Object entity);
 
     /**
      * Update every record in the given list. The records are
@@ -205,7 +207,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #update(Object)
      */
-    void updateMultiple(List<?> entities);
+    void updateMultiple(@Nonnull List<?> entities);
 
     /**
      * Delete a record.
@@ -228,7 +230,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws PersistenceException if a record could not be
      *         deleted from the database
      */
-    void delete(Object entity);
+    void delete(@Nonnull Object entity);
 
     /**
      * Delete every record in the given list. The records are
@@ -250,7 +252,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #delete(Object)
      */
-    void deleteMultiple(List<?> entities);
+    void deleteMultiple(@Nonnull List<?> entities);
 
     /**
      * Perform an upsert, that is, insert the record if it does not
@@ -284,7 +286,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws PersistenceException if a record could not be
      *         upserted in the database
      */
-    void upsert(Object entity);
+    void upsert(@Nonnull Object entity);
 
     /**
      * Upsert every record in the given list. The records are
@@ -304,7 +306,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #upsert(Object)
      */
-    void upsertMultiple(List<?> entities);
+    void upsertMultiple(@Nonnull List<?> entities);
 
     /**
      * Refresh the entity instance state from the database.
@@ -316,7 +318,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws PersistenceException if a record could not be
      *         read from the database
      */
-    void refresh(Object entity);
+    void refresh(@Nonnull Object entity);
 
     /**
      * Refresh multiple entities.
@@ -330,7 +332,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws PersistenceException if a record could not be
      *         read from the database
      */
-    void refreshMultiple(List<?> entities);
+    void refreshMultiple(@Nonnull List<?> entities);
 
     /**
      * Refresh the entity instance state from the database.
@@ -343,7 +345,7 @@ public interface EntityAgent extends EntityHandler {
      * @throws PersistenceException if a record could not be
      *         read from the database
      */
-    void refresh(Object entity, LockModeType lockMode);
+    void refresh(@Nonnull Object entity, @Nonnull LockModeType lockMode);
 
     /**
      * Fetch an association or collection that was configured
@@ -375,7 +377,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @param option the option
      */
-    void addOption(Option option);
+    void addOption(@Nonnull Option option);
 
     /**
      * Get the {@linkplain Option options} controlling the behavior
@@ -387,6 +389,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @return the options for this entity agent
      */
+    @Nonnull
     Set<Option> getOptions();
 
     /**

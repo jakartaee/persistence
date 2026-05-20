@@ -17,6 +17,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ResultSetMapping;
 
@@ -127,7 +129,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *          to the use of {@linkplain Option options}.
      */
     @Override
-    StoredProcedureQuery setHint(String hintName, Object value);
+    @Nonnull
+    StoredProcedureQuery setHint(@Nonnull String hintName, @Nullable Object value);
 
     /**
      * Bind an argument to a parameter of this query respresented as
@@ -140,8 +143,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         correspond to a parameter of the query
      */
     @Override
-    <T> StoredProcedureQuery setParameter(Parameter<T> parameter,
-                                          T value);
+    @Nonnull
+    <T> StoredProcedureQuery setParameter(@Nonnull Parameter<T> parameter,
+                                          @Nullable T value);
 
     /**
      * Bind an instance of {@link Calendar} to a {@link Parameter} object.
@@ -157,9 +161,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      */
     @Deprecated(since = "3.2")
     @Override
-    StoredProcedureQuery setParameter(Parameter<Calendar> param,
-                                      Calendar value, 
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull Parameter<Calendar> param,
+                                      @Nullable Calendar value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a {@link Parameter} object.
@@ -175,9 +180,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      */
     @Deprecated(since = "3.2")
     @Override
-    StoredProcedureQuery setParameter(Parameter<Date> param,
-                                      Date value,
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull Parameter<Date> param,
+                                      @Nullable Date value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a named parameter.
@@ -190,7 +196,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         argument is of incompatible type
      */
     @Override
-    StoredProcedureQuery setParameter(String name, Object value);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull String name, @Nullable Object value);
 
     /**
      * Bind an instance of {@link Calendar} to a named parameter.
@@ -206,9 +213,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    StoredProcedureQuery setParameter(String name,
-                                      Calendar value, 
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull String name,
+                                      @Nullable Calendar value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a named parameter.
@@ -224,9 +232,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    StoredProcedureQuery setParameter(String name,
-                                      Date value, 
-                                      TemporalType temporalType);
+    @Nonnull
+    StoredProcedureQuery setParameter(@Nonnull String name,
+                                      @Nullable Date value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a positional parameter.
@@ -239,7 +248,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         or if the argument is of incompatible type
      */
     @Override
-    StoredProcedureQuery setParameter(int position, Object value);
+    @Nonnull
+    StoredProcedureQuery setParameter(int position, @Nullable Object value);
 
     /**
      * Bind an instance of {@link Calendar} to a positional
@@ -255,10 +265,12 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2") @Override
+    @Override
+    @Deprecated(since = "3.2")
+    @Nonnull
     StoredProcedureQuery setParameter(int position,
-                                      Calendar value,  
-                                      TemporalType temporalType);
+                                      @Nullable Calendar value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a positional parameter.
@@ -273,10 +285,12 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2") @Override
+    @Override
+    @Deprecated(since = "3.2")
+    @Nonnull
     StoredProcedureQuery setParameter(int position,
-                                      Date value,  
-                                      TemporalType temporalType);
+                                      @Nullable Date value,
+                                      @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -293,7 +307,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    <P> StoredProcedureQuery setParameter(String name, P value, Class<P> type);
+    @Nonnull
+    <P> StoredProcedureQuery setParameter(@Nonnull String name, @Nullable P value,
+                                          @Nonnull Class<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -310,7 +326,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    <P> StoredProcedureQuery setParameter(String name, P value, Type<P> type);
+    @Nonnull
+    <P> StoredProcedureQuery setParameter(@Nonnull String name, @Nullable P value,
+                                          @Nonnull Type<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -327,8 +345,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    <P> StoredProcedureQuery setConvertedParameter(String name, P value,
-                                                   Class<? extends AttributeConverter<P, ?>> converter);
+    @Nonnull
+    <P> StoredProcedureQuery setConvertedParameter(@Nonnull String name, @Nullable P value,
+                                                   @Nonnull Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
      * Bind an argument value to a positional parameter, explicitly
@@ -345,7 +364,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    <P> StoredProcedureQuery setParameter(int position, P value, Class<P> type);
+    @Nonnull
+    <P> StoredProcedureQuery setParameter(int position, @Nullable P value,
+                                          @Nonnull Class<P> type);
 
     /**
      * Bind an argument value to a positional parameter, explicitly
@@ -362,7 +383,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    <P> StoredProcedureQuery setParameter(int position, P value, Type<P> type);
+    @Nonnull
+    <P> StoredProcedureQuery setParameter(int position, @Nullable P value,
+                                          @Nonnull Type<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -379,8 +402,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    <P> StoredProcedureQuery setConvertedParameter(int position, P value,
-                                                   Class<? extends AttributeConverter<P, ?>> converter);
+    @Nonnull
+    <P> StoredProcedureQuery setConvertedParameter(int position, @Nullable P value,
+                                                   @Nonnull Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
      * Set the {@linkplain QueryFlushMode query flush mode} to be
@@ -394,7 +418,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    StoredProcedureQuery setQueryFlushMode(QueryFlushMode flushMode);
+    @Nonnull
+    StoredProcedureQuery setQueryFlushMode(@Nonnull QueryFlushMode flushMode);
 
     /**
      * Set the {@linkplain FlushModeType flush mode type} to be
@@ -407,8 +432,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *
      * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
      */
-    @Override @Deprecated
-    StoredProcedureQuery setFlushMode(FlushModeType flushMode);
+    @Override
+    @Deprecated
+    @Nonnull
+    StoredProcedureQuery setFlushMode(@Nonnull FlushModeType flushMode);
 
     /**
      * Set the {@linkplain CacheRetrieveMode cache retrieval mode}
@@ -421,7 +448,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 3.2
      */
     @Override @SuppressWarnings("removal")
-    StoredProcedureQuery setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+    @Nonnull
+    StoredProcedureQuery setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode);
 
     /**
      * Set the {@linkplain CacheStoreMode cache storage mode} in
@@ -434,7 +462,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 3.2
      */
     @Override @SuppressWarnings("removal")
-    StoredProcedureQuery setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    @Nonnull
+    StoredProcedureQuery setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode);
 
     /**
      * Set the query timeout, in milliseconds. This is a hint,
@@ -447,7 +476,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 3.2
      */
     @Override
-    StoredProcedureQuery setTimeout(Integer timeout);
+    @Nonnull
+    StoredProcedureQuery setTimeout(@Nullable Integer timeout);
 
     /**
      * Set the query timeout. This is a hint.
@@ -457,7 +487,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @since 4.0
      */
     @Override
-    StoredProcedureQuery setTimeout(Timeout timeout);
+    @Nonnull
+    StoredProcedureQuery setTimeout(@Nullable Timeout timeout);
 
     /**
      * Mark this as a call to a stored procedure with a result
@@ -472,7 +503,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
-    <T> Parameter<T> registerResultParameter(Class<T> resultType);
+    @Nonnull
+    <T> Parameter<T> registerResultParameter(@Nonnull Class<T> resultType);
 
     /**
      * Register a positional parameter. The result of an
@@ -488,8 +520,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
-    <T> Parameter<T> registerParameter(int position, Class<T> type,
-                                       ParameterMode mode);
+    @Nonnull
+    <T> Parameter<T> registerParameter(int position, @Nonnull Class<T> type,
+                                       @Nonnull ParameterMode mode);
 
     /**
      * Register a named parameter. The result of an
@@ -506,8 +539,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
-    <T> Parameter<T> registerParameter(String parameterName, Class<T> type,
-                                       ParameterMode mode);
+    @Nonnull
+    <T> Parameter<T> registerParameter(@Nonnull String parameterName,
+                                       @Nonnull Class<T> type,
+                                       @Nonnull ParameterMode mode);
 
     /**
      * Register a positional parameter whose value is bound via
@@ -524,9 +559,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
+    @Nonnull
     <T> Parameter<T> registerConvertedParameter(int position,
-                                                Class<? extends AttributeConverter<T,?>> converter,
-                                                ParameterMode mode);
+                                                @Nonnull Class<? extends AttributeConverter<T,?>> converter,
+                                                @Nonnull ParameterMode mode);
 
     /**
      * Register a named parameter whose value is bound via a
@@ -544,9 +580,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         and {@link #getOutputParameterValue(Parameter)}
      * @since 4.0
      */
-    <T> Parameter<T> registerConvertedParameter(String parameterName,
-                                                Class<? extends AttributeConverter<T,?>> converter,
-                                                ParameterMode mode);
+    @Nonnull
+    <T> Parameter<T> registerConvertedParameter(@Nonnull String parameterName,
+                                                @Nonnull Class<? extends AttributeConverter<T,?>> converter,
+                                                @Nonnull ParameterMode mode);
 
     /**
      * Register a positional parameter.
@@ -556,8 +593,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @param mode  parameter mode 
      * @return the same query instance
      */
-    StoredProcedureQuery registerStoredProcedureParameter(
-            int position, Class<?> type, ParameterMode mode);
+    @Nonnull
+    StoredProcedureQuery registerStoredProcedureParameter(int position,
+                                                          @Nonnull Class<?> type,
+                                                          @Nonnull ParameterMode mode);
 
     /**
      * Register a named parameter.
@@ -568,8 +607,10 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @param mode  parameter mode 
      * @return the same query instance
      */
-    StoredProcedureQuery registerStoredProcedureParameter(
-            String parameterName, Class<?> type, ParameterMode mode);
+    @Nonnull
+    StoredProcedureQuery registerStoredProcedureParameter(@Nonnull String parameterName,
+                                                          @Nonnull Class<?> type,
+                                                          @Nonnull ParameterMode mode);
 
     /**
      * Retrieve a value passed back from the procedure
@@ -583,6 +624,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not correspond to a parameter of the query or is
      *         not an INOUT or OUT parameter
      */
+    @Nullable
     Object getOutputParameterValue(int position);
 
     /**
@@ -599,7 +641,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not correspond to a parameter of the query or is
      *         not an INOUT or OUT parameter
      */
-    Object getOutputParameterValue(String parameterName);
+    @Nullable
+    Object getOutputParameterValue(@Nonnull String parameterName);
 
     /**
      * Retrieve a value passed back from the procedure
@@ -616,7 +659,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not an {@code INOUT} or {@code OUT} parameter
      * @since 4.0
      */
-    <T> T getOutputParameterValue(Parameter<T> parameter);
+    @Nullable
+    <T> T getOutputParameterValue(@Nonnull Parameter<T> parameter);
 
     /**
      * Return true if the first result corresponds to a result set,
@@ -674,6 +718,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      */
     @Override @SuppressWarnings({"rawtypes", "removal"})
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     List getResultList();
 
     /**
@@ -695,6 +740,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      */
     @Override @SuppressWarnings("removal")
+    @Nonnull
     Object getSingleResult();
 
     /**
@@ -715,6 +761,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      */
     @Override @SuppressWarnings("removal")
+    @Nullable
     Object getSingleResultOrNull();
 
     /**
@@ -758,7 +805,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> List<R> getResultList(Class<R> resultClass);
+    @Nullable
+    <R> List<R> getResultList(@Nonnull Class<R> resultClass);
 
     /**
      * Retrieve the list of results from the next result set, specifying
@@ -780,7 +828,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> List<R> getResultList(ResultSetMapping<R> mapping);
+    @Nullable
+    <R> List<R> getResultList(@Nonnull ResultSetMapping<R> mapping);
 
     /**
      * Retrieve a single result from the next result set, returning
@@ -825,7 +874,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> R getSingleResult(Class<R> resultClass);
+    @Nullable
+    <R> R getSingleResult(@Nonnull Class<R> resultClass);
 
     /**
      * Retrieve a single result from the next result set, specifying a
@@ -849,7 +899,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> R getSingleResult(ResultSetMapping<R> mapping);
+    @Nullable
+    <R> R getSingleResult(@Nonnull ResultSetMapping<R> mapping);
 
     /**
      * Retrieve a single result from the next result set, returning
@@ -893,7 +944,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> R getSingleResultOrNull(Class<R> resultClass);
+    @Nullable
+    <R> R getSingleResultOrNull(@Nonnull Class<R> resultClass);
 
     /**
      * Retrieve a single result from the next result set, specifying a
@@ -931,7 +983,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      * @since 4.0
      */
-    <R> R getSingleResultOrNull(ResultSetMapping<R> mapping);
+    @Nullable
+    <R> R getSingleResultOrNull(@Nonnull ResultSetMapping<R> mapping);
 
     /**
      * Return true if the next result corresponds to a result set,
@@ -988,7 +1041,8 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the same statement instance
      * @since 4.0
      */
-    StoredProcedureQuery addOption(Option option);
+    @Nonnull
+    StoredProcedureQuery addOption(@Nonnull Option option);
 
     /**
      * Get the {@linkplain Option options} influencing execution of
@@ -1001,6 +1055,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the options for this stored procedure
      * @since 4.0
      */
+    @Nonnull
     Set<Option> getOptions();
 
     /**

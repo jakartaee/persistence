@@ -40,6 +40,14 @@
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

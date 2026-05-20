@@ -15,6 +15,7 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.sql.ResultSetMapping;
 
 /**
@@ -80,6 +81,7 @@ public interface StatementOrTypedQuery extends Query {
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code SELECT} query
      */
+    @Nonnull
     Statement asStatement();
 
     /**
@@ -96,7 +98,8 @@ public interface StatementOrTypedQuery extends Query {
      *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
      *         statement
      */
-    <R> TypedQuery<R> ofType(Class<R> resultType);
+    @Nonnull
+    <R> TypedQuery<R> ofType(@Nonnull Class<R> resultType);
 
     /**
      * Obtain a {@link TypedQuery} with the given entity graph,
@@ -113,7 +116,8 @@ public interface StatementOrTypedQuery extends Query {
      *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
      *         statement
      */
-    <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph);
+    @Nonnull
+    <R> TypedQuery<R> withEntityGraph(@Nonnull EntityGraph<R> graph);
 
     /**
      * Obtain a {@link TypedQuery} with the given result set mapping.
@@ -128,6 +132,7 @@ public interface StatementOrTypedQuery extends Query {
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence query or statement
      */
-    <R> TypedQuery<R> withResultSetMapping(ResultSetMapping<R> mapping);
+    @Nonnull
+    <R> TypedQuery<R> withResultSetMapping(@Nonnull ResultSetMapping<R> mapping);
 
 }

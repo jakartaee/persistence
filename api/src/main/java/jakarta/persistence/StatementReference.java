@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 import java.util.Set;
 
 /**
@@ -98,5 +100,6 @@ public non-sealed interface StatementReference extends Reference {
      * @see jakarta.persistence.query.QueryOptions#timeout
      * @see jakarta.persistence.query.QueryOptions#flush
      */
+    @Nonnull
     Set<Statement.Option> getOptions();
 }

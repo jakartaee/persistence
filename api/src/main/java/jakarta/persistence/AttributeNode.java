@@ -16,6 +16,7 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.Attribute;
 
 import java.util.Map;
@@ -39,6 +40,7 @@ public interface AttributeNode<T> {
      * attribute node.
      * @return name of the attribute
      */
+    @Nonnull
     String getAttributeName();
 
     /**
@@ -48,6 +50,7 @@ public interface AttributeNode<T> {
      *
      * @since 4.0
      */
+    @Nonnull
     Attribute<?,T> getAttribute();
 
     /**
@@ -58,6 +61,7 @@ public interface AttributeNode<T> {
      * @see EntityGraph#addSubgraph(Attribute) 
      * @since 4.0
      */
+    @Nonnull
     Subgraph<T> addSubgraph();
 
     /**
@@ -70,7 +74,8 @@ public interface AttributeNode<T> {
      * @see EntityGraph#addTreatedSubgraph(Attribute, Class)
      * @since 4.0
      */
-    <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
+    @Nonnull
+    <S extends T> Subgraph<S> addTreatedSubgraph(@Nonnull Class<S> type);
 
     /**
      * Return a map of subgraphs associated with this attribute
@@ -79,6 +84,7 @@ public interface AttributeNode<T> {
      * attribute node or an empty {@code Map} if none have been
      * defined
      */
+    @Nonnull
     Map<Class<?>, Subgraph<?>> getSubgraphs();
 
     /**
@@ -88,6 +94,7 @@ public interface AttributeNode<T> {
      * attribute node's map key or an empty {@code Map} if none
      * have been defined
      */
+    @Nonnull
     Map<Class<?>, Subgraph<?>> getKeySubgraphs();
 
     /**
@@ -98,7 +105,8 @@ public interface AttributeNode<T> {
      * @return the receiving instance
      * @since 4.0
      */
-    AttributeNode<T> addOption(FetchOption option);
+    @Nonnull
+    AttributeNode<T> addOption(@Nonnull FetchOption option);
 
     /**
      * Return the {@linkplain FetchOption options} controlling
@@ -114,6 +122,7 @@ public interface AttributeNode<T> {
      * @return The options for this node
      * @since 4.0
      */
+    @Nonnull
     Set<FetchOption> getOptions();
 }
 

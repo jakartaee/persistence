@@ -15,6 +15,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  * An entity graph is a template that captures the boundaries of an
  * operation or query. Every entity graph has a <em>root entity</em>.
@@ -108,6 +111,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * Returns null if the {@code EntityGraph} is not a named
      * {@code EntityGraph}.
      */
+    @Nullable
     String getName();
 
     /**
@@ -123,6 +127,7 @@ public interface EntityGraph<T> extends Graph<T> {
      * @throws IllegalStateException if the EntityGraph has been
      *         statically defined
      */
-    <S extends T> Subgraph<S> addTreatedSubgraph(Class<S> type);
+    @Nonnull
+    <S extends T> Subgraph<S> addTreatedSubgraph(@Nonnull Class<S> type);
 
 }

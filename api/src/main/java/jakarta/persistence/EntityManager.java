@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaStatement;
 
@@ -241,7 +243,7 @@ public interface EntityManager extends EntityHandler {
      * @throws PersistenceException if the entity class has a generated
      *         identifier and an identifier could not be generated
      */
-    void persist(Object entity);
+    void persist(@Nonnull Object entity);
     
     /**
      * Merge the state of the given new or detached entity instance
@@ -272,7 +274,7 @@ public interface EntityManager extends EntityHandler {
      *         the database
      *
      */
-    <T> T merge(T entity);
+    <T> T merge(@Nonnull T entity);
 
     /**
      * Mark a managed entity instance as removed, resulting in its deletion
@@ -293,7 +295,7 @@ public interface EntityManager extends EntityHandler {
      *         is detected (note that optimistic version checking might be
      *         deferred until changes are flushed to the database)
      */
-    void remove(Object entity);
+    void remove(@Nonnull Object entity);
 
     /**
      * Find by primary key, using the specified properties.
@@ -317,8 +319,9 @@ public interface EntityManager extends EntityHandler {
      *         read from the database
      * @since 2.0
      */
-    <T> T find(Class<T> entityClass, Object primaryKey,
-               Map<String, Object> properties);
+    <T> T find(@Nonnull Class<T> entityClass,
+               @Nonnull Object primaryKey,
+               @Nullable Map<String, Object> properties);
 
     /**
      * Find by primary key and lock the entity, using the specified
@@ -374,9 +377,10 @@ public interface EntityManager extends EntityHandler {
      *         record could not be read from the database
      * @since 2.0
      */
-    <T> T find(Class<T> entityClass, Object primaryKey,
-               LockModeType lockMode,
-               Map<String, Object> properties);
+    <T> T find(@Nonnull Class<T> entityClass,
+               @Nonnull Object primaryKey,
+               @Nonnull LockModeType lockMode,
+               @Nullable Map<String, Object> properties);
 
     /**
      * Obtain a reference to an instance of the given entity class
@@ -404,7 +408,8 @@ public interface EntityManager extends EntityHandler {
      * @throws EntityNotFoundException if the entity state cannot
      *         be accessed
      */
-    <T> T getReference(Class<T> entityClass, Object primaryKey);
+    <T> T getReference(@Nonnull Class<T> entityClass,
+                       @Nonnull Object primaryKey);
 
     /**
      * Obtain a reference to an instance of the entity class of the
@@ -432,7 +437,8 @@ public interface EntityManager extends EntityHandler {
      *         accessed
      * @since 3.2
      */
-    <T> T getReference(T entity);
+    @Nonnull
+    <T> T getReference(@Nonnull T entity);
 
     /**
      * Synchronize changes held in the persistence context to the
@@ -454,13 +460,14 @@ public interface EntityManager extends EntityHandler {
      * all objects contained in the persistence context.
      * @param flushMode  flush mode
      */
-    void setFlushMode(FlushModeType flushMode);
+    void setFlushMode(@Nonnull FlushModeType flushMode);
 
     /**
      * Get the {@linkplain FlushModeType flush mode} that applies to
      * all objects contained in the persistence context.
      * @return the current {@link FlushModeType}
      */
+    @Nonnull
     FlushModeType getFlushMode();
 
     /**
@@ -499,7 +506,7 @@ public interface EntityManager extends EntityHandler {
      *         {@linkplain LockModeType lock mode type} is not
      *         supported for the given entity class
      */
-    void lock(Object entity, LockModeType lockMode);
+    void lock(@Nonnull Object entity, @Nonnull LockModeType lockMode);
 
     /**
      * Lock an entity instance belonging to the persistence context,
@@ -546,8 +553,8 @@ public interface EntityManager extends EntityHandler {
      *         supported for the given entity class
      * @since 2.0
      */
-    void lock(Object entity, LockModeType lockMode,
-              Map<String, Object> properties);
+    void lock(@Nonnull Object entity, @Nonnull LockModeType lockMode,
+              @Nullable Map<String, Object> properties);
 
     /**
      * Lock an entity instance belonging to the persistence context,
@@ -597,8 +604,8 @@ public interface EntityManager extends EntityHandler {
      *         supported for the given entity class
      * @since 3.2
      */
-    void lock(Object entity, LockModeType lockMode,
-              LockOption... options);
+    void lock(@Nonnull Object entity, @Nonnull LockModeType lockMode,
+              @Nullable LockOption... options);
 
     /**
      * Refresh the state of the given managed entity instance from
@@ -617,7 +624,7 @@ public interface EntityManager extends EntityHandler {
      * @throws PersistenceException if the record could not be read
      *         from the database
      */
-    void refresh(Object entity);
+    void refresh(@Nonnull Object entity);
 
     /**
      * Refresh the state of the given managed entity instance from
@@ -642,8 +649,8 @@ public interface EntityManager extends EntityHandler {
      *         from the database
      * @since 2.0
      */
-    void refresh(Object entity,
-                 Map<String, Object> properties);
+    void refresh(@Nonnull Object entity,
+                 @Nullable Map<String, Object> properties);
 
     /**
      * Refresh the state of the given managed entity instance from
@@ -693,8 +700,8 @@ public interface EntityManager extends EntityHandler {
      *         could not be read from the database
      * @since 2.0
      */
-    void refresh(Object entity, LockModeType lockMode,
-                 Map<String, Object> properties);
+    void refresh(@Nonnull Object entity, @Nonnull LockModeType lockMode,
+                 @Nullable Map<String, Object> properties);
 
     /**
      * Refresh the state of the given managed entity instance from the
@@ -743,8 +750,8 @@ public interface EntityManager extends EntityHandler {
      *         could not be read from the database
      * @since 3.2
      */
-    void refresh(Object entity,
-                 RefreshOption... options);
+    void refresh(@Nonnull Object entity,
+                 @Nullable RefreshOption... options);
 
     /**
      * Clear the persistence context, causing all managed entities to
@@ -768,7 +775,7 @@ public interface EntityManager extends EntityHandler {
      *         entity
      * @since 2.0
      */
-    void detach(Object entity);
+    void detach(@Nonnull Object entity);
 
     /**
      * Determine if the given object is a managed entity instance
@@ -778,7 +785,7 @@ public interface EntityManager extends EntityHandler {
      *         persistence context
      * @throws IllegalArgumentException if not an entity
      */
-    boolean contains(Object entity);
+    boolean contains(@Nonnull Object entity);
 
     /**
      * Get the current {@linkplain LockModeType lock mode} held by
@@ -792,7 +799,8 @@ public interface EntityManager extends EntityHandler {
      *         but the given instance is not a managed entity
      * @since 2.0
      */
-    LockModeType getLockMode(Object entity);
+    @Nonnull
+    LockModeType getLockMode(@Nonnull Object entity);
 
     /**
      * Join the current active JTA transaction.
@@ -830,7 +838,8 @@ public interface EntityManager extends EntityHandler {
      * @deprecated Use {@link #createStatement(CriteriaStatement)}.
      */
     @Deprecated(since = "4.0", forRemoval = true)
-    Statement createQuery(CriteriaStatement<?> statement);
+    @Nonnull
+    Statement createQuery(@Nonnull CriteriaStatement<?> statement);
 
     /**
      * Obtain a mutable copy of a named {@link EntityGraph} or
@@ -842,7 +851,8 @@ public interface EntityManager extends EntityHandler {
      * @deprecated Use {@link #getEntityGraph(String)} instead.
      */
     @Deprecated(since = "4.0", forRemoval = true)
-    EntityGraph<?> createEntityGraph(String graphName);
+    @Nonnull
+    EntityGraph<?> createEntityGraph(@Nonnull String graphName);
 
     /**
      * Return the underlying provider object for the
@@ -855,6 +865,7 @@ public interface EntityManager extends EntityHandler {
 	 * @deprecated Use {@link #unwrap(Class)} instead.
      */
 	@Deprecated(since = "4.0")
+    @Nonnull
     Object getDelegate();
 
     /**
@@ -865,7 +876,7 @@ public interface EntityManager extends EntityHandler {
      * @param option the option
      * @since 4.0
      */
-    void addOption(Option option);
+    void addOption(@Nonnull Option option);
 
     /**
      * Get the {@linkplain Option options} controlling the behavior
@@ -878,6 +889,7 @@ public interface EntityManager extends EntityHandler {
      * @return the options for this entity manager
      * @since 4.0
      */
+    @Nonnull
     Set<Option> getOptions();
 
     /**

@@ -19,6 +19,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Type;
 
 import java.util.Calendar;
@@ -95,6 +97,7 @@ public interface Query {
      */
     @SuppressWarnings("rawtypes")
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     List getResultList();
 
     /**
@@ -136,6 +139,7 @@ public interface Query {
      */
     @SuppressWarnings("rawtypes")
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     default Stream getResultStream() {
         return getResultList().stream();
     }
@@ -172,6 +176,7 @@ public interface Query {
      *             to execute queries
      */
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     Object getSingleResult();
 
     /**
@@ -207,6 +212,7 @@ public interface Query {
      *             to execute queries
      */
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nullable
     Object getSingleResultOrNull();
 
     /**
@@ -262,6 +268,7 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#setMaxResults}
      */
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     Query setMaxResults(int maxResult);
 
     /**
@@ -292,6 +299,7 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#setFirstResult}
      */
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     Query setFirstResult(int startPosition);
 
     /**
@@ -322,7 +330,8 @@ public interface Query {
      * @throws IllegalArgumentException if the second argument is not
      *         valid for the implementation
      */
-    Query setHint(String hintName, Object value);
+    @Nonnull
+    Query setHint(@Nonnull String hintName, @Nullable Object value);
 
     /**
      * Get the properties and hints and associated values that are in
@@ -331,6 +340,7 @@ public interface Query {
      * @return query properties and hints
      * @since 2.0
      */
+    @Nonnull
     Map<String, Object> getHints();
 
     /**
@@ -346,7 +356,8 @@ public interface Query {
      *         query
      * @since 2.0
      */
-    <T> Query setParameter(Parameter<T> parameter, T value);
+    @Nonnull
+    <T> Query setParameter(@Nonnull Parameter<T> parameter, @Nullable T value);
 
     /**
      * Bind an instance of {@link Calendar} to a {@link Parameter} object.
@@ -362,8 +373,10 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(Parameter<Calendar> param, Calendar value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull Parameter<Calendar> param,
+                       @Nullable Calendar value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a {@link Parameter} object.
@@ -379,8 +392,10 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(Parameter<Date> param, Date value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull Parameter<Date> param,
+                       @Nullable Date value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a named parameter.
@@ -392,7 +407,8 @@ public interface Query {
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
      */
-    Query setParameter(String name, Object value);
+    @Nonnull
+    Query setParameter(@Nonnull String name, @Nullable Object value);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -423,7 +439,9 @@ public interface Query {
      *         the argument is of incompatible type
      * @since 4.0
      */
-    <P> Query setParameter(String name, P value, Class<P> type);
+    @Nonnull
+    <P> Query setParameter(@Nonnull String name, @Nullable P value,
+                           @Nonnull Class<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -447,7 +465,9 @@ public interface Query {
      *         the argument is of incompatible type
      * @since 4.0
      */
-    <P> Query setParameter(String name, P value, Type<P> type);
+    @Nonnull
+    <P> Query setParameter(@Nonnull String name, @Nullable P value,
+                           @Nonnull Type<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -472,8 +492,9 @@ public interface Query {
      *         the argument is of incompatible type
      * @since 4.0
      */
-    <P> Query setConvertedParameter(String name, P value,
-                                    Class<? extends AttributeConverter<P,?>> converter);
+    @Nonnull
+    <P> Query setConvertedParameter(@Nonnull String name, @Nullable P value,
+                                    @Nonnull Class<? extends AttributeConverter<P,?>> converter);
 
     /**
      * Bind an instance of {@link Calendar} to a named parameter.
@@ -489,8 +510,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(String name, Calendar value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull String name, @Nullable Calendar value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a named parameter.
@@ -506,8 +528,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(String name, Date value, 
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(@Nonnull String name, @Nullable Date value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a positional parameter.
@@ -519,7 +542,8 @@ public interface Query {
      *         not correspond to a parameter of the query, or if
      *         the argument is of incompatible type
      */
-    Query setParameter(int position, Object value);
+    @Nonnull
+    Query setParameter(int position, @Nullable Object value);
 
     /**
      * Bind an argument value to a positional parameter, explicitly
@@ -550,7 +574,9 @@ public interface Query {
      *         the argument is of incompatible type
      * @since 4.0
      */
-    <P> Query setParameter(int position, P value, Class<P> type);
+    @Nonnull
+    <P> Query setParameter(int position, @Nullable P value,
+                           @Nonnull Class<P> type);
 
     /**
      * Bind an argument value to a positional parameter, explicitly
@@ -574,7 +600,9 @@ public interface Query {
      *         or if the argument is of incompatible type
      * @since 4.0
      */
-    <P> Query setParameter(int position, P value, Type<P> type);
+    @Nonnull
+    <P> Query setParameter(int position, @Nullable P value,
+                           @Nonnull Type<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -599,8 +627,9 @@ public interface Query {
      *         the argument is of incompatible type
      * @since 4.0
      */
-    <P> Query setConvertedParameter(int position, P value,
-                                    Class<? extends AttributeConverter<P,?>> converter);
+    @Nonnull
+    <P> Query setConvertedParameter(int position, @Nullable P value,
+                                    @Nonnull Class<? extends AttributeConverter<P,?>> converter);
 
     /**
      * Bind an instance of {@link Calendar} to a positional
@@ -617,8 +646,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(int position, Calendar value,  
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(int position, @Nullable Calendar value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a positional
@@ -635,8 +665,9 @@ public interface Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2")
-    Query setParameter(int position, Date value,  
-                       TemporalType temporalType);
+    @Nonnull
+    Query setParameter(int position, @Nullable  Date value,
+                       @Nonnull TemporalType temporalType);
 
     /**
      * Get the {@link Parameter} objects representing the declared
@@ -651,6 +682,7 @@ public interface Query {
      *         this use
      * @since 2.0
      */
+    @Nonnull
     Set<Parameter<?>> getParameters();
 
     /**
@@ -669,7 +701,8 @@ public interface Query {
      *         this use
      * @since 2.0
      */
-    Parameter<?> getParameter(String name);
+    @Nonnull
+    Parameter<?> getParameter(@Nonnull String name);
 
     /**
      * Get the {@link Parameter} object representing the declared
@@ -690,7 +723,9 @@ public interface Query {
      *         the implementation does not support this use
      * @since 2.0
      */
-    <T> Parameter<T> getParameter(String name, Class<T> type);
+    @Nonnull
+    <T> Parameter<T> getParameter(@Nonnull String name,
+                                  @Nonnull Class<T> type);
 
     /**
      * Get the {@link Parameter} object representing the declared
@@ -708,6 +743,7 @@ public interface Query {
      *         this use
      * @since 2.0
      */
+    @Nonnull
     Parameter<?> getParameter(int position);
 
     /**
@@ -728,7 +764,8 @@ public interface Query {
      *         the implementation does not support this use
      * @since 2.0
      */
-    <T> Parameter<T> getParameter(int position, Class<T> type);
+    @Nonnull
+    <T> Parameter<T> getParameter(int position, @Nonnull Class<T> type);
 
     /**
      * Return a boolean value indicating whether an argument has
@@ -740,7 +777,7 @@ public interface Query {
      *         {@code false} otherwise
      * @since 2.0
      */
-    boolean isBound(Parameter<?> parameter);
+    boolean isBound(@Nonnull Parameter<?> parameter);
 
     /**
      * Return the input value bound to the parameter.
@@ -755,7 +792,8 @@ public interface Query {
      *         been bound
      * @since 2.0
      */
-    <T> T getParameterValue(Parameter<T> parameter);
+    @Nullable
+    <T> T getParameterValue(@Nonnull Parameter<T> parameter);
 
     /**
      * Return the input value bound to the named parameter.
@@ -769,7 +807,8 @@ public interface Query {
      *         specified name does not exist
      * @since 2.0
      */
-    Object getParameterValue(String name);
+    @Nullable
+    Object getParameterValue(@Nonnull String name);
 
     /**
      * Return the input value bound to the positional parameter.
@@ -783,6 +822,7 @@ public interface Query {
      *          specified position does not exist
      * @since 2.0
      */
+    @Nullable
     Object getParameterValue(int position);
 
     /**
@@ -796,7 +836,8 @@ public interface Query {
      *
      * @since 4.0
      */
-    Query setQueryFlushMode(QueryFlushMode flushMode);
+    @Nonnull
+    Query setQueryFlushMode(@Nonnull QueryFlushMode flushMode);
 
     /**
      * Get the flush mode which will be in effect when the query
@@ -806,6 +847,7 @@ public interface Query {
      * @return flush mode
      * @since 4.0
      */
+    @Nonnull
     QueryFlushMode getQueryFlushMode();
 
     /**
@@ -820,7 +862,8 @@ public interface Query {
      * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
      */
     @Deprecated(since = "4.0")
-    Query setFlushMode(FlushModeType flushMode);
+    @Nonnull
+    Query setFlushMode(@Nonnull FlushModeType flushMode);
 
     /**
      * Get the flush mode which will be in effect when the query
@@ -834,6 +877,7 @@ public interface Query {
      * @deprecated Use {@link #getQueryFlushMode()}.
      */
     @Deprecated(since = "4.0")
+    @Nonnull
     FlushModeType getFlushMode();
 
     /**
@@ -850,7 +894,8 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#setLockMode}
      */
     @Deprecated(since = "4.0", forRemoval = true)
-    Query setLockMode(LockModeType lockMode);
+    @Nonnull
+    Query setLockMode(@Nonnull LockModeType lockMode);
 
     /**
      * The current {@linkplain LockModeType lock mode} for the
@@ -880,6 +925,7 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#getLockMode}
      */
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nullable
     LockModeType getLockMode();
 
     /**
@@ -894,7 +940,8 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#setCacheRetrieveMode}
      */
     @Deprecated(since = "4.0", forRemoval = true)
-    Query setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+    @Nonnull
+    Query setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode);
 
     /**
      * Set the {@linkplain CacheStoreMode cache storage mode} in
@@ -908,7 +955,8 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#setCacheStoreMode}
      */
     @Deprecated(since = "4.0", forRemoval = true)
-    Query setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    @Nonnull
+    Query setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode);
 
     /**
      * The {@linkplain CacheRetrieveMode cache retrieval mode} in
@@ -922,6 +970,7 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#getCacheRetrieveMode}
      */
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
@@ -936,6 +985,7 @@ public interface Query {
      * @deprecated Use {@link TypedQuery#getCacheStoreMode}
      */
     @Deprecated(since = "4.0", forRemoval = true)
+    @Nonnull
     CacheStoreMode getCacheStoreMode();
 
     /**
@@ -948,7 +998,8 @@ public interface Query {
      * @return the same query instance
      * @since 3.2
      */
-    Query setTimeout(Integer timeout);
+    @Nonnull
+    Query setTimeout(@Nullable Integer timeout);
 
     /**
      * Set the query timeout. This is a hint.
@@ -957,13 +1008,15 @@ public interface Query {
      * @return the same query instance
      * @since 4.0
      */
-    Query setTimeout(Timeout timeout);
+    @Nonnull
+    Query setTimeout(@Nullable Timeout timeout);
 
     /**
      * The query timeout, in milliseconds, or null for no timeout.
      *
      * @since 3.2
      */
+    @Nullable
     Integer getTimeout();
 
     /**
@@ -982,5 +1035,6 @@ public interface Query {
      *         the given type
      * @since 2.0
      */
-    <T> T unwrap(Class<T> type);
+    @Nonnull
+    <T> T unwrap(@Nonnull Class<T> type);
 }

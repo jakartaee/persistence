@@ -56,6 +56,7 @@
 module jakarta.persistence {
 
     requires transitive java.sql;
+    requires static jakarta.annotation;
 
     exports jakarta.persistence;
     exports jakarta.persistence.criteria;

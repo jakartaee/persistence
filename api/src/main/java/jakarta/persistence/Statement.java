@@ -15,6 +15,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Type;
 
 import java.util.Calendar;
@@ -105,7 +107,8 @@ public interface Statement extends Query {
      *          to the use of {@linkplain Option options}.
      */
     @Override
-    Statement setHint(String hintName, Object value);
+    @Nonnull
+    Statement setHint(@Nonnull String hintName, @Nullable Object value);
 
     /**
      * Set the query timeout, in milliseconds. This is a hint,
@@ -118,7 +121,8 @@ public interface Statement extends Query {
      * @since 3.2
      */
     @Override
-    Statement setTimeout(Integer timeout);
+    @Nonnull
+    Statement setTimeout(@Nullable Integer timeout);
 
     /**
      * Set the query timeout. This is a hint.
@@ -128,7 +132,8 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    Statement setTimeout(Timeout timeout);
+    @Nonnull
+    Statement setTimeout(@Nullable Timeout timeout);
 
     /**
      * Set the {@linkplain QueryFlushMode query flush mode} to be
@@ -142,7 +147,8 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    Statement setQueryFlushMode(QueryFlushMode flushMode);
+    @Nonnull
+    Statement setQueryFlushMode(@Nonnull QueryFlushMode flushMode);
 
     /**
      * Set the {@linkplain FlushModeType flush mode type} to be
@@ -156,7 +162,8 @@ public interface Statement extends Query {
      * @deprecated Use {@link #setQueryFlushMode(QueryFlushMode)}.
      */
     @Override @Deprecated
-    Statement setFlushMode(FlushModeType flushMode);
+    @Nonnull
+    Statement setFlushMode(@Nonnull FlushModeType flushMode);
 
     /**
      * Bind an argument to a parameter of this query respresented as
@@ -171,7 +178,9 @@ public interface Statement extends Query {
      * @since 2.0
      */
     @Override
-    <T> Statement setParameter(Parameter<T> parameter, T value);
+    @Nonnull
+    <T> Statement setParameter(@Nonnull Parameter<T> parameter,
+                               @Nullable T value);
 
     /**
      * Bind an instance of {@link Calendar} to a {@link Parameter} object.
@@ -187,7 +196,10 @@ public interface Statement extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    Statement setParameter(Parameter<Calendar> param, Calendar value, TemporalType temporalType);
+    @Nonnull
+    Statement setParameter(@Nonnull Parameter<Calendar> param,
+                           @Nullable Calendar value,
+                           @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a {@link Parameter} object.
@@ -203,7 +215,10 @@ public interface Statement extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    Statement setParameter(Parameter<Date> param, Date value, TemporalType temporalType);
+    @Nonnull
+    Statement setParameter(@Nonnull Parameter<Date> param,
+                           @Nullable Date value,
+                           @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a named parameter.
@@ -216,7 +231,8 @@ public interface Statement extends Query {
      *         the argument is of incompatible type
      */
     @Override
-    Statement setParameter(String name, Object value);
+    @Nonnull
+    Statement setParameter(@Nonnull String name, @Nullable Object value);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -240,7 +256,9 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    <P> Statement setParameter(String name, P value, Class<P> type);
+    @Nonnull
+    <P> Statement setParameter(@Nonnull String name, @Nullable P value,
+                               @Nonnull Class<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -263,7 +281,9 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    <P> Statement setParameter(String name, P value, Type<P> type);
+    @Nonnull
+    <P> Statement setParameter(@Nonnull String name, @Nullable P value,
+                               @Nonnull Type<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -286,8 +306,9 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    <P> Statement setConvertedParameter(String name, P value,
-                                        Class<? extends AttributeConverter<P,?>> converter);
+    @Nonnull
+    <P> Statement setConvertedParameter(@Nonnull String name, @Nullable P value,
+                                        @Nonnull Class<? extends AttributeConverter<P,?>> converter);
 
     /**
      * Bind an instance of {@link Calendar} to a named parameter.
@@ -302,8 +323,11 @@ public interface Statement extends Query {
      * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2") @Override
-    Statement setParameter(String name, Calendar value, TemporalType temporalType);
+    @Override
+    @Deprecated(since = "3.2")
+    @Nonnull
+    Statement setParameter(@Nonnull String name, @Nullable Calendar value,
+                           @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a named parameter.
@@ -318,8 +342,11 @@ public interface Statement extends Query {
      * @deprecated Newly written code should use the date/time types
      *             defined in {@link java.time}.
      */
-    @Deprecated(since = "3.2") @Override
-    Statement setParameter(String name, Date value, TemporalType temporalType);
+    @Override
+    @Deprecated(since = "3.2")
+    @Nonnull
+    Statement setParameter(@Nonnull String name, @Nullable Date value,
+                           @Nonnull TemporalType temporalType);
 
     /**
      * Bind an argument value to a positional parameter.
@@ -332,7 +359,8 @@ public interface Statement extends Query {
      *         or if the argument is of incompatible type
      */
     @Override
-    Statement setParameter(int position, Object value);
+    @Nonnull
+    Statement setParameter(int position, @Nullable Object value);
 
     /**
      * Bind an argument value to a positional parameter, explicitly
@@ -356,7 +384,9 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    <P> Statement setParameter(int position, P value, Class<P> type);
+    @Nonnull
+    <P> Statement setParameter(int position, @Nullable P value,
+                               @Nonnull Class<P> type);
 
     /**
      * Bind an argument value to a positional parameter, explicitly
@@ -379,7 +409,9 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    <P> Statement setParameter(int position, P value, Type<P> type);
+    @Nonnull
+    <P> Statement setParameter(int position, @Nullable P value,
+                               @Nonnull Type<P> type);
 
     /**
      * Bind an argument value to a named parameter, explicitly
@@ -402,8 +434,9 @@ public interface Statement extends Query {
      * @since 4.0
      */
     @Override
-    <P> Statement setConvertedParameter(int position, P value,
-                                        Class<? extends AttributeConverter<P,?>> converter);
+    @Nonnull
+    <P> Statement setConvertedParameter(int position, @Nullable P value,
+                                        @Nonnull Class<? extends AttributeConverter<P,?>> converter);
 
     /**
      * Bind an instance of {@link Calendar} to a positional
@@ -420,7 +453,9 @@ public interface Statement extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    Statement setParameter(int position, Calendar value, TemporalType temporalType);
+    @Nonnull
+    Statement setParameter(int position, @Nullable Calendar value,
+                           @Nonnull TemporalType temporalType);
 
     /**
      * Bind an instance of {@link Date} to a positional
@@ -437,7 +472,9 @@ public interface Statement extends Query {
      *             defined in {@link java.time}.
      */
     @Deprecated(since = "3.2") @Override
-    Statement setParameter(int position, Date value, TemporalType temporalType);
+    @Nonnull
+    Statement setParameter(int position, @Nullable Date value,
+                           @Nonnull TemporalType temporalType);
 
     /**
      * Specify an {@linkplain Option option} influencing execution
@@ -448,7 +485,8 @@ public interface Statement extends Query {
      * @return the same statement instance
      * @since 4.0
      */
-    Statement addOption(Option option);
+    @Nonnull
+    Statement addOption(@Nonnull Option option);
 
     /**
      * Get the {@linkplain Option options} influencing execution of
@@ -460,6 +498,7 @@ public interface Statement extends Query {
      * @return the options for this statement
      * @since 4.0
      */
+    @Nonnull
     Set<Option> getOptions();
 
     /**
