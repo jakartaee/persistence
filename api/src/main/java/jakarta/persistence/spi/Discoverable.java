@@ -33,6 +33,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * annotation types. Classes annotated with custom discoverable
  * annotations must be included in the list of class names passed
  * by the container to the provider.
+ * <p>
+ * Exceptionally, {@code jakarta.data.repository.Repository} is
+ * treated as a discoverable annotation type, even though it is
+ * not explicitly annotated {@code @Discoverable}.
  *
  * @since 4.0
  */
