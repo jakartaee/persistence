@@ -21,6 +21,9 @@ package jakarta.persistence;
 
 import java.util.List;
 import java.util.Map;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.spi.PersistenceProvider;
 
 import static jakarta.persistence.spi.PersistenceProviderResolverHolder.getPersistenceProviderResolver;
@@ -91,7 +94,8 @@ public final class Persistence {
      * @apiNote This operation is very expensive. It should usually be
      *          called just once for each persistence unit.
      */
-    public static EntityManagerFactory createEntityManagerFactory(String unitName) {
+    @Nonnull
+    public static EntityManagerFactory createEntityManagerFactory(@Nonnull String unitName) {
         return createEntityManagerFactory(unitName, null);
     }
 
@@ -121,7 +125,9 @@ public final class Persistence {
      * @apiNote This operation is very expensive. It should usually be
      *          called just once for each persistence unit.
      */
-    public static EntityManagerFactory createEntityManagerFactory(String unitName, Map<?,?> properties) {
+    @Nonnull
+    public static EntityManagerFactory createEntityManagerFactory(@Nonnull String unitName,
+                                                                  @Nullable Map<?,?> properties) {
         for (var provider : getPersistenceProviders()) {
             var entityManagerFactory = provider.createEntityManagerFactory(unitName, properties);
             if (entityManagerFactory != null) {
@@ -144,7 +150,8 @@ public final class Persistence {
      *
      * @since 3.2
      */
-    public static EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration) {
+    @Nonnull
+    public static EntityManagerFactory createEntityManagerFactory(@Nonnull PersistenceConfiguration configuration) {
         for (var provider : getPersistenceProviders()) {
             var entityManagerFactory = provider.createEntityManagerFactory(configuration);
             if (entityManagerFactory != null) {
@@ -182,7 +189,8 @@ public final class Persistence {
      *
      * @since 2.1
      */
-    public static void generateSchema(String unitName, Map<?,?> map) {
+    public static void generateSchema(@Nonnull String unitName,
+                                      @Nullable Map<?,?> map) {
         for (var provider : getPersistenceProviders()) {
             if (provider.generateSchema(unitName, map)) {
                 return;
@@ -206,7 +214,7 @@ public final class Persistence {
      *
      * @since 4.0
      */
-    public static void generateSchema(PersistenceConfiguration configuration) {
+    public static void generateSchema(@Nonnull PersistenceConfiguration configuration) {
         for (var provider : getPersistenceProviders()) {
             if (provider.generateSchema(configuration)) {
                 return;
@@ -221,6 +229,7 @@ public final class Persistence {
      * @return {@link PersistenceUtil} instance
      * @since 2.0
      */
+    @Nonnull
     public static PersistenceUtil getPersistenceUtil() {
        return new PersistenceUtilImpl();
     }

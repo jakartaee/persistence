@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * A function which makes use of a native database connection to compute
  * a result. The connection is usually a JDBC connection.
@@ -40,5 +42,5 @@ public interface ConnectionFunction<C,T> {
 	 * @throws Exception if a problem occurs calling the connection,
 	 *                   usually a {@code java.sql.SQLException}
 	 */
-	T apply(C connection) throws Exception;
+	T apply(@Nonnull C connection) throws Exception;
 }

@@ -16,6 +16,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.util.Set;
 
 /**
@@ -101,6 +104,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * {@link jakarta.persistence.query.JakartaQuery} or
      * {@link jakarta.persistence.query.NativeQuery}.
      */
+    @Nonnull
     Class<? extends R> getResultType();
 
     /**
@@ -119,6 +123,7 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      *
      * @since 4.0
      */
+    @Nonnull
     Set<TypedQuery.Option> getOptions();
 
     /**
@@ -130,5 +135,6 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * @see jakarta.persistence.query.QueryOptions#entityGraph
      * @since 4.0
      */
+    @Nullable
     String getEntityGraphName();
 }

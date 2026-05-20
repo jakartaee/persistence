@@ -15,6 +15,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +42,7 @@ public sealed interface Reference
      * {@link jakarta.persistence.query.JakartaQuery} or
      * {@link jakarta.persistence.query.NativeQuery}.
      */
+    @Nullable
     String getName();
 
     /**
@@ -54,6 +58,7 @@ public sealed interface Reference
      *
      * @since 4.0
      */
+    @Nullable
     List<Class<?>> getParameterTypes();
 
     /**
@@ -71,6 +76,7 @@ public sealed interface Reference
      *
      * @since 4.0
      */
+    @Nullable
     List<String> getParameterNames();
 
     /**
@@ -95,6 +101,7 @@ public sealed interface Reference
      * @see Query#setParameter(String, Object)
      * @since 4.0
      */
+    @Nullable
     List<Object> getArguments();
 
     /**
@@ -105,5 +112,6 @@ public sealed interface Reference
      * Any attempted mutation of the returned map results in an
      * {@link UnsupportedOperationException}.
      */
+    @Nonnull
     Map<String,Object> getHints();
 }

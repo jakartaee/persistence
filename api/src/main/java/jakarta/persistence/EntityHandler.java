@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaSelect;
@@ -125,7 +127,8 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @since 4.0
      */
-    <T> T get(Class<T> entityClass, Object id);
+    @Nonnull
+    <T> T get(@Nonnull Class<T> entityClass, @Nonnull Object id);
 
     /**
      * Retrieve an entity representing the record with the
@@ -179,7 +182,10 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @since 4.0
      */
-    <T> T get(Class<T> entityClass, Object id, FindOption... options);
+    @Nonnull
+    <T> T get(@Nonnull Class<T> entityClass,
+              @Nonnull Object id,
+              @Nullable FindOption... options);
 
     /**
      * Retrieve an entity representing the record with the
@@ -235,7 +241,10 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @since 4.0
      */
-    <T> T get(EntityGraph<T> graph, Object id, FindOption... options);
+    @Nonnull
+    <T> T get(@Nonnull EntityGraph<T> graph,
+              @Nonnull Object id,
+              @Nullable FindOption... options);
 
     /**
      * Retrieve entity instances representing the records
@@ -256,43 +265,42 @@ public interface EntityHandler extends AutoCloseable {
      * may not be observed.
      *
      * @param entityClass The class of the entity to retrieve
-     * @param ids The identifiers of the entities to retrieve
-     * @param options Standard and vendor-specific options
-     * @param <T> The entity type
+     * @param ids         The identifiers of the entities to retrieve
+     * @param options     Standard and vendor-specific options
+     * @param <T>         The entity type
      * @return an ordered list of entity instances
-     *
-     * @throws IllegalArgumentException if the given class is
-     *         not an entity class belonging to the persistence
-     *         unit, or if one of the given identifiers is not
-     *         a non-null instance of the identifier type of
-     *         the given entity class
+     * @throws IllegalArgumentException     if the given class is
+     *                                      not an entity class belonging to the persistence
+     *                                      unit, or if one of the given identifiers is not
+     *                                      a non-null instance of the identifier type of
+     *                                      the given entity class
      * @throws TransactionRequiredException if any lock mode
-     *         other than {@link LockModeType#NONE NONE} is
-     *         specified and there is no transaction
-     *         associated with this handler
-     * @throws OptimisticLockException if an optimistic version
-     *         check fails
-     * @throws PessimisticLockException if a pessimistic lock
-     *         could not be obtained and the transaction is
-     *         rolled back
-     * @throws LockTimeoutException if a pessimistic lock
-     *         could not be obtained and only the statement
-     *         is rolled back
-     * @throws EntityNotFoundException if no record exists in
-     *         the database for one of the given identifiers
-     * @throws PersistenceException if a given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if a
-     *         record could not be read from the database
-     *
+     *                                      other than {@link LockModeType#NONE NONE} is
+     *                                      specified and there is no transaction
+     *                                      associated with this handler
+     * @throws OptimisticLockException      if an optimistic version
+     *                                      check fails
+     * @throws PessimisticLockException     if a pessimistic lock
+     *                                      could not be obtained and the transaction is
+     *                                      rolled back
+     * @throws LockTimeoutException         if a pessimistic lock
+     *                                      could not be obtained and only the statement
+     *                                      is rolled back
+     * @throws EntityNotFoundException      if no record exists in
+     *                                      the database for one of the given identifiers
+     * @throws PersistenceException         if a given
+     *                                      {@linkplain LockModeType lock mode type} is not
+     *                                      supported for the given entity class or if a
+     *                                      record could not be read from the database
      * @apiNote Conceptually similar to {@linkplain #findMultiple},
      * except this form throws {@linkplain EntityNotFoundException}
      * instead of returning nulls.
-     *
      * @since 4.0
      */
-    <T> List<T> getMultiple(Class<T> entityClass, List<?> ids,
-                            FindOption... options);
+    @Nonnull
+    <T> List<T> getMultiple(@Nonnull Class<T> entityClass,
+                            @Nonnull List<?> ids,
+                            @Nullable FindOption... options);
 
     /**
      * Retrieve entity instances representing the records with
@@ -312,44 +320,43 @@ public interface EntityHandler extends AutoCloseable {
      * mechanisms used by the provider, this option may or
      * may not be observed.
      *
-     * @param graph The {@linkplain EntityGraph load graph}
-     * @param ids The identifiers of the entities to retrieve
+     * @param graph   The {@linkplain EntityGraph load graph}
+     * @param ids     The identifiers of the entities to retrieve
      * @param options Standard and vendor-specific options
-     * @param <T> The entity type
+     * @param <T>     The entity type
      * @return an ordered list of entity instances
-     *
-     * @throws IllegalArgumentException if the given class is
-     *         not an entity class belonging to the persistence
-     *         unit, or if one of the given identifiers is not
-     *         a non-null instance of the identifier type of
-     *         the given entity class
+     * @throws IllegalArgumentException     if the given class is
+     *                                      not an entity class belonging to the persistence
+     *                                      unit, or if one of the given identifiers is not
+     *                                      a non-null instance of the identifier type of
+     *                                      the given entity class
      * @throws TransactionRequiredException if any lock mode
-     *         other than {@link LockModeType#NONE NONE} is
-     *         specified and there is no transaction
-     *         associated with this handler
-     * @throws OptimisticLockException if an optimistic version
-     *         check fails
-     * @throws PessimisticLockException if a pessimistic lock
-     *         could not be obtained and the transaction is
-     *         rolled back
-     * @throws LockTimeoutException if a pessimistic lock
-     *         could not be obtained and only the statement
-     *         is rolled back
-     * @throws EntityNotFoundException if no record exists in
-     *         the database for one of the given identifiers
-     * @throws PersistenceException if a given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if a
-     *         record could not be read from the database
-     *
+     *                                      other than {@link LockModeType#NONE NONE} is
+     *                                      specified and there is no transaction
+     *                                      associated with this handler
+     * @throws OptimisticLockException      if an optimistic version
+     *                                      check fails
+     * @throws PessimisticLockException     if a pessimistic lock
+     *                                      could not be obtained and the transaction is
+     *                                      rolled back
+     * @throws LockTimeoutException         if a pessimistic lock
+     *                                      could not be obtained and only the statement
+     *                                      is rolled back
+     * @throws EntityNotFoundException      if no record exists in
+     *                                      the database for one of the given identifiers
+     * @throws PersistenceException         if a given
+     *                                      {@linkplain LockModeType lock mode type} is not
+     *                                      supported for the given entity class or if a
+     *                                      record could not be read from the database
      * @apiNote Conceptually similar to {@linkplain #findMultiple},
      * except this form throws {@linkplain EntityNotFoundException}
      * instead of returning nulls.
-     *
      * @since 4.0
      */
-    <T> List<T> getMultiple(EntityGraph<T> graph, List<?> ids,
-                            FindOption... options);
+    @Nonnull
+    <T> List<T> getMultiple(@Nonnull EntityGraph<T> graph,
+                            @Nonnull List<?> ids,
+                            @Nullable FindOption... options);
 
     /**
      * Retrieve an entity representing the record with the
@@ -373,7 +380,8 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @since 1.0
      */
-    <T> T find(Class<T> entityClass, Object id);
+    @Nullable
+    <T> T find(@Nonnull Class<T> entityClass, @Nonnull Object id);
 
     /**
      * Retrieve an entity representing the record with the
@@ -424,7 +432,10 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @since 3.2
      */
-    <T> T find(Class<T> entityClass, Object id, FindOption... options);
+    @Nullable
+    <T> T find(@Nonnull Class<T> entityClass,
+               @Nonnull Object id,
+               @Nullable FindOption... options);
 
     /**
      * Retrieve an instance of the root entity of the given
@@ -477,7 +488,10 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @since 3.2
      */
-    <T> T find(EntityGraph<T> graph, Object id, FindOption... options);
+    @Nullable
+    <T> T find(@Nonnull EntityGraph<T> graph,
+               @Nonnull Object id,
+               @Nullable FindOption... options);
 
     /**
      * Retrieve entity instances representing the records
@@ -499,41 +513,41 @@ public interface EntityHandler extends AutoCloseable {
      * may not be observed.
      *
      * @param entityClass The class of the entity to retrieve
-     * @param ids The identifiers of the entities to retrieve
-     * @param options Standard and vendor-specific options
-     * @param <T> The entity type
+     * @param ids         The identifiers of the entities to retrieve
+     * @param options     Standard and vendor-specific options
+     * @param <T>         The entity type
      * @return an ordered list of entity instances with the
-     *         given identifiers, with {@code null} in
-     *         positions where there is no matching record
-     *         in the database
-     *
-     * @throws IllegalArgumentException if the given class is
-     *         not an entity class belonging to the persistence
-     *         unit, if one of the given identifiers is not a
-     *         non-null instance of the identifier type of the
-     *         given entity class, or if the given options are
-     *         contradictory
+     * given identifiers, with {@code null} in
+     * positions where there is no matching record
+     * in the database
+     * @throws IllegalArgumentException     if the given class is
+     *                                      not an entity class belonging to the persistence
+     *                                      unit, if one of the given identifiers is not a
+     *                                      non-null instance of the identifier type of the
+     *                                      given entity class, or if the given options are
+     *                                      contradictory
      * @throws TransactionRequiredException if any lock mode
-     *         other than {@link LockModeType#NONE NONE} is
-     *         specified and there is no transaction
-     *         associated with this handler
-     * @throws OptimisticLockException if an optimistic version
-     *         check fails
-     * @throws PessimisticLockException if a pessimistic lock
-     *         could not be obtained and the transaction is
-     *         rolled back
-     * @throws LockTimeoutException if a pessimistic lock
-     *         could not be obtained and only the statement
-     *         is rolled back
-     * @throws PersistenceException if a given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the given entity class or if a
-     *         record could not be read from the database
-     *
+     *                                      other than {@link LockModeType#NONE NONE} is
+     *                                      specified and there is no transaction
+     *                                      associated with this handler
+     * @throws OptimisticLockException      if an optimistic version
+     *                                      check fails
+     * @throws PessimisticLockException     if a pessimistic lock
+     *                                      could not be obtained and the transaction is
+     *                                      rolled back
+     * @throws LockTimeoutException         if a pessimistic lock
+     *                                      could not be obtained and only the statement
+     *                                      is rolled back
+     * @throws PersistenceException         if a given
+     *                                      {@linkplain LockModeType lock mode type} is not
+     *                                      supported for the given entity class or if a
+     *                                      record could not be read from the database
      * @since 4.0
      */
-    <T> List<T> findMultiple(Class<T> entityClass, List<?> ids,
-                             FindOption... options);
+    @Nonnull
+    <T> List<T> findMultiple(@Nonnull Class<T> entityClass,
+                             @Nonnull List<?> ids,
+                             @Nullable FindOption... options);
 
     /**
      * Retrieve entity instances representing the records with
@@ -556,43 +570,43 @@ public interface EntityHandler extends AutoCloseable {
      * mechanisms used by the provider, this option may or
      * may not be observed.
      *
-     * @param graph The {@linkplain EntityGraph load graph}
-     * @param ids The identifiers of the entities to retrieve
+     * @param graph   The {@linkplain EntityGraph load graph}
+     * @param ids     The identifiers of the entities to retrieve
      * @param options Standard and vendor-specific options
-     * @param <T> The entity type
+     * @param <T>     The entity type
      * @return an ordered list of entity instances with the
-     *         given identifiers, with {@code null} in
-     *         positions where there is no matching record
-     *         in the database
-     *
-     * @throws IllegalArgumentException if the root entity
-     *         of the given graph is not an entity class
-     *         belonging to the persistence unit, if one of
-     *         the given identifiers is not a non-null
-     *         instance of the identifier type of the given
-     *         entity class, or if the given options are
-     *         contradictory
+     * given identifiers, with {@code null} in
+     * positions where there is no matching record
+     * in the database
+     * @throws IllegalArgumentException     if the root entity
+     *                                      of the given graph is not an entity class
+     *                                      belonging to the persistence unit, if one of
+     *                                      the given identifiers is not a non-null
+     *                                      instance of the identifier type of the given
+     *                                      entity class, or if the given options are
+     *                                      contradictory
      * @throws TransactionRequiredException if any lock mode
-     *         other than {@link LockModeType#NONE NONE} is
-     *         specified and there is no transaction
-     *         associated with this handler
-     * @throws OptimisticLockException if an optimistic version
-     *         check fails
-     * @throws PessimisticLockException if a pessimistic lock
-     *         could not be obtained and the transaction is
-     *         rolled back
-     * @throws LockTimeoutException if a pessimistic lock
-     *         could not be obtained and only the statement
-     *         is rolled back
-     * @throws PersistenceException if a given
-     *         {@linkplain LockModeType lock mode type} is not
-     *         supported for the root entity of the given graph
-     *         or if a record could not be read from the database
-     *
+     *                                      other than {@link LockModeType#NONE NONE} is
+     *                                      specified and there is no transaction
+     *                                      associated with this handler
+     * @throws OptimisticLockException      if an optimistic version
+     *                                      check fails
+     * @throws PessimisticLockException     if a pessimistic lock
+     *                                      could not be obtained and the transaction is
+     *                                      rolled back
+     * @throws LockTimeoutException         if a pessimistic lock
+     *                                      could not be obtained and only the statement
+     *                                      is rolled back
+     * @throws PersistenceException         if a given
+     *                                      {@linkplain LockModeType lock mode type} is not
+     *                                      supported for the root entity of the given graph
+     *                                      or if a record could not be read from the database
      * @since 4.0
      */
-    <T> List<T> findMultiple(EntityGraph<T> graph, List<?> ids,
-                             FindOption... options);
+    @Nonnull
+    <T> List<T> findMultiple(@Nonnull EntityGraph<T> graph,
+                             @Nonnull List<?> ids,
+                             @Nullable FindOption... options);
 
     /**
      * Set the default {@linkplain CacheRetrieveMode cache retrieval
@@ -600,7 +614,7 @@ public interface EntityHandler extends AutoCloseable {
      * @param cacheRetrieveMode The new default cache retrieval mode
      * @since 3.2
      */
-    void setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode);
+    void setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode);
 
     /**
      * Set the default {@linkplain CacheStoreMode cache storage mode}
@@ -608,18 +622,22 @@ public interface EntityHandler extends AutoCloseable {
      * @param cacheStoreMode The new default cache storage mode
      * @since 3.2
      */
-    void setCacheStoreMode(CacheStoreMode cacheStoreMode);
+    void setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode);
 
     /**
      * The cache retrieval mode for this {@code EntityHandler}.
+     *
      * @since 3.2
      */
+    @Nonnull
     CacheRetrieveMode getCacheRetrieveMode();
 
     /**
      * The cache storage mode for this {@code EntityHandler}.
+     *
      * @since 3.2
      */
+    @Nonnull
     CacheStoreMode getCacheStoreMode();
 
     /**
@@ -637,30 +655,34 @@ public interface EntityHandler extends AutoCloseable {
      *          or {@linkplain EntityAgent.Option agent options}.
      * @since 2.0
      */
-    void setProperty(String propertyName, Object value);
+    void setProperty(@Nonnull String propertyName, @Nullable Object value);
 
     /**
      * The properties and hints and their associated values which
      * are in effect for this {@code EntityHandler}. Modifying the
      * contents of the returned map does not change the configuration
      * in effect.
+     *
      * @return a map of properties and hints currently in effect
      * @since 2.0
      */
+    @Nonnull
     Map<String, Object> getProperties();
 
     /**
      * Create an instance of {@link Statement} for executing a
      * Jakarta Persistence {@code UPDATE} or {@code DELETE}
      * statement.
+     *
      * @param qlString A Jakarta Persistence statement string
      * @return An instance of {@link Statement} which may be
-     *         used to execute the given statement
+     * used to execute the given statement
      * @throws IllegalArgumentException if the query string is
-     *         found to be invalid
+     *                                  found to be invalid
      * @since 4.0
      */
-    Statement createStatement(String qlString);
+    @Nonnull
+    Statement createStatement(@Nonnull String qlString);
 
     /**
      * Create an instance of {@link StatementOrTypedQuery}
@@ -678,13 +700,14 @@ public interface EntityHandler extends AutoCloseable {
      *     elements corresponding by position with the items
      *     of the select list.
      * </ul>
+     *
      * @param qlString A Jakarta Persistence query string
      * @return An instance of {@link StatementOrTypedQuery}
-     *         which may be used to obtain a {@link TypedQuery}
-     *         or {@link Statement} or to directly execute the
-     *         given query or statement
+     * which may be used to obtain a {@link TypedQuery}
+     * or {@link Statement} or to directly execute the
+     * given query or statement
      * @throws IllegalArgumentException if the query string is
-     *         found to be invalid
+     *                                  found to be invalid
      * @apiNote For backward compatibility, the returned object
      * may be used to directly execute any kind of statement or
      * query via its deprecated methods. Newly written code
@@ -702,34 +725,39 @@ public interface EntityHandler extends AutoCloseable {
      *     respectively, from the object returned by this method.
      * </ul>
      */
-    StatementOrTypedQuery createQuery(String qlString);
+    @Nonnull
+    StatementOrTypedQuery createQuery(@Nonnull String qlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
      * {@linkplain CriteriaSelect criteria select}, which may be
      * top-level query or a union or intersection of top-level
      * queries.
+     *
      * @param selectQuery A criteria select query object
-     * @param <T> The query result type
+     * @param <T>         The query result type
      * @return An instance of {@link TypedQuery} which may be used
-     *         to execute the given query
+     * to execute the given query
      * @throws IllegalArgumentException if the criteria query is
-     *         found to be invalid
+     *                                  found to be invalid
      * @since 3.2
      */
-    <T> TypedQuery<T> createQuery(CriteriaSelect<T> selectQuery);
+    @Nonnull
+    <T> TypedQuery<T> createQuery(@Nonnull CriteriaSelect<T> selectQuery);
 
     /**
      * Create an instance of {@link Statement} for executing a
      * {@linkplain CriteriaStatement criteria statement}.
+     *
      * @param statement A criteria statement object
      * @return An instance of {@link Statement} which may be
-     *         used to execute the given statement
+     * used to execute the given statement
      * @throws IllegalArgumentException if the statement is
-     *         found to be invalid
+     *                                  found to be invalid
      * @since 4.0
      */
-    Statement createStatement(CriteriaStatement<?> statement);
+    @Nonnull
+    Statement createStatement(@Nonnull CriteriaStatement<?> statement);
 
     /**
      * Create an instance of {@link TypedQuery} for executing
@@ -757,19 +785,22 @@ public interface EntityHandler extends AutoCloseable {
      * the select list. In the third case, each query result is
      * automatically packaged in a new instance of the result
      * class by calling the matching constructor.
-     * @param qlString A Jakarta Persistence query string
+     *
+     * @param qlString    A Jakarta Persistence query string
      * @param resultClass The result class
-     * @param <T> The query result type
+     * @param <T>         The query result type
      * @return An instance of {@link TypedQuery} which may be used
-     *         to execute the given query
+     * to execute the given query
      * @throws IllegalArgumentException if the query string is
-     *         found to be invalid, or if the query result is
-     *         found to not be assignable to the specified type
-     *         and the specified type does not have a suitable
-     *         constructor
+     *                                  found to be invalid, or if the query result is
+     *                                  found to not be assignable to the specified type
+     *                                  and the specified type does not have a suitable
+     *                                  constructor
      * @since 2.0
      */
-    <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass);
+    @Nonnull
+    <T> TypedQuery<T> createQuery(@Nonnull String qlString,
+                                  @Nonnull Class<T> resultClass);
 
     /**
      * Create an instance of {@link TypedQuery} for executing
@@ -778,18 +809,21 @@ public interface EntityHandler extends AutoCloseable {
      * interpreted as a load graph. The select list of the
      * query must contain only a single item, which must be
      * assignable to the root type of the given entity graph.
-     * @param qlString A Jakarta Persistence query string
+     *
+     * @param qlString    A Jakarta Persistence query string
      * @param resultGraph The {@linkplain EntityGraph load graph}
-     * @param <T> The query result type
+     * @param <T>         The query result type
      * @return An instance of {@link TypedQuery} which may be used
-     *         to execute the given query
+     * to execute the given query
      * @throws IllegalArgumentException if the query string is
-     *         found to be invalid, or if the query result is
-     *         found to not be assignable to the root type of
-     *         the entity graph
+     *                                  found to be invalid, or if the query result is
+     *                                  found to not be assignable to the root type of
+     *                                  the entity graph
      * @since 4.0
      */
-    <T> TypedQuery<T> createQuery(String qlString, EntityGraph<T> resultGraph);
+    @Nonnull
+    <T> TypedQuery<T> createQuery(@Nonnull String qlString,
+                                  @Nonnull EntityGraph<T> resultGraph);
 
     /**
      * Create an instance of {@link Statement} for executing a
@@ -828,6 +862,15 @@ public interface EntityHandler extends AutoCloseable {
      *     result set mapping} specified by the
      *     {@link NamedNativeQuery} annotation.
      * </ul>
+     *
+     * @param name The name of a query defined in metadata
+     * @return An instance of {@link StatementOrTypedQuery} which
+     * may be used to obtain a {@link TypedQuery} or
+     * {@link Statement} or to directly execute the
+     * given query or statement
+     * @throws IllegalArgumentException if a query has not been
+     *                                  defined with the given name, or if the query string
+     *                                  is found to be invalid
      * @apiNote For backward compatibility, the returned object
      * may be used to directly execute any kind of statement or
      * query via its deprecated methods. Newly written code
@@ -843,19 +886,12 @@ public interface EntityHandler extends AutoCloseable {
      *     to obtain a {@link Statement} or {@link TypedQuery},
      *     respectively, from the object returned by this method.
      * </ul>
-     * @param name The name of a query defined in metadata
-     * @return An instance of {@link StatementOrTypedQuery} which
-     *         may be used to obtain a {@link TypedQuery} or
-     *         {@link Statement} or to directly execute the
-     *         given query or statement
-     * @throws IllegalArgumentException if a query has not been
-     *         defined with the given name, or if the query string
-     *         is found to be invalid
      * @see NamedQuery
      * @see NamedNativeQuery
      * @since 1.0
      */
-    StatementOrTypedQuery createNamedQuery(String name);
+    @Nonnull
+    StatementOrTypedQuery createNamedQuery(@Nonnull String name);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -872,33 +908,38 @@ public interface EntityHandler extends AutoCloseable {
      * <p>The given result class overrides any result class specified
      * by the {@link NamedQuery} annotation or {@link NamedNativeQuery}
      * annotation which declares the named query.
-     * @param name The name of a query defined in metadata
+     *
+     * @param name        The name of a query defined in metadata
      * @param resultClass The type of the query result
-     * @param <T> The query result type
+     * @param <T>         The query result type
      * @return An instance of {@link TypedQuery} which may be used
-     *         to execute the given query
+     * to execute the given query
      * @throws IllegalArgumentException if a query has not been
-     *         defined with the given name, if the query string is
-     *         found to be invalid, or if the query result is found to
-     *         not be assignable to the specified type
+     *                                  defined with the given name, if the query string is
+     *                                  found to be invalid, or if the query result is found to
+     *                                  not be assignable to the specified type
      * @since 2.0
      */
-    <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass);
+    @Nonnull
+    <T> TypedQuery<T> createNamedQuery(@Nonnull String name,
+                                       @Nonnull Class<T> resultClass);
 
     /**
      * Create an instance of {@link Statement} for executing a named
      * statement written in the Jakarta Persistence query language or
      * in native SQL.
+     *
      * @param reference a reference to the query defined in metadata
      * @return the new query instance
      * @throws IllegalArgumentException if a named query has not been
-     *         defined, or if the query string is found to be invalid
+     *                                  defined, or if the query string is found to be invalid
      * @see EntityManagerFactory#getNamedStatements()
      * @see NamedQuery
      * @see NamedNativeQuery
      * @since 4.0
      */
-    Statement createStatement(StatementReference reference);
+    @Nonnull
+    Statement createStatement(@Nonnull StatementReference reference);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
@@ -918,32 +959,36 @@ public interface EntityHandler extends AutoCloseable {
      *     result set mapping} specified by the
      *     {@link NamedNativeQuery} annotation.
      * </ul>
+     *
      * @param reference A reference to the query defined in metadata
-     * @param <T> The query result type
+     * @param <T>       The query result type
      * @return An instance of {@link TypedQuery} which may be used
-     *         to execute the given query
+     * to execute the given query
      * @throws IllegalArgumentException if a query has not been
-     *         defined, if the query string is found to be
-     *         invalid, or if the query result is found to not be
-     *         assignable to the specified type
+     *                                  defined, if the query string is found to be
+     *                                  invalid, or if the query result is found to not be
+     *                                  assignable to the specified type
      * @see EntityManagerFactory#getNamedQueries(Class)
      * @see NamedQuery
      * @see NamedNativeQuery
      * @since 3.2
      */
-    <T> TypedQuery<T> createQuery(TypedQueryReference<T> reference);
+    @Nonnull
+    <T> TypedQuery<T> createQuery(@Nonnull TypedQueryReference<T> reference);
 
     /**
      * Create an instance of {@link Statement} for executing a
      * native SQL statement which returns a row count, usually
      * an {@code INSERT}, {@code UPDATE}, {@code MERGE}, or
      * {@code DELETE} statement.
+     *
      * @param sqlString A native SQL statement string
      * @return An instance of {@link Statement} which may be
-     *         used to execute the given statement
+     * used to execute the given statement
      * @since 4.0
      */
-    Statement createNativeStatement(String sqlString);
+    @Nonnull
+    Statement createNativeStatement(@Nonnull String sqlString);
 
     /**
      * Create an instance of {@link StatementOrTypedQuery} for
@@ -962,6 +1007,12 @@ public interface EntityHandler extends AutoCloseable {
      * </ul>
      * <p>Column values are obtained according to the default
      * type mappings defined by the JDBC specification.
+     *
+     * @param sqlString A native SQL query string
+     * @return An instance of {@link StatementOrTypedQuery} which
+     * may be used to obtain a {@link TypedQuery} or
+     * {@link Statement} or to directly execute the
+     * given query or statement
      * @apiNote For backward compatibility, the returned object
      * may be used to directly execute any kind of statement or
      * query via its deprecated methods. Newly written code
@@ -977,14 +1028,10 @@ public interface EntityHandler extends AutoCloseable {
      *     to obtain a {@link Statement} or {@link TypedQuery},
      *     respectively, from the object returned by this method.
      * </ul>
-     * @param sqlString A native SQL query string
-     * @return An instance of {@link StatementOrTypedQuery} which
-     *         may be used to obtain a {@link TypedQuery} or
-     *         {@link Statement} or to directly execute the
-     *         given query or statement
      * @since 1.0
      */
-    StatementOrTypedQuery createNativeQuery(String sqlString);
+    @Nonnull
+    StatementOrTypedQuery createNativeQuery(@Nonnull String sqlString);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a native
@@ -1010,14 +1057,17 @@ public interface EntityHandler extends AutoCloseable {
      *     according to the default type mappings defined by the JDBC
      *     specification.
      * </ul>
-     * @param sqlString A native SQL query string
+     *
+     * @param sqlString   A native SQL query string
      * @param resultClass The type of the query result
-     * @param <T> The query result type
+     * @param <T>         The query result type
      * @return An instance of {@link TypedQuery} which may be used
-     *         to execute the given query
+     * to execute the given query
      * @since 1.0
      */
-    <T> TypedQuery<T> createNativeQuery(String sqlString, Class<T> resultClass);
+    @Nonnull
+    <T> TypedQuery<T> createNativeQuery(@Nonnull String sqlString,
+                                        @Nonnull Class<T> resultClass);
 
     /**
      * Create an instance of {@link StatementOrTypedQuery} for
@@ -1025,13 +1075,12 @@ public interface EntityHandler extends AutoCloseable {
      * {@linkplain SqlResultSetMapping result set mapping} with the
      * given {@linkplain SqlResultSetMapping#name name} to interpret
      * the JDBC result set.
-     * @param sqlString A native SQL query string
+     *
+     * @param sqlString        A native SQL query string
      * @param resultSetMapping The name of the result set mapping
      * @return An instance of {@link StatementOrTypedQuery} which
-     *         may be used to obtain a {@link TypedQuery} or to
-     *         directly execute the given query
-     * @see SqlResultSetMapping
-     * @since 1.0
+     * may be used to obtain a {@link TypedQuery} or to
+     * directly execute the given query
      * @apiNote For backward compatibility, the returned object
      * may be used to directly execute a query via its deprecated
      * methods. Newly written code should call:
@@ -1045,22 +1094,28 @@ public interface EntityHandler extends AutoCloseable {
      * </ul>
      * <p>A typed reference to the result set mapping may be
      * obtained from the static metamodel.
+     * @see SqlResultSetMapping
+     * @since 1.0
      */
-    StatementOrTypedQuery createNativeQuery(String sqlString, String resultSetMapping);
+    @Nonnull
+    StatementOrTypedQuery createNativeQuery(@Nonnull String sqlString,
+                                            @Nonnull String resultSetMapping);
 
     /**
      * Create an instance of {@link TypedQuery} for executing a native
      * SQL query, using the given {@link ResultSetMapping} to interpret
      * the JDBC result set.
-     * @param sqlString A native SQL query string
+     *
+     * @param sqlString        A native SQL query string
      * @param resultSetMapping The result set mapping
-     * @param <T> The query result type
+     * @param <T>              The query result type
      * @return An instance of {@link TypedQuery} which may be used
-     *         to execute the given query
+     * to execute the given query
      * @since 4.0
      */
-    <T> TypedQuery<T> createNativeQuery(String sqlString,
-                                        ResultSetMapping<T> resultSetMapping);
+    @Nonnull
+    <T> TypedQuery<T> createNativeQuery(@Nonnull String sqlString,
+                                        @Nonnull ResultSetMapping<T> resultSetMapping);
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
@@ -1069,15 +1124,17 @@ public interface EntityHandler extends AutoCloseable {
      * be executed.
      * <p>If the stored procedure returns one or more result sets, any
      * result set is returned as a list of type {@code Object[]}.
+     *
      * @param name The name assigned to the stored procedure query in
      *             metadata
      * @return An instance of {@link StoredProcedureQuery} which may be
-     *         used to execute the stored procedure
+     * used to execute the stored procedure
      * @throws IllegalArgumentException if no query has been defined
-     *         with the given name
+     *                                  with the given name
      * @since 2.1
      */
-    StoredProcedureQuery createNamedStoredProcedureQuery(String name);
+    @Nonnull
+    StoredProcedureQuery createNamedStoredProcedureQuery(@Nonnull String name);
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing a
@@ -1086,16 +1143,18 @@ public interface EntityHandler extends AutoCloseable {
      * be executed.
      * <p>If the stored procedure returns one or more result sets, any
      * result set is returned as a list of type {@code Object[]}.
+     *
      * @param procedureName The name of the stored procedure in the
      *                      database
      * @return An instance of {@link StoredProcedureQuery} which may be
-     *         used to execute the stored procedure
+     * used to execute the stored procedure
      * @throws IllegalArgumentException if a stored procedure of the
-     *         given name does not exist (or if query execution will
-     *         fail)
+     *                                  given name does not exist (or if query execution will
+     *                                  fail)
      * @since 2.1
      */
-    StoredProcedureQuery createStoredProcedureQuery(String procedureName);
+    @Nonnull
+    StoredProcedureQuery createStoredProcedureQuery(@Nonnull String procedureName);
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
@@ -1120,16 +1179,16 @@ public interface EntityHandler extends AutoCloseable {
      *     {@linkplain ConstructorResult constructor result} including
      *     all the columns of the result set.
      * </ul>
+     *
      * @param procedureName The name of the stored procedure in the
      *                      database
      * @param resultClasses The classes to which the result sets
      *                      produced by the stored procedure are mapped
      * @return An instance of {@link StoredProcedureQuery} which may be
-     *         used to execute the stored procedure
+     * used to execute the stored procedure
      * @throws IllegalArgumentException if a stored procedure of the
-     *         given name does not exist (or if query execution will
-     *         fail)
-     * @since 2.1
+     *                                  given name does not exist (or if query execution will
+     *                                  fail)
      * @apiNote Use of this overloaded form of the method results
      * in a redundant type cast of each query result in client code.
      * Instead, use {@link #createStoredProcedureQuery(String)} and
@@ -1137,9 +1196,12 @@ public interface EntityHandler extends AutoCloseable {
      * {@link StoredProcedureQuery#getResultList(Class)},
      * {@link StoredProcedureQuery#getSingleResult(Class)}, or
      * {@link StoredProcedureQuery#getSingleResultOrNull(Class)}.
+     * @since 2.1
      */
+    @Nonnull
     StoredProcedureQuery createStoredProcedureQuery(
-            String procedureName, Class<?>... resultClasses);
+            @Nonnull String procedureName,
+            @Nonnull Class<?>... resultClasses);
 
     /**
      * Create an instance of {@link StoredProcedureQuery} for executing
@@ -1152,18 +1214,17 @@ public interface EntityHandler extends AutoCloseable {
      * <p>The given result set mappings must be specified in the order
      * in which the corresponding result sets are returned by the stored
      * procedure invocation.
-     * @param procedureName The name of the stored procedure in the
-     *                      database
+     *
+     * @param procedureName     The name of the stored procedure in the
+     *                          database
      * @param resultSetMappings The names of the result set mappings
      *                          to be used to map result sets returned
      *                          by the stored procedure
      * @return An instance of {@link StoredProcedureQuery} which may be
-     *         used to execute the stored procedure
+     * used to execute the stored procedure
      * @throws IllegalArgumentException if a stored procedure or
-     *         result set mapping of the given name does not exist
-     *         (or the query execution will fail)
-     * @see SqlResultSetMapping
-     * @since 2.1
+     *                                  result set mapping of the given name does not exist
+     *                                  (or the query execution will fail)
      * @apiNote Use of this overloaded form of the method results
      * in a type cast of each query result in client code. As an
      * alternative, use {@link #createStoredProcedureQuery(String)}
@@ -1171,9 +1232,13 @@ public interface EntityHandler extends AutoCloseable {
      * {@link StoredProcedureQuery#getResultList(ResultSetMapping)},
      * {@link StoredProcedureQuery#getSingleResult(ResultSetMapping)}, or
      * {@link StoredProcedureQuery#getSingleResultOrNull(ResultSetMapping)}.
+     * @see SqlResultSetMapping
+     * @since 2.1
      */
+    @Nonnull
     StoredProcedureQuery createStoredProcedureQuery(
-            String procedureName, String... resultSetMappings);
+            @Nonnull String procedureName,
+            @Nonnull String... resultSetMappings);
 
     /**
      * Return an object of the specified type to allow access to
@@ -1190,7 +1255,8 @@ public interface EntityHandler extends AutoCloseable {
      *         support the given type
      * @since 2.0
      */
-    <T> T unwrap(Class<T> type);
+    @Nonnull
+    <T> T unwrap(@Nonnull Class<T> type);
 
     /**
      * Close an application-managed {@code EntityHandler}.
@@ -1220,93 +1286,110 @@ public interface EntityHandler extends AutoCloseable {
      * Return the resource-level {@link EntityTransaction} object.
      * The {@code EntityTransaction} instance may be used serially
      * to begin and commit multiple transactions.
+     *
      * @return An instance of {@link EntityTransaction}
      * @throws IllegalStateException if invoked on a
-     *         {@linkplain PersistenceUnitTransactionType#JTA JTA}
-     *         entity manager or entity agent
+     *                               {@linkplain PersistenceUnitTransactionType#JTA JTA}
+     *                               entity manager or entity agent
      * @since 1.0
      */
+    @Nonnull
     EntityTransaction getTransaction();
 
     /**
      * The {@linkplain EntityManagerFactory entity manager factory}
      * which created this {@code EntityHandler}.
+     *
      * @return The {@link EntityManagerFactory}
      * @throws IllegalStateException if the {@code EntityHandler}
-     *         has been closed
+     *                               has been closed
      * @since 2.0
      */
+    @Nonnull
     EntityManagerFactory getEntityManagerFactory();
 
     /**
      * Obtain an instance of {@link CriteriaBuilder} which may be
      * used to construct {@link CriteriaQuery} objects.
+     *
      * @return an instance of {@link CriteriaBuilder}
      * @throws IllegalStateException if the {@code EntityHandler}
-     *         has been closed
+     *                               has been closed
      * @see EntityManagerFactory#getCriteriaBuilder()
      * @since 2.0
      */
+    @Nonnull
     CriteriaBuilder getCriteriaBuilder();
 
     /**
      * Obtain an instance of the {@link Metamodel} interface which
      * provides access to metamodel objects describing the managed
      * types belonging to the persistence unit.
+     *
      * @return An instance of {@link Metamodel}
      * @throws IllegalStateException if the {@code EntityHandler}
-     *         has been closed
+     *                               has been closed
      * @since 2.0
      */
+    @Nonnull
     Metamodel getMetamodel();
 
     /**
      * Create a new mutable {@link EntityGraph}, allowing programmatic
      * definition of the graph.
+     *
      * @param rootType the root entity type of the new graph
-     * @param <T> The root entity type
+     * @param <T>      The root entity type
      * @return a trivial entity graph with only a root node
      * @see jakarta.persistence.metamodel.EntityType#createEntityGraph()
      * @since 2.1
      */
-    <T> EntityGraph<T> createEntityGraph(Class<T> rootType);
+    @Nonnull
+    <T> EntityGraph<T> createEntityGraph(@Nonnull Class<T> rootType);
 
     /**
      * Obtain a mutable copy of the named {@link EntityGraph}.
+     *
      * @param graphName the name of an existing entity graph
      * @return the entity graph with the given name
      * @throws IllegalArgumentException if there is no entity
-     *         graph with the given name
+     *                                  graph with the given name
      * @since 2.1
      */
-    EntityGraph<?> getEntityGraph(String graphName);
+    @Nonnull
+    EntityGraph<?> getEntityGraph(@Nonnull String graphName);
 
     /**
      * Obtain a mutable copy of the named {@link EntityGraph}
      * whose root type is exactly the given entity type.
-     * @param rootType the root entity type of the graph
+     *
+     * @param rootType  the root entity type of the graph
      * @param graphName the name of an existing entity graph
-     * @param <T> The root entity type
+     * @param <T>       The root entity type
      * @return the entity graph with the given name
      * @throws IllegalArgumentException if there is no entity
-     *         graph with the given name, or if the entity
-     *         graph with the given name does not have exactly
-     *         the given root entity type
+     *                                  graph with the given name, or if the entity
+     *                                  graph with the given name does not have exactly
+     *                                  the given root entity type
      * @since 4.0
      */
-    <T> EntityGraph<T> getEntityGraph(Class<T> rootType, String graphName);
+    @Nonnull
+    <T> EntityGraph<T> getEntityGraph(@Nonnull Class<T> rootType,
+                                      @Nonnull String graphName);
 
     /**
      * Return all named {@link EntityGraph}s that are defined for
      * the given entity class type.
+     *
      * @param entityClass An entity class
-     * @param <T> The entity type
+     * @param <T>         The entity type
      * @return A list of all entity graphs whose root entity type
-     *         is a supertype of the given entity class
+     * is a supertype of the given entity class
      * @throws IllegalArgumentException if the class is not an entity
      * @since 2.1
      */
-    <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass);
+    @Nonnull
+    <T> List<EntityGraph<? super T>> getEntityGraphs(@Nonnull Class<T> entityClass);
 
     /**
      * Execute the given action using the database connection underlying this
@@ -1331,7 +1414,7 @@ public interface EntityHandler extends AutoCloseable {
      *         {@link ConnectionConsumer#accept}, if any
      * @since 3.2
      */
-    <C> void runWithConnection(ConnectionConsumer<C> action);
+    <C> void runWithConnection(@Nonnull ConnectionConsumer<C> action);
 
     /**
      * Call the given function and return its result using the database connection
@@ -1362,6 +1445,6 @@ public interface EntityHandler extends AutoCloseable {
      *         {@link ConnectionFunction#apply}, if any
      * @since 3.2
      */
-    <C,T> T callWithConnection(ConnectionFunction<C, T> function);
+    <C,T> T callWithConnection(@Nonnull ConnectionFunction<C, T> function);
 
 }

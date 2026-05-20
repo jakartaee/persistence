@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * An executable action which makes use of a native database connection.
  * The connection is usually a JDBC connection.
@@ -37,5 +39,5 @@ public interface ConnectionConsumer<C> {
 	 * @throws Exception if a problem occurs calling the connection,
 	 *                   usually a {@code java.sql.SQLException}
 	 */
-	void accept(C connection) throws Exception;
+	void accept(@Nonnull C connection) throws Exception;
 }

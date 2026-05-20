@@ -16,6 +16,7 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.Attribute;
 import jakarta.persistence.metamodel.ManagedType;
 import jakarta.persistence.metamodel.MapAttribute;
@@ -55,6 +56,7 @@ public interface Graph<T> {
      *
      * @since 4.0
      */
+    @Nonnull
     ManagedType<T> getGraphedType();
 
     /**
@@ -82,7 +84,8 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    <Y> AttributeNode<Y> addAttributeNode(String attributeName);
+    @Nonnull
+    <Y> AttributeNode<Y> addAttributeNode(@Nonnull String attributeName);
 
     /**
      * Get an existing attribute node for the given attribute, or add
@@ -102,7 +105,8 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    <Y> AttributeNode<Y> addAttributeNode(Attribute<? super T, Y> attribute);
+    @Nonnull
+    <Y> AttributeNode<Y> addAttributeNode(@Nonnull Attribute<? super T, Y> attribute);
 
     /**
      * Determine if there is an existing attribute node for the attribute
@@ -122,7 +126,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    boolean hasAttributeNode(String attributeName);
+    boolean hasAttributeNode(@Nonnull String attributeName);
 
     /**
      * Determine if there is an existing attribute node for the given
@@ -133,7 +137,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    boolean hasAttributeNode(Attribute<? super T, ?> attribute);
+    boolean hasAttributeNode(@Nonnull Attribute<? super T, ?> attribute);
 
     /**
      * Get an existing attribute node for the attribute with the given
@@ -156,7 +160,8 @@ public interface Graph<T> {
      * @param <Y> the type of the attribute
      * @since 3.2
      */
-    <Y> AttributeNode<Y> getAttributeNode(String attributeName);
+    @Nonnull
+    <Y> AttributeNode<Y> getAttributeNode(@Nonnull String attributeName);
 
     /**
      * Get an existing attribute node for the given attribute.
@@ -169,7 +174,8 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    <Y> AttributeNode<Y> getAttributeNode(Attribute<? super T, Y> attribute);
+    @Nonnull
+    <Y> AttributeNode<Y> getAttributeNode(@Nonnull Attribute<? super T, Y> attribute);
 
     /**
      * Remove an attribute node from the entity graph.
@@ -198,7 +204,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    void removeAttributeNode(String attributeName);
+    void removeAttributeNode(@Nonnull String attributeName);
 
     /**
      * Remove an attribute node from the entity graph.
@@ -219,7 +225,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    void removeAttributeNode(Attribute<? super T, ?> attribute);
+    void removeAttributeNode(@Nonnull Attribute<? super T, ?> attribute);
 
     /**
      * Remove all attribute nodes of the given attribute type.
@@ -238,7 +244,7 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    void removeAttributeNodes(Attribute.PersistentAttributeType nodeType);
+    void removeAttributeNodes(@Nonnull Attribute.PersistentAttributeType nodeType);
 
     /**
      * Add one or more attribute nodes to the entity graph.
@@ -263,7 +269,7 @@ public interface Graph<T> {
      *          metamodel element to {@link #addAttributeNodes(Attribute...)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    void addAttributeNodes(String... attributeName);
+    void addAttributeNodes(@Nonnull String... attributeName);
 
     /**
      * Add one or more attribute nodes to the entity graph.
@@ -281,7 +287,7 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
      */
-    void addAttributeNodes(Attribute<? super T, ?>... attribute);
+    void addAttributeNodes(@Nonnull Attribute<? super T, ?>... attribute);
 
     /**
      * Add a node to the graph that corresponds to a managed type.
@@ -296,7 +302,8 @@ public interface Graph<T> {
      * @throws IllegalStateException if the EntityGraph has been 
      *         statically defined
      */
-    <X> Subgraph<X> addSubgraph(Attribute<? super T, X> attribute);
+    @Nonnull
+    <X> Subgraph<X> addSubgraph(@Nonnull Attribute<? super T, X> attribute);
 
     /**
      * Add a node to the graph that corresponds to a managed
@@ -316,7 +323,9 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    <Y> Subgraph<Y> addTreatedSubgraph(Attribute<? super T, ? super Y> attribute, Class<Y> type);
+    @Nonnull
+    <Y> Subgraph<Y> addTreatedSubgraph(@Nonnull Attribute<? super T, ? super Y> attribute,
+                                       @Nonnull Class<Y> type);
 
     /**
      * Add a node to the graph that corresponds to a managed type.
@@ -339,7 +348,8 @@ public interface Graph<T> {
      *          metamodel element to {@link #addSubgraph(Attribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <X> Subgraph<X> addSubgraph(String attributeName);
+    @Nonnull
+    <X> Subgraph<X> addSubgraph(@Nonnull String attributeName);
 
     /**
      * Add a node to the graph that corresponds to a managed
@@ -365,7 +375,9 @@ public interface Graph<T> {
      *          metamodel element to {@link #addSubgraph(Attribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <X> Subgraph<X> addSubgraph(String attributeName, Class<X> type);
+    @Nonnull
+    <X> Subgraph<X> addSubgraph(@Nonnull String attributeName,
+                                @Nonnull Class<X> type);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -382,7 +394,8 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    <E> Subgraph<E> addElementSubgraph(PluralAttribute<? super T, ?, E> attribute);
+    @Nonnull
+    <E> Subgraph<E> addElementSubgraph(@Nonnull PluralAttribute<? super T, ?, E> attribute);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -400,7 +413,9 @@ public interface Graph<T> {
      *
      * @since 3.2
      */
-    <E> Subgraph<E> addTreatedElementSubgraph(PluralAttribute<? super T, ?, ? super E> attribute, Class<E> type);
+    @Nonnull
+    <E> Subgraph<E> addTreatedElementSubgraph(@Nonnull PluralAttribute<? super T, ?, ? super E> attribute,
+                                              @Nonnull Class<E> type);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -423,7 +438,8 @@ public interface Graph<T> {
      *          metamodel element to {@link #addElementSubgraph(PluralAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <X> Subgraph<X> addElementSubgraph(String attributeName);
+    @Nonnull
+    <X> Subgraph<X> addElementSubgraph(@Nonnull String attributeName);
 
     /**
      * Add a node to the graph that corresponds to a collection element
@@ -447,7 +463,9 @@ public interface Graph<T> {
      *          metamodel element to {@link #addElementSubgraph(PluralAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <X> Subgraph<X> addElementSubgraph(String attributeName, Class<X> type);
+    @Nonnull
+    <X> Subgraph<X> addElementSubgraph(@Nonnull String attributeName,
+                                       @Nonnull Class<X> type);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -462,7 +480,8 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
      */
-    <K> Subgraph<K> addMapKeySubgraph(MapAttribute<? super T, K, ?> attribute);
+    @Nonnull
+    <K> Subgraph<K> addMapKeySubgraph(@Nonnull MapAttribute<? super T, K, ?> attribute);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -480,7 +499,9 @@ public interface Graph<T> {
      * @throws IllegalStateException if this EntityGraph has been
      *         statically defined
      */
-    <K> Subgraph<K> addTreatedMapKeySubgraph(MapAttribute<? super T, ? super K, ?> attribute, Class<K> type);
+    @Nonnull
+    <K> Subgraph<K> addTreatedMapKeySubgraph(@Nonnull MapAttribute<? super T, ? super K, ?> attribute,
+                                             @Nonnull Class<K> type);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -503,7 +524,8 @@ public interface Graph<T> {
      *          metamodel element to {@link #addMapKeySubgraph(MapAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <X> Subgraph<X> addKeySubgraph(String attributeName);
+    @Nonnull
+    <X> Subgraph<X> addKeySubgraph(@Nonnull String attributeName);
 
     /**
      * Add a node to the graph that corresponds to a map key
@@ -529,7 +551,9 @@ public interface Graph<T> {
      *          metamodel element to {@link #addMapKeySubgraph(MapAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <X> Subgraph<X> addKeySubgraph(String attributeName, Class<X> type);
+    @Nonnull
+    <X> Subgraph<X> addKeySubgraph(@Nonnull String attributeName,
+                                   @Nonnull Class<X> type);
 
     /**
      * Return the attribute nodes corresponding to the attributes of
@@ -545,6 +569,7 @@ public interface Graph<T> {
      * @return list of attribute nodes added to or removed from the
      *         graph, or an empty list if no nodes have been defined
      */
+    @Nonnull
     List<AttributeNode<?>> getAttributeNodes();
 
 }
