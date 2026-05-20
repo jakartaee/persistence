@@ -26,5 +26,4 @@ package jakarta.persistence.metamodel;
  * @since 4.0
  */
 public interface ComparableAttribute<X, C extends Comparable<? super C>>
-		extends SingularAttribute<X, C> {
-}
+		extends SingularAttribute<X, C> {}

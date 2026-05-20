@@ -25,5 +25,4 @@ package jakarta.persistence.metamodel;
  * @since 4.0
  */
 public interface BooleanAttribute<X>
-		extends ComparableAttribute<X, Boolean> {
-}
+		extends ComparableAttribute<X, Boolean> {}

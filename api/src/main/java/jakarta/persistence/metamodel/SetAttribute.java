@@ -26,4 +26,4 @@ package jakarta.persistence.metamodel;
  * @since 2.0
  */
 public interface SetAttribute<X, E> 
-	extends PluralAttribute<X, java.util.Set<E>, E> {} 
+		extends PluralAttribute<X, java.util.Set<E>, E> {}
