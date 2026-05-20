@@ -95,20 +95,6 @@ public interface CriteriaBuilder {
     CriteriaQuery<?> createQuery(String jpql);
 
     /**
-     * Create a {@link CriteriaQuery} object representing the
-     * named Jakarta Persistence query language {@code SELECT}
-     * query designated by the given reference.
-     * @param reference A reference to a Jakarta Persistence
-     *                  query language {@code SELECT} query
-     * @return criteria query object
-     * @throws IllegalArgumentException if the given reference
-     *         does not represent a named Jakarta Persistence
-     *         query language {@code SELECT} query
-     * @since 4.0
-     */
-    <T> CriteriaQuery<T> createQuery(TypedQueryReference<T> reference);
-
-    /**
      * Create a {@link CriteriaQuery} object that returns a
      * tuple of objects as its result.
      * @return criteria query object
@@ -196,20 +182,6 @@ public interface CriteriaBuilder {
      * @since 4.0
      */
     CriteriaDelete<?> createCriteriaDelete(String jpql);
-
-    /**
-     * Create a {@link CriteriaStatement} object representing
-     * the named Jakarta Persistence query language statement
-     * designated by the given reference.
-     * @param reference A reference to a Jakarta Persistence
-     *                  query language statement
-     * @return criteria query object
-     * @throws IllegalArgumentException if the given reference
-     *         does not represent a named Jakarta Persistence
-     *         query language statement
-     * @since 4.0
-     */
-    CriteriaStatement<?> createCriteriaStatement(StatementReference reference);
 
     /**
      * Modify the Jakarta Persistence query language query
