@@ -15,6 +15,7 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 import static java.util.Objects.requireNonNull;
@@ -33,11 +34,16 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0
  */
-public record EmbeddedMapping<C,T>
-        (Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>[] fields)
+public record EmbeddedMapping<C,T>(@Nonnull Class<? super C> container,
+                                   @Nonnull Class<T> embeddableClass,
+                                   @Nonnull String name,
+                                   @Nonnull MemberMapping<T>[] fields)
         implements MemberMapping<C> {
 
-    public EmbeddedMapping(Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>[] fields) {
+    public EmbeddedMapping(@Nonnull Class<? super C> container,
+                           @Nonnull Class<T> embeddableClass,
+                           @Nonnull String name,
+                           @Nonnull MemberMapping<T>[] fields) {
         requireNonNull(container, "container is required");
         requireNonNull(embeddableClass, "embeddableClass is required");
         requireNonNull(name, "name is required");
@@ -52,6 +58,7 @@ public record EmbeddedMapping<C,T>
     }
 
     @Override
+    @Nonnull
     public MemberMapping<T>[] fields() {
         return fields.clone();
     }
@@ -67,7 +74,11 @@ public record EmbeddedMapping<C,T>
      * @param <C> The container type
      */
     @SafeVarargs
-    public static <C,T> EmbeddedMapping<C,T> of(Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
+    @Nonnull
+    public static <C,T> EmbeddedMapping<C,T> of(@Nonnull Class<? super C> container,
+                                                @Nonnull Class<T> embeddableClass,
+                                                @Nonnull String name,
+                                                @Nonnull MemberMapping<T>... fields) {
         return new EmbeddedMapping<>(container, embeddableClass, name, fields);
     }
 
@@ -79,7 +90,9 @@ public record EmbeddedMapping<C,T>
      * @param <C> The container type
      */
     @SafeVarargs
-    public static <C,T> EmbeddedMapping<C,T> of(SingularAttribute<? super C,T> embedded, MemberMapping<T>... fields) {
-        return new EmbeddedMapping<>(embedded.getDeclaringType().getJavaType(), embedded.getJavaType(), embedded.getName(), fields);
+    public static <C,T> EmbeddedMapping<C,T> of(@Nonnull SingularAttribute<? super C,T> embedded,
+                                                @Nonnull MemberMapping<T>... fields) {
+        return new EmbeddedMapping<>(embedded.getDeclaringType().getJavaType(),
+                embedded.getJavaType(), embedded.getName(), fields);
     }
 }

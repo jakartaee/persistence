@@ -15,6 +15,8 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -28,10 +30,10 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0
  */
-public record CompoundMapping(MappingElement<?>[] elements)
+public record CompoundMapping(@Nonnull MappingElement<?>[] elements)
         implements ResultSetMapping<Object[]> {
 
-    public CompoundMapping(MappingElement<?>[] elements) {
+    public CompoundMapping(@Nonnull MappingElement<?>[] elements) {
         requireNonNull(elements, "elements are required");
         if (elements.length == 0) {
             throw new IllegalArgumentException("at least one element is required");
@@ -43,6 +45,7 @@ public record CompoundMapping(MappingElement<?>[] elements)
     }
 
     @Override
+    @Nonnull
     public MappingElement<?>[] elements() {
         return elements.clone();
     }
@@ -51,7 +54,8 @@ public record CompoundMapping(MappingElement<?>[] elements)
      * Construct a new instance.
      * @param elements Mappings for the elements of the tuple
      */
-    public static CompoundMapping of(MappingElement<?>... elements) {
+    @Nonnull
+    public static CompoundMapping of(@Nonnull MappingElement<?>... elements) {
         return new CompoundMapping(elements);
     }
 
@@ -59,6 +63,7 @@ public record CompoundMapping(MappingElement<?>[] elements)
      * Always returns {@code Object[].class}.
      */
     @Override
+    @Nonnull
     public Class<Object[]> type() {
         return Object[].class;
     }

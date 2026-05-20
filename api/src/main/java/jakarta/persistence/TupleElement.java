@@ -16,6 +16,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  * The {@code TupleElement} interface defines an element that is
  * returned in a query result tuple.
@@ -32,6 +35,7 @@ public interface TupleElement<X> {
      * Return the Java type of the tuple element.
      * @return the Java type of the tuple element
      */
+    @Nonnull
     Class<? extends X> getJavaType();
 
     /**
@@ -39,5 +43,6 @@ public interface TupleElement<X> {
      * if no alias has been assigned.
      * @return alias
      */
+    @Nullable
     String getAlias();
 }

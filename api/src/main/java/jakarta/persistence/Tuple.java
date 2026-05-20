@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ public interface Tuple {
      *         does not correspond to an element in the
      *         query result tuple
      */
-    <X> X get(TupleElement<X> tupleElement);
+    <X> X get(@Nonnull TupleElement<X> tupleElement);
 
     /**
      * Get the value of the tuple element to which the
@@ -50,7 +52,7 @@ public interface Tuple {
      *         query result tuple or element cannot be
      *         assigned to the specified type
      */
-    <X> X get(String alias, Class<X> type); 
+    <X> X get(@Nonnull String alias, @Nonnull Class<X> type);
 
     /**
      * Get the value of the tuple element to which the
@@ -61,7 +63,7 @@ public interface Tuple {
       *        does not correspond to an element in the
      *         query result tuple
      */
-    Object get(String alias); 
+    Object get(@Nonnull String alias);
 
     /**
      * Get the value of the element at the specified
@@ -76,7 +78,7 @@ public interface Tuple {
      *         if the element cannot be assigned to the
      *         specified type
      */
-    <X> X get(int i, Class<X> type);
+    <X> X get(int i, @Nonnull Class<X> type);
 
     /**
      * Get the value of the element at the specified
@@ -94,11 +96,13 @@ public interface Tuple {
      * an array.
      * @return tuple element values
      */
+    @Nonnull
     Object[] toArray();
 
     /**
      * Return the tuple elements.
      * @return tuple elements
      */
+    @Nonnull
     List<TupleElement<?>> getElements();
 }

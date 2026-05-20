@@ -15,6 +15,7 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 /**
@@ -74,6 +75,7 @@ public sealed interface ResultSetMapping<T>
     /**
      * The result type of the mapping.
      */
+    @Nonnull
     Class<T> type();
 
     /**

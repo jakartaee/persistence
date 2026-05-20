@@ -15,6 +15,7 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 import static java.util.Objects.requireNonNull;
@@ -34,8 +35,10 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0
  */
-public record FieldMapping<C,T>
-        (Class<? super C> container, Class<T> type, String name, String columnName)
+public record FieldMapping<C,T>(@Nonnull Class<? super C> container,
+                                @Nonnull Class<T> type,
+                                @Nonnull String name,
+                                @Nonnull String columnName)
         implements MemberMapping<C> {
 
     public FieldMapping {
@@ -54,7 +57,11 @@ public record FieldMapping<C,T>
      * @param <C> The type of the entity or embeddable type
      * @param <T> The type of the field
      */
-    public static <C,T> FieldMapping<C,T> of(Class<? super C> container, Class<T> type, String name, String columnName) {
+    @Nonnull
+    public static <C,T> FieldMapping<C,T> of(@Nonnull Class<? super C> container,
+                                             @Nonnull Class<T> type,
+                                             @Nonnull String name,
+                                             @Nonnull String columnName) {
         return new FieldMapping<>(container, type, name, columnName);
     }
 
@@ -65,8 +72,11 @@ public record FieldMapping<C,T>
      * @param <C> The type of the entity or embeddable type
      * @param <T> The type of the field
      */
-    public static <C,T> FieldMapping<C,T> of(SingularAttribute<? super C,T> attribute, String columnName) {
-        return new FieldMapping<>(attribute.getDeclaringType().getJavaType(), attribute.getJavaType(), attribute.getName(), columnName);
+    @Nonnull
+    public static <C,T> FieldMapping<C,T> of(@Nonnull SingularAttribute<? super C,T> attribute,
+                                             @Nonnull String columnName) {
+        return new FieldMapping<>(attribute.getDeclaringType().getJavaType(),
+                attribute.getJavaType(), attribute.getName(), columnName);
     }
 }
 
