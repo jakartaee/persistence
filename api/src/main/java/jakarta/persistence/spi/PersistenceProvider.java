@@ -18,6 +18,8 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceConfiguration;
@@ -83,8 +85,9 @@ public interface PersistenceProvider {
      *
      * @see Persistence#createEntityManagerFactory(String, Map)
      */
-    EntityManagerFactory createEntityManagerFactory(String unitName,
-                                                    Map<?, ?> properties);
+    @Nonnull
+    EntityManagerFactory createEntityManagerFactory(@Nonnull String unitName,
+                                                    @Nullable Map<?, ?> properties);
 
     /**
      * Called by {@link Persistence} class to create a new
@@ -103,7 +106,8 @@ public interface PersistenceProvider {
      *
      * @since 3.2
      */
-    EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration);
+    @Nonnull
+    EntityManagerFactory createEntityManagerFactory(@Nonnull PersistenceConfiguration configuration);
 
     /**
      * Called by the Jakarta EE container to create a new
@@ -131,8 +135,9 @@ public interface PersistenceProvider {
      * @return a newly created {@link EntityManagerFactory} for the
      *         persistence unit described by the given metadata
      */
-    EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo info,
-                                                             Map<?, ?> properties);
+    @Nonnull
+    EntityManagerFactory createContainerEntityManagerFactory(@Nonnull PersistenceUnitInfo info,
+                                                             @Nullable Map<?, ?> properties);
 
     /**
      * Create database schemas and/or tables and/or create DDL scripts,
@@ -151,7 +156,8 @@ public interface PersistenceProvider {
      *
      * @since 2.1
      */
-    void generateSchema(PersistenceUnitInfo info, Map<?, ?> properties);
+    void generateSchema(@Nonnull PersistenceUnitInfo info,
+                        @Nullable Map<?, ?> properties);
 
     /**
      * Create database schemas and/or tables and/or create DDL scripts,
@@ -173,7 +179,8 @@ public interface PersistenceProvider {
      *
      * @since 2.1
      */
-    boolean generateSchema(String persistenceUnitName, Map<?, ?> properties);
+    boolean generateSchema(@Nonnull String persistenceUnitName,
+                           @Nullable Map<?, ?> properties);
 
     /**
      * Create database schemas and/or tables and/or create DDL scripts,
@@ -191,7 +198,7 @@ public interface PersistenceProvider {
      *
      * @since 4.0
      */
-    boolean generateSchema(PersistenceConfiguration configuration);
+    boolean generateSchema(@Nonnull PersistenceConfiguration configuration);
 
     /**
      * Return the utility interface implemented by the persistence
@@ -200,6 +207,7 @@ public interface PersistenceProvider {
      *
      * @since 2.0
      */
+    @Nonnull
     ProviderUtil getProviderUtil();
 
     /**
@@ -236,7 +244,8 @@ public interface PersistenceProvider {
      *                   or {@code BeanManager}.
      * @since 4.0
      */
-    ClassTransformer getClassTransformer(PersistenceUnitInfo info,
-                                         Map<?, ?> properties);
+    @Nonnull
+    ClassTransformer getClassTransformer(@Nonnull PersistenceUnitInfo info,
+                                         @Nullable Map<?, ?> properties);
 }
 
