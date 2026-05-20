@@ -16,6 +16,7 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.FetchType;
 
 /**
@@ -51,7 +52,9 @@ public interface ProviderUtil {
      *        to be determined
      * @return load status of the attribute
      */
-    LoadState isLoadedWithoutReference(Object entity, String attributeName);
+    @Nonnull
+    LoadState isLoadedWithoutReference(@Nonnull Object entity,
+                                       @Nonnull String attributeName);
 
     /**
      * If the provider determines that the entity has been provided by
@@ -74,7 +77,9 @@ public interface ProviderUtil {
      *        to be determined
      * @return load status of the attribute
      */
-    LoadState isLoadedWithReference(Object entity, String attributeName);
+    @Nonnull
+    LoadState isLoadedWithReference(@Nonnull Object entity,
+                                    @Nonnull String attributeName);
 
     /**
      * If the provider determines that the entity has been provided by
@@ -93,5 +98,6 @@ public interface ProviderUtil {
      * @param entity whose loaded status is to be determined
      * @return load status of the entity
      */
-    LoadState isLoaded(Object entity);
+    @Nonnull
+    LoadState isLoaded(@Nonnull Object entity);
 }

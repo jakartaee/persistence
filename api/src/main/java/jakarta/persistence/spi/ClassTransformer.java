@@ -16,6 +16,9 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.security.ProtectionDomain;
 
 /**
@@ -55,10 +58,11 @@ public interface ClassTransformer {
      * @throws TransformerException  if the input does
      *         not represent a well-formed class file
      */
-    byte[] transform(ClassLoader loader,
-                     String className,
-                     Class<?> classBeingRedefined,
-                     ProtectionDomain protectionDomain, 
-                     byte[] classfileBuffer) 
+    @Nonnull
+    byte[] transform(@Nullable ClassLoader loader,
+                     @Nonnull String className,
+                     @Nullable Class<?> classBeingRedefined,
+                     @Nonnull ProtectionDomain protectionDomain,
+                     @Nonnull byte[] classfileBuffer)
         throws TransformerException;
 }

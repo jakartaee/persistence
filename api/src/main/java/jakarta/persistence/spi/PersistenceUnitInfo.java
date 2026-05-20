@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Properties;
 import java.net.URL;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.PersistenceUnitTransactionType;
@@ -46,6 +48,7 @@ public interface PersistenceUnitInfo {
      * {@code name} attribute in the {@code persistence.xml} file.
      * @return the name of the persistence unit
      */
+    @Nonnull
     String getPersistenceUnitName();
 
     /**
@@ -55,6 +58,7 @@ public interface PersistenceUnitInfo {
      * @return  the fully qualified name of the persistence provider 
      * implementation class
      */
+    @Nullable
     String getPersistenceProviderClassName();
 
     /**
@@ -64,6 +68,7 @@ public interface PersistenceUnitInfo {
      * @return  the fully-qualified class name of the scope annotation,
      *          or null if no scope was explicitly specified
      */
+    @Nullable
     String getScopeAnnotationName();
 
     /**
@@ -74,6 +79,7 @@ public interface PersistenceUnitInfo {
      *          or an empty list if no qualifier annotations were explicitly
      *          specified
      */
+    @Nullable
     List<String> getQualifierAnnotationNames();
 
     /**
@@ -83,10 +89,8 @@ public interface PersistenceUnitInfo {
      * file.
      * @return  transaction type of the entity managers created
      * by the EntityManagerFactory
-     *
-     * <p>Note: This method will change its return type to {@link jakarta.persistence.PersistenceUnitTransactionType}
-     * in the next major version.
      */
+    @Nonnull
     PersistenceUnitTransactionType getTransactionType();
 
     /**
@@ -97,6 +101,7 @@ public interface PersistenceUnitInfo {
      * @return the JTA-enabled data source to be used by the 
      * persistence provider
      */
+    @Nullable
     DataSource getJtaDataSource();
 
     /**
@@ -109,6 +114,7 @@ public interface PersistenceUnitInfo {
      * persistence provider for accessing data outside a JTA 
      * transaction
      */
+    @Nullable
     DataSource getNonJtaDataSource();
 
     /**
@@ -123,6 +129,7 @@ public interface PersistenceUnitInfo {
      * provider must load to determine the mappings for the entity
      * classes 
      */
+    @Nonnull
     List<String> getMappingFileNames();
 
     /**
@@ -137,6 +144,7 @@ public interface PersistenceUnitInfo {
      * @return a list of URL objects referring to jar files or
      * directories 
      */
+    @Nonnull
     List<URL> getJarFileUrls();
 
     /**
@@ -150,6 +158,7 @@ public interface PersistenceUnitInfo {
      * format can be obtained.
      * @return a URL referring to a jar file or directory
      */
+    @Nonnull
     URL getPersistenceUnitRootUrl();
 
     /**
@@ -157,6 +166,7 @@ public interface PersistenceUnitInfo {
      * of the {@code persistence.xml} file.
      * @return the class names listed in {@code persistence.xml}
      */
+    @Nonnull
     List<String> getManagedClassNames();
 
     /**
@@ -189,6 +199,7 @@ public interface PersistenceUnitInfo {
      * @see Discoverable
      * @since 4.0
      */
+    @Nonnull
     List<String> getAllClassNames();
 
     /**
@@ -213,6 +224,7 @@ public interface PersistenceUnitInfo {
      *
      * @since 2.0
      */
+    @Nonnull
     SharedCacheMode getSharedCacheMode();
 
     /**
@@ -225,6 +237,7 @@ public interface PersistenceUnitInfo {
      * 
      * @since 2.0
      */
+    @Nonnull
     ValidationMode getValidationMode();
 
     /**
@@ -237,6 +250,7 @@ public interface PersistenceUnitInfo {
      *
      * @since 4.0
      */
+    @Nonnull
     FetchType getDefaultToOneFetchType();
 
     /**
@@ -245,6 +259,7 @@ public interface PersistenceUnitInfo {
      * or to a property set by the container.
      * @return Properties object 
      */
+    @Nonnull
     Properties getProperties();
     
     /**
@@ -253,6 +268,7 @@ public interface PersistenceUnitInfo {
      *
      * @since 2.0
      */
+    @Nonnull
     String getPersistenceXMLSchemaVersion();
 
     /**
@@ -261,6 +277,7 @@ public interface PersistenceUnitInfo {
      * @return ClassLoader that the provider may use to load any 
      * classes, resources, or open URLs 
      */
+    @Nonnull
     ClassLoader getClassLoader();
 
     /**
@@ -279,7 +296,7 @@ public interface PersistenceUnitInfo {
      * @param transformer  provider-supplied transformer that the
      * container invokes at class-(re)definition time
      */
-    void addTransformer(ClassTransformer transformer);
+    void addTransformer(@Nonnull ClassTransformer transformer);
 
     /**
      * Return a new instance of a {@link ClassLoader} that the provider
@@ -294,5 +311,6 @@ public interface PersistenceUnitInfo {
      * @return temporary {@code ClassLoader} with same visibility as
      * current loader
      */
+    @Nonnull
     ClassLoader getNewTempClassLoader();
 }
