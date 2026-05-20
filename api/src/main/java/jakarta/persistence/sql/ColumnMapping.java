@@ -15,6 +15,9 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -29,7 +32,9 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0
  */
-public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
+public record ColumnMapping<T>(@Nonnull String columnName,
+                               @Nonnull Class<T> type,
+                               @Nullable String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
     public ColumnMapping {
@@ -41,6 +46,7 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      * The Java type of the scalar value.
      */
     @Override
+    @Nonnull
     public Class<T> getJavaType() {
         return type;
     }
@@ -49,6 +55,7 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      * The colum name.
      */
     @Override
+    @Nullable
     public String getAlias() {
         return alias;
     }
@@ -58,7 +65,8 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      * @param alias The alias
      */
     @Override
-    public ColumnMapping<T> withAlias(String alias) {
+    @Nonnull
+    public ColumnMapping<T> withAlias(@Nonnull String alias) {
         return new ColumnMapping<>(columnName, type, alias);
     }
 
@@ -66,7 +74,8 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      * Construct a new instance.
      * @param columnName The name of the mapped column of the result set
      */
-    public static ColumnMapping<Object> of(String columnName) {
+    @Nonnull
+    public static ColumnMapping<Object> of(@Nonnull String columnName) {
         return new ColumnMapping<>(columnName, Object.class, columnName);
     }
 
@@ -76,7 +85,9 @@ public record ColumnMapping<T>(String columnName, Class<T> type, String alias)
      * @param type The Java type of the resulting scalar value
      * @param <T> The type of the resulting scalar value
      */
-    public static <T> ColumnMapping<T> of(String columnName, Class<T> type) {
+    @Nonnull
+    public static <T> ColumnMapping<T> of(@Nonnull String columnName,
+                                          @Nonnull Class<T> type) {
         return new ColumnMapping<>(columnName, type, columnName);
     }
 }

@@ -15,6 +15,7 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Tuple;
 
 import static java.util.Objects.requireNonNull;
@@ -57,10 +58,10 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0
  */
-public record TupleMapping(MappingElement<?>[] elements)
+public record TupleMapping(@Nonnull MappingElement<?>[] elements)
         implements ResultSetMapping<Tuple> {
 
-    public TupleMapping(MappingElement<?>[] elements) {
+    public TupleMapping(@Nonnull MappingElement<?>[] elements) {
         requireNonNull(elements, "elements are required");
         if (elements.length == 0) {
             throw new IllegalArgumentException("at least one element is required");
@@ -72,6 +73,7 @@ public record TupleMapping(MappingElement<?>[] elements)
     }
 
     @Override
+    @Nonnull
     public MappingElement<?>[] elements() {
         return elements.clone();
     }
@@ -80,7 +82,8 @@ public record TupleMapping(MappingElement<?>[] elements)
      * Construct a new instance.
      * @param elements Mappings for the elements of the tuple
      */
-    public static TupleMapping of(MappingElement<?>... elements) {
+    @Nonnull
+    public static TupleMapping of(@Nonnull MappingElement<?>... elements) {
         return new TupleMapping(elements);
     }
 
@@ -88,6 +91,7 @@ public record TupleMapping(MappingElement<?>[] elements)
      * Always returns {@link Tuple Tuple.class}.
      */
     @Override
+    @Nonnull
     public Class<Tuple> type() {
         return Tuple.class;
     }

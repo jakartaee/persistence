@@ -15,6 +15,8 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.LockModeType;
 
 import static java.util.Objects.requireNonNull;
@@ -37,11 +39,18 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0
  */
-public record EntityMapping<T>
-        (Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>[] fields, String alias)
+public record EntityMapping<T>(@Nonnull Class<T> entityClass,
+                               @Nonnull LockModeType lockMode,
+                               @Nullable String discriminatorColumn,
+                               @Nonnull MemberMapping<? extends T>[] fields,
+                               @Nullable String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
-    public EntityMapping(Class<T> entityClass, LockModeType lockMode, String discriminatorColumn, MemberMapping<? extends T>[] fields, String alias) {
+    public EntityMapping(@Nonnull Class<T> entityClass,
+                         @Nonnull LockModeType lockMode,
+                         @Nullable String discriminatorColumn,
+                         @Nonnull MemberMapping<? extends T>[] fields,
+                         @Nullable String alias) {
         requireNonNull(entityClass, "entityClass is required");
         requireNonNull(lockMode, "lockMode is required");
         if (discriminatorColumn != null && discriminatorColumn.isBlank()) {
@@ -59,6 +68,7 @@ public record EntityMapping<T>
     }
 
     @Override
+    @Nonnull
     public MemberMapping<? extends T>[] fields() {
         return fields.clone();
     }
@@ -67,6 +77,7 @@ public record EntityMapping<T>
      * The entity class.
      */
     @Override
+    @Nonnull
     public Class<T> getJavaType() {
         return entityClass;
     }
@@ -78,6 +89,7 @@ public record EntityMapping<T>
      * @return the explicitly specified alias or {@code null}
      */
     @Override
+    @Nullable
     public String getAlias() {
         return alias;
     }
@@ -87,7 +99,8 @@ public record EntityMapping<T>
      * @param alias The alias
      */
     @Override
-    public EntityMapping<T> withAlias(String alias) {
+    @Nonnull
+    public EntityMapping<T> withAlias(@Nonnull String alias) {
         return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, alias);
     }
 
@@ -95,7 +108,8 @@ public record EntityMapping<T>
      * Specify the lock mode obtained on this entity.
      * @param lockMode The lock mode
      */
-    public EntityMapping<T> withLockMode(LockModeType lockMode) {
+    @Nonnull
+    public EntityMapping<T> withLockMode(@Nonnull LockModeType lockMode) {
         return new EntityMapping<>(entityClass, lockMode, discriminatorColumn, fields, alias);
     }
 
@@ -105,8 +119,10 @@ public record EntityMapping<T>
      * @param fields Mappings for fields or properties of the entity
      * @param <T> The entity type
      */
+    @Nonnull
     @SafeVarargs
-    public static <T> EntityMapping<T> of(Class<T> entityClass, MemberMapping<T>... fields) {
+    public static <T> EntityMapping<T> of(@Nonnull Class<T> entityClass,
+                                          @Nonnull MemberMapping<T>... fields) {
         return new EntityMapping<>(entityClass, LockModeType.NONE, null, fields, null);
     }
 
@@ -121,8 +137,11 @@ public record EntityMapping<T>
      *               and of its entity subclasses
      * @param <T> The entity type
      */
+    @Nonnull
     @SafeVarargs
-    public static <T> EntityMapping<T> of(Class<T> entityClass, String discriminatorColumn, MemberMapping<? extends T>... fields) {
+    public static <T> EntityMapping<T> of(@Nonnull Class<T> entityClass,
+                                          @Nonnull String discriminatorColumn,
+                                          @Nonnull MemberMapping<? extends T>... fields) {
         return new EntityMapping<>(entityClass, LockModeType.NONE, discriminatorColumn, fields, null);
     }
 
@@ -130,6 +149,7 @@ public record EntityMapping<T>
      * The entity class.
      */
     @Override
+    @Nonnull
     public Class<T> type() {
         return entityClass;
     }

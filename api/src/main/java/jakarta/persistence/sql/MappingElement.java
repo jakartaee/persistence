@@ -15,6 +15,7 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.TupleElement;
 
 /**
@@ -34,5 +35,6 @@ public sealed interface MappingElement<T> extends TupleElement<T>
      * Specify an alias for this element of the result set.
      * @param alias The alias
      */
-    MappingElement<T> withAlias(String alias);
+    @Nonnull
+    MappingElement<T> withAlias(@Nonnull String alias);
 }

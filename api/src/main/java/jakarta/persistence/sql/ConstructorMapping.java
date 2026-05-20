@@ -15,6 +15,9 @@
 
 package jakarta.persistence.sql;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -30,10 +33,14 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0
  */
 
-public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] arguments, String alias)
+public record ConstructorMapping<T>(@Nonnull Class<T> targetClass,
+                                    @Nonnull MappingElement<?>[] arguments,
+                                    @Nullable String alias)
         implements MappingElement<T>, ResultSetMapping<T> {
 
-    public ConstructorMapping(Class<T> targetClass, MappingElement<?>[] arguments, String alias) {
+    public ConstructorMapping(@Nonnull Class<T> targetClass,
+                              @Nonnull MappingElement<?>[] arguments,
+                              @Nullable String alias) {
         requireNonNull(targetClass, "targetClass is required");
         requireNonNull(arguments, "arguments are required");
         if (arguments.length == 0) {
@@ -48,6 +55,7 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
     }
 
     @Override
+    @Nonnull
     public MappingElement<?>[] arguments() {
         return arguments.clone();
     }
@@ -56,6 +64,7 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
      * The Java class which declares the constructor.
      */
     @Override
+    @Nonnull
     public Class<T> getJavaType() {
         return targetClass;
     }
@@ -67,6 +76,7 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
      * @return the explicitly specified alias or {@code null}
      */
     @Override
+    @Nullable
     public String getAlias() {
         return alias;
     }
@@ -76,7 +86,8 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
      * @param alias The alias
      */
     @Override
-    public ConstructorMapping<T> withAlias(String alias) {
+    @Nonnull
+    public ConstructorMapping<T> withAlias(@Nonnull String alias) {
         return new ConstructorMapping<>(targetClass, arguments, alias);
     }
 
@@ -86,7 +97,9 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
      * @param arguments Mappings assigned to the parameters of the constructor
      * @param <T> The type of the Java class
      */
-    public static <T> ConstructorMapping<T> of(Class<T> targetClass, MappingElement<?>... arguments) {
+    @Nonnull
+    public static <T> ConstructorMapping<T> of(@Nonnull Class<T> targetClass,
+                                               @Nonnull MappingElement<?>... arguments) {
         return new ConstructorMapping<>(targetClass, arguments, null);
     }
 
@@ -94,6 +107,7 @@ public record ConstructorMapping<T>(Class<T> targetClass, MappingElement<?>[] ar
      * The Java class which declares the constructor.
      */
     @Override
+    @Nonnull
     public Class<T> type() {
         return targetClass;
     }
