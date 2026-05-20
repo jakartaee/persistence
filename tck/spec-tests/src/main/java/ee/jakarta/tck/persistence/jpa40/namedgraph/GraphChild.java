@@ -17,6 +17,7 @@
 package ee.jakarta.tck.persistence.jpa40.namedgraph;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Fetch;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -38,7 +39,7 @@ public class GraphChild {
     private String detail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NamedEntityGraph.AttributeNode(graph = GRAPH)
+    @Fetch(graph = GRAPH)
     private GraphDetail graphDetail;
 
     public GraphChild() {
