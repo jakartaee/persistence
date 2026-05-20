@@ -16,6 +16,8 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Instances of the type {@code MapAttribute} represent
  * persistent {@link java.util.Map}-valued attributes.
@@ -34,11 +36,13 @@ public interface MapAttribute<X, K, V>
      * Return the Java type of the map key.
      * @return Java key type
      */
+    @Nonnull
     Class<K> getKeyJavaType();
 
     /**
      * Return the type representing the key type of the map.
      * @return type representing key type
      */
+    @Nonnull
     Type<K> getKeyType();
 }

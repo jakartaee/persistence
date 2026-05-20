@@ -17,10 +17,13 @@
 
 package jakarta.persistence.metamodel;
 
-import java.lang.annotation.ElementType;
+import jakarta.annotation.Nonnull;
+
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * The {@code StaticMetamodel} annotation specifies that the class is
@@ -90,12 +93,13 @@ import java.lang.annotation.Target;
  *
  * @since 2.0
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+@Target(TYPE)
+@Retention(RUNTIME)
 public @interface StaticMetamodel {
 
     /** 
      * Class being modelled by the annotated class.
      */
+    @Nonnull
     Class<?> value();
 }

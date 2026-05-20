@@ -16,6 +16,8 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Instances of the type {@code PluralAttribute} represent 
  * persistent collection-valued attributes.
@@ -48,12 +50,14 @@ public interface PluralAttribute<X, C, E>
      * Return the collection type.
      * @return collection type
      */
-    CollectionType getCollectionType();
+	@Nonnull
+	CollectionType getCollectionType();
 
     /**
      * Return the type representing the element type of the 
      * collection.
      * @return element type
      */
-    Type<E> getElementType();
+	@Nonnull
+	Type<E> getElementType();
 }

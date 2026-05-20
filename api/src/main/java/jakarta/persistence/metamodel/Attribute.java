@@ -16,6 +16,8 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Represents an attribute of a Java type.
  *
@@ -54,33 +56,38 @@ public interface Attribute<X, Y> {
      * Return the name of the attribute.
      * @return name
      */
-    String getName();
+	@Nonnull
+	String getName();
 
     /**
      * Return the persistent attribute type for the attribute.
      * @return persistent attribute type
      */
-    PersistentAttributeType getPersistentAttributeType();
+	@Nonnull
+	PersistentAttributeType getPersistentAttributeType();
 
     /**
      * Return the managed type representing the type in which 
      * the attribute was declared.
      * @return declaring type
      */
-    ManagedType<X> getDeclaringType();
+	@Nonnull
+	ManagedType<X> getDeclaringType();
 
     /**
      * Return the Java type of the represented attribute.
      * @return Java type
      */
-    Class<Y> getJavaType();
+	@Nonnull
+	Class<Y> getJavaType();
 
     /**
      * Return the {@link java.lang.reflect.Member} for the
 	 *  represented attribute.
      * @return corresponding {@link java.lang.reflect.Member}
      */
-    java.lang.reflect.Member getJavaMember();
+	@Nonnull
+	java.lang.reflect.Member getJavaMember();
 
     /**
      * Is the attribute an association.

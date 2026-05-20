@@ -17,6 +17,7 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.EntityGraph;
 
 import java.util.Map;
@@ -37,6 +38,7 @@ public interface EntityType<X>
      * Return the entity name.
      * @return entity name
      */
+    @Nonnull
     String getName();
 
     /**
@@ -46,6 +48,7 @@ public interface EntityType<X>
      * @see jakarta.persistence.EntityHandler#createEntityGraph(Class)
      * @since 4.0
      */
+    @Nonnull
     EntityGraph<X> createEntityGraph();
 
     /**
@@ -56,5 +59,6 @@ public interface EntityType<X>
      * @see jakarta.persistence.EntityManagerFactory#getNamedEntityGraphs(Class)
      * @since 4.0
      */
+    @Nonnull
     Map<String, EntityGraph<X>> getNamedEntityGraphs();
 }

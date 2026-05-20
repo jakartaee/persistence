@@ -17,6 +17,8 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
+
 import java.util.Set;
 
 /**
@@ -35,7 +37,8 @@ public interface Metamodel {
      * @see jakarta.persistence.Entity#name
      * @since 3.2
      */
-    EntityType<?> entity(String entityName);
+    @Nonnull
+    EntityType<?> entity(@Nonnull String entityName);
 
     /**
      * Return the metamodel entity type representing the entity.
@@ -44,7 +47,8 @@ public interface Metamodel {
      * @return the metamodel entity type
      * @throws IllegalArgumentException if not an entity
      */
-    <X> EntityType<X> entity(Class<X> cls);
+    @Nonnull
+    <X> EntityType<X> entity(@Nonnull Class<X> cls);
 
     /**
      * Return the metamodel managed type representing the 
@@ -54,7 +58,8 @@ public interface Metamodel {
      * @return the metamodel managed type
      * @throws IllegalArgumentException if not a managed class
      */
-    <X> ManagedType<X> managedType(Class<X> cls);
+    @Nonnull
+    <X> ManagedType<X> managedType(@Nonnull Class<X> cls);
     
     /**
      * Return the metamodel embeddable type representing the
@@ -64,18 +69,21 @@ public interface Metamodel {
      * @return the metamodel embeddable type
      * @throws IllegalArgumentException if not an embeddable class
      */
-    <X> EmbeddableType<X> embeddable(Class<X> cls);
+    @Nonnull
+    <X> EmbeddableType<X> embeddable(@Nonnull Class<X> cls);
 
     /**
      * Return the metamodel managed types.
      * @return the metamodel managed types
      */
+    @Nonnull
     Set<ManagedType<?>> getManagedTypes();
 
     /**
      * Return the metamodel entity types.
      * @return the metamodel entity types
      */
+    @Nonnull
     Set<EntityType<?>> getEntities();
 
     /**
@@ -83,5 +91,6 @@ public interface Metamodel {
      * Returns am empty set if there are no embeddable types.
      * @return the metamodel embeddable types
      */
+    @Nonnull
     Set<EmbeddableType<?>> getEmbeddables();
 }

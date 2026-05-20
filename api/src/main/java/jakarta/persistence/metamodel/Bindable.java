@@ -16,6 +16,7 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.criteria.Path;
 
 /**
@@ -55,7 +56,8 @@ public interface Bindable<T> {
     /**
      * Return the bindable type of the represented object.
      * @return bindable type
-     */	
+     */
+    @Nonnull
     BindableType getBindableType();
 
     /**
@@ -67,5 +69,6 @@ public interface Bindable<T> {
      * represented entity or attribute is returned.
      * @return Java type
      */
+    @Nonnull
     Class<T> getBindableJavaType();
 }

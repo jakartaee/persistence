@@ -16,6 +16,9 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import java.util.Set;
 
 /**
@@ -39,6 +42,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      *         type is not present in the identifiable type or if
      *         the identifiable type has an id class
      */
+    @Nonnull
     <Y> SingularAttribute<? super X, Y> getId(Class<Y> type);
 
     /**
@@ -52,6 +56,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      *         type is not declared in the identifiable type or if
      *         the identifiable type has an id class
      */
+    @Nonnull
     <Y> SingularAttribute<X, Y> getDeclaredId(Class<Y> type);
 
     /**
@@ -63,6 +68,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * @throws IllegalArgumentException if version attribute of the 
      * 	        given type is not present in the identifiable type
      */
+    @Nonnull
     <Y> SingularAttribute<? super X, Y> getVersion(Class<Y> type);
 
     /**
@@ -75,6 +81,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * @throws IllegalArgumentException if version attribute of the 
      *         type is not declared in the identifiable type
      */
+    @Nonnull
     <Y> SingularAttribute<X, Y> getDeclaredVersion(Class<Y> type);
 	
     /**
@@ -84,6 +91,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * @return supertype of identifiable type or null if no 
      *         such supertype
      */
+    @Nullable
     IdentifiableType<? super X> getSupertype();
 
     /**
@@ -109,11 +117,13 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      *  @throws IllegalArgumentException if the identifiable type
      *          does not have an id class
      */
-     Set<SingularAttribute<? super X, ?>> getIdClassAttributes();
+    @Nonnull
+    Set<SingularAttribute<? super X, ?>> getIdClassAttributes();
 
     /**
      * Return the type that represents the type of the id.
      * @return type of id
      */
+    @Nonnull
     Type<?> getIdType();
 }

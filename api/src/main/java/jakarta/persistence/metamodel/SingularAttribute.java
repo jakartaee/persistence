@@ -17,6 +17,8 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Instances of the type {@code SingularAttribute} represents persistent
  * single-valued properties or fields.
@@ -59,5 +61,6 @@ public interface SingularAttribute<X, T>
      * Return the type that represents the type of the attribute.
      * @return type of attribute
      */
+    @Nonnull
     Type<T> getType();
 }

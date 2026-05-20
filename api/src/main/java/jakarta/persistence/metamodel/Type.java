@@ -16,6 +16,8 @@
 
 package jakarta.persistence.metamodel;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * An instance of the type {@code Type} represents a persistent
  * object or attribute type.
@@ -44,12 +46,14 @@ public interface Type<X> {
     /**
      * Return the persistence type.
      * @return persistence type
-     */	
+     */
+    @Nonnull
     PersistenceType getPersistenceType();
 
     /**
      * Return the represented Java type.
      * @return Java type
      */
+    @Nonnull
     Class<X> getJavaType();
 }
