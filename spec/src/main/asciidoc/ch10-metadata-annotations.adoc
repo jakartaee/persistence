@@ -1003,7 +1003,7 @@ public @interface JakartaQuery {
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
-The persistence provider should treat the annotation
+The persistence provider must treat the annotation
 `jakarta.data.repository.Query` as a synonym for `JakartaQuery`.
 
 ==== NativeQuery Annotation
