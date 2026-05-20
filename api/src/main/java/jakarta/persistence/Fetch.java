@@ -25,12 +25,21 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies options influencing how an attribute is fetched.
- * When a {@linkplain #graph} is specified, the options apply
- * when the attribute is fetched using the entity graph with
- * the specified name and the named graph contains an attribute
- * node representing the annotated attribute. Otherwise, when
- * no graph is specified, the options apply when the attribute
- * is fetched without the use of an entity graph.
+ * <ul>
+ * <li>By default, the options apply when not overridden by
+ *     an {@linkplain EntityGraph entity graph}. For a load
+ *     graph, options specified via the {@code @Fetch}
+ *     annotation are overridden when the graph has an
+ *     attribute node representing the annotated attribute.
+ *     For a fetch graph, options specified by {@code @Fetch}
+ *     are always considered overridden.
+ * <li>When a {@linkplain #graph graph name} is specified,
+ *     the options apply when the attribute is fetched using
+ *     the {@linkplain NamedEntityGraph named entity graph}
+ *     with the specified name and the named graph contains
+ *     an {@linkplain AttributeNode attribute node}
+ *     representing the annotated attribute.
+ * </ul>
  * <p>
  * In this example, the {@code @Fetch} annotation is equivalent
  * to having specified {@code @ManyToMany(fetch=EAGER)}:
@@ -49,7 +58,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * <p>
  * In this example, the options only apply when the named entity
- * graph is used:
+ * graph {@code BooksWithAuthors} is used:
  * {@snippet :
  * @Fetch(cacheStoreMode=BYPASS, batchSize = 10,
  *        graph = "BooksWithAuthors")
@@ -66,6 +75,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @ManyToMany
  * List<Author> authors;
  * }
+ * At most one such {@code @Fetch} annotation may have a missing
+ * {@link #graph} name.
  *
  * @see NamedEntityGraph
  *
@@ -86,6 +97,9 @@ public @interface Fetch {
      *     the specified name. The named graph contains an
      *     attribute node representing the annotated attribute.
      * </ul>
+     * <p>
+     * At most one {@code @Fetch} annotation of a given field or
+     * property may have a missing {@code graph} name.
      */
     String graph() default "";
 
@@ -95,7 +109,7 @@ public @interface Fetch {
      * to the attribute node representing the annotated
      * association.
      * <p>
-     * The annotation attribute must be an association.
+     * The annotated attribute must be an association.
      */
     String[] subgraph() default {};
 
@@ -122,16 +136,9 @@ public @interface Fetch {
 
     /**
      * Specifies whether the persistence provider is permitted
-     * to real the associated entity data from the cache.
+     * to read the associated entity data from the cache.
      */
     CacheRetrieveMode cacheRetrieveMode() default CacheRetrieveMode.USE;
-
-    // not currently fetch options,
-    // but perhaps they should be?
-
-//    int timeout() default -1;
-
-//    LockModeType lockMode() default LockModeType.NONE;
 
     /**
      * Vendor-specific fetching hints.
