@@ -971,6 +971,14 @@ These annotations are used to declare queries associated with methods.
 In the context of Jakarta Data<<a19502>>, they are used to declare repository
 query methods.
 
+The persistence provider must treat each such static query as a named query,
+where the query name agrees with the convention for Javadoc links, that is:
+the concatenation of the fully qualified name of the type declaring the
+annotated method, with the string `#`, the name of the annotated method,
+and the raw types of the method parameters, enclosed in parentheses and
+separated by commas, for example,
+`"org.example.Library#findBooksByTitle(java.lang.String)"`.
+
 ==== JakartaQuery Annotation
 
 Specifies a query expressed in the Jakarta Persistence Query Language.
@@ -994,6 +1002,9 @@ public @interface JakartaQuery {
 
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
+
+The persistence provider should treat the annotation
+`jakarta.data.repository.Query` as a synonym for `JakartaQuery`.
 
 ==== NativeQuery Annotation
 
