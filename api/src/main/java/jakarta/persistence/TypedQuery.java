@@ -151,7 +151,6 @@ public interface TypedQuery<X> extends Query {
      *         conflict is detected during the flush
      */
     @Override @SuppressWarnings("removal")
-    @Nonnull
     X getSingleResult();
 
     /**

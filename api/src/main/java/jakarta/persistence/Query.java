@@ -176,7 +176,6 @@ public interface Query {
      *             to execute queries
      */
     @Deprecated(since = "4.0", forRemoval = true)
-    @Nonnull
     Object getSingleResult();
 
     /**

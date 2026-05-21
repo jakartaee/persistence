@@ -58,7 +58,7 @@ public interface ClassTransformer {
      * @throws TransformerException  if the input does
      *         not represent a well-formed class file
      */
-    @Nonnull
+    @Nullable
     byte[] transform(@Nullable ClassLoader loader,
                      @Nonnull String className,
                      @Nullable Class<?> classBeingRedefined,
