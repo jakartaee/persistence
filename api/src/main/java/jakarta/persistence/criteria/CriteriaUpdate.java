@@ -49,7 +49,7 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      */
     @Nonnull
     <Y, X extends Y> CriteriaUpdate<T> set(@Nonnull SingularAttribute<? super T, Y> attribute,
-                                           @Nullable X value);
+                                           X value);
 
     /**
      * Update the value of the specified attribute.
@@ -72,7 +72,7 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      */
     @Nonnull
     <Y, X extends Y> CriteriaUpdate<T> set(@Nonnull Path<Y> attribute,
-                                           @Nullable X value);
+                                           X value);
 
     /**
      * Update the value of the specified attribute.
@@ -99,7 +99,7 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      *          Use of the typesafe version is strongly preferred.
      */
     @Nonnull
-    CriteriaUpdate<T> set(@Nonnull String attributeName, @Nullable Object value);
+    CriteriaUpdate<T> set(@Nonnull String attributeName, Object value);
 
     /**
      * Modify the update query to restrict the target of the

@@ -18,7 +18,6 @@
 package jakarta.persistence.criteria;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Type for comparable query expressions.
@@ -50,7 +49,7 @@ public interface ComparableExpression<C extends Comparable<? super C>>
      * @see CriteriaBuilder#greaterThan(Expression, Comparable)
      */
     @Nonnull
-    Predicate greaterThan(@Nonnull C y);
+    Predicate greaterThan(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -70,7 +69,7 @@ public interface ComparableExpression<C extends Comparable<? super C>>
      * @see CriteriaBuilder#greaterThanOrEqualTo(Expression, Comparable)
      */
     @Nonnull
-    Predicate greaterThanOrEqualTo(@Nonnull C y);
+    Predicate greaterThanOrEqualTo(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -90,7 +89,7 @@ public interface ComparableExpression<C extends Comparable<? super C>>
      * @see CriteriaBuilder#lessThan(Expression, Comparable)
      */
     @Nonnull
-    Predicate lessThan(@Nonnull C y);
+    Predicate lessThan(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -110,7 +109,7 @@ public interface ComparableExpression<C extends Comparable<? super C>>
      * @see CriteriaBuilder#lessThanOrEqualTo(Expression, Comparable)
      */
     @Nonnull
-    Predicate lessThanOrEqualTo(@Nonnull C y);
+    Predicate lessThanOrEqualTo(C y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -121,7 +120,8 @@ public interface ComparableExpression<C extends Comparable<? super C>>
      * @see CriteriaBuilder#between(Expression, Expression, Expression)
      */
     @Nonnull
-    Predicate between(@Nonnull Expression<? extends C> x, @Nonnull Expression<? extends C> y);
+    Predicate between(@Nonnull Expression<? extends C> x,
+                      @Nonnull Expression<? extends C> y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -132,7 +132,7 @@ public interface ComparableExpression<C extends Comparable<? super C>>
      * @see CriteriaBuilder#between(Expression, Comparable, Comparable)
      */
     @Nonnull
-    Predicate between(@Nonnull C x, @Nonnull C y);
+    Predicate between(C x, C y);
 
     //aggregate functions
 
@@ -191,7 +191,7 @@ public interface ComparableExpression<C extends Comparable<? super C>>
 
     @Override
     @Nonnull
-    ComparableExpression<C> coalesce(@Nullable C y);
+    ComparableExpression<C> coalesce(C y);
 
     @Override
     @Nonnull
@@ -199,7 +199,7 @@ public interface ComparableExpression<C extends Comparable<? super C>>
 
     @Override
     @Nonnull
-    ComparableExpression<C> nullif(@Nullable C y);
+    ComparableExpression<C> nullif(C y);
 
     @Override
     @Nonnull

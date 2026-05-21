@@ -17,7 +17,6 @@
 package jakarta.persistence.criteria;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.time.temporal.Temporal;
 
 /**
@@ -45,7 +44,7 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 
 	@Override
 	@Nonnull
-	TemporalExpression<T> coalesce(@Nullable T y);
+	TemporalExpression<T> coalesce(T y);
 
 	@Override
 	@Nonnull
@@ -53,7 +52,7 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 
 	@Override
 	@Nonnull
-	TemporalExpression<T> nullif(@Nullable T y);
+	TemporalExpression<T> nullif(T y);
 
 	@Override
     @Nonnull

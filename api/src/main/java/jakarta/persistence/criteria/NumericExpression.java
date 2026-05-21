@@ -18,7 +18,6 @@
 package jakarta.persistence.criteria;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -52,7 +51,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#gt(Expression, Number)
      */
     @Nonnull
-    Predicate gt(@Nonnull Number y);
+    Predicate gt(Number y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -72,7 +71,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#ge(Expression, Number)
      */
     @Nonnull
-    Predicate ge(@Nonnull Number y);
+    Predicate ge(Number y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -92,7 +91,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#lt(Expression, Number)
      */
     @Nonnull
-    Predicate lt(@Nonnull Number y);
+    Predicate lt(Number y);
 
     /**
      * Create a predicate for testing whether this expression is
@@ -112,7 +111,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#le(Expression, Number)
      */
     @Nonnull
-    Predicate le(@Nonnull Number y);
+    Predicate le(Number y);
 
     // numeric functions
 
@@ -185,7 +184,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#sum(Expression, Number)
      */
     @Nonnull
-    NumericExpression<N> plus(@Nonnull N y);
+    NumericExpression<N> plus(N y);
 
     /**
      * Create an expression that returns the product
@@ -205,7 +204,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#prod(Expression, Number)
      */
     @Nonnull
-    NumericExpression<N> times(@Nonnull N y);
+    NumericExpression<N> times(N y);
 
     /**
      * Create an expression that returns the difference
@@ -225,7 +224,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#diff(Expression, Number)
      */
     @Nonnull
-    NumericExpression<N> minus(@Nonnull N y);
+    NumericExpression<N> minus(N y);
 
     /**
      * Create an expression that returns the quotient
@@ -245,7 +244,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#quot(Expression, Number)
      */
     @Nonnull
-    NumericExpression<N> dividedBy(@Nonnull N y);
+    NumericExpression<N> dividedBy(N y);
 
     /**
      * Create an expression that returns the difference
@@ -254,7 +253,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @return difference
      */
     @Nonnull
-    NumericExpression<N> subtractedFrom(@Nonnull N y);
+    NumericExpression<N> subtractedFrom(N y);
 
     /**
      * Create an expression that returns the quotient
@@ -263,7 +262,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @return quotient
      */
     @Nonnull
-    NumericExpression<N> dividedInto(@Nonnull N y);
+    NumericExpression<N> dividedInto(N y);
 
     // floating point functions
 
@@ -313,7 +312,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @see CriteriaBuilder#power(Expression, Number)
      */
     @Nonnull
-    NumericExpression<Double> power(@Nonnull Number y);
+    NumericExpression<Double> power(Number y);
 
     /**
      * Create an expression that returns this number expression
@@ -436,7 +435,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
 
     @Override
     @Nonnull
-    NumericExpression<N> coalesce(@Nullable N y);
+    NumericExpression<N> coalesce(N y);
 
     @Override
     @Nonnull
@@ -444,7 +443,7 @@ public interface NumericExpression<N extends Number & Comparable<N>>
 
     @Override
     @Nonnull
-    NumericExpression<N> nullif(@Nullable N y);
+    NumericExpression<N> nullif(N y);
 
     @Override
     @Nonnull
