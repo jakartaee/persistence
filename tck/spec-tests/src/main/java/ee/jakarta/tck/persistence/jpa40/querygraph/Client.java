@@ -79,10 +79,58 @@ public class Client extends PMClientBase {
      * returned named graphs, and {@code createQuery(String, EntityGraph)}.
      */
     @Test
-    public void queryEntityGraphIntegrationTest() {
+    public void namedEntityGraphNoMutationTest() {
         // get a copy of a named graph
-        EntityGraph<QueryGraphBook> graph = getEntityManager()
-                .getEntityGraph(QueryGraphBook.class, QueryGraphBook.GRAPH);
+        var throwawayGraph = getEntityManager().getEntityGraph(QueryGraphBook.class, QueryGraphBook.GRAPH);
+        assertTrue(throwawayGraph.hasAttributeNode("publisher"));
+        assertFalse(throwawayGraph.hasAttributeNode("title"));
+        assertFalse(throwawayGraph.hasAttributeNode("authors"));
+
+        // mutate the returned graph
+        throwawayGraph.addAttributeNode("title");
+        throwawayGraph.addAttributeNode("authors");
+        assertTrue(throwawayGraph.hasAttributeNode("title"));
+        assertTrue(throwawayGraph.hasAttributeNode("authors"));
+
+        // check we did not mutate the underlying graph
+        var graph = getEntityManager().getEntityGraph(QueryGraphBook.class, QueryGraphBook.GRAPH);
+        assertTrue(graph.hasAttributeNode("publisher"));
+        assertFalse(graph.hasAttributeNode("title"));
+        assertFalse(graph.hasAttributeNode("authors"));
+
+        var fromTypedQuery = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40QueryGraphBook b WHERE b.id = 1", graph)
+                .getSingleResult();
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery, "title"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery, "publisher"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery.getPublisher()));
+        assertFalse(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery, "authors"));
+        assertEquals(1, fromTypedQuery.getAuthors().size());
+        assertEquals("Alpha", fromTypedQuery.getTitle());
+
+        getEntityManager().clear();
+
+        var fromQueryWithGraph = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40QueryGraphBook b WHERE b.id = 1")
+                .withEntityGraph(graph)
+                .getSingleResult();
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph, "title"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph, "publisher"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph.getPublisher()));
+        assertFalse(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph, "authors"));
+        assertEquals(1, fromQueryWithGraph.getAuthors().size());
+        assertEquals("Alpha", fromQueryWithGraph.getTitle());
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 query/entity graph integration. The test
+     * verifies typed {@code getEntityGraph(Class, String)}, mutability of
+     * returned named graphs, and {@code createQuery(String, EntityGraph)}.
+     */
+    @Test
+    public void namedEntityGraphMutationTest() {
+        // get a copy of a named graph
+        var graph = getEntityManager().getEntityGraph(QueryGraphBook.class, QueryGraphBook.GRAPH);
         assertTrue(graph.hasAttributeNode("publisher"));
         assertFalse(graph.hasAttributeNode("title"));
         assertFalse(graph.hasAttributeNode("authors"));
@@ -93,43 +141,36 @@ public class Client extends PMClientBase {
         assertTrue(graph.hasAttributeNode("title"));
         assertTrue(graph.hasAttributeNode("authors"));
 
-        // check we did not mutate the underlying graph
-        graph = getEntityManager()
-                .getEntityGraph(QueryGraphBook.class, QueryGraphBook.GRAPH);
-        assertTrue(graph.hasAttributeNode("publisher"));
-        assertFalse(graph.hasAttributeNode("title"));
-        assertFalse(graph.hasAttributeNode("authors"));
-
-        QueryGraphBook createdTypedQuery = getEntityManager()
+        var fromTypedQuery = getEntityManager()
                 .createQuery("SELECT b FROM Jpa40QueryGraphBook b WHERE b.id = 1", graph)
                 .getSingleResult();
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(createdTypedQuery, "title"));
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(createdTypedQuery, "publisher"));
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(createdTypedQuery.getPublisher()));
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(createdTypedQuery, "authors"));
-        assertEquals(1, createdTypedQuery.getAuthors().size());
-        assertEquals("Alpha", createdTypedQuery.getTitle());
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery, "title"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery, "publisher"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery.getPublisher()));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromTypedQuery, "authors"));
+        assertEquals(1, fromTypedQuery.getAuthors().size());
+        assertEquals("Alpha", fromTypedQuery.getTitle());
 
         getEntityManager().clear();
 
-        QueryGraphBook fromCreatedQuery = getEntityManager()
+        var fromQueryWithGraph = getEntityManager()
                 .createQuery("SELECT b FROM Jpa40QueryGraphBook b WHERE b.id = 1")
                 .withEntityGraph(graph)
                 .getSingleResult();
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromCreatedQuery, "title"));
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromCreatedQuery, "publisher"));
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromCreatedQuery.getPublisher()));
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromCreatedQuery, "authors"));
-        assertEquals(1, fromCreatedQuery.getAuthors().size());
-        assertEquals("Alpha", fromCreatedQuery.getTitle());
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph, "title"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph, "publisher"));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph.getPublisher()));
+        assertTrue(Persistence.getPersistenceUtil().isLoaded(fromQueryWithGraph, "authors"));
+        assertEquals(1, fromQueryWithGraph.getAuthors().size());
+        assertEquals("Alpha", fromQueryWithGraph.getTitle());
     }
 
     private void createTestData() {
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         transaction.begin();
-        QueryGraphPublisher publisher = new QueryGraphPublisher(1, "Publisher");
-        QueryGraphAuthor author = new QueryGraphAuthor(1, "Author");
-        QueryGraphBook book = new QueryGraphBook(1, "Alpha", publisher);
+        var publisher = new QueryGraphPublisher(1, "Publisher");
+        var author = new QueryGraphAuthor(1, "Author");
+        var book = new QueryGraphBook(1, "Alpha", publisher);
         book.addAuthor(author);
         getEntityManager().persist(publisher);
         getEntityManager().persist(author);
@@ -139,7 +180,7 @@ public class Client extends PMClientBase {
     }
 
     private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         if (transaction.isActive()) {
             transaction.rollback();
         }
