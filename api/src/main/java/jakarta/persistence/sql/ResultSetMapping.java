@@ -87,7 +87,9 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.ColumnResult
      */
-    static <T> ColumnMapping<T> column(String columnName, Class<T> type) {
+    @Nonnull
+    static <T> ColumnMapping<T> column(@Nonnull String columnName,
+                                       @Nonnull Class<T> type) {
         return ColumnMapping.of(columnName, type);
     }
 
@@ -98,7 +100,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.ColumnResult
      */
-    static ColumnMapping<Object> column(String columnName) {
+    @Nonnull
+    static ColumnMapping<Object> column(@Nonnull String columnName) {
         return ColumnMapping.of(columnName);
     }
 
@@ -111,7 +114,9 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.ConstructorResult
      */
-    static <T> ConstructorMapping<T> constructor(Class<T> targetClass, MappingElement<?>... arguments) {
+    @Nonnull
+    static <T> ConstructorMapping<T> constructor(@Nonnull Class<T> targetClass,
+                                                 @Nonnull MappingElement<?>... arguments) {
         return ConstructorMapping.of(targetClass, arguments);
     }
 
@@ -120,7 +125,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param elements Mappings for elements of the type
      */
-    static CompoundMapping compound(MappingElement<?>... elements) {
+    @Nonnull
+    static CompoundMapping compound(@Nonnull MappingElement<?>... elements) {
         return CompoundMapping.of(elements);
     }
 
@@ -130,7 +136,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @param elements Mappings for elements of the type
      */
-    static TupleMapping tuple(MappingElement<?>... elements) {
+    @Nonnull
+    static TupleMapping tuple(@Nonnull MappingElement<?>... elements) {
         return TupleMapping.of(elements);
     }
 
@@ -143,8 +150,10 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.EntityResult
      */
+    @Nonnull
     @SafeVarargs
-    static <T> EntityMapping<T> entity(Class<T> entityClass, MemberMapping<T>... fields) {
+    static <T> EntityMapping<T> entity(@Nonnull Class<T> entityClass,
+                                       @Nonnull MemberMapping<T>... fields) {
         return EntityMapping.of(entityClass, fields);
     }
 
@@ -160,8 +169,11 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.EntityResult
      */
+    @Nonnull
     @SafeVarargs
-    static <T> EntityMapping<T> entity(Class<T> entityClass, String discriminatorColumn, MemberMapping<? extends T>... fields) {
+    static <T> EntityMapping<T> entity(@Nonnull Class<T> entityClass,
+                                       @Nonnull String discriminatorColumn,
+                                       @Nonnull MemberMapping<? extends T>... fields) {
         return EntityMapping.of(entityClass, discriminatorColumn, fields);
     }
 
@@ -175,8 +187,11 @@ public sealed interface ResultSetMapping<T>
      * @param <C> The container type
      * @param <T> The embeddable type
      */
+    @Nonnull
     @SafeVarargs
-    static <C,T> EmbeddedMapping<C,T> embedded(Class<? super C> container, Class<T> embeddableClass, String name, MemberMapping<T>... fields) {
+    static <C,T> EmbeddedMapping<C,T> embedded(@Nonnull Class<? super C> container,
+                                               @Nonnull Class<T> embeddableClass,
+                                               @Nonnull String name, MemberMapping<T>... fields) {
         return EmbeddedMapping.of(container, embeddableClass, name, fields);
     }
 
@@ -188,8 +203,10 @@ public sealed interface ResultSetMapping<T>
      * @param <C> The container type
      * @param <T> The embeddable type
      */
+    @Nonnull
     @SafeVarargs
-    static <C,T> EmbeddedMapping<C,T> embedded(SingularAttribute<? super C,T> embedded, MemberMapping<T>... fields) {
+    static <C,T> EmbeddedMapping<C,T> embedded(@Nonnull SingularAttribute<? super C,T> embedded,
+                                               @Nonnull MemberMapping<T>... fields) {
         return EmbeddedMapping.of(embedded, fields);
     }
 
@@ -205,7 +222,11 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.FieldResult
      */
-    static <C,T> FieldMapping<C,T> field(Class<? super C> container, Class<T> type, String name, String columnName) {
+    @Nonnull
+    static <C,T> FieldMapping<C,T> field(@Nonnull Class<? super C> container,
+                                         @Nonnull Class<T> type,
+                                         @Nonnull String name,
+                                         @Nonnull String columnName) {
         return FieldMapping.of(container, type, name, columnName);
     }
 
@@ -219,7 +240,8 @@ public sealed interface ResultSetMapping<T>
      *
      * @see jakarta.persistence.FieldResult
      */
-    static <C,T> FieldMapping<C,T> field(SingularAttribute<? super C,T> attribute, String columnName) {
+    static <C,T> FieldMapping<C,T> field(@Nonnull SingularAttribute<? super C,T> attribute,
+                                         @Nonnull String columnName) {
         return FieldMapping.of(attribute, columnName);
     }
 }
