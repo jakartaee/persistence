@@ -718,7 +718,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      */
     @Override @SuppressWarnings({"rawtypes", "removal"})
     @Deprecated(since = "4.0", forRemoval = true)
-    @Nonnull
+    @Nullable
     List getResultList();
 
     /**
@@ -740,7 +740,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         is rolled back
      */
     @Override @SuppressWarnings("removal")
-    @Nonnull
+    @Nullable
     Object getSingleResult();
 
     /**
