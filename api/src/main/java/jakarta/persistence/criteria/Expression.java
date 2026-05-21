@@ -18,7 +18,6 @@
 package jakarta.persistence.criteria;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaBuilder.SimpleCase;
 
 import java.util.Collection;
@@ -65,7 +64,7 @@ public interface Expression<T> extends Selection<T> {
      * @since 3.2
      */
     @Nonnull
-    Predicate equalTo(@Nullable Object value);
+    Predicate equalTo(Object value);
 
     /**
      * Create a predicate to test whether the expression is unequal
@@ -85,7 +84,7 @@ public interface Expression<T> extends Selection<T> {
      * @since 3.2
      */
     @Nonnull
-    Predicate notEqualTo(@Nullable Object value);
+    Predicate notEqualTo(Object value);
 
     /**
      * Create a predicate to test whether the expression is a member
@@ -189,7 +188,7 @@ public interface Expression<T> extends Selection<T> {
      * @since 4.0
      */
     @Nonnull
-    Expression<T> coalesce(@Nullable T y);
+    Expression<T> coalesce(T y);
 
     /**
      * Create an expression that tests whether this expression
@@ -211,7 +210,7 @@ public interface Expression<T> extends Selection<T> {
      * @since 4.0
      */
     @Nonnull
-    Expression<T> nullif(@Nullable T y);
+    Expression<T> nullif(T y);
 
     //case builders:
 

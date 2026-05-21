@@ -17,7 +17,6 @@
 package jakarta.persistence.criteria;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Type for string query expressions.
@@ -543,7 +542,7 @@ public interface TextExpression extends ComparableExpression<String> {
 
 	@Override
 	@Nonnull
-	TextExpression coalesce(@Nullable String y);
+	TextExpression coalesce(String y);
 
 	@Override
 	@Nonnull
@@ -551,7 +550,7 @@ public interface TextExpression extends ComparableExpression<String> {
 
 	@Override
 	@Nonnull
-	TextExpression nullif(@Nullable String y);
+	TextExpression nullif(String y);
 
 	@Override
 	@Nonnull

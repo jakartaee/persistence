@@ -17,7 +17,6 @@
 package jakarta.persistence.criteria;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Type for boolean query expressions.
@@ -58,7 +57,7 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 
 	@Override
 	@Nonnull
-	BooleanExpression coalesce(@Nullable Boolean y);
+	BooleanExpression coalesce(Boolean y);
 
 	@Override
 	@Nonnull
@@ -66,7 +65,7 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 
 	@Override
 	@Nonnull
-	BooleanExpression nullif(@Nullable Boolean y);
+	BooleanExpression nullif(Boolean y);
 
 	@Override
 	@Nonnull

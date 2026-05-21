@@ -22,7 +22,6 @@
 package jakarta.persistence.criteria;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.temporal.Temporal;
@@ -628,7 +627,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Predicate equal(@Nonnull Expression<?> x,
-                    @Nullable Object y);
+                    Object y);
 
     /**
      * Create a predicate for testing the arguments for inequality.
@@ -648,7 +647,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Predicate notEqual(@Nonnull Expression<?> x,
-                       @Nullable Object y);
+                       Object y);
 
 	
     //comparisons for generic (non-numeric) operands:
@@ -677,7 +676,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <Y extends Comparable<? super Y>> Predicate greaterThan(@Nonnull Expression<? extends Y> x,
-                                                            @Nonnull Y y);
+                                                            Y y);
     
     /**
      * Create a predicate for testing whether the first argument is 
@@ -703,7 +702,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <Y extends Comparable<? super Y>> Predicate greaterThanOrEqualTo(@Nonnull Expression<? extends Y> x,
-                                                                     @Nonnull Y y);
+                                                                     Y y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -729,7 +728,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <Y extends Comparable<? super Y>> Predicate lessThan(@Nonnull Expression<? extends Y> x,
-                                                         @Nonnull Y y);
+                                                         Y y);
 	
     /**
      * Create a predicate for testing whether the first argument is 
@@ -755,7 +754,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <Y extends Comparable<? super Y>> Predicate lessThanOrEqualTo(@Nonnull Expression<? extends Y> x,
-                                                                  @Nonnull Y y);
+                                                                  Y y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -782,7 +781,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <Y extends Comparable<? super Y>> Predicate between(@Nonnull Expression<? extends Y> v,
-                                                        @Nonnull Y x, @Nonnull Y y);
+                                                        Y x, Y y);
 	
     /**
      * Create a predicate for testing whether the first argument is 
@@ -795,7 +794,7 @@ public interface CriteriaBuilder {
      * @since 4.0
      */
     @Nonnull
-    <Y extends Comparable<? super Y>> Predicate between(@Nonnull Y v,
+    <Y extends Comparable<? super Y>> Predicate between(Y v,
                                                         @Nonnull Expression<? extends Y> x,
                                                         @Nonnull Expression<? extends Y> y);
 
@@ -823,7 +822,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Predicate gt(@Nonnull Expression<? extends Number> x,
-                 @Nonnull Number y);
+                 Number y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -847,7 +846,7 @@ public interface CriteriaBuilder {
      */	
     @Nonnull
     Predicate ge(@Nonnull Expression<? extends Number> x,
-                 @Nonnull Number y);
+                 Number y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -871,7 +870,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Predicate lt(@Nonnull Expression<? extends Number> x,
-                 @Nonnull Number y);
+                 Number y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -895,7 +894,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Predicate le(@Nonnull Expression<? extends Number> x,
-                 @Nonnull Number y);
+                 Number y);
 	
 
     //numerical operations:
@@ -974,7 +973,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <N extends Number> Expression<N> sum(@Nonnull Expression<? extends N> x,
-                                         @Nonnull N y);
+                                         N y);
 
     /**
      * Create an expression that returns the sum
@@ -985,7 +984,7 @@ public interface CriteriaBuilder {
      * @return sum
      */
     @Nonnull
-    <N extends Number> Expression<N> sum(@Nonnull N x,
+    <N extends Number> Expression<N> sum(N x,
                                          @Nonnull Expression<? extends N> y);
 
     /**
@@ -1010,7 +1009,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <N extends Number> Expression<N> prod(@Nonnull Expression<? extends N> x,
-                                          @Nonnull N y);
+                                          N y);
 
     /**
      * Create an expression that returns the product
@@ -1021,7 +1020,7 @@ public interface CriteriaBuilder {
      * @return product
      */
     @Nonnull
-    <N extends Number> Expression<N> prod(@Nonnull N x,
+    <N extends Number> Expression<N> prod(N x,
                                           @Nonnull Expression<? extends N> y);
 
     /**
@@ -1046,7 +1045,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <N extends Number> Expression<N> diff(@Nonnull Expression<? extends N> x,
-                                          @Nonnull N y);
+                                          N y);
 
     /**
      * Create an expression that returns the difference
@@ -1057,7 +1056,7 @@ public interface CriteriaBuilder {
      * @return difference
      */
     @Nonnull
-    <N extends Number> Expression<N> diff(@Nonnull N x,
+    <N extends Number> Expression<N> diff(N x,
                                           @Nonnull Expression<? extends N> y);
 	
     /**
@@ -1080,7 +1079,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Expression<Number> quot(@Nonnull Expression<? extends Number> x,
-                            @Nonnull Number y);
+                            Number y);
 
     /**
      * Create an expression that returns the quotient
@@ -1090,7 +1089,7 @@ public interface CriteriaBuilder {
      * @return quotient
      */
     @Nonnull
-    Expression<Number> quot(@Nonnull Number x,
+    Expression<Number> quot(Number x,
                             @Nonnull Expression<? extends Number> y);
 	
     /**
@@ -1115,7 +1114,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Expression<Integer> mod(@Nonnull Expression<Integer> x,
-                            @Nonnull Integer y);
+                            Integer y);
 
     /**
      * Create an expression that returns the modulus
@@ -1126,7 +1125,7 @@ public interface CriteriaBuilder {
      * @return modulus
      */
     @Nonnull
-    Expression<Integer> mod(@Nonnull Integer x,
+    Expression<Integer> mod(Integer x,
                             @Nonnull Expression<Integer> y);
 
     /**
@@ -1177,7 +1176,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Expression<Double> power(@Nonnull Expression<? extends Number> x,
-                             @Nonnull Number y);
+                             Number y);
 
     /**
      * Create an expression that returns the first argument
@@ -1411,7 +1410,7 @@ public interface CriteriaBuilder {
      * @return is-member predicate
      */
     @Nonnull
-    <E, C extends Collection<E>> Predicate isMember(@Nonnull E elem,
+    <E, C extends Collection<E>> Predicate isMember(E elem,
                                                     @Nonnull Expression<C> collection);
 
     /**
@@ -1439,7 +1438,7 @@ public interface CriteriaBuilder {
      * @return is-not-member predicate
      */
     @Nonnull
-    <E, C extends Collection<E>> Predicate isNotMember(@Nonnull E elem,
+    <E, C extends Collection<E>> Predicate isNotMember(E elem,
                                                        @Nonnull Expression<C> collection);
 
 
@@ -1514,7 +1513,8 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     Predicate like(@Nonnull Expression<String> x,
-                   @Nonnull Expression<String> pattern, char escapeChar);
+                   @Nonnull Expression<String> pattern,
+                   char escapeChar);
 	
     /**
      * Create a predicate for testing whether the expression
@@ -2068,7 +2068,7 @@ public interface CriteriaBuilder {
           * @return in predicate
           */
          @Nonnull
-         In<T> value(@Nullable T value);
+         In<T> value(T value);
 
          /**
           * Add to list of values to be tested against.
@@ -2116,7 +2116,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <Y> Expression<Y> coalesce(@Nonnull Expression<? extends Y> x,
-                               @Nullable Y y);
+                               Y y);
     
     /**
      * Create an expression that tests whether its argument are
@@ -2142,7 +2142,7 @@ public interface CriteriaBuilder {
      */
     @Nonnull
     <Y> Expression<Y> nullif(@Nonnull Expression<Y> x,
-                             @Nullable Y y);
+                             Y y);
 
 
     // coalesce builder:
@@ -2164,7 +2164,7 @@ public interface CriteriaBuilder {
           * @return coalesce expression
           */
          @Nonnull
-         Coalesce<T> value(@Nullable T value);
+         Coalesce<T> value(T value);
 
          /**
           * Add an argument to the coalesce expression.
@@ -2211,8 +2211,8 @@ public interface CriteriaBuilder {
 		 * @return simple case expression
 		 */
 		@Nonnull
-		SimpleCase<C, R> when(@Nullable C condition,
-                              @Nullable R result);
+		SimpleCase<C, R> when(C condition,
+                              R result);
 
 		/**
 		 * Add a when/then clause to the case expression.
@@ -2221,7 +2221,7 @@ public interface CriteriaBuilder {
 		 * @return simple case expression
 		 */
 		@Nonnull
-		SimpleCase<C, R> when(@Nullable C condition,
+		SimpleCase<C, R> when(C condition,
                               @Nonnull Expression<? extends R> result);
 
 		/**
@@ -2232,7 +2232,7 @@ public interface CriteriaBuilder {
 		 */
 		@Nonnull
 		SimpleCase<C, R> when(@Nonnull Expression<? extends C> condition,
-                              @Nullable R result);
+                              R result);
 
 		/**
 		 * Add a when/then clause to the case expression.
@@ -2250,7 +2250,7 @@ public interface CriteriaBuilder {
 		 * @return expression
 		 */
 		@Nonnull
-		Expression<R> otherwise(@Nullable R result);
+		Expression<R> otherwise(R result);
 
 		/**
 		 * Add an "else" clause to the case expression.
@@ -2301,7 +2301,7 @@ public interface CriteriaBuilder {
 		 */
 		@Nonnull
 		Case<R> when(@Nonnull Expression<Boolean> condition,
-                     @Nullable R result);
+                     R result);
 
 		/**
 		 * Add a when/then clause to the case expression.
@@ -2319,7 +2319,7 @@ public interface CriteriaBuilder {
 		 * @return expression
 		 */
 		@Nonnull
-		Expression<R> otherwise(@Nullable R result);
+		Expression<R> otherwise(R result);
 
 		/**
 		 * Add an "else" clause to the case expression.
