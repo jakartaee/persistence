@@ -71,6 +71,8 @@ Improved `@Index` and `@Table` to allow more customization of the generated DDL
 
 Added operations to `CriteriaBuilder` accepting JPQL query strings, returning corresponding criteria objects
 
+Added `augment()` methods to `CriteriaBuilder` for use in Jakarta Data implementations
+
 Added additional overload of `CriteriaBuilder.between()`
 
 Added `QueryFlushMode`, `Query.setQueryFlushMode()`, and `flush` to `@NamedQuery` and `@NamedNativeQuery`
@@ -116,7 +118,9 @@ Jakarta Validation constraints
 
 ==== Minor Changes and Fixes
 
-`jakarta.annotation.Nonnull` now implies `optional=false`
+Added `jakarta.annotation.Nullable` and `jakarta.annotation.Nonnull` to APIs
+
+`jakarta.annotation.Nonnull` on an entity attribute now implies `optional=false`
 
 Allow `@EntityResult` as a subelement of `@ConstructorResult` in named SQL result set mappings
 
@@ -133,6 +137,8 @@ Fixed some incorrect generic method signatures in `From`
 Fixed use of raw types in `AttributeNode`
 
 Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
+
+Redefined semantics of `EntityExistsException`
 
 Clarified that null collection-valued attributes are interpreted as empty collections
 
