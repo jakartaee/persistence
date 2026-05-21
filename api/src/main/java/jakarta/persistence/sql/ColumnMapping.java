@@ -26,6 +26,7 @@ import static java.util.Objects.requireNonNull;
  *
  * @param columnName The name of the mapped column of the result set
  * @param type The Java type of the resulting scalar value
+ * @param alias An optional alias
  * @param <T> The type of the resulting scalar value
  *
  * @see jakarta.persistence.ColumnResult

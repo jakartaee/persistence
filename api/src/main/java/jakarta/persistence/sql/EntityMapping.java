@@ -33,6 +33,7 @@ import static java.util.Objects.requireNonNull;
  *        there is no discriminator column.
  * @param fields Mappings for fields or properties of the entity
  *               and of its entity subclasses
+ * @param alias An optional alias
  * @param <T> The entity type
  *
  * @see jakarta.persistence.EntityResult

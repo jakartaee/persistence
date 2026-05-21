@@ -26,6 +26,7 @@ import static java.util.Objects.requireNonNull;
  *
  * @param targetClass The Java class which declares the constructor
  * @param arguments Mappings assigned to the parameters of the constructor
+ * @param alias An optional alias
  * @param <T> The type of the Java class
  *
  * @see jakarta.persistence.ConstructorResult
