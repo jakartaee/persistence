@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Type for collection query expressions.
  *
@@ -33,6 +35,7 @@ public interface PluralExpression<C, E> extends Expression<C> {
 	 * @return is-empty predicate
 	 * @see CriteriaBuilder#isEmpty(Expression)
 	 */
+	@Nonnull
 	Predicate isEmpty();
 
 	/**
@@ -41,6 +44,7 @@ public interface PluralExpression<C, E> extends Expression<C> {
 	 * @return is-not-empty predicate
 	 * @see CriteriaBuilder#isNotEmpty(Expression)
 	 */
+	@Nonnull
 	Predicate isNotEmpty();
 
 	/**
@@ -48,6 +52,7 @@ public interface PluralExpression<C, E> extends Expression<C> {
 	 * @return size expression
 	 * @see CriteriaBuilder#size(Expression)
 	 */
+	@Nonnull
 	NumericExpression<Integer> size();
 
 	/**
@@ -57,7 +62,8 @@ public interface PluralExpression<C, E> extends Expression<C> {
 	 * @param elem element expression
 	 * @return is-member predicate
 	 */
-	Predicate contains(Expression<? extends E> elem);
+	@Nonnull
+	Predicate contains(@Nonnull Expression<? extends E> elem);
 
 	/**
 	 * Create a predicate that tests whether an element is
@@ -66,7 +72,8 @@ public interface PluralExpression<C, E> extends Expression<C> {
 	 * @param elem element
 	 * @return is-member predicate
 	 */
-	Predicate contains(E elem);
+	@Nonnull
+	Predicate contains(@Nonnull E elem);
 
 	/**
 	 * Create a predicate that tests whether an element is
@@ -75,7 +82,8 @@ public interface PluralExpression<C, E> extends Expression<C> {
 	 * @param elem element expression
 	 * @return is-not-member predicate
 	 */
-	Predicate notContains(Expression<? extends E> elem);
+	@Nonnull
+	Predicate notContains(@Nonnull Expression<? extends E> elem);
 
 	/**
 	 * Create a predicate that tests whether an element is
@@ -84,5 +92,6 @@ public interface PluralExpression<C, E> extends Expression<C> {
 	 * @param elem element
 	 * @return is-not-member predicate
 	 */
-	Predicate notContains(E elem);
+	@Nonnull
+	Predicate notContains(@Nonnull E elem);
 }

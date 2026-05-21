@@ -16,6 +16,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
@@ -32,6 +33,7 @@ public interface Root<X> extends From<X, X> {
      * Return the metamodel entity corresponding to the root.
      * @return metamodel entity corresponding to the root
      */
+    @Nonnull
     EntityType<X> getModel();
 
     /**
@@ -41,5 +43,6 @@ public interface Root<X> extends From<X, X> {
      * @return this root downcast to the given type
      * @since 4.0
      */
-    <T extends X> Root<T> treat(Class<T> type);
+    @Nonnull
+    <T extends X> Root<T> treat(@Nonnull Class<T> type);
 }

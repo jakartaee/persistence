@@ -15,6 +15,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.EntityType;
 
 /**
@@ -38,7 +40,8 @@ public interface CriteriaStatement<T> extends CommonAbstractCriteria {
      * @param entityClass  the entity class
      * @return query root corresponding to the given entity
      */
-    Root<T> from(Class<T> entityClass);
+    @Nonnull
+    Root<T> from(@Nonnull Class<T> entityClass);
 
     /**
      * Create and add a statement root corresponding to the entity
@@ -47,12 +50,14 @@ public interface CriteriaStatement<T> extends CommonAbstractCriteria {
      * @param entity  metamodel object representing the entity
      * @return query root corresponding to the given entity
      */
-    Root<T> from(EntityType<T> entity);
+    @Nonnull
+    Root<T> from(@Nonnull EntityType<T> entity);
 
     /**
      * Return the statement root.
      * @return the statement root
      */
+    @Nullable
     Root<T> getRoot();
 
 }

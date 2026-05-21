@@ -16,6 +16,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.PluralAttribute;
 
 /**
@@ -37,6 +38,7 @@ public interface PluralJoin<Z, C, E> extends Join<Z, E> {
      * @return metamodel collection-valued attribute corresponding
      *         to the target of the join
      */
+    @Nonnull
     PluralAttribute<? super Z, C, E> getModel();
 
     /**
@@ -46,5 +48,6 @@ public interface PluralJoin<Z, C, E> extends Join<Z, E> {
      * @return this plural join downcast to the given element type
      * @since 4.0
      */
-    <T extends E> PluralJoin<Z, ?, T> treat(Class<T> type);
+    @Nonnull
+    <T extends E> PluralJoin<Z, ?, T> treat(@Nonnull Class<T> type);
 }

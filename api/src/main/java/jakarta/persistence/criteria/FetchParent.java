@@ -16,6 +16,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.PluralAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 
@@ -37,6 +38,7 @@ public interface FetchParent<Z, X> {
      * Modifications to the set do not affect the query.
      * @return fetch joins made from this type
      */
+    @Nonnull
     java.util.Set<Fetch<X, ?>> getFetches();
 
     /**
@@ -46,7 +48,8 @@ public interface FetchParent<Z, X> {
      * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
      */	
-    <Y> Fetch<X, Y> fetch(SingularAttribute<? super X, Y> attribute);
+    @Nonnull
+    <Y> Fetch<X, Y> fetch(@Nonnull SingularAttribute<? super X, Y> attribute);
 
     /**
      * Create a fetch join to the specified single-valued attribute 
@@ -56,7 +59,8 @@ public interface FetchParent<Z, X> {
      * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
      */	
-    <Y> Fetch<X, Y> fetch(SingularAttribute<? super X, Y> attribute, JoinType jt);
+    @Nonnull
+    <Y> Fetch<X, Y> fetch(@Nonnull SingularAttribute<? super X, Y> attribute, @Nonnull JoinType jt);
 
     /**
      * Create a fetch join to the specified collection-valued 
@@ -65,7 +69,8 @@ public interface FetchParent<Z, X> {
      * @param <Y> the type of the fetched attribute
      * @return the resulting join
      */
-    <Y> Fetch<X, Y> fetch(PluralAttribute<? super X, ?, Y> attribute);
+    @Nonnull
+    <Y> Fetch<X, Y> fetch(@Nonnull PluralAttribute<? super X, ?, Y> attribute);
 	
     /**
      * Create a fetch join to the specified collection-valued 
@@ -75,7 +80,8 @@ public interface FetchParent<Z, X> {
      * @param <Y> the type of the fetched attribute
      * @return the resulting join
      */
-    <Y> Fetch<X, Y> fetch(PluralAttribute<? super X, ?, Y> attribute, JoinType jt);
+    @Nonnull
+    <Y> Fetch<X, Y> fetch(@Nonnull PluralAttribute<? super X, ?, Y> attribute, @Nonnull JoinType jt);
 	
 
     //String-based:
@@ -96,7 +102,8 @@ public interface FetchParent<Z, X> {
      *          or {@link #fetch(PluralAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */	
-    <Y> Fetch<X, Y> fetch(String attributeName);
+    @Nonnull
+    <Y> Fetch<X, Y> fetch(@Nonnull String attributeName);
 
     /**
      * Create a fetch join to the specified attribute using 
@@ -115,5 +122,6 @@ public interface FetchParent<Z, X> {
      *          or {@link #fetch(PluralAttribute, JoinType)}.
      *          Use of the typesafe version is strongly preferred.
      */	
-    <Y> Fetch<X, Y> fetch(String attributeName, JoinType jt);
+    @Nonnull
+    <Y> Fetch<X, Y> fetch(@Nonnull String attributeName, @Nonnull JoinType jt);
 }

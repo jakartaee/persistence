@@ -17,6 +17,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -36,6 +37,7 @@ public interface Predicate extends BooleanExpression {
      * If the predicate is simple, this is {@code AND}.
      * @return boolean operator for the predicate
      */
+    @Nonnull
     BooleanOperator getOperator();
     
     /**
@@ -54,6 +56,7 @@ public interface Predicate extends BooleanExpression {
      * Modifications to the list do not affect the query.
      * @return list of boolean expressions forming the predicate
      */
+    @Nonnull
     List<Expression<Boolean>> getExpressions();
 
     /**
@@ -61,6 +64,7 @@ public interface Predicate extends BooleanExpression {
      * @return negated predicate 
      */
     @Override
+    @Nonnull
     Predicate not();
 
 }

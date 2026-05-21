@@ -16,6 +16,9 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  * Type for boolean query expressions.
  *
@@ -31,7 +34,8 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 * @return and predicate
 	 * @see CriteriaBuilder#and(Expression, Expression)
 	 */
-	Predicate and(Expression<Boolean> y);
+	@Nonnull
+	Predicate and(@Nonnull Expression<Boolean> y);
 
 	/**
 	 * Create a disjunction of this and the given boolean expressions.
@@ -39,26 +43,32 @@ public interface BooleanExpression extends ComparableExpression<Boolean> {
 	 * @return or predicate
 	 * @see CriteriaBuilder#or(Expression, Expression)
 	 */
-	Predicate or(Expression<Boolean> y);
+	@Nonnull
+	Predicate or(@Nonnull Expression<Boolean> y);
 
 	/**
 	 * Create a negation of this restriction.
 	 * @return not predicate
 	 * @see CriteriaBuilder#not(Expression)
 	 */
+	@Nonnull
 	Predicate not();
 
 	// overrides
 
 	@Override
-	BooleanExpression coalesce(Boolean y);
+	@Nonnull
+	BooleanExpression coalesce(@Nullable Boolean y);
 
 	@Override
-	BooleanExpression coalesce(Expression<? extends Boolean> y);
+	@Nonnull
+	BooleanExpression coalesce(@Nonnull Expression<? extends Boolean> y);
 
 	@Override
-	BooleanExpression nullif(Boolean y);
+	@Nonnull
+	BooleanExpression nullif(@Nullable Boolean y);
 
 	@Override
-	BooleanExpression nullif(Expression<? extends Boolean> y);
+	@Nonnull
+	BooleanExpression nullif(@Nonnull Expression<? extends Boolean> y);
 }

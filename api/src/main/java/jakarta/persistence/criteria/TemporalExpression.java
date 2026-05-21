@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.time.temporal.Temporal;
 
 /**
@@ -36,28 +38,34 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 	 * @return expression for the value of the extracted field
 	 * @see CriteriaBuilder#extract(TemporalField, Expression)
 	 */
-	<N extends Number & Comparable<N>> NumericExpression<N> extract(TemporalField<N, T> field);
+	@Nonnull
+	<N extends Number & Comparable<N>> NumericExpression<N> extract(@Nonnull TemporalField<N, T> field);
 
 	// overrides
 
 	@Override
-	TemporalExpression<T> coalesce(T y);
+	@Nonnull
+	TemporalExpression<T> coalesce(@Nullable T y);
 
 	@Override
-	TemporalExpression<T> coalesce(Expression<? extends T> y);
+	@Nonnull
+	TemporalExpression<T> coalesce(@Nonnull Expression<? extends T> y);
 
 	@Override
-	TemporalExpression<T> nullif(T y);
+	@Nonnull
+	TemporalExpression<T> nullif(@Nullable T y);
 
 	@Override
-	TemporalExpression<T> nullif(Expression<? extends T> y);
+    @Nonnull
+	TemporalExpression<T> nullif(@Nonnull Expression<? extends T> y);
 
 	/**
 	 * Synonym for {@link #lessThan(Expression)}.
 	 * @param y expression
 	 * @return before predicate
 	 */
-	default Predicate before(Expression<? extends T> y) {
+    @Nonnull
+    default Predicate before(@Nonnull Expression<? extends T> y) {
 		return lessThan(y);
 	}
 
@@ -66,7 +74,8 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 	 * @param y value
 	 * @return before predicate
 	 */
-	default Predicate before(T y) {
+    @Nonnull
+    default Predicate before(@Nonnull T y) {
 		return lessThan(y);
 	}
 
@@ -75,7 +84,8 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 	 * @param y expression
 	 * @return after predicate
 	 */
-	default Predicate after(Expression<? extends T> y) {
+    @Nonnull
+    default Predicate after(@Nonnull Expression<? extends T> y) {
 		return greaterThan(y);
 	}
 
@@ -84,7 +94,8 @@ public interface TemporalExpression<T extends Temporal & Comparable<? super T>>
 	 * @param y value
 	 * @return after predicate
 	 */
-	default Predicate after(T y) {
+    @Nonnull
+    default Predicate after(@Nonnull T y) {
 		return greaterThan(y);
 	}
 }

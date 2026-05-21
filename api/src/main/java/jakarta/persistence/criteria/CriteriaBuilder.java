@@ -21,6 +21,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.temporal.Temporal;
@@ -52,6 +54,7 @@ public interface CriteriaBuilder {
      * Create a {@link CriteriaQuery} object.
      * @return criteria query object
      */
+    @Nonnull
     CriteriaQuery<Object> createQuery();
 
     /**
@@ -61,7 +64,8 @@ public interface CriteriaBuilder {
      * @param <T> the query result type
      * @return criteria query object
      */
-    <T> CriteriaQuery<T> createQuery(Class<T> resultClass);
+    @Nonnull
+    <T> CriteriaQuery<T> createQuery(@Nonnull Class<T> resultClass);
 
     /**
      * Create a {@link CriteriaQuery} object representing the
@@ -79,7 +83,9 @@ public interface CriteriaBuilder {
      *         constructor
      * @since 4.0
      */
-    <T> CriteriaQuery<T> createQuery(Class<T> resultClass, String jpql);
+    @Nonnull
+    <T> CriteriaQuery<T> createQuery(@Nonnull Class<T> resultClass,
+                                     @Nonnull String jpql);
 
     /**
      * Create a {@link CriteriaQuery} object representing the
@@ -92,13 +98,15 @@ public interface CriteriaBuilder {
      *         found to be invalid
      * @since 4.0
      */
-    CriteriaQuery<?> createQuery(String jpql);
+    @Nonnull
+    CriteriaQuery<?> createQuery(@Nonnull String jpql);
 
     /**
      * Create a {@link CriteriaQuery} object that returns a
      * tuple of objects as its result.
      * @return criteria query object
      */
+    @Nonnull
     CriteriaQuery<Tuple> createTupleQuery();
 
     // methods to construct queries for bulk updates and deletes:
@@ -111,7 +119,8 @@ public interface CriteriaBuilder {
      * @return the criteria statement object
      * @since 2.1
      */
-    <T> CriteriaUpdate<T> createCriteriaUpdate(Class<T> targetEntity);
+    @Nonnull
+    <T> CriteriaUpdate<T> createCriteriaUpdate(@Nonnull Class<T> targetEntity);
 
     /**
      * Create a {@link CriteriaUpdate} object representing the
@@ -128,7 +137,9 @@ public interface CriteriaBuilder {
      * @return the criteria statement object
      * @since 4.0
      */
-    <T> CriteriaUpdate<T> createCriteriaUpdate(Class<T> targetEntity, String jpql);
+    @Nonnull
+    <T> CriteriaUpdate<T> createCriteriaUpdate(@Nonnull Class<T> targetEntity,
+                                               @Nonnull String jpql);
 
     /**
      * Create a {@link CriteriaUpdate} object representing the
@@ -141,7 +152,8 @@ public interface CriteriaBuilder {
      * @return the criteria statement object
      * @since 4.0
      */
-    CriteriaUpdate<?> createCriteriaUpdate(String jpql);
+    @Nonnull
+    CriteriaUpdate<?> createCriteriaUpdate(@Nonnull String jpql);
 
     /**
      * Create a {@link CriteriaDelete} object to perform a bulk
@@ -151,7 +163,8 @@ public interface CriteriaBuilder {
      * @return the criteria statement object
      * @since 2.1
      */
-    <T> CriteriaDelete<T> createCriteriaDelete(Class<T> targetEntity);
+    @Nonnull
+    <T> CriteriaDelete<T> createCriteriaDelete(@Nonnull Class<T> targetEntity);
 
     /**
      * Create a {@link CriteriaDelete} object representing the
@@ -168,7 +181,9 @@ public interface CriteriaBuilder {
      * @return the criteria statement object
      * @since 4.0
      */
-    <T> CriteriaDelete<T> createCriteriaDelete(Class<T> targetEntity, String jpql);
+    @Nonnull
+    <T> CriteriaDelete<T> createCriteriaDelete(@Nonnull Class<T> targetEntity,
+                                               @Nonnull String jpql);
 
     /**
      * Create a {@link CriteriaDelete} object representing the
@@ -181,7 +196,8 @@ public interface CriteriaBuilder {
      * @return the criteria statement object
      * @since 4.0
      */
-    CriteriaDelete<?> createCriteriaDelete(String jpql);
+    @Nonnull
+    CriteriaDelete<?> createCriteriaDelete(@Nonnull String jpql);
 
     /**
      * Modify the Jakarta Persistence query language query
@@ -200,8 +216,9 @@ public interface CriteriaBuilder {
      *         to the owning factory
      * @since 4.0
      */
-    <T> TypedQueryReference<T> augment(TypedQueryReference<T> reference,
-                                       Consumer<CriteriaQuery<T>> augmentation);
+    @Nonnull
+    <T> TypedQueryReference<T> augment(@Nonnull TypedQueryReference<T> reference,
+                                       @Nonnull Consumer<CriteriaQuery<T>> augmentation);
 
     /**
      * Modify the Jakarta Persistence query language statement
@@ -219,8 +236,9 @@ public interface CriteriaBuilder {
      *         factory
      * @since 4.0
      */
-    StatementReference augment(StatementReference reference,
-                               Consumer<CriteriaStatement<?>> augmentation);
+    @Nonnull
+    StatementReference augment(@Nonnull StatementReference reference,
+                               @Nonnull Consumer<CriteriaStatement<?>> augmentation);
 
 
     // selection construction methods:
@@ -238,7 +256,9 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if an argument is a 
      *         tuple- or array-valued selection item
      */
-    <Y> CompoundSelection<Y> construct(Class<Y> resultClass, Selection<?>... selections);
+    @Nonnull
+    <Y> CompoundSelection<Y> construct(@Nonnull Class<Y> resultClass,
+                                       @Nonnull Selection<?>... selections);
 
     /**
      * Create a tuple-valued selection item.
@@ -247,7 +267,8 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if an argument is a 
      *         tuple- or array-valued selection item
      */
-    CompoundSelection<Tuple> tuple(Selection<?>... selections);
+    @Nonnull
+    CompoundSelection<Tuple> tuple(@Nonnull Selection<?>... selections);
 
     /**
      * Create a tuple-valued selection item.
@@ -257,7 +278,8 @@ public interface CriteriaBuilder {
      *         tuple- or array-valued selection item
      * @since 3.2
      */
-    CompoundSelection<Tuple> tuple(List<Selection<?>> selections);
+    @Nonnull
+    CompoundSelection<Tuple> tuple(@Nonnull List<Selection<?>> selections);
 
     /**
      * Create an array-valued selection item.
@@ -266,7 +288,8 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if an argument is a
      *         tuple- or array-valued selection item
      */
-    CompoundSelection<Object[]> array(Selection<?>... selections);
+    @Nonnull
+    CompoundSelection<Object[]> array(@Nonnull Selection<?>... selections);
 
     /**
      * Create an array-valued selection item.
@@ -276,7 +299,8 @@ public interface CriteriaBuilder {
      *         tuple- or array-valued selection item
      * @since 3.2
      */
-    CompoundSelection<Object[]> array(List<Selection<?>> selections);
+    @Nonnull
+    CompoundSelection<Object[]> array(@Nonnull List<Selection<?>> selections);
 
 
     //ordering:
@@ -286,14 +310,16 @@ public interface CriteriaBuilder {
      * @param expression  expression used to define the ordering
      * @return ascending ordering corresponding to the expression
      */
-    Order asc(Expression<?> expression);
+    @Nonnull
+    Order asc(@Nonnull Expression<?> expression);
 
     /**
      * Create an ordering by the descending value of the expression.
      * @param expression  expression used to define the ordering
      * @return descending ordering corresponding to the expression
      */
-    Order desc(Expression<?> expression);
+    @Nonnull
+    Order desc(@Nonnull Expression<?> expression);
 
     /**
      * Create an ordering by the ascending value of the expression.
@@ -302,7 +328,9 @@ public interface CriteriaBuilder {
      * @return ascending ordering corresponding to the expression
      * @since 3.2
      */
-    Order asc(Expression<?> expression, Nulls nullPrecedence);
+    @Nonnull
+    Order asc(@Nonnull Expression<?> expression,
+              @Nonnull Nulls nullPrecedence);
 
     /**
      * Create an ordering by the descending value of the expression.
@@ -311,7 +339,9 @@ public interface CriteriaBuilder {
      * @return descending ordering corresponding to the expression
      * @since 3.2
      */
-    Order desc(Expression<?> expression, Nulls nullPrecedence);
+    @Nonnull
+    Order desc(@Nonnull Expression<?> expression,
+               @Nonnull Nulls nullPrecedence);
 
 
     //aggregate functions:
@@ -322,7 +352,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return avg expression
      */
-    <N extends Number> Expression<Double> avg(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<Double> avg(@Nonnull Expression<N> x);
 
     /**
      * Create an aggregate expression applying the sum operation.
@@ -330,7 +361,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return sum expression
      */
-    <N extends Number> Expression<N> sum(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<N> sum(@Nonnull Expression<N> x);
 
     /**
      * Create an aggregate expression applying the sum operation to an
@@ -338,7 +370,8 @@ public interface CriteriaBuilder {
      * @param x  expression representing input value to sum operation
      * @return sum expression
      */
-    Expression<Long> sumAsLong(Expression<Integer> x);
+    @Nonnull
+    Expression<Long> sumAsLong(@Nonnull Expression<Integer> x);
 
     /**
      * Create an aggregate expression applying the sum operation to a
@@ -346,7 +379,8 @@ public interface CriteriaBuilder {
      * @param x  expression representing input value to sum operation
      * @return sum expression
      */
-    Expression<Double> sumAsDouble(Expression<Float> x);
+    @Nonnull
+    Expression<Double> sumAsDouble(@Nonnull Expression<Float> x);
     
     /**
      * Create an aggregate expression applying the numerical max 
@@ -355,7 +389,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return max expression
      */
-    <N extends Number> Expression<N> max(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<N> max(@Nonnull Expression<N> x);
     
     /**
      * Create an aggregate expression applying the numerical min 
@@ -364,7 +399,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return min expression
      */
-    <N extends Number> Expression<N> min(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<N> min(@Nonnull Expression<N> x);
 
     /**
      * Create an aggregate expression for finding the greatest of
@@ -374,7 +410,8 @@ public interface CriteriaBuilder {
      * @param <X> the type of the expression
      * @return greatest expression
      */
-    <X extends Comparable<? super X>> Expression<X> greatest(Expression<X> x);
+    @Nonnull
+    <X extends Comparable<? super X>> Expression<X> greatest(@Nonnull Expression<X> x);
     
     /**
      * Create an aggregate expression for finding the least of
@@ -384,7 +421,8 @@ public interface CriteriaBuilder {
      * @param <X> the type of the expression
      * @return least expression
      */
-    <X extends Comparable<? super X>> Expression<X> least(Expression<X> x);
+    @Nonnull
+    <X extends Comparable<? super X>> Expression<X> least(@Nonnull Expression<X> x);
 
     /**
      * Create an aggregate expression applying the count operation.
@@ -392,7 +430,8 @@ public interface CriteriaBuilder {
      *           operation
      * @return count expression
      */
-    Expression<Long> count(Expression<?> x);
+    @Nonnull
+    Expression<Long> count(@Nonnull Expression<?> x);
 
     /**
      * Create an aggregate expression applying the count distinct 
@@ -401,7 +440,8 @@ public interface CriteriaBuilder {
      *        count distinct operation
      * @return count distinct expression
      */
-    Expression<Long> countDistinct(Expression<?> x);
+    @Nonnull
+    Expression<Long> countDistinct(@Nonnull Expression<?> x);
 	
 
 
@@ -412,7 +452,8 @@ public interface CriteriaBuilder {
      * @param subquery  subquery whose result is to be tested
      * @return exists predicate
      */
-    Predicate exists(Subquery<?> subquery);
+    @Nonnull
+    Predicate exists(@Nonnull Subquery<?> subquery);
 	
     /**
      * Create an all expression over the subquery results.
@@ -420,7 +461,8 @@ public interface CriteriaBuilder {
      * @param <Y> the subquery result type
      * @return all expression
      */
-    <Y> Expression<Y> all(Subquery<Y> subquery);
+    @Nonnull
+    <Y> Expression<Y> all(@Nonnull Subquery<Y> subquery);
 	
     /**
      * Create a some expression over the subquery results.
@@ -429,7 +471,8 @@ public interface CriteriaBuilder {
      * @param <Y> the subquery result type
      * @return some expression
      */
-    <Y> Expression<Y> some(Subquery<Y> subquery);
+    @Nonnull
+    <Y> Expression<Y> some(@Nonnull Subquery<Y> subquery);
 	
     /**
      * Create an any expression over the subquery results. 
@@ -438,7 +481,8 @@ public interface CriteriaBuilder {
      * @param <Y> the subquery result type
      * @return any expression
      */
-    <Y> Expression<Y> any(Subquery<Y> subquery);
+    @Nonnull
+    <Y> Expression<Y> any(@Nonnull Subquery<Y> subquery);
 
 
     //boolean functions:
@@ -449,7 +493,9 @@ public interface CriteriaBuilder {
      * @param y  boolean expression
      * @return and predicate
      */
-    Predicate and(Expression<Boolean> x, Expression<Boolean> y);
+    @Nonnull
+    Predicate and(@Nonnull Expression<Boolean> x,
+                  @Nonnull Expression<Boolean> y);
     
     /**
      * Create a conjunction of the given restriction predicates.
@@ -457,7 +503,8 @@ public interface CriteriaBuilder {
      * @param restrictions  zero or more restriction predicates
      * @return and predicate
      */
-    Predicate and(BooleanExpression... restrictions);
+    @Nonnull
+    Predicate and(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Create a conjunction of the given restriction predicates.
@@ -466,7 +513,8 @@ public interface CriteriaBuilder {
      * @return and predicate
      * @since 3.2
      */
-    Predicate and(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    Predicate and(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Create a disjunction of the given boolean expressions.
@@ -474,7 +522,9 @@ public interface CriteriaBuilder {
      * @param y  boolean expression
      * @return or predicate
      */
-    Predicate or(Expression<Boolean> x, Expression<Boolean> y);
+    @Nonnull
+    Predicate or(@Nonnull Expression<Boolean> x,
+                 @Nonnull Expression<Boolean> y);
 
     /**
      * Create a disjunction of the given restriction predicates.
@@ -482,7 +532,8 @@ public interface CriteriaBuilder {
      * @param restrictions  zero or more restriction predicates
      * @return or predicate
      */
-    Predicate or(BooleanExpression... restrictions);
+    @Nonnull
+    Predicate or(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Create a disjunction of the given restriction predicates.
@@ -491,20 +542,23 @@ public interface CriteriaBuilder {
      * @return or predicate
      * @since 3.2
      */
-    Predicate or(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    Predicate or(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Create a negation of the given restriction. 
      * @param restriction  restriction expression
      * @return not predicate
      */
-    Predicate not(Expression<Boolean> restriction);
+    @Nonnull
+    Predicate not(@Nonnull Expression<Boolean> restriction);
 	
     /**
      * Create a conjunction (with zero conjuncts).
      * A conjunction with zero conjuncts is true.
      * @return and predicate
      */
+    @Nonnull
     Predicate conjunction();
 
     /**
@@ -512,6 +566,7 @@ public interface CriteriaBuilder {
      * A disjunction with zero disjuncts is false.
      * @return or predicate
      */
+    @Nonnull
     Predicate disjunction();
 
 	
@@ -523,14 +578,16 @@ public interface CriteriaBuilder {
      * @param x  expression to be tested
      * @return predicate
      */
-    Predicate isTrue(Expression<Boolean> x);
+    @Nonnull
+    Predicate isTrue(@Nonnull Expression<Boolean> x);
 
     /**
      * Create a predicate testing for a false value.
      * @param x  expression to be tested
      * @return predicate
      */
-    Predicate isFalse(Expression<Boolean> x);
+    @Nonnull
+    Predicate isFalse(@Nonnull Expression<Boolean> x);
 
 	
     //null tests:
@@ -540,14 +597,16 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return is-null predicate
      */
-    Predicate isNull(Expression<?> x);
+    @Nonnull
+    Predicate isNull(@Nonnull Expression<?> x);
 
     /**
      * Create a predicate to test whether the expression is not null.
      * @param x expression
      * @return is-not-null predicate
      */
-    Predicate isNotNull(Expression<?> x);
+    @Nonnull
+    Predicate isNotNull(@Nonnull Expression<?> x);
 
     //equality:
 	
@@ -557,7 +616,9 @@ public interface CriteriaBuilder {
      * @param y  expression
      * @return equality predicate
      */
-    Predicate equal(Expression<?> x, Expression<?> y);
+    @Nonnull
+    Predicate equal(@Nonnull Expression<?> x,
+                    @Nonnull Expression<?> y);
 	
     /**
      * Create a predicate for testing the arguments for equality.
@@ -565,7 +626,9 @@ public interface CriteriaBuilder {
      * @param y  object
      * @return equality predicate
      */
-    Predicate equal(Expression<?> x, Object y);
+    @Nonnull
+    Predicate equal(@Nonnull Expression<?> x,
+                    @Nullable Object y);
 
     /**
      * Create a predicate for testing the arguments for inequality.
@@ -573,7 +636,9 @@ public interface CriteriaBuilder {
      * @param y  expression
      * @return inequality predicate
      */
-    Predicate notEqual(Expression<?> x, Expression<?> y);
+    @Nonnull
+    Predicate notEqual(@Nonnull Expression<?> x,
+                       @Nonnull Expression<?> y);
 	
     /**
      * Create a predicate for testing the arguments for inequality.
@@ -581,7 +646,9 @@ public interface CriteriaBuilder {
      * @param y  object
      * @return inequality predicate
      */
-    Predicate notEqual(Expression<?> x, Object y);
+    @Nonnull
+    Predicate notEqual(@Nonnull Expression<?> x,
+                       @Nullable Object y);
 
 	
     //comparisons for generic (non-numeric) operands:
@@ -595,7 +662,9 @@ public interface CriteriaBuilder {
      * @return greater-than predicate
      * @see #gt(Expression, Expression)
      */
-    <Y extends Comparable<? super Y>> Predicate greaterThan(Expression<? extends Y> x, Expression<? extends Y> y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate greaterThan(@Nonnull Expression<? extends Y> x,
+                                                            @Nonnull Expression<? extends Y> y);
 	
     /**
      * Create a predicate for testing whether the first argument is 
@@ -606,7 +675,9 @@ public interface CriteriaBuilder {
      * @return greater-than predicate
      * @see #gt(Expression, Number)
      */
-    <Y extends Comparable<? super Y>> Predicate greaterThan(Expression<? extends Y> x, Y y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate greaterThan(@Nonnull Expression<? extends Y> x,
+                                                            @Nonnull Y y);
     
     /**
      * Create a predicate for testing whether the first argument is 
@@ -617,7 +688,9 @@ public interface CriteriaBuilder {
      * @return greater-than-or-equal predicate
      * @see #ge(Expression, Expression)
      */
-    <Y extends Comparable<? super Y>> Predicate greaterThanOrEqualTo(Expression<? extends Y> x, Expression<? extends Y> y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate greaterThanOrEqualTo(@Nonnull Expression<? extends Y> x,
+                                                                     @Nonnull Expression<? extends Y> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -628,7 +701,9 @@ public interface CriteriaBuilder {
      * @return greater-than-or-equal predicate
      * @see #ge(Expression, Number)
      */
-    <Y extends Comparable<? super Y>> Predicate greaterThanOrEqualTo(Expression<? extends Y> x, Y y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate greaterThanOrEqualTo(@Nonnull Expression<? extends Y> x,
+                                                                     @Nonnull Y y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -639,7 +714,9 @@ public interface CriteriaBuilder {
      * @return less-than predicate
      * @see #lt(Expression, Expression)
      */
-    <Y extends Comparable<? super Y>> Predicate lessThan(Expression<? extends Y> x, Expression<? extends Y> y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate lessThan(@Nonnull Expression<? extends Y> x,
+                                                         @Nonnull Expression<? extends Y> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -650,7 +727,9 @@ public interface CriteriaBuilder {
      * @return less-than predicate
      * @see #lt(Expression, Number)
      */
-    <Y extends Comparable<? super Y>> Predicate lessThan(Expression<? extends Y> x, Y y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate lessThan(@Nonnull Expression<? extends Y> x,
+                                                         @Nonnull Y y);
 	
     /**
      * Create a predicate for testing whether the first argument is 
@@ -661,7 +740,9 @@ public interface CriteriaBuilder {
      * @return less-than-or-equal predicate
      * @see #le(Expression, Expression)
      */
-    <Y extends Comparable<? super Y>> Predicate lessThanOrEqualTo(Expression<? extends Y> x, Expression<? extends Y> y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate lessThanOrEqualTo(@Nonnull Expression<? extends Y> x,
+                                                                  @Nonnull Expression<? extends Y> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -672,7 +753,9 @@ public interface CriteriaBuilder {
      * @return less-than-or-equal predicate
      * @see #le(Expression, Number)
      */
-    <Y extends Comparable<? super Y>> Predicate lessThanOrEqualTo(Expression<? extends Y> x, Y y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate lessThanOrEqualTo(@Nonnull Expression<? extends Y> x,
+                                                                  @Nonnull Y y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -683,7 +766,10 @@ public interface CriteriaBuilder {
      * @param <Y> the type of the compared expressions
      * @return between predicate
      */
-    <Y extends Comparable<? super Y>> Predicate between(Expression<? extends Y> v, Expression<? extends Y> x, Expression<? extends Y> y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate between(@Nonnull Expression<? extends Y> v,
+                                                        @Nonnull Expression<? extends Y> x,
+                                                        @Nonnull Expression<? extends Y> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -694,7 +780,9 @@ public interface CriteriaBuilder {
      * @param <Y> the type of the compared values
      * @return between predicate
      */
-    <Y extends Comparable<? super Y>> Predicate between(Expression<? extends Y> v, Y x, Y y);
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate between(@Nonnull Expression<? extends Y> v,
+                                                        @Nonnull Y x, @Nonnull Y y);
 	
     /**
      * Create a predicate for testing whether the first argument is 
@@ -706,7 +794,10 @@ public interface CriteriaBuilder {
      * @return between predicate
      * @since 4.0
      */
-    <Y extends Comparable<? super Y>> Predicate between(Y v, Expression<? extends Y> x, Expression<? extends Y> y);    
+    @Nonnull
+    <Y extends Comparable<? super Y>> Predicate between(@Nonnull Y v,
+                                                        @Nonnull Expression<? extends Y> x,
+                                                        @Nonnull Expression<? extends Y> y);
 
     //comparisons for numeric operands:
 	
@@ -718,7 +809,9 @@ public interface CriteriaBuilder {
      * @param y  expression
      * @return greater-than predicate
      */
-    Predicate gt(Expression<? extends Number> x, Expression<? extends Number> y);
+    @Nonnull
+    Predicate gt(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -728,7 +821,9 @@ public interface CriteriaBuilder {
      * @param y  value
      * @return greater-than predicate
      */
-    Predicate gt(Expression<? extends Number> x, Number y);
+    @Nonnull
+    Predicate gt(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Number y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -738,7 +833,9 @@ public interface CriteriaBuilder {
      * @param y  expression
      * @return greater-than-or-equal predicate
      */
-    Predicate ge(Expression<? extends Number> x, Expression<? extends Number> y);
+    @Nonnull
+    Predicate ge(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -748,7 +845,9 @@ public interface CriteriaBuilder {
      * @param y  value
      * @return greater-than-or-equal predicate
      */	
-    Predicate ge(Expression<? extends Number> x, Number y);
+    @Nonnull
+    Predicate ge(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Number y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -758,7 +857,9 @@ public interface CriteriaBuilder {
      * @param y  expression
      * @return less-than predicate
      */
-    Predicate lt(Expression<? extends Number> x, Expression<? extends Number> y);
+    @Nonnull
+    Predicate lt(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -768,7 +869,9 @@ public interface CriteriaBuilder {
      * @param y  value
      * @return less-than predicate
      */
-    Predicate lt(Expression<? extends Number> x, Number y);
+    @Nonnull
+    Predicate lt(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Number y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -778,7 +881,9 @@ public interface CriteriaBuilder {
      * @param y  expression
      * @return less-than-or-equal predicate
      */
-    Predicate le(Expression<? extends Number> x, Expression<? extends Number> y);
+    @Nonnull
+    Predicate le(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Expression<? extends Number> y);
 
     /**
      * Create a predicate for testing whether the first argument is 
@@ -788,7 +893,9 @@ public interface CriteriaBuilder {
      * @param y  value
      * @return less-than-or-equal predicate
      */
-    Predicate le(Expression<? extends Number> x, Number y);
+    @Nonnull
+    Predicate le(@Nonnull Expression<? extends Number> x,
+                 @Nonnull Number y);
 	
 
     //numerical operations:
@@ -801,7 +908,8 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return sign
      */
-    Expression<Integer> sign(Expression<? extends Number> x);
+    @Nonnull
+    Expression<Integer> sign(@Nonnull Expression<? extends Number> x);
 	
     /**
      * Create an expression that returns the arithmetic negation
@@ -810,7 +918,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return arithmetic negation
      */
-    <N extends Number> Expression<N> neg(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<N> neg(@Nonnull Expression<N> x);
 
     /**
      * Create an expression that returns the absolute value
@@ -819,7 +928,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return absolute value
      */
-    <N extends Number> Expression<N> abs(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<N> abs(@Nonnull Expression<N> x);
 
     /**
      * Create an expression that returns the ceiling of its
@@ -829,7 +939,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return ceiling
      */
-    <N extends Number> Expression<N> ceiling(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<N> ceiling(@Nonnull Expression<N> x);
 
     /**
      * Create an expression that returns the floor of its
@@ -839,7 +950,8 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expression
      * @return floor
      */
-    <N extends Number> Expression<N> floor(Expression<N> x);
+    @Nonnull
+    <N extends Number> Expression<N> floor(@Nonnull Expression<N> x);
     /**
      * Create an expression that returns the sum
      * of its arguments.
@@ -848,7 +960,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expressions
      * @return sum
      */
-    <N extends Number> Expression<N> sum(Expression<? extends N> x, Expression<? extends N> y);
+    @Nonnull
+    <N extends Number> Expression<N> sum(@Nonnull Expression<? extends N> x,
+                                         @Nonnull Expression<? extends N> y);
 	
     /**
      * Create an expression that returns the sum
@@ -858,7 +972,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the arguments
      * @return sum
      */
-    <N extends Number> Expression<N> sum(Expression<? extends N> x, N y);
+    @Nonnull
+    <N extends Number> Expression<N> sum(@Nonnull Expression<? extends N> x,
+                                         @Nonnull N y);
 
     /**
      * Create an expression that returns the sum
@@ -868,7 +984,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the arguments
      * @return sum
      */
-    <N extends Number> Expression<N> sum(N x, Expression<? extends N> y);
+    @Nonnull
+    <N extends Number> Expression<N> sum(@Nonnull N x,
+                                         @Nonnull Expression<? extends N> y);
 
     /**
      * Create an expression that returns the product
@@ -878,7 +996,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expressions
      * @return product
      */
-    <N extends Number> Expression<N> prod(Expression<? extends N> x, Expression<? extends N> y);
+    @Nonnull
+    <N extends Number> Expression<N> prod(@Nonnull Expression<? extends N> x,
+                                          @Nonnull Expression<? extends N> y);
 
     /**
      * Create an expression that returns the product
@@ -888,7 +1008,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the arguments
      * @return product
      */
-    <N extends Number> Expression<N> prod(Expression<? extends N> x, N y);
+    @Nonnull
+    <N extends Number> Expression<N> prod(@Nonnull Expression<? extends N> x,
+                                          @Nonnull N y);
 
     /**
      * Create an expression that returns the product
@@ -898,7 +1020,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the arguments
      * @return product
      */
-    <N extends Number> Expression<N> prod(N x, Expression<? extends N> y);
+    @Nonnull
+    <N extends Number> Expression<N> prod(@Nonnull N x,
+                                          @Nonnull Expression<? extends N> y);
 
     /**
      * Create an expression that returns the difference
@@ -908,7 +1032,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the expressions
      * @return difference
      */
-    <N extends Number> Expression<N> diff(Expression<? extends N> x, Expression<? extends N> y);
+    @Nonnull
+    <N extends Number> Expression<N> diff(@Nonnull Expression<? extends N> x,
+                                          @Nonnull Expression<? extends N> y);
 
     /**
      * Create an expression that returns the difference
@@ -918,7 +1044,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the arguments
      * @return difference
      */
-    <N extends Number> Expression<N> diff(Expression<? extends N> x, N y);
+    @Nonnull
+    <N extends Number> Expression<N> diff(@Nonnull Expression<? extends N> x,
+                                          @Nonnull N y);
 
     /**
      * Create an expression that returns the difference
@@ -928,7 +1056,9 @@ public interface CriteriaBuilder {
      * @param <N> the numeric type of the arguments
      * @return difference
      */
-    <N extends Number> Expression<N> diff(N x, Expression<? extends N> y);
+    @Nonnull
+    <N extends Number> Expression<N> diff(@Nonnull N x,
+                                          @Nonnull Expression<? extends N> y);
 	
     /**
      * Create an expression that returns the quotient
@@ -937,7 +1067,9 @@ public interface CriteriaBuilder {
      * @param y expression
      * @return quotient
      */
-    Expression<Number> quot(Expression<? extends Number> x, Expression<? extends Number> y);
+    @Nonnull
+    Expression<Number> quot(@Nonnull Expression<? extends Number> x,
+                            @Nonnull Expression<? extends Number> y);
 
     /**
      * Create an expression that returns the quotient
@@ -946,7 +1078,9 @@ public interface CriteriaBuilder {
      * @param y value
      * @return quotient
      */
-    Expression<Number> quot(Expression<? extends Number> x, Number y);
+    @Nonnull
+    Expression<Number> quot(@Nonnull Expression<? extends Number> x,
+                            @Nonnull Number y);
 
     /**
      * Create an expression that returns the quotient
@@ -955,7 +1089,9 @@ public interface CriteriaBuilder {
      * @param y expression
      * @return quotient
      */
-    Expression<Number> quot(Number x, Expression<? extends Number> y);
+    @Nonnull
+    Expression<Number> quot(@Nonnull Number x,
+                            @Nonnull Expression<? extends Number> y);
 	
     /**
      * Create an expression that returns the modulus
@@ -965,7 +1101,9 @@ public interface CriteriaBuilder {
      * @param y expression
      * @return modulus
      */
-    Expression<Integer> mod(Expression<Integer> x, Expression<Integer> y);
+    @Nonnull
+    Expression<Integer> mod(@Nonnull Expression<Integer> x,
+                            @Nonnull Expression<Integer> y);
 	
     /**
      * Create an expression that returns the modulus
@@ -975,7 +1113,9 @@ public interface CriteriaBuilder {
      * @param y value
      * @return modulus
      */
-    Expression<Integer> mod(Expression<Integer> x, Integer y);
+    @Nonnull
+    Expression<Integer> mod(@Nonnull Expression<Integer> x,
+                            @Nonnull Integer y);
 
     /**
      * Create an expression that returns the modulus
@@ -985,7 +1125,9 @@ public interface CriteriaBuilder {
      * @param y expression
      * @return modulus
      */
-    Expression<Integer> mod(Integer x, Expression<Integer> y);
+    @Nonnull
+    Expression<Integer> mod(@Nonnull Integer x,
+                            @Nonnull Expression<Integer> y);
 
     /**
      * Create an expression that returns the square root
@@ -993,7 +1135,8 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return square root
      */	
-    Expression<Double> sqrt(Expression<? extends Number> x);
+    @Nonnull
+    Expression<Double> sqrt(@Nonnull Expression<? extends Number> x);
 
     /**
      * Create an expression that returns the exponential
@@ -1002,7 +1145,8 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return exponential
      */
-    Expression<Double> exp(Expression<? extends Number> x);
+    @Nonnull
+    Expression<Double> exp(@Nonnull Expression<? extends Number> x);
 
     /**
      * Create an expression that returns the natural logarithm
@@ -1010,7 +1154,8 @@ public interface CriteriaBuilder {
      * @param x expression
      * @return natural logarithm
      */
-    Expression<Double> ln(Expression<? extends Number> x);
+    @Nonnull
+    Expression<Double> ln(@Nonnull Expression<? extends Number> x);
 
     /**
      * Create an expression that returns the first argument
@@ -1019,7 +1164,9 @@ public interface CriteriaBuilder {
      * @param y exponent
      * @return the base raised to the power of the exponent
      */
-    Expression<Double> power(Expression<? extends Number> x, Expression<? extends Number> y);
+    @Nonnull
+    Expression<Double> power(@Nonnull Expression<? extends Number> x,
+                             @Nonnull Expression<? extends Number> y);
 
     /**
      * Create an expression that returns the first argument
@@ -1028,7 +1175,9 @@ public interface CriteriaBuilder {
      * @param y exponent
      * @return the base raised to the power of the exponent
      */
-    Expression<Double> power(Expression<? extends Number> x, Number y);
+    @Nonnull
+    Expression<Double> power(@Nonnull Expression<? extends Number> x,
+                             @Nonnull Number y);
 
     /**
      * Create an expression that returns the first argument
@@ -1039,7 +1188,9 @@ public interface CriteriaBuilder {
      * @param <T> the numeric type of the expression
      * @return the rounded value
      */
-    <T extends Number> Expression<T> round(Expression<T> x, Integer n);
+    @Nonnull
+    <T extends Number> Expression<T> round(@Nonnull Expression<T> x,
+                                           @Nonnull Integer n);
 
 
     //typecasts:
@@ -1049,49 +1200,56 @@ public interface CriteriaBuilder {
      * @param number  numeric expression
      * @return {@literal Expression<Long>}
      */
-    Expression<Long> toLong(Expression<? extends Number> number);
+    @Nonnull
+    Expression<Long> toLong(@Nonnull Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Integer>}
      */
-    Expression<Integer> toInteger(Expression<? extends Number> number);
+    @Nonnull
+    Expression<Integer> toInteger(@Nonnull Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Float>}
      */
-    Expression<Float> toFloat(Expression<? extends Number> number);
+    @Nonnull
+    Expression<Float> toFloat(@Nonnull Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<Double>}
      */
-    Expression<Double> toDouble(Expression<? extends Number> number);
+    @Nonnull
+    Expression<Double> toDouble(@Nonnull Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigDecimal>}
      */
-    Expression<BigDecimal> toBigDecimal(Expression<? extends Number> number);
+    @Nonnull
+    Expression<BigDecimal> toBigDecimal(@Nonnull Expression<? extends Number> number);
 
     /**
      * Typecast.
      * @param number  numeric expression
      * @return {@literal Expression<BigInteger>}
      */
-    Expression<BigInteger> toBigInteger(Expression<? extends Number> number);
+    @Nonnull
+    Expression<BigInteger> toBigInteger(@Nonnull Expression<? extends Number> number);
 	
     /**
      * Typecast.
      * @param character expression
      * @return {@literal Expression<String>}
      */
-    Expression<String> toString(Expression<Character> character);
+    @Nonnull
+    Expression<String> toString(@Nonnull Expression<Character> character);
 
 	
     //literals:
@@ -1103,7 +1261,8 @@ public interface CriteriaBuilder {
      * @return expression literal
      * @throws IllegalArgumentException if value is null
      */
-    <T> Expression<T> literal(T value);
+    @Nonnull
+    <T> Expression<T> literal(@Nonnull T value);
 
     /**
      * Create a number expression for a literal.
@@ -1113,7 +1272,8 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    <N extends Number & Comparable<N>> NumericExpression<N> numericLiteral(N value);
+    @Nonnull
+    <N extends Number & Comparable<N>> NumericExpression<N> numericLiteral(@Nonnull N value);
 
     /**
      * Create a string expression for a literal.
@@ -1122,7 +1282,8 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    TextExpression stringLiteral(String value);
+    @Nonnull
+    TextExpression stringLiteral(@Nonnull String value);
 
     /**
      * Create a local date expression for a literal.
@@ -1132,13 +1293,15 @@ public interface CriteriaBuilder {
      * @throws IllegalArgumentException if value is null
      * @since 4.0
      */
-    <T extends Temporal & Comparable<? super T>> TemporalExpression<T> temporalLiteral(T value);
+    @Nonnull
+    <T extends Temporal & Comparable<? super T>> TemporalExpression<T> temporalLiteral(@Nonnull T value);
 
     /**
      * Create a boolean expression for a literal.
      * @return expression literal
      * @since 4.0
      */
+    @Nonnull
     BooleanExpression booleanLiteral(boolean value);
 
     /**
@@ -1147,7 +1310,8 @@ public interface CriteriaBuilder {
      * @param <T> the type of the null literal
      * @return null expression literal
      */
-    <T> Expression<T> nullLiteral(Class<T> resultClass);
+    @Nonnull
+    <T> Expression<T> nullLiteral(@Nonnull Class<T> resultClass);
 
     //parameters:
 
@@ -1157,7 +1321,8 @@ public interface CriteriaBuilder {
      * @param <T> the parameter type
      * @return parameter expression
      */
-    <T> ParameterExpression<T> parameter(Class<T> paramClass);
+    @Nonnull
+    <T> ParameterExpression<T> parameter(@Nonnull Class<T> paramClass);
 
     /**
      * Create a parameter expression with the given name.
@@ -1167,7 +1332,9 @@ public interface CriteriaBuilder {
      * @param <T> the parameter type
      * @return parameter expression
      */
-    <T> ParameterExpression<T> parameter(Class<T> paramClass, String name);
+    @Nonnull
+    <T> ParameterExpression<T> parameter(@Nonnull Class<T> paramClass,
+                                         @Nonnull String name);
 
     /**
      * Create a parameter expression whose value is bound via a
@@ -1177,7 +1344,8 @@ public interface CriteriaBuilder {
      * @return parameter expression
      * @since 4.0
      */
-    <T> ParameterExpression<T> convertedParameter(Class<? extends AttributeConverter<T,?>> converter);
+    @Nonnull
+    <T> ParameterExpression<T> convertedParameter(@Nonnull Class<? extends AttributeConverter<T,?>> converter);
 
     //collection operations:
 	
@@ -1187,7 +1355,8 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return is-empty predicate
      */
-    <C extends Collection<?>> Predicate isEmpty(Expression<C> collection);
+    @Nonnull
+    <C extends Collection<?>> Predicate isEmpty(@Nonnull Expression<C> collection);
 
     /**
      * Create a predicate that tests whether a collection is
@@ -1196,7 +1365,8 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return is-not-empty predicate
      */
-    <C extends Collection<?>> Predicate isNotEmpty(Expression<C> collection);
+    @Nonnull
+    <C extends Collection<?>> Predicate isNotEmpty(@Nonnull Expression<C> collection);
 
     /**
      * Create an expression that tests the size of a collection.
@@ -1204,7 +1374,8 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return size expression
      */ 
-    <C extends Collection<?>> Expression<Integer> size(Expression<C> collection);
+    @Nonnull
+    <C extends Collection<?>> Expression<Integer> size(@Nonnull Expression<C> collection);
 	
     /**
      * Create an expression that tests the size of a collection.
@@ -1212,7 +1383,8 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return size expression
      */ 
-    <C extends Collection<?>> Expression<Integer> size(C collection);
+    @Nonnull
+    <C extends Collection<?>> Expression<Integer> size(@Nonnull C collection);
 
     /**
      * Create a predicate that tests whether an element is
@@ -1224,7 +1396,9 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return is-member predicate
      */
-    <E, C extends Collection<E>> Predicate isMember(Expression<E> elem, Expression<C> collection);
+    @Nonnull
+    <E, C extends Collection<E>> Predicate isMember(@Nonnull Expression<E> elem,
+                                                    @Nonnull Expression<C> collection);
 
     /**
      * Create a predicate that tests whether an element is
@@ -1236,7 +1410,9 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return is-member predicate
      */
-    <E, C extends Collection<E>> Predicate isMember(E elem, Expression<C> collection);
+    @Nonnull
+    <E, C extends Collection<E>> Predicate isMember(@Nonnull E elem,
+                                                    @Nonnull Expression<C> collection);
 
     /**
      * Create a predicate that tests whether an element is
@@ -1248,7 +1424,9 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return is-not-member predicate
      */
-    <E, C extends Collection<E>> Predicate isNotMember(Expression<E> elem, Expression<C> collection);
+    @Nonnull
+    <E, C extends Collection<E>> Predicate isNotMember(@Nonnull Expression<E> elem,
+                                                       @Nonnull Expression<C> collection);
 	
     /**
      * Create a predicate that tests whether an element is
@@ -1260,7 +1438,9 @@ public interface CriteriaBuilder {
      * @param <C> the collection type
      * @return is-not-member predicate
      */
-    <E, C extends Collection<E>> Predicate isNotMember(E elem, Expression<C> collection);
+    @Nonnull
+    <E, C extends Collection<E>> Predicate isNotMember(@Nonnull E elem,
+                                                       @Nonnull Expression<C> collection);
 
 
     //get the values and keys collections of the Map, which may then
@@ -1273,7 +1453,8 @@ public interface CriteriaBuilder {
      * @param <M> the map type
      * @return collection expression
      */
-    <V, M extends Map<?, V>> Expression<Collection<V>> values(M map);
+    @Nonnull
+    <V, M extends Map<?, V>> Expression<Collection<V>> values(@Nonnull M map);
 
     /**
      * Create an expression that returns the keys of a map.
@@ -1282,7 +1463,8 @@ public interface CriteriaBuilder {
      * @param <M> the map type
      * @return set expression
      */
-    <K, M extends Map<K, ?>> Expression<Set<K>> keys(M map);
+    @Nonnull
+    <K, M extends Map<K, ?>> Expression<Set<K>> keys(@Nonnull M map);
 
 	
     //string functions:
@@ -1294,7 +1476,9 @@ public interface CriteriaBuilder {
      * @param pattern  string expression
      * @return like predicate
      */
-    Predicate like(Expression<String> x, Expression<String> pattern);
+    @Nonnull
+    Predicate like(@Nonnull Expression<String> x,
+                   @Nonnull Expression<String> pattern);
 	
     /**
      * Create a predicate for testing whether the expression
@@ -1303,7 +1487,9 @@ public interface CriteriaBuilder {
      * @param pattern  string 
      * @return like predicate
      */
-    Predicate like(Expression<String> x, String pattern);
+    @Nonnull
+    Predicate like(@Nonnull Expression<String> x,
+                   @Nonnull String pattern);
 	
     /**
      * Create a predicate for testing whether the expression
@@ -1313,7 +1499,10 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character expression
      * @return like predicate
      */
-    Predicate like(Expression<String> x, Expression<String> pattern, Expression<Character> escapeChar);
+    @Nonnull
+    Predicate like(@Nonnull Expression<String> x,
+                   @Nonnull Expression<String> pattern,
+                   @Nonnull Expression<Character> escapeChar);
 	
     /**
      * Create a predicate for testing whether the expression
@@ -1323,7 +1512,9 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character
      * @return like predicate
      */
-    Predicate like(Expression<String> x, Expression<String> pattern, char escapeChar);
+    @Nonnull
+    Predicate like(@Nonnull Expression<String> x,
+                   @Nonnull Expression<String> pattern, char escapeChar);
 	
     /**
      * Create a predicate for testing whether the expression
@@ -1333,7 +1524,10 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character expression
      * @return like predicate
      */
-    Predicate like(Expression<String> x, String pattern, Expression<Character> escapeChar);
+    @Nonnull
+    Predicate like(@Nonnull Expression<String> x,
+                   @Nonnull String pattern,
+                   @Nonnull Expression<Character> escapeChar);
 
     /**
      * Create a predicate for testing whether the expression
@@ -1343,7 +1537,10 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character
      * @return like predicate
      */
-    Predicate like(Expression<String> x, String pattern, char escapeChar);
+    @Nonnull
+    Predicate like(@Nonnull Expression<String> x,
+                   @Nonnull String pattern,
+                   char escapeChar);
 	
     /**
      * Create a predicate for testing whether the expression
@@ -1352,7 +1549,9 @@ public interface CriteriaBuilder {
      * @param pattern  string expression
      * @return not-like predicate
      */
-    Predicate notLike(Expression<String> x, Expression<String> pattern);
+    @Nonnull
+    Predicate notLike(@Nonnull Expression<String> x,
+                      @Nonnull Expression<String> pattern);
 	
     /**
      * Create a predicate for testing whether the expression
@@ -1361,7 +1560,9 @@ public interface CriteriaBuilder {
      * @param pattern  string 
      * @return not-like predicate
      */
-    Predicate notLike(Expression<String> x, String pattern);
+    @Nonnull
+    Predicate notLike(@Nonnull Expression<String> x,
+                      @Nonnull String pattern);
 
     /**
      * Create a predicate for testing whether the expression
@@ -1371,7 +1572,10 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character expression
      * @return not-like predicate
      */
-    Predicate notLike(Expression<String> x, Expression<String> pattern, Expression<Character> escapeChar);
+    @Nonnull
+    Predicate notLike(@Nonnull Expression<String> x,
+                      @Nonnull Expression<String> pattern,
+                      @Nonnull Expression<Character> escapeChar);
 
     /**
      * Create a predicate for testing whether the expression
@@ -1381,7 +1585,10 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character
      * @return not-like predicate
      */
-    Predicate notLike(Expression<String> x, Expression<String> pattern, char escapeChar);
+    @Nonnull
+    Predicate notLike(@Nonnull Expression<String> x,
+                      @Nonnull Expression<String> pattern,
+                      char escapeChar);
 
     /**
      * Create a predicate for testing whether the expression
@@ -1391,7 +1598,10 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character expression
      * @return not-like predicate
      */
-    Predicate notLike(Expression<String> x, String pattern, Expression<Character> escapeChar);
+    @Nonnull
+    Predicate notLike(@Nonnull Expression<String> x,
+                      @Nonnull String pattern,
+                      @Nonnull Expression<Character> escapeChar);
 	
    /**
      * Create a predicate for testing whether the expression
@@ -1401,7 +1611,10 @@ public interface CriteriaBuilder {
      * @param escapeChar  escape character
      * @return not-like predicate
      */
-    Predicate notLike(Expression<String> x, String pattern, char escapeChar);
+    @Nonnull
+    Predicate notLike(@Nonnull Expression<String> x,
+                      @Nonnull String pattern,
+                      char escapeChar);
 
     /**
      * Create an expression for string concatenation.
@@ -1410,7 +1623,8 @@ public interface CriteriaBuilder {
      * @param expressions  string expressions
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(List<Expression<String>> expressions);
+    @Nonnull
+    Expression<String> concat(@Nonnull List<Expression<String>> expressions);
 
     /**
      * Create an expression for string concatenation.
@@ -1418,7 +1632,9 @@ public interface CriteriaBuilder {
      * @param y  string expression
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(Expression<String> x, Expression<String> y);
+    @Nonnull
+    Expression<String> concat(@Nonnull Expression<String> x,
+                              @Nonnull Expression<String> y);
 	
     /**
      * Create an expression for string concatenation.
@@ -1426,7 +1642,9 @@ public interface CriteriaBuilder {
      * @param y  string 
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(Expression<String> x, String y);
+    @Nonnull
+    Expression<String> concat(@Nonnull Expression<String> x,
+                              @Nonnull String y);
 
     /**
      * Create an expression for string concatenation.
@@ -1434,7 +1652,9 @@ public interface CriteriaBuilder {
      * @param y  string expression
      * @return expression corresponding to concatenation
      */
-    Expression<String> concat(String x, Expression<String> y);
+    @Nonnull
+    Expression<String> concat(@Nonnull String x,
+                              @Nonnull Expression<String> y);
 	
     /**
      * Create an expression for substring extraction.
@@ -1445,7 +1665,9 @@ public interface CriteriaBuilder {
      * @param from  start position expression 
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, Expression<Integer> from);
+    @Nonnull
+    Expression<String> substring(@Nonnull Expression<String> x,
+                                 @Nonnull Expression<Integer> from);
 	
     /**
      * Create an expression for substring extraction.
@@ -1456,7 +1678,9 @@ public interface CriteriaBuilder {
      * @param from  start position 
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, int from);
+    @Nonnull
+    Expression<String> substring(@Nonnull Expression<String> x,
+                                 int from);
 
     /**
      * Create an expression for substring extraction.
@@ -1468,7 +1692,10 @@ public interface CriteriaBuilder {
      * @param len  length expression
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, Expression<Integer> from, Expression<Integer> len);
+    @Nonnull
+    Expression<String> substring(@Nonnull Expression<String> x,
+                                 @Nonnull Expression<Integer> from,
+                                 @Nonnull Expression<Integer> len);
 	
     /**
      * Create an expression for substring extraction.
@@ -1480,7 +1707,9 @@ public interface CriteriaBuilder {
      * @param len  length
      * @return expression corresponding to substring extraction
      */
-    Expression<String> substring(Expression<String> x, int from, int len);
+    @Nonnull
+    Expression<String> substring(@Nonnull Expression<String> x,
+                                 int from, int len);
 	
     /**
      * Used to specify how strings are trimmed.
@@ -1509,7 +1738,8 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Expression<String> x);
+    @Nonnull
+    Expression<String> trim(@Nonnull Expression<String> x);
 	
     /**
      * Create expression to trim blanks from a string.
@@ -1517,7 +1747,9 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Trimspec ts, Expression<String> x);
+    @Nonnull
+    Expression<String> trim(@Nonnull Trimspec ts,
+                            @Nonnull Expression<String> x);
 
     /**
      * Create expression to trim character from both ends of
@@ -1526,7 +1758,9 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Expression<Character> t, Expression<String> x);
+    @Nonnull
+    Expression<String> trim(@Nonnull Expression<Character> t,
+                            @Nonnull Expression<String> x);
 
     /**
      * Create expression to trim character from a string.
@@ -1535,7 +1769,10 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Trimspec ts, Expression<Character> t, Expression<String> x);
+    @Nonnull
+    Expression<String> trim(@Nonnull Trimspec ts,
+                            @Nonnull Expression<Character> t,
+                            @Nonnull Expression<String> x);
 	
     /**
      * Create expression to trim character from both ends of
@@ -1544,7 +1781,9 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(char t, Expression<String> x);
+    @Nonnull
+    Expression<String> trim(char t,
+                            @Nonnull Expression<String> x);
 	
     /**
      * Create expression to trim character from a string.
@@ -1553,28 +1792,33 @@ public interface CriteriaBuilder {
      * @param x  expression for string to trim
      * @return trim expression
      */
-    Expression<String> trim(Trimspec ts, char t, Expression<String> x);
+    @Nonnull
+    Expression<String> trim(@Nonnull Trimspec ts, char t,
+                            @Nonnull Expression<String> x);
 	
     /**
      * Create expression for converting a string to lowercase.
      * @param x  string expression
      * @return expression to convert to lowercase
      */
-    Expression<String> lower(Expression<String> x);
+    @Nonnull
+    Expression<String> lower(@Nonnull Expression<String> x);
 	
     /**
      * Create expression for converting a string to uppercase.
      * @param x  string expression
      * @return expression to convert to uppercase
      */
-    Expression<String> upper(Expression<String> x);
+    @Nonnull
+    Expression<String> upper(@Nonnull Expression<String> x);
 	
     /**
      * Create expression to return length of a string.
      * @param x  string expression
      * @return length expression
      */
-    Expression<Integer> length(Expression<String> x);
+    @Nonnull
+    Expression<Integer> length(@Nonnull Expression<String> x);
 
     /**
      * Create an expression for the leftmost substring of a string,
@@ -1582,7 +1826,9 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the leftmost substring
      */
-    Expression<String> left(Expression<String> x, int len);
+    @Nonnull
+    Expression<String> left(@Nonnull Expression<String> x,
+                            int len);
 
     /**
      * Create an expression for the rightmost substring of a string,
@@ -1590,7 +1836,9 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the rightmost substring
      */
-    Expression<String> right(Expression<String> x, int len);
+    @Nonnull
+    Expression<String> right(@Nonnull Expression<String> x,
+                             int len);
 
     /**
      * Create an expression for the leftmost substring of a string,
@@ -1598,7 +1846,9 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the leftmost substring
      */
-    Expression<String> left(Expression<String> x, Expression<Integer> len);
+    @Nonnull
+    Expression<String> left(@Nonnull Expression<String> x,
+                            @Nonnull Expression<Integer> len);
 
     /**
      * Create an expression for the rightmost substring of a string,
@@ -1606,7 +1856,9 @@ public interface CriteriaBuilder {
      * @param len  length of the substring to return
      * @return expression for the rightmost substring
      */
-    Expression<String> right(Expression<String> x, Expression<Integer> len);
+    @Nonnull
+    Expression<String> right(@Nonnull Expression<String> x,
+                             @Nonnull Expression<Integer> len);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1616,7 +1868,10 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, Expression<String> substring, Expression<String> replacement);
+    @Nonnull
+    Expression<String> replace(@Nonnull Expression<String> x,
+                               @Nonnull Expression<String> substring,
+                               @Nonnull Expression<String> replacement);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1626,7 +1881,10 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, String substring, Expression<String> replacement);
+    @Nonnull
+    Expression<String> replace(@Nonnull Expression<String> x,
+                               @Nonnull String substring,
+                               @Nonnull Expression<String> replacement);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1636,7 +1894,10 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, Expression<String> substring, String replacement);
+    @Nonnull
+    Expression<String> replace(@Nonnull Expression<String> x,
+                               @Nonnull Expression<String> substring,
+                               @Nonnull String replacement);
 
     /**
      * Create an expression replacing every occurrence of a substring
@@ -1646,7 +1907,10 @@ public interface CriteriaBuilder {
      * @param replacement  the replacement string
      * @return expression for the resulting string
      */
-    Expression<String> replace(Expression<String> x, String substring, String replacement);
+    @Nonnull
+    Expression<String> replace(@Nonnull Expression<String> x,
+                               @Nonnull String substring,
+                               @Nonnull String replacement);
 
 
     /**
@@ -1662,7 +1926,9 @@ public interface CriteriaBuilder {
      * @param pattern  expression for string to be located
      * @return expression corresponding to position
      */
-    Expression<Integer> locate(Expression<String> x, Expression<String> pattern);
+    @Nonnull
+    Expression<Integer> locate(@Nonnull Expression<String> x,
+                               @Nonnull Expression<String> pattern);
 	
     /**
      * Create expression to locate the position of one string
@@ -1677,7 +1943,9 @@ public interface CriteriaBuilder {
      * @param pattern  string to be located
      * @return expression corresponding to position
      */
-    Expression<Integer> locate(Expression<String> x, String pattern);
+    @Nonnull
+    Expression<Integer> locate(@Nonnull Expression<String> x,
+                               @Nonnull String pattern);
 
     /**
      * Create expression to locate the position of one string
@@ -1693,7 +1961,10 @@ public interface CriteriaBuilder {
      * @param from  expression for position at which to start search
      * @return expression corresponding to position
      */
-    Expression<Integer> locate(Expression<String> x, Expression<String> pattern, Expression<Integer> from);
+    @Nonnull
+    Expression<Integer> locate(@Nonnull Expression<String> x,
+                               @Nonnull Expression<String> pattern,
+                               @Nonnull Expression<Integer> from);
 
     /**
      * Create expression to locate the position of one string
@@ -1709,7 +1980,10 @@ public interface CriteriaBuilder {
      * @param from  position at which to start search
      * @return expression corresponding to position
      */	
-    Expression<Integer> locate(Expression<String> x, String pattern, int from);
+    @Nonnull
+    Expression<Integer> locate(@Nonnull Expression<String> x,
+                               @Nonnull String pattern,
+                               int from);
 	
 
     // Date/time/timestamp functions:
@@ -1718,36 +1992,42 @@ public interface CriteriaBuilder {
      * Create expression to return current date.
      * @return expression for current date
      */
+    @Nonnull
     Expression<java.sql.Date> currentDate();
 
     /**
      * Create expression to return current timestamp.
      * @return expression for current timestamp
      */	
+    @Nonnull
     Expression<java.sql.Timestamp> currentTimestamp();
 
     /**
      * Create expression to return current time.
      * @return expression for current time
      */	
+    @Nonnull
     Expression<java.sql.Time> currentTime();
 
     /**
      * Create expression to return current local date.
      * @return expression for current date
      */
+    @Nonnull
     Expression<java.time.LocalDate> localDate();
 
     /**
      * Create expression to return current local datetime.
      * @return expression for current timestamp
      */
+    @Nonnull
     Expression<java.time.LocalDateTime> localDateTime();
 
     /**
      * Create expression to return current local time.
      * @return expression for current time
      */
+    @Nonnull
     Expression<java.time.LocalTime> localTime();
 
     /**
@@ -1760,7 +2040,9 @@ public interface CriteriaBuilder {
      * @return expression for the value of the extracted field
      * @since 3.2
      */
-    <N,T extends Temporal> Expression<N> extract(TemporalField<N,T> field, Expression<T> temporal);
+    @Nonnull
+    <N,T extends Temporal> Expression<N> extract(@Nonnull TemporalField<N,T> field,
+                                                 @Nonnull Expression<T> temporal);
 	
 
     //in builders:
@@ -1777,6 +2059,7 @@ public interface CriteriaBuilder {
           * list of values.
           * @return expression
           */
+         @Nonnull
          Expression<T> getExpression();
 	
          /**
@@ -1784,14 +2067,16 @@ public interface CriteriaBuilder {
           * @param value value
           * @return in predicate
           */
-         In<T> value(T value);
+         @Nonnull
+         In<T> value(@Nullable T value);
 
          /**
           * Add to list of values to be tested against.
           * @param value expression
           * @return in predicate
           */
-         In<T> value(Expression<? extends T> value);
+         @Nonnull
+         In<T> value(@Nonnull Expression<? extends T> value);
      }
 	
     /**
@@ -1801,7 +2086,8 @@ public interface CriteriaBuilder {
      * @param <T> the type of the expression
      * @return  in predicate
      */
-    <T> In<T> in(Expression<? extends T> expression);
+    @Nonnull
+    <T> In<T> in(@Nonnull Expression<? extends T> expression);
 	
 
     // coalesce, nullif:
@@ -1815,7 +2101,9 @@ public interface CriteriaBuilder {
      * @param <Y> the type of the expression
      * @return coalesce expression
      */
-    <Y> Expression<Y> coalesce(Expression<? extends Y> x, Expression<? extends Y> y);
+    @Nonnull
+    <Y> Expression<Y> coalesce(@Nonnull Expression<? extends Y> x,
+                               @Nonnull Expression<? extends Y> y);
 
     /**
      * Create an expression that returns null if all its arguments
@@ -1826,7 +2114,9 @@ public interface CriteriaBuilder {
      * @param <Y> the type of the expression
      * @return coalesce expression
      */
-    <Y> Expression<Y> coalesce(Expression<? extends Y> x, Y y);
+    @Nonnull
+    <Y> Expression<Y> coalesce(@Nonnull Expression<? extends Y> x,
+                               @Nullable Y y);
     
     /**
      * Create an expression that tests whether its argument are
@@ -1837,7 +2127,9 @@ public interface CriteriaBuilder {
      * @param <Y> the type of the expression
      * @return nullif expression
      */
-    <Y> Expression<Y> nullif(Expression<Y> x, Expression<?> y);
+    @Nonnull
+    <Y> Expression<Y> nullif(@Nonnull Expression<Y> x,
+                             @Nonnull Expression<?> y);
 
     /**
      * Create an expression that tests whether its argument are
@@ -1848,7 +2140,9 @@ public interface CriteriaBuilder {
      * @param <Y> the type of the expression
      * @return nullif expression 
      */
-    <Y> Expression<Y> nullif(Expression<Y> x, Y y);
+    @Nonnull
+    <Y> Expression<Y> nullif(@Nonnull Expression<Y> x,
+                             @Nullable Y y);
 
 
     // coalesce builder:
@@ -1869,14 +2163,16 @@ public interface CriteriaBuilder {
           * @param value  value
           * @return coalesce expression
           */
-         Coalesce<T> value(T value);
+         @Nonnull
+         Coalesce<T> value(@Nullable T value);
 
          /**
           * Add an argument to the coalesce expression.
           * @param value expression
           * @return coalesce expression
           */
-         Coalesce<T> value(Expression<? extends T> value);
+         @Nonnull
+         Coalesce<T> value(@Nonnull Expression<? extends T> value);
 	}
 	
     /**
@@ -1884,6 +2180,7 @@ public interface CriteriaBuilder {
      * @param <T> the type of the coalesce expression
      * @return coalesce expression
      */
+    @Nonnull
     <T> Coalesce<T> coalesce();
 
 
@@ -1904,6 +2201,7 @@ public interface CriteriaBuilder {
 		 * conditions.
 		 * @return expression
 		 */
+		@Nonnull
 		Expression<C> getExpression();
 
 		/**
@@ -1912,7 +2210,9 @@ public interface CriteriaBuilder {
 		 * @param result  "then" result value
 		 * @return simple case expression
 		 */
-		SimpleCase<C, R> when(C condition, R result);
+		@Nonnull
+		SimpleCase<C, R> when(@Nullable C condition,
+                              @Nullable R result);
 
 		/**
 		 * Add a when/then clause to the case expression.
@@ -1920,7 +2220,9 @@ public interface CriteriaBuilder {
 		 * @param result  "then" result expression
 		 * @return simple case expression
 		 */
-		SimpleCase<C, R> when(C condition, Expression<? extends R> result);
+		@Nonnull
+		SimpleCase<C, R> when(@Nullable C condition,
+                              @Nonnull Expression<? extends R> result);
 
 		/**
 		 * Add a when/then clause to the case expression.
@@ -1928,7 +2230,9 @@ public interface CriteriaBuilder {
 		 * @param result  "then" result value
 		 * @return simple case expression
 		 */
-		SimpleCase<C, R> when(Expression<? extends C> condition, R result);
+		@Nonnull
+		SimpleCase<C, R> when(@Nonnull Expression<? extends C> condition,
+                              @Nullable R result);
 
 		/**
 		 * Add a when/then clause to the case expression.
@@ -1936,21 +2240,25 @@ public interface CriteriaBuilder {
 		 * @param result  "then" result expression
 		 * @return simple case expression
 		 */
-		SimpleCase<C, R> when(Expression<? extends C> condition, Expression<? extends R> result);
+		@Nonnull
+		SimpleCase<C, R> when(@Nonnull Expression<? extends C> condition,
+                              @Nonnull Expression<? extends R> result);
 
 		/**
 		 * Add an "else" clause to the case expression.
 		 * @param result  "else" result
 		 * @return expression
 		 */
-		Expression<R> otherwise(R result);
+		@Nonnull
+		Expression<R> otherwise(@Nullable R result);
 
 		/**
 		 * Add an "else" clause to the case expression.
 		 * @param result  "else" result expression
 		 * @return expression
 		 */
-		Expression<R> otherwise(Expression<? extends R> result);
+		@Nonnull
+		Expression<R> otherwise(@Nonnull Expression<? extends R> result);
 	}
 
     /**
@@ -1959,7 +2267,9 @@ public interface CriteriaBuilder {
      * @param type the type of the result of the case expression
      * @return simple case expression
      */
-    <C, R> SimpleCase<C,R> selectCase(Expression<? extends C> expression, Class<R> type);
+    @Nonnull
+    <C, R> SimpleCase<C,R> selectCase(@Nonnull Expression<? extends C> expression,
+                                      @Nonnull Class<R> type);
 
     /**
      * Create a simple case expression.
@@ -1971,7 +2281,8 @@ public interface CriteriaBuilder {
      *             Use {@link #selectCase(Expression,Class)} instead.
      */
     @Deprecated(since = "4.0")
-    <C, R> SimpleCase<C,R> selectCase(Expression<? extends C> expression);
+    @Nonnull
+    <C, R> SimpleCase<C,R> selectCase(@Nonnull Expression<? extends C> expression);
 
     /**
      * Interface used to build general case expressions.
@@ -1988,7 +2299,9 @@ public interface CriteriaBuilder {
 		 * @param result  "then" result value
 		 * @return general case expression
 		 */
-		Case<R> when(Expression<Boolean> condition, R result);
+		@Nonnull
+		Case<R> when(@Nonnull Expression<Boolean> condition,
+                     @Nullable R result);
 
 		/**
 		 * Add a when/then clause to the case expression.
@@ -1996,21 +2309,25 @@ public interface CriteriaBuilder {
 		 * @param result  "then" result expression
 		 * @return general case expression
 		 */
-		Case<R> when(Expression<Boolean> condition, Expression<? extends R> result);
+		@Nonnull
+		Case<R> when(@Nonnull Expression<Boolean> condition,
+                     @Nonnull Expression<? extends R> result);
 
 		/**
 		 * Add an "else" clause to the case expression.
 		 * @param result  "else" result
 		 * @return expression
 		 */
-		Expression<R> otherwise(R result);
+		@Nonnull
+		Expression<R> otherwise(@Nullable R result);
 
 		/**
 		 * Add an "else" clause to the case expression.
 		 * @param result  "else" result expression
 		 * @return expression
 		 */
-		Expression<R> otherwise(Expression<? extends R> result);
+		@Nonnull
+		Expression<R> otherwise(@Nonnull Expression<? extends R> result);
 	}
 
     /**
@@ -2018,7 +2335,8 @@ public interface CriteriaBuilder {
      * @param type the type of the result of the case expression
      * @return general case expression
      */
-    <R> Case<R> selectCase(Class<R> type);
+    @Nonnull
+    <R> Case<R> selectCase(@Nonnull Class<R> type);
 
     /**
      * Create a general case expression.
@@ -2028,6 +2346,7 @@ public interface CriteriaBuilder {
      *             Use {@link #selectCase(Class)} instead.
      */
     @Deprecated(since = "4.0")
+    @Nonnull
     <R> Case<R> selectCase();
 
     /**
@@ -2048,8 +2367,9 @@ public interface CriteriaBuilder {
      * @param <T> the function result type
      * @return expression
      */
-   <T> Expression<T> function(String name, Class<T> type,
-Expression<?>... args);
+    @Nonnull
+    <T> Expression<T> function(@Nonnull String name, @Nonnull Class<T> type,
+                               @Nonnull Expression<?>... args);
 
 
     // methods for downcasting:
@@ -2064,7 +2384,9 @@ Expression<?>... args);
      * @return  Join object of the specified type
      * @since 2.1
      */
-    <X, T, V extends T> Join<X, V> treat(Join<X, T> join, Class<V> type);
+    @Nonnull
+    <X, T, V extends T> Join<X, V> treat(@Nonnull Join<X, T> join,
+                                         @Nonnull Class<V> type);
 
     /**
      * Downcast CollectionJoin object to the specified type.
@@ -2076,7 +2398,9 @@ Expression<?>... args);
      * @return  CollectionJoin object of the specified type
      * @since 2.1
      */
-    <X, T, E extends T> CollectionJoin<X, E> treat(CollectionJoin<X, T> join, Class<E> type);
+    @Nonnull
+    <X, T, E extends T> CollectionJoin<X, E> treat(@Nonnull CollectionJoin<X, T> join,
+                                                   @Nonnull Class<E> type);
 
     /**
      * Downcast SetJoin object to the specified type.
@@ -2088,7 +2412,9 @@ Expression<?>... args);
      * @return  SetJoin object of the specified type
      * @since 2.1
      */
-    <X, T, E extends T> SetJoin<X, E> treat(SetJoin<X, T> join, Class<E> type);
+    @Nonnull
+    <X, T, E extends T> SetJoin<X, E> treat(@Nonnull SetJoin<X, T> join,
+                                            @Nonnull Class<E> type);
 
     /**
      * Downcast ListJoin object to the specified type.
@@ -2100,7 +2426,9 @@ Expression<?>... args);
      * @return  ListJoin object of the specified type
      * @since 2.1
      */
-    <X, T, E extends T> ListJoin<X, E> treat(ListJoin<X, T> join, Class<E> type);
+    @Nonnull
+    <X, T, E extends T> ListJoin<X, E> treat(@Nonnull ListJoin<X, T> join,
+                                             @Nonnull Class<E> type);
 
     /**
      * Downcast MapJoin object to the specified type.
@@ -2113,7 +2441,9 @@ Expression<?>... args);
      * @return  MapJoin object of the specified type
      * @since 2.1
      */
-    <X, K, T, V extends T> MapJoin<X, K, V> treat(MapJoin<X, K, T> join, Class<V> type);
+    @Nonnull
+    <X, K, T, V extends T> MapJoin<X, K, V> treat(@Nonnull MapJoin<X, K, T> join,
+                                                  @Nonnull Class<V> type);
 
 
     /**
@@ -2125,7 +2455,9 @@ Expression<?>... args);
      * @return  Path object of the specified type
      * @since 2.1
      */
-    <X, T extends X> Path<T> treat(Path<X> path, Class<T> type);
+    @Nonnull
+    <X, T extends X> Path<T> treat(@Nonnull Path<X> path,
+                                   @Nonnull Class<T> type);
 
     /**
      * Downcast Root or Join to the specified type.
@@ -2137,7 +2469,9 @@ Expression<?>... args);
      * @return  Root or Join of the specified type
      * @since 4.0
      */
-    <X, Y, T extends Y> From<X, T> treat(From<X, Y> from, Class<T> type);
+    @Nonnull
+    <X, Y, T extends Y> From<X, T> treat(@Nonnull From<X, Y> from,
+                                         @Nonnull Class<T> type);
 
     /**
      * Downcast Root object to the specified type.
@@ -2148,7 +2482,9 @@ Expression<?>... args);
      * @return  Root object of the specified type
      * @since 2.1
      */
-    <X, T extends X> Root<T> treat(Root<X> root, Class<T> type);
+    @Nonnull
+    <X, T extends X> Root<T> treat(@Nonnull Root<X> root,
+                                   @Nonnull Class<T> type);
 
     /**
      * Create a query which is the union of the given queries.
@@ -2157,7 +2493,9 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaSelect<T> union(CriteriaSelect<? extends T> left, CriteriaSelect<? extends T> right);
+    @Nonnull
+    <T> CriteriaSelect<T> union(@Nonnull CriteriaSelect<? extends T> left,
+                                @Nonnull CriteriaSelect<? extends T> right);
 
     /**
      * Create a query which is the union of the given queries,
@@ -2167,7 +2505,9 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaSelect<T> unionAll(CriteriaSelect<? extends T> left, CriteriaSelect<? extends T> right);
+    @Nonnull
+    <T> CriteriaSelect<T> unionAll(@Nonnull CriteriaSelect<? extends T> left,
+                                   @Nonnull CriteriaSelect<? extends T> right);
 
     /**
      * Create a query which is the intersection of the given queries.
@@ -2176,7 +2516,9 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaSelect<T> intersect(CriteriaSelect<? super T> left, CriteriaSelect<? super T> right);
+    @Nonnull
+    <T> CriteriaSelect<T> intersect(@Nonnull CriteriaSelect<? super T> left,
+                                    @Nonnull CriteriaSelect<? super T> right);
 
     /**
      * Create a query which is the intersection of the given queries,
@@ -2186,7 +2528,9 @@ Expression<?>... args);
      *         the results of the given queries
      * @since 3.2
      */
-    <T> CriteriaSelect<T> intersectAll(CriteriaSelect<? super T> left, CriteriaSelect<? super T> right);
+    @Nonnull
+    <T> CriteriaSelect<T> intersectAll(@Nonnull CriteriaSelect<? super T> left,
+                                       @Nonnull CriteriaSelect<? super T> right);
 
     /**
      * Create a query by (setwise) subtraction of the second query
@@ -2197,7 +2541,9 @@ Expression<?>... args);
      *         results of the first query
      * @since 3.2
      */
-    <T> CriteriaSelect<T> except(CriteriaSelect<T> left, CriteriaSelect<?> right);
+    @Nonnull
+    <T> CriteriaSelect<T> except(@Nonnull CriteriaSelect<T> left,
+                                 @Nonnull CriteriaSelect<?> right);
 
     /**
      * Create a query by (setwise) subtraction of the second query
@@ -2208,5 +2554,7 @@ Expression<?>... args);
      *         results of the first query
      * @since 3.2
      */
-    <T> CriteriaSelect<T> exceptAll(CriteriaSelect<T> left, CriteriaSelect<?> right);
+    @Nonnull
+    <T> CriteriaSelect<T> exceptAll(@Nonnull CriteriaSelect<T> left,
+                                    @Nonnull CriteriaSelect<?> right);
 }

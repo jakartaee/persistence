@@ -17,6 +17,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 import jakarta.persistence.metamodel.EntityType;
@@ -44,7 +46,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param <X> the entity type
      * @return query root corresponding to the given entity
      */
-    <X> Root<X> from(Class<X> entityClass);
+    @Nonnull
+    <X> Root<X> from(@Nonnull Class<X> entityClass);
 
     /**
      * Create and add a query root corresponding to the given entity,
@@ -54,7 +57,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param <X> the entity type
      * @return query root corresponding to the given entity
      */
-    <X> Root<X> from(EntityType<X> entity);
+    @Nonnull
+    <X> Root<X> from(@Nonnull EntityType<X> entity);
 
     /**
      * Modify the query to restrict the query results according
@@ -63,7 +67,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */    
-    AbstractQuery<T> where(Expression<Boolean> restriction);
+    @Nonnull
+    AbstractQuery<T> where(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the query to restrict the query results according 
@@ -74,7 +79,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    AbstractQuery<T> where(BooleanExpression... restrictions);
+    @Nonnull
+    AbstractQuery<T> where(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Modify the query to restrict the query result according
@@ -86,7 +92,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @return the modified query
      * @since 3.2
      */
-    AbstractQuery<T> where(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    AbstractQuery<T> where(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -97,7 +104,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param grouping  zero or more grouping expressions
      * @return the modified query
      */
-    AbstractQuery<T> groupBy(Expression<?>... grouping);
+    @Nonnull
+    AbstractQuery<T> groupBy(@Nonnull Expression<?>... grouping);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -108,7 +116,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param grouping  list of zero or more grouping expressions
      * @return the modified query
      */
-    AbstractQuery<T> groupBy(List<Expression<?>> grouping);
+    @Nonnull
+    AbstractQuery<T> groupBy(@Nonnull List<Expression<?>> grouping);
 
     /**
      * Specify a restriction over the groups of the query.
@@ -116,7 +125,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */
-    AbstractQuery<T> having(Expression<Boolean> restriction);
+    @Nonnull
+    AbstractQuery<T> having(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Specify restrictions over the groups of the query
@@ -128,7 +138,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    AbstractQuery<T> having(BooleanExpression... restrictions);
+    @Nonnull
+    AbstractQuery<T> having(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Specify restrictions over the groups of the query
@@ -141,7 +152,8 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * @return the modified query
      * @since 3.2
      */
-    AbstractQuery<T> having(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    AbstractQuery<T> having(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify whether duplicate query results are eliminated.
@@ -154,6 +166,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      *        whether they must be retained
      * @return the modified query
      */
+    @Nonnull
     AbstractQuery<T> distinct(boolean distinct);
 
     /**
@@ -164,6 +177,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * defined. Modifications to the set do not affect the query.
      * @return the set of query roots
      */   
+    @Nonnull
     Set<Root<?>> getRoots();
 
     /**
@@ -171,6 +185,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * has been set.
      * @return selection item 
      */
+    @Nullable
     Selection<T> getSelection();
 
     /**
@@ -179,6 +194,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * Modifications to the list do not affect the query.
      * @return the list of grouping expressions
      */
+    @Nonnull
     List<Expression<?>> getGroupList();
 
     /**
@@ -187,6 +203,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * been specified.
      * @return having clause predicate
      */
+    @Nullable
     Predicate getGroupRestriction();
 
     /**
@@ -207,5 +224,6 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * {@code Object}.
      * @return result type
      */
+    @Nonnull
     Class<T> getResultType();  	
 }

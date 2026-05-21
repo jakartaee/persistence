@@ -17,6 +17,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Tuple;
 
 import java.util.List;
@@ -59,7 +60,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      *         a compound selection and more than one selection
      *         item has the same assigned alias
      */
-    CriteriaQuery<T> select(Selection<? extends T> selection);
+    @Nonnull
+    CriteriaQuery<T> select(@Nonnull Selection<? extends T> selection);
 
     /**
      * Specify the selection items that are to be returned in the query result.
@@ -118,7 +120,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * with {@link #select} is strongly preferred.
      */
     @Deprecated(since = "3.2")
-    CriteriaQuery<T> multiselect(Selection<?>... selections);
+    @Nonnull
+    CriteriaQuery<T> multiselect(@Nonnull Selection<?>... selections);
 
 
     /**
@@ -176,7 +179,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * with {@link #select} is strongly preferred.
      */
     @Deprecated(since = "3.2")
-    CriteriaQuery<T> multiselect(List<Selection<?>> selectionList);
+    @Nonnull
+    CriteriaQuery<T> multiselect(@Nonnull List<Selection<?>> selectionList);
 
     /**
      * Modify the query to restrict the query result according
@@ -187,7 +191,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */
-    CriteriaQuery<T> where(Expression<Boolean> restriction);
+    @Nonnull
+    CriteriaQuery<T> where(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the query to restrict the query result according 
@@ -200,7 +205,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    CriteriaQuery<T> where(BooleanExpression... restrictions);
+    @Nonnull
+    CriteriaQuery<T> where(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Modify the query to restrict the query result according
@@ -214,7 +220,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @return the modified query
      * @since 3.2
      */
-    CriteriaQuery<T> where(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    CriteriaQuery<T> where(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -227,7 +234,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param grouping  zero or more grouping expressions
      * @return the modified query
      */
-    CriteriaQuery<T> groupBy(Expression<?>... grouping);
+    @Nonnull
+    CriteriaQuery<T> groupBy(@Nonnull Expression<?>... grouping);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -240,7 +248,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param grouping  list of zero or more grouping expressions
      * @return the modified query
      */
-    CriteriaQuery<T> groupBy(List<Expression<?>> grouping);
+    @Nonnull
+    CriteriaQuery<T> groupBy(@Nonnull List<Expression<?>> grouping);
 
     /**
      * Specify a restriction over the groups of the query.
@@ -250,7 +259,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param restriction  a simple or compound boolean expression
      * @return the modified query
      */
-    CriteriaQuery<T> having(Expression<Boolean> restriction);
+    @Nonnull
+    CriteriaQuery<T> having(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Specify restrictions over the groups of the query
@@ -264,7 +274,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified query
      */
-    CriteriaQuery<T> having(BooleanExpression... restrictions);
+    @Nonnull
+    CriteriaQuery<T> having(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Specify restrictions over the groups of the query
@@ -279,7 +290,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @return the modified query
      * @since 3.2
      */
-    CriteriaQuery<T> having(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    CriteriaQuery<T> having(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the ordering expressions that are used to
@@ -294,7 +306,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param o  zero or more ordering expressions
      * @return the modified query
      */
-    CriteriaQuery<T> orderBy(Order... o);
+    @Nonnull
+    CriteriaQuery<T> orderBy(@Nonnull Order... o);
 
     /**
      * Specify the ordering expressions that are used to
@@ -309,7 +322,8 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @param o  list of zero or more ordering expressions
      * @return the modified query
      */
-    CriteriaQuery<T> orderBy(List<Order> o);
+    @Nonnull
+    CriteriaQuery<T> orderBy(@Nonnull List<Order> o);
 
     /**
      * Specify whether duplicate query results are eliminated.
@@ -324,6 +338,7 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      *        whether they must be retained
      * @return the modified query.
      */
+    @Nonnull
     CriteriaQuery<T> distinct(boolean distinct);
     
     /**
@@ -333,5 +348,6 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * Modifications to the list do not affect the query.
      * @return the list of ordering expressions
      */
+    @Nonnull
     List<Order> getOrderList();
 }

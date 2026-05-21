@@ -17,6 +17,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.CollectionAttribute;
@@ -51,6 +52,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Modifications to the set do not affect the query.
      * @return joins made from this type
      */
+    @Nonnull
     Set<Join<X, ?>> getJoins();
 	
     /**
@@ -69,6 +71,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @throws IllegalStateException if the {@code From} object has
      *         not been obtained through correlation
      */
+    @Nonnull
     From<Z, X> getCorrelationParent();
 
     /**
@@ -78,7 +81,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @return the resulting join
      * @since 3.2
      */
-    <Y> Join<X, Y> join(Class<Y> entityClass);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull Class<Y> entityClass);
 
     /**
      * Create and add a join to the given entity.
@@ -88,7 +92,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @return the resulting join
      * @since 3.2
      */
-    <Y> Join<X, Y> join(Class<Y> entityClass, JoinType joinType);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull Class<Y> entityClass,
+                        @Nonnull JoinType joinType);
 
     /**
      * Create and add an inner join to the given entity.
@@ -97,7 +103,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @return the resulting join
      * @since 3.2
      */
-    <Y> Join<X, Y> join(EntityType<Y> entity);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull EntityType<Y> entity);
 
     /**
      * Create and add a join to the given entity.
@@ -107,7 +114,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @return the resulting join
      * @since 3.2
      */
-    <Y> Join<X, Y> join(EntityType<Y> entity, JoinType joinType);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull EntityType<Y> entity,
+                        @Nonnull JoinType joinType);
 
     /**
      * Create an inner join to the specified single-valued 
@@ -116,7 +125,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the type of the joined attribute
      * @return the resulting join
      */
-    <Y> Join<X, Y> join(SingularAttribute<? super X, Y> attribute);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull SingularAttribute<? super X, Y> attribute);
 
     /**
      * Create a join to the specified single-valued attribute 
@@ -126,7 +136,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the type of the joined attribute
      * @return the resulting join
      */
-    <Y> Join<X, Y> join(SingularAttribute<? super X, Y> attribute, JoinType jt);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull SingularAttribute<? super X, Y> attribute,
+                        @Nonnull JoinType jt);
 
     /**
      * Create an inner join to the specified {@link Collection}-valued
@@ -135,7 +147,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the element type of the joined collection
      * @return the resulting join
      */
-    <Y> CollectionJoin<X, Y> join(CollectionAttribute<? super X, Y> collection);
+    @Nonnull
+    <Y> CollectionJoin<X, Y> join(@Nonnull CollectionAttribute<? super X, Y> collection);
 
     /**
      * Create an inner join to the specified {@link Set}-valued
@@ -144,7 +157,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the element type of the joined set
      * @return the resulting join
      */
-    <Y> SetJoin<X, Y> join(SetAttribute<? super X, Y> set);
+    @Nonnull
+    <Y> SetJoin<X, Y> join(@Nonnull SetAttribute<? super X, Y> set);
 
     /**
      * Create an inner join to the specified
@@ -153,7 +167,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the element type of the joined list
      * @return the resulting join
      */
-    <Y> ListJoin<X, Y> join(ListAttribute<? super X, Y> list);
+    @Nonnull
+    <Y> ListJoin<X, Y> join(@Nonnull ListAttribute<? super X, Y> list);
 
     /**
      * Create an inner join to the specified {@link Map}-valued
@@ -163,7 +178,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <V> the value type of the joined map
      * @return the resulting join
      */
-    <K, V> MapJoin<X, K, V> join(MapAttribute<? super X, K, V> map);
+    @Nonnull
+    <K, V> MapJoin<X, K, V> join(@Nonnull MapAttribute<? super X, K, V> map);
 
     /**
      * Create a join to the specified {@link Collection}-valued
@@ -173,7 +189,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the element type of the joined collection
      * @return the resulting join
      */
-    <Y> CollectionJoin<X, Y> join(CollectionAttribute<? super X, Y> collection, JoinType jt);
+    @Nonnull
+    <Y> CollectionJoin<X, Y> join(@Nonnull CollectionAttribute<? super X, Y> collection,
+                                  @Nonnull JoinType jt);
 
     /**
      * Create a join to the specified {@link Set}-valued attribute
@@ -183,7 +201,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the element type of the joined set
      * @return the resulting join
      */
-    <Y> SetJoin<X, Y> join(SetAttribute<? super X, Y> set, JoinType jt);
+    @Nonnull
+    <Y> SetJoin<X, Y> join(@Nonnull SetAttribute<? super X, Y> set,
+                           @Nonnull JoinType jt);
 
     /**
      * Create a join to the specified {@link List}-valued attribute
@@ -193,7 +213,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <Y> the element type of the joined list
      * @return the resulting join
      */
-    <Y> ListJoin<X, Y> join(ListAttribute<? super X, Y> list, JoinType jt);
+    @Nonnull
+    <Y> ListJoin<X, Y> join(@Nonnull ListAttribute<? super X, Y> list,
+                            @Nonnull JoinType jt);
 
     /**
      * Create a join to the specified {@link Map}-valued attribute
@@ -204,7 +226,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <V> the value type of the joined map
      * @return the resulting join
      */
-    <K, V> MapJoin<X, K, V> join(MapAttribute<? super X, K, V> map, JoinType jt);
+    @Nonnull
+    <K, V> MapJoin<X, K, V> join(@Nonnull MapAttribute<? super X, K, V> map,
+                                 @Nonnull JoinType jt);
 
 
     //String-based:
@@ -223,7 +247,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(SingularAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> Join<X, Y> join(String attributeName);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull String attributeName);
 
     /**
      * Create an inner join to the specified {@link Collection}-valued
@@ -240,7 +265,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(CollectionAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> CollectionJoin<X, Y> joinCollection(String attributeName);
+    @Nonnull
+    <Y> CollectionJoin<X, Y> joinCollection(@Nonnull String attributeName);
 
     /**
      * Create an inner join to the specified {@link Set}-valued
@@ -257,7 +283,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(SetAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> SetJoin<X, Y> joinSet(String attributeName);
+    @Nonnull
+    <Y> SetJoin<X, Y> joinSet(@Nonnull String attributeName);
 
     /**
      * Create an inner join to the specified {@link List}-valued
@@ -274,7 +301,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(ListAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> ListJoin<X, Y> joinList(String attributeName);
+    @Nonnull
+    <Y> ListJoin<X, Y> joinList(@Nonnull String attributeName);
     
     /**
      * Create an inner join to the specified {@link Map}-valued
@@ -292,7 +320,8 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(MapAttribute)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <K, V> MapJoin<X, K, V> joinMap(String attributeName);
+    @Nonnull
+    <K, V> MapJoin<X, K, V> joinMap(@Nonnull String attributeName);
 
     /**
      * Create a join to the specified attribute using the given
@@ -310,7 +339,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(SingularAttribute, JoinType)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> Join<X, Y> join(String attributeName, JoinType jt);
+    @Nonnull
+    <Y> Join<X, Y> join(@Nonnull String attributeName,
+                        @Nonnull JoinType jt);
     
     /**
      * Create a join to the specified {@link Collection}-valued
@@ -328,7 +359,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(CollectionAttribute, JoinType)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> CollectionJoin<X, Y> joinCollection(String attributeName, JoinType jt);
+    @Nonnull
+    <Y> CollectionJoin<X, Y> joinCollection(@Nonnull String attributeName,
+                                            @Nonnull JoinType jt);
 
     /**
      * Create a join to the specified {@link Set}-valued attribute
@@ -346,7 +379,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(SetAttribute, JoinType)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> SetJoin<X, Y> joinSet(String attributeName, JoinType jt);
+    @Nonnull
+    <Y> SetJoin<X, Y> joinSet(@Nonnull String attributeName,
+                              @Nonnull JoinType jt);
 
     /**
      * Create a join to the specified {@link List}-valued attribute
@@ -364,7 +399,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      *          metamodel element to {@link #join(ListAttribute, JoinType)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    <Y> ListJoin<X, Y> joinList(String attributeName, JoinType jt);
+    @Nonnull
+    <Y> ListJoin<X, Y> joinList(@Nonnull String attributeName,
+                                @Nonnull JoinType jt);
 
     /**
      * Create a join to the specified {@link Map}-valued attribute
@@ -384,7 +421,9 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @param <K> the key type of the joined map
      * @param <V> the value type of the joined map
      */
-    <K, V> MapJoin<X, K, V> joinMap(String attributeName, JoinType jt);
+    @Nonnull
+    <K, V> MapJoin<X, K, V> joinMap(@Nonnull String attributeName,
+                                    @Nonnull JoinType jt);
 
     /**
      * Downcast the bound type to the given type.
@@ -393,5 +432,6 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @return this root or join downcast to the given type
      * @since 4.0
      */
-    <T extends X> From<?, T> treat(Class<T> type);
+    @Nonnull
+    <T extends X> From<?, T> treat(@Nonnull Class<T> type);
 }
