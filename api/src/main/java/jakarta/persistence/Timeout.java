@@ -16,6 +16,8 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Specifies a timeout for a database request. This option is
  * always a hint, and may be ignored by the provider.
@@ -36,6 +38,7 @@ public class Timeout
      * Specify a timeout in seconds.
      * (Abbreviation of {@link #seconds(int)}.)
      */
+    @Nonnull
     public static Timeout s(int seconds) {
         return new Timeout(seconds*1_000);
     }
@@ -44,6 +47,7 @@ public class Timeout
      * Specify a timeout in milliseconds.
      * (Abbreviation of {@link #milliseconds(int)}.)
      */
+    @Nonnull
     public static Timeout ms(int milliseconds) {
         return new Timeout(milliseconds);
     }
@@ -51,6 +55,7 @@ public class Timeout
     /**
      * Specify a timeout in seconds.
      */
+    @Nonnull
     public static Timeout seconds(int seconds) {
         return new Timeout(seconds*1_000);
     }
@@ -58,6 +63,7 @@ public class Timeout
     /**
      * Specify a timeout in milliseconds.
      */
+    @Nonnull
     public static Timeout milliseconds(int milliseconds) {
         return new Timeout(milliseconds);
     }
