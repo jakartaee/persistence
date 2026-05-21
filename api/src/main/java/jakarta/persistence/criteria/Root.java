@@ -33,6 +33,7 @@ public interface Root<X> extends From<X, X> {
      * Return the metamodel entity corresponding to the root.
      * @return metamodel entity corresponding to the root
      */
+    @Override
     @Nonnull
     EntityType<X> getModel();
 
@@ -43,6 +44,7 @@ public interface Root<X> extends From<X, X> {
      * @return this root downcast to the given type
      * @since 4.0
      */
+    @Override
     @Nonnull
     <T extends X> Root<T> treat(@Nonnull Class<T> type);
 }

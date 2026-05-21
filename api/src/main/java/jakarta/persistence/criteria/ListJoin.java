@@ -42,6 +42,7 @@ public interface ListJoin<Z, E>
      * @return the modified join object
      * @since 2.1
      */
+    @Override
     @Nonnull
     ListJoin<Z, E> on(@Nonnull Expression<Boolean> restriction);
 
@@ -53,14 +54,28 @@ public interface ListJoin<Z, E>
      * @return the modified join object
      * @since 2.1
      */
+    @Override
     @Nonnull
     ListJoin<Z, E> on(@Nonnull BooleanExpression... restrictions);
+
+    /**
+     * Modify the join to restrict the result according to the
+     * specified ON condition and return the join object.
+     * Replaces the previous ON condition, if any.
+     * @param restrictions  zero or more restriction predicates
+     * @return the modified join object
+     * @since 4.0
+     */
+    @Override
+    @Nonnull
+    ListJoin<Z, E> on(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Return the metamodel representation for the list attribute.
      * @return metamodel type representing the {@code List} that is
      *         the target of the join
      */
+    @Override
     @Nonnull
     ListAttribute<? super Z, E> getModel();
 
@@ -83,6 +98,7 @@ public interface ListJoin<Z, E>
      * @return this join downcast to the given element type
      * @since 4.0
      */
+    @Override
     @Nonnull
     <T extends E> ListJoin<Z, T> treat(@Nonnull Class<T> type);
 }
