@@ -1442,30 +1442,6 @@ public interface CriteriaBuilder {
                                                        @Nonnull Expression<C> collection);
 
 
-    //get the values and keys collections of the Map, which may then
-    //be passed to size(), isMember(), isEmpty(), etc
-
-    /**
-     * Create an expression that returns the values of a map.
-     * @param map  map
-     * @param <V> the value type of the map
-     * @param <M> the map type
-     * @return collection expression
-     */
-    @Nonnull
-    <V, M extends Map<?, V>> Expression<Collection<V>> values(@Nonnull M map);
-
-    /**
-     * Create an expression that returns the keys of a map.
-     * @param map  map
-     * @param <K> the key type of the map
-     * @param <M> the map type
-     * @return set expression
-     */
-    @Nonnull
-    <K, M extends Map<K, ?>> Expression<Set<K>> keys(@Nonnull M map);
-
-	
     //string functions:
 	
     /**
