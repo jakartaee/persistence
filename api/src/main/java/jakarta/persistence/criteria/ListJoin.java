@@ -17,6 +17,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import java.util.List;
 import jakarta.persistence.metamodel.ListAttribute;
 
@@ -41,7 +42,8 @@ public interface ListJoin<Z, E>
      * @return the modified join object
      * @since 2.1
      */
-    ListJoin<Z, E> on(Expression<Boolean> restriction);
+    @Nonnull
+    ListJoin<Z, E> on(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the join to restrict the result according to the
@@ -51,13 +53,15 @@ public interface ListJoin<Z, E>
      * @return the modified join object
      * @since 2.1
      */
-    ListJoin<Z, E> on(BooleanExpression... restrictions);
+    @Nonnull
+    ListJoin<Z, E> on(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Return the metamodel representation for the list attribute.
      * @return metamodel type representing the {@code List} that is
      *         the target of the join
      */
+    @Nonnull
     ListAttribute<? super Z, E> getModel();
 
     /**
@@ -69,6 +73,7 @@ public interface ListJoin<Z, E>
      * which an order column has been defined.
      * @return expression denoting the index
      */
+    @Nonnull
     Expression<Integer> index();
 
     /**
@@ -78,5 +83,6 @@ public interface ListJoin<Z, E>
      * @return this join downcast to the given element type
      * @since 4.0
      */
-    <T extends E> ListJoin<Z, T> treat(Class<T> type);
+    @Nonnull
+    <T extends E> ListJoin<Z, T> treat(@Nonnull Class<T> type);
 }

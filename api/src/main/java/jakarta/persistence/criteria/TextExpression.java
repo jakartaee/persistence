@@ -16,6 +16,9 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  * Type for string query expressions.
  *
@@ -32,7 +35,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, Expression)
 	 */
-	Predicate like(Expression<String> pattern);
+	@Nonnull
+	Predicate like(@Nonnull Expression<String> pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -41,7 +45,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, String)
 	 */
-	Predicate like(String pattern);
+	@Nonnull
+	Predicate like(@Nonnull String pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -51,7 +56,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, Expression, Expression)
 	 */
-	Predicate like(Expression<String> pattern, Expression<Character> escapeChar);
+	@Nonnull
+	Predicate like(@Nonnull Expression<String> pattern,
+				   @Nonnull Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -61,7 +68,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, Expression, char)
 	 */
-	Predicate like(Expression<String> pattern, char escapeChar);
+	@Nonnull
+	Predicate like(@Nonnull Expression<String> pattern,
+				   char escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -71,7 +80,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, String, Expression)
 	 */
-	Predicate like(String pattern, Expression<Character> escapeChar);
+	@Nonnull
+	Predicate like(@Nonnull String pattern,
+				   @Nonnull Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -81,7 +92,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return like predicate
 	 * @see CriteriaBuilder#like(Expression, String, char)
 	 */
-	Predicate like(String pattern, char escapeChar);
+	@Nonnull
+	Predicate like(@Nonnull String pattern, char escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -90,7 +102,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, Expression)
 	 */
-	Predicate notLike(Expression<String> pattern);
+	@Nonnull
+	Predicate notLike(@Nonnull Expression<String> pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -99,7 +112,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, String)
 	 */
-	Predicate notLike(String pattern);
+	@Nonnull
+	Predicate notLike(@Nonnull String pattern);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -109,7 +123,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, Expression, Expression)
 	 */
-	Predicate notLike(Expression<String> pattern, Expression<Character> escapeChar);
+	@Nonnull
+	Predicate notLike(@Nonnull Expression<String> pattern,
+					  @Nonnull Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -119,7 +135,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, Expression, char)
 	 */
-	Predicate notLike(Expression<String> pattern, char escapeChar);
+	@Nonnull
+	Predicate notLike(@Nonnull Expression<String> pattern, char escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -129,7 +146,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, String, Expression)
 	 */
-	Predicate notLike(String pattern, Expression<Character> escapeChar);
+	@Nonnull
+	Predicate notLike(@Nonnull String pattern,
+					  @Nonnull Expression<Character> escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -139,7 +158,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return not-like predicate
 	 * @see CriteriaBuilder#notLike(Expression, String, char)
 	 */
-	Predicate notLike(String pattern, char escapeChar);
+	@Nonnull
+	Predicate notLike(@Nonnull String pattern, char escapeChar);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -147,7 +167,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @param substring  string
 	 * @return contains predicate
 	 */
-	Predicate contains(String substring);
+	@Nonnull
+	Predicate contains(@Nonnull String substring);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -155,7 +176,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @param substring  string
 	 * @return not-contains predicate
 	 */
-	Predicate notContains(String substring);
+	@Nonnull
+	Predicate notContains(@Nonnull String substring);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -163,7 +185,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @param prefix  string
 	 * @return starts-with predicate
 	 */
-	Predicate startsWith(String prefix);
+	@Nonnull
+	Predicate startsWith(@Nonnull String prefix);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -171,7 +194,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @param prefix  string
 	 * @return not-starts-with predicate
 	 */
-	Predicate notStartsWith(String prefix);
+	@Nonnull
+	Predicate notStartsWith(@Nonnull String prefix);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -179,7 +203,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @param suffix  string
 	 * @return ends-with predicate
 	 */
-	Predicate endsWith(String suffix);
+	@Nonnull
+	Predicate endsWith(@Nonnull String suffix);
 
 	/**
 	 * Create a predicate for testing whether this expression
@@ -187,7 +212,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @param suffix  string
 	 * @return not-ends-with predicate
 	 */
-	Predicate notEndsWith(String suffix);
+	@Nonnull
+	Predicate notEndsWith(@Nonnull String suffix);
 
 	//string functions
 
@@ -197,7 +223,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, Expression)
 	 */
-	TextExpression append(Expression<String> y);
+	@Nonnull
+	TextExpression append(@Nonnull Expression<String> y);
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -205,7 +232,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, String)
 	 */
-	TextExpression append(String y);
+	@Nonnull
+	TextExpression append(@Nonnull String y);
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -213,7 +241,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, Expression)
 	 */
-	TextExpression prepend(Expression<String> y);
+	@Nonnull
+	TextExpression prepend(@Nonnull Expression<String> y);
 
 	/**
 	 *  Create an expression for string concatenation.
@@ -221,7 +250,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to concatenation
 	 * @see CriteriaBuilder#concat(Expression, String)
 	 */
-	TextExpression prepend(String y);
+	@Nonnull
+	TextExpression prepend(@Nonnull String y);
 
 	/**
 	 *  Create an expression for substring extraction.
@@ -232,7 +262,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, Expression)
 	 */
-	TextExpression substring(Expression<Integer> from);
+	@Nonnull
+	TextExpression substring(@Nonnull Expression<Integer> from);
 
 	/**
 	 *  Create an expression for substring extraction.
@@ -243,6 +274,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, int)
 	 */
+	@Nonnull
 	TextExpression substring(int from);
 
 	/**
@@ -255,7 +287,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, Expression, Expression)
 	 */
-	TextExpression substring(Expression<Integer> from, Expression<Integer> len);
+	@Nonnull
+	TextExpression substring(@Nonnull Expression<Integer> from,
+							 @Nonnull Expression<Integer> len);
 
 	/**
 	 *  Create an expression for substring extraction.
@@ -267,6 +301,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 *  @return expression corresponding to substring extraction
 	 * @see CriteriaBuilder#substring(Expression, int, int)
 	 */
+	@Nonnull
 	TextExpression substring(int from, int len);
 
 	/**
@@ -275,6 +310,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(Expression)
 	 */
+	@Nonnull
 	TextExpression trim();
 
 	/**
@@ -283,7 +319,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(CriteriaBuilder.Trimspec, Expression)
 	 */
-	TextExpression trim(CriteriaBuilder.Trimspec ts);
+	@Nonnull
+	TextExpression trim(@Nonnull CriteriaBuilder.Trimspec ts);
 
 	/**
 	 * Create expression to trim character from both ends of
@@ -292,7 +329,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(Expression, Expression)
 	 */
-	TextExpression trim(Expression<Character> t);
+	@Nonnull
+	TextExpression trim(@Nonnull Expression<Character> t);
 
 	/**
 	 * Create expression to trim character from this string.
@@ -301,7 +339,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(CriteriaBuilder.Trimspec, Expression, Expression)
 	 */
-	TextExpression trim(CriteriaBuilder.Trimspec ts, Expression<Character> t);
+	@Nonnull
+	TextExpression trim(@Nonnull CriteriaBuilder.Trimspec ts,
+						@Nonnull Expression<Character> t);
 
 	/**
 	 * Create expression to trim character from both ends of
@@ -310,6 +350,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(char, Expression)
 	 */
+	@Nonnull
 	TextExpression trim(char t);
 
 	/**
@@ -319,13 +360,15 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return trim expression
 	 * @see CriteriaBuilder#trim(CriteriaBuilder.Trimspec, char, Expression)
 	 */
-	TextExpression trim(CriteriaBuilder.Trimspec ts, char t);
+	@Nonnull
+	TextExpression trim(@Nonnull CriteriaBuilder.Trimspec ts, char t);
 
 	/**
 	 * Create expression for converting this string to lowercase.
 	 * @return expression to convert to lowercase
 	 * @see CriteriaBuilder#lower(Expression)
 	 */
+	@Nonnull
 	TextExpression lower();
 
 	/**
@@ -333,6 +376,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression to convert to uppercase
 	 * @see CriteriaBuilder#upper(Expression)
 	 */
+	@Nonnull
 	TextExpression upper();
 
 	/**
@@ -340,6 +384,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return length expression
 	 * @see CriteriaBuilder#length(Expression)
 	 */
+	@Nonnull
 	Expression<Integer> length();
 
 	/**
@@ -348,6 +393,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the leftmost substring
 	 * @see CriteriaBuilder#left(Expression, int)
 	 */
+	@Nonnull
 	TextExpression left(int len);
 
 	/**
@@ -356,6 +402,7 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the rightmost substring
 	 * @see CriteriaBuilder#right(Expression, int)
 	 */
+	@Nonnull
 	TextExpression right(int len);
 
 	/**
@@ -364,7 +411,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the leftmost substring
 	 * @see CriteriaBuilder#left(Expression, Expression)
 	 */
-	TextExpression left(Expression<Integer> len);
+	@Nonnull
+	TextExpression left(@Nonnull Expression<Integer> len);
 
 	/**
 	 * Create an expression for the rightmost substring of this string.
@@ -372,7 +420,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the rightmost substring
 	 * @see CriteriaBuilder#right(Expression, Expression)
 	 */
-	TextExpression right(Expression<Integer> len);
+	@Nonnull
+	TextExpression right(@Nonnull Expression<Integer> len);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -382,7 +431,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, Expression, Expression)
 	 */
-	TextExpression replace(Expression<String> substring, Expression<String> replacement);
+	@Nonnull
+	TextExpression replace(@Nonnull Expression<String> substring,
+						   @Nonnull Expression<String> replacement);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -392,7 +443,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, String, Expression)
 	 */
-	TextExpression replace(String substring, Expression<String> replacement);
+	@Nonnull
+	TextExpression replace(@Nonnull String substring,
+						   @Nonnull Expression<String> replacement);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -402,7 +455,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, Expression, String)
 	 */
-	TextExpression replace(Expression<String> substring, String replacement);
+	@Nonnull
+	TextExpression replace(@Nonnull Expression<String> substring,
+						   @Nonnull String replacement);
 
 	/**
 	 * Create an expression replacing every occurrence of a substring
@@ -412,7 +467,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression for the resulting string
 	 * @see CriteriaBuilder#replace(Expression, String, String)
 	 */
-	TextExpression replace(String substring, String replacement);
+	@Nonnull
+	TextExpression replace(@Nonnull String substring,
+						   @Nonnull String replacement);
 
 
 	/**
@@ -428,7 +485,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, Expression)
 	 */
-	NumericExpression<Integer> locate(Expression<String> pattern);
+	@Nonnull
+	NumericExpression<Integer> locate(@Nonnull Expression<String> pattern);
 
 	/**
 	 * Create expression to locate the position of one string
@@ -443,7 +501,8 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, String)
 	 */
-	NumericExpression<Integer> locate(String pattern);
+	@Nonnull
+	NumericExpression<Integer> locate(@Nonnull String pattern);
 
 	/**
 	 * Create expression to locate the position of one string
@@ -459,7 +518,9 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, Expression, Expression)
 	 */
-	NumericExpression<Integer> locate(Expression<String> pattern, Expression<Integer> from);
+	@Nonnull
+	NumericExpression<Integer> locate(@Nonnull Expression<String> pattern,
+									  @Nonnull Expression<Integer> from);
 
 	/**
 	 * Create expression to locate the position of one string
@@ -475,19 +536,24 @@ public interface TextExpression extends ComparableExpression<String> {
 	 * @return expression corresponding to position
 	 * @see CriteriaBuilder#locate(Expression, String, int)
 	 */
-	NumericExpression<Integer> locate(String pattern, int from);
+	@Nonnull
+	NumericExpression<Integer> locate(@Nonnull String pattern, int from);
 
 	// overrides
 
 	@Override
-	TextExpression coalesce(String y);
+	@Nonnull
+	TextExpression coalesce(@Nullable String y);
 
 	@Override
-	TextExpression coalesce(Expression<? extends String> y);
+	@Nonnull
+	TextExpression coalesce(@Nonnull Expression<? extends String> y);
 
 	@Override
-	TextExpression nullif(String y);
+	@Nonnull
+	TextExpression nullif(@Nullable String y);
 
 	@Override
-	TextExpression nullif(Expression<? extends String> y);
+	@Nonnull
+	TextExpression nullif(@Nonnull Expression<? extends String> y);
 }

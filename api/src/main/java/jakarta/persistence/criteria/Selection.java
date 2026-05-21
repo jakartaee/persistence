@@ -16,6 +16,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.TupleElement;
 import java.util.List;
 
@@ -36,7 +37,8 @@ public interface Selection<X> extends TupleElement<X> {
      * @param name  alias
      * @return selection item 
      */
-    Selection<X> alias(String name);
+    @Nonnull
+    Selection<X> alias(@Nonnull String name);
 
     /**
      * Whether the selection item is a compound selection.
@@ -52,5 +54,6 @@ public interface Selection<X> extends TupleElement<X> {
      * @throws IllegalStateException if selection is not a 
      *         compound selection
      */
+    @Nonnull
     List<Selection<?>> getCompoundSelectionItems();
 }

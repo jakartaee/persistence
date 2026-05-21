@@ -19,6 +19,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +44,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      *        is to be returned as the subquery result
      * @return the modified subquery
      */
-    Subquery<T> select(Expression<T> expression);
+    @Nonnull
+    Subquery<T> select(@Nonnull Expression<T> expression);
 	
     /**
      * Modify the subquery to restrict the result according
@@ -53,7 +56,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
-    Subquery<T> where(Expression<Boolean> restriction);
+    @Nonnull
+    Subquery<T> where(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the subquery to restrict the result according 
@@ -66,7 +70,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
-    Subquery<T> where(BooleanExpression... restrictions);
+    @Nonnull
+    Subquery<T> where(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Modify the query to restrict the query result according
@@ -80,7 +85,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the modified query
      * @since 3.2
      */
-    Subquery<T> where(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    Subquery<T> where(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -93,7 +99,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param grouping  zero or more grouping expressions
      * @return the modified subquery
      */
-    Subquery<T> groupBy(Expression<?>... grouping);
+    @Nonnull
+    Subquery<T> groupBy(@Nonnull Expression<?>... grouping);
 
     /**
      * Specify the expressions that are used to form groups over
@@ -106,7 +113,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param grouping  list of zero or more grouping expressions
      * @return the modified subquery
      */
-    Subquery<T> groupBy(List<Expression<?>> grouping);
+    @Nonnull
+    Subquery<T> groupBy(@Nonnull List<Expression<?>> grouping);
 
     /**
      * Specify a restriction over the groups of the subquery.
@@ -116,7 +124,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param restriction  a simple or compound boolean expression
      * @return the modified subquery
      */
-    Subquery<T> having(Expression<Boolean> restriction);
+    @Nonnull
+    Subquery<T> having(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Specify restrictions over the groups of the subquery
@@ -130,7 +139,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified subquery
      */
-    Subquery<T> having(BooleanExpression... restrictions);
+    @Nonnull
+    Subquery<T> having(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Specify restrictions over the groups of the query
@@ -145,7 +155,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the modified query
      * @since 3.2
      */
-    Subquery<T> having(List<? extends Expression<Boolean>> restrictions);
+    @Nonnull
+    Subquery<T> having(@Nonnull List<? extends Expression<Boolean>> restrictions);
 
     /**
      * Specify whether duplicate query results are eliminated.
@@ -160,6 +171,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      *        whether they must be retained
      * @return the modified subquery.
      */
+    @Nonnull
     Subquery<T> distinct(boolean distinct);
 
     /**
@@ -171,7 +183,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return subquery from
      * @since 4.0
      */
-    <X, Y> From<X, Y> correlate(From<X, Y> parent);
+    @Nonnull
+    <X, Y> From<X, Y> correlate(@Nonnull From<X, Y> parent);
 
     /**
      * Create a subquery root correlated to a root of the 
@@ -180,7 +193,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param <Y> the entity type
      * @return subquery root
      */
-    <Y> Root<Y> correlate(Root<Y> parentRoot);
+    @Nonnull
+    <Y> Root<Y> correlate(@Nonnull Root<Y> parentRoot);
 
     /**
      * Create a subquery join object correlated to a join object
@@ -190,7 +204,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param <Y> the target type
      * @return subquery join
      */
-    <X, Y> Join<X, Y> correlate(Join<X, Y> parentJoin);
+    @Nonnull
+    <X, Y> Join<X, Y> correlate(@Nonnull Join<X, Y> parentJoin);
 
     /**
      * Create a subquery collection join object correlated to a 
@@ -200,7 +215,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param <Y> the element type
      * @return subquery join
      */
-    <X, Y> CollectionJoin<X, Y> correlate(CollectionJoin<X, Y> parentCollection);
+    @Nonnull
+    <X, Y> CollectionJoin<X, Y> correlate(@Nonnull CollectionJoin<X, Y> parentCollection);
 
     /**
      * Create a subquery set join object correlated to a set join
@@ -210,7 +226,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param <Y> the element type
      * @return subquery join
      */
-    <X, Y> SetJoin<X, Y> correlate(SetJoin<X, Y> parentSet);
+    @Nonnull
+    <X, Y> SetJoin<X, Y> correlate(@Nonnull SetJoin<X, Y> parentSet);
 
     /**
      * Create a subquery list join object correlated to a list join
@@ -220,7 +237,8 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param <Y> the element type
      * @return subquery join
      */
-    <X, Y> ListJoin<X, Y> correlate(ListJoin<X, Y> parentList);
+    @Nonnull
+    <X, Y> ListJoin<X, Y> correlate(@Nonnull ListJoin<X, Y> parentList);
 
     /**
      * Create a subquery map join object correlated to a map join
@@ -231,13 +249,15 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @param <V> the value type
      * @return subquery join
      */
-    <X, K, V> MapJoin<X, K, V> correlate(MapJoin<X, K, V> parentMap);
+    @Nonnull
+    <X, K, V> MapJoin<X, K, V> correlate(@Nonnull MapJoin<X, K, V> parentMap);
 
     /**
      * Return the query of which this is a subquery.
      * This must be a CriteriaQuery or a Subquery.
      * @return the enclosing query or subquery
      */
+    @Nonnull
     AbstractQuery<?> getParent();
 
     /**
@@ -247,12 +267,14 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @return the enclosing query or subquery
      * @since 2.1
      */
+    @Nonnull
     CommonAbstractCriteria getContainingQuery();
 	
     /**
      * Return the selection expression.
      * @return the item to be returned in the subquery result
      */
+    @Nullable
     Expression<T> getSelection();
 
     /**
@@ -262,6 +284,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * Modifications to the set do not affect the query.
      * @return the correlated joins of the subquery
      */
+    @Nonnull
     Set<Join<?, ?>> getCorrelatedJoins();
 
     //subqueries:
@@ -272,6 +295,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @see CriteriaBuilder#exists(Subquery)
      * @since 4.0
      */
+    @Nonnull
     Predicate exists();
 
     /**
@@ -280,6 +304,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @see CriteriaBuilder#all(Subquery)
      * @since 4.0
      */
+    @Nonnull
     Expression<T> all();
 
     /**
@@ -289,6 +314,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @see CriteriaBuilder#some(Subquery)
      * @since 4.0
      */
+    @Nonnull
     Expression<T> some();
 
     /**
@@ -298,6 +324,7 @@ public interface Subquery<T> extends AbstractQuery<T>, Expression<T> {
      * @see CriteriaBuilder#any(Subquery)
      * @since 4.0
      */
+    @Nonnull
     Expression<T> any();
 
 }

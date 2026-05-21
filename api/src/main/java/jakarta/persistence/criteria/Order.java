@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * An object that defines an ordering over the query results.
  *
@@ -27,6 +29,7 @@ public interface Order {
     * Switch the ordering.
     * @return a new {@code Order} instance with the reversed ordering
     */
+    @Nonnull
     Order reverse();
 
    /**
@@ -40,11 +43,13 @@ public interface Order {
      * @return the {@linkplain Nulls precedence of null values}
      * @since 3.2
      */
+    @Nonnull
     Nulls getNullPrecedence();
 
    /**
     * Return the expression that is used for ordering.
     * @return expression used for ordering
     */
-   Expression<?> getExpression();
+    @Nonnull
+    Expression<?> getExpression();
 }

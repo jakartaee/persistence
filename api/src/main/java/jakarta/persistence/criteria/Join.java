@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Attribute;
 
 /**
@@ -36,7 +38,8 @@ public interface Join<Z, X> extends From<Z, X> {
      * @return the modified join object
      * @since 2.1
      */
-    Join<Z, X> on(Expression<Boolean> restriction);
+    @Nonnull
+    Join<Z, X> on(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the join to restrict the result according to the
@@ -46,7 +49,8 @@ public interface Join<Z, X> extends From<Z, X> {
      * @return the modified join object
      * @since 2.1
      */
-    Join<Z, X> on(BooleanExpression... restrictions);
+    @Nonnull
+    Join<Z, X> on(@Nonnull BooleanExpression... restrictions);
 
     /** 
      * Return the predicate that corresponds to the ON 
@@ -55,6 +59,7 @@ public interface Join<Z, X> extends From<Z, X> {
      * @return the ON restriction predicate
      * @since 2.1
      */
+    @Nullable
     Predicate getOn();
 
     /**
@@ -63,18 +68,21 @@ public interface Join<Z, X> extends From<Z, X> {
      * entity type.
      * @return metamodel attribute or null
      */
+    @Nullable
     Attribute<? super Z, ?> getAttribute();
 
     /**
      * Return the parent of the join.
      * @return join parent
      */
+    @Nonnull
     From<?, Z> getParent();
 
     /**
      * Return the join type.
      * @return join type
      */
+    @Nonnull
     JoinType getJoinType();
 
     /**
@@ -84,5 +92,6 @@ public interface Join<Z, X> extends From<Z, X> {
      * @return this join downcast to the given type
      * @since 4.0
      */
-    <T extends X> Join<Z, T> treat(Class<T> type);
+    @Nonnull
+    <T extends X> Join<Z, T> treat(@Nonnull Class<T> type);
 }

@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 /**
@@ -45,7 +47,9 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * @param <X> the type of the value
      * @return the modified update query
      */
-    <Y, X extends Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, X value);
+    @Nonnull
+    <Y, X extends Y> CriteriaUpdate<T> set(@Nonnull SingularAttribute<? super T, Y> attribute,
+                                           @Nullable X value);
 
     /**
      * Update the value of the specified attribute.
@@ -54,7 +58,9 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * @param <Y> the type of the attribute
      * @return the modified update query
      */
-    <Y> CriteriaUpdate<T> set(SingularAttribute<? super T, Y> attribute, Expression<? extends Y> value);
+    @Nonnull
+    <Y> CriteriaUpdate<T> set(@Nonnull SingularAttribute<? super T, Y> attribute,
+                              @Nonnull Expression<? extends Y> value);
 
     /**
      * Update the value of the specified attribute.
@@ -64,7 +70,9 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * @param <X> the type of the value
      * @return the modified update query
      */
-    <Y, X extends Y> CriteriaUpdate<T> set(Path<Y> attribute, X value);
+    @Nonnull
+    <Y, X extends Y> CriteriaUpdate<T> set(@Nonnull Path<Y> attribute,
+                                           @Nullable X value);
 
     /**
      * Update the value of the specified attribute.
@@ -73,7 +81,9 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * @param <Y> the type of the attribute
      * @return the modified update query
      */
-    <Y> CriteriaUpdate<T> set(Path<Y> attribute, Expression<? extends Y> value);
+    @Nonnull
+    <Y> CriteriaUpdate<T> set(@Nonnull Path<Y> attribute,
+                              @Nonnull Expression<? extends Y> value);
 
     /**
      * Update the value of the specified attribute.
@@ -88,7 +98,8 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      *          metamodel element to {@link #set(SingularAttribute,Expression)}.
      *          Use of the typesafe version is strongly preferred.
      */
-    CriteriaUpdate<T> set(String attributeName, Object value);
+    @Nonnull
+    CriteriaUpdate<T> set(@Nonnull String attributeName, @Nullable Object value);
 
     /**
      * Modify the update query to restrict the target of the
@@ -97,7 +108,8 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * @param restriction  a simple or compound boolean expression
      * @return the modified update query
      */
-    CriteriaUpdate<T> where(Expression<Boolean> restriction);
+    @Nonnull
+    CriteriaUpdate<T> where(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the update query to restrict the target of the
@@ -109,5 +121,6 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified update query
      */
-    CriteriaUpdate<T> where(BooleanExpression... restrictions);
+    @Nonnull
+    CriteriaUpdate<T> where(@Nonnull BooleanExpression... restrictions);
 }

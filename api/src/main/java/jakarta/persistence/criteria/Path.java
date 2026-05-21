@@ -18,6 +18,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Map;
@@ -47,12 +49,14 @@ public interface Path<X> extends Expression<X> {
      * expression.
      * @return bindable object corresponding to the path
      */
+    @Nonnull
     Bindable<X> getModel(); 
     
     /**
      * Return the parent "node" in the path or null if no parent.
      * @return parent
      */
+    @Nullable
     Path<?> getParentPath();
 	
     /**
@@ -62,7 +66,8 @@ public interface Path<X> extends Expression<X> {
      * @param <Y> the type of the attribute
      * @return path corresponding to the referenced attribute
      */
-    <Y> Path<Y> get(SingularAttribute<? super X, Y> attribute);
+    @Nonnull
+    <Y> Path<Y> get(@Nonnull SingularAttribute<? super X, Y> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -71,7 +76,8 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    BooleanExpression get(BooleanAttribute<? super X> attribute);
+    @Nonnull
+    BooleanExpression get(@Nonnull BooleanAttribute<? super X> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -81,7 +87,8 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <C extends Comparable<? super C>> ComparableExpression<C> get(ComparableAttribute<? super X, C> attribute);
+    @Nonnull
+    <C extends Comparable<? super C>> ComparableExpression<C> get(@Nonnull ComparableAttribute<? super X, C> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -91,7 +98,8 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <T extends Temporal & Comparable<? super T>> TemporalExpression<T> get(TemporalAttribute<? super X, T> attribute);
+    @Nonnull
+    <T extends Temporal & Comparable<? super T>> TemporalExpression<T> get(@Nonnull TemporalAttribute<? super X, T> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -101,7 +109,8 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    <N extends Number & Comparable<N>> NumericExpression<N> get(NumericAttribute<? super X, N> attribute);
+    @Nonnull
+    <N extends Number & Comparable<N>> NumericExpression<N> get(@Nonnull NumericAttribute<? super X, N> attribute);
 
     /**
      *  Create a path corresponding to the referenced
@@ -110,7 +119,8 @@ public interface Path<X> extends Expression<X> {
      *  @return path corresponding to the referenced attribute
      *  @since 4.0
      */
-    TextExpression get(TextAttribute<? super X> attribute);
+    @Nonnull
+    TextExpression get(@Nonnull TextAttribute<? super X> attribute);
 
     /**
      * Create a path corresponding to the referenced
@@ -120,7 +130,8 @@ public interface Path<X> extends Expression<X> {
      * @param <C> the collection type
      * @return expression corresponding to the referenced attribute
      */
-    <E, C extends Collection<E>> PluralExpression<C,E> get(PluralAttribute<? super X, C, E> collection);
+    @Nonnull
+    <E, C extends Collection<E>> PluralExpression<C,E> get(@Nonnull PluralAttribute<? super X, C, E> collection);
 
     /**
      * Create a path corresponding to the referenced
@@ -131,12 +142,14 @@ public interface Path<X> extends Expression<X> {
      * @param <M> the map type
      * @return expression corresponding to the referenced attribute
      */
-    <K, V, M extends Map<K, V>> PluralExpression<M,V> get(MapAttribute<? super X, K, V> map);
+    @Nonnull
+    <K, V, M extends Map<K, V>> PluralExpression<M,V> get(@Nonnull MapAttribute<? super X, K, V> map);
 
     /**
      * Create an expression corresponding to the type of the path.
      * @return expression corresponding to the type of the path
      */
+    @Nonnull
     Expression<Class<? extends X>> type();
 
 
@@ -181,7 +194,8 @@ public interface Path<X> extends Expression<X> {
      *
      * @param <Y> the type of the attribute
      */
-    <Y> Path<Y> get(String attributeName);
+    @Nonnull
+    <Y> Path<Y> get(@Nonnull String attributeName);
 
     /**
      * Downcast the type of the path to the given type.
@@ -190,5 +204,6 @@ public interface Path<X> extends Expression<X> {
      * @return this path downcast to the given type
      * @since 4.0
      */
-    <T extends X> Path<T> treat(Class<T> type);
+    @Nonnull
+    <T extends X> Path<T> treat(@Nonnull Class<T> type);
 }

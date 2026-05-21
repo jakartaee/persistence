@@ -16,6 +16,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.metamodel.Attribute;
 
 /**
@@ -33,17 +34,20 @@ public interface Fetch<Z, X> extends FetchParent<Z, X> {
      * fetch join.
      * @return metamodel attribute for the join
      */
+    @Nonnull
     Attribute<? super Z, ?> getAttribute();
 
     /**
      * Return the parent of the fetched item.
      * @return fetch parent
      */
+    @Nonnull
     FetchParent<?, Z> getParent();
 
     /**
      * Return the join type used in the fetch join.
      * @return join type
      */
+    @Nonnull
     JoinType getJoinType();
 }

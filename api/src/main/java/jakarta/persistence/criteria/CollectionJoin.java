@@ -17,6 +17,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import java.util.Collection;
 import jakarta.persistence.metamodel.CollectionAttribute;
 
@@ -41,7 +42,8 @@ public interface CollectionJoin<Z, E>
      * @return the modified join object
      * @since 2.1
      */
-    CollectionJoin<Z, E> on(Expression<Boolean> restriction);
+    @Nonnull
+    CollectionJoin<Z, E> on(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the join to restrict the result according to the
@@ -51,7 +53,8 @@ public interface CollectionJoin<Z, E>
      * @return the modified join object
      * @since 2.1
      */
-    CollectionJoin<Z, E> on(BooleanExpression... restrictions);
+    @Nonnull
+    CollectionJoin<Z, E> on(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Return the metamodel representation for the collection
@@ -59,6 +62,7 @@ public interface CollectionJoin<Z, E>
      * @return metamodel type representing the {@code Collection} that is
      *         the target of the join
      */
+    @Nonnull
     CollectionAttribute<? super Z, E> getModel();
 
     /**
@@ -68,5 +72,6 @@ public interface CollectionJoin<Z, E>
      * @return this join downcast to the given element type
      * @since 4.0
      */
-    <T extends E> CollectionJoin<Z, T> treat(Class<T> type);
+    @Nonnull
+    <T extends E> CollectionJoin<Z, T> treat(@Nonnull Class<T> type);
 }

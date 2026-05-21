@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * The {@code CriteriaDelete} interface defines functionality for 
  * performing bulk delete operations using the Criteria API
@@ -39,7 +41,8 @@ public interface CriteriaDelete<T> extends CriteriaStatement<T> {
      * @param restriction  a simple or compound boolean expression
      * @return the modified delete query
      */
-    CriteriaDelete<T> where(Expression<Boolean> restriction);
+    @Nonnull
+    CriteriaDelete<T> where(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the DELETE query to restrict the target of the deletion
@@ -51,6 +54,7 @@ public interface CriteriaDelete<T> extends CriteriaStatement<T> {
      * @param restrictions  zero or more restriction predicates
      * @return the modified delete query
      */
-    CriteriaDelete<T> where(BooleanExpression... restrictions);
+    @Nonnull
+    CriteriaDelete<T> where(@Nonnull BooleanExpression... restrictions);
 
 }

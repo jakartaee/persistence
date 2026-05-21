@@ -16,6 +16,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.EntityType;
 
 import java.util.Set;
@@ -42,7 +44,8 @@ public interface CommonAbstractCriteria {
      * @param <U> the subquery result type
      * @return subquery 
      */
-    <U> Subquery<U> subquery(Class<U> type);
+    @Nonnull
+    <U> Subquery<U> subquery(@Nonnull Class<U> type);
 
     /**
      * Create a subquery of the query.
@@ -50,7 +53,8 @@ public interface CommonAbstractCriteria {
      * @param <U> the subquery result type
      * @return subquery
      */
-    <U> Subquery<U> subquery(EntityType<U> type);
+    @Nonnull
+    <U> Subquery<U> subquery(@Nonnull EntityType<U> type);
 
     /**
      * Return the predicate that corresponds to the where clause
@@ -58,6 +62,7 @@ public interface CommonAbstractCriteria {
      * specified.
      * @return where clause predicate
      */
+    @Nullable
     Predicate getRestriction();
 
     /**
@@ -66,5 +71,6 @@ public interface CommonAbstractCriteria {
      * Modifications to the set do not affect the query.
      * @return the query parameters
      */
+    @Nonnull
     Set<ParameterExpression<?>> getParameters();
 }

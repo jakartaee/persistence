@@ -16,6 +16,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import java.util.Set;
 import jakarta.persistence.metamodel.SetAttribute;
 
@@ -39,7 +40,8 @@ public interface SetJoin<Z, E> extends PluralJoin<Z, Set<E>, E> {
      * @return the modified join object
      * @since 2.1
      */
-    SetJoin<Z, E> on(Expression<Boolean> restriction);
+    @Nonnull
+    SetJoin<Z, E> on(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the join to restrict the result according to the
@@ -49,13 +51,15 @@ public interface SetJoin<Z, E> extends PluralJoin<Z, Set<E>, E> {
      * @return the modified join object
      * @since 2.1
      */
-    SetJoin<Z, E> on(BooleanExpression... restrictions);
+    @Nonnull
+    SetJoin<Z, E> on(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Return the metamodel representation for the set attribute.
      * @return metamodel type representing the {@code Set} that is
      *         the target of the join
      */
+    @Nonnull
     SetAttribute<? super Z, E> getModel();
 
     /**
@@ -65,5 +69,6 @@ public interface SetJoin<Z, E> extends PluralJoin<Z, Set<E>, E> {
      * @return this join downcast to the given element type
      * @since 4.0
      */
-    <T extends E> SetJoin<Z, T> treat(Class<T> type);
+    @Nonnull
+    <T extends E> SetJoin<Z, T> treat(@Nonnull Class<T> type);
 }

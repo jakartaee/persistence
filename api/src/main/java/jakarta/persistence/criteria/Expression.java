@@ -17,6 +17,8 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaBuilder.SimpleCase;
 
 import java.util.Collection;
@@ -34,6 +36,7 @@ public interface Expression<T> extends Selection<T> {
      * Create a predicate to test whether the expression is null.
      * @return predicate testing whether the expression is null
      */
+    @Nonnull
     Predicate isNull();
 
     /**
@@ -41,6 +44,7 @@ public interface Expression<T> extends Selection<T> {
      * not null.
      * @return predicate testing whether the expression is not null
      */
+    @Nonnull
     Predicate isNotNull();
 
     /**
@@ -50,7 +54,8 @@ public interface Expression<T> extends Selection<T> {
      * @return predicate testing for equality
      * @since 3.2
      */
-    Predicate equalTo(Expression<?> value);
+    @Nonnull
+    Predicate equalTo(@Nonnull Expression<?> value);
 
     /**
      * Create a predicate to test whether the expression is equal to
@@ -59,7 +64,8 @@ public interface Expression<T> extends Selection<T> {
      * @return predicate testing for equality
      * @since 3.2
      */
-    Predicate equalTo(Object value);
+    @Nonnull
+    Predicate equalTo(@Nullable Object value);
 
     /**
      * Create a predicate to test whether the expression is unequal
@@ -68,7 +74,8 @@ public interface Expression<T> extends Selection<T> {
      * @return predicate testing for inequality
      * @since 3.2
      */
-    Predicate notEqualTo(Expression<?> value);
+    @Nonnull
+    Predicate notEqualTo(@Nonnull Expression<?> value);
 
     /**
      * Create a predicate to test whether the expression is unequal
@@ -77,7 +84,8 @@ public interface Expression<T> extends Selection<T> {
      * @return predicate testing for inequality
      * @since 3.2
      */
-    Predicate notEqualTo(Object value);
+    @Nonnull
+    Predicate notEqualTo(@Nullable Object value);
 
     /**
      * Create a predicate to test whether the expression is a member
@@ -85,7 +93,8 @@ public interface Expression<T> extends Selection<T> {
      * @param values  values to be tested against
      * @return predicate testing for membership
      */
-    Predicate in(Object... values);
+    @Nonnull
+    Predicate in(@Nonnull Object... values);
 
     /**
      * Create a predicate to test whether the expression is a member
@@ -93,7 +102,8 @@ public interface Expression<T> extends Selection<T> {
      * @param values  expressions to be tested against
      * @return predicate testing for membership
      */
-    Predicate in(Expression<?>... values);
+    @Nonnull
+    Predicate in(@Nonnull Expression<?>... values);
 
     /**
      * Create a predicate to test whether the expression is a member
@@ -101,7 +111,8 @@ public interface Expression<T> extends Selection<T> {
      * @param values  collection of values to be tested against
      * @return predicate testing for membership
      */
-    Predicate in(Collection<?> values);
+    @Nonnull
+    Predicate in(@Nonnull Collection<?> values);
 
     /**
      * Create a predicate to test whether the expression is a member
@@ -110,7 +121,8 @@ public interface Expression<T> extends Selection<T> {
      *        tested against
      * @return predicate testing for membership
      */
-    Predicate in(Expression<Collection<?>> values);
+    @Nonnull
+    Predicate in(@Nonnull Expression<Collection<?>> values);
 
     /**
      * Create a predicate to test whether the expression is returned
@@ -119,7 +131,8 @@ public interface Expression<T> extends Selection<T> {
      * @return predicate testing for membership
      * @since 4.0
      */
-    Predicate in(Subquery<T> subquery);
+    @Nonnull
+    Predicate in(@Nonnull Subquery<T> subquery);
 
     /**
      * Perform a typecast upon the expression, returning a new
@@ -132,7 +145,8 @@ public interface Expression<T> extends Selection<T> {
      * @return new expression of the given type
      * @see #cast(Class)
      */
-    <X> Expression<X> as(Class<X> type);
+    @Nonnull
+    <X> Expression<X> as(@Nonnull Class<X> type);
 
     /**
      * Cast this expression to the specified type, returning a
@@ -150,7 +164,8 @@ public interface Expression<T> extends Selection<T> {
      * @return a scalar expression of the given basic type
      * @since 3.2
      */
-    <X> Expression<X> cast(Class<X> type);
+    @Nonnull
+    <X> Expression<X> cast(@Nonnull Class<X> type);
 
     // coalesce, nullif:
 
@@ -162,7 +177,8 @@ public interface Expression<T> extends Selection<T> {
      * @return coalesce expression
      * @since 4.0
      */
-    Expression<T> coalesce(Expression<? extends T> y);
+    @Nonnull
+    Expression<T> coalesce(@Nonnull Expression<? extends T> y);
 
     /**
      * Create an expression that returns null if this and the argument
@@ -172,7 +188,8 @@ public interface Expression<T> extends Selection<T> {
      * @return coalesce expression
      * @since 4.0
      */
-    Expression<T> coalesce(T y);
+    @Nonnull
+    Expression<T> coalesce(@Nullable T y);
 
     /**
      * Create an expression that tests whether this expression
@@ -182,7 +199,8 @@ public interface Expression<T> extends Selection<T> {
      * @return nullif expression
      * @since 4.0
      */
-    Expression<T> nullif(Expression<? extends T> y);
+    @Nonnull
+    Expression<T> nullif(@Nonnull Expression<? extends T> y);
 
     /**
      * Create an expression that tests whether this expression
@@ -192,7 +210,8 @@ public interface Expression<T> extends Selection<T> {
      * @return nullif expression
      * @since 4.0
      */
-    Expression<T> nullif(T y);
+    @Nonnull
+    Expression<T> nullif(@Nullable T y);
 
     //case builders:
 
@@ -203,7 +222,8 @@ public interface Expression<T> extends Selection<T> {
      * @return simple case expression
      * @since 4.0
      */
-    <R> SimpleCase<T,R> selectCase(Class<R> type);
+    @Nonnull
+    <R> SimpleCase<T,R> selectCase(@Nonnull Class<R> type);
 
     //collection operations:
 
@@ -215,7 +235,8 @@ public interface Expression<T> extends Selection<T> {
      * @return is-member predicate
      * @since 4.0
      */
-    Predicate isMember(Expression<? extends Collection<? super T>> collection);
+    @Nonnull
+    Predicate isMember(@Nonnull Expression<? extends Collection<? super T>> collection);
 
     /**
      * Create a predicate that tests whether this expression is
@@ -225,7 +246,8 @@ public interface Expression<T> extends Selection<T> {
      * @return is-not-member predicate
      * @since 4.0
      */
-    Predicate isNotMember(Expression<? extends Collection<? super T>> collection);
+    @Nonnull
+    Predicate isNotMember(@Nonnull Expression<? extends Collection<? super T>> collection);
 
     //aggregate functions:
 
@@ -234,6 +256,7 @@ public interface Expression<T> extends Selection<T> {
      * @return count expression
      * @since 4.0
      */
+    @Nonnull
     NumericExpression<Long> count();
 
     /**
@@ -242,6 +265,7 @@ public interface Expression<T> extends Selection<T> {
      * @return count distinct expression
      * @since 4.0
      */
+    @Nonnull
     NumericExpression<Long> countDistinct();
 
 }

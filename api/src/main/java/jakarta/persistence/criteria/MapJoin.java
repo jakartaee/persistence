@@ -16,6 +16,7 @@
 
 package jakarta.persistence.criteria;
 
+import jakarta.annotation.Nonnull;
 import java.util.Map;
 import jakarta.persistence.metamodel.MapAttribute;
 
@@ -41,7 +42,8 @@ public interface MapJoin<Z, K, V>
      * @return the modified join object
      * @since 2.1
      */
-    MapJoin<Z, K, V> on(Expression<Boolean> restriction);
+    @Nonnull
+    MapJoin<Z, K, V> on(@Nonnull Expression<Boolean> restriction);
 
     /**
      * Modify the join to restrict the result according to the
@@ -51,19 +53,22 @@ public interface MapJoin<Z, K, V>
      * @return the modified join object
      * @since 2.1
      */
-    MapJoin<Z, K, V> on(BooleanExpression... restrictions);
+    @Nonnull
+    MapJoin<Z, K, V> on(@Nonnull BooleanExpression... restrictions);
 
     /**
      * Return the metamodel representation for the map attribute.
      * @return metamodel type representing the {@code Map} that is
      *         the target of the join
      */
+    @Nonnull
     MapAttribute<? super Z, K, V> getModel();
     
     /**
      * Create a path expression that corresponds to the map key.
      * @return path corresponding to map key
      */
+    @Nonnull
     Path<K> key();
     
     /**
@@ -71,12 +76,14 @@ public interface MapJoin<Z, K, V>
      * This method is for stylistic use only: it just returns this.
      * @return path corresponding to the map value
      */
+    @Nonnull
     Path<V> value(); 
     
     /**
      * Create an expression that corresponds to the map entry.
      * @return expression corresponding to the map entry
      */
+    @Nonnull
     Expression<Map.Entry<K, V>> entry();
 
     /**
@@ -86,5 +93,6 @@ public interface MapJoin<Z, K, V>
      * @return this join downcast to the given value type
      * @since 4.0
      */
-    <T extends V> MapJoin<Z, K, T> treat(Class<T> type);
+    @Nonnull
+    <T extends V> MapJoin<Z, K, T> treat(@Nonnull Class<T> type);
 }
