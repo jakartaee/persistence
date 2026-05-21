@@ -329,6 +329,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *
      * @since 2.0
      */
+    @Nonnull
     Map<String, Object> getProperties();
 
     /**
@@ -489,6 +490,7 @@ public interface EntityManagerFactory extends AutoCloseable {
      *         the given type
      * @since 2.1
      */
+    @Nonnull
     <T> T unwrap(@Nonnull Class<T> cls);
 
     /**

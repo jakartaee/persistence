@@ -274,6 +274,7 @@ public interface EntityManager extends EntityHandler {
      *         the database
      *
      */
+    @Nonnull
     <T> T merge(@Nonnull T entity);
 
     /**
@@ -319,6 +320,7 @@ public interface EntityManager extends EntityHandler {
      *         read from the database
      * @since 2.0
      */
+    @Nullable
     <T> T find(@Nonnull Class<T> entityClass,
                @Nonnull Object primaryKey,
                @Nullable Map<String, Object> properties);
@@ -377,6 +379,7 @@ public interface EntityManager extends EntityHandler {
      *         record could not be read from the database
      * @since 2.0
      */
+    @Nullable
     <T> T find(@Nonnull Class<T> entityClass,
                @Nonnull Object primaryKey,
                @Nonnull LockModeType lockMode,
@@ -408,6 +411,7 @@ public interface EntityManager extends EntityHandler {
      * @throws EntityNotFoundException if the entity state cannot
      *         be accessed
      */
+    @Nonnull
     <T> T getReference(@Nonnull Class<T> entityClass,
                        @Nonnull Object primaryKey);
 
@@ -851,7 +855,7 @@ public interface EntityManager extends EntityHandler {
      * @deprecated Use {@link #getEntityGraph(String)} instead.
      */
     @Deprecated(since = "4.0", forRemoval = true)
-    @Nonnull
+    @Nullable
     EntityGraph<?> createEntityGraph(@Nonnull String graphName);
 
     /**
