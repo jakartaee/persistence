@@ -77,8 +77,8 @@ public class Client extends PMClientBase {
      */
     @Test
     public void newLifecycleCallbacksTest() {
-        EntityAgent agent = getEntityManagerFactory().createEntityAgent();
-        EntityTransaction agentTransaction = agent.getTransaction();
+        var agent = getEntityManagerFactory().createEntityAgent();
+        var agentTransaction = agent.getTransaction();
         try {
             agentTransaction.begin();
             agent.insert(new CallbackEntity(1, "inserted"));
@@ -98,12 +98,12 @@ public class Client extends PMClientBase {
             agent.close();
         }
 
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         transaction.begin();
         getEntityManager().merge(new CallbackEntity(2, "merged"));
         transaction.commit();
 
-        List<String> events = CallbackEventLog.events();
+        var events = CallbackEventLog.events();
         assertTrue(events.contains("entity-pre-insert"));
         assertTrue(events.contains("entity-post-insert"));
         assertTrue(events.contains("entity-pre-upsert"));
@@ -122,8 +122,8 @@ public class Client extends PMClientBase {
      */
     @Test
     public void entityListenerInvocationTest() {
-        EntityAgent agent = getEntityManagerFactory().createEntityAgent();
-        EntityTransaction transaction = agent.getTransaction();
+        var agent = getEntityManagerFactory().createEntityAgent();
+        var transaction = agent.getTransaction();
         try {
             transaction.begin();
             agent.insert(new CallbackEntity(3, "listener"));
@@ -135,7 +135,7 @@ public class Client extends PMClientBase {
             agent.close();
         }
 
-        List<String> events = CallbackEventLog.events();
+        var events = CallbackEventLog.events();
         assertTrue(events.contains("package-pre-insert"));
         assertTrue(events.contains("annotated-pre-insert-callback-entity"));
         assertTrue(events.contains("annotated-post-insert-callback-entity"));
@@ -152,10 +152,10 @@ public class Client extends PMClientBase {
         createCallbackEntity(new CallbackEntity(4, "original"));
         CallbackEventLog.reset();
 
-        EntityAgent agent = getEntityManagerFactory().createEntityAgent();
-        EntityTransaction transaction = agent.getTransaction();
+        var agent = getEntityManagerFactory().createEntityAgent();
+        var transaction = agent.getTransaction();
         try {
-            CallbackEntity entity = agent.get(CallbackEntity.class, 4);
+            var entity = agent.get(CallbackEntity.class, 4);
             entity.setTitle("updated");
 
             transaction.begin();
@@ -168,7 +168,7 @@ public class Client extends PMClientBase {
             agent.close();
         }
 
-        List<String> events = CallbackEventLog.events();
+        var events = CallbackEventLog.events();
         assertTrue(events.contains("entity-pre-update"));
         assertTrue(events.contains("entity-post-update"));
         assertTrue(events.contains("annotated-pre-update-object"));
@@ -188,11 +188,11 @@ public class Client extends PMClientBase {
 
         CallbackEventLog.reset();
 
-        EntityAgent agent = getEntityManagerFactory().createEntityAgent();
-        EntityTransaction transaction = agent.getTransaction();
+        var agent = getEntityManagerFactory().createEntityAgent();
+        var transaction = agent.getTransaction();
         try {
-            CallbackEntity entity = agent.get(CallbackEntity.class, 5);
-            entity.setTitle("change-on-pre-update");
+            var entity = agent.get(CallbackEntity.class, 5);
+            entity.setTitle("changed-on-pre-update");
 
             transaction.begin();
             agent.update(entity);
@@ -204,7 +204,7 @@ public class Client extends PMClientBase {
             agent.close();
         }
 
-        assertEquals("changed-by-pre-update", titleById(5));
+        assertEquals("changed-on-pre-update", titleById(5));
         assertTrue(CallbackEventLog.events().contains("entity-pre-update"));
         assertTrue(CallbackEventLog.events().contains("entity-post-update"));
     }
@@ -215,7 +215,7 @@ public class Client extends PMClientBase {
      */
     @Test
     public void mappedSuperclassLifecycleCallbacksTest() {
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         transaction.begin();
         getEntityManager().persist(new CallbackDerivedEntity(6, "derived"));
         transaction.commit();
@@ -236,7 +236,7 @@ public class Client extends PMClientBase {
         createCallbackEntity(new CallbackEntity(7, "statement"));
         CallbackEventLog.reset();
 
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         transaction.begin();
         int updated = getEntityManager()
                 .createStatement("UPDATE Jpa40CallbackEntity e SET e.title = 'bulk-updated' WHERE e.id = 7")
@@ -269,7 +269,7 @@ public class Client extends PMClientBase {
      */
     @Test
     public void lifecycleCallbackExceptionPreventsInsertTest() {
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         try {
             transaction.begin();
             assertThrows(RuntimeException.class, () -> {
@@ -283,7 +283,7 @@ public class Client extends PMClientBase {
             getEntityManager().clear();
         }
 
-        List<String> events = CallbackEventLog.events();
+        var events = CallbackEventLog.events();
         assertTrue(events.contains("entity-pre-insert"));
         assertTrue(events.contains("entity-pre-insert-throwing"));
         assertFalse(events.contains("entity-post-insert"));
@@ -291,7 +291,7 @@ public class Client extends PMClientBase {
     }
 
     private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         if (transaction.isActive()) {
             transaction.rollback();
         }
@@ -300,7 +300,7 @@ public class Client extends PMClientBase {
     }
 
     private void createCallbackEntity(CallbackEntity entity) {
-        EntityTransaction transaction = getEntityTransaction();
+        var transaction = getEntityTransaction();
         transaction.begin();
         getEntityManager().persist(entity);
         transaction.commit();
