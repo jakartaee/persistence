@@ -624,7 +624,6 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not correspond to a parameter of the query or is
      *         not an INOUT or OUT parameter
      */
-    @Nullable
     Object getOutputParameterValue(int position);
 
     /**
@@ -641,7 +640,6 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not correspond to a parameter of the query or is
      *         not an INOUT or OUT parameter
      */
-    @Nullable
     Object getOutputParameterValue(@Nonnull String parameterName);
 
     /**
@@ -659,7 +657,6 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *         not an {@code INOUT} or {@code OUT} parameter
      * @since 4.0
      */
-    @Nullable
     <T> T getOutputParameterValue(@Nonnull Parameter<T> parameter);
 
     /**
