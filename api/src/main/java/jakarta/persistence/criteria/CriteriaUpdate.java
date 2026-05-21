@@ -20,6 +20,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.SingularAttribute;
 
+import java.util.List;
+
 /**
  * The {@code CriteriaUpdate} interface defines functionality for
  * performing bulk update operations using the Criteria API.
@@ -123,4 +125,18 @@ public interface CriteriaUpdate<T> extends CriteriaStatement<T> {
      */
     @Nonnull
     CriteriaUpdate<T> where(@Nonnull BooleanExpression... restrictions);
+
+    /**
+     * Modify the update query to restrict the target of the
+     * update according to the conjunction of the specified
+     * restriction predicates.
+     * Replaces the previously added restriction(s), if any.
+     * If no restrictions are specified, any previously added
+     * restrictions are simply removed.
+     * @param restrictions  zero or more restriction predicates
+     * @return the modified update query
+     * @since 4.0
+     */
+    @Nonnull
+    CriteriaUpdate<T> where(@Nonnull List<? extends Expression<Boolean>> restrictions);
 }

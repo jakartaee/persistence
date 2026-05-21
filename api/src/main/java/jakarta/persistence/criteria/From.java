@@ -432,6 +432,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * @return this root or join downcast to the given type
      * @since 4.0
      */
+    @Override
     @Nonnull
     <T extends X> From<?, T> treat(@Nonnull Class<T> type);
 }

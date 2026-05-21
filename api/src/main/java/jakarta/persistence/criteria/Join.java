@@ -20,6 +20,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Attribute;
 
+import java.util.List;
+
 /**
  * A join to an entity, embeddable, or basic type.
  *
@@ -52,7 +54,18 @@ public interface Join<Z, X> extends From<Z, X> {
     @Nonnull
     Join<Z, X> on(@Nonnull BooleanExpression... restrictions);
 
-    /** 
+    /**
+     * Modify the join to restrict the result according to the
+     * specified ON condition and return the join object.
+     * Replaces the previous ON condition, if any.
+     * @param restrictions  zero or more restriction predicates
+     * @return the modified join object
+     * @since 4.0
+     */
+    @Nonnull
+    Join<Z, X> on(@Nonnull List<? extends Expression<Boolean>> restrictions);
+
+    /**
      * Return the predicate that corresponds to the ON 
      * restriction(s) on the join, or null if no ON condition 
      * has been specified.
@@ -92,6 +105,7 @@ public interface Join<Z, X> extends From<Z, X> {
      * @return this join downcast to the given type
      * @since 4.0
      */
+    @Override
     @Nonnull
     <T extends X> Join<Z, T> treat(@Nonnull Class<T> type);
 }
