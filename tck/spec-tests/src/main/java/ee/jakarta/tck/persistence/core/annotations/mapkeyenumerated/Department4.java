@@ -16,9 +16,20 @@
 
 package ee.jakarta.tck.persistence.core.annotations.mapkeyenumerated;
 
-import java.util.Map;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.MapKeyEnumerated;
+import jakarta.persistence.Table;
 
-import jakarta.persistence.*;
+import java.util.Map;
 
 @Entity
 @Table(name = "DEPARTMENT4")
@@ -35,7 +46,7 @@ public class Department4 implements java.io.Serializable {
 	private String name;
 
 	@ElementCollection(targetClass = EmbeddedEmployee.class)
-	@CollectionTable(name = "EMP_MAPKEYCOL2", joinColumns = @JoinColumn(name = "FK_DEPT5"))
+	@CollectionTable(name = "EMP_MAPKEYCOL5", joinColumns = @JoinColumn(name = "FK_DEPT5"))
 	@AttributeOverrides({
 			@AttributeOverride(name = "value.employeeId", column = @Column(name = "ID")),
 			@AttributeOverride(name = "value.employeeName", column = @Column(name = "LASTNAME"))
