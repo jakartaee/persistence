@@ -34,6 +34,7 @@ import org.opentest4j.AssertionFailedError;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class PersistenceTckValidatorFactory implements ValidatorFactory, Validator, ValidatorContext {
@@ -141,13 +142,16 @@ public class PersistenceTckValidatorFactory implements ValidatorFactory, Validat
         return this;
     }
 
-    public void assertValidCallsContain(ValidCallArgument... validCallArgument) {
+    public void assertValidCallsContainOnly(ValidCallArgument... validCallArgument) {
         for (ValidCallArgument validCallArg : validCallArgument) {
             if (!validCallArguments.remove(validCallArg)) {
                 throw new AssertionFailedError("Invalid call argument: " + validCallArg);
             }
         }
-        validCallArguments.clear();
+
+        if (!validCallArguments.isEmpty()) {
+            throw new AssertionFailedError("There are unexpected validation calls: " + validCallArguments);
+        }
     }
 
     public void assertNoValidationCalls() {
@@ -155,6 +159,18 @@ public class PersistenceTckValidatorFactory implements ValidatorFactory, Validat
     }
 
     public record ValidCallArgument(Object entity, Class<?>[] groups) {
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof ValidCallArgument that
+                    && Objects.equals(entity, that.entity)
+                    && Arrays.equals(groups, that.groups);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(entity, Arrays.hashCode(groups));
+        }
+
         @Override
         public String toString() {
             return "ValidCallArgument{" +

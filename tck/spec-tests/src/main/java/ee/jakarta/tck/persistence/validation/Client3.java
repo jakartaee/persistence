@@ -83,7 +83,7 @@ public class Client3 extends PMClientBase {
             emf.runInTransaction(em -> {
                 em.persist(entity);
             });
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
@@ -112,7 +112,7 @@ public class Client3 extends PMClientBase {
             emf.runInTransaction(em -> {
                 em.persist(entity);
             });
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
@@ -160,7 +160,7 @@ public class Client3 extends PMClientBase {
             emf.runInTransaction(EntityAgent.class, em -> {
                 em.insert(entity);
             });
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
@@ -189,7 +189,7 @@ public class Client3 extends PMClientBase {
             emf.runInTransaction(EntityAgent.class,em -> {
                 em.insert(entity);
             });
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 

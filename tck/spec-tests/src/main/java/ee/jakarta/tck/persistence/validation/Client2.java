@@ -189,26 +189,27 @@ public class Client2 extends PMClientBase {
             emf.runInTransaction(em -> {
                 em.persist(entity);
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PrePersistGroup.class));
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreInsertGroup.class, PreInsertOtherGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PrePersistGroup.class),
+                    PersistenceTckValidatorFactory.validCall(entity, PreInsertGroup.class, PreInsertOtherGroup.class));
+
             Order2 detached = emf.callInTransaction(em -> {
                 Order2 order2 = em.find(Order2.class, entity.getId());
                 order2.setTotal(order2.getTotal() + 100);
                 return order2;
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreUpdateGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PreUpdateGroup.class));
             emf.runInTransaction(em -> {
-                em.merge(detached);
-                detached.setTotal(detached.getTotal() + 100);
+                Order2 merged = em.merge(detached);
+                merged.setTotal(detached.getTotal() + 100);
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreMergeGroup.class));
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreUpdateGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PreMergeGroup.class),
+                    PersistenceTckValidatorFactory.validCall(entity, PreUpdateGroup.class));
 
             emf.runInTransaction(em -> {
                 em.remove(em.getReference(Order2.class, entity.getId()));
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreRemoveGroup.class));
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreDeleteGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PreRemoveGroup.class),
+                    PersistenceTckValidatorFactory.validCall(entity, PreDeleteGroup.class));
         }
     }
 
@@ -230,25 +231,25 @@ public class Client2 extends PMClientBase {
             emf.runInTransaction(EntityAgent.class, entityAgent -> {
                 entityAgent.insert(entity);
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreInsertGroup.class, PreInsertOtherGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PreInsertGroup.class, PreInsertOtherGroup.class));
 
             emf.runInTransaction(EntityAgent.class, entityAgent -> {
                 entity.setTotal(entity.getTotal() + 100);
                 entityAgent.upsert(entity);
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreUpsertGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PreUpsertGroup.class));
 
             emf.runInTransaction(EntityAgent.class, entityAgent -> {
                 Order2 forUpdate = entityAgent.get(Order2.class, entity.getId());
                 forUpdate.setTotal(forUpdate.getTotal() + 100);
                 entityAgent.update(forUpdate);
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreUpdateGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PreUpdateGroup.class));
 
             emf.runInTransaction(EntityAgent.class, entityAgent -> {
                 entityAgent.delete(entityAgent.get(Order2.class, entity.getId()));
             });
-            validatorFactory.assertValidCallsContain(PersistenceTckValidatorFactory.validCall(entity, PreDeleteGroup.class));
+            validatorFactory.assertValidCallsContainOnly(PersistenceTckValidatorFactory.validCall(entity, PreDeleteGroup.class));
         }
     }
 
