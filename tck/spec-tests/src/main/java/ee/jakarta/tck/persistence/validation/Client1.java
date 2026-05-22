@@ -81,7 +81,7 @@ public class Client1 extends PMClientBase {
             emf.runInTransaction(em -> {
                 em.persist(entity);
             });
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
@@ -97,14 +97,14 @@ public class Client1 extends PMClientBase {
                 em.persist(entity);
             });
             // on insert:
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
 
             emf.runInTransaction(em -> {
                 Order1 forUpdate = em.find(Order1.class, entity.getId());
                 forUpdate.setTotal(forUpdate.getTotal() + 100);
             });
             // on update:
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
@@ -120,7 +120,7 @@ public class Client1 extends PMClientBase {
                 entityAgent.insert(entity);
             });
             // on insert:
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
@@ -136,7 +136,7 @@ public class Client1 extends PMClientBase {
                 entityAgent.upsert(entity);
             });
             // on upsert:
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
@@ -152,7 +152,7 @@ public class Client1 extends PMClientBase {
                 entityAgent.insert(entity);
             });
             // on insert:
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
 
             emf.runInTransaction(EntityAgent.class, entityAgent -> {
                 Order1 forUpdate = entityAgent.get(Order1.class, entity.getId());
@@ -160,7 +160,7 @@ public class Client1 extends PMClientBase {
                 entityAgent.update(forUpdate);
             });
             // on update:
-            validatorFactory.assertValidCallsContain(validCall(entity, Default.class));
+            validatorFactory.assertValidCallsContainOnly(validCall(entity, Default.class));
         }
     }
 
