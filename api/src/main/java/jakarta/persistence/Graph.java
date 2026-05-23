@@ -61,13 +61,13 @@ public interface Graph<T> {
 
     /**
      * Get an existing attribute node for the attribute with the given
-     * name, or add a new attribute node if there is no existing node.
+     * name, or add a new attribute node if there is no existing node,
+     * cancelling the effect of any prior
+     * {@linkplain #removeAttributeNode removal}.
      *
      * <p>Added nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
-     * {@link AttributeNode} with option {@link FetchType#EAGER},
-     * except when the effect of this call is simply to cancel the
-     * effect of a prior {@linkplain #removeAttributeNode removal}.
+     * {@link AttributeNode} with option {@link FetchType#EAGER}.
      *
      * @param attributeName the name of an attribute of the managed type
      * @param <Y> the type of the attribute
@@ -89,7 +89,8 @@ public interface Graph<T> {
 
     /**
      * Get an existing attribute node for the given attribute, or add
-     * a new attribute node if there is no existing node.
+     * a new attribute node if there is no existing node, cancelling
+     * the effect of any prior {@linkplain #removeAttributeNode removal}.
      *
      * <p>Added nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
@@ -178,19 +179,16 @@ public interface Graph<T> {
     <Y> AttributeNode<Y> getAttributeNode(@Nonnull Attribute<? super T, Y> attribute);
 
     /**
-     * Remove an attribute node from the entity graph.
+     * Remove an attribute node from the entity graph, cancelling the
+     * effect of any prior {@linkplain #addAttributeNode addition}.
      * When this graph is interpreted as a load graph, this operation
      * suppresses inclusion of an attribute mapped for eager fetching.
      * The effect of this call may be overridden by subsequent
      * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
-     * If there is no existing node for the given attribute name, this
-     * operation has no effect.
      *
      * <p>Removed nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
-     * {@link AttributeNode} with option {@link FetchType#LAZY}, except
-     * when the effect of this call is simply to cancel the effect of a
-     * prior {@linkplain #addAttributeNode addition}.
+     * {@link AttributeNode} with option {@link FetchType#LAZY}.
      *
      * @param attributeName the name of an attribute of the managed
      *                      type
@@ -207,19 +205,22 @@ public interface Graph<T> {
     void removeAttributeNode(@Nonnull String attributeName);
 
     /**
-     * Remove an attribute node from the entity graph.
+     * Remove an attribute node from the entity graph, cancelling the
+     * effect of any prior {@linkplain #addAttributeNode addition}.
      * When this graph is interpreted as a load graph, this operation
      * suppresses inclusion of an attribute mapped for eager fetching.
      * The effect of this call may be overridden by subsequent
      * invocations of {@link #addAttributeNode} or {@link #addSubgraph}.
-     * If there is no existing node for the given attribute, this
-     * operation has no effect.
      *
      * <p>Removed nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
-     * {@link AttributeNode} with option {@link FetchType#LAZY}, except
-     * when the effect of this call is simply to cancel the effect of a
-     * prior {@linkplain #addAttributeNode addition}.
+     * {@link AttributeNode} with option {@link FetchType#LAZY}.
+     *
+     * @apiNote This operation does not literally remove a node from
+     * the entity graph object; instead, it suppresses the inclusion
+     * of an edge in the logical graph of fetched associations that
+     * is inferred from this entity graph when it is interpreted as
+     * a load graph or fetch graph in the context of mapping metadata.
      *
      * @param attribute  attribute
      *
@@ -228,7 +229,8 @@ public interface Graph<T> {
     void removeAttributeNode(@Nonnull Attribute<? super T, ?> attribute);
 
     /**
-     * Remove all attribute nodes of the given attribute type.
+     * Remove all attribute nodes of the given attribute type, cancelling
+     * the effect of any prior {@linkplain #addAttributeNode additions}.
      * When this graph is interpreted as a load graph, this operation
      * suppresses inclusion of attributes mapped for eager fetching.
      * The effect of this call may be overridden by subsequent
@@ -236,9 +238,7 @@ public interface Graph<T> {
      *
      * <p>Removed nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
-     * {@link AttributeNode} with option {@link FetchType#LAZY}, except
-     * when the effect of this call is simply to cancel the effect of a
-     * prior {@linkplain #addAttributeNode addition}.
+     * {@link AttributeNode} with option {@link FetchType#LAZY}.
      *
      * @param nodeType the type of attribute to remove
      *
@@ -247,16 +247,16 @@ public interface Graph<T> {
     void removeAttributeNodes(@Nonnull Attribute.PersistentAttributeType nodeType);
 
     /**
-     * Add one or more attribute nodes to the entity graph.
+     * Add one or more attribute nodes to the entity graph,
+     * cancelling the effect of any prior
+     * {@linkplain #removeAttributeNode removals}.
      * If there is already an existing node for one of the given
-     * attribute names, that particular argument is ignored and
-     * has no effect.
+     * attribute names, and it is not marked for removal, that
+     * particular argument is ignored and has no effect.
      *
      * <p>Added nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
-     * {@link AttributeNode} with option {@link FetchType#EAGER},
-     * except when the effect of this call is simply to cancel the
-     * effect of a prior {@linkplain #removeAttributeNode removal}.
+     * {@link AttributeNode} with option {@link FetchType#EAGER}.
      *
      * @param attributeName the name of an attribute of the managed
      *                      type
@@ -272,16 +272,16 @@ public interface Graph<T> {
     void addAttributeNodes(@Nonnull String... attributeName);
 
     /**
-     * Add one or more attribute nodes to the entity graph.
+     * Add one or more attribute nodes to the entity graph,
+     * cancelling the effect of any prior
+     * {@linkplain #removeAttributeNode removals}.
      * If there is already an existing node for one of the given
-     * attributes, that particular argument is ignored and has no
-     * effect.
+     * attributes, and it is not marked for removal, that particular
+     * argument is ignored and has no effect.
      *
      * <p>Added nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
-     * {@link AttributeNode} with option {@link FetchType#EAGER},
-     * except when the effect of this call is simply to cancel the
-     * effect of a prior {@linkplain #removeAttributeNode removal}.
+     * {@link AttributeNode} with option {@link FetchType#EAGER}.
      *
      * @param attribute  attribute
      * @throws IllegalStateException if this EntityGraph has been
