@@ -61,6 +61,8 @@ Added `createEntityGraph()` and `getNamedEntityGraphs()` to `EntityType`
 
 Added `Graph.getGraphedType()` and `AttributeNode.getAttribute()`
 
+Added `addSubgraph()` and `addTreatedSubgraph()` to `AttributeNode`
+
 Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference` and added `addNamedStatement()`
 
 Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`
@@ -118,6 +120,8 @@ Jakarta Validation constraints
 
 ==== Minor Changes and Fixes
 
+Relaxed requirement that exceptions validating method arguments cause the transaction to be marked for rollback
+
 Added `jakarta.annotation.Nullable` and `jakarta.annotation.Nonnull` to APIs
 
 `jakarta.annotation.Nonnull` on an entity attribute now implies `optional=false`
@@ -146,7 +150,11 @@ Specified that changes to an owned collection should result in an entity lifecyc
 
 Clarify behavior with duplicate persistent field names in entity hierarchy
 
-clarify usage of `@OrderColumn` and `@MapKeyColumn`
+Clarified usage of `@OrderColumn` and `@MapKeyColumn`
+
+Added additional overloads of operations accepting restriction lists in criteria API
+
+Deleted `CriteriaBuilder.keys()`, `CriteriaBuilder.values()`
 
 ==== Deprecations
 
