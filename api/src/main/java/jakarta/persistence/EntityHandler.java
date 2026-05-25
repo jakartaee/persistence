@@ -641,14 +641,16 @@ public interface EntityHandler extends AutoCloseable {
     CacheStoreMode getCacheStoreMode();
 
     /**
-     * Set an {@code EntityHandler}-scoped property or hint.
-     * If a vendor-specific property or hint is not recognized, it is
+     * Set an {@code EntityHandler}-scoped property or hint. If a
+     * vendor-specific property or hint is not recognized, it is
      * silently ignored.
+     *
      * @param propertyName The name of the property or hint
      * @param value The value for the property or hint
-     * @throws IllegalArgumentException if the property or hint name
-     *         is recognized by the implementation, but the second
-     *         argument is not a valid value for that hint
+     * @throws IllegalArgumentException if the given property or
+     *         hint name is recognized by the provider, but the
+     *         second argument is not a legal value for the given
+     *         property or hint
      * @apiNote The use of named properties and hints lacks type
      *          safety compared to the use of
      *          {@linkplain EntityManager.Option manager options}
@@ -663,7 +665,7 @@ public interface EntityHandler extends AutoCloseable {
      * contents of the returned map does not change the configuration
      * in effect.
      *
-     * @return a map of properties and hints currently in effect
+     * @return a copy of the properties and hints currently in effect
      * @since 2.0
      */
     @Nonnull

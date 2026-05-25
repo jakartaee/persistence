@@ -88,20 +88,21 @@ public interface Statement extends Query {
     int execute();
 
     /**
-     * Set a query property or hint. The hints elements may be used
-     * to specify query properties and hints. Properties defined by
-     * this specification must be observed by the provider.
+     * Set a query property or hint. Properties defined by this
+     * specification must be observed by the persistence provider.
      * Vendor-specific hints that are not recognized by a provider
      * must be silently ignored. Portable applications should not
-     * rely on the standard timeout hint. Depending on the database
+     * rely on the standard timeout hint; depending on the database
      * in use and the locking mechanisms used by the provider,
      * this hint may or may not be observed.
      *
      * @param hintName The name of the property or hint
      * @param value The value for the property or hint
      * @return the same statement instance
-     * @throws IllegalArgumentException if the second argument is not
-     *         valid for the implementation
+     * @throws IllegalArgumentException if the given property or
+     *         hint name is recognized by the provider, but the
+     *         second argument is not a legal value for the given
+     *         property or hint
      *
      * @apiNote The use of named hints lacks type safety compared
      *          to the use of {@linkplain Option options}.
