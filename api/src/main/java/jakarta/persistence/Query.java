@@ -314,29 +314,37 @@ public interface Query {
     int getFirstResult();
 
     /**
-     * Set a query property or hint. The hints elements may be used 
-     * to specify query properties and hints. Properties defined by
-     * this specification must be observed by the provider. 
+     * Set a query property or hint. Properties defined by this
+     * specification must be observed by the persistence provider.
      * Vendor-specific hints that are not recognized by a provider
      * must be silently ignored. Portable applications should not
-     * rely on the standard timeout hint. Depending on the database
+     * rely on the standard timeout hint; depending on the database
      * in use and the locking mechanisms used by the provider,
      * this hint may or may not be observed.
      *
      * @param hintName The name of the property or hint
      * @param value The value for the property or hint
      * @return the same query instance
-     * @throws IllegalArgumentException if the second argument is not
-     *         valid for the implementation
+     * @throws IllegalArgumentException if the given property or
+     *         hint name is recognized by the provider, but the
+     *         second argument is not a legal value for the given
+     *         property or hint
+     *
+     * @apiNote The use of named query properties and hints lacks
+     *          type safety compared to the use of
+     *          {@linkplain TypedQuery.Option query options} or
+     *          {@linkplain Statement.Option statement options}.
      */
     @Nonnull
     Query setHint(@Nonnull String hintName, @Nullable Object value);
 
     /**
      * Get the properties and hints and associated values that are in
-     * effect for the query instance.
+     * effect for the query instance. Modifying the contents of the
+     * returned map does not change the configuration in effect.
      *
-     * @return query properties and hints
+     * @return a copy of the query properties and hints currently in
+     *         effect
      * @since 2.0
      */
     @Nonnull
