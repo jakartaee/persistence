@@ -94,9 +94,7 @@ public interface Graph<T> {
      *
      * <p>Added nodes are reflected in the list of
      * {@linkplain #getAttributeNodes child nodes} as instances of
-     * {@link AttributeNode} with option {@link FetchType#EAGER},
-     * except when the effect of this call is simply to cancel the
-     * effect of a prior {@linkplain #removeAttributeNode removal}.
+     * {@link AttributeNode} with option {@link FetchType#EAGER}.
      *
      * @param attribute  attribute
      * @param <Y> the type of the attribute
@@ -290,9 +288,9 @@ public interface Graph<T> {
     void addAttributeNodes(@Nonnull Attribute<? super T, ?>... attribute);
 
     /**
-     * Add a node to the graph that corresponds to a managed type.
-     * This allows for construction of multi-node entity graphs
-     * that include related managed types.
+     * Add a node to the graph representing a managed type. This
+     * allows for construction of multi-node entity graphs that
+     * include related managed types.
      *
      * @param attribute the attribute
      * @param <X> the managed type of the attribute
@@ -306,11 +304,11 @@ public interface Graph<T> {
     <X> Subgraph<X> addSubgraph(@Nonnull Attribute<? super T, X> attribute);
 
     /**
-     * Add a node to the graph that corresponds to a managed
-     * type with inheritance. This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity
-     * graph. Subclass subgraphs will automatically include the
-     * specified attributes of superclass subgraphs.
+     * Add a node to the graph representing a managed type with
+     * inheritance. This allows for multiple subclass subgraphs
+     * to be defined for this node of the entity graph. Subclass
+     * subgraphs automatically include the specified attributes
+     * of superclass subgraphs.
      *
      * @param attribute the attribute
      * @param type an entity subclass of the attribute type
@@ -328,9 +326,9 @@ public interface Graph<T> {
                                        @Nonnull Class<Y> type);
 
     /**
-     * Add a node to the graph that corresponds to a managed type.
-     * This allows for construction of multi-node entity graphs
-     * that include related managed types.
+     * Add a node to the graph representing a managed type. This
+     * allows for construction of multi-node entity graphs that
+     * include related managed types.
      *
      * @param attributeName the name of an attribute of the managed
      *                      type
@@ -352,11 +350,11 @@ public interface Graph<T> {
     <X> Subgraph<X> addSubgraph(@Nonnull String attributeName);
 
     /**
-     * Add a node to the graph that corresponds to a managed
-     * type with inheritance. This allows for multiple subclass
-     * subgraphs to be defined for this node of the entity
-     * graph. Subclass subgraphs will automatically include the
-     * specified attributes of superclass subgraphs
+     * Add a node to the graph representing a managed type with
+     * inheritance. This allows for multiple subclass subgraphs
+     * to be defined for this node of the entity graph. Subclass
+     * subgraphs automatically include the specified attributes
+     * of superclass subgraphs.
      *
      * @param attributeName the name of an attribute of the managed
      *                      type
@@ -380,7 +378,7 @@ public interface Graph<T> {
                                 @Nonnull Class<X> type);
 
     /**
-     * Add a node to the graph that corresponds to a collection element
+     * Add a node to the graph representing a collection element
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
@@ -398,7 +396,7 @@ public interface Graph<T> {
     <E> Subgraph<E> addElementSubgraph(@Nonnull PluralAttribute<? super T, ?, E> attribute);
 
     /**
-     * Add a node to the graph that corresponds to a collection element
+     * Add a node to the graph representing a collection element
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
@@ -418,7 +416,7 @@ public interface Graph<T> {
                                               @Nonnull Class<E> type);
 
     /**
-     * Add a node to the graph that corresponds to a collection element
+     * Add a node to the graph representing a collection element
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
@@ -442,7 +440,7 @@ public interface Graph<T> {
     <X> Subgraph<X> addElementSubgraph(@Nonnull String attributeName);
 
     /**
-     * Add a node to the graph that corresponds to a collection element
+     * Add a node to the graph that representing a collection element
      * that is a managed type. This allows for construction of
      * multi-node entity graphs that include related managed types.
      *
@@ -468,9 +466,9 @@ public interface Graph<T> {
                                        @Nonnull Class<X> type);
 
     /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type. This allows for construction of
-     * multi-node entity graphs that include related managed types.
+     * Add a node to the graph representing a map key that is a
+     * managed type. This allows for construction of multi-node
+     * entity graphs that include related managed types.
      *
      * @param attribute the attribute
      * @param <K> the managed type of the map key
@@ -484,11 +482,11 @@ public interface Graph<T> {
     <K> Subgraph<K> addMapKeySubgraph(@Nonnull MapAttribute<? super T, K, ?> attribute);
 
     /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type with inheritance. This allows for
-     * construction of multi-node entity graphs that include related
-     * managed types. Subclass subgraphs will automatically include
-     * the specified attributes of superclass subgraphs
+     * Add a node to the graph representing a map key that is a
+     * managed type with inheritance. This allows for construction
+     * of multi-node entity graphs that include related managed
+     * types. Subclass subgraphs automatically include the
+     * specified attributes of superclass subgraphs.
      *
      * @param attribute the attribute
      * @param type an entity subclass of the map key type
@@ -504,9 +502,9 @@ public interface Graph<T> {
                                              @Nonnull Class<K> type);
 
     /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type. This allows for construction of
-     * multi-node entity graphs that include related managed types.
+     * Add a node to the graph representing a map key that is a
+     * managed type. This allows for construction of multi-node
+     * entity graphs that include related managed types.
      *
      * @param attributeName the name of an attribute of the managed
      *                      type
@@ -528,11 +526,11 @@ public interface Graph<T> {
     <X> Subgraph<X> addKeySubgraph(@Nonnull String attributeName);
 
     /**
-     * Add a node to the graph that corresponds to a map key
-     * that is a managed type with inheritance. This allows for
-     * construction of multi-node entity graphs that include related
-     * managed types. Subclass subgraphs will include the specified
-     * attributes of superclass subgraphs
+     * Add a node to the graph representing a map key that is a
+     * managed type with inheritance. This allows for construction
+     * of multi-node entity graphs that include related managed types.
+     * Subclass subgraphs will include the specified attributes of
+     * superclass subgraphs
      *
      * @param attributeName the name of an attribute of the managed
      *                      type
@@ -556,10 +554,13 @@ public interface Graph<T> {
                                    @Nonnull Class<X> type);
 
     /**
-     * Return the attribute nodes corresponding to the attributes of
-     * this managed type that are included in the graph. The
-     * {@linkplain AttributeNode#getOptions options} of the returned
-     * nodes may be used to distinguish added nodes from removed nodes.
+     * Return the attribute nodes representing the persistent
+     * attributes of this managed type that were explicitly
+     * {@linkplain #addAttributeNode included in (added to)} or
+     * {@linkplain #removeAttributeNode excluded from (removed from)}
+     * the graph. The {@linkplain AttributeNode#getOptions options}
+     * of the returned nodes may be used to distinguish added nodes
+     * from removed nodes.
      * <ul>
      * <li>Added nodes are represented by instances of
      *     {@link AttributeNode} with option {@link FetchType#EAGER}.
