@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King      - 4.0
 //     Linda DeMichiel - 2.1
 //     Linda DeMichiel - 2.0
 
@@ -33,97 +34,111 @@ import java.util.Set;
 public interface IdentifiableType<X> extends ManagedType<X> {
     
     /**
-     * Return the attribute that corresponds to the id attribute of 
-     * the entity or mapped superclass.
-     * @param type  the type of the represented id attribute
-     * @param <Y> The type of the represented id attribute
+     * The identifier attribute of the entity or mapped superclass,
+     * which must have the given type.
+     * @param type  the type of the id attribute
+     * @param <Y> The type of the id attribute
      * @return id attribute
-     * @throws IllegalArgumentException if id attribute of the given
-     *         type is not present in the identifiable type or if
-     *         the identifiable type has an id class
+     * @throws IllegalArgumentException if no id attribute of the
+     *         given type is present in the identifiable type, or
+     *         if the identifiable type has an id class
      */
     @Nonnull
     <Y> SingularAttribute<? super X, Y> getId(Class<Y> type);
 
     /**
-     * Return the attribute that corresponds to the id attribute 
-     * declared by the entity or mapped superclass.
-     * @param type  the type of the represented declared 
-     *              id attribute
-     * @param <Y> The type of the represented declared id attribute
+     * The identifier attribute declared by the entity or mapped
+     * superclass, with the given type.
+     * @param type  the type of the declared id attribute
+     * @param <Y> The type of the declared id attribute
      * @return declared id attribute
-     * @throws IllegalArgumentException if id attribute of the given
-     *         type is not declared in the identifiable type or if
-     *         the identifiable type has an id class
+     * @throws IllegalArgumentException if no id attribute of the
+     *         given type is present in the identifiable type, or
+     *         if the identifiable type has an id class
      */
     @Nonnull
     <Y> SingularAttribute<X, Y> getDeclaredId(Class<Y> type);
 
     /**
-     * Return the attribute that corresponds to the version 
-     * attribute of the entity or mapped superclass.
-     * @param type  the type of the represented version attribute
-     * @param <Y> The type of the represented version attribute
+     * The version attribute of the entity or mapped superclass,
+     * which must have the given type.
+     * @param type  the type of the version attribute
+     * @param <Y> The type of the version attribute
      * @return version attribute
-     * @throws IllegalArgumentException if version attribute of the 
-     *             given type is not present in the identifiable type
+     * @throws IllegalArgumentException if no version attribute
+     *         of the given type is present in the identifiable
+     *         type
      */
     @Nonnull
     <Y> SingularAttribute<? super X, Y> getVersion(Class<Y> type);
 
     /**
-     * Return the attribute that corresponds to the version 
-     * attribute declared by the entity or mapped superclass.
-     * @param type  the type of the represented declared version 
-     *              attribute
-     * @param <Y> The type of the represented declared version attribute
+     * The version attribute declared by the entity or mapped
+     * superclass, with the given type.
+     * @param type  the type of the declared version attribute
+     * @param <Y> The type of the declared version attribute
      * @return declared version attribute
-     * @throws IllegalArgumentException if version attribute of the 
-     *         type is not declared in the identifiable type
+     * @throws IllegalArgumentException if no version attribute
+     *         of the given type is declared by the identifiable
+     *         type
      */
     @Nonnull
     <Y> SingularAttribute<X, Y> getDeclaredVersion(Class<Y> type);
     
     /**
-     * Return the identifiable type that corresponds to the most
-     * specific mapped superclass or entity extended by the entity 
-     * or mapped superclass. 
-     * @return supertype of identifiable type or null if no 
-     *         such supertype
+     * Return the identifiable type representing the most
+     * specific mapped superclass or entity extended by the
+     * entity or mapped superclass.
+     * @return an identifiable supertype of the identifiable
+     *         type, or null if the identifiable type has no
+     *         identifiable supertype
      */
     @Nullable
     IdentifiableType<? super X> getSupertype();
 
     /**
+     * Whether the identifiable type has an identifier. Every
+     * entity class has a well-defined identifier. A mapped
+     * superclass may or may not have an identifier.
+     * @return true if the type has an identifier
+     * @since 4.0
+     */
+    boolean hasId();
+
+    /**
      * Whether the identifiable type has a single id attribute.
-     * Returns true for a simple id or embedded id; returns false
-     * for an idclass.
-     * @return boolean indicating whether the identifiable
-     *         type has a single id attribute
+     * Returns true for a {@linkplain jakarta.persistence.Id simple id}
+     * or {@linkplain jakarta.persistence.EmbeddedId embedded id}, or
+     * false for an {@linkplain jakarta.persistence.IdClass id class}.
+     * @return true if the identifiable type has a single id attribute
      */
     boolean hasSingleIdAttribute();
 
     /**
-     * Whether the identifiable type has a version attribute.
-     * @return boolean indicating whether the identifiable
-     *         type has a version attribute
+     * Whether the identifiable type has a
+     * {@linkplain jakarta.persistence.Version version attribute}.
+     * @return true if the identifiable type has a version
+     *         attribute
      */
     boolean hasVersionAttribute();
 
     /**
-     *  Return the attributes corresponding to the id class of the
-     *  identifiable type.
-     *  @return id attributes
-     *  @throws IllegalArgumentException if the identifiable type
-     *          does not have an id class
+     * The persistent attributes corresponding to the fields of
+     * the {@linkplain jakarta.persistence.IdClass id class} of
+     * the identifiable type.
+     * @return the identifier attributes
+     * @throws IllegalArgumentException if the identifiable type
+     *         does not have an id class
      */
     @Nonnull
     Set<SingularAttribute<? super X, ?>> getIdClassAttributes();
 
     /**
-     * Return the type that represents the type of the id.
-     * @return type of id
+     * The type of the identifier of the identifiable type,
+     * or null if the identifiable type is a mapped superclass
+     * with no identifier attribute.
+     * @return the identifier type, or null
      */
-    @Nonnull
+    @Nullable
     Type<?> getIdType();
 }

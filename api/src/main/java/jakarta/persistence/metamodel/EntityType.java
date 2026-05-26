@@ -18,6 +18,7 @@
 package jakarta.persistence.metamodel;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityGraph;
 
 import java.util.Map;
@@ -61,4 +62,12 @@ public interface EntityType<X>
      */
     @Nonnull
     Map<String, EntityGraph<X>> getNamedEntityGraphs();
+
+    /**
+     * The type of the identifier of the entity type.
+     * @return the identifier type
+     */
+    @Nonnull
+    @Override
+    Type<?> getIdType();
 }

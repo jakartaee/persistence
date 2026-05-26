@@ -113,8 +113,6 @@ public interface Graph<T> {
      *
      * @param attributeName the name of an attribute of the managed type
      * @return true if there is an existing attribute node
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
      * @throws IllegalArgumentException if there is no attribute
      *         with the given name
      *
@@ -133,6 +131,8 @@ public interface Graph<T> {
      *
      * @param attribute  attribute
      * @return true if there is an existing attribute node
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity
      *
      * @since 3.2
      */
@@ -144,8 +144,6 @@ public interface Graph<T> {
      *
      * @param attributeName the name of an attribute of the managed type
      * @return the attribute node
-     * @throws IllegalArgumentException if the attribute is not an
-     *         attribute of this entity.
      * @throws java.util.NoSuchElementException if there is no existing
      *         node for the attribute
      * @throws IllegalArgumentException if there is no attribute
@@ -168,6 +166,8 @@ public interface Graph<T> {
      * @param attribute  attribute
      * @param <Y> the type of the attribute
      * @return the attribute node
+     * @throws IllegalArgumentException if the attribute is not an
+     *         attribute of this entity
      * @throws java.util.NoSuchElementException if there is no existing
      *         node for the attribute
      *
