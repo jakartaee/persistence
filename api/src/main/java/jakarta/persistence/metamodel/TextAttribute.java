@@ -25,5 +25,5 @@ package jakarta.persistence.metamodel;
  * @since 4.0
  */
 public interface TextAttribute<X>
-		extends ComparableAttribute<X, String> {
+        extends ComparableAttribute<X, String> {
 }

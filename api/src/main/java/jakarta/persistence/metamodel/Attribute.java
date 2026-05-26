@@ -28,66 +28,66 @@ import jakarta.annotation.Nonnull;
  */
 public interface Attribute<X, Y> {
 
-	enum PersistentAttributeType {
-	    
-	     /** Many-to-one association */
-	     MANY_TO_ONE, 
+    enum PersistentAttributeType {
+        
+         /** Many-to-one association */
+         MANY_TO_ONE, 
 
-     	 /** One-to-one association */
-	     ONE_TO_ONE, 
-	     
-	     /** Basic attribute */
-	     BASIC, 
+          /** One-to-one association */
+         ONE_TO_ONE, 
+         
+         /** Basic attribute */
+         BASIC, 
 
-	     /** Embeddable class attribute */
-	     EMBEDDED,
+         /** Embeddable class attribute */
+         EMBEDDED,
 
-	     /** Many-to-many association */
-	     MANY_TO_MANY, 
+         /** Many-to-many association */
+         MANY_TO_MANY, 
 
-	     /** One-to-many association */
-	     ONE_TO_MANY, 
+         /** One-to-many association */
+         ONE_TO_MANY, 
 
-	     /** Element collection */
-	     ELEMENT_COLLECTION
-	}
+         /** Element collection */
+         ELEMENT_COLLECTION
+    }
 
     /**
      * Return the name of the attribute.
      * @return name
      */
-	@Nonnull
-	String getName();
+    @Nonnull
+    String getName();
 
     /**
      * Return the persistent attribute type for the attribute.
      * @return persistent attribute type
      */
-	@Nonnull
-	PersistentAttributeType getPersistentAttributeType();
+    @Nonnull
+    PersistentAttributeType getPersistentAttributeType();
 
     /**
      * Return the managed type representing the type in which 
      * the attribute was declared.
      * @return declaring type
      */
-	@Nonnull
-	ManagedType<X> getDeclaringType();
+    @Nonnull
+    ManagedType<X> getDeclaringType();
 
     /**
      * Return the Java type of the represented attribute.
      * @return Java type
      */
-	@Nonnull
-	Class<Y> getJavaType();
+    @Nonnull
+    Class<Y> getJavaType();
 
     /**
      * Return the {@link java.lang.reflect.Member} for the
-	 *  represented attribute.
+     *  represented attribute.
      * @return corresponding {@link java.lang.reflect.Member}
      */
-	@Nonnull
-	java.lang.reflect.Member getJavaMember();
+    @Nonnull
+    java.lang.reflect.Member getJavaMember();
 
     /**
      * Is the attribute an association.
@@ -98,8 +98,8 @@ public interface Attribute<X, Y> {
 
     /**
      * Is the attribute collection-valued (represents a
-	 * {@code Collection}, {@code Set}, {@code List}, or
-	 * {@code Map}).
+     * {@code Collection}, {@code Set}, {@code List}, or
+     * {@code Map}).
      * @return boolean indicating whether the attribute is 
      *         collection-valued
      */

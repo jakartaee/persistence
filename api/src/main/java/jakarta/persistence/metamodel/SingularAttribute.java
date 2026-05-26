@@ -29,8 +29,8 @@ import jakarta.annotation.Nonnull;
  * @since 2.0
  */
 public interface SingularAttribute<X, T> 
-		extends Attribute<X, T>, Bindable<T> {
-	
+        extends Attribute<X, T>, Bindable<T> {
+    
     /**
      * Is the attribute an id attribute? This method returns true
      * if the attribute is a {@linkplain jakarta.persistence.Id simple
