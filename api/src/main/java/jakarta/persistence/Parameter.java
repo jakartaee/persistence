@@ -16,6 +16,9 @@
 
 package jakarta.persistence;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  * Represents a parameter of a {@linkplain Query query}.
  * <p>
@@ -34,9 +37,10 @@ public interface Parameter<T> {
 
     /**
      * Return the parameter name, or null if the parameter is
-     * not a named parameter or no name has been assigned.
+     * not a named parameter or if no name has been assigned.
      * @return parameter name
      */
+    @Nullable
     String getName();
 
     /**
@@ -44,21 +48,27 @@ public interface Parameter<T> {
      * is not a positional parameter. 
      * @return position of parameter
      */
+    @Nullable
     Integer getPosition();
 
     /**
-     * Return the Java type of the parameter. Values bound to
-     * the parameter must be assignable to this type.
-     * This method is required to be supported for criteria
-     * queries only. Applications that use this method for
-     * Jakarta Persistence query language queries and native
-     * queries will not be portable.
+     * Return the Java type of the parameter, if known to the
+     * persistence provider. Values bound to the parameter must
+     * be assignable to this type.
+     * <ul>
+     * <li>If this object is a parameter of a criteria query,
+     *     the persistence provider always knows its type.
+     * <li>Otherwise, if this object represents a parameter of
+     *     a query written in the Jakarta Persistence query
+     *     language or in native SQL, the persistence provider
+     *     is permitted to throw an {@link IllegalStateException}
+     *     if it is unable to infer the type of the parameter.
+     * </ul>
      * @return the Java type of the parameter
-     * @throws IllegalStateException if invoked on a parameter
-     *         obtained from a query language query or native
-     *         query when the implementation does not support
-     *         this usage
+     * @throws IllegalStateException if the type of the parameter
+     *         is not known and cannot be inferred
      */
-     Class<T> getParameterType();
+    @Nonnull
+    Class<T> getParameterType();
 }
 
