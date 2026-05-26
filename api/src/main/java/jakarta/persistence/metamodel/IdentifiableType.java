@@ -31,7 +31,7 @@ import java.util.Set;
  *
  */
 public interface IdentifiableType<X> extends ManagedType<X> {
-	
+    
     /**
      * Return the attribute that corresponds to the id attribute of 
      * the entity or mapped superclass.
@@ -66,7 +66,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      * @param <Y> The type of the represented version attribute
      * @return version attribute
      * @throws IllegalArgumentException if version attribute of the 
-     * 	        given type is not present in the identifiable type
+     *             given type is not present in the identifiable type
      */
     @Nonnull
     <Y> SingularAttribute<? super X, Y> getVersion(Class<Y> type);
@@ -83,7 +83,7 @@ public interface IdentifiableType<X> extends ManagedType<X> {
      */
     @Nonnull
     <Y> SingularAttribute<X, Y> getDeclaredVersion(Class<Y> type);
-	
+    
     /**
      * Return the identifiable type that corresponds to the most
      * specific mapped superclass or entity extended by the entity 

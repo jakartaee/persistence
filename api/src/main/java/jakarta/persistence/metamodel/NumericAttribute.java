@@ -26,5 +26,5 @@ package jakarta.persistence.metamodel;
  * @since 4.0
  */
 public interface NumericAttribute<X, N extends Number & Comparable<N>>
-		extends ComparableAttribute<X, N> {
+        extends ComparableAttribute<X, N> {
 }

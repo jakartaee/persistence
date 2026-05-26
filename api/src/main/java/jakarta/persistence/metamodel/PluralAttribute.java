@@ -29,35 +29,35 @@ import jakarta.annotation.Nonnull;
  * @since 2.0
  */
 public interface PluralAttribute<X, C, E> 
-		extends Attribute<X, C>, Bindable<E> {
-	
-	enum CollectionType {
+        extends Attribute<X, C>, Bindable<E> {
+    
+    enum CollectionType {
 
-	    /** Collection-valued attribute */
-	    COLLECTION, 
+        /** Collection-valued attribute */
+        COLLECTION, 
 
-	    /** Set-valued attribute */
-	    SET, 
+        /** Set-valued attribute */
+        SET, 
 
-	    /** List-valued attribute */
-	    LIST, 
+        /** List-valued attribute */
+        LIST, 
 
-	    /** Map-valued attribute */
-	    MAP
-	}
-		
+        /** Map-valued attribute */
+        MAP
+    }
+        
     /**
      * Return the collection type.
      * @return collection type
      */
-	@Nonnull
-	CollectionType getCollectionType();
+    @Nonnull
+    CollectionType getCollectionType();
 
     /**
      * Return the type representing the element type of the 
      * collection.
      * @return element type
      */
-	@Nonnull
-	Type<E> getElementType();
+    @Nonnull
+    Type<E> getElementType();
 }
