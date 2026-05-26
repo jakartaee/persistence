@@ -22,6 +22,7 @@ import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.Query;
 import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.QueryHint;
+import jakarta.persistence.StatementOrTypedQuery;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -123,7 +124,8 @@ public @interface QueryOptions {
      * by the query. If the result type of the query is not an
      * entity type, the behavior is undefined. The entity graph
      * is interpreted as a load graph. The entity graph specified
-     * here may be overridden by calling {@code setEntityGraph()}.
+     * here may be overridden by calling
+     * {@link StatementOrTypedQuery#withEntityGraph(EntityGraph)}.
      * <p>
      * This option applies when the query is a JPQL {@code select}.
      *
