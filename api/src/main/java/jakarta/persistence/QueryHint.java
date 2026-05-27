@@ -21,11 +21,22 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to supply a query property or hint to the {@link NamedQuery}
- * or {@link NamedNativeQuery} annotation.
+ * Supplies a property or hint via an annotation.
+ * <ul>
+ * <li>As a nested annotation of
+ *     {@link NamedQuery#hints @NamedQuery} or
+ *     {@link NamedNativeQuery#hints @NamedNativeQuery},
+ *     this annotation specifies a query hint.
+ * <li>As a nested annotation of {@link Fetch#hints @Fetch},
+ *     it specifies a fetching hint.
+ * </ul>
  *
- * <p>Vendor-specific hints that are not recognized by a provider are
- * ignored.
+ * <p>If a vendor-specific property or hint is not recognized
+ * by the persistence provider, it is silently ignored.
+ *
+ * @see NamedQuery#hints
+ * @see NamedNativeQuery#hints
+ * @see Fetch#hints
  *
  * @since 1.0
  */
@@ -33,9 +44,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface QueryHint { 
 
-    /** Name of the hint. */
+    /**
+     * The name of the hint.
+     * <p>
+     * This is usually a vendor-specific name defined by the
+     * persistence provider.
+     */
     String name(); 
 
-    /** Value of the hint. */
+    /**
+     * The value of the hint, as a string.
+     */
     String value();
 }
