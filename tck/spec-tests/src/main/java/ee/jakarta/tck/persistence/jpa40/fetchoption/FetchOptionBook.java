@@ -17,6 +17,7 @@
 package ee.jakarta.tck.persistence.jpa40.fetchoption;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Fetch;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -33,6 +34,14 @@ public class FetchOptionBook {
     @ManyToOne(fetch = FetchType.EAGER)
     private FetchOptionPublisher publisher;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch
+    private FetchOptionPublisher defaultFetchPublisher;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(type = FetchType.LAZY)
+    private FetchOptionPublisher lazyFetchPublisher;
+
     public FetchOptionBook() {
     }
 
@@ -42,7 +51,24 @@ public class FetchOptionBook {
         this.publisher = publisher;
     }
 
+    public FetchOptionBook(Integer id, String title, FetchOptionPublisher publisher,
+            FetchOptionPublisher defaultFetchPublisher, FetchOptionPublisher lazyFetchPublisher) {
+        this.id = id;
+        this.title = title;
+        this.publisher = publisher;
+        this.defaultFetchPublisher = defaultFetchPublisher;
+        this.lazyFetchPublisher = lazyFetchPublisher;
+    }
+
     public FetchOptionPublisher getPublisher() {
         return publisher;
+    }
+
+    public FetchOptionPublisher getDefaultFetchPublisher() {
+        return defaultFetchPublisher;
+    }
+
+    public FetchOptionPublisher getLazyFetchPublisher() {
+        return lazyFetchPublisher;
     }
 }
