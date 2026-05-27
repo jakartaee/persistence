@@ -683,9 +683,9 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      *
      * @return the update count or {@code -1} if there is no pending
      *         result or if the next result is not an update count.
-     * @throws TransactionRequiredException if there is 
-     *         no transaction or the persistence context has not
-     *         been joined to the transaction
+     * @throws TransactionRequiredException if there is no transaction
+     *         and the provider does not allow the stored procedure
+     *         to be executed outside a transaction
      * @throws QueryTimeoutException if the statement execution 
      *         exceeds the query timeout value set and only
      *         the statement is rolled back

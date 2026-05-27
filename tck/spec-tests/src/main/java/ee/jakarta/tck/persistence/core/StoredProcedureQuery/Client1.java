@@ -1976,37 +1976,6 @@ public class Client1 extends Client {
     }
 
     /*
-     * @testName: executeUpdateTransactionRequiredExceptionTest
-     *
-     * @assertion_ids: PERSISTENCE:JAVADOC:1582;
-     *
-     * @test_Strategy:
-     */
-    @Test
-    public void executeUpdateTransactionRequiredExceptionTest() throws Exception {
-        boolean pass = false;
-        try {
-            StoredProcedureQuery spq = getEntityManager().createStoredProcedureQuery("DeleteAllEmp");
-            try {
-                logger.log(Logger.Level.INFO, "IsActive returns:" + getEntityTransaction().isActive());
-                spq.executeUpdate();
-                logger.log(Logger.Level.ERROR, "Did not throw TransactionRequiredException");
-            } catch (TransactionRequiredException tre) {
-                logger.log(Logger.Level.TRACE, "Received expected TransactionRequiredException");
-                pass = true;
-            } catch (Exception e) {
-                logger.log(Logger.Level.ERROR, "Caught unexpected exception", e);
-            }
-
-        } catch (Exception e) {
-            logger.log(Logger.Level.ERROR, "Unexpected exception occurred", e);
-        }
-
-        if (!pass)
-            throw new Exception("executeUpdateTransactionRequiredExceptionTest failed");
-    }
-
-    /*
      * @testName: getParameterValueParameterTest
      *
      * @assertion_ids: PERSISTENCE:JAVADOC:1605; PERSISTENCE:JAVADOC:1630;
