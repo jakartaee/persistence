@@ -35,10 +35,17 @@ import static java.lang.annotation.RetentionPolicy.*;
 @Retention(RUNTIME)
 public @interface PersistenceProperty {
 
-    /** The name of the property */
+    /**
+     * The name of the property
+     * <p>
+     * This is usually a vendor-specific name defined by the
+     * persistence provider.
+     */
     String name();
 
-    /** The value of the property */
+    /**
+     * The value of the property, as a string.
+     */
     String value();
 
 }
