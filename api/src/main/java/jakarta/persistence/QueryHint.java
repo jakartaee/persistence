@@ -20,12 +20,18 @@ import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import jakarta.persistence.query.QueryOptions;
+
 /**
  * Supplies a property or hint via an annotation.
  * <ul>
  * <li>As a nested annotation of
- *     {@link NamedQuery#hints @NamedQuery} or
+ *     {@link NamedQuery#hints @NamedQuery},
  *     {@link NamedNativeQuery#hints @NamedNativeQuery},
+ *     {@link NamedNativeStatement#hints @NamedNativeStatement},
+ *     {@link NamedStatement#hints @NamedStatement},
+ *     {@link NamedStoredProcedureQuery#hints @NamedStoredProcedure},
+ *     or {@link QueryOptions#hints @QueryOptions},
  *     this annotation specifies a query hint.
  * <li>As a nested annotation of {@link Fetch#hints @Fetch},
  *     it specifies a fetching hint.
@@ -36,6 +42,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see NamedQuery#hints
  * @see NamedNativeQuery#hints
+ * @see NamedNativeStatement#hints
+ * @see NamedStatement#hints
+ * @see NamedStoredProcedureQuery#hints
+ * @see QueryOptions#hints
  * @see Fetch#hints
  *
  * @since 1.0
