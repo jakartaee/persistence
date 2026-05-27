@@ -29,7 +29,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static jakarta.persistence.sql.ResultSetMapping.column;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Client extends PMClientBase {
 
@@ -81,6 +83,43 @@ public class Client extends PMClientBase {
                 .withEntityGraph(graph)
                 .getSingleResult();
         assertEquals("Alpha", graphed.getTitle());
+    }
+
+    /**
+     * Tests the exception types thrown by the Jakarta Persistence 4.0
+     * {@link StatementOrTypedQuery} refinement operations when the underlying
+     * query is not a kind accepted by the requested operation.
+     */
+    @Test
+    public void statementOrTypedQueryWrongQueryTypeExceptionsTest() {
+        EntityGraph<StatementBook> graph = getEntityManager().createEntityGraph(StatementBook.class);
+
+        assertThrows(IllegalStateException.class, () -> getEntityManager()
+                .createQuery("SELECT b FROM Jpa40StatementBook b")
+                .asStatement());
+
+        assertThrows(IllegalStateException.class, () -> getEntityManager()
+                .createQuery("UPDATE Jpa40StatementBook b SET b.title = 'Updated'")
+                .ofType(StatementBook.class));
+
+        assertThrows(IllegalStateException.class, () -> getEntityManager()
+                .createQuery("DELETE FROM Jpa40StatementBook b WHERE b.id = 1")
+                .withEntityGraph(graph));
+
+        assertThrows(IllegalStateException.class, () -> getEntityManager()
+                .createQuery("SELECT b FROM Jpa40StatementBook b")
+                .withResultSetMapping(column("TITLE", String.class)));
+    }
+
+    /**
+     * Tests the exception type thrown by {@link StatementOrTypedQuery#ofType(Class)}
+     * when the requested type is not a supertype of the query result type.
+     */
+    @Test
+    public void statementOrTypedQueryOfTypeWrongResultTypeExceptionTest() {
+        assertThrows(IllegalArgumentException.class, () -> getEntityManager()
+                .createQuery("SELECT b FROM Jpa40StatementBook b")
+                .ofType(String.class));
     }
 
     /**
