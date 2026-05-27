@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static jakarta.persistence.Persistence.getPersistenceUtil;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -78,7 +79,7 @@ public class Client extends PMClientBase {
         lazyGraph.addAttributeNode("publisher").addOption(FetchType.LAZY);
 
         FetchOptionBook lazyBook = getEntityManager().find(lazyGraph, 1);
-        assertFalse(Persistence.getPersistenceUtil().isLoaded(lazyBook, "publisher"));
+        assertFalse(getPersistenceUtil().isLoaded(lazyBook, "publisher"));
 
         getEntityManager().clear();
 
@@ -86,8 +87,34 @@ public class Client extends PMClientBase {
         eagerGraph.addAttributeNode("publisher").addOption(FetchType.EAGER);
 
         FetchOptionBook eagerBook = getEntityManager().find(eagerGraph, 1);
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(eagerBook, "publisher"));
-        assertTrue(Persistence.getPersistenceUtil().isLoaded(eagerBook.getPublisher()));
+        assertTrue(getPersistenceUtil().isLoaded(eagerBook, "publisher"));
+        assertTrue(getPersistenceUtil().isLoaded(eagerBook.getPublisher()));
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 fetch options declared directly on a
+     * mapped attribute. The test verifies an unqualified {@code @Fetch}
+     * annotation applies to a plain find operation without an entity graph.
+     */
+    @Test
+    public void fetchAnnotationWithoutGraphTest() {
+        FetchOptionBook book = getEntityManager().find(FetchOptionBook.class, 1);
+
+        assertTrue(getPersistenceUtil().isLoaded(book, "defaultFetchPublisher"));
+        assertTrue(getPersistenceUtil().isLoaded(book.getDefaultFetchPublisher()));
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 fetch options declared directly on a
+     * mapped attribute. The test verifies an unqualified {@code @Fetch}
+     * annotation overrides the mapping fetch type when no entity graph is used.
+     */
+    @Test
+    public void fetchAnnotationLazyWithoutGraphTest() {
+        FetchOptionBook book = getEntityManager().find(FetchOptionBook.class, 1);
+
+        assertFalse(getPersistenceUtil().isLoaded(book, "lazyFetchPublisher")
+                && getPersistenceUtil().isLoaded(book.getLazyFetchPublisher()));
     }
 
     /**
@@ -152,16 +179,21 @@ public class Client extends PMClientBase {
                 getEntityManager().createEntityGraph(FetchOptionBook.class);
         graph.removeAttributeNode("publisher");
         FetchOptionBook book = getEntityManager().find(graph, 1);
-        assertFalse(Persistence.getPersistenceUtil().isLoaded(book, "publisher")
-                && Persistence.getPersistenceUtil().isLoaded(book.getPublisher()));
+        assertFalse(getPersistenceUtil().isLoaded(book, "publisher")
+                && getPersistenceUtil().isLoaded(book.getPublisher()));
     }
 
     private void createTestData() {
         EntityTransaction transaction = getEntityTransaction();
         transaction.begin();
         FetchOptionPublisher publisher = new FetchOptionPublisher(1, "Publisher");
+        FetchOptionPublisher defaultFetchPublisher = new FetchOptionPublisher(2, "Default Fetch Publisher");
+        FetchOptionPublisher lazyFetchPublisher = new FetchOptionPublisher(3, "Lazy Fetch Publisher");
         getEntityManager().persist(publisher);
-        getEntityManager().persist(new FetchOptionBook(1, "Alpha", publisher));
+        getEntityManager().persist(defaultFetchPublisher);
+        getEntityManager().persist(lazyFetchPublisher);
+        getEntityManager().persist(new FetchOptionBook(1, "Alpha", publisher,
+                defaultFetchPublisher, lazyFetchPublisher));
         transaction.commit();
         getEntityManager().clear();
     }
