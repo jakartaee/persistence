@@ -152,7 +152,7 @@ public class Client2 extends PMClientBase {
 			getEntityTransaction().begin();
 			Order o = getEntityManager().find(Order.class, 4);
 			getEntityTransaction().commit();
-			o.setdescription("FOOBAR");
+			o.setDescription("FOOBAR");
 			getEntityManager().refresh(o, LockModeType.PESSIMISTIC_READ);
 			logger.log(Logger.Level.ERROR, "TransactionRequiredException not thrown");
 		} catch (TransactionRequiredException tre) {
@@ -176,7 +176,7 @@ public class Client2 extends PMClientBase {
 			getEntityTransaction().begin();
 			Order o = getEntityManager().find(Order.class, 4);
 			getEntityTransaction().commit();
-			o.setdescription("FOOBAR");
+			o.setDescription("FOOBAR");
 			getEntityManager().refresh(o, LockModeType.PESSIMISTIC_READ, myMap);
 			logger.log(Logger.Level.ERROR, "TransactionRequiredException not thrown");
 		} catch (TransactionRequiredException tre) {

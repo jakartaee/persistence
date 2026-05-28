@@ -109,7 +109,7 @@ public class Client3 extends PMClientBase {
             Order order = new Order(1, 111, "desc1");
             Order reference = getEntityManager().getReference(order);
             // Verify that access to entity attribute works
-            String orderDescription = reference.getdescription();
+            String orderDescription = reference.getDescription();
             getEntityTransaction().commit();
 
             if (reference instanceof Order) {
@@ -147,7 +147,7 @@ public class Client3 extends PMClientBase {
             // Verify that getReference() to order fails
             // EntityNotFoundException shall be thrown on non-existing entity access
             Order referenceOrder = getEntityManager().getReference(order);
-            String description = referenceOrder.getdescription();
+            String description = referenceOrder.getDescription();
         } catch (EntityNotFoundException enfe) {
             pass = true;
         } catch (Exception e) {
@@ -170,7 +170,7 @@ public class Client3 extends PMClientBase {
                                 "INSERT INTO PURCHASE_ORDER(ID, TOTAL, DESCRIPTION) VALUES(?, ?, ?)")) {
                             stmt.setInt(1, newOrder.getId());
                             stmt.setInt(2, newOrder.getTotal());
-                            stmt.setString(3, newOrder.getdescription());
+                            stmt.setString(3, newOrder.getDescription());
                             stmt.executeUpdate();
                         }
                     }
@@ -210,7 +210,7 @@ public class Client3 extends PMClientBase {
                                 "INSERT INTO PURCHASE_ORDER(ID, TOTAL, DESCRIPTION) VALUES(?, ?, ?)")) {
                             stmt.setInt(1, newOrder.getId());
                             stmt.setInt(2, newOrder.getTotal());
-                            stmt.setString(3, newOrder.getdescription());
+                            stmt.setString(3, newOrder.getDescription());
                             stmt.executeUpdate();
                         }
                         Order order = new Order();
@@ -222,7 +222,7 @@ public class Client3 extends PMClientBase {
                             rSet.next();
                             order.setId(rSet.getInt(1));
                             order.setTotal(rSet.getInt(2));
-                            order.setdescription(rSet.getString(3));
+                            order.setDescription(rSet.getString(3));
                             rSet.close();
                         }
                         return order;
