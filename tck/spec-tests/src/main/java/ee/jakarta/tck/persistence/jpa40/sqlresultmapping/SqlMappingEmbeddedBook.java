@@ -14,40 +14,32 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package ee.jakarta.tck.persistence.jpa32.criteria.functions;
+package ee.jakarta.tck.persistence.jpa40.sqlresultmapping;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-@Entity(name = "Jpa32CriteriaFunctionBook")
-@Table(name = "JPA32_CRITERIA_BOOK")
-public class CriteriaFunctionBook {
+@Entity(name = "Jpa40SqlMappingEmbeddedBook")
+@Table(name = "JPA40_SQL_EMBEDDED_BOOK")
+public class SqlMappingEmbeddedBook {
 
     @Id
     private Integer id;
 
     private String title;
 
-    private String code;
+    @Embedded
+    private SqlMappingDetails details;
 
-    private LocalDate publishedOn;
-
-    private LocalDateTime publishedAt;
-
-    public CriteriaFunctionBook() {
+    public SqlMappingEmbeddedBook() {
     }
 
-    public CriteriaFunctionBook(Integer id, String title, String code, LocalDate publishedOn,
-                                LocalDateTime publishedAt) {
+    public SqlMappingEmbeddedBook(Integer id, String title, SqlMappingDetails details) {
         this.id = id;
         this.title = title;
-        this.code = code;
-        this.publishedOn = publishedOn;
-        this.publishedAt = publishedAt;
+        this.details = details;
     }
 
     public Integer getId() {
@@ -58,15 +50,7 @@ public class CriteriaFunctionBook {
         return title;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public LocalDate getPublishedOn() {
-        return publishedOn;
-    }
-
-    public LocalDateTime getPublishedAt() {
-        return publishedAt;
+    public SqlMappingDetails getDetails() {
+        return details;
     }
 }

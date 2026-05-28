@@ -22,6 +22,7 @@ import jakarta.persistence.Tuple;
 import jakarta.persistence.sql.ColumnMapping;
 import jakarta.persistence.sql.CompoundMapping;
 import jakarta.persistence.sql.ConstructorMapping;
+import jakarta.persistence.sql.EmbeddedMapping;
 import jakarta.persistence.sql.EntityMapping;
 import jakarta.persistence.sql.FieldMapping;
 import jakarta.persistence.sql.ResultSetMapping;
@@ -36,18 +37,25 @@ import java.util.List;
 import static jakarta.persistence.sql.ResultSetMapping.column;
 import static jakarta.persistence.sql.ResultSetMapping.compound;
 import static jakarta.persistence.sql.ResultSetMapping.constructor;
+import static jakarta.persistence.sql.ResultSetMapping.embedded;
 import static jakarta.persistence.sql.ResultSetMapping.entity;
 import static jakarta.persistence.sql.ResultSetMapping.field;
 import static jakarta.persistence.sql.ResultSetMapping.tuple;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Client extends PMClientBase {
 
     public JavaArchive createDeployment() throws Exception {
         String packageName = Client.class.getPackageName();
-        String[] classes = {packageName + ".SqlMappingBook", packageName + ".SqlMappingDto"};
+        String[] classes = {
+                packageName + ".SqlMappingBook",
+                packageName + ".SqlMappingDetails",
+                packageName + ".SqlMappingEmbeddedBook",
+                packageName + ".SqlMappingDto"
+        };
         return createDeploymentJar("jpa_jpa40_sqlresultmapping.jar", packageName, classes);
     }
 
@@ -158,6 +166,33 @@ public class Client extends PMClientBase {
     }
 
     /**
+     * Verifies a programmatic embedded result set mapping can map aliased result
+     * columns to an embedded value held by an entity result.
+     */
+    @Test
+    public void programmaticEmbeddedSqlResultSetMappingTest() {
+        EmbeddedMapping<SqlMappingEmbeddedBook, SqlMappingDetails> details =
+                embedded(SqlMappingEmbeddedBook.class, SqlMappingDetails.class, "details",
+                        field(SqlMappingDetails.class, String.class, "isbn", "BOOK_ISBN"),
+                        field(SqlMappingDetails.class, String.class, "category", "BOOK_CATEGORY"));
+        EntityMapping<SqlMappingEmbeddedBook> mapping = entity(SqlMappingEmbeddedBook.class,
+                field(SqlMappingEmbeddedBook.class, Integer.class, "id", "BOOK_ID"),
+                field(SqlMappingEmbeddedBook.class, String.class, "title", "BOOK_TITLE"),
+                details);
+
+        SqlMappingEmbeddedBook book = getEntityManager()
+                .createNativeQuery(
+                        "SELECT ID AS BOOK_ID, TITLE AS BOOK_TITLE, ISBN AS BOOK_ISBN, CATEGORY AS BOOK_CATEGORY "
+                                + "FROM JPA40_SQL_EMBEDDED_BOOK WHERE ID = 1",
+                        mapping)
+                .getSingleResult();
+
+        assertNotNull(book.getDetails());
+        assertEquals("isbn-1", book.getDetails().getIsbn());
+        assertEquals("fiction", book.getDetails().getCategory());
+    }
+
+    /**
      * Verifies a programmatic tuple result set mapping exposes values by tuple
      * element, alias, index, and array form.
      */
@@ -218,6 +253,10 @@ public class Client extends PMClientBase {
         transaction.begin();
         getEntityManager().persist(new SqlMappingBook(1, "Alpha"));
         getEntityManager().persist(new SqlMappingBook(2, "Beta"));
+        getEntityManager().persist(new SqlMappingEmbeddedBook(1, "Alpha",
+                new SqlMappingDetails("isbn-1", "fiction")));
+        getEntityManager().persist(new SqlMappingEmbeddedBook(2, "Beta",
+                new SqlMappingDetails("isbn-2", "reference")));
         transaction.commit();
         getEntityManager().clear();
     }
