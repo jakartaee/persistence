@@ -23,6 +23,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.LocalDateField;
+import jakarta.persistence.criteria.LocalDateTimeField;
 import jakarta.persistence.criteria.Root;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.AfterEach;
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -110,12 +112,34 @@ public class Client extends PMClientBase {
         assertEquals("Al:ha:A", em.createQuery(criteria).getSingleResult());
     }
 
+    /**
+     * Tests extracting a {@link LocalDateTimeField} value from a local date-time
+     * expression.
+     */
+    @Test
+    public void criteriaExtractLocalDateTimeFieldTest() {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<String> criteria = cb.createQuery(String.class);
+        Root<CriteriaFunctionBook> book = criteria.from(CriteriaFunctionBook.class);
+
+        Expression<Integer> hour = cb.extract(LocalDateTimeField.HOUR, book.get("publishedAt"));
+        Expression<Integer> minute = cb.extract(LocalDateTimeField.MINUTE, book.get("publishedAt"));
+        criteria.select(book.get("title"))
+                .where(hour.equalTo(14), minute.equalTo(5));
+
+        assertEquals("Beta", em.createQuery(criteria).getSingleResult());
+    }
+
     private void createTestData() {
         EntityTransaction transaction = getEntityTransaction();
         transaction.begin();
-        getEntityManager().persist(new CriteriaFunctionBook(1, "Alpha", "10", LocalDate.of(2024, 1, 15)));
-        getEntityManager().persist(new CriteriaFunctionBook(2, "Beta", "20", LocalDate.of(2024, 6, 1)));
-        getEntityManager().persist(new CriteriaFunctionBook(3, "Gamma", "30", LocalDate.of(2025, 3, 20)));
+        getEntityManager().persist(new CriteriaFunctionBook(1, "Alpha", "10",
+                LocalDate.of(2024, 1, 15), LocalDateTime.of(2024, 1, 15, 8, 30, 45)));
+        getEntityManager().persist(new CriteriaFunctionBook(2, "Beta", "20",
+                LocalDate.of(2024, 6, 1), LocalDateTime.of(2024, 6, 1, 14, 5, 10)));
+        getEntityManager().persist(new CriteriaFunctionBook(3, "Gamma", "30",
+                LocalDate.of(2025, 3, 20), LocalDateTime.of(2025, 3, 20, 21, 15, 20)));
         transaction.commit();
         getEntityManager().clear();
     }

@@ -14,59 +14,36 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package ee.jakarta.tck.persistence.jpa32.criteria.functions;
+package ee.jakarta.tck.persistence.jpa32.recordpk;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-@Entity(name = "Jpa32CriteriaFunctionBook")
-@Table(name = "JPA32_CRITERIA_BOOK")
-public class CriteriaFunctionBook {
+@Entity(name = "Jpa32IdClassRecordPkBook")
+@Table(name = "JPA32_IDCLASS_RECORD_PK_BOOK")
+@IdClass(IdClassRecordId.class)
+public class IdClassRecordPkBook {
 
     @Id
     private Integer id;
 
-    private String title;
-
+    @Id
     private String code;
 
-    private LocalDate publishedOn;
+    private String title;
 
-    private LocalDateTime publishedAt;
-
-    public CriteriaFunctionBook() {
+    public IdClassRecordPkBook() {
     }
 
-    public CriteriaFunctionBook(Integer id, String title, String code, LocalDate publishedOn,
-                                LocalDateTime publishedAt) {
+    public IdClassRecordPkBook(Integer id, String code, String title) {
         this.id = id;
-        this.title = title;
         this.code = code;
-        this.publishedOn = publishedOn;
-        this.publishedAt = publishedAt;
-    }
-
-    public Integer getId() {
-        return id;
+        this.title = title;
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public LocalDate getPublishedOn() {
-        return publishedOn;
-    }
-
-    public LocalDateTime getPublishedAt() {
-        return publishedAt;
     }
 }
