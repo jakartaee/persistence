@@ -69,15 +69,15 @@ public class Order implements java.io.Serializable {
 		this.total = total;
 	}
 
-	public String getdescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setdescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	public String toString() {
-		return "Order id=" + getId() + ", total=" + getTotal() + ", desc=" + getdescription();
+		return "Order id=" + getId() + ", total=" + getTotal() + ", desc=" + getDescription();
 	}
 }
