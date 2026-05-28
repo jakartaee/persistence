@@ -20,11 +20,6 @@ if (currentBuild.getBuildCauses().toString().contains('BranchIndexingCause')) {
 pipeline {
 	agent none
 	options {
-		// Wait for 1h before publishing snapshots, in case there's more commits.
-		quietPeriod 3600
-		// In any case, never publish snapshots more than once per hour.
-		rateLimitBuilds(throttle: [count: 1, durationName: 'hour', userBoost: true])
-
 		buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '3'))
 		disableConcurrentBuilds(abortPrevious: false)
 	}
