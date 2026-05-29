@@ -103,6 +103,10 @@ public non-sealed interface TypedQueryReference<R> extends Reference {
      * from the declared return type of the method annotated
      * {@link jakarta.persistence.query.JakartaQuery} or
      * {@link jakarta.persistence.query.NativeQuery}.
+     *
+     * @return The result type as a Java {@link Class} object,
+     *         or {@code void.class} when the result type is
+     *         not explicitly specified and cannot be inferred.
      */
     @Nonnull
     Class<? extends R> getResultType();
