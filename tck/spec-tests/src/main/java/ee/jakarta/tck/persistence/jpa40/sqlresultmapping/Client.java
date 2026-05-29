@@ -18,6 +18,7 @@ package ee.jakarta.tck.persistence.jpa40.sqlresultmapping;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.StatementOrTypedQuery;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.sql.ColumnMapping;
 import jakarta.persistence.sql.CompoundMapping;
@@ -146,6 +147,39 @@ public class Client extends PMClientBase {
     }
 
     /**
+     * Verifies a native SQL query can use a non-entity result class as an
+     * implicit constructor result.
+     */
+    @Test
+    public void nativeSqlConstructorResultByResultClassTest() {
+        List<SqlMappingDto> dtos = getEntityManager()
+                .createNativeQuery("SELECT ID, TITLE FROM JPA40_SQL_BOOK ORDER BY ID",
+                        SqlMappingDto.class)
+                .getResultList();
+
+        assertEquals(List.of(new SqlMappingDto(1, "Alpha"), new SqlMappingDto(2, "Beta")), dtos);
+    }
+
+    /**
+     * Verifies {@link StatementOrTypedQuery#withResultSetMapping(ResultSetMapping)}
+     * refines an untyped native SQL query to a typed query.
+     */
+    @Test
+    public void statementOrTypedQueryWithResultSetMappingTest() {
+        ResultSetMapping<SqlMappingDto> mapping = constructor(SqlMappingDto.class,
+                column("BOOK_ID", Integer.class),
+                column("BOOK_TITLE", String.class));
+
+        List<SqlMappingDto> dtos = getEntityManager()
+                .createNativeQuery(
+                        "SELECT ID AS BOOK_ID, TITLE AS BOOK_TITLE FROM JPA40_SQL_BOOK ORDER BY ID")
+                .withResultSetMapping(mapping)
+                .getResultList();
+
+        assertEquals(List.of(new SqlMappingDto(1, "Alpha"), new SqlMappingDto(2, "Beta")), dtos);
+    }
+
+    /**
      * Verifies a programmatic entity result set mapping can map aliased result
      * columns to entity fields.
      */
@@ -232,6 +266,10 @@ public class Client extends PMClientBase {
         ConstructorMapping<SqlMappingDto> dtoMapping = constructor(SqlMappingDto.class, id, title)
                 .withAlias("dto");
         CompoundMapping mapping = compound(bookMapping, dtoMapping, title);
+        TupleMapping tupleMapping = tuple(bookMapping, dtoMapping, title);
+
+        assertEquals("book", bookMapping.getAlias());
+        assertEquals("dto", dtoMapping.getAlias());
 
         Object[] result = getEntityManager()
                 .createNativeQuery(
@@ -246,6 +284,18 @@ public class Client extends PMClientBase {
         assertEquals("Alpha", book.getTitle());
         assertEquals(new SqlMappingDto(1, "Alpha"), result[1]);
         assertEquals("Alpha", result[2]);
+
+        Tuple tupleResult = getEntityManager()
+                .createNativeQuery(
+                        "SELECT ID AS BOOK_ID, TITLE AS BOOK_TITLE FROM JPA40_SQL_BOOK WHERE ID = 1",
+                        tupleMapping)
+                .getSingleResult();
+
+        SqlMappingBook aliasedBook = tupleResult.get("book", SqlMappingBook.class);
+        assertEquals(1, aliasedBook.getId());
+        assertEquals("Alpha", aliasedBook.getTitle());
+        assertEquals(new SqlMappingDto(1, "Alpha"), tupleResult.get("dto", SqlMappingDto.class));
+        assertEquals("Alpha", tupleResult.get("bookTitle", String.class));
     }
 
     private void createTestData() {
