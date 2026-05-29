@@ -39,6 +39,8 @@ declared as an `entity` in its XML descriptor.
 
 - The entity class must be non-`final`. Every method and persistent
   instance variable of the entity class must also be non-`final`.
+  This requirement might be satisfied via source or bytecode processing
+  by the build process or runtime environment.
 
 An entity might be an abstract class, or it might be a concrete class.
 An entity may extend a non-entity class, or it may extend another entity
