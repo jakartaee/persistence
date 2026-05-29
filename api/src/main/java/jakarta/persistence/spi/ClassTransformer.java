@@ -20,14 +20,32 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import java.security.ProtectionDomain;
+import java.util.Map;
 
 /**
- * A persistence provider supplies an instance of this 
- * interface to the {@link PersistenceUnitInfo#addTransformer}
- * method. The supplied transformer instance will get 
- * called to transform entity class files when they are 
- * loaded or redefined. The transformation occurs before  
- * the class is defined by the JVM.
+ * Performs standard and provider-specific enhancement of managed
+ * classes. An instance of {@link ClassTransformer} is encouraged
+ * to:
+ * <ul>
+ * <li>add a {@code protected} constructor with no parameters that
+ *     initializes every field to its standard default value to
+ *     each entity class that lacks a constructor with no parameters,
+ * <li>remove {@code final} modifiers from entity classes, fields,
+ *     and methods, and
+ * <li>perform additional provider-specific enhancements as necessary
+ *     to support lazy loading, proxying, and so on.
+ * </ul>
+ * <p>
+ * A {@link ClassTransformer} is specific to a persistence provider,
+ * and a class transformed by a given provider might not be usable
+ * with a different provider.
+ * <p>
+ * A persistence provider supplies an instance of this interface to
+ * the {@link PersistenceUnitInfo#addTransformer} method, and returns
+ * an instance from {@link PersistenceProvider#getClassTransformer}.
+ * The supplied transformer instance is called to transform entity
+ * class files when they are loaded or redefined. The transformation
+ * occurs before the class is defined by the Java Virtual Machine.
  *
  * @apiNote This is an SPI interface forming part of the Jakarta EE
  * container / persistence provider contract. It is not intended for

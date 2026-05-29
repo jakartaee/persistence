@@ -597,10 +597,30 @@ include::../../../../api/src/main/java/jakarta/persistence/ValidationMode.java[l
 
 ==== jakarta.persistence.spi.ClassTransformer Interface
 
-The `ClassTransformer` interface found in <<_classtransformer_>> may be
+The `ClassTransformer` interface found in <<_classtransformer_>> performs
+standard and provider-specific enhancement of managed classes. It may be
 implemented by a persistence provider to transform entities and managed
 classes at class load time or at class redefinition time. A persistence
 provider is not required to implement this interface.
+
+An instance of `ClassTransformer` is encouraged to:
+
+* add a `protected` constructor with no parameters initializes every field
+  to its standard default value to each entity class that lacks a constructor
+  with no parameters,
+* remove `final` modifiers from entity classes, fields, and methods, and
+* perform additional provider-specific enhancements as necessary to support
+  lazy loading, proxying, and so on.
+
+A `ClassTransformer` is specific to a persistence provider, and a class
+transformed by a given provider might not be usable with a different provider.
+
+A persistence provider supplies an instance of this interface to the
+`PersistenceUnitInfo.addTransformer` method, and returns an instance from
+`PersistenceProvider.getClassTransformer`. The supplied transformer instance
+is called to transform entity class files when they are loaded or redefined.
+The transformation occurs before the class is defined by the Java Virtual
+Machine.
 
 === jakarta.persistence.Persistence Class [[a13443]]
 
