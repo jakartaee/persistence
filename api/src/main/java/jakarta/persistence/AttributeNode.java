@@ -23,13 +23,36 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Represents an attribute node of an entity graph.
+ * Represents an attribute node of an entity graph. A node
+ * may be added to a {@linkplain Graph graph} by calling
+ * {@link Graph#addAttributeNode(Attribute)}, or removed by
+ * calling {@link Graph#removeAttributeNode(Attribute)}.
+ * <p>
+ * {@linkplain FetchOption Fetch options} may be specified
+ * by calling {@link #addOption} to control how the node is
+ * fetched and how fetching interacts with the second-level
+ * cache:
+ * {@snippet :
+ * var bookGraph = Book_.class_.createEntityGraph();
+ * bookGraph.addAttributeNode(Book_.publisher)
+ *          .addOption(CacheRetrieveMode.BYPASS)  // bypass the cache
+ *          .addOption(new BatchSize(10));  // select batch fetching
+ * }
+ * <p>
+ * Added and removed nodes may be obtained by calling
+ * {@link Graph#getAttributeNodes()}.
+ * <ul>
+ * <li>An added node has {@link FetchType#EAGER} as an option.
+ * <li>A removed node has {@link FetchType#LAZY} as an option.
+ * </ul>
  *
  * @param <T> The type of the attribute.
  *
  * @see EntityGraph
  * @see Subgraph
  * @see NamedAttributeNode
+ * @see Graph#addAttributeNode(Attribute)
+ * @see Graph#removeAttributeNode(Attribute)
  *
  * @since 2.1
  */
@@ -125,4 +148,3 @@ public interface AttributeNode<T> {
     @Nonnull
     Set<FetchOption> getOptions();
 }
-

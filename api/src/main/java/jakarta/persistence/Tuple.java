@@ -22,6 +22,31 @@ import java.util.List;
 
 /**
  * Interface for extracting the elements of a query result tuple.
+ * A {@code Tuple} may be used to represent a query result row
+ * containing multiple projected values.
+ * <p>
+ * This example uses a criteria query to select the title and
+ * publication date of each book, and then reuses the projected
+ * {@link TupleElement}s to extract the results:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createTupleQuery();
+ * var book = query.from(Book.class);
+ *
+ * // define projected TupleElements
+ * var title = book.get(Book_.title);
+ * var publicationDate = book.get(Book_.publicationDate);
+ *
+ * query.select(builder.tuple(title, publicationDate))
+ *      .where(book.get(Book_.outOfPrint).not())
+ *      .orderBy(title.asc(), publicationDate.desc());
+ *
+ * for (var tuple : agent.createQuery(query).getResultList()) {
+ *     String bookTitle = tuple.get(title);
+ *     LocalDate date = tuple.get(publicationDate);
+ *     ...
+ * }
+ * }
  *
  * @see TupleElement
  *

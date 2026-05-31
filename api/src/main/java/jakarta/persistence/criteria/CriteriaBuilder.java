@@ -27,8 +27,6 @@ import java.math.BigInteger;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 
 import jakarta.persistence.AttributeConverter;
@@ -40,10 +38,80 @@ import jakarta.persistence.TypedQueryReference;
  * Used to construct criteria queries, compound selections, 
  * expressions, predicates, orderings.
  *
- * <p> Note that {@link Predicate} is used instead of
- * {@code Expression<Boolean>} in this API in
- * order to work around the fact that Java generics are not
- * compatible with varags.
+ * <p>This example demonstrates a simple select query with no joins:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * var book = query.from(Book.class);
+ * query.select(book)
+ *      .where(book.get(Book_.title).like(titlePattern))
+ *      .orderBy(book.get(Book_.title).asc());
+ * var books = agent.createQuery(query).getResultList();
+ * }
+ *
+ * <p>This example demonstrates a select query with a join:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * var book = query.from(Book.class);
+ * var author = book.join(Book_.authors);
+ * query.select(book)
+ *      .where(author.get(Author_.lastName).equalTo(lastName))
+ *      .orderBy(book.get(Book_.title).asc());
+ * var books = agent.createQuery(query).getResultList();
+ * }
+ *
+ * <p>This example demonstrates a select query with a fetch join:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * var book = query.from(Book.class);
+ * book.fetch(Book_.authors, JoinType.LEFT);
+ * query.select(book)
+ *      .where(book.get(Book_.title).like(titlePattern))
+ *      .orderBy(book.get(Book_.title).asc());
+ * var books = agent.createQuery(query).getResultList();
+ * }
+ *
+ * <p>This example demonstrates a select query with a subquery:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * var book = query.from(Book.class);
+ *
+ * var authorCount = query.subquery(Long.class);
+ * var bookInSubquery = authorCount.correlate(book);
+ * var author = bookInSubquery.join(Book_.authors);
+ * authorCount.select(builder.count(author));
+ *
+ * query.select(book)
+ *      .where(builder.gt(authorCount, minimumAuthors))
+ *      .orderBy(book.get(Book_.title).asc());
+ * var books = agent.createQuery(query).getResultList();
+ * }
+ *
+ * <p>This example demonstrates a bulk update statement:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var update = builder.createCriteriaUpdate(Book.class);
+ * var book = update.from(Book.class);
+ * update.set(Book_.outOfPrint, true)
+ *       .where(book.get(Book_.publicationDate).lessThan(cutoffDate));
+ * int updated = agent.createStatement(update).execute();
+ * }
+ *
+ * <p>This example demonstrates a bulk delete statement:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var delete = builder.createCriteriaDelete(Book.class);
+ * var book = delete.from(Book.class);
+ * delete.where(book.get(Book_.outOfPrint));
+ * int deleted = agent.createStatement(delete).execute();
+ * }
+ *
+ * @apiNote {@link Predicate} is used instead of
+ * {@code Expression<Boolean>} in this API to work around the
+ * fact that Java generics are not compatible with varargs.
  *
  * @since 2.0
  */

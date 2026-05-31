@@ -57,6 +57,19 @@ import jakarta.annotation.Nullable;
  * {@link EntityHandler#createQuery(String, EntityGraph)}, or
  * {@link StatementOrTypedQuery#withEntityGraph(EntityGraph)} is
  * interpreted as a load graph.
+ * <p>
+ * This example fetches the {@code publisher} and {@code authors}
+ * associations when loading a {@code Book}:
+ * {@snippet :
+ * var bookGraph = Book_.class_.createEntityGraph();
+ * bookGraph.addAttributeNode(Book_.publisher);
+ * bookGraph.addAttributeNode(Book_.authors)
+ *          .addOption(CacheStoreMode.BYPASS);
+ * Book book = entityManager.get(bookGraph, bookId);
+ * }
+ * <p>
+ * An entity graph may also contain subgraphs that specify attributes
+ * of associated entities:
  * {@snippet :
  * // create the root node of an entity graph
  * var employeeGraph = Employee_.class_.createEntityGraph();
