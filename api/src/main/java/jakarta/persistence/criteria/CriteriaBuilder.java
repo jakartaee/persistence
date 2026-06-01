@@ -90,6 +90,50 @@ import jakarta.persistence.TypedQueryReference;
  * var books = agent.createQuery(query).getResultList();
  * }
  *
+ * <p>This example demonstrates a select query returning projection
+ * instances using {@link #construct(Class, Selection...)}:
+ * {@snippet :
+ * record BookSummary(String publisherName, String title, String isbn) {}
+ *
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(BookSummary.class);
+ * var book = query.from(Book.class);
+ *
+ * query.select(builder.construct(BookSummary.class,
+ *                 book.join(Book_.publisher).get(Publisher_.name),
+ *                 book.get(Book_.title),
+ *                 book.get(Book_.isbn)))
+ *      .orderBy(book.get(Book_.isbn).asc());
+ * var summaries = agent.createQuery(query).getResultList();
+ * }
+ *
+ * <p>This example demonstrates a select query with aggregate
+ * functions, grouping, and a group restriction:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createTupleQuery();
+ * var book = query.from(Book.class);
+ * var publisher = book.join(Book_.publisher);
+ * var publisherName = publisher.get(Publisher_.name);
+ * var pages = book.get(Book_.pages);
+ * var minPages = builder.min(pages);
+ * var maxPages = builder.max(pages);
+ * var averagePages = builder.avg(pages);
+ *
+ * query.select(builder.tuple(publisherName, minPages, maxPages, averagePages))
+ *      .groupBy(publisherName)
+ *      .having(builder.gt(maxPages, minimumMaxPages))
+ *      .orderBy(publisherName.asc());
+ *
+ * for (var tuple : agent.createQuery(query).getResultList()) {
+ *     String name = tuple.get(publisherName);
+ *     Integer shortest = tuple.get(minPages);
+ *     Integer longest = tuple.get(maxPages);
+ *     Double average = tuple.get(averagePages);
+ *     ...
+ * }
+ * }
+ *
  * <p>This example demonstrates a bulk update statement:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
