@@ -27,9 +27,9 @@ import java.util.Map;
  * classes. An instance of {@link ClassTransformer} is encouraged
  * to:
  * <ul>
- * <li>add a {@code protected} constructor with no parameters that
- *     initializes every field to its standard default value to
- *     each entity class that lacks a constructor with no parameters,
+ * <li>to each entity class that lacks a constructor with no parameters,
+ *     add a {@code protected} constructor with no parameters that
+ *     initializes every field to its standard default value 
  * <li>remove {@code final} modifiers from entity classes, fields,
  *     and methods, and
  * <li>perform additional provider-specific enhancements as necessary
@@ -41,7 +41,7 @@ import java.util.Map;
  * with a different provider.
  * <p>
  * A persistence provider supplies an instance of this interface to
- * the {@link PersistenceUnitInfo#addTransformer} method, and returns
+ * the {@link PersistenceUnitInfo#addTransformer} method and returns
  * an instance from {@link PersistenceProvider#getClassTransformer}.
  * The supplied transformer instance is called to transform entity
  * class files when they are loaded or redefined. The transformation
