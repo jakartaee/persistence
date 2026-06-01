@@ -21,6 +21,26 @@ import jakarta.annotation.Nullable;
 
 /**
  * Represents a parameter of a {@linkplain Query query}.
+ * A criteria query parameter is represented by a
+ * {@link jakarta.persistence.criteria.ParameterExpression}, which
+ * may be passed to {@link TypedQuery#setParameter(Parameter, Object)}
+ * when the query is executed.
+ * <p>
+ * This example uses a parameter to restrict query results by title:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * var book = query.from(Book.class);
+ * var titlePattern = builder.parameter(String.class);
+ *
+ * query.select(book)
+ *      .where(book.get(Book_.title).like(titlePattern))
+ *      .orderBy(builder.asc(book.get(Book_.title)));
+ *
+ * var books = agent.createQuery(query)
+ *         .setParameter(titlePattern, pattern)
+ *         .getResultList();
+ * }
  * <p>
  * A portable application should not attempt to reuse a {@code Parameter}
  * object obtained from one instance of {@code Query} by passing it to a
@@ -28,15 +48,16 @@ import jakarta.annotation.Nullable;
  *
  * @param <T> the type of the parameter
  *
- * @see Query
- * @see TypedQuery
+ * @see jakarta.persistence.criteria.CriteriaBuilder#parameter(Class)
+ * @see jakarta.persistence.criteria.CriteriaBuilder#parameter(Class, String)
+ * @see Query#setParameter(Parameter, Object)
  *
  * @since 2.0
  */
 public interface Parameter<T> {
 
     /**
-     * Return the parameter name, or null if the parameter is
+     * The name of the parameter, or null if the parameter is
      * not a named parameter or if no name has been assigned.
      * @return parameter name
      */
@@ -44,17 +65,17 @@ public interface Parameter<T> {
     String getName();
 
     /**
-     * Return the parameter position, or null if the parameter
-     * is not a positional parameter. 
+     * The parameter position, or null if the parameter is not
+     * a positional parameter.
      * @return position of parameter
      */
     @Nullable
     Integer getPosition();
 
     /**
-     * Return the Java type of the parameter, if known to the
-     * persistence provider. Values bound to the parameter must
-     * be assignable to this type.
+     * The Java type of the parameter, if known to the persistence
+     * provider. Values bound to the parameter must be assignable
+     * to this type.
      * <ul>
      * <li>If this object is a parameter of a criteria query,
      *     the persistence provider always knows its type.
@@ -71,4 +92,3 @@ public interface Parameter<T> {
     @Nonnull
     Class<T> getParameterType();
 }
-
