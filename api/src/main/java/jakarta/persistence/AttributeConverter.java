@@ -26,6 +26,9 @@ package jakarta.persistence;
  *     in mapping to the database representation.
  * </ul>
  *
+ * <p>The target type {@code X} and the converted basic type {@code Y}
+ * may be the same Java type.
+ *
  * <p>A converted field or property is considered {@link Basic}, since,
  * with the aid of the converter, its values can be represented as
  * instances of a basic type.
@@ -39,8 +42,27 @@ package jakarta.persistence;
  * {@linkplain Convert#disableConversion disable conversion}, or to
  * resolve ambiguities when multiple converters would otherwise apply.
  *
- * <p>Note that the target type {@code X} and the converted basic type
- * {@code Y} may be the same Java type.
+ * <p>This auto-applied converter stores {@code DayOfWeek} values as
+ * integers, representing Sunday as {@code 0} as the first day of the
+ * week:
+ * {@snippet :
+ * @Converter(autoApply = true)
+ * public class DayOfWeekConverter
+ *         implements AttributeConverter<DayOfWeek, Integer> {
+ *
+ *     @Override
+ *     public Integer convertToDatabaseColumn(DayOfWeek day) {
+ *         return day == null ? null : day.getValue() % 7;
+ *     }
+ *
+ *     @Override
+ *     public DayOfWeek convertToEntityAttribute(Integer value) {
+ *         return value == null ? null
+ *                 : value == 0 ? DayOfWeek.SUNDAY
+ *                 : DayOfWeek.of(value);
+ *     }
+ * }
+ * }
  *
  * @param <X> the target type, that is, the type of the entity attribute
  * @param <Y> a basic type representing the type of the database column
