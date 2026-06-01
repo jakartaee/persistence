@@ -25,6 +25,20 @@ import java.util.List;
 /**
  * The {@code CriteriaQuery} interface defines functionality that is
  * specific to top-level queries.
+ * <p>
+ * For example, this criteria query selects {@code Book} entities
+ * whose title matches a given pattern:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * var book = query.from(Book.class);
+ *
+ * query.select(book)
+ *      .where(book.get(Book_.title).like(titlePattern))
+ *      .orderBy(book.get(Book_.title).asc());
+ *
+ * var books = agent.createQuery(query).getResultList();
+ * }
  *
  * @param <T>  the type of the defined result
  *

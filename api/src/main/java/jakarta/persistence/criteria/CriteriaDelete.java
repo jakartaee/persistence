@@ -22,7 +22,19 @@ import java.util.List;
 
 /**
  * The {@code CriteriaDelete} interface defines functionality for 
- * performing bulk delete operations using the Criteria API
+ * performing bulk delete operations using the Criteria API.
+ * <p>
+ * For example, this criteria delete removes books already marked
+ * as out of print:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var delete = builder.createCriteriaDelete(Book.class);
+ * var book = delete.from(Book.class);
+ *
+ * delete.where(book.get(Book_.outOfPrint));
+ *
+ * int deleted = agent.createStatement(delete).execute();
+ * }
  *
  * <p>Criteria API bulk delete operations map directly to database 
  * delete operations. The persistence context is not synchronized 

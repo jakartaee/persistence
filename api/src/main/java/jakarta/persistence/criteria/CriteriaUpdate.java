@@ -25,6 +25,18 @@ import java.util.List;
 /**
  * The {@code CriteriaUpdate} interface defines functionality for
  * performing bulk update operations using the Criteria API.
+ * <p>
+ * For example, this criteria update marks old books as out of print:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var update = builder.createCriteriaUpdate(Book.class);
+ * var book = update.from(Book.class);
+ *
+ * update.set(Book_.outOfPrint, true)
+ *       .where(book.get(Book_.publicationDate).lessThan(cutoffDate));
+ *
+ * int updated = agent.createStatement(update).execute();
+ * }
  *
  * <p>Criteria API bulk update operations map directly to database
  * update operations, bypassing any optimistic locking checks.
