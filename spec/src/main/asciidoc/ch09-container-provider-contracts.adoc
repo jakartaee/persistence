@@ -605,9 +605,9 @@ provider is not required to implement this interface.
 
 An instance of `ClassTransformer` is encouraged to:
 
-* add a `protected` constructor with no parameters initializes every field
-  to its standard default value to each entity class that lacks a constructor
-  with no parameters,
+* to each entity class that lacks a constructor with no parameters,
+  add a `protected` constructor with no parameters that initializes
+  every field to its standard default value,
 * remove `final` modifiers from entity classes, fields, and methods, and
 * perform additional provider-specific enhancements as necessary to support
   lazy loading, proxying, and so on.
@@ -616,7 +616,7 @@ A `ClassTransformer` is specific to a persistence provider, and a class
 transformed by a given provider might not be usable with a different provider.
 
 A persistence provider supplies an instance of this interface to the
-`PersistenceUnitInfo.addTransformer` method, and returns an instance from
+`PersistenceUnitInfo.addTransformer` method and returns an instance from
 `PersistenceProvider.getClassTransformer`. The supplied transformer instance
 is called to transform entity class files when they are loaded or redefined.
 The transformation occurs before the class is defined by the Java Virtual
