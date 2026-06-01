@@ -133,37 +133,36 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link jakarta.persistence.AttributeNode} and
  * {@link jakarta.persistence.Subgraph}.
  *
- * <p> A reference to a named entity graph may be obtained by
- * calling {@link EntityManagerFactory#getNamedEntityGraphs(Class)}
- * or {@link EntityHandler#getEntityGraph(String)} and may be passed
- * to {@link EntityHandler#find(EntityGraph, Object, FindOption...)}
- * or {@link EntityHandler#get(EntityGraph, Object, FindOption...)}.
+ * <p> The simplest and most type safe way to obtain a reference to
+ * a named entity graph is via the static metamodel for the annotated
+ * class.
  * {@snippet :
- * Object employee =
- *         em.find(em.getEntityGraph("EmployeeWithProjects"),
- *                 employeeId);
+ * Employee employee =
+ *         em.get(Employee_._EmployeeWithProjects,
+ *                employeeId);
  * }
  *
- * <p> Alternatively, a reference to a named entity graph may be obtained
- * from the {@link EntityManagerFactory}.
+ * <p> Alternatively, a reference to a named graph may be obtained by
+ * calling {@link EntityManagerFactory#getNamedEntityGraphs(Class)},
+ * {@link jakarta.persistence.metamodel.EntityType#getNamedEntityGraphs},
+ * or {@link EntityHandler#getEntityGraph(Class, String)}.
  * {@snippet :
  * EntityGraph<Employee> graph =
  *         emf.getNamedEntityGraphs(Employee.class)
- *             .get("EmployeeWithProjects")
+ *            .get(Employee_.GRAPH_EMPLOYEE_WITH_PROJECTS)
  * Employee employee = em.find(graph, employeeId);
- * }
- *
- * <p> Alternatively, a reference to a named entity graph may be obtained
- * from the static metamodel.
- * {@snippet :
- * Employee employee =
- *         em.find(Employee_._EmployeeWithProjects,
- *                 employeeId);
  * }
  *
  * @see NamedAttributeNode
  * @see NamedSubgraph
  * @see EntityGraph
+ * @see EntityHandler#find(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#get(EntityGraph, Object, FindOption...)
+ * @see EntityHandler#createQuery(String, EntityGraph)
+ * @see StatementOrTypedQuery#withEntityGraph(EntityGraph)
+ * @see EntityManagerFactory#getNamedEntityGraphs(Class)
+ * @see jakarta.persistence.metamodel.EntityType#getNamedEntityGraphs()
+ * @see EntityHandler#getEntityGraph(Class, String) 
  *
  * @since 2.1
  */
