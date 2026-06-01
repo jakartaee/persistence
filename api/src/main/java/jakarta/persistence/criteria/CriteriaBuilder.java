@@ -38,7 +38,8 @@ import jakarta.persistence.TypedQueryReference;
  * Used to construct criteria queries, compound selections, 
  * expressions, predicates, orderings.
  *
- * <p>This example demonstrates a simple select query with no joins:
+ * <p>This example demonstrates a simple
+ * {@linkplain CriteriaQuery select query} with no joins:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
  * var query = builder.createQuery(Book.class);
@@ -49,7 +50,8 @@ import jakarta.persistence.TypedQueryReference;
  * var books = agent.createQuery(query).getResultList();
  * }
  *
- * <p>This example demonstrates a select query with a join:
+ * <p>This example demonstrates a select query with a
+ * {@linkplain From#join join}:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
  * var query = builder.createQuery(Book.class);
@@ -61,7 +63,8 @@ import jakarta.persistence.TypedQueryReference;
  * var books = agent.createQuery(query).getResultList();
  * }
  *
- * <p>This example demonstrates a select query with a fetch join:
+ * <p>This example demonstrates a select query with a
+ * {@linkplain From#fetch fetch join}:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
  * var query = builder.createQuery(Book.class);
@@ -73,7 +76,8 @@ import jakarta.persistence.TypedQueryReference;
  * var books = agent.createQuery(query).getResultList();
  * }
  *
- * <p>This example demonstrates a select query with a subquery:
+ * <p>This example demonstrates a select query with a
+ * {@linkplain Subquery subquery}:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
  * var query = builder.createQuery(Book.class);
@@ -90,8 +94,8 @@ import jakarta.persistence.TypedQueryReference;
  * var books = agent.createQuery(query).getResultList();
  * }
  *
- * <p>This example demonstrates a select query returning projection
- * instances using {@link #construct(Class, Selection...)}:
+ * <p>This example demonstrates a select query returning a projection
+ * using {@link #construct(Class, Selection...)}:
  * {@snippet :
  * record BookSummary(String publisherName, String title, String isbn) {}
  *
@@ -107,8 +111,9 @@ import jakarta.persistence.TypedQueryReference;
  * var summaries = agent.createQuery(query).getResultList();
  * }
  *
- * <p>This example demonstrates a select query with aggregate
- * functions, grouping, and a group restriction:
+ * <p>This example demonstrates a select query with aggregate functions,
+ * {@linkplain CriteriaQuery#groupBy(Expression...) grouping}, and a
+ * {@linkplain CriteriaQuery#having(BooleanExpression...) group restriction}:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
  * var query = builder.createTupleQuery();
@@ -134,7 +139,29 @@ import jakarta.persistence.TypedQueryReference;
  * }
  * }
  *
- * <p>This example demonstrates a bulk update statement:
+ * <p>This example demonstrates a query returning the
+ * {@linkplain #intersect intersection} of two queries:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ *
+ * var namedAuthors = builder.createQuery(Author.class);
+ * var namedAuthor = namedAuthors.from(Author.class);
+ * namedAuthors.select(namedAuthor)
+ *             .where(namedAuthor.get(Author_.lastName).like(namePattern));
+ *
+ * var publisherAuthors = builder.createQuery(Author.class);
+ * var publisherAuthor = publisherAuthors.from(Author.class);
+ * var book = publisherAuthor.join(Author_.books);
+ * var publisher = book.join(Book_.publisher);
+ * publisherAuthors.select(publisherAuthor)
+ *                 .where(publisher.get(Publisher_.name).equalTo(publisherName));
+ *
+ * var selectedAuthors = builder.intersect(namedAuthors, publisherAuthors);
+ * var authors = agent.createQuery(selectedAuthors).getResultList();
+ * }
+ *
+ * <p>This example demonstrates a
+ * {@linkplain CriteriaUpdate bulk update statement}:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
  * var update = builder.createCriteriaUpdate(Book.class);
@@ -144,7 +171,8 @@ import jakarta.persistence.TypedQueryReference;
  * int updated = agent.createStatement(update).execute();
  * }
  *
- * <p>This example demonstrates a bulk delete statement:
+ * <p>This example demonstrates a
+ * {@link CriteriaDelete bulk delete statement}:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
  * var delete = builder.createCriteriaDelete(Book.class);
