@@ -21,6 +21,25 @@ package jakarta.persistence.criteria;
  * {@linkplain CriteriaBuilder#union unions} and
  * {@linkplain CriteriaBuilder#intersect intersections} of top-level
  * queries.
+ * <p>
+ * For example, this criteria select is a union of two top-level
+ * queries returning {@code Book}:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ *
+ * var recentBooks = builder.createQuery(Book.class);
+ * var recentBook = recentBooks.from(Book.class);
+ * recentBooks.select(recentBook)
+ *            .where(recentBook.get(Book_.publicationDate).after(startDate));
+ *
+ * var olderBooks = builder.createQuery(Book.class);
+ * var olderBook = olderBooks.from(Book.class);
+ * olderBooks.select(olderBook)
+ *           .where(olderBook.get(Book_.publicationDate).before(cutoffDate));
+ *
+ * var selectedBooks = builder.union(recentBooks, olderBooks);
+ * var books = agent.createQuery(selectedBooks).getResultList();
+ * }
  *
  * @param <T>  the type returned by the query
  *
