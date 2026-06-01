@@ -29,6 +29,25 @@ import java.util.Set;
  * specific to subqueries.
  *
  * <p>A subquery has an expression as its selection item.
+ * <p>
+ * For example, this query uses a correlated subquery to select
+ * books with at least a given number of authors:
+ * {@snippet :
+ * var builder = factory.getCriteriaBuilder();
+ * var query = builder.createQuery(Book.class);
+ * var book = query.from(Book.class);
+ *
+ * var authorCount = query.subquery(Long.class);
+ * var bookInSubquery = authorCount.correlate(book);
+ * var author = bookInSubquery.join(Book_.authors);
+ * authorCount.select(builder.count(author));
+ *
+ * query.select(book)
+ *      .where(builder.ge(authorCount, minimumAuthors))
+ *      .orderBy(book.get(Book_.title).asc());
+ *
+ * var books = agent.createQuery(query).getResultList();
+ * }
  *
  * @param <T> the type of the selection item.
  *
