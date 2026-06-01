@@ -100,6 +100,11 @@ public class Client extends PMClientBase {
 		}
 	}
 
+	@Override
+	protected Map<String, Object> extraPersistenceUnitProperties() {
+		return storedProceduresExtraProperties();
+	}
+
 	/*
 	 * @testName: createStoredProcedureQueryStringTest
 	 * 

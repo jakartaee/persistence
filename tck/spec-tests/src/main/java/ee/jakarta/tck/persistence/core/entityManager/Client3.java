@@ -99,6 +99,11 @@ public class Client3 extends PMClientBase {
 		}
 	}
 
+	@Override
+	protected Map<String, Object> extraPersistenceUnitProperties() {
+		return storedProceduresExtraProperties();
+	}
+
 	public List<List> getResultSetsFromStoredProcedure(StoredProcedureQuery spq) {
 		logger.log(Logger.Level.TRACE, "in getResultSetsFromStoredProcedure");
 		boolean results = true;

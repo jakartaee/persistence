@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.System.Logger;
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +41,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -72,6 +75,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceException;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract public class PMClientBase implements UseEntityManager, UseEntityManagerFactory, java.io.Serializable {
 
@@ -1204,6 +1209,25 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
         try (BufferedReader bufReader = new BufferedReader(new InputStreamReader(inStream, StandardCharsets.UTF_8))) {
             return bufReader.lines().collect(Collectors.joining(System.lineSeparator()));
         }
+    }
+
+    protected Map<String, Object> storedProceduresExtraProperties() {
+        assertTrue(Objects.toString(myProps.get(JAKARTA_PERSISTENCE_JDBC_DRIVER), "").toLowerCase(Locale.ROOT).contains("postgresql"),
+                "This test only contains procedures for the PostgreSQL database. Running on other DBs may result in an unpredictable outcome.");
+        return Map.of(Persistence.SchemaManagementProperties.SCHEMAGEN_CREATE_SCRIPT_SOURCE,
+                new StringReader(
+                        "CREATE TABLE IF NOT EXISTS EMPLOYEE (HIREDATE date, ID integer not null, SALARY float4, FIRSTNAME varchar(255), LASTNAME varchar(255), primary key (ID)); \n"
+                                + "CREATE OR REPLACE PROCEDURE Integer_Proc(out pmax integer, out pmin integer, out pnull integer) LANGUAGE plpgsql AS $$ BEGIN SELECT MAX_VAL, MIN_VAL, NULL_VAL INTO pmax, pmin, pnull FROM Integer_Tab; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpOneFirstNameFromOut(out OUT_PARAM text) LANGUAGE plpgsql AS $$ BEGIN SELECT FIRSTNAME INTO OUT_PARAM FROM EMPLOYEE WHERE ID=1; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpFirstNameFromOut(in IN_PARAM int, out OUT_PARAM text) LANGUAGE plpgsql AS $$ BEGIN SELECT FIRSTNAME INTO OUT_PARAM FROM EMPLOYEE WHERE ID=IN_PARAM; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpLastNameFromInOut(inout INOUT_PARAM text) LANGUAGE plpgsql AS $$ BEGIN SELECT LASTNAME INTO INOUT_PARAM FROM EMPLOYEE WHERE ID=CAST(INOUT_PARAM AS int); END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpASCFromRS(out ref refcursor) LANGUAGE plpgsql AS $$ BEGIN OPEN ref FOR SELECT ID, FIRSTNAME, LASTNAME, HIREDATE, SALARY FROM EMPLOYEE ORDER BY ID ASC; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpFullByIdFromRS(in IN_PARAM int, out ref refcursor) LANGUAGE plpgsql AS $$ BEGIN OPEN ref FOR SELECT ID, FIRSTNAME, LASTNAME, HIREDATE, SALARY FROM EMPLOYEE WHERE ID=IN_PARAM; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpIdFNameLNameFromRS(in IN_PARAM int, out ref refcursor) LANGUAGE plpgsql AS $$ BEGIN OPEN ref FOR SELECT ID, FIRSTNAME, LASTNAME FROM EMPLOYEE WHERE ID=IN_PARAM; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE GetEmpIdUsingHireDateFromOut(in IN_PARAM DATE, out OUT_PARAM int) LANGUAGE plpgsql AS $$ BEGIN SELECT ID INTO OUT_PARAM FROM EMPLOYEE WHERE HIREDATE=IN_PARAM; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE UpdateEmpSalaryColumn() LANGUAGE plpgsql AS $$ BEGIN UPDATE EMPLOYEE SET SALARY=0.00; END; $$ ;\n"
+                                + "CREATE OR REPLACE PROCEDURE DeleteAllEmp() LANGUAGE plpgsql AS $$ BEGIN DELETE FROM EMPLOYEE; END; $$ ;\n"
+                ));
     }
 
 }
