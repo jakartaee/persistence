@@ -29,7 +29,7 @@ import java.util.Map;
  * <ul>
  * <li>to each entity class that lacks a constructor with no parameters,
  *     add a {@code protected} constructor with no parameters that
- *     initializes every field to its standard default value 
+ *     initializes every field to its standard default value,
  * <li>remove {@code final} modifiers from entity classes, fields,
  *     and methods, and
  * <li>perform additional provider-specific enhancements as necessary
