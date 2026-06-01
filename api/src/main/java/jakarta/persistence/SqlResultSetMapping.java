@@ -18,6 +18,7 @@
 package jakarta.persistence;
 
 import jakarta.persistence.spi.Discoverable;
+import jakarta.persistence.sql.ResultSetMapping;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
@@ -98,11 +99,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see NamedNativeQuery#resultSetMapping
  * @see NamedStoredProcedureQuery#resultSetMappings
+ * @see EntityHandler#createNativeQuery(String, ResultSetMapping)
  * @see EntityHandler#createNativeQuery(String, String)
- *
+ * @see StatementOrTypedQuery#withResultSetMapping(ResultSetMapping)
+ * @see EntityManagerFactory#getResultSetMappings(Class)
  * @see jakarta.persistence.sql.ResultSetMapping
  * @see jakarta.persistence.sql.CompoundMapping
- * @see EntityManagerFactory#getResultSetMappings(Class)
  *
  * @since 1.0
  */
