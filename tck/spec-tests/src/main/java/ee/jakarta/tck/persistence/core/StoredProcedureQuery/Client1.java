@@ -38,7 +38,6 @@ import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
-import jakarta.persistence.TransactionRequiredException;
 import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ConstructorMapping;
 
