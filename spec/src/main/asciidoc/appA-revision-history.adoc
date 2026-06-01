@@ -15,9 +15,9 @@ Added `EntityAgent` and `EntityHandler`
 
 Added `@JakartaQuery`, `@NativeQuery`, `@QueryOptions`, and `StaticStatementReference` for declaring static queries at the method level, along with additional members of `TypedQueryReference`
 
-Added a new API for programmatic SQL result set mappings
+Added new `ResultSetMapping` API for programmatic SQL result set mappings
 
-Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `ofType()`, `withEntityGraph()`, and `asStatement()` to `Query`; added `StatementOrTypedQuery`
+Added `Statement`, `CriteriaStatement`, `@NamedStatement` and `@NamedNativeStatement` to clearly distinguish statements which modify data from queries which return data; added `StatementOrTypedQuery` as a migration path
 
 Added `@Fetch` for more elegant definition of named entity graph nodes and subgraphs, and for specifying per-attribute fetch options
 
@@ -37,15 +37,13 @@ Made `StoredProcedureQuery` a subtype of `AutoCloseable`
 
 Added `@ExcludedFromVersioning`
 
-Added `FETCHED` to `PessimisticLockScope`, `lockScope` to `@NamedQuery`, and `setLockScope()` to `Query`
+Added `FETCHED` to `PessimisticLockScope`, `lockScope` to `@NamedQuery`, and `setLockScope()` to `TypedQuery`
 
 Added new lifecycle callback types: `@PreMerge`, `@PreInsert`, `@PostInsert`, `@PreUpsert`, `@PostUpsert`, `@PreDelete`, `@PostDelete`
 
 Added `addListener()` to `EntityManagerFactory`
 
-Added `@EntityListener` annotation
-
-Allow `@EntityListeners` on a package descriptor or module descriptor
+Added `@EntityListener` annotation; allow `@EntityListeners` on a package descriptor or module descriptor
 
 Specify that an entity listener may have multiple callbacks of the same type
 
@@ -67,15 +65,11 @@ Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReferenc
 
 Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`
 
-Allow named queries to be declared by a module or package descriptor
+Allow named queries and statements to be declared by a module or package descriptor
 
 Improved `@Index` and `@Table` to allow more customization of the generated DDL
 
-Added operations to `CriteriaBuilder` accepting JPQL query strings, returning corresponding criteria objects
-
-Added `augment()` methods to `CriteriaBuilder` for use in Jakarta Data implementations
-
-Added additional overload of `CriteriaBuilder.between()`
+Added operations to `CriteriaBuilder` accepting JPQL query strings, returning corresponding criteria objects; added `augment()` methods to `CriteriaBuilder` for use in Jakarta Data implementations
 
 Added `QueryFlushMode`, `Query.setQueryFlushMode()`, and `flush` to `@NamedQuery` and `@NamedNativeQuery`
 
@@ -91,11 +85,9 @@ Specify that entity names must be legal Java identifiers
 
 Made `ELSE` branch in `CASE` expressions optional in JPQL
 
-==== Changes to Configuration and Bootstrap
+==== Changes to Configuration, Bootstrap, and Integration
 
 Added `@PersistenceAgent` for injection of Jakarta EE container-managed `EntityAgent`
-
-Allow named queries and statements to be defined on non-managed classes and interfaces
 
 Overloaded `Persistence.generateSchema()` to accept `PersistenceConfiguration` and added related functionality to `PersistenceConfiguration`: `exportSchema()`, `schemaManagementDatabaseAction()`, `schemaManagementScriptsAction()`, `SchemaManagementAction`
 
@@ -103,9 +95,9 @@ Added `jakarta.persistence.jdbc.fetchSize` and `jakarta.persistence.jdbc.batchSi
 
 Added static lists of standard property names to inner interfaces of `Persistence`
 
-Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_LOAD_SCRIPT_SOURCE` to `PersistenceConfiguration`
+Added `SchemaManager.populate()` and the new schema generation action `populate`
 
-Added `SchemaManager.populate()` and the new schema generation action `populate()`
+Added `@Discoverable` annotation
 
 Redefine automatic bean validation. By default, automatic validation
 is now expected after pre-insert, pre-update and pre-upsert lifecycle
@@ -113,10 +105,18 @@ events instead of previously used pre-persist, pre-update ones.
 Automatic bean validation can be enabled after the following lifecycle
 events: pre-persist, pre-merge, pre-remove, pre-delete.
 
-Added `@Discoverable` annotation
-
 Introduced the requirement to derive additional schema metadata from
 Jakarta Validation constraints
+
+==== Changes to Static Metamodel
+
+Added operations to produce a `TypedQueryReference` or `StatementReference` given arguments of parameters to a static query or statement
+
+Added type safe reference to named SQL result set mappings
+
+Added references to named statements
+
+Allowed non-entity discoverable types (for example, Jakarta Data repositories) to have static metamodels
 
 ==== Minor Changes and Fixes
 
@@ -134,7 +134,11 @@ Added `comment` member to `@DiscriminatorColumn`, `@MapKeyColumn`, `@MapKeyJoinC
 
 Added `check` member to `@MapKeyColumn`, `@MapKeyJoinColumn`, `@PrimaryKeyJoinColumn` and `@CollectionTable`
 
+Fixed `SCHEMAGEN_CREATE_TARGET`, `SCHEMAGEN_DROP_TARGET`, and added `SCHEMAGEN_LOAD_SCRIPT_SOURCE` to `PersistenceConfiguration`
+
 Change default `lockMode` of `EntityResult` to `NONE`
+
+Added additional overload of `CriteriaBuilder.between()`
 
 Fixed some incorrect generic method signatures in `From`
 
@@ -154,8 +158,6 @@ Clarified usage of `@OrderColumn` and `@MapKeyColumn`
 
 Added additional overloads of operations accepting restriction lists in criteria API
 
-Deleted `CriteriaBuilder.keys()`, `CriteriaBuilder.values()`
-
 ==== Deprecations
 
 Deprecated many operations of `Query`, since those operations should now be executed via a `Statement` or `TypedQuery`
@@ -173,6 +175,8 @@ Deleted APIs marked deprecated for removal
 Removed redundant overloads of `find()` and `refresh()` accepting `LockModeType`
 
 Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
+
+Deleted `CriteriaBuilder.keys()`, `CriteriaBuilder.values()`
 
 === Jakarta Persistence 3.2
 
