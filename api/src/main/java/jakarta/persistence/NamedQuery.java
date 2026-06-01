@@ -67,6 +67,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @see EntityHandler#createNamedQuery(String)
  * @see EntityHandler#createNamedQuery(String,Class)
+ * @see EntityHandler#createQuery(TypedQueryReference)
+ * @see EntityManagerFactory#addNamedQuery(String, TypedQuery)
  * @see NamedStatement
  *
  * @since 1.0

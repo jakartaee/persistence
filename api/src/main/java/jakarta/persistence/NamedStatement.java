@@ -46,6 +46,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *             .execute();
  * }
  *
+ * <p> Alternatively, a reference to a named query may be obtained
+ * via the static metamodel.
+ * {@snippet :
+ * em.createStatement(Customer_._deleteNamedCustomers_)
+ *             .setParameter("custName", "Smith")
+ *             .execute();
+ * }
+ *
  * @see EntityHandler#createNamedStatement(String)
  * @see EntityHandler#createStatement(StatementReference)
  * @see EntityManagerFactory#addNamedStatement(String, Statement)
