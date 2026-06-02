@@ -507,8 +507,8 @@ public interface EntityManagerFactory extends AutoCloseable {
 
     /**
      * A map keyed by {@linkplain NamedQuery#name query name}, containing
-     * {@linkplain TypedQueryReference references} to every named query whose
-     * result type is assignable to the given Java type.
+     * {@linkplain TypedQueryReference references} to every named query
+     * whose result type is assignable to the given Java type.
      * @param resultType any Java type, including {@code Object.class}
      *                   meaning all queries
      * @return a map keyed by query name
