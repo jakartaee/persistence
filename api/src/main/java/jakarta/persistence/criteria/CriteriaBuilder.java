@@ -403,7 +403,7 @@ public interface CriteriaBuilder {
      * query represented by the given reference.
      * <p>
      * The consumer is called with an instance of
-     * {@link CriteriaQuery} modelling the query represented
+     * {@link CriteriaStatement} modelling the query represented
      * by the given reference. The consumer is expected to
      * mutate this instance to realize the augmentation.
      * @param reference A reference to a Jakarta Persistence
