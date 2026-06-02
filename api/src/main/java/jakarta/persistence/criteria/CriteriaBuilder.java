@@ -360,11 +360,52 @@ public interface CriteriaBuilder {
                                        @Nonnull Consumer<CriteriaQuery<T>> augmentation);
 
     /**
+     * Modify the Jakarta Persistence query language query
+     * represented by the given reference, and changing the
+     * query result type, returning a reference to the modified
+     * query inheriting all the options of the given reference.
+     * This operation never modifies the query represented by
+     * the given reference.
+     * <p>
+     * The consumer is called with an instance of
+     * {@link CriteriaQuery} modelling the query represented by
+     * the given reference, but with the given query result type
+     * and no {@linkplain CriteriaQuery#getSelection selection}.
+     * The consumer is expected to mutate this instance to
+     * realize the augmentation. In particular, the consumer
+     * must call {@link CriteriaQuery#select(Selection)} to set
+     * a modified selection compatible with the given modified
+     * result type.
+     * @param reference A reference to a Jakarta Persistence
+     *                  query language {@code SELECT} query
+     * @param augmentedResultType the modified result type
+     * @param augmentation a consumer that modifies the query
+     *                     and sets a selection compatible
+     *                     with the modified result type
+     * @param <T> the modified query result type
+     * @return a reference to the modified query
+     * @throws IllegalArgumentException if the given reference
+     *         does not represent a named Jakarta Persistence
+     *         query language {@code SELECT} query belonging
+     *         to the owning factory
+     * @since 4.0
+     */
+    @Nonnull
+    <T> TypedQueryReference<T> augment(@Nonnull TypedQueryReference<?> reference,
+                                       @Nonnull Class<T> augmentedResultType,
+                                       @Nonnull Consumer<CriteriaQuery<T>> augmentation);
+
+    /**
      * Modify the Jakarta Persistence query language statement
      * represented by the given reference, returning a reference
      * to the modified statement inheriting all the options of
      * the given reference. This operation never modifies the
      * query represented by the given reference.
+     * <p>
+     * The consumer is called with an instance of
+     * {@link CriteriaQuery} modelling the query represented
+     * by the given reference. The consumer is expected to
+     * mutate this instance to realize the augmentation.
      * @param reference A reference to a Jakarta Persistence
      *                  query language statement
      * @param augmentation a consumer that modifies the statement
