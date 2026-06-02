@@ -47,25 +47,29 @@ import java.util.List;
 public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
 	
     /**
-     * Specify the item that is to be returned in the query result.
-     * Replaces the previously specified selection(s), if any.
-     * 
-     * <p> Note: Applications using the string-based API may need to
-     * specify the type of the select item when it results from
-     * a get or join operation and the query result type is 
-     * specified. 
-     *
-     * <p>For example:
+     * Specify the item that is to be returned in the query result,
+     * replacing the previously specified selection or compound
+     * selection, if any.
      * {@snippet :
-     * CriteriaQuery<String> q = cb.createQuery(String.class);
-     * Root<Order> order = q.from(Order.class);
-     * q.select(order.get("shippingAddress").<String>get("state"));
-     * 
-     * CriteriaQuery<Product> q2 = cb.createQuery(Product.class);
-     * q2.select(q2.from(Order.class)
-     *             .join("items")
-     *             .<Item, Product>join("product"));
+     * var states = builder.createQuery(String.class);
+     * var order = states.from(Order.class);
+     * states.where(order.get(Order_.number).equalTo(orderNumber));
+     * states.select(order.get(Order_.shippingAddress).get(Address_.state));
      * }
+     *
+     * <p> A compound selection may be obtained by calling one
+     * of the methods of {@link CriteriaBuilder} which returns
+     * {@link CompoundSelection}.
+     * {@snippet :
+     * var items = builder.createQuery(ItemSummary.class);
+     * var item = products.from(Item.class);
+     * var product = item.join(Item_.product);
+     * items.where(item.get(Item_.order).get(Order_.number).equalTo(orderNumber));
+     * items.select(builder.construct(ItemSummary.class,
+     *              product.get(Product_.description),
+     *              product.get(Product_.price),
+     *              item.get(Item_quantity)));
+     *}
      *
      * @param selection  selection specifying the item that is
      *                   to be returned in the query result
@@ -73,6 +77,20 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * @throws IllegalArgumentException if the selection is
      *         a compound selection and more than one selection
      *         item has the same assigned alias
+     *
+     * @apiNote When a {@link Path#get(String)} or
+     * {@link From#join(String)} is used to obtain the select item,
+     * the caller might need to explicitly specify the type argument.
+     * {@snippet :
+     * var states = builder.createQuery(String.class);
+     * var order = states.from(Order.class);
+     * states.where(order.get("number").equalTo(orderNumber));
+     * states.select(order.get("shippingAddress").<String>get("state"));
+     * }
+     *
+     * @see CriteriaBuilder#construct(Class, Selection...)
+     * @see CriteriaBuilder#tuple(Selection...)
+     * @see CriteriaBuilder#array(Selection...)
      */
     @Nonnull
     CriteriaQuery<T> select(@Nonnull Selection<? extends T> selection);
