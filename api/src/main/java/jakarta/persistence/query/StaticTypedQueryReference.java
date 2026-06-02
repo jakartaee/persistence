@@ -44,7 +44,7 @@ public class StaticTypedQueryReference<R>
 
     @Nonnull private final Class<?> annotatedClass;
     @Nonnull private final String annotatedMemberName;
-    @Nonnull private final Class<R> resultType;
+    @Nullable private final Class<R> resultType;
     @Nonnull private final String name;
     @Nonnull private final List<Class<?>> parameterTypes;
     @Nonnull private final List<String> parameterNames;
@@ -80,7 +80,7 @@ public class StaticTypedQueryReference<R>
             @Nonnull String queryName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
-            @Nonnull Class<R> resultType,
+            @Nullable Class<R> resultType,
             @Nonnull List<Class<?>> parameterTypes,
             @Nonnull List<String> parameterNames,
             @Nonnull List<Object> arguments,
@@ -139,8 +139,8 @@ public class StaticTypedQueryReference<R>
     }
 
     @Override
-    @Nonnull
-    public Class<? extends R> getResultType() {
+    @Nullable
+    public Class<R> getResultType() {
         return resultType;
     }
 
