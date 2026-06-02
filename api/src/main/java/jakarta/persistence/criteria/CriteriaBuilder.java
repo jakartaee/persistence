@@ -361,7 +361,7 @@ public interface CriteriaBuilder {
 
     /**
      * Modify the Jakarta Persistence query language query
-     * represented by the given reference, and changing the
+     * represented by the given reference, and change the
      * query result type, returning a reference to the modified
      * query inheriting all the options of the given reference.
      * This operation never modifies the query represented by
