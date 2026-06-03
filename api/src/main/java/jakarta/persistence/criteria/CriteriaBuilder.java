@@ -2141,7 +2141,46 @@ public interface CriteriaBuilder {
     Expression<Integer> locate(@Nonnull Expression<String> x,
                                @Nonnull String pattern,
                                int from);
-	
+
+
+    // least, greatest
+
+    /**
+     * Create an expression that returns the smaller of its arguments.
+     * @param x expression
+     * @param y expression
+     * @param <C> the type of the expression
+     * @return least expression
+     */
+    <C extends Comparable<? super C>> Expression<C> least(Expression<C> x, Expression<C> y);
+
+    /**
+     * Create an expression that returns the smaller of its arguments.
+     * @param x value
+     * @param y expression
+     * @param <C> the type of the expression
+     * @return least expression
+     */
+    <C extends Comparable<? super C>> Expression<C> least(C x, Expression<C> y);
+
+    /**
+     * Create an expression that returns the larger of its arguments.
+     * @param x expression
+     * @param y expression
+     * @param <C> the type of the expression
+     * @return greatest expression
+     */
+    <C extends Comparable<? super C>> Expression<C> greatest(Expression<C> x, Expression<C> y);
+
+    /**
+     * Create an expression that returns the larger of its arguments.
+     * @param x value
+     * @param y expression
+     * @param <C> the type of the expression
+     * @return greatest expression
+     */
+    <C extends Comparable<? super C>> Expression<C> greatest(C x, Expression<C> y);
+
 
     // Date/time/timestamp functions:
 
