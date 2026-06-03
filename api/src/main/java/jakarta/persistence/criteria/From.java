@@ -65,7 +65,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * contents of the returned list does not affect the
      * query.
      * @return joins originating from this type, or an
-     *         empty set if no joins originate from this
+     *         empty list if no joins originate from this
      *         type
      * @since 4.0
      */
