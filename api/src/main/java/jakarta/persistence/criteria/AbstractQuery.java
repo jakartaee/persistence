@@ -170,15 +170,31 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
     AbstractQuery<T> distinct(boolean distinct);
 
     /**
-     * Return the query roots. These are the roots that are
-     * defined for the {@link CriteriaQuery} or {@link Subquery}
-     * itself, including any subquery roots defined as a result of
-     * correlation. Returns an empty set if no roots have been
-     * defined. Modifications to the set do not affect the query.
-     * @return the set of query roots
-     */   
+     * Return the query roots belonging to this {@link CriteriaQuery}
+     * or {@link Subquery}, including any subquery roots defined via
+     * {@linkplain Subquery#correlate(Root) correlation}. Modifying
+     * the contents of the returned set does not affect the query.
+     * @return the set of query roots, or an empty set if no roots
+     *         have been defined
+     */
     @Nonnull
     Set<Root<?>> getRoots();
+
+    /**
+     * Return the query roots belonging to this {@link CriteriaQuery}
+     * or {@link Subquery}, including any subquery roots defined via
+     * {@linkplain Subquery#correlate(Root) correlation}, in the same
+     * order in which they were defined. If this object represents
+     * a query written in the Jakarta Persistence query language,
+     * the roots are returned in the order they occur in the query.
+     * Modifying the contents of the returned list does not affect
+     * the query.
+     * @return a list of query roots, or an empty list if no roots
+     *         have been defined
+     * @since 4.0
+     */
+    @Nonnull
+    List<Root<?>> getRootList();
 
     /**
      * Return the selection of the query, or null if no selection
