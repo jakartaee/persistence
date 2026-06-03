@@ -41,4 +41,10 @@ public enum JoinType {
      * Right outer join.
      */
     RIGHT,
+
+    /**
+     * Full outer join.
+     * @since 4.0
+     */
+    FULL
 }
