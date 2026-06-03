@@ -17,11 +17,12 @@
 package jakarta.persistence.criteria;
 
 /**
- * Defines the three varieties of join.
+ * Enumerates the four standard kinds of relational join.
  *
- * <p>Support for {@link #RIGHT} outer joins is not required. Applications
- * which make use of right joins might not be portable between providers or
- * between SQL databases.
+ * @apiNote A persistence provider is not required to support the use of
+ * {@link #RIGHT} outer joins or {@link #FULL} outer joins. An application
+ * which makes use of right joins or full joins might not be portable
+ * between providers or between SQL databases.
  *
  * @since 2.0
  */
