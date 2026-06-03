@@ -2151,6 +2151,7 @@ public interface CriteriaBuilder {
      * @param y expression
      * @param <C> the type of the expression
      * @return least expression
+     * @since 4.0
      */
     <C extends Comparable<? super C>> Expression<C> least(Expression<C> x, Expression<C> y);
 
@@ -2160,6 +2161,7 @@ public interface CriteriaBuilder {
      * @param y expression
      * @param <C> the type of the expression
      * @return least expression
+     * @since 4.0
      */
     <C extends Comparable<? super C>> Expression<C> least(C x, Expression<C> y);
 
@@ -2169,6 +2171,7 @@ public interface CriteriaBuilder {
      * @param y expression
      * @param <C> the type of the expression
      * @return greatest expression
+     * @since 4.0
      */
     <C extends Comparable<? super C>> Expression<C> greatest(Expression<C> x, Expression<C> y);
 
@@ -2178,6 +2181,7 @@ public interface CriteriaBuilder {
      * @param y expression
      * @param <C> the type of the expression
      * @return greatest expression
+     * @since 4.0
      */
     <C extends Comparable<? super C>> Expression<C> greatest(C x, Expression<C> y);
 
