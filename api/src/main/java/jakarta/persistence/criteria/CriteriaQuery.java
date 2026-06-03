@@ -66,9 +66,9 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * var product = item.join(Item_.product);
      * items.where(item.get(Item_.order).get(Order_.number).equalTo(orderNumber));
      * items.select(builder.construct(ItemSummary.class,
-     *              product.get(Product_.description),
-     *              product.get(Product_.price),
-     *              item.get(Item_quantity)));
+     *                                product.get(Product_.description),
+     *                                product.get(Product_.price),
+     *                                item.get(Item_.quantity)));
      *}
      *
      * @param selection  selection specifying the item that is
