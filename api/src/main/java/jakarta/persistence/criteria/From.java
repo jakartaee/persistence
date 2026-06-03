@@ -46,15 +46,32 @@ import java.util.Set;
 public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
 
     /**
-     * Return the joins that have been made from this bound type.
-     * Returns empty set if no joins have been made from this
-     * bound type.
-     * Modifications to the set do not affect the query.
-     * @return joins made from this type
+     * Return the joins originating from this bound type.
+     * Modifying the contents of the returned set does not
+     * affect the query.
+     * @return joins originating from this type, or an
+     *         empty set if no joins originate from this
+     *         type
      */
     @Nonnull
     Set<Join<X, ?>> getJoins();
-	
+
+    /**
+     * Return the joins originating from this bound type in
+     * the order in which they were defined. If this object
+     * represents a clause of a query written in the Jakarta
+     * Persistence query language, the joins are returned
+     * in the order they occur in the query. Modifying the
+     * contents of the returned list does not affect the
+     * query.
+     * @return joins originating from this type, or an
+     *         empty set if no joins originate from this
+     *         type
+     * @since 4.0
+     */
+    @Nonnull
+    List<Join<X, ?>> getJoinList();
+
     /**
      * Whether the {@link From} object has been obtained as a result
      * of correlation (use of a {@link Subquery#correlate} method).
