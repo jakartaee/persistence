@@ -20,22 +20,28 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares a {@linkplain Subgraph subgraph} as a member element
- * of a {@link NamedEntityGraph}. The {@code NamedSubgraph} is only
- * referenceable within its containing {@code @NamedEntityGraph}
- * annotation and cannot be referenced independently.
- *
- * <p>A {@code NamedSubgraph} is referenced by {@linkplain #name}
- * from the {@link NamedAttributeNode#subgraph subgraph} element
- * of a {@link NamedAttributeNode} annotation within the parent
+ * Declares a named {@linkplain Subgraph subgraph} of a
+ * {@linkplain NamedEntityGraph named entity graph}. The subgraph
+ * represents an associated or embedded entity or embeddable type.
+ * <p>
+ * The name of the subgraph is scoped to the containing named entity
+ * graph. If two subgraphs belonging to a given named entity graph
+ * have the same name, the types represented by the subgraphs must
+ * belong to the same entity inheritance hierarchy.
+ * <p>
+ * A {@code NamedSubgraph} must be referenced by {@linkplain #name}
+ * from the {@link NamedAttributeNode#subgraph subgraph} or
+ * {@link NamedAttributeNode#keySubgraph keySubgraph} element of a
+ * {@link NamedAttributeNode} annotation within the parent
  * {@code NamedEntityGraph}.
- *
- * <p>A {@code NamedSubgraph} is reified at runtime as an
- * instance of {@link Subgraph}.
+ * <p>
+ * A {@code NamedSubgraph} is reified at runtime as an instance of
+ * {@link Subgraph}.
  *
  * @apiNote Alternatively, use {@link NamedEntityGraph} to declare
- * the subgraph, and use {@link Fetch} to reference the subgraph
- * by annotating a field of the graphed entity class.
+ *          the subgraph, and use {@link Fetch} to reference the
+ *          subgraph by annotating a field of the graphed entity
+ *          class.
  *
  * @see NamedEntityGraph
  * @see NamedAttributeNode
@@ -47,25 +53,32 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedSubgraph {
 
     /**
-     * (Required) The name of the subgraph as referenced from a
-     * {@link NamedAttributeNode} element. Subgraph names are
-     * scoped to the containing {@link NamedEntityGraph}, and
-     * must be unique within that graph.
+     * (Required) The name of the subgraph. A subgraph must be referenced by
+     * name from the {@linkplain NamedAttributeNode#subgraph subgraph} or
+     * {@linkplain NamedAttributeNode#keySubgraph keySubgraph} element of a
+     * {@link NamedAttributeNode} annotation of the graph.
      */
     String name();
 
     /**
-     * (Optional) The type represented by this subgraph. The element
-     * must be specified when this subgraph is extending a definition
-     * on behalf of a subclass.
+     * (Optional) The entity or embeddable type represented by this subgraph.
+     * <p>
+     * If not explicitly specified, the subgraph represents the declared type
+     * of the attribute represented by the referencing attribute node.
+     * The type must be explicitly specified when the subgraph represents an
+     * entity subclass of the entity type of the attribute.
      */
     Class<?> type() default void.class;
 
-    /** 
-     * (Required) The list of the attributes of the class that must
-     * be included. If the named subgraph corresponds to a subclass
-     * of the class referenced by the corresponding attribute node,
-     * then only subclass-specific attributes are listed.
+    /**
+     * (Required) The list of attributes of the entity or embeddable type
+     * represented by this subgraph that are included as attribute nodes in
+     * the entity graph.
+     * <p>
+     * Each attribute is declared via a {@link NamedAttributeNode}
+     * annotation. If this subgraph represents an entity subclass of the
+     * entity type of the attribute, only attributes declared by the subclass
+     * may be included in the list.
      */
     NamedAttributeNode[] attributeNodes();
 }

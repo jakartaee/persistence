@@ -22,14 +22,15 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares an {@linkplain AttributeNode attribute node} as a member
- * element of a {@link NamedEntityGraph}.
- *
- * <p>A {@code NamedAttributeNode} is reified at runtime as an
- * instance of {@link AttributeNode}.
+ * Declares an {@linkplain AttributeNode attribute node} of a
+ * {@linkplain NamedEntityGraph named entity graph} or
+ * {@linkplain NamedSubgraph named subgraph}.
+ * <p>
+ * A {@code NamedAttributeNode} is reified at runtime as an instance
+ * of {@link AttributeNode}.
  *
  * @apiNote Alternatively, use {@link Fetch} to declare an attribute
- * node by annotating a field of the graphed entity class.
+ *          node by annotating a field of the graphed entity class.
  *
  * @see NamedEntityGraph
  * @see NamedSubgraph
@@ -41,49 +42,41 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedAttributeNode {
 
     /**
-     * (Required) The name of the attribute that must be included in
-     * the graph.
+     * (Required) The name of the attribute represented by this node.
      */
     String value();
 
     /**
-     * (Optional) If the attribute references a managed type that has
-     * its own {@link AttributeNode}s, this element is used to refer
-     * to that {@link NamedSubgraph} definition.
-     *
-     * <p> If the target type has inheritance, multiple subgraphs can
-     * be specified. These additional subgraphs are intended to add
-     * subclass-specific attributes. Superclass subgraph entries are
-     * merged into subclass subgraphs.
-     *
-     * <p> The value of this element is the name of the subgraph as
-     * specified by the {@link NamedSubgraph#name name} element of the
-     * a {@link NamedSubgraph} annotation. That is, <em>it is not the
-     * name of an {@linkplain EntityGraph entity graph}</em>, but the
-     * name of a {@linkplain NamedSubgraph named subgraph} declared
-     * within the containing {@link NamedEntityGraph} annotation. If
-     * multiple subgraphs are specified due to inheritance, they are
-     * referenced by this name.
+     * (Optional) The name of a subgraph rooted at this attribute node.
+     * <p>
+     * The name must resolve to the {@linkplain NamedSubgraph#name name}
+     * of a {@link NamedSubgraph} annotation nested within the same
+     * {@link NamedEntityGraph}, or to the
+     * {@linkplain NamedEntityGraph#name name} of a subgraph declared by
+     * a different {@link NamedEntityGraph @NamedEntityGraph} annotation.
+     * <p>
+     * The type of the specified subgraph must be compatible with the
+     * type of the attribute represented by this node. In the case of a
+     * {@code @NamedSubgraph}, the type of the subgraph is given by its
+     * {@link NamedSubgraph#type type} element; in the case of
+     * {@code @NamedEntityGraph}, it is the annotated entity type.
+     * <p>
+     * If this node represents a {@link ManyToOne} or {@link OneToOne}
+     * association, and the associated entity type has entity subclasses,
+     * there might be more than one {@code @NamedSubgraph} annotation
+     * with the specified name. In this case, every matching subgraph is
+     * considered to be rooted at this node.
      */
     String subgraph() default "";
 
-   /**
-    * (Optional) If the attribute references a Map type, this element
-    * can be used to specify a subgraph for the Key in the case of an
-    * entity key type. A {@code keySubgraph} can not be specified
-    * without the {@code Map} attribute also being specified.
-    *
-    * <p> If the target type has inheritance, multiple subgraphs can
-    * be specified. These additional subgraphs are intended to add
-    * subclass-specific attributes. Superclass subgraph entries are
-    * merged into subclass subgraphs.
-    * 
-    * <p> The value of this element is the name of the key subgraph as
-    * specified by the {@code name} element of the corresponding
-    * {@link NamedSubgraph} element. If multiple key subgraphs are
-    * specified due to inheritance, they are referenced by this name.
-    */
+    /**
+     * (Optional) The name of a subgraph rooted at the key of the map
+     * represented by this attribute node.
+     * <p>
+     * This element may only be specified when this node represents an
+     * attribute of type {@link java.util.Map}. The named subgraph must
+     * resolve as described by {@link #subgraph}, and must be compatible
+     * with the map key type.
+     */
     String keySubgraph() default "";
 }
-
-
