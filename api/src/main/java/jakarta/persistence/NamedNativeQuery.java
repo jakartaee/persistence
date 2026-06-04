@@ -47,8 +47,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * )
  * }
  *
- * <p>
- * In more complicated cases, a {@linkplain SqlResultSetMapping
+ * <p> In more complicated cases, a {@linkplain SqlResultSetMapping
  * result set mapping} is needed, which may be specified using
  * either a separate annotation:
  * {@snippet :
@@ -83,7 +82,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  *
  * <p> This annotation may be applied to any class or interface
- * belonging to the persistence unit.
+ * belonging to the persistence unit, including to a package or
+ * module descriptor.
  *
  * @apiNote A named native SQL statement which returns a row count
  *          is usually declared using {@link NamedNativeStatement}.

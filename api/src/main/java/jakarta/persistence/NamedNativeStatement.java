@@ -28,7 +28,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The SQL statement must return a row count.
  *
  * <p> This annotation may be applied to any class or interface
- * belonging to the persistence unit.
+ * belonging to the persistence unit, including to a package or
+ * module descriptor.
  * {@snippet :
  * @NamedNativeStatement(name = "deleteNamedCustomers",
  *             statement = "delete from Customer c where c.name like :custName")
