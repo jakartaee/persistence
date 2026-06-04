@@ -34,7 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * query should be a {@code SELECT} query.
  *
  * <p> This annotation may be applied to any class or interface
- * belonging to the persistence unit.
+ * belonging to the persistence unit, including to a package or
+ * module descriptor.
  * {@snippet :
  * @NamedQuery(name = "findAllCustomersWithName",
  *             query = "SELECT c FROM Customer c WHERE c.name LIKE :custName")

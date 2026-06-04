@@ -30,8 +30,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Declares and names a stored procedure, its parameters, and its result type.
  *
- * <p>The {@code NamedStoredProcedureQuery} annotation can be applied to an 
- * entity or mapped superclass.
+ * <p> This annotation may be applied to any class or interface belonging to
+ * the persistence unit, including to a package or module descriptor.
  *
  * <p>The {@link #name} element is the name that is passed as an argument
  * to the {@link EntityHandler#createNamedStoredProcedureQuery} method to
@@ -45,29 +45,27 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link #parameters} element. Parameters must be specified in the order
  * in which they occur in the parameter list of the stored procedure.
  *
- * <p>The {@link #resultClasses} element refers to the class (or classes)
+ * <p>The {@link #resultClasses} element specifies the class (or classes)
  * that are used to map the results. The {@link #resultSetMappings} element
  * names one or more result set mappings, as defined by the
  * {@link SqlResultSetMapping} annotation.
  *
- * <p>If there are multiple result sets, it is assumed that they are
- * mapped using the same mechanism &#8212; e.g., either all via a set of
- * result class mappings or all via a set of result set mappings. The
- * order of the specification of these mappings must be the same as the
- * order in which the result sets are returned by the stored procedure
- * invocation. If the stored procedure returns one or more result sets
- * and no {@link #resultClasses} or {@link #resultSetMappings} are
- * specified, any result set is returned as a list of type
- * {@code Object[]}. The combining of different strategies for the mapping
- * of stored procedure result sets is undefined.
+ * <p>If the stored procedure returns multiple result sets, they are all
+ * mapped using the same mechanism: either all via a set of result class
+ * mappings or all via a set of result set mappings. The order of the
+ * specification of these mappings must be the same as the order in which
+ * the result sets are returned by the stored procedure invocation. If the
+ * stored procedure returns one or more result sets and no
+ * {@link #resultClasses} or {@link #resultSetMappings} are specified, any
+ * result set is returned as a list of type {@code Object[]}.
  *
  * <p>The {@link #hints} element may be used to specify query properties
- * and hints. Properties defined by this specification must be observed
- * by the provider. Vendor-specific hints that are not recognized by a
- * provider must be ignored.
+ * and hints. Hints defined by this specification should be observed by
+ * the provider when possible. Vendor-specific hints that are not
+ * recognized by a provider must be ignored.
  *
- * <p>All parameters of a named stored procedure query must be specified
- * using the {@code StoredProcedureParameter} annotation.
+ * <p>Every parameter of a named stored procedure query must be declared
+ * using the {@code @StoredProcedureParameter} annotation.
  *
  * @see StoredProcedureQuery
  * @see StoredProcedureParameter
@@ -82,8 +80,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface NamedStoredProcedureQuery { 
 
     /**
-     * The name used to refer to the query with the {@link EntityManager} 
-     * methods that create stored procedure query objects.
+     * The name passed to
+     * {@link EntityHandler#createNamedStoredProcedureQuery(String)} to
+     * create an executable {@link StoredProcedureQuery}.
      */
     String name();
 
@@ -93,14 +92,14 @@ public @interface NamedStoredProcedureQuery {
     String procedureName();
 
     /**
-     * Information about all parameters of the stored procedure.
+     * Information about every parameter of the stored procedure.
      * Parameters must be specified in the order in which they
      * occur in the parameter list of the stored procedure.
      */
     StoredProcedureParameter[] parameters() default {};
 
     /**
-     * The result classes.
+     * The class or classes used to map the results.
      *
      * <p>When the result classes are explicitly specified and the
      * {@linkplain #resultSetMappings result set mappings} are not, either:
@@ -130,9 +129,10 @@ public @interface NamedStoredProcedureQuery {
      * the type inferred from the corresponding result set mapping.
      *
      * <p>If the result classes are not explicitly specified, then they
-     * are inferred from the result set mapping, if any, or default to
-     * {@code Object} or {@code Object[]}. Any result class may be
-     * overridden by explicitly passing a class object to
+     * are inferred from the result set mappings, if any. If neither
+     * result classes nor result set mappings are specified, any result
+     * set is returned as a list of type {@code Object[]}. Any result
+     * class may be overridden by explicitly passing a class object to
      * {@link StoredProcedureQuery#getResultList(Class)},
      * {@link StoredProcedureQuery#getSingleResult(Class)}, or
      * {@link StoredProcedureQuery#getSingleResultOrNull(Class)}.
@@ -158,7 +158,9 @@ public @interface NamedStoredProcedureQuery {
 
     /**
      * Query properties and hints.
-     * (May include vendor-specific query hints.)
+     * <p>Hints defined by this specification should be observed by the
+     * provider when possible. Vendor-specific hints that are not recognized
+     * by a provider must be ignored.
      */
     QueryHint[] hints() default {};
 
