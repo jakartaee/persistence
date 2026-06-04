@@ -199,7 +199,11 @@ persistent attributes with `@Fetch`, or by mixing these two approaches.
 
 A well-defined entity graph is a tree. The application is responsible
 for ensuring that every named entity graph is acyclic. If a named entity
-graph contains a cycle, the behavior is undefined.
+graph contains a cycle, the behavior is undefined. A provider may reject
+the graph at runtime; it may reject it when the persistence unit is
+initialized; or it may transform the graph into an acyclic graph according
+to some vendor-specific algorithm. Portable applications must avoid relying
+on such behavior.
 
 - The `name` element assigns a name to the entity graph, and is used to
   identify the entity graph in calls to `EntityHandler.getEntityGraph()`.
@@ -266,8 +270,8 @@ public @interface NamedEntityGraphs {
 
 ==== NamedAttributeNode Annotation [[named-attribute-node]]
 
-The `@NamedAttributeNode` annotation is used to declare an attribute node
-of an entity graph or subgraph.
+The `@NamedAttributeNode` annotation declares an attribute node of an
+entity graph or subgraph.
 
 The `value` element specifies the name of the attribute represented by
 the node.
@@ -592,8 +596,8 @@ statement that returns a row count.
 
 ==== NamedStoredProcedureQuery Annotation [[a13759]]
 
-The `@NamedStoredProcedureQuery` annotation is used to declare a named
-stored procedure, its parameters, and its result type.
+The `@NamedStoredProcedureQuery` annotation declares a named stored
+procedure, its parameters, and its result type.
 
 - The `name` element is the name that is passed as an argument to the
   `createNamedStoredProcedureQuery()` method to create an executable
@@ -686,8 +690,8 @@ element is specified, any result set will be returned as a list of type
 
 === Annotations for SQL Result Set Mappings [[a13797]]
 
-The `@SqlResultSetMapping` annotation is used to specify the mapping of
-the result set of a native SQL query or stored procedure.
+The `@SqlResultSetMapping` annotation specifies a mapping of the result
+set of a native SQL query or stored procedure.
 
 [source,java]
 ----
@@ -723,12 +727,12 @@ public @interface EntityResult {
 - The `lockMode` element specifies the `LockModeType` obtained when the
   native SQL query is executed.
 
-- The `fields` element is used to map the columns specified in the SELECT
+- The `fields` element is maps the columns specified in the `SELECT`
   list of the query to the properties or fields of the entity class.
 
 - The `discriminatorColumn` element specifies the column name or alias
-  of the column in the SELECT list that is used to determine the type of
-  the entity instance.
+  of the column in the `SELECT` list that determines the type of the
+  entity instance.
 
 ==== FieldResult Annotation
 
@@ -746,7 +750,7 @@ public @interface FieldResult {
   the class.
 
 - The `column` element specifies the name of the corresponding column in
-  the SELECT list—i.e., column alias, if applicable.
+  the `SELECT` list, that is, a column alias, if applicable.
 
 ==== ConstructorResult Annotation
 
@@ -871,11 +875,10 @@ public @interface PersistenceProperty {
 }
 ----
 
-The `@PersistenceContexts` annotation declares
-one or more `@PersistenceContext` annotations. It is used to express a
-dependency on multiple persistence contextsfootnote:[A dependency on
-multiple persistence contexts may be needed, for example, when multiple
-persistence units are used.].
+The `@PersistenceContexts` annotation declares one or more
+`@PersistenceContext` annotations. It expresses a dependency on multiple
+persistence contextsfootnote:[Multiple persistence contexts may be needed,
+for example, when multiple persistence units are used.].
 
 [source,java]
 ----
@@ -888,8 +891,8 @@ public @interface PersistenceContexts {
 
 ==== PersistenceAgent Annotation
 
-The `@PersistenceAgent` annotation is used to express a dependency on
-an entity agent.
+The `@PersistenceAgent` annotation is expresses a dependency on an
+entity agent.
 
 The `name` element refers to the name by
 which the entity agent is to be accessed in the environment
@@ -922,9 +925,9 @@ public @interface PersistenceAgent {
 }
 ----
 
-The `@PersistenceAgents` annotation declares
-one or more `@PersistenceAgent` annotations. It is used to express a
-dependency on multiple entity agents.
+The `@PersistenceAgents` annotation declares one or more
+`@PersistenceAgent` annotations. It expresses a dependency on multiple
+entity agents.
 
 [source,java]
 ----
@@ -966,10 +969,10 @@ public @interface PersistenceUnit {
 }
 ----
 
-The `@PersistenceUnits` annotation declares
-one or more `@PersistenceUnit` annotations. It is used to express a
-dependency on multiple persistence unitsfootnote:[Multiple persistence
-units may be needed, for example, when mapping to multiple databases.].
+The `@PersistenceUnits` annotation declares one or more
+`@PersistenceUnit` annotations. It expresses a dependency on multiple
+persistence unitsfootnote:[Multiple persistence units may be needed,
+for example, when mapping to multiple databases.].
 
 [source,java]
 ----
