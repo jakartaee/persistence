@@ -61,11 +61,11 @@ public @interface NamedAttributeNode {
      * {@link NamedSubgraph#type type} element; in the case of
      * {@code @NamedEntityGraph}, it is the annotated entity type.
      * <p>
-     * If this node represents a {@link ManyToOne} or {@link OneToOne}
-     * association, and the associated entity type has entity subclasses,
-     * there might be more than one {@code @NamedSubgraph} annotation
-     * with the specified name. In this case, every matching subgraph is
-     * considered to be rooted at this node.
+     * If the root type of the specified subgraph is an entity type with
+     * entity subclasses, there might be more than one
+     * {@code @NamedSubgraph} annotation with the specified name. In this
+     * case, every such matching subgraph is considered to be rooted at
+     * this node.
      */
     String subgraph() default "";
 

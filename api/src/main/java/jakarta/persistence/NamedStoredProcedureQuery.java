@@ -60,9 +60,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * result set is returned as a list of type {@code Object[]}.
  *
  * <p>The {@link #hints} element may be used to specify query properties
- * and hints. Hints defined by this specification should be observed by
- * the provider when possible. Vendor-specific hints that are not
- * recognized by a provider must be ignored.
+ * and hints. Properties defined by this specification must be observed by
+ * the provider; hints defined by this specification should be observed by
+ * the provider when possible. Vendor-specific hints that are not recognized
+ * by a provider must be ignored.
  *
  * <p>Every parameter of a named stored procedure query must be declared
  * using the {@code @StoredProcedureParameter} annotation.
@@ -158,9 +159,10 @@ public @interface NamedStoredProcedureQuery {
 
     /**
      * Query properties and hints.
-     * <p>Hints defined by this specification should be observed by the
-     * provider when possible. Vendor-specific hints that are not recognized
-     * by a provider must be ignored.
+     * <p>Properties defined by this specification must be observed by the
+     * provider; hints defined by this specification should be observed by
+     * the provider when possible. Vendor-specific hints that are not
+     * recognized by a provider must be ignored.
      */
     QueryHint[] hints() default {};
 
