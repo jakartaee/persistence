@@ -25,9 +25,10 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Declares multiple native SQL named queries. Query names are
- * scoped to the persistence unit. The {@code NamedNativeQueries}
- * annotation can be applied to an entity or mapped superclass.
+ * Declares multiple named native SQL {@linkplain TypedQuery queries}.
+ * Query names are scoped to the persistence unit. This annotation may
+ * be applied to any class or interface belonging to the persistence unit,
+ * or to a package or module descriptor belonging to the persistence unit.
  *
  * @see NamedNativeQuery
  *
