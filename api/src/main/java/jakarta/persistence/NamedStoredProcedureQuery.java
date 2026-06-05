@@ -31,19 +31,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Declares and names a stored procedure, its parameters, and its result type.
  *
  * <p> This annotation may be applied to any class or interface belonging to
- * the persistence unit, including to a package or module descriptor.
+ * the persistence unit, or to a package or module descriptor belonging to the
+ * persistence unit.
  *
- * <p>The {@link #name} element is the name that is passed as an argument
- * to the {@link EntityHandler#createNamedStoredProcedureQuery} method to
- * create an executable {@link StoredProcedureQuery} object. Names are
- * scoped to the persistence unit.
+ * <p>The {@link #name} element is the name that is passed as an argument to
+ * the {@link EntityHandler#createNamedStoredProcedureQuery} method to create
+ * an executable {@link StoredProcedureQuery} object. Names are scoped to the
+ * persistence unit.
  *
  * <p>The {@link #procedureName} element is the name of the stored procedure
  * in the database.
  *
  * <p>The parameters of the stored procedure are specified by the
- * {@link #parameters} element. Parameters must be specified in the order
- * in which they occur in the parameter list of the stored procedure.
+ * {@link #parameters} element. Parameters must be specified in the order in
+ * which they occur in the parameter list of the stored procedure.
  *
  * <p>The {@link #resultClasses} element specifies the class (or classes)
  * that are used to map the results. The {@link #resultSetMappings} element

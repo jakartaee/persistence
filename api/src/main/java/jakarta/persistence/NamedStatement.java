@@ -31,8 +31,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@code DELETE} query.
  *
  * <p> This annotation may be applied to any class or interface
- * belonging to the persistence unit, including to a package or
- * module descriptor.
+ * belonging to the persistence unit, or to a package or module
+ * descriptor belonging to the persistence unit.
  * {@snippet :
  * @NamedStatement(name = "deleteNamedCustomers",
  *             statement = "delete from Customer c where c.name like :custName")

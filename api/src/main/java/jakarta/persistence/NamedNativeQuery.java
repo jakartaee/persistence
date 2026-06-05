@@ -82,8 +82,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  *
  * <p> This annotation may be applied to any class or interface
- * belonging to the persistence unit, including to a package or
- * module descriptor.
+ * belonging to the persistence unit, or to a package or module
+ * descriptor belonging to the persistence unit.
  *
  * @apiNote A named native SQL statement which returns a row count
  *          is usually declared using {@link NamedNativeStatement}.

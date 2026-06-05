@@ -27,7 +27,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Declares multiple named native SQL {@linkplain Statement statements}.
  * Query names are scoped to the persistence unit. This annotation may
  * be applied to any class or interface belonging to the persistence unit,
- * or to a package or module descriptor.
+ * or to a package or module descriptor belonging to the persistence unit.
  *
  * @since 4.0
  */
