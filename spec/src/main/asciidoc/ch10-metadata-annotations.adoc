@@ -1208,3 +1208,44 @@ public @interface QueryOptions {
     QueryFlushMode flush() default QueryFlushMode.DEFAULT;
 }
 ----
+
+`cacheStoreMode` :: the cache store mode to use. The presence of this
+  annotation overrides the default cache store mode of the persistence
+  context. This option applies when the query is a JPQL `select` query
+  or a native query that returns a result set.
+
+`cacheRetrieveMode` :: the cache retrieve mode to use. The presence of
+  this annotation overrides the default cache retrieve mode of the
+  persistence context. This option applies when the query is a JPQL
+  `select` query or a native query that returns a result set.
+
+`timeout` :: the query timeout, in milliseconds. By default, there is
+  no timeout.
+
+`hints` :: query properties and hints. Hints defined by this
+  specification should be observed by the provider when possible.
+  Vendor-specific hints that are not recognized by a provider must be
+  ignored.
+
+`lockMode` :: the lock mode type to use in query execution. If a
+  `lockMode` other than `LockModeType.NONE` is specified, the query
+  must be executed in a transaction, and the persistence context must
+  be joined to the transaction. If a lock mode is explicitly specified
+  for a native query, the behavior is undefined and unportable between
+  persistence providers. This option applies when the query is a JPQL
+  `select` query or a native query that returns a result set.
+
+`lockScope` :: the pessimistic lock scope to use in query execution if
+  a pessimistic lock mode is specified via `lockMode`. This option
+  applies when the query is a JPQL `select` query or a native query
+  that returns a result set.
+
+`entityGraph` :: the name of a `@NamedEntityGraph` applied to the
+  entity returned by the query. By default, no entity graph is applied.
+  The named entity graph must be compatible with the entity type
+  returned by the query. If the result type of the query is not an
+  entity type, the behavior is undefined. The entity graph is
+  interpreted as a load graph. This option applies when the query is a
+  JPQL `select` query.
+
+`flush` :: the query flush mode to use when executing the query.
