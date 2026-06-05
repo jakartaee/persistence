@@ -123,7 +123,7 @@ public class MySessionBean implements MyInterface {
 }
 ----
 
-==== Obtaining an Entity Agent in the Jakarta EE Environment
+==== Obtaining an Entity Agent in the Jakarta EE Environment [[a11465]]
 
 A container-managed entity agent is obtained by the application through
 dependency injection or through direct lookup of the entity agent in the

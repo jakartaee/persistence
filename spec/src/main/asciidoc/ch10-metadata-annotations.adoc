@@ -18,14 +18,6 @@ The following annotations are declared in the packages
 The `@Entity` annotation declares that the annotated class is an entity,
 as defined in <<a18>>.
 
-The `name` annotation element specifies the entity name. If the `name`
-element is not specified, the entity name defaults to the unqualified
-name of the entity class. This name is used to refer to the entity in
-queries, as specified in <<naming>>. The name must be a legal Java
-identifier and must not be a reserved identifier in the Jakarta
-Persistence query language.
-
-
 [source,java]
 ----
 @Documented
@@ -36,12 +28,18 @@ public @interface Entity {
 }
 ----
 
+`name` :: specifies the entity name. If the `name` is not specified,
+  the entity name defaults to the unqualified name of the entity class.
+  This name is used to refer to the entity in queries, as specified in
+  <<naming>>. The name must be a legal Java identifier and must not be
+  a reserved identifier in the Jakarta Persistence query language.
+
 === Entity Listeners and Callback Annotations
 
 The following annotations are used to declare entity listeners
 and callback methods, as specified in <<a2153>>.
 
-==== `EntityListener` and `EntityListeners`
+==== `EntityListener` Annotation
 
 The `@EntityListener` annotation declares an entity listener class
 and determines the entity classes to which it applies. The entity
@@ -59,6 +57,8 @@ listener applies.
 public @interface EntityListener {
 }
 ----
+
+==== `EntityListeners` Annotation
 
 Alternatively, the `@EntityListeners` annotation specifies the
 entity listener classes associated with the annotated class,
@@ -193,60 +193,12 @@ and entities fetched when an operation which retrieves an instance or
 instances of the root entity is executed.
 
 The nodes and subgraphs of a named entity graph defined using annotations
-may be specified by nesting `@NamedAttributeNode` and `@NamedSubgraph`
-annotations within the `@NamedEntityGraph` annotation, by annotating
-persistent attributes with `@Fetch`, or by mixing these two approaches.
+may be specified by:
 
-A well-defined entity graph is a tree. The application is responsible
-for ensuring that every named entity graph is acyclic. If a named entity
-graph contains a cycle, the behavior is undefined. A provider may reject
-the graph at runtime; it may reject it when the persistence unit is
-initialized; or it may transform the graph into an acyclic graph according
-to some vendor-specific algorithm. Portable applications must avoid relying
-on such behavior.
-
-- The `name` element assigns a name to the entity graph, and is used to
-  identify the entity graph in calls to `EntityHandler.getEntityGraph()`.
-  If no name is explicitly specified, the name defaults to the entity name
-  of the annotated root entity. Entity graph names must be unique within the
-  persistence unit, unless two `@NamedEntityGraph` annotations declare the
-  same name and one is a subgraph of the other, as specified by `@Fetch`
-  annotations belonging to the named graph.
-
-- The `attributeNodes` element specifies a list of attributes of the root
-  entity that are included as attribute nodes in the entity graph. Each
-  attribute is declared via a `@NamedAttributeNode` annotation. Optionally,
-  a node may specify the name of a `subgraph` or `keySubgraph` rooted at
-  the node, as specified below in <<named-attribute-node>>.
-
-- The `includeAllAttributes` element specifies that every attribute of the
-  annotated entity class is included in the entity graph.footnote:[Even when
-  every attribute is included in the graph, the `attributeNode` element might
-  still be useful to specify a subgraph rooted at an attribute.]
-
-- The `subgraphs` element specifies a list of named subgraphs of the named
-  entity graph. Each subgraph is declared via a `@NamedSubgraph` annotation.
-  A subgraph must be referenced by name from a `subgraph` or `keySubgraph`
-  element of a `@NamedAttributeNode` annotation of the graph. A subgraph
-  may declare its own attribute nodes via nested `@NamedAttributeNode`
-  annotations, as specified below in <<named-subgraph>>.
-
-- The `subclassSubgraphs` element specifies a list of subgraphs representing
-  subclasses of the root entity of the graph. Each `@NamedSubgraph` must
-  specify a `type` which is a subclass of the annotated root entity of the
-  graph, and may declare additional attribute nodes representing attributes
-  belonging to that subclass.
-
-The `@NamedEntityGraphs` annotation may be used to declare multiple named
-entity graphs for the annotated entity.
-
-As an alternative to nesting `@NamedAttributeNode` and `@NamedSubgraph`
-annotations within `@NamedEntityGraph`, the `@Fetch` annotation defined
-below in <<fetch>> may be applied to a persistent attribute of an entity
-class. When its `graph` member names a named entity graph, the annotated
-attribute is included as an attribute node of that graph. Its `subgraph`
-member names one or more entity graphs to be attached as subgraphs to the
-attribute node.
+- nesting `@NamedAttributeNode` and `@NamedSubgraph` annotations within
+  the `@NamedEntityGraph` annotation,
+- by annotating persistent attributes with `@Fetch`, or
+- by mixing these two approaches.
 
 [source,java]
 ----
@@ -260,7 +212,61 @@ public @interface NamedEntityGraph {
     NamedSubgraph[] subgraphs() default {};
     NamedSubgraph[] subclassSubgraphs() default {};
 }
+----
 
+`name` :: assigns a name to the entity graph, and is used to identify the
+  entity graph in calls to `EntityHandler.getEntityGraph()`. If no name is
+  explicitly specified, the name defaults to the entity name of the
+  annotated root entity. Entity graph names must be unique within the
+  persistence unit, unless two `@NamedEntityGraph` annotations declare the
+  same name and one is a subgraph of the other, as specified by `@Fetch`
+  annotations belonging to the named graph.
+
+`attributeNodes` :: a list of attributes of the root entity that are
+  included as attribute nodes in the entity graph. Each attribute is
+  declared via a `@NamedAttributeNode` annotation. Optionally, a node may
+  specify the name of a `subgraph` or `keySubgraph` rooted at the node, as
+  specified below in <<named-attribute-node>>.
+
+`includeAllAttributes` :: specifies that every attribute of the annotated
+  entity class is included in the entity graph.footnote:[Even when every
+  attribute is included in the graph, the `attributeNode` element might
+  still be useful to specify a subgraph rooted at an attribute.]
+
+`subgraphs` :: a list of named subgraphs of the named entity graph. Each
+  subgraph is declared via a `@NamedSubgraph` annotation. A subgraph must
+  be referenced by name from a `subgraph` or `keySubgraph` element of a
+  `@NamedAttributeNode` annotation of the graph. A subgraph may declare
+  its own attribute nodes via nested `@NamedAttributeNode` annotations,
+  as specified below in <<named-subgraph>>.
+
+`subclassSubgraphs` :: a list of subgraphs representing subclasses of the
+  root entity of the graph. Each `@NamedSubgraph` must specify a `type`
+  which is a subclass of the annotated root entity of the graph, and may
+  declare additional attribute nodes representing attributes belonging to
+  that subclass.
+
+As an alternative to nesting `@NamedAttributeNode` and `@NamedSubgraph`
+annotations within `@NamedEntityGraph`, the `@Fetch` annotation defined
+below in <<fetch>> may be applied to a persistent attribute of an entity
+class. When its `graph` member names a named entity graph, the annotated
+attribute is included as an attribute node of that graph. Its `subgraph`
+member names one or more entity graphs to be attached as subgraphs to the
+attribute node.
+
+A well-defined entity graph is a tree. The application is responsible
+for ensuring that every named entity graph is acyclic. If a named entity
+graph contains a cycle, the behavior is undefined. A provider may reject
+the graph at runtime; it may reject it when the persistence unit is
+initialized; or it may transform the graph into an acyclic graph according
+to some vendor-specific algorithm. Portable applications must avoid relying
+on such behavior.
+
+The `@NamedEntityGraphs` annotation may be used to declare multiple named
+entity graphs for the annotated entity.
+
+[source,java]
+----
 @Target({TYPE})
 @Retention(RUNTIME)
 public @interface NamedEntityGraphs {
@@ -273,8 +279,27 @@ public @interface NamedEntityGraphs {
 The `@NamedAttributeNode` annotation declares an attribute node of an
 entity graph or subgraph.
 
-The `value` element specifies the name of the attribute represented by
-the node.
+[source,java]
+----
+@Target({})
+@Retention(RUNTIME)
+public @interface NamedAttributeNode {
+    String value();
+    String subgraph() default "";
+    String keySubgraph() default "";
+}
+----
+
+`value` :: specifies the name of the attribute represented by the node.
+
+`subgraph` :: declares a subgraph rooted at the attribute node. If the
+  attribute represented by the node is a collection, the subgraph
+  represents the elements of the collection, or, in the case of a `Map`,
+  the values of the map.
+
+`keySubgraph` :: may only be used when an attribute node represents an
+  attribute of type `Map`. It declares a subgraph representing the key
+  of the map.
 
 Optionally, a node may specify the name of a `subgraph` or `keySubgraph`
 rooted at the node. A subgraph name must resolve to:
@@ -294,48 +319,11 @@ and the associated entity type has entity subclasses, there might be more
 than one `@NamedSubgraph` annotation with the specified name. In this case,
 every matching subgraph is considered to be rooted at the node.
 
-The `keySubgraph` element may only be used when an attribute node represents
-an attribute of type `Map`. It declares a subgraph rooted at the key of the
-map.
-
-[source,java]
-----
-@Target({})
-@Retention(RUNTIME)
-public @interface NamedAttributeNode {
-    String value();
-    String subgraph() default "";
-    String keySubgraph() default "";
-}
-----
-
 ==== NamedSubgraph Annotation [[named-subgraph]]
 
 The `@NamedSubgraph` annotation declares a named subgraph of a
 `@NamedEntityGraph` representing an associated or embedded entity or
 embeddable type.
-
-The name of the subgraph is scoped to the containing named entity graph.
-If two subgraphs belonging to a given named entity graph have the same
-name, the types represented by the subgraphs must belong to the same
-entity inheritance hierarchy, as defined in <<a765>>.
-
-- The `name` element specifies the name of the subgraph. A subgraph must
-  be referenced by name from a `subgraph` or `keySubgraph` element of a
-  `@NamedAttributeNode` annotation of the graph.
-
-- The `type` element specifies the entity or embeddable type represented
-  by the subgraph. It defaults to the declared type of the attribute
-  represented by the referencing attribute node. It must be explicitly
-  specified when the subgraph represents an entity subclass of the entity
-  type of the attribute.
-
-- The `attributeNodes` element specifies a list of attributes of the
-  entity or embedded type represented by the subgraph that are included
-  as attribute nodes in the entity graph. Each attribute is declared via
-  a `@NamedAttributeNode` annotation. If the subgraph represents an
-  entity subclass of the entity type of the attribute, only attributes
-  declared by the subclass may be included in the list.
 
 [source,java]
 ----
@@ -348,22 +336,32 @@ public @interface NamedSubgraph {
 }
 ----
 
+`name` :: the name of the subgraph. A subgraph must be referenced by name
+  from a `subgraph` or `keySubgraph` element of a `@NamedAttributeNode`
+  annotation of the graph.
+
+`type` :: the entity or embeddable type represented by the subgraph,
+  which defaults to the declared type of the attribute represented by
+  the referencing attribute node. The `type` must be explicitly specified
+  when the subgraph represents an entity subclass of the entity type of
+  the attribute.
+
+`attributeNodes` :: a list of attributes of the entity or embedded type
+  represented by the subgraph that are included as attribute nodes in the
+  entity graph. Each attribute is declared via a `@NamedAttributeNode`
+  annotation. If the subgraph represents an entity subclass of the entity
+  type of the attribute, only attributes declared by the subclass may be
+  included in the list.
+
+The name of the subgraph is scoped to the containing named entity graph.
+If two subgraphs belonging to a given named entity graph have the same
+name, the types represented by the subgraphs must belong to the same
+entity inheritance hierarchy, as defined in <<a765>>.
+
 ==== Fetch Annotation [[fetch]]
 
 The `@Fetch` annotation specifies options which influence how a persistent
 attribute is fetched.
-
-- When the `graph` member specifies the name of a named entity graph, the
-  annotated attribute is an attribute node of the named graph, and the
-  fetching options specified by the annotation apply when the attribute is
-  fetched using that entity graph.
-
-- When the `graph` member is not specified, the annotation does not declare
-  an attribute node of an entity graph. The fetching options specified by
-  the annotation apply when the attribute is fetched without the use of an
-  entity graph.
-
-Multiple `@Fetch` annotations may be specified for a persistent attribute.
 
 [source,java]
 ----
@@ -381,33 +379,47 @@ public @interface Fetch {
 }
 ----
 
-- The `graph` member specifies the name of an entity graph. When a graph
-  name is specified, the annotated attribute is an attribute node of that
-  graph. Otherwise, the annotation specifies fetching options which apply
-  when the attribute is fetched without the use of an entity graph.
+`graph` :: specifies the name of an entity graph. When a graph name is
+  specified, the annotated attribute is an attribute node of that graph.
+  Otherwise, the annotation specifies fetching options which apply when
+  the attribute is fetched without the use of an entity graph.
 
-- The `subgraph` member specifies the names of one or more named entity
-  graphs to be attached as subgraphs of the entity graph named by the
-  `graph` member, to the attribute node representing the annotated
-  association. The annotated attribute must be an association.
+`subgraph` :: specifies the names of one or more named entity graphs to
+  be attached as subgraphs of the entity graph named by the `graph`
+  member, to the attribute node representing the annotated  association.
+  The annotated attribute must be an association.
 
-- The `type` member specifies the fetching policy for the annotated
-  attribute. It overrides the value specified by the `fetch` member of the
+`type` :: specifies the fetching policy for the annotated attribute,
+  overriding any value specified by the `fetch` member of the
   `Basic`, `OneToOne`, `ManyToOne`, `OneToMany`, `ManyToMany`, or
   `ElementCollection` annotation.
 
-- The `batchSize` member is a hint specifying how many entities should be
-  fetched in each request to the database. The persistence provider may
-  ignore this hint.
+`batchSize` :: a hint specifying how many entities should be fetched
+  in each request to the database. The persistence provider may ignore
+  this hint.
 
-- The `cacheStoreMode` member specifies whether the persistence provider
-  should cache the associated entity after fetching it from the database.
+`cacheStoreMode` :: determines whether the persistence provider should
+  cache the associated entity after fetching it from the database.
 
-- The `cacheRetrieveMode` member specifies whether the persistence provider
-  is permitted to read the associated entity data from the cache.
+`cacheRetrieveMode` :: determines whether the persistence provider is
+  permitted to read the associated entity data from the cache.
 
-- The `hints` member specifies vendor-specific fetching hints. Any hint not
+`hints` :: specifies vendor-specific fetching hints. Any hint not
   recognized by a provider is ignored.
+
+The `@Fetch` annotation may be used with or without a named entity graph.
+
+- When the `graph` member specifies the name of a named entity graph, the
+  annotated attribute is an attribute node of the named graph, and the
+  fetching options specified by the annotation apply when the attribute is
+  fetched using that entity graph.
+
+- When the `graph` member is not specified, the annotation does not declare
+  an attribute node of an entity graph. The fetching options specified by
+  the annotation apply when the attribute is fetched without the use of an
+  entity graph.
+
+Multiple `@Fetch` annotations may be specified for a persistent attribute.
 
 === Annotations for Named Queries [[a13710]]
 
@@ -422,32 +434,53 @@ module descriptor.
 The `@NamedQuery` annotation declares a named query written in the Jakarta
 Persistence query language.
 
-- The `name` element assigns a name to the query, which is used to identify
-  the query in calls to `EntityHandler.createNamedQuery()`.
+[source,java]
+----
+@Repeatable(NamedQueries.class)
+@Target({TYPE, PACKAGE, MODULE})
+@Retention(RUNTIME)
+@Discoverable
+public @interface NamedQuery {
+    String name();
+    String query();
+    Class<?> resultClass() default void.class;
+    LockModeType lockMode() default LockModeType.NONE;
+    PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
+    QueryHint[] hints() default {};
+    String entityGraph() default "";
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
+}
+----
 
-- The `query` element must specify the query string itself, written in the
-  Jakarta Persistence query language. It should be a legal JPQL `select`
-  query. For the backward compatibility, it is permitted to be an `update`
-  or `delete` statement.
+`name` :: assigns a name to the query, which is used to identify the
+  query in calls to `EntityHandler.createNamedQuery()`.
 
-- The `resultClass` element specifies the Java class of each query result.
+`query` :: must specify the query string itself, written in the Jakarta
+  Persistence query language. It should be a legal JPQL `select` query.
+  For the backward compatibility, it is permitted to be an `update` or
+  `delete` statement.
 
-- The `lockMode` element specifies a lock mode for the entity instances in
-  results returned by the query. If a lock mode other than `NONE` is
-  specified, the query may only be executed within a persistence context
-  with an associated active transaction. The `lockScope` element specifies
-  the corresponding scope for a pessimistic lock.
+`resultClass` :: specifies the Java class of each query result.
 
-- The `hints` element may be used to specify query properties and hints.
-  Properties defined by this specification must be observed by the provider;
-  hints defined by this specification should be observed by the provider
-  when possible. Vendor-specific hints that are not recognized by a provider
-  must be ignored.
+`lockMode` :: specifies a lock mode for the entity instances in results
+  returned by the query. If a lock mode other than `NONE` is specified,
+  the query may only be executed within a persistence context with an
+  associated active transaction.
 
-- The `entityGraph` element may specify the name of a named entity graph
-  interpreted as a load graph and applied to the entity returned by the
-  query. The named `EntityGraph` may be overridden by calling
+`lockScope` :: specifies the corresponding scope for a pessimistic lock.
+
+`hints` :: specifies query properties and hints. Properties defined by
+  this specification must be observed by the provider; hints defined by
+  this specification should be observed by the provider when possible.
+  Vendor-specific hints that are not recognized by a provider must be
+  ignored.
+
+`entityGraph` :: may specify the name of a named entity graph interpreted
+  as a load graph and applied to the entity returned by the query. The
+  named `EntityGraph` may be overridden by calling
   `StatementOrTypedQuery.withEntityGraph()`.
+
+`flush` :: controls the query flush mode defined in <<a4374>>.
 
 When the result class is explicitly specified, either:
 
@@ -477,58 +510,95 @@ the select list.
 The result class may be overridden by explicitly passing a class object
 to `EntityManager.createNamedQuery(String, Class)`.
 
-[source,java]
-----
-include::../../../../api/src/main/java/jakarta/persistence/NamedQuery.java[lines=31..-1]
-----
-
-[source,java]
-----
-
-@Target({})
-@Retention(RUNTIME)
-public @interface QueryHint {
-    String name();
-    String value();
-}
-----
+// [source,java]
+// ----
+//
+// @Target({})
+// @Retention(RUNTIME)
+// public @interface QueryHint {
+//     String name();
+//     String value();
+// }
+// ----
 
 ==== NamedStatement Annotation
 
 The `@NamedStatement` annotation declares a named statement written in
 the Jakarta Persistence query language.
 
-- The `name` element assigns a name to the statement, which is used to
-  identify the statement in calls to `EntityHandler.createNamedStatement()`.
+[source,java]
+----
+@Repeatable(NamedStatements.class)
+@Target({TYPE, PACKAGE, MODULE})
+@Retention(RUNTIME)
+@Discoverable
+public @interface NamedStatement {
+	String name();
+	String statement();
+	QueryHint[] hints() default {};
+}
+----
 
-- The `statement` element must specify the statement string itself,
-  written in the Jakarta Persistence query language. It must be a legal
-  JPQL `update` or `delete` statement.
+`name` :: assigns a name to the statement, which is used to identify
+  the statement in calls to `EntityHandler.createNamedStatement()`.
 
-- The `hints` element may be used to specify query properties and hints.
-  Properties defined by this specification must be observed by the provider;
-  hints defined by this specification should be observed by the provider
-  when possible. Vendor-specific hints that are not recognized by a provider
-  must be ignored.
+`statement` :: must specify the statement string itself, written in the
+  Jakarta Persistence query language. It must be a legal JPQL `update`
+  or `delete` statement.
+
+`hints` :: specifies query properties and hints. Properties defined by
+  this specification must be observed by the provider; hints defined by
+  this specification should be observed by the provider when possible.
+  Vendor-specific hints that are not recognized by a provider must be
+  ignored.
 
 ==== NamedNativeQuery Annotation
 
 The `@NamedNativeQuery` annotation declares a named native SQL query.
 
-- The `name` element assigns a name to the query, which is used to
-  identify the query in calls to `EntityHandler.createNamedQuery()`.
+[source,java]
+----
+@Repeatable(NamedNativeQueries.class)
+@Target({TYPE, PACKAGE, MODULE})
+@Retention(RUNTIME)
+@Discoverable
+public @interface NamedNativeQuery {
+    String name();
+    String query();
+    Class<?> resultClass() default void.class;
+    String resultSetMapping() default "";
+    EntityResult[] entities() default {};
+    ConstructorResult[] classes() default {};
+    ColumnResult[] columns() default {};
+    QueryHint[] hints() default {};
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
+}
+----
 
-- The `query` element must specify the query string itself, written
-  in the native SQL dialect of the database. The query should return
-  a result set. For backward compatibility it is permitted to be a
-  statement which returns a row count.
+`name` :: assigns a name to the query, which is used to identify the
+  query in calls to `EntityHandler.createNamedQuery()`.
 
-- The `resultClass` element specifies the class of each query result.
+`query` :: must specify the query string itself, written in the native
+  SQL dialect of the database. The query should return a result set.
+  For backward compatibility it is permitted to be a statement which
+  returns a row count.
 
-- The `hints` element may be used to specify query properties and hints.
-  Hints defined by this specification should be observed by the provider
-  when possible. Vendor-specific hints which are not recognized by the
-  provider must be ignored.
+`resultClass` :: specifies the class of each query result.
+
+`resultSetMapping` :: specifies the name of a `@SqlResultSetMapping`
+  specification declared elsewhere in metadata, as defined below in
+  <<a13797>>.
+
+`entities`, `classes`, `columns` :: define a result set mapping.
+  These elements may not be used in conjunction with `resultSetMapping`.
+
+`hints` :: specifies query properties and hints. Properties defined by
+  this specification must be observed by the provider; hints defined by
+  this specification should be observed by the provider when possible.
+  Vendor-specific hints which are not recognized by a provider must be
+  ignored.
+
+`flush` :: controls the query flush mode defined in <<a4374>>.
 
 When the result class is explicitly specified and the result set
 mapping is not, either:
@@ -566,99 +636,77 @@ defined by the JDBC specification.
 The result class may be overridden by explicitly passing a class
 object to `EntityHandler.createNamedQuery(String, Class)`.
 
-The `resultSetMapping` element specifies the name of a `SqlResultSetMapping`
-specification defined elsewhere in metadata. The named `SqlResultSetMapping`
-is used to interpret the result set of the native SQL query. Alternatively,
-the elements `entities`, `classes`, and `columns` may be used to specify a
-result set mapping. These elements may not be used in conjunction with
-`resultSetMapping`.
-
-[source,java]
-----
-include::../../../../api/src/main/java/jakarta/persistence/NamedNativeQuery.java[lines=31..-1]
-----
-
 ==== NamedNativeStatement Annotation
 
 The `@NamedNativeStatement` annotation declares a named native SQL
 statement that returns a row count.
 
-- The `name` element assigns a name to the statement, which is used to
-  identify the statement in calls to `EntityHandler.createNamedStatement()`.
+[source,java]
+----
+@Repeatable(NamedNativeStatements.class)
+@Target(TYPE)
+@Retention(RUNTIME)
+public @interface NamedNativeStatement {
+	String name();
+	String statement();
+	QueryHint[] hints() default {};
+}
+----
 
-- The `statement` element must specify the statement string itself,
-  written in the native SQL dialect of the database.
+`name` :: assigns a name to the statement, which is used to identify
+  the statement in calls to `EntityHandler.createNamedStatement()`.
 
-- The `hints` element may be used to specify query properties and hints.
-  Hints defined by this specification should be observed by the provider
-  when possible. Vendor-specific hints which are not recognized by the
-  provider must be ignored.
+`statement` :: must specify the statement string itself, written in
+  the native SQL dialect of the database.
+
+`hints` :: specifies query properties and hints. Properties defined by
+  this specification must be observed by the provider; hints defined by
+  this specification should be observed by the provider when possible.
+  Vendor-specific hints which are not recognized by the provider must
+  be ignored.
 
 ==== NamedStoredProcedureQuery Annotation [[a13759]]
 
 The `@NamedStoredProcedureQuery` annotation declares a named stored
 procedure, its parameters, and its result type.
 
-- The `name` element is the name that is passed as an argument to the
+[source,java]
+----
+@Repeatable(NamedStoredProcedureQueries.class)
+@Target({TYPE, PACKAGE, MODULE})
+@Retention(RUNTIME)
+@Discoverable
+public @interface NamedStoredProcedureQuery {
+    String name();
+    String procedureName();
+    StoredProcedureParameter[] parameters() default {};
+    Class<?>[] resultClasses() default {};
+    String[] resultSetMappings() default {};
+    QueryHint[] hints() default {};
+}
+----
+
+`name` :: the name that is passed as an argument to the
   `createNamedStoredProcedureQuery()` method to create an executable
   `StoredProcedureQuery` object.
 
-- The `procedureName` element is the name of the stored procedure in
-  the database.
+`procedureName` :: the name of the stored procedure in the database.
 
-- The parameters of the stored procedure are specified by the
-  `parameters` element. Parameters must be specified in the order in
-   which they occur in the parameter list of the stored procedure.
+`parameters` :: the parameters of the stored procedure, in the order
+  in which they occur in the parameter list of the stored procedure.
 
-- The `resultClasses` element specifies the class (or classes) that
-  are used to map the results.
+`resultClasses` :: specifies the class (or classes) that represent
+  the results.
 
-- The `resultSetMappings` element names one or more result set mappings,
-  as defined by the `SqlResultSetMapping` annotation.
+`resultSetMappings` :: the names of one or more result set mappings
+  declared by `@SqlResultSetMapping` annotations, as defined below in
+  <<a13797>>.
 
-- The `hints` element may be used to specify query properties and hints.
-  Hints defined by this specification should be observed by the provider
-  when possible. Vendor-specific hints which are not recognized by the
-  provider must be ignored.
-
-[source,java]
-----
-include::../../../../api/src/main/java/jakarta/persistence/NamedStoredProcedureQuery.java[lines=30..-1]
-----
-
-Every parameter of a named stored procedure query must be declared using
-the `@StoredProcedureParameter` annotation:
-
-- The `name` element refers to the name of the parameter as defined by the
-  stored procedure in the database. If a parameter name is not specified,
-  it is assumed that the stored procedure uses positional parameters.
-
-- The `mode` element specifies whether the parameter is an IN, INOUT, OUT,
-  or REF_CURSOR parameter. REF_CURSOR parameters are used by some databases
-  to return result sets from stored procedures.
-
-- The `type` element determines the JDBC type of the parameter according to
-  the default type mappings defined by the JDBC specification.
-
-[source,java]
-----
-@Target({})
-@Retention(RUNTIME)
-public @interface StoredProcedureParameter {
-    String name() default "";
-    ParameterMode mode() default ParameterMode.IN;
-    Class<?> type();
-}
-----
-[source,java]
-----
-public enum ParameterMode {
-    IN,
-    INOUT,
-    OUT,
-    REF_CURSOR
-}
-----
+`hints` :: specifies query properties and hints. Properties defined by
+  this specification must be observed by the provider; hints defined by
+  this specification should be observed by the provider when possible.
+  Vendor-specific hints which are not recognized by a provider must be
+  ignored.
 
 When the result classes are explicitly specified and the result set
 mappings are not, either:
@@ -688,6 +736,40 @@ returns one or more result sets and no `resultClasses` or `resultSetMappings`
 element is specified, any result set will be returned as a list of type
 `Object[]`.
 
+Every parameter of a named stored procedure query must be declared using
+the `@StoredProcedureParameter` annotation.
+
+[source,java]
+----
+@Target({})
+@Retention(RUNTIME)
+public @interface StoredProcedureParameter {
+    String name() default "";
+    ParameterMode mode() default ParameterMode.IN;
+    Class<?> type();
+}
+----
+[source,java]
+----
+public enum ParameterMode {
+    IN,
+    INOUT,
+    OUT,
+    REF_CURSOR
+}
+----
+
+`name` :: the name of the parameter as defined by the stored procedure
+  in the database. If a `name` is not specified, it is assumed that the
+  stored procedure uses positional parameters.
+
+`mode` :: specifies whether the parameter is an `IN`, `INOUT`, `OUT`,
+  or `REF_CURSOR` parameter. `REF_CURSOR` parameters are used by some
+  databases to return result sets from stored procedures.
+
+`type` :: determines the JDBC type of the parameter according to the
+  default type mappings defined by the JDBC specification.
+
 === Annotations for SQL Result Set Mappings [[a13797]]
 
 The `@SqlResultSetMapping` annotation specifies a mapping of the result
@@ -695,16 +777,24 @@ set of a native SQL query or stored procedure.
 
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/SqlResultSetMapping.java[lines=30..-1]
+@Repeatable(SqlResultSetMappings.class)
+@Target({TYPE, METHOD})
+@Retention(RUNTIME)
+@Discoverable
+public @interface SqlResultSetMapping {
+    String name();
+    EntityResult[] entities() default {};
+    ConstructorResult[] classes() default {};
+    ColumnResult[] columns() default {};
+}
 ----
 
-- The `name` element is the name given to the result set mapping, and is
-  used to identify it when calling methods of the `EntityManager` which
-  create instances of `Query` and `StoredProcedureQuery`.
+`name` :: the name given to the result set mapping, which is used to
+  identify it when calling methods of the `EntityManager` which create
+  instances of `Query` and `StoredProcedureQuery`.
 
-- The `entities`, `classes`, and `columns` elements are used to specify
-  the mapping of result set columns to entities, to constructors, and to
-  scalar values, respectively.
+`entities`, `classes`, `columns` :: specify the mapping of the result set
+  columns to entities, to constructors, and to scalar values, respectively.
 
 ==== EntityResult Annotation
 
@@ -722,17 +812,17 @@ public @interface EntityResult {
 }
 ----
 
-- The `entityClass` element specifies the class of the result.
+`entityClass` :: specifies the class of the result.
 
-- The `lockMode` element specifies the `LockModeType` obtained when the
-  native SQL query is executed.
+`lockMode` :: specifies the `LockModeType` obtained when the native
+  SQL query is executed.
 
-- The `fields` element is maps the columns specified in the `SELECT`
-  list of the query to the properties or fields of the entity class.
+`fields` :: maps the columns specified in the `SELECT` list of the
+  query to the properties or fields of the entity class.
 
-- The `discriminatorColumn` element specifies the column name or alias
-  of the column in the `SELECT` list that determines the type of the
-  entity instance.
+`discriminatorColumn` :: specifies the column name or alias of the
+  column in the `SELECT` list that determines the type of the entity
+  instance.
 
 ==== FieldResult Annotation
 
@@ -746,11 +836,10 @@ public @interface FieldResult {
 }
 ----
 
-- The `name` element is the name of the persistent field or property of
-  the class.
+`name` :: the name of the persistent field or property of the class.
 
-- The `column` element specifies the name of the corresponding column in
-  the `SELECT` list, that is, a column alias, if applicable.
+`column` :: specifies the name of the corresponding column in the
+  `SELECT` list, that is, a column alias, if applicable.
 
 ==== ConstructorResult Annotation
 
@@ -767,11 +856,10 @@ public @interface ConstructorResult {
 }
 ----
 
-- The `targetClass` element specifies the class whose constructor is to
-  be invoked.
+`targetClass` :: specifies the class whose constructor is to be invoked.
 
-- The `columns` element specifies the mapping of columns in the `SELECT`
-  list to the arguments of the intended constructor.
+`columns` :: specifies the mapping of columns in the `SELECT` list to
+  the arguments of the intended constructor.
 
 ==== ColumnResult Annotation
 
@@ -787,17 +875,21 @@ public @interface ColumnResult {
 }
 ----
 
-- The `name` element specifies the name of the column in the `SELECT` list.
+`name` :: specifies the name of the column in the `SELECT` list.
 
-- The `type` element specifies the Java type to which the column type is
-  mapped. The specified type must be one of the basic types listed in
-  <<a486>>. If the `type` element is not specified, the default JDBC type
-  mapping for the column type is used.
+`type` :: specifies the Java type to which the column type is mapped.
+  The specified type must be one of the basic types listed in <<a486>>.
+  If the `type` element is not specified, the default JDBC type mapping
+  for the column type is used.
 
 === References to EntityManager, EntityAgent, and EntityManagerFactory
 
-These annotations are used to express dependencies on entity managers,
-entity agents, and entity manager factories.
+Each of the following annotations expresses a dependency on an entity
+manager, entity agent, or entity manager factory, making the object
+available in the environment referencing context of the annotated
+managed bean. When an annotation occurs on a field or method, it
+specifies that the dependency is injected by the Jakarta EE container,
+as defined in <<a11464>>, <<a11465>>, and <<a11463>>.
 
 ==== PersistenceContext Annotation
 
@@ -808,34 +900,6 @@ declares an injection point of type `EntityManager`. When the annotation
 occurs on a managed bean class, it assigns a name to the entity manager
 in the environment referencing context `java:comp/env` of the containing
 module.
-
-- The `name` element specifies the name at which the `EntityManager` is
-  accessed in the environment referencing context. If the  specified
-  name does not begin with `java`, then the prefix `java:comp/env` is
-  assumed. This member is not usually specified when `@PersistenceUnit`
-  annotates an injection point.
-
-- The optional `unitName` element references the name of the persistence
-  unit as defined in the `persistence.xml` file. This member is optional
-  if there is only one persistence unit defined by the containing module.
-
-- The `type` element specifies whether a transaction-scoped or extended
-  persistence context is required, as defined in <<persistence-context-types>>.
-  If the `type` element is not specified, a transaction-scoped persistence
-  context is assumed.
-
-- The `synchronizationType` element specifies whether the persistence
-  context is always automatically synchronized with the current transaction
-  or whether the persistence context must be explicitly joined to the current
-  transaction by means of the `joinTransaction()` method of `EntityManager`,
-  as defined in <<synchronization-type>>.
-
-- The optional `properties` element may be used to specify properties for
-  the container or persistence provider. Properties defined by this
-  specification must be observed by the provider. Vendor-specific properties
-  may be included in the set of properties and are passed to the persistence
-  provider by the container when the entity manager is created. Properties
-  that are not recognized by a vendor must be ignored.
 
 [source,java]
 ----
@@ -850,6 +914,34 @@ public @interface PersistenceContext {
     PersistenceProperty[] properties() default {};
 }
 ----
+
+`name` :: specifies the name at which the `EntityManager` is accessed in
+  the environment referencing context. If the specified name does not
+  begin with `java`, then the prefix `java:comp/env` is assumed. This
+  member is not usually specified when `@PersistenceUnit` annotates an
+  injection point.
+
+`unitName` :: references the name of the persistence unit as defined in
+  the `persistence.xml` file. This member is optional if there is only
+  one persistence unit defined by the containing module.
+
+`type` :: specifies whether a transaction-scoped or extended persistence
+  context is required, as defined in <<persistence-context-types>>. If
+  the `type` element is not specified, a transaction-scoped persistence
+  context is assumed.
+
+`synchronizationType` :: specifies whether the persistence context is
+  always automatically synchronized with the current transaction or
+  whether the persistence context must be explicitly joined to the current
+  transaction by calling the `joinTransaction()` method of `EntityManager`,
+  as defined in <<synchronization-type>>.
+
+`properties` :: specifies properties for the container or persistence provider.
+  Properties defined by this specification must be observed by the provider.
+  Vendor-specific properties may be included in the set of properties and are
+  passed to the persistence provider by the container when the entity manager
+  is created. Properties that are not recognized by a vendor must be ignored.
+
 [source,java]
 ----
 public enum PersistenceContextType {
@@ -865,15 +957,15 @@ public enum SynchronizationType {
     UNSYNCHRONIZED
 }
 ----
-[source,java]
-----
-@Target({})
-@Retention(RUNTIME)
-public @interface PersistenceProperty {
-    String name();
-    String value();
-}
-----
+// [source,java]
+// ----
+// @Target({})
+// @Retention(RUNTIME)
+// public @interface PersistenceProperty {
+//     String name();
+//     String value();
+// }
+// ----
 
 The `@PersistenceContexts` annotation declares one or more
 `@PersistenceContext` annotations. It expresses a dependency on multiple
@@ -894,25 +986,6 @@ public @interface PersistenceContexts {
 The `@PersistenceAgent` annotation is expresses a dependency on an
 entity agent.
 
-The `name` element refers to the name by
-which the entity agent is to be accessed in the environment
-referencing context and is not needed when dependency injection is
-used.
-
-The optional `unitName` element refers to the
-name of the persistence unit as defined in the `persistence.xml` file.
-If the `unitName` element is specified, the persistence unit for the
-entity manager factory that is accessible in JNDI must have the same
-name.
-
-The optional `properties` element may be used
-to specify properties for the container or persistence provider.
-Properties defined by this specification must be observed by the
-provider. Vendor-specific properties may be included in the set of
-properties and are passed to the persistence provider by the container
-when the entity agent is created. Properties that are not recognized
-by a vendor must be ignored.
-
 [source,java]
 ----
 @Target({TYPE, METHOD, FIELD})
@@ -924,6 +997,22 @@ public @interface PersistenceAgent {
     PersistenceProperty[] properties() default {};
 }
 ----
+
+`name` :: specifies the name at which the `EntityAgent` is accessed
+  the environment referencing context. If the specified name does not
+  begin with `java`, then the prefix `java:comp/env` is assumed. This
+  member is not usually specified when `@PersistenceAgent` annotates
+  an injection point.
+
+`unitName` :: references the name of the persistence unit as defined in
+  the `persistence.xml` file. This member is optional if there is only
+  one persistence unit defined by the containing module.
+
+`properties` :: specifies properties for the container or persistence provider.
+  Properties defined by this specification must be observed by the provider.
+  Vendor-specific properties may be included in the set of properties and are
+  passed to the persistence provider by the container when the entity manager
+  is created. Properties that are not recognized by a vendor must be ignored.
 
 The `@PersistenceAgents` annotation declares one or more
 `@PersistenceAgent` annotations. It expresses a dependency on multiple
@@ -948,16 +1037,6 @@ occurs on a managed bean class, it assigns a name to the entity manager
 factory in the environment referencing context `java:comp/env` of the
 containing module.
 
-The `name` element specifies the name at which the `EntityManagerFactory`
-is accessed in the environment referencing context. If the specified name
-does not begin with `java:`, then the prefix `java:comp/env` is assumed.
-This member is not usually specified when `@PersistenceUnit` annotates an
-injection point.
-
-The optional `unitName` element references the name of the persistence unit
-as defined in the `persistence.xml` file. This member is optional if there
-is only one persistence unit defined by the containing module.
-
 [source,java]
 ----
 @Target({TYPE, METHOD, FIELD})
@@ -968,6 +1047,16 @@ public @interface PersistenceUnit {
     String unitName() default "";
 }
 ----
+
+`name` :: specifies the name at which the `EntityManagerFactory` is
+  accessed in the environment referencing context. If the specified name
+  does not begin with `java:`, then the prefix `java:comp/env` is assumed.
+  This member is not usually specified when `@PersistenceUnit` annotates
+  an injection point.
+
+`unitName` :: references the name of the persistence unit as defined in
+  the `persistence.xml` file. This member is optional if there is only
+  one persistence unit defined by the containing module.
 
 The `@PersistenceUnits` annotation declares one or more
 `@PersistenceUnit` annotations. It expresses a dependency on multiple
@@ -1004,29 +1093,29 @@ public @interface Converter {
 If the `autoApply` element is specified as `true`, the persistence provider
 must automatically apply the converter to every mapped attribute of the
 specified target type belonging to any entity in the persistence unit, except
-for attributes for which conversion is overridden by means of the `Convert`
-annotation (or XML equivalent). The `Convert` annotation is described in
-<<a14398>>. The `Convert` annotation may be used to override or disable
+for attributes for which conversion is overridden by means of the `@Convert`
+annotation (or XML equivalent). The `@Convert` annotation is described in
+<<a14398>>. The `@Convert` annotation may be used to override or disable
 auto-apply conversion on a per-attribute basis.
 
-In determining whether a converter applies to an attribute, the provider
-must treat primitive types and wrapper types as equivalent.
+- In determining whether a converter applies to an attribute, the provider
+  must treat primitive types and wrapper types as equivalent.
 
-A converter never applies to id attributes, version attributes,
-relationship attributes, or to attributes explicitly annotated as
-`Enumerated` or `Temporal` (or designated as such via XML).
+- A converter never applies to id attributes, version attributes,
+  relationship attributes, or to attributes explicitly annotated as
+  `@Enumerated` or `@Temporal` (or designated as such via XML).
 
-A converter never applies to any attribute annotated
-`@Convert(disableConversion=true)` or to an attribute for which the
-`Convert` annotation explicitly specifies a different converter.
+- A converter never applies to any attribute annotated
+  `@Convert(disableConversion=true)` or to an attribute for which the
+  `@Convert` annotation explicitly specifies a different converter.
 
-If `autoApply` is `false`, the converter applies only to attributes of the
-target type for which conversion is explicitly enabled via the `Convert`
-annotation (or corresponding XML element).
+- If `autoApply` is `false`, the converter applies only to attributes of the
+  target type for which conversion is explicitly enabled via the `@Convert`
+  annotation (or corresponding XML element).
 
-If there is more than one converter defined for the same target type,
-the `Convert` annotation must be used to explicitly specify which
-converter applies.
+- If there is more than one converter defined for the same target type, the
+  `@Convert` annotation must be used to explicitly specify which converter
+  applies.
 
 === Annotations for Static Queries
 
@@ -1044,15 +1133,13 @@ separated by commas, for example,
 
 ==== JakartaQuery Annotation
 
-Specifies a query expressed in the Jakarta Persistence Query Language.
+Specifies a query expressed in the Jakarta Persistence query language.
 This annotation may be applied to:
 
 - any method of any class or interface belonging to the persistence unit,
   or
 - a query method of a Jakarta Data repository with an implementation backed
   by Jakarta Persistence.
-
-The `value` member specifies the query.
 
 [source,java]
 ----
@@ -1062,6 +1149,8 @@ public @interface JakartaQuery {
     String value();
 }
 ----
+
+`value` :: the query, written in the Jakarta Persistence Query Language.
 
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
@@ -1079,8 +1168,6 @@ This annotation may be applied to:
 - a query method of a Jakarta Data repository with an implementation backed
   by Jakarta Persistence.
 
-The `value` member specifies the query.
-
 [source,java]
 ----
 @Target(METHOD)
@@ -1090,12 +1177,14 @@ public @interface NativeQuery {
 }
 ----
 
+`value` :: the query, written in the native SQL dialect of the database.
+
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
 ==== QueryOptions Annotation
 
-Configures options that affect the execution of a query. This
+Configures options that affect the execution of a static query. This
 annotation may be applied to:
 
 - a method with a `JakartaQuery` or Jakarta Data
