@@ -15,21 +15,25 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Declares multiple named native SQL {@linkplain Statement statements}.
- * Query names are scoped to the persistence unit.
- * The {@code NamedNativeStatements} annotation can be applied to an entity or mapped superclass.
+ * Query names are scoped to the persistence unit. This annotation may
+ * be applied to any class or interface belonging to the persistence unit,
+ * or to a package or module descriptor.
  *
  * @since 4.0
  */
-@Target(TYPE)
+@Target({TYPE, PACKAGE, MODULE})
 @Retention(RUNTIME)
+@Discoverable
 public @interface NamedNativeStatements {
 	/**
 	 * (Required) An array of {@link NamedNativeStatement} annotations.

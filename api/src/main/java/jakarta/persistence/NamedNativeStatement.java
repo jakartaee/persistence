@@ -15,11 +15,13 @@
 
 package jakarta.persistence;
 
+import jakarta.persistence.spi.Discoverable;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -28,8 +30,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The SQL statement must return a row count.
  *
  * <p> This annotation may be applied to any class or interface
- * belonging to the persistence unit, including to a package or
- * module descriptor.
+ * belonging to the persistence unit, or to a package or module
+ * descriptor.
  * {@snippet :
  * @NamedNativeStatement(name = "deleteNamedCustomers",
  *             statement = "delete from Customer c where c.name like :custName")
@@ -52,8 +54,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 4.0
  */
 @Repeatable(NamedNativeStatements.class)
-@Target(TYPE)
+@Target({TYPE, PACKAGE, MODULE})
 @Retention(RUNTIME)
+@Discoverable
 public @interface NamedNativeStatement {
 	/**
 	 * (Required) The name used to identify the query in calls to

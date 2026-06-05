@@ -314,10 +314,10 @@ the attribute represented by the node. In the case of a `@NamedSubgraph`,
 the type of the subgraph is given by its `type` element; in the case of
 `@NamedEntityGraph`, it is the annotated entity type.
 
-If the attribute node represents a `@ManyToOne` or `@OneToOne` association,
-and the associated entity type has entity subclasses, there might be more
-than one `@NamedSubgraph` annotation with the specified name. In this case,
-every matching subgraph is considered to be rooted at the node.
+If the root type of the subgraph is an entity type with entity subclasses,
+there might be more than one `@NamedSubgraph` annotation with the specified
+name. In this case, every such matching subgraph is considered to be rooted
+at the node.
 
 ==== NamedSubgraph Annotation [[named-subgraph]]
 
@@ -425,9 +425,9 @@ Multiple `@Fetch` annotations may be specified for a persistent attribute.
 
 The following annotations are used to declare named queries.
 
-Each of the following annotations can be applied to any class belonging to
-the persistence unit, as specified in <<a12305>>, including to a package or
-module descriptor.
+Each of the following annotations can be applied to any class or interface
+belonging to the persistence unit, as specified in <<a12305>>, or to a
+package or module descriptor belonging to the persistence unit.
 
 ==== NamedQuery Annotation [[a13711]]
 
@@ -644,8 +644,9 @@ statement that returns a row count.
 [source,java]
 ----
 @Repeatable(NamedNativeStatements.class)
-@Target(TYPE)
+@Target({TYPE, PACKAGE, MODULE})
 @Retention(RUNTIME)
+@Discoverable
 public @interface NamedNativeStatement {
 	String name();
 	String statement();
@@ -918,7 +919,7 @@ public @interface PersistenceContext {
 `name` :: specifies the name at which the `EntityManager` is accessed in
   the environment referencing context. If the specified name does not
   begin with `java`, then the prefix `java:comp/env` is assumed. This
-  member is not usually specified when `@PersistenceUnit` annotates an
+  member is not usually specified when `@PersistenceContext` annotates an
   injection point.
 
 `unitName` :: references the name of the persistence unit as defined in
@@ -983,7 +984,7 @@ public @interface PersistenceContexts {
 
 ==== PersistenceAgent Annotation
 
-The `@PersistenceAgent` annotation is expresses a dependency on an
+The `@PersistenceAgent` annotation expresses a dependency on an
 entity agent.
 
 [source,java]
@@ -998,7 +999,7 @@ public @interface PersistenceAgent {
 }
 ----
 
-`name` :: specifies the name at which the `EntityAgent` is accessed
+`name` :: specifies the name at which the `EntityAgent` is accessed in
   the environment referencing context. If the specified name does not
   begin with `java`, then the prefix `java:comp/env` is assumed. This
   member is not usually specified when `@PersistenceAgent` annotates
@@ -1011,7 +1012,7 @@ public @interface PersistenceAgent {
 `properties` :: specifies properties for the container or persistence provider.
   Properties defined by this specification must be observed by the provider.
   Vendor-specific properties may be included in the set of properties and are
-  passed to the persistence provider by the container when the entity manager
+  passed to the persistence provider by the container when the entity agent
   is created. Properties that are not recognized by a vendor must be ignored.
 
 The `@PersistenceAgents` annotation declares one or more
