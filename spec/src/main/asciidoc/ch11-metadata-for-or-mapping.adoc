@@ -1988,8 +1988,16 @@ is stored with `STATUS` set to 1 and `PAYSCALE` set to _"JUNIOR"_.
 
 The `EnumeratedValue` annotation specifies that an annotated field of
 a Java enum type is the source of database column values when the enum
-occurs as the declared type of an `Enumerated` property or field. The
-annotated field must be declared final, and must be of type:
+occurs as the declared type of an `Enumerated` property or field.
+
+[source,java]
+----
+@Target(FIELD)
+@Retention(RUNTIME)
+public @interface EnumeratedValue {}
+----
+
+The annotated field must be declared final, and must be of type:
 
 - `byte`, `short`, or `int` for an `ORDINAL` enumerated type, or
 - `java.lang.String` for a `STRING` enumerated type.
