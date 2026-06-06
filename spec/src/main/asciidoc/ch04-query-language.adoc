@@ -158,7 +158,7 @@ But for backward compatibility with older releases of the Jakarta
 Persistence Query Language, an implementation is permitted to treat
 a path expression as if it were a sort of inner join.
 
-=== Arguments to Query Parameters [[query-parameters]]
+=== Query Parameters [[query-parameters]]
 
 Jakarta Query defines a syntax for query parameters:
 
@@ -178,7 +178,7 @@ are called _positional parameters_.
 Arguments are assigned to query parameters via the `setParameter()`
 methods of the `Query` interface, as specified in <<a4397>>.
 
-==== Type Casts
+=== Type Casts
 
 Jakarta Query defines a `cast()` function which converts an expression
 of one type to an expression of a different type.
@@ -200,6 +200,54 @@ the select expression is:
 - `java.lang.Integer`, `java.lang.Long`, `java.lang.Float`, or
   `java.lang.Double` for a cast to `INTEGER`, `LONG`, `FLOAT`,
   or `DOUBLE`, respectively.
+
+=== Datetime Special Values and Functions [[a5304]]
+
+For backward compatibility, this specification requires support for the
+special values `current_date`, `current_time`, and `current_timestamp`,
+which are not defined by Jakarta Query, evaluating to the current date,
+time, or timestamp on the database server, respectively. Their types are
+`java.sql.Date`, `java.sql.Time`, and `java.sql.Timestamp` respectively.
+
+This specification requires that the implementation of the `extract()`
+function accept a datetime argument and one of the following field type
+identifiers: `YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE`,
+`SECOND`, `DATE`, `TIME`.
+
+`extract()` returns the value of the corresponding field or part of the
+datetime. It is illegal to pass a datetime argument which does not have
+the given field type to `EXTRACT`.
+
+For the following field type identifiers, `extract()` returns an integer
+value:
+
+- `YEAR` means the calendar year.
+- `QUARTER` means the calendar quarter, numbered from 1 to 4.
+- `MONTH` means the calendar month of the year, numbered from 1.
+- `WEEK` means the ISO-8601 week number.
+- `DAY` means the calendar day of the month, numbered from 1.
+- `HOUR` means the hour of the day in 24-hour time, numbered from 0 to 23.
+- `MINUTE` means the minute of the hour, numbered from 0 to 59.
+
+For the `SECOND` field type identifier, `EXTRACT` returns a floating point
+value:
+
+- `SECOND` means the second of the minute, numbered from 0 to 59, including
+  a fractional part representing fractions of a second.
+
+For the following field type identifiers, `EXTRACT` returns a part of the
+datetime value:
+
+- `DATE` means the date part of a datetime.
+- `TIME` means the time part of a datetime.
+
+It is illegal to pass a datetime argument which does not have the given
+part to `EXTRACT`.
+
+[source,sql]
+----
+FROM Course c WHERE c.year = EXTRACT(YEAR FROM LOCAL DATE)
+----
 
 === Database Functions
 
