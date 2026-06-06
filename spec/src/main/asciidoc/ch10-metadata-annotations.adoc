@@ -242,7 +242,7 @@ public @interface NamedEntityGraph {
 
 `subclassSubgraphs` :: a list of subgraphs representing subclasses of the
   root entity of the graph. Each `@NamedSubgraph` must specify a `type`
-  which is a subclass of the annotated root entity of the graph, and may
+  which is a subclass of the annotated root entity of the graph and may
   declare additional attribute nodes representing attributes belonging to
   that subclass.
 
