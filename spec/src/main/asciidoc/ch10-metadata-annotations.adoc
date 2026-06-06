@@ -384,10 +384,10 @@ public @interface Fetch {
   Otherwise, the annotation specifies fetching options which apply when
   the attribute is fetched without the use of an entity graph.
 
-`subgraph` :: specifies the names of one or more named entity graphs to
-  be attached as subgraphs of the entity graph named by the `graph`
-  member. The subgraphs are attached to the attribute node representing the annotated association.
-  The annotated attribute must be an association.
+`subgraph` :: specifies the names of one or more named entity graphs
+  attached as subgraphs of the entity graph named by `graph` to the
+  attribute node representing the annotated association. The annotated
+  attribute must be an association.
 
 `type` :: specifies the fetching policy for the annotated attribute,
   overriding any value specified by the `fetch` member of the
