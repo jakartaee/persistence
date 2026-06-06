@@ -386,7 +386,7 @@ public @interface Fetch {
 
 `subgraph` :: specifies the names of one or more named entity graphs to
   be attached as subgraphs of the entity graph named by the `graph`
-  member, to the attribute node representing the annotated  association.
+  member. The subgraphs are attached to the attribute node representing the annotated association.
   The annotated attribute must be an association.
 
 `type` :: specifies the fetching policy for the annotated attribute,
@@ -452,7 +452,7 @@ public @interface NamedQuery {
 }
 ----
 
-`name` :: assigns a name to the query, which is used to identify the
+`name` :: assigns the query a name, which is used to identify the
   query in calls to `EntityHandler.createNamedQuery()`.
 
 `query` :: must specify the query string itself, written in the Jakarta
@@ -539,7 +539,7 @@ public @interface NamedStatement {
 }
 ----
 
-`name` :: assigns a name to the statement, which is used to identify
+`name` :: assigns the statement a name, which is used to identify
   the statement in calls to `EntityHandler.createNamedStatement()`.
 
 `statement` :: must specify the statement string itself, written in the
@@ -575,7 +575,7 @@ public @interface NamedNativeQuery {
 }
 ----
 
-`name` :: assigns a name to the query, which is used to identify the
+`name` :: assigns the query a name, which is used to identify the
   query in calls to `EntityHandler.createNamedQuery()`.
 
 `query` :: must specify the query string itself, written in the native
@@ -654,7 +654,7 @@ public @interface NamedNativeStatement {
 }
 ----
 
-`name` :: assigns a name to the statement, which is used to identify
+`name` :: assigns the statement a name, which is used to identify
   the statement in calls to `EntityHandler.createNamedStatement()`.
 
 `statement` :: must specify the statement string itself, written in
