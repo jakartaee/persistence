@@ -50,13 +50,13 @@ must be interpreted by an implementation of Jakarta Persistence:
 - every basic type, as defined in <<a486>>, is treated as an
   atomic type, and
 - every collection mapped via `@OneToMany`, `@ManyToMany`, or
-  `@ElementCollection` are treated as Jakarta Query collections.
+  `@ElementCollection` is treated as Jakarta Query collection.
 
 According to Jakarta Query, a record is simply a structure with a
-unique identifier. In Jakarta Persistence, this notion is understood
-to mean the primary key of the entity, as defined in <<a132>>.
-Similarly, the notion of a _version_ is understood to mean the
-entity version, as defined in <<a2060>>.
+unique identifier. In Jakarta Persistence, this unique identifier
+is understood to mean the primary key of the entity, as defined
+in <<a132>>. Similarly, the notion of a _version_ is understood
+to mean the entity version, as defined in <<a2060>>.
 
 === Inheritance and Polymorphism
 
@@ -107,13 +107,21 @@ The Jakarta Query specification introduces the notion of a _fetch
 join_, but assigns no semantics to it. An implementation of Jakarta
 Persistence must treat the fetch join syntax as an instruction to
 fetch specified associated data from the database eagerly, when the
-query is executed, so that it is immediately _available_ for use by
-the client, in the sense defined above in <<detached-lazy-state>>.
+query is executed, so that it is immediately _available_ to the
+client, in the sense defined above in <<detached-lazy-state>>.
 
 As implied by the syntax `join fetch`, implementations are strongly
 encouraged to implement a fetch join as a join between relational
 tables. However, this implementation strategy is not strictly
 required by this specification.
+
+=== Null
+
+Jakarta Query leaves open the semantics of equality for null values.
+This specification requires that the expressions `null = null` and
+`null <> null` both evaluate to `null`. Furthermore, if `x` evaluates
+to a non-null value, then both `x = null` and `x <> null` evaluate
+to `null`.
 
 === Ternary Logic
 
@@ -121,8 +129,23 @@ This specification requires that conditional expressions evaluate
 according to the rules of _ternary logic_. That is, with the special
 exceptions of the `is null` and `is not null` operators, and of the
 `coalasce()` function, when an expression involves a null value,
-the expression evaluates to `null`. Thus, logical expressions may
-take one of three distinct values: `true`, `false`, and `null`.
+the expression evaluates to `null`.
+
+Thus, in particular, a conditional or logical expression may take
+one of three distinct values: `true`, `false`, and `null`. Jakarta
+Query does not assign a value to a conditional or logical expression,
+saying only that a conditional expression might be _satisfied_ or
+_unsatisfied_. This specification requires that implementations
+assign:
+
+- the value `true` to a satisfied expression, and
+- one of the values `null` or `false` to an unsatisfied expression,
+  according to the rules given in the previous paragraph.
+
+[CAUTION]
+Note that according to these rules, the logical operator expression
+`not null` evaluates to `null`, and so the `not` operator is not
+always satisfied when its argument is unsatisfied.
 
 === Path Expressions
 
@@ -163,8 +186,8 @@ of one type to an expression of a different type.
 The persistence provider is required to accept type casts of the
 following forms:
 
-- any scalar expression to `STRING`
-- any string expression to `INTEGER`, `LONG`, `FLOAT`, or `DOUBLE`
+- any scalar expression to `STRING`;
+- any string expression to `INTEGER`, `LONG`, `FLOAT`, or `DOUBLE`.
 
 Typecast expressions are evaluated by the database, with semantics
 that vary somewhat between different databases. Portable applications
@@ -173,10 +196,10 @@ should avoid depending on the specific format of a cast to `STRING`.
 When a type cast occurs as a select expression, the result type of
 the select expression is:
 
-- `java.lang.String` for a cast to `STRING`
+- `java.lang.String` for a cast to `STRING`;
 - `java.lang.Integer`, `java.lang.Long`, `java.lang.Float`, or
   `java.lang.Double` for a cast to `INTEGER`, `LONG`, `FLOAT`,
-  or `DOUBLE`, respectively
+  or `DOUBLE`, respectively.
 
 === Database Functions
 
