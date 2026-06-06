@@ -69,6 +69,42 @@ include::../../../../api/src/main/java/jakarta/persistence/criteria/CompoundSele
 include::../../../../api/src/main/java/jakarta/persistence/criteria/Expression.java[lines=18..-1]
 ----
 
+=== `ComparableExpression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/ComparableExpression.java[lines=18..-1]
+----
+
+=== `BooleanExpression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/BooleanExpression.java[lines=18..-1]
+----
+
+=== `NumericExpression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/NumericExpression.java[lines=18..-1]
+----
+
+=== `TextExpression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/TextExpression.java[lines=18..-1]
+----
+
+=== `TemporalExpression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/TemporalExpression.java[lines=18..-1]
+----
+
+=== `PluralExpression`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/criteria/PluralExpression.java[lines=18..-1]
+----
+
 === `Fetch`
 [source,java]
 ----

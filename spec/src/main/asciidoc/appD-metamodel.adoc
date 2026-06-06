@@ -83,6 +83,31 @@ include::../../../../api/src/main/java/jakarta/persistence/metamodel/SetAttribut
 ----
 include::../../../../api/src/main/java/jakarta/persistence/metamodel/SingularAttribute.java[lines=18..-1]
 ----
+=== `ComparableAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/ComparableAttribute.java[lines=18..-1]
+----
+=== `BooleanAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/BooleanAttribute.java[lines=18..-1]
+----
+=== `NumericAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/NumericAttribute.java[lines=18..-1]
+----
+=== `TemporalAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/TemporalAttribute.java[lines=18..-1]
+----
+=== `TextAttribute`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/metamodel/TextAttribute.java[lines=18..-1]
+----
 === `Type`
 [source,java]
 ----
