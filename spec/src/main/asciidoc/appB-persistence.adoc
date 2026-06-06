@@ -33,6 +33,48 @@ include::../../../../api/src/main/java/jakarta/persistence/EntityTransaction.jav
 include::../../../../api/src/main/java/jakarta/persistence/EntityManagerFactory.java[lines=18..-1]
 ----
 
+=== `EntityListenerRegistration`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/EntityListenerRegistration.java[lines=18..-1]
+----
+
+=== `FindOption`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/FindOption.java[lines=18..-1]
+----
+
+=== `LockOption`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/LockOption.java[lines=18..-1]
+----
+
+=== `RefreshOption`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/RefreshOption.java[lines=18..-1]
+----
+
+=== `FetchOption`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/FetchOption.java[lines=18..-1]
+----
+
+=== `BatchSize`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/BatchSize.java[lines=18..-1]
+----
+
+=== `Timeout`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/Timeout.java[lines=18..-1]
+----
+
 === `LockModeType` [[_lockmodetype_]]
 [source,java]
 ----
@@ -61,6 +103,12 @@ include::../../../../api/src/main/java/jakarta/persistence/Query.java[lines=18..
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/Statement.java[lines=18..-1]
+----
+
+=== `StatementOrTypedQuery`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/StatementOrTypedQuery.java[lines=18..-1]
 ----
 
 === `TypedQuery`
@@ -141,6 +189,12 @@ include::../../../../api/src/main/java/jakarta/persistence/Persistence.java[line
 include::../../../../api/src/main/java/jakarta/persistence/PersistenceConfiguration.java[lines=18..-1]
 ----
 
+=== `SchemaManagementAction`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/SchemaManagementAction.java[lines=18..-1]
+----
+
 === `PersistenceUtil` [[_persistenceutil_]]
 [source,java]
 ----
@@ -169,4 +223,16 @@ include::../../../../api/src/main/java/jakarta/persistence/TypedQueryReference.j
 [source,java]
 ----
 include::../../../../api/src/main/java/jakarta/persistence/StatementReference.java[lines=18..-1]
+----
+
+=== `ConnectionConsumer`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/ConnectionConsumer.java[lines=18..-1]
+----
+
+=== `ConnectionFunction`
+[source,java]
+----
+include::../../../../api/src/main/java/jakarta/persistence/ConnectionFunction.java[lines=18..-1]
 ----
