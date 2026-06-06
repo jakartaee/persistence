@@ -135,7 +135,7 @@ But for backward compatibility with older releases of the Jakarta
 Persistence Query Language, an implementation is permitted to treat
 a path expression as if it were a sort of inner join.
 
-=== Arguments to Query Parameters
+=== Arguments to Query Parameters [[query-parameters]]
 
 Jakarta Query defines a syntax for query parameters:
 
@@ -144,8 +144,16 @@ Jakarta Query defines a syntax for query parameters:
 - An _ordinal parameter_ is a decimal integer prefixed with the `?`
   character.
 
+Parameter names are considered case-sensitive.
+
+Ordinal parameters are numbered sequentially, starting with  `?1`.
+
+[NOTE]
+Terminology Note: Elsewhere In this specification, ordinal parameters
+are called _positional parameters_.
+
 Arguments are assigned to query parameters via the `setParameter()`
-methods of the `Query` interface, as specified in <<a4406>>.
+methods of the `Query` interface, as specified in <<a4397>>.
 
 ==== Type Casts
 

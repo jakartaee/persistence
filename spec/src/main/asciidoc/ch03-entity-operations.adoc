@@ -3186,20 +3186,12 @@ A stored procedure that does not return a result set can be executed using
 the `execute()` or `executeUpdate()` method. Stored procedure query
 execution is described in detail in <<a4625>>.
 
-An `IllegalArgumentException` is thrown if a
-parameter instance is specified that does not correspond to a parameter
-of the query, if a parameter name is specified that does not correspond
-to a named parameter of the query, if a positional value is specified
-that does not correspond to a positional parameter of the query, or if
-the type of the parameter is not valid for the query. This exception may
-be thrown when the parameter is bound, or the execution of the query may
-fail. See <<a4397>>, <<a4401>>, and <<a4405>> for supported
-parameter usage.
+Implementations are permitted reject invocations of `setMaxResults()`
+and `setFirstResult()` for instances of `StoredProcedureQuery`.
 
-The effect of applying `setMaxResults` or
-`setFirstResult` to a query involving fetch joins over collections is
-undefined. The use of `setMaxResults` and `setFirstResult` is not
-supported for stored procedure queries.
+The effect of applying `setMaxResults()` or `setFirstResult()` to a
+query involving fetch joins over collections is not defined by this
+specification.
 
 ==== Query Execution and Transactions [[query-execution-transactions]]
 
@@ -3438,75 +3430,90 @@ APIs. Application programs desiring portability between persistence
 providers might choose to use string-based query hints in preference
 to custom query options.
 
-==== Parameter Objects [[a4397]]
+==== Query Parameters and Arguments [[a4397]]
 
-`Parameter` objects can be used for criteria
-queries and for Jakarta Persistence query language queries.
+A query (or statement) might have _parameters_.
 
-Implementations may support the use of
-`Parameter` objects for native queries, however support for `Parameter`
-objects with native queries is not required by this specification. The
-use of `Parameter` objects for native queries is not portable. The
-mixing of parameter objects with named or positional parameters is invalid.
+- Queries written in the Jakarta Persistence query language declare
+  named parameters or positional parameters according to the syntax
+  defined by the Jakarta Query specification, as described in
+  <<query-parameters>>.
+- Queries written in the native SQL dialect of the database declare
+  positional parameters according to the standard syntax defined by
+  the JDBC specification. An implementation of this specification
+  might also accept parameters declared according to the syntax
+  defined by Jakarta Query, but that is not required by this
+  specification.
+- A criteria query, as specified later in <<a6925>>, represents its
+  parameters as instances of `Parameter` obtained by calling the method
+  `CriteriaBuilder.parameter()`. A criteria query is permitted to assign
+  a name to such a parameter, in which case it is considered a type of
+  named parameter. A criteria query cannot have a positional parameter.
 
-A portable application should not attempt to reuse a `Parameter` object
-obtained from one instance of `Query` by passing it to a method of a
-different instance of `Query`.
+A `Parameter` object representing a named or positional parameter of a
+query written in the Jakarta Persistence query language can be obtained
+by calling `Query.getParameter()`. Implementations are permitted to
+reject invocations of `getParameter()` when the `Query` represents a
+query written in SQL.
 
-==== Named Parameters [[a4401]]
-
-Named parameters can be used for Jakarta
-Persistence query language queries, for criteria queries (although use
-of `Parameter` objects is to be preferred), and for stored procedure
-queries that support named parameters.
-
-Named parameters follow the rules for
-identifiers defined in <<a4760>>.
-Named parameters are case-sensitive. The mixing of named and positional
-parameters is invalid.
-
-A named parameter of a JPQL query is an identifier prefixed by the `:`
-symbol. Parameter names passed as arguments to the `setParameter` methods
-of the `Query` interface do not include this prefix.
-
-==== Positional Parameters [[a4405]]
-
-Only positional parameter binding and
-positional access to result items may be portably used for native
-queries, except for stored procedure queries for which named parameters
-have been defined. When binding the values of positional parameters, the
-numbering starts at `1`. It is assumed that for native queries the
-parameters themselves use the standard JDBC syntax: `?` instead of `?1`.
-
-The use of positional parameters is not supported for criteria queries.
-
-==== Arguments to Query Parameters [[a4406]]
+Implementations are not required to accept queries which mix positional
+parameters with named parameters.
 
 Arguments are assigned to query parameters by calling `Query.setParameter()`.
-The first parameter of `setParameter()` identifies the named or positional
-parameter of the query.
 
-An argument may be assigned to a single-valued parameter of a JPQL or
-native SQL query by passing the argument to the second parameter of
-`setParameter()`.
+- The first parameter of `setParameter()` identifies the named or positional
+  parameter of the query. A positional parameter is identified by its position.
+  A named parameter is identified by its name, without the `:` prefix.
 
+- An argument may be assigned to a single-valued parameter of a JPQL or
+  native SQL query by passing the argument to the second parameter of
+  `setParameter()`.
++
 [source,java]
 ----
 query.setParameter("name", name)
 ----
++
+[source,java]
+----
+query.setParameter(1, LocalDate.now())
+----
 
-A list of arguments may be assigned to a collection-valued parameter
-of a JPQL query by packaging the arguments in a non-null instance of
-`java.util.List` and passing the list as an argument to the second
-parameter of `setParameter()`. The list should contain at least one
-element. If the list is empty the behavior is undefined. Portable
-applications should not pass an empty list to a collection-valued
-parameter.
-
+- A list of arguments may be assigned to a collection-valued parameter
+  of a JPQL query by packaging the arguments in a non-null instance of
+  `java.util.List` and passing the list as an argument to the second
+  parameter of `setParameter()`. The list should contain at least one
+  element. If the list is empty the behavior is undefined. Portable
+  applications should not pass an empty list to a collection-valued
+  parameter.
++
 [source,java]
 ----
 query.setParameter("names", List.of(name1, name2, name3))
 ----
+
+The `setParameter()` method must throw `IllegalArgumentException` if:
+
+- the given instance of `Parameter` does not represent a parameter of
+  the query,
+- the query has no named parameter with the given parameter name,
+- the query has no positional parameter for the given positional value,
+  or
+- the type of the argument is not compatible with the query parameter.
+
+This exception might occur when `setParameter()` is called, or it might
+occur later when the query is actually executed as specified above in
+<<query-execution>>.
+
+An implementation is permitted to throw `IllegalArgumentException` if
+an instance of `Parameter` obtained from one instance of `Query` is
+passed to the `setParameter()` method of a distinct instance of `Query`
+or if an instance of `Parameter` used in one criteria query is reused
+to define a distinct criteria query.
+
+An argument must be assigned to every parameter of a query before the
+query can be executed. If a query is executed before its parameters
+have been assigned arguments, a `PersistenceException` is thrown.
 
 ==== Result Classes for Jakarta Persistence Queries [[result-class-jakarta-query]]
 

@@ -623,7 +623,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the result that is passed back through the parameter
      * @throws IllegalArgumentException if the position does
      *         not correspond to a parameter of the query or is
-     *         not an INOUT or OUT parameter
+     *         not an {@code INOUT} or {@code OUT} parameter
      */
     Object getOutputParameterValue(int position);
 
@@ -639,7 +639,7 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
      * @return the result that is passed back through the parameter
      * @throws IllegalArgumentException if the parameter name does
      *         not correspond to a parameter of the query or is
-     *         not an INOUT or OUT parameter
+     *         not an {@code INOUT} or {@code OUT} parameter
      */
     Object getOutputParameterValue(@Nonnull String parameterName);
 
