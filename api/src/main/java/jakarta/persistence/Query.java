@@ -45,6 +45,13 @@ import java.util.stream.Stream;
  * <li>For a stored procedure call, a {@link StoredProcedureQuery}
  *     should be used.
  * </ul>
+ * <p>
+ * This interface declares operations for assigning arguments to
+ * parameters of a query or statement. An argument must be assigned
+ * to every parameter of a query or statement before the query or
+ * statement can be executed. If a query or statement is executed
+ * before its parameters have been assigned arguments, a
+ * {@link PersistenceException} is thrown.
  *
  * @apiNote Every operation only relevant to {@code SELECT} queries,
  * for example, {@link #getResultList} and {@link #setMaxResults},
