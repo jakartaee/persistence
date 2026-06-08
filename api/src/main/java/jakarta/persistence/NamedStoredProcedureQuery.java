@@ -57,8 +57,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * specification of these mappings must be the same as the order in which
  * the result sets are returned by the stored procedure invocation. If the
  * stored procedure returns one or more result sets and no
- * {@link #resultClasses} or {@link #resultSetMappings} are specified, any
- * result set is returned as a list of type {@code Object[]}.
+ * {@link #resultClasses} or {@link #resultSetMappings} are specified,
+ * every result set is returned as a list of type {@code Object[]}.
  *
  * <p>The {@link #hints} element may be used to specify query properties
  * and hints. Properties defined by this specification must be observed by
