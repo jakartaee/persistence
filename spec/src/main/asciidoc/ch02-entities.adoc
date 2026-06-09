@@ -2648,8 +2648,8 @@ an entity type:
   be passed as an argument to a parameter of a method that expects an
   instance of an entity type, even if `object` is assignable to an entity
   type.
-- A non-entity type may not be used in JPQL as the abstract schema type of
-  a range variable declaration, as defined in <<a4766>>.
+- A non-entity type may not be used as the root entity or joined entity
+  type in a query written in JPQL.
 
 The following example illustrates the use of a non-entity class as a superclass
 of an entity class.

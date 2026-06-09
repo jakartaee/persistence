@@ -218,9 +218,7 @@ The argument to the `join` method,
 `Order.lineItems`, is of type
 `jakarta.persistence.metamodel.SetAttribute<Order, Item>`.
 
-The `join` methods have the same semantics as
-the corresponding Jakarta Persistence query language operations, as
-described in <<a4957>>.
+The `join` methods have the same semantics as a join in Jakarta Query.
 
 *Example:*
 
@@ -315,7 +313,7 @@ An association or attribute referenced by the
 returned as the result of the query. A fetch join has the same join
 semantics as the corresponding inner or outer join, except that the
 related objects are not top-level objects in the query result and cannot
-be referenced elsewhere by the query. See <<a4931>>.
+be referenced elsewhere by the query, as described in <<fetch-joins>>.
 
 The `fetch` method must not be used in a subquery.
 
@@ -351,12 +349,7 @@ A `Path` instance can be a `Root` instance, a
 instance derived from a map-valued association or element collection by
 use of the `key` or `value` method.
 
-When a criteria query is executed, path
-navigation—like path navigation using the Jakarta Persistence query
-language—is obtained using “inner join” semantics. That is, if the value
-of a non-terminal `Path` instance is null, the path is considered to
-have no value, and does not participate in the determination of the
-query result. See <<a4792>>.
+The semantics of path navigation are defined in <<path-expressions>>.
 
 The `get` method is used for path navigation.
 The argument to the `get` method is specified by the corresponding
@@ -437,22 +430,18 @@ instances. A predicate can be either simple or compound.
 A simple predicate is created by invoking one
 of the conditional methods of the `CriteriaBuilder` interface, or by the
 `isNull`, `isNotNull`, and `in` methods of the `Expression` interface.
-The semantics of the conditional methods—e.g., `equal`, `notEqual`,
-`gt`, `ge`, `lt`, `le`, `between`, and `like` — mirror those of the
-corresponding Jakarta Persistence query language operators as described in
-<<a4665>>.
+The semantics of the conditional methods -- for example, `equal`, `notEqual`,
+`gt`, `ge`, `lt`, `le`, `between`, and `like` -- mirror those of the
+corresponding operators in Jakarta Query.
 
 Compound predicates are constructed by means
 of the `and`, `or`, and `not` methods of the `CriteriaBuilder`
 interface.
 
-The restrictions upon the types to which
-conditional operations are permitted to be applied are the same as the
-respective operators of the Jakarta Persistence query language as described
-in subsections <<a5066>> through <<a5243>>. The same
-null value semantics as described in <<a5676>> and the subsections of
-<<a4994>> apply.
-The equality and comparison semantics described in <<a5735>> likewise apply.
+The types of conditional operands must satisfy the restrictions specified
+for the corresponding operators defined by Jakarta Query.
+Null value semantics are defined in <<null>> and <<ternary-logic>>.
+Equality and comparison semantics are described in <<equality>>.
 
 *Example 1:*
 
@@ -767,8 +756,8 @@ In the case of the two-argument `sum`,
 runtime result types will differ from the `Expression` type when the
 latter is `Number`. The following rules must be observed by the
 implementation when materializing the results of numeric expressions
-involving these methods. These rules correspond to those specified for
-the Jakarta Persistence query language as defined in <<a5574>>.
+involving these methods. The following rules match to the rules for
+numeric type promotion in Jakarta Query.
 
 * If there is an operand of type Double, the
 result of the operation is of type Double;
@@ -922,8 +911,9 @@ values are not eliminated. When `distinct(true)` is used, and the select
 items include embeddable objects or map entry results, the elimination
 of duplicates is undefined.
 
-The semantics of the `construct` method used
-in the selection list is as described in <<a5500>>. The semantics of embeddables returned by the selection list areas described in <<a5511>>.
+The semantics of the `construct` method used in the selection list are
+described in <<a5500>>. The semantics of embeddable types in the
+selection list are described in <<a5511>>.
 
 *Example 1:*
 
@@ -1288,7 +1278,7 @@ selection item that is not the result of applying an aggregate method
 must correspond to a path expression that is used for defining the
 grouping. Requirements on the types that correspond to the elements of
 the grouping and having constructs and their relationship to the select
-items are as specified in <<a5410>>.
+items are as specified by Jakarta Query.
 
 *Example:*
 
@@ -1347,8 +1337,8 @@ specified, the order in which they appear in the argument list of the
 `orderBy` method determines the precedence, whereby the first item has
 highest precedence.
 
-SQL rules for the ordering of null values
-apply, as described in <<a5587>>.
+Null values are ordered according to the rules defined by the Jakarta
+Query specification.
 
 *Example 1:*
 
@@ -1579,8 +1569,8 @@ optimistic locking checks. Portable applications using bulk update
 operations must manually update the value of the version column, if
 desired, and/or manually validate the value of the version column.
 
-The persistence context is not synchronized
-with the result of the bulk update or delete. See <<a5636>>.
+As specified in <<a5636>>, the persistence context is not automatically
+synchronized with the result of the bulk update or delete.
 
 === Constructing Strongly-typed Queries using the jakarta.persistence.metamodel Interfaces [[a11305]]
 
