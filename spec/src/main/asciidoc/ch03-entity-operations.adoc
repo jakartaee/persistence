@@ -3629,25 +3629,42 @@ public EntityManager em;
         .getResultList();
 ----
 
-==== Polymorphic Queries
+==== Query Polymorphism
 
-By default, all queries are polymorphic. That
-is, the `FROM` clause of a query designates not only instances of the
-specific entity class(es) to which it explicitly refers, but subclasses
-as well. The instances returned by a query include instances of the
-subclasses that satisfy the query conditions.
+Queries written in the Jakarta Persistence query language are naturally
+polymorphic. That is, the `FROM` clause of a query designates an entity
+class, and the query ranges over instances of that entity class and of
+its subclasses, as required by the Jakarta Query specification, with the
+interpretation specified in <<query-inheritance-polymorphism>>.
 
-For example, the following query returns the
-average salary of all employees, including subtypes of `Employee`, such
-as `Manager` and `Exempt`.
+For example, the following query returns the average salary of all employees,
+including subtypes of `Employee`, such as `Manager` and `Exempt`:
 
 [source,sql]
 ----
-select avg(e.salary) from Employee e where e.salary > 80000
+select avg(salary) from Employee where salary > 80000
 ----
 
-Entity type expressions, described in <<a5381>>, as well as the
-use of downcasting, described in <<a4965>>, can be used to restrict query polymorphism.
+[NOTE]
+====
+A Jakarta Query entity type expression (the `TYPE` function) or treated
+path expression (the `TREAT` function) can be used to restrict query
+polymorphism.
+[source,sql]
+----
+select avg(salary) from Employee where salary > 80000 and type(this) <> Manager
+----
+====
+
+Similarly, when a query returns an entity type, it might also return
+instances of subclasses of the entity type.
+
+For example, this query might return instances of `Manager` and `Exempt`:
+
+[source,sql]
+----
+from Employee where salary > 80000
+----
 
 ==== SQL Queries [[a4427]]
 
