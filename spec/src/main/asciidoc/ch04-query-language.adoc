@@ -58,7 +58,7 @@ is understood to mean the primary key of the entity, as defined
 in <<a132>>. Similarly, the notion of a _version_ is understood
 to mean the entity version, as defined in <<a2060>>.
 
-=== Inheritance and Polymorphism
+=== Inheritance and Polymorphism [[query-inheritance-polymorphism]]
 
 Jakarta Query defines inheritance as a structural relationship
 between entity types. In the context of Jakarta Persistence,
@@ -101,7 +101,7 @@ within the persistence unit. It is the responsibility of the
 application programmer to ensure that entities belonging to the
 same persistence unit have distinct entity names.
 
-=== Fetch Joins
+=== Fetch Joins [[fetch-joins]]
 
 The Jakarta Query specification introduces the notion of a _fetch
 join_, but assigns no semantics to it. An implementation of Jakarta
@@ -115,6 +115,7 @@ encouraged to implement a fetch join as a join between relational
 tables. However, this implementation strategy is not strictly
 required by this specification.
 
+[[null]]
 === Null
 
 Jakarta Query leaves open the semantics of equality for null values.
@@ -123,6 +124,7 @@ This specification requires that the expressions `null = null` and
 to a non-null value, then both `x = null` and `x <> null` evaluate
 to `null`.
 
+[[ternary-logic]]
 === Ternary Logic
 
 This specification requires that conditional expressions evaluate
@@ -147,7 +149,20 @@ Note that according to these rules, the logical operator expression
 `not null` evaluates to `null`, and so the `not` operator is not
 always satisfied when its argument is unsatisfied.
 
-=== Path Expressions
+=== Equality and Natural Order [[equality]]
+
+Every persistent attribute of <<a486,basic type>> is considered to
+be _comparable_ and to come equipped with a _natural order_, in the
+senses defined by the Jakarta Data specification, with the exception
+of an attribute whose declared type only qualifies as a basic type
+by virtue of it implementing `java.io.Serializable`.
+
+The Jakarta Query specification includes recommendations for the
+semantics of equality and natural order of atomic types for clients
+written in Java, and these recommendations must be followed by an
+implementation of Jakarta Persistence.
+
+=== Path Expressions [[path-expressions]]
 
 This specification requires support for compound path expressions
 which involve attributes of multiple embeddable and entity types.
@@ -259,7 +274,68 @@ However, implementations are now strongly encouraged to simply allow
 direct invocation of database functions without requiring the extra
 ceremony of `function()`.
 
-=== Constructor Application
+=== Constructor Application [[a5500]]
 
 This specification requires support for explicit constructor application
 in the `SELECT` clause.
+
+A query involving constructor application returns instances of the
+class which declares the constructor. Such instances are always
+unmanaged objects, even if the class which declares the constructor
+happens to be an entity class.
+
+=== Entities and Embeddables in Query Results [[a5511]]
+
+If an expression in the `SELECT` list of a query is assigned an entity
+or embeddable type, an instance of the entity or embeddable type is
+returned in the query results.
+
+When the query is executed, the returned instance might be associated
+with a persistence context:
+
+- If the query is executed via an `EntityManager`, an entity instance
+  is returned in the managed state, as defined in <<a1929>>.
+- If the query is executed via an `EntityAgent`, an entity instance is
+  returned in the detached state, as defined in <<a1982>>.
+- An instance of an embeddable type returned by a query is never
+  associated with any owning entity instance, and is therefore always
+  an unmanaged object (effectively "detached").
+
+=== Bulk Update and Delete Operations [[a5636]]
+
+[NOTE]
+Terminology note: a Jakarta Query `UPDATE` or `DELETE` statement is
+considered a _bulk update or delete operation_.
+
+A bulk `UPDATE` bypasses the usual optimistic lock verification
+defined by <<a2059>>. If optimistic lock verification is required,
+a portable application must:
+
+- explicitly update the value of the version column by including it
+  in the `SET` clause of the `UPDATE` statement, and/or
+- verify the value of the version column, by explicitly including it
+  in the `WHERE` clause of the `UPDATE` statement.
+
+A bulk `DELETE` operation bypasses `REMOVE` cascading, defined by
+<<remove>>, and orphan removal, defined by <<orphan-removal>>.
+
+After execution of a bulk update or delete operation, the persistence
+provider is not required to resynchronize state held in memory with
+the effects of the operation on data held in the database.
+
+[CAUTION]
+====
+A bulk update or delete operation might result in inconsistencies
+between the database and state held in the current persistence context.
+Such inconsistencies can usually be avoided by executing the bulk update
+or delete operation in a new persistence context or before fetching or
+accessing entities whose state might be affected by the operation.
+====
+
+However, the usual rules specified in <<a4374>> apply to the processing
+of a bulk update or delete operation executed within a transaction via
+a persistence context joined to the transaction. In particular, when
+`FlushMode.AUTO` is in effect, the persistence provider must ensure
+that every modification to the state of every entity associated with the
+persistence context which could possibly alter the effects of the bulk
+update or delete operation is visible to the processing of the operation.
