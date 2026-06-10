@@ -25,7 +25,7 @@ strict subset of the persistence language.
 
 This specification requires support for the persistence language.
 
-=== Dictionary of Basic Concepts
+=== Dictionary of Basic Concepts [[dictionary]]
 
 Jakarta Query defines a structural type system in terms of:
 
@@ -36,7 +36,7 @@ Jakarta Query defines a structural type system in terms of:
 A structure type might be assigned a name, in which case it is
 considered:
 
-- an _embedded type_, unless it is a record, or
+- an _embeddable type_, unless it is a record, or
 - an _entity type_, if it is a record.
 
 Please refer to the Jakarta Query specification for the abstract
@@ -46,7 +46,7 @@ must be interpreted by an implementation of Jakarta Persistence:
 - every entity class, as defined by <<a18>>, is treated as a
   Jakarta Query entity type,
 - every embeddable class, as defined by <<a487>>, is treated as
-  a Jakarta Query embedded type,
+  a Jakarta Query embeddable type,
 - every basic type, as defined in <<a486>>, is treated as an
   atomic type, and
 - every collection mapped via `@OneToMany`, `@ManyToMany`, or
@@ -57,6 +57,16 @@ unique identifier. In Jakarta Persistence, this unique identifier
 is understood to mean the primary key of the entity, as defined
 in <<a132>>. Similarly, the notion of a _version_ is understood
 to mean the entity version, as defined in <<a2060>>.
+
+The labeled elements of the Jakarta Query entity or embeddable
+type corresponding to a Jakarta Persistence entity or embeddable
+class are simply the persistent attributes of the entity or
+embeddable class.
+
+- for a persistent field, the label is simply the name of the field;
+- for a persistent JavaBeans-style property, as defined in
+  <<property-access>>, the label is obtained according to the usual
+  JavaBeans conventions, as implemented by `java.beans.Introspector`.
 
 === Inheritance and Polymorphism [[query-inheritance-polymorphism]]
 
@@ -101,6 +111,19 @@ within the persistence unit. It is the responsibility of the
 application programmer to ensure that entities belonging to the
 same persistence unit have distinct entity names.
 
+=== Set operators
+
+Jakarta Query defines the operators `union`, `intersect`, and `except`,
+whose operands are queries. Implementations of this specification are
+required to accept these operators when the operand queries have the
+same number of items in the `select` clause, and where corresponding
+items in the select clauses of the operand queries either:
+
+- have exactly the same atomic type, entity type, or embeddable type,
+  as defined in <<dictionary>>, or
+- are entity types which inherit a common entity type, as defined
+  by <<a765>>.
+
 === Fetch Joins [[fetch-joins]]
 
 The Jakarta Query specification introduces the notion of a _fetch
@@ -110,10 +133,24 @@ fetch specified associated data from the database eagerly, when the
 query is executed, so that it is immediately _available_ to the
 client, in the sense defined above in <<detached-lazy-state>>.
 
+For example, the following query returns a book. As a side effect,
+the authors of the book are also retrieved from the database, and
+the `authors` collection is initialized, even though the authors
+are not part of the explicit query result.
+
+[source,sql]
+----
+SELECT book
+FROM Book book LEFT JOIN FETCH book.authors
+WHERE book.isbn = '1-85723-235-6'
+----
+
 As implied by the syntax `join fetch`, implementations are strongly
 encouraged to implement a fetch join as a join between relational
 tables. However, this implementation strategy is not strictly
 required by this specification.
+
+A `fetch join` may not occur within a subquery.
 
 [[null]]
 === Null
@@ -172,6 +209,25 @@ Jakarta Query treats path expressions as a sort of left outer join.
 But for backward compatibility with older releases of the Jakarta
 Persistence Query Language, an implementation is permitted to treat
 a path expression as if it were a sort of inner join.
+
+Implementations are required to accept a path expression whose last
+element is assigned an embeddable type in the following locations:
+
+- as an operand of an `=` equality or `<>` inequality comparison, or
+- as an item in the `SELECT` list, or as an argument to a
+  <<a5500,constructor application>>, as specified below in <<a5511>>.
+
+A path expression whose last element is assigned an embeddable type
+must not occur as an item in `GROUP BY` or `ORDER BY`.
+
+Implementations are required to accept a path expression whose last
+element is assigned an entity type in the following locations:
+
+- as an operand of an `=` equality or `<>` inequality comparison,
+- as an item in the `SELECT` list, or as an argument to a
+  <<a5500,constructor application>>, as specified below in <<a5511>>,
+  or
+- as an item in `GROUP BY` or `ORDER BY`.
 
 === Query Parameters [[query-parameters]]
 
@@ -270,9 +326,29 @@ For backward compatibility, this specification requires support for
 the `function()` function, allowing invocation of arbitrary database
 functions, including built-in functions and user-defined functions.
 
+- The first argument to `function()` is the name of a SQL function,
+  as a string literal;
+- the remaining arguments are the arguments of the SQL function.
+
 However, implementations are now strongly encouraged to simply allow
 direct invocation of database functions without requiring the extra
 ceremony of `function()`.
+
+=== JDBC Datetime Literals
+
+For backward compatibility, implementations are required to accept
+a JDBC datetime escape in any position where Jakarta Query accepts
+a `datetime_literal`. Implementations are not expected to interpret
+or validate the contents of the JDBC escape in any way, but should
+assign an appropriate JDBC datetime type to the literal expression.
+
+- an escape of form `{d ... }` is assigned the type `java.sql.Date`,
+- an escape of form `{t ... }` is assigned the type `java.sql.Time`,
+  and
+- an escape of form `{ts ... }` is assigned the type
+  `java.sql.Timestamp`.
+
+This syntax is considered deprecated.
 
 === Constructor Application [[a5500]]
 
@@ -290,6 +366,11 @@ If an expression in the `SELECT` list of a query is assigned an entity
 or embeddable type, an instance of the entity or embeddable type is
 returned in the query results.
 
+Similarly, if an argument of a constructor application is assigned
+an entity or embeddable type, an instance of the entity or embeddable
+type is packaged by the constructor into the unmanaged object returned
+in the query results.
+
 When the query is executed, the returned instance might be associated
 with a persistence context:
 
@@ -300,6 +381,14 @@ with a persistence context:
 - An instance of an embeddable type returned by a query is never
   associated with any owning entity instance, and is therefore always
   an unmanaged object (effectively "detached").
+
+=== Result variables
+
+Jakarta Query allows a _result variable_ (or alias) to be assigned to
+each item in the `SELECT` list of a query. When query results are
+packaged as an instance of `Tuple`, as described in
+<<result-class-jakarta-query>>, the result variables determine the
+tuple aliases.
 
 === Bulk Update and Delete Operations [[a5636]]
 
