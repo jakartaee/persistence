@@ -481,7 +481,7 @@ public interface Statement extends Query {
      * Bind arguments to every positional parameter of the statement.
      * <p>
      * The <em>n</em>th argument is bound to the positional
-     * parameter {@code ?n},
+     * parameter {@code ?n}.
      * @param arguments The arguments to positional parameters
      * @return the same statement instance
      * @throws IllegalArgumentException if the number of arguments
