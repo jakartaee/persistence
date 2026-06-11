@@ -32,7 +32,7 @@ public @interface Entity {
   the entity name defaults to the unqualified name of the entity class.
   This name is used to refer to the entity in queries, as specified in
   <<naming>>. The name must be a legal Java identifier and must not be
-  a reserved identifier in the Jakarta Persistence query language.
+  a reserved identifier in the Jakarta Persistence Query Language.
 
 === Entity Listeners and Callback Annotations
 
@@ -432,7 +432,7 @@ package or module descriptor belonging to the persistence unit.
 ==== NamedQuery Annotation [[a13711]]
 
 The `@NamedQuery` annotation declares a named query written in the Jakarta
-Persistence query language.
+Persistence Query Language.
 
 [source,java]
 ----
@@ -456,7 +456,7 @@ public @interface NamedQuery {
   query in calls to `EntityHandler.createNamedQuery()`.
 
 `query` :: must specify the query string itself, written in the Jakarta
-  Persistence query language. It should be a legal JPQL `select` query.
+  Persistence Query Language. It should be a legal JPQL `select` query.
   For the backward compatibility, it is permitted to be an `update` or
   `delete` statement.
 
@@ -524,7 +524,7 @@ to `EntityManager.createNamedQuery(String, Class)`.
 ==== NamedStatement Annotation
 
 The `@NamedStatement` annotation declares a named statement written in
-the Jakarta Persistence query language.
+the Jakarta Persistence Query Language.
 
 [source,java]
 ----
@@ -543,7 +543,7 @@ public @interface NamedStatement {
   the statement in calls to `EntityHandler.createNamedStatement()`.
 
 `statement` :: must specify the statement string itself, written in the
-  Jakarta Persistence query language. It must be a legal JPQL `update`
+  Jakarta Persistence Query Language. It must be a legal JPQL `update`
   or `delete` statement.
 
 `hints` :: specifies query properties and hints. Properties defined by
@@ -1134,7 +1134,7 @@ separated by commas, for example,
 
 ==== JakartaQuery Annotation
 
-Specifies a query expressed in the Jakarta Persistence query language.
+Specifies a query expressed in the Jakarta Persistence Query Language.
 This annotation may be applied to:
 
 - any method of any class or interface belonging to the persistence unit,

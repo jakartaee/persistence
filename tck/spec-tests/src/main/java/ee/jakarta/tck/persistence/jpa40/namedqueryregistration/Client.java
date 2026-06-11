@@ -112,7 +112,7 @@ public class Client extends PMClientBase {
     /**
      * Tests {@link CriteriaBuilder#augment(TypedQueryReference, java.util.function.Consumer)}
      * and {@link CriteriaBuilder#augment(StatementReference, java.util.function.Consumer)}
-     * for named Jakarta Persistence query language references.
+     * for named Jakarta Persistence Query Language references.
      */
     @Test
     public void criteriaBuilderAugmentNamedQueryAndStatementTest() {

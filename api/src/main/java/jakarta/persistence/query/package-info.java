@@ -21,7 +21,7 @@
  * <ul>
  * <li>{@link jakarta.persistence.query.JakartaQuery} declares a query
  *     method and specifies the query or statement in the Jakarta
- *     Persistence query language.
+ *     Persistence Query Language.
  * <li>{@link jakarta.persistence.query.NativeQuery} declares a
  *     query method and specifies the query or statement in the native
  *     SQL dialect of the database.

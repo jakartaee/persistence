@@ -60,7 +60,7 @@ public interface From<Z, X> extends Path<X>, FetchParent<Z, X> {
      * Return the joins originating from this bound type in
      * the order in which they were defined. If this object
      * represents a clause of a query written in the Jakarta
-     * Persistence query language, the joins are returned
+     * Persistence Query Language, the joins are returned
      * in the order they occur in the query. Modifying the
      * contents of the returned list does not affect the
      * query.

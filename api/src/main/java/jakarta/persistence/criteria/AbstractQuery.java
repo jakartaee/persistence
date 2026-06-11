@@ -185,7 +185,7 @@ public interface AbstractQuery<T> extends CommonAbstractCriteria {
      * or {@link Subquery}, including any subquery roots defined via
      * {@linkplain Subquery#correlate(Root) correlation}, in the same
      * order in which they were defined. If this object represents
-     * a query written in the Jakarta Persistence query language,
+     * a query written in the Jakarta Persistence Query Language,
      * the roots are returned in the order they occur in the query.
      * Modifying the contents of the returned list does not affect
      * the query.

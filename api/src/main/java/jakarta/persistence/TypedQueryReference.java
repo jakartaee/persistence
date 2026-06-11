@@ -80,7 +80,7 @@ import java.util.Set;
  *     and {@link #getParameterTypes()}.
  * </ul>
  *
- * <p>In the Jakarta Persistence query language, only SELECT
+ * <p>In the Jakarta Persistence Query Language, only SELECT
  * queries are typed queries, since only a SELECT query can
  * return a result. A DELETE or UPDATE statement is not a
  * typed query and is always represented by an untyped

@@ -7,19 +7,19 @@
 The Jakarta Persistence Criteria API is used to
 define queries through the construction of object-based query definition
 objects, rather than use of the string-based approach of the Jakarta
-Persistence query language described in <<a4665>>.
+Persistence Query Language described in <<a4665>>.
 
 This chapter provides the full definition of the Criteria API.
 
 === Overview
 
 The Jakarta Persistence Criteria API, like the
-Jakarta Persistence query language is based on the abstract persistence
+Jakarta Persistence Query Language is based on the abstract persistence
 schema of entities, their embedded objects, and their relationships as
 its data model. This abstract persistence schema is materialized in the
 form of metamodel objects over which the Criteria API operates. The
 semantics of criteria queries are designed to reflect those of Jakarta
-Persistence query language queries.
+Persistence Query Language queries.
 
 The complete criteria query API may be found in <<criteria-api>>.
 
@@ -32,7 +32,7 @@ reference individual nodes in a criteria query object as it is
 constructed and/or modified. Such variables, when used to refer to the
 entities and embeddable types that constitute the query domain, play a
 role analogous to that of the identification variables of the Jakarta
-Persistence query language.
+Persistence Query Language.
 
 These concepts are further described in the sections that follow.
 Sections <<a10608>> through <<a11413>> describe the construction and
@@ -148,7 +148,7 @@ A `CriteriaQuery` object defines a query over
 one or more entity, embeddable, or basic abstract schema types. The root
 objects of the query are entities, from which the other types are
 reached by navigation. A query root plays a role analogous to that of a
-range variable in the Jakarta Persistence query language and forms the
+range variable in the Jakarta Persistence Query Language and forms the
 basis for defining the domain of the query.
 
 A query root is created and added to the
@@ -234,7 +234,7 @@ q.select(customer.get(Customer_.name))
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -270,7 +270,7 @@ q.where(cb.equal(customer.get(Customer_.status), 1))
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -291,7 +291,7 @@ q.multiselect(s.get(Supplier_.name), cb.count(p));
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -332,7 +332,7 @@ q.where(cb.equal(d.get(Department_.deptno), 1)).select(d);
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -377,7 +377,7 @@ q.where(cb.equal(emp.get(Employee_.contactInfo)
     .select(phone.get(Phone_.vendor));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -406,7 +406,7 @@ q.multiselect(item.get(Item_.name), photo)
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -457,7 +457,7 @@ q.select(t)
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -477,7 +477,7 @@ q.where(cb.isEmpty(order.get(Order_.lineItems)))
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -502,7 +502,7 @@ q.select(book.get(Book_.isbn));
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query.
+Jakarta Persistence Query Language query.
 
 [source,sql]
 ----
@@ -523,7 +523,7 @@ q.select(customer);
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -544,7 +544,7 @@ q.where(
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -566,7 +566,7 @@ Other expressions are created by means of the
 methods of the `CriteriaBuilder` interface. The `CriteriaBuilder`
 interface provides methods corresponding to the built-in arthmetic,
 string, datetime, and case operators and functions of the Jakarta
-Persistence query language.
+Persistence Query Language.
 
 *Example 1:*
 
@@ -584,7 +584,7 @@ q.multiselect(order.get(Order_.quantity),
         addr.get(Address_.zipcode));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -607,7 +607,7 @@ q.select(emp)
 The `type` method can only be applied to a
 path expression. Its result denotes the type navigated to by the path.
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -634,7 +634,7 @@ The `index` method can be applied to a
 has been specified. Its result denotes the position of the item in the
 list.
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -663,7 +663,7 @@ The aggregation methods `avg`, `max`, `min`
 , `sum`, `count` can only be used in the construction of the select
 list or in `having` method conditions.
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -689,7 +689,7 @@ expression that corresponds to an association or element collection. Its
 result denotes the number of elements in the association or element
 collection.
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -722,7 +722,7 @@ q.multiselect(
         .otherwise(cb.prod(e.get(Employee_.salary), 1.01)));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -811,7 +811,7 @@ q.select(
         .otherwise(cb.nullLiteral(String.class)));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -858,7 +858,7 @@ q.select(c).where(cb.equal(c.get(Customer_.status), param));
 ----
 
 This is equivalent to the following query in
-the Jakarta Persistence query language:
+the Jakarta Persistence Query Language:
 
 [source,sql]
 ----
@@ -952,7 +952,7 @@ q.where(cb.equal(v.get(VideoStore_.location).get(Address_.zipcode), "94301"),
 ----
 
 Both are equivalent to the following Jakarta
-Persistence query language query:
+Persistence Query Language query:
 
 [source,sql]
 ----
@@ -964,7 +964,7 @@ WHERE v.location.zipcode = '94301' AND VALUE(i) > 0
 Example 2:
 
 The following two queries are equivalent to
-the Jakarta Persistence query language query above. Because the result type
+the Jakarta Persistence Query Language query above. Because the result type
 is not specified by the `createQuery` method, an `Object[]` is
 returned as a result of the query execution:
 
@@ -1018,7 +1018,7 @@ q.select(cb.construct(
         o.get(Order_.quantity)));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -1097,7 +1097,7 @@ q.select(goodCustomer);
 ----
 
 This query corresponds to the following Jakarta
-Persistence query language query.
+Persistence Query Language query.
 
 [source,sql]
 ----
@@ -1128,7 +1128,7 @@ q.select(emp).distinct(true);
 ----
 
 The above query corresponds to the following
-Jakarta Persistence query language query.
+Jakarta Persistence Query Language query.
 
 [source,sql]
 ----
@@ -1163,7 +1163,7 @@ q.select(emp)
 ----
 
 This query corresponds to the following Jakarta
-Persistence query language query:
+Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1198,7 +1198,7 @@ q.where(cb.gt(sq.select(cb.count(order)), 10))
 ----
 
 This query corresponds to the following Jakarta
-Persistence query language query:
+Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1241,7 +1241,7 @@ q.where(cb.lt(cb.literal(10000), cb.all(sq)));
 
 The first of these queries returns orders
 that are not associated with customers, whereas the second does not. The
-corresponding Jakarta Persistence query language queries are the following:
+corresponding Jakarta Persistence Query Language queries are the following:
 
 [source,sql]
 ----
@@ -1296,7 +1296,7 @@ q.select(cb.tuple(
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1356,7 +1356,7 @@ q.orderBy(cb.desc(o.get(Order_.quantity)),
 ----
 
 This query corresponds to the following Jakarta
-Persistence query language query:
+Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1383,7 +1383,7 @@ q.multiselect(o.get(Order_.quantity),
 ----
 
 This query corresponds to the following Jakarta
-Persistence query language query:
+Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1429,7 +1429,7 @@ q.orderBy(cb.asc(o.get(Order_.quantity)),
 ----
 
 This query corresponds to the following Jakarta
-Persistence query language query:
+Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1472,7 +1472,7 @@ q.set(c.get(Customer_.status), "outstanding")
     .where(cb.lt(c.get(Customer_.balance), 10000));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 update statement is equivalent.
 
 [source,sql]
@@ -1499,7 +1499,7 @@ q.set(e.get(Employee_.address).get(Address_.building), 22)
 `Address` is an embeddable class. Note that
 updating across implicit joins is not supported.
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 update statement is equivalent.
 
 [source,sql]
@@ -1527,7 +1527,7 @@ q.set(e.get(Employee_.salary), cb.prod(e.get(Employee_.salary), 1.1f))
     .where(cb.equal(e.get(Employee_.dept).get(Department_.name), "Sales"));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 update statement is equivalent.
 
 [source,sql]
@@ -1551,7 +1551,7 @@ q.where(
     cb.isEmpty(c.get(Customer_.orders)));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 delete statement is equivalent.
 
 [source,sql]
@@ -1563,7 +1563,7 @@ WHERE c.status = 'inactive'
 ----
 
 Like bulk update and delete operations made
-through the Jakarta Persistence query language, criteria API bulk update
+through the Jakarta Persistence Query Language, criteria API bulk update
 and delete operations map directly to database operations, bypassing any
 optimistic locking checks. Portable applications using bulk update
 operations must manually update the value of the version column, if
@@ -1657,7 +1657,7 @@ q.select(cust.<String>get("name"))
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1694,7 +1694,7 @@ q.where(cb.equal(cust.get("status"), 1))
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----
@@ -1719,7 +1719,7 @@ q.where(cb.equal(emp.get("contactInfo")
 q.select(phone.<Vendor>get("vendor"));
 ----
 
-The following Jakarta Persistence query language
+The following Jakarta Persistence Query Language
 query is equivalent:
 
 [source,sql]
@@ -1745,7 +1745,7 @@ q.multiselect(item.get("name"), photo)
 ----
 
 This query is equivalent to the following
-Jakarta Persistence query language query:
+Jakarta Persistence Query Language query:
 
 [source,sql]
 ----

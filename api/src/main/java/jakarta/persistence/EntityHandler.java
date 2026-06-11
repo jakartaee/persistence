@@ -688,7 +688,7 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link StatementOrTypedQuery}
-     * for executing a Jakarta Persistence query language
+     * for executing a Jakarta Persistence Query Language
      * statement.
      * <p>If the given query is a {@code SELECT} statement,
      * the query results might be packaged as arrays:
@@ -763,7 +763,7 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link TypedQuery} for executing
-     * a Jakarta Persistence query language {@code SELECT}
+     * a Jakarta Persistence Query Language {@code SELECT}
      * statement and returning instances of the given result
      * class. Either:
      * <ol>
@@ -806,7 +806,7 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link TypedQuery} for executing
-     * a Jakarta Persistence query language {@code SELECT}
+     * a Jakarta Persistence Query Language {@code SELECT}
      * statement, specifying an {@link EntityGraph} which is
      * interpreted as a load graph. The select list of the
      * query must contain only a single item, which must be
@@ -830,7 +830,7 @@ public interface EntityHandler extends AutoCloseable {
     /**
      * Create an instance of {@link Statement} for executing a
      * named {@code UPDATE} or {@code DELETE} statement written
-     * in the Jakarta Persistence query language, or a named native
+     * in the Jakarta Persistence Query Language, or a named native
      * SQL statement which returns a row count.
      * @param name The name of a statement defined in metadata
      * @return An instance of {@link Statement} which may be used
@@ -849,10 +849,10 @@ public interface EntityHandler extends AutoCloseable {
     /**
      * Create an instance of {@link StatementOrTypedQuery} for
      * executing a named query written in the Jakarta Persistence
-     * query language or in native SQL.
+     * Query Language or in native SQL.
      * <ul>
      * <li>If the named query is a {@code SELECT} statement
-     *     written in the Jakarta Persistence query language,
+     *     written in the Jakarta Persistence Query Language,
      *     the query results are packaged according to the
      *     {@linkplain NamedQuery#resultClass result class}
      *     specified by the {@link NamedQuery} annotation, or
@@ -897,11 +897,11 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link TypedQuery} for executing a
-     * named query written in the Jakarta Persistence query language
+     * named query written in the Jakarta Persistence Query Language
      * or in native SQL, returning instances of the given result class.
      * <ul>
      * <li>If the named query is written in the Jakarta Persistence
-     *     query language, the result class is interpreted as if it
+     *     Query Language, the result class is interpreted as if it
      *     were an argument of {@link #createQuery(String, Class)}.
      * <li>If the named query is written in native SQL, the result
      *     class is interpreted as if it were an argument of
@@ -928,7 +928,7 @@ public interface EntityHandler extends AutoCloseable {
 
     /**
      * Create an instance of {@link Statement} for executing a named
-     * statement written in the Jakarta Persistence query language or
+     * statement written in the Jakarta Persistence Query Language or
      * in native SQL.
      *
      * @param reference a reference to the query defined in metadata
@@ -949,7 +949,7 @@ public interface EntityHandler extends AutoCloseable {
      * language or in native SQL.
      * <ul>
      * <li>If the named query is a {@code SELECT} statement
-     *     written in the Jakarta Persistence query language,
+     *     written in the Jakarta Persistence Query Language,
      *     the query results are packaged according to the
      *     {@linkplain NamedQuery#resultClass result class}
      *     specified by the {@link NamedQuery} annotation, or

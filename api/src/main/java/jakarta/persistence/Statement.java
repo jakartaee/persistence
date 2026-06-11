@@ -25,14 +25,14 @@ import java.util.Set;
 
 /**
  * Interface used to control the execution of executable statements.
- * In the Jakarta Persistence query language only {@code UPDATE} and
+ * In the Jakarta Persistence Query Language only {@code UPDATE} and
  * {@code DELETE} statements are executable statements. On the other
  * hand, a native SQL statement is considered executable if it returns
  * a row count instead of a result set.
  *
  * @apiNote Just like any other data access API, including JDBC
  * itself, native SQL statement strings and Jakarta Persistence
- * query language strings executed via this API must never be
+ * Query Language strings executed via this API must never be
  * composed by concatenating user input or other untrusted data.
  * User input should be properly validated and passed as a
  * {@linkplain #setParameter(String, Object) parameter} to a
@@ -70,7 +70,7 @@ public interface Statement extends Query {
      * @return the number of entities updated or deleted, or the
      *         row count of the native SQL statement
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language SELECT statement or for
+     *         Persistence Query Language SELECT statement or for
      *         a criteria query
      * @throws TransactionRequiredException if there is
      *         no transaction or the persistence context has not
