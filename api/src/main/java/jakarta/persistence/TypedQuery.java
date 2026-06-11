@@ -627,7 +627,7 @@ public interface TypedQuery<X> extends Query {
      * Bind arguments to every positional parameter of the query.
      * <p>
      * The <em>n</em>th argument is bound to the positional
-     * parameter {@code ?n},
+     * parameter {@code ?n}.
      * @param arguments The arguments to positional parameters
      * @return the same query instance
      * @throws IllegalArgumentException if the number of arguments
