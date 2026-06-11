@@ -320,20 +320,6 @@ part to `EXTRACT`.
 FROM Course c WHERE c.year = EXTRACT(YEAR FROM LOCAL DATE)
 ----
 
-=== Database Functions
-
-For backward compatibility, this specification requires support for
-the `function()` function, allowing invocation of arbitrary database
-functions, including built-in functions and user-defined functions.
-
-- The first argument to `function()` is the name of a SQL function,
-  as a string literal;
-- the remaining arguments are the arguments of the SQL function.
-
-However, implementations are now strongly encouraged to simply allow
-direct invocation of database functions without requiring the extra
-ceremony of `function()`.
-
 === JDBC Datetime Literals
 
 For backward compatibility, implementations are required to accept
@@ -349,6 +335,20 @@ assign an appropriate JDBC datetime type to the literal expression.
   `java.sql.Timestamp`.
 
 This syntax is considered deprecated.
+
+=== Database Functions
+
+For backward compatibility, this specification requires support for
+the `function()` function, allowing invocation of arbitrary database
+functions, including built-in functions and user-defined functions.
+
+- The first argument to `function()` is the name of a SQL function,
+as a string literal;
+- the remaining arguments are the arguments of the SQL function.
+
+However, implementations are now strongly encouraged to simply allow
+direct invocation of database functions without requiring the extra
+ceremony of `function()`.
 
 === Constructor Application [[a5500]]
 
