@@ -287,7 +287,8 @@ identifiers: `YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE`,
 
 `extract()` returns the value of the corresponding field or part of the
 datetime. It is illegal to pass a datetime argument which does not have
-the given field type to `EXTRACT`.
+the given field type to `extract()`.
+For example, `extract(HOUR from local date)` is illegal.
 
 For the following field type identifiers, `extract()` returns an integer
 value:
