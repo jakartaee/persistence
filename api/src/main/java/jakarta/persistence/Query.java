@@ -684,6 +684,22 @@ public interface Query {
                        @Nonnull TemporalType temporalType);
 
     /**
+     * Bind arguments to every positional parameter of the query.
+     * <p>
+     * The <em>n</em>th argument is bound to the positional
+     * parameter {@code ?n},
+     * @param arguments The arguments to positional parameters
+     * @return the same query instance
+     * @throws IllegalArgumentException if the number of arguments
+     *         is not exactly the same as the number of positional
+     *         parameters, or if one of the arguments is of an
+     *         incompatible type
+     * @since 4.0
+     */
+    @Nonnull
+    Query setParameters(@Nonnull Object... arguments);
+
+    /**
      * Get the {@link Parameter} objects representing the declared
      * parameters of the query or an empty set if the query has no
      * parameters.

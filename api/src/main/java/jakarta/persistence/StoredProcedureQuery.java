@@ -408,6 +408,24 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
                                                    @Nonnull Class<? extends AttributeConverter<P, ?>> converter);
 
     /**
+     * Bind arguments to every positional parameter of the stored
+     * procedure.
+     * <p>
+     * The <em>n</em>th argument is bound to the positional
+     * parameter {@code ?n},
+     * @param arguments The arguments to positional parameters
+     * @return the same query instance
+     * @throws IllegalArgumentException if the number of arguments
+     *         is not exactly the same as the number of positional
+     *         parameters, or if one of the arguments is of an
+     *         incompatible type
+     * @since 4.0
+     */
+    @Nonnull
+    @Override
+    StoredProcedureQuery setParameters(@Nonnull Object... arguments);
+
+    /**
      * Set the {@linkplain QueryFlushMode query flush mode} to be
      * used when the query is executed. This flush mode overrides
      * the {@linkplain EntityManager#getFlushMode flush mode type

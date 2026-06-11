@@ -478,6 +478,23 @@ public interface Statement extends Query {
                            @Nonnull TemporalType temporalType);
 
     /**
+     * Bind arguments to every positional parameter of the statement.
+     * <p>
+     * The <em>n</em>th argument is bound to the positional
+     * parameter {@code ?n},
+     * @param arguments The arguments to positional parameters
+     * @return the same statement instance
+     * @throws IllegalArgumentException if the number of arguments
+     *         is not exactly the same as the number of positional
+     *         parameters, or if one of the arguments is of an
+     *         incompatible type
+     * @since 4.0
+     */
+    @Nonnull
+    @Override
+    Statement setParameters(@Nonnull Object... arguments);
+
+    /**
      * Specify an {@linkplain Option option} influencing execution
      * of this statement, overwriting any existing option of the
      * same type.
