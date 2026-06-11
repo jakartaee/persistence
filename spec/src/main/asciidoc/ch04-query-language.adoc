@@ -76,7 +76,7 @@ an inheritance relationship can only exist between entity types
 belonging to the same entity class hierarchy, as defined in
 <<a966>>.
 
-[WARNING]
+[NOTE]
 That is, the implicit relationship between structural types defined
 by Jakarta Query is reinterpreted here as a declared relationship
 between nominal types.
