@@ -334,15 +334,6 @@ public class Client extends PMClientBase {
         getEntityManager().clear();
     }
 
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
-
     private void assertOrderedFindMultipleResults(List<AccessBook> books) {
         assertEquals(3, books.size());
         assertEquals(1, books.get(0).getId());

@@ -535,17 +535,4 @@ public class Client extends PMClientBase {
 			removeTestJarFromCP();
 		}
 	}
-
-	private void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-
-		try {
-			if (getEntityTransaction().isActive()) {
-				getEntityTransaction().rollback();
-			}
-		} catch (Exception re) {
-			logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-		}
-
-	}
 }

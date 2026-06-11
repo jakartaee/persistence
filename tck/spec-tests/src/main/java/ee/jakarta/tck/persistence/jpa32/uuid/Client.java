@@ -72,13 +72,4 @@ public class Client extends PMClientBase {
         assertEquals(entity.getId(), UuidPrePersistEntity.getPrePersistId());
         transaction.commit();
     }
-
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
 }

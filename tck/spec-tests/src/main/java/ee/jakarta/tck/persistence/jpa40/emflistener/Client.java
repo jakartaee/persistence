@@ -87,13 +87,4 @@ public class Client extends PMClientBase {
         transaction.commit();
         getEntityManager().clear();
     }
-
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
 }

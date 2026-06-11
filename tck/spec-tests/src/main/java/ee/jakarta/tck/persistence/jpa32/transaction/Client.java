@@ -67,13 +67,4 @@ public class Client extends PMClientBase {
         transaction.setTimeout(null);
         assertNull(transaction.getTimeout());
     }
-
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
 }

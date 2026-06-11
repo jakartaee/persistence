@@ -1847,51 +1847,6 @@ public abstract class Util extends PMClientBase {
 		}
 	}
 
-	public void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("DELETE FROM FKS_ANOOP_CNOOP").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM FKS_ALIAS_CUSTOMER").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM ALIAS_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM CREDITCARD_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM SPOUSE_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM INFO_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PHONE_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("UPDATE ORDER_TABLE SET FK4_FOR_CUSTOMER_TABLE= NULL").executeUpdate();
-			getEntityManager()
-					.createNativeQuery("UPDATE LINEITEM_TABLE SET FK_FOR_PRODUCT_TABLE= NULL, FK1_FOR_ORDER_TABLE=NULL")
-					.executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM CUSTOMER_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM ADDRESS").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PRODUCT_DETAILS").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PRODUCT_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM ORDER_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM LINEITEM_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM TRIM_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM EMPLOYEE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM DEPARTMENT").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM A_BASIC").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM CRITERIA_TEST_TABLE").executeUpdate();
-			getEntityTransaction().commit();
-			logger.log(Logger.Level.TRACE, "done removeTestData");
-
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
-
 	public abstract JavaArchive createDeployment() throws Exception;
 
 }

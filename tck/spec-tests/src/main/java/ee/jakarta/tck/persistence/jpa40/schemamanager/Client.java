@@ -111,15 +111,6 @@ public class Client extends PMClientBase {
         }
     }
 
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
-
     private long countBooks(EntityManagerFactory emf) {
         return emf.callInTransaction(entityManager -> entityManager
                 .createQuery("SELECT COUNT(b) FROM Jpa40SchemaPopulateBook b", Long.class)

@@ -427,36 +427,4 @@ public class Client extends PMClientBase {
 			removeTestJarFromCP();
 		}
 	}
-
-	private void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("Delete from  DEPARTMENT_2").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from EMPLOYEE_2").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  STORE").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  CUSTOMERS").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  THEATRELOCATION_THEATRECOMPANY").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  RETAILORDER_CONSUMER").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  RETAILORDER").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  CONSUMER").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  THEATRELOCATION").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from  THEATRECOMPANY").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
 }

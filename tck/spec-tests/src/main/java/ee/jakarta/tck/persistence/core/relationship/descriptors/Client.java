@@ -1195,35 +1195,4 @@ public class Client extends PMClientBase {
 		}
 	}
 
-	private void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("DELETE FROM PERSON_INSURANCE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PERSON_ANNUALREVIEW").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM INSURANCE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM ANNUALREVIEW").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PERSON").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM TEAM").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM COMPANY").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM ADDRESS").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PROJECT_PERSON").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PROJECT").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
-
 }
