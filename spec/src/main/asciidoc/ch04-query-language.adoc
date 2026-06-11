@@ -243,7 +243,7 @@ Parameter names are considered case-sensitive.
 Ordinal parameters are numbered sequentially, starting with  `?1`.
 
 [NOTE]
-Terminology Note: Elsewhere In this specification, ordinal parameters
+Terminology Note: Elsewhere in this specification, ordinal parameters
 are called _positional parameters_.
 
 Arguments are assigned to query parameters via the `setParameter()`
