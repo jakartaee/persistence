@@ -3186,7 +3186,7 @@ A stored procedure that does not return a result set can be executed using
 the `execute()` or `executeUpdate()` method. Stored procedure query
 execution is described in detail in <<a4625>>.
 
-Implementations are permitted reject invocations of `setMaxResults()`
+Implementations are permitted to reject invocations of `setMaxResults()`
 and `setFirstResult()` for instances of `StoredProcedureQuery`.
 
 The effect of applying `setMaxResults()` or `setFirstResult()` to a
