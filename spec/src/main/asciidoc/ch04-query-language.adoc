@@ -73,7 +73,7 @@ embeddable class.
 Jakarta Query defines inheritance as a structural relationship
 between entity types. In the context of Jakarta Persistence,
 an inheritance relationship can only exist between entity types
-belong to the same entity class hierarchy, as defined in
+belonging to the same entity class hierarchy, as defined in
 <<a966>>.
 
 [WARNING]
