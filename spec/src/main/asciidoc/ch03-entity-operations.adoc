@@ -49,7 +49,7 @@ The `EntityManager` or `EntityAgent` acts as a factory for instances of
 `Query`, which are used to control query execution. The `Query` interface,
 along with its subtypes `Statement`, `TypedQuery`, `StoredProcedureQuery`,
 and related interfaces are described in <<a3125>>. The Jakarta Persistence
-query language is defined in <<a4665>> and APIs for the construction of
+Query Language is defined in <<a4665>> and APIs for the construction of
 Criteria queries in <<a6925>>. <<a2397>> describes the use of entity graphs
 to control and limit the data fetched during find and query operations.
 
@@ -3093,7 +3093,7 @@ language, in native SQL, or via the Criteria API, is executed via the
 `TypedQuery` or `Statement` interface, or, for backward compatibility,
 via deprecated methods of the `Query` interface.
 
-- A `SELECT` query specified in the Jakarta Persistence query language
+- A `SELECT` query specified in the Jakarta Persistence Query Language
   or using the Criteria API (as an instance of `CriteriaSelect`) is
   executed by calling `getResultList()`, `getResultStream()`,
   `getSingleResult()`, or `getSingleResultOrNull()` of `TypedQuery`, or,
@@ -3104,7 +3104,7 @@ via deprecated methods of the `Query` interface.
   or `getSingleResultOrNull()`.
 
 - An `UPDATE` or `DELETE` statement specified in the Jakarta Persistence
-  query language or using the Criteria API (as an instance of
+  Query Language or using the Criteria API (as an instance of
   `CriteriaUpdate` or `CriteriaDelete`) is executed by calling the method
   `execute()` of `Statement` or, for backward compatibility by calling
   the method `executeUpdate()` of `Query`.
@@ -3121,7 +3121,7 @@ result type.
   `CriteriaQuery` object was created, as described in <<a10621>>.
 
 - For an instance of `TypedQuery` that represents a `SELECT` query
-  written in the Jakarta Persistence query language, the result
+  written in the Jakarta Persistence Query Language, the result
   type is determined by the second argument to the `createQuery()`
   or `createNamedQuery()` method, which must be the Java `Class`
   representing the result type or an `EntityGraph` whose root
@@ -3434,7 +3434,7 @@ to custom query options.
 
 A query (or statement) might have _parameters_.
 
-- Queries written in the Jakarta Persistence query language declare
+- Queries written in the Jakarta Persistence Query Language declare
   named parameters or positional parameters according to the syntax
   defined by the Jakarta Query specification, as described in
   <<query-parameters>>.
@@ -3451,7 +3451,7 @@ A query (or statement) might have _parameters_.
   named parameter. A criteria query cannot have a positional parameter.
 
 A `Parameter` object representing a named or positional parameter of a
-query written in the Jakarta Persistence query language can be obtained
+query written in the Jakarta Persistence Query Language can be obtained
 by calling `Query.getParameter()`. Implementations are permitted to
 reject invocations of `getParameter()` when the `Query` represents a
 query written in SQL.
@@ -3559,7 +3559,7 @@ A _named query_ is:
 - a query instantiated at runtime and registered by calling the
   `addNamedQuery()` method of `EntityManagerFactory`.
 
-A named query may be expressed in the Jakarta Persistence query language
+A named query may be expressed in the Jakarta Persistence Query Language
 or in SQL. Query names are scoped to the persistence unit and must be
 unique within a given unit. A named query should be a JPQL `select` query
 or a native SQL statement that returns a result set.
@@ -3631,7 +3631,7 @@ public EntityManager em;
 
 ==== Query Polymorphism
 
-Queries written in the Jakarta Persistence query language are naturally
+Queries written in the Jakarta Persistence Query Language are naturally
 polymorphic. That is, the `FROM` clause of a query designates an entity
 class, and the query ranges over instances of that entity class and of
 its subclasses, as required by the Jakarta Query specification, with the

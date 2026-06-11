@@ -208,10 +208,10 @@ public interface CriteriaBuilder {
 
     /**
      * Create a {@link CriteriaQuery} object representing the
-     * given Jakarta Persistence query language {@code SELECT}
+     * given Jakarta Persistence Query Language {@code SELECT}
      * query with the given result type.
      * @param resultClass type of the query result
-     * @param jpql A Jakarta Persistence query language
+     * @param jpql A Jakarta Persistence Query Language
      *             {@code SELECT} query
      * @param <T> the query result type
      * @return criteria query object
@@ -228,9 +228,9 @@ public interface CriteriaBuilder {
 
     /**
      * Create a {@link CriteriaQuery} object representing the
-     * given Jakarta Persistence query language {@code SELECT}
+     * given Jakarta Persistence Query Language {@code SELECT}
      * query.
-     * @param jpql A Jakarta Persistence query language
+     * @param jpql A Jakarta Persistence Query Language
      *             {@code SELECT} query
      * @return criteria query object
      * @throws IllegalArgumentException if the query string is
@@ -263,9 +263,9 @@ public interface CriteriaBuilder {
 
     /**
      * Create a {@link CriteriaUpdate} object representing the
-     * given Jakarta Persistence query language {@code UPDATE}
+     * given Jakarta Persistence Query Language {@code UPDATE}
      * query with the given target entity type.
-     * @param jpql A Jakarta Persistence query language
+     * @param jpql A Jakarta Persistence Query Language
      *             {@code UPDATE} query
      * @param targetEntity target type for update operation
      * @param <T> the target entity type
@@ -282,9 +282,9 @@ public interface CriteriaBuilder {
 
     /**
      * Create a {@link CriteriaUpdate} object representing the
-     * given Jakarta Persistence query language {@code UPDATE}
+     * given Jakarta Persistence Query Language {@code UPDATE}
      * query.
-     * @param jpql A Jakarta Persistence query language
+     * @param jpql A Jakarta Persistence Query Language
      *             {@code UPDATE} query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
@@ -307,9 +307,9 @@ public interface CriteriaBuilder {
 
     /**
      * Create a {@link CriteriaDelete} object representing the
-     * given Jakarta Persistence query language {@code DELETE}
+     * given Jakarta Persistence Query Language {@code DELETE}
      * query with the given target entity type.
-     * @param jpql A Jakarta Persistence query language
+     * @param jpql A Jakarta Persistence Query Language
      *             {@code DELETE} query
      * @param targetEntity target type for delete operation
      * @param <T> the target entity type
@@ -326,9 +326,9 @@ public interface CriteriaBuilder {
 
     /**
      * Create a {@link CriteriaDelete} object representing the
-     * given Jakarta Persistence query language {@code DELETE}
+     * given Jakarta Persistence Query Language {@code DELETE}
      * query.
-     * @param jpql A Jakarta Persistence query language
+     * @param jpql A Jakarta Persistence Query Language
      *             {@code DELETE} query
      * @throws IllegalArgumentException if the query string is
      *         found to be invalid
@@ -339,19 +339,19 @@ public interface CriteriaBuilder {
     CriteriaDelete<?> createCriteriaDelete(@Nonnull String jpql);
 
     /**
-     * Modify the Jakarta Persistence query language query
+     * Modify the Jakarta Persistence Query Language query
      * represented by the given reference, returning a
      * reference to the modified query inheriting all the
      * options of the given reference. This operation never
      * modifies the query represented by the given reference.
      * @param reference A reference to a Jakarta Persistence
-     *                  query language {@code SELECT} query
+     *                  Query Language {@code SELECT} query
      * @param augmentation a consumer that modifies the query
      * @param <T> the query result type
      * @return a reference to the modified query
      * @throws IllegalArgumentException if the given reference
      *         does not represent a named Jakarta Persistence
-     *         query language {@code SELECT} query belonging
+     *         Query Language {@code SELECT} query belonging
      *         to the owning factory
      * @since 4.0
      */
@@ -360,7 +360,7 @@ public interface CriteriaBuilder {
                                        @Nonnull Consumer<CriteriaQuery<T>> augmentation);
 
     /**
-     * Modify the Jakarta Persistence query language query
+     * Modify the Jakarta Persistence Query Language query
      * represented by the given reference, and change the
      * query result type, returning a reference to the modified
      * query inheriting all the options of the given reference.
@@ -377,7 +377,7 @@ public interface CriteriaBuilder {
      * a modified selection compatible with the given modified
      * result type.
      * @param reference A reference to a Jakarta Persistence
-     *                  query language {@code SELECT} query
+     *                  Query Language {@code SELECT} query
      * @param augmentedResultType the modified result type
      * @param augmentation a consumer that modifies the query
      *                     and sets a selection compatible
@@ -386,7 +386,7 @@ public interface CriteriaBuilder {
      * @return a reference to the modified query
      * @throws IllegalArgumentException if the given reference
      *         does not represent a named Jakarta Persistence
-     *         query language {@code SELECT} query belonging
+     *         Query Language {@code SELECT} query belonging
      *         to the owning factory
      * @since 4.0
      */
@@ -396,7 +396,7 @@ public interface CriteriaBuilder {
                                        @Nonnull Consumer<CriteriaQuery<T>> augmentation);
 
     /**
-     * Modify the Jakarta Persistence query language statement
+     * Modify the Jakarta Persistence Query Language statement
      * represented by the given reference, returning a reference
      * to the modified statement inheriting all the options of
      * the given reference. This operation never modifies the
@@ -407,12 +407,12 @@ public interface CriteriaBuilder {
      * by the given reference. The consumer is expected to
      * mutate this instance to realize the augmentation.
      * @param reference A reference to a Jakarta Persistence
-     *                  query language statement
+     *                  Query Language statement
      * @param augmentation a consumer that modifies the statement
      * @return a reference to the modified statement
      * @throws IllegalArgumentException if the given reference
      *         does not represent a named Jakarta Persistence
-     *         query language statement belonging to the owning
+     *         Query Language statement belonging to the owning
      *         factory
      * @since 4.0
      */

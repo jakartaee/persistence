@@ -75,7 +75,7 @@ public @interface NamedStatement {
 
 	/**
 	 * (Required) The statement string in the Jakarta Persistence
-	 * query language.
+	 * Query Language.
 	 */
 	String statement();
 

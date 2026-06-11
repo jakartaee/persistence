@@ -56,7 +56,7 @@ Admonitions are used for paragraphs that contain descriptive information
 clarifications, explanations, and recommendations.
 
 `Monospaced font` is used for code examples and to specify the BNF of the
-Jakarta Persistence query language.
+Jakarta Persistence Query Language.
 
 Java types belonging to the namespace `jakarta.persistence` are usually
 referred to by their unqualified names when there is no ambiguity.

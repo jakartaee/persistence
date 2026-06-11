@@ -76,7 +76,7 @@ import java.util.Set;
  *     and {@link #getParameterTypes()}.
  * </ul>
  *
- * <p>In the Jakarta Persistence query language, a DELETE or
+ * <p>In the Jakarta Persistence Query Language, a DELETE or
  * UPDATE statement is not a typed query and is always
  * represented by an instance of {@link StatementReference}.
  * A native SQL query is represented by an instance of

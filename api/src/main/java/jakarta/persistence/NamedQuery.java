@@ -88,7 +88,7 @@ public @interface NamedQuery {
 
     /**
      * (Required) The query string in the Jakarta Persistence
-     * query language.
+     * Query Language.
      */
     String query();
 

@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 /**
  * Declares common operations for controlling the execution of
  * statements and queries written in the Jakarta Persistence
- * query language or in native SQL.
+ * Query Language or in native SQL.
  * <ul>
  * <li>For a Jakarta Persistence {@code UPDATE} or {@code DELETE}
  *     statement, or for a native SQL statement that returns a row
@@ -80,7 +80,7 @@ public interface Query {
      * @return a list of the results, or an empty list if there are
      *         no results
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -119,7 +119,7 @@ public interface Query {
      * @return a stream of the results, or an empty stream if there
      *         are no results
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -161,7 +161,7 @@ public interface Query {
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -194,7 +194,7 @@ public interface Query {
      * @return the result, or {@code null} if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -240,7 +240,7 @@ public interface Query {
      * @return the number of entities updated or deleted, or the
      *         row count of the native SQL statement
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language SELECT statement or for
+     *         Persistence Query Language SELECT statement or for
      *         a criteria query
      * @throws TransactionRequiredException if there is 
      *         no transaction or the persistence context has not
@@ -733,7 +733,7 @@ public interface Query {
      *         specified name does not exist or is not assignable
      *         to the type
      * @throws IllegalStateException if invoked on a native
-     *         query or Jakarta Persistence query language query when
+     *         query or Jakarta Persistence Query Language query when
      *         the implementation does not support this use
      * @since 2.0
      */
@@ -774,7 +774,7 @@ public interface Query {
      *         specified position does not exist or is not assignable
      *         to the type
      * @throws IllegalStateException if invoked on a native
-     *         query or Jakarta Persistence query language query when
+     *         query or Jakarta Persistence Query Language query when
      *         the implementation does not support this use
      * @since 2.0
      */
@@ -901,7 +901,7 @@ public interface Query {
      * @param lockMode The new lock mode
      * @return the same query instance
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language {@code SELECT} query or a
+     *         Persistence Query Language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @see #getLockMode
      * @since 2.0
@@ -933,7 +933,7 @@ public interface Query {
      *
      * @return the current lock mode
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language {@code SELECT} query or a
+     *         Persistence Query Language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @since 2.0
      * @deprecated Use {@link TypedQuery#getLockMode}

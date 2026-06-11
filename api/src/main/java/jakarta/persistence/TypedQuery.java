@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 
 /**
  * Interface used to control the execution of typed queries. In
- * the Jakarta Persistence query language, only {@code SELECT}
+ * the Jakarta Persistence Query Language, only {@code SELECT}
  * queries are typed queries, since only a {@code SELECT} query
  * can return a result. A {@code DELETE} or {@code UPDATE} query
  * is not a typed query and is always represented by an untyped
@@ -80,7 +80,7 @@ public interface TypedQuery<X> extends Query {
      *         be returned by the query if no offset or limit were
      *         applied
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -99,7 +99,7 @@ public interface TypedQuery<X> extends Query {
      * @return a list of the results, each of type {@link X}, or an
      *         empty list if there are no results
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -131,7 +131,7 @@ public interface TypedQuery<X> extends Query {
      * @throws NoResultException if there is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -164,7 +164,7 @@ public interface TypedQuery<X> extends Query {
      * @return a stream of the results, each of type {@link X}, or an
      *         empty stream if there are no results
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -202,7 +202,7 @@ public interface TypedQuery<X> extends Query {
      *         is no result
      * @throws NonUniqueResultException if more than one result
      * @throws IllegalStateException if called for a Jakarta
-     *         Persistence query language UPDATE or DELETE statement
+     *         Persistence Query Language UPDATE or DELETE statement
      * @throws QueryTimeoutException if the query execution exceeds
      *         the query timeout value set and only the statement is
      *         rolled back
@@ -661,7 +661,7 @@ public interface TypedQuery<X> extends Query {
       * @param lockMode The new lock mode
       * @return the same query instance
       * @throws IllegalStateException if the query is not a Jakarta
-      *         Persistence query language {@code SELECT} query or a
+      *         Persistence Query Language {@code SELECT} query or a
       *         {@link jakarta.persistence.criteria.CriteriaQuery}
       * @see #getLockMode
       * @since 2.0
@@ -681,7 +681,7 @@ public interface TypedQuery<X> extends Query {
      * @param lockScope The scope of the pessimistic lock
      * @return the same query instance
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language {@code SELECT} query or a
+     *         Persistence Query Language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      */
     @Nonnull
@@ -709,7 +709,7 @@ public interface TypedQuery<X> extends Query {
      *
      * @return the current lock mode
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language {@code SELECT} query or a
+     *         Persistence Query Language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @see #getLockScope
      * @since 2.0
@@ -733,7 +733,7 @@ public interface TypedQuery<X> extends Query {
      *
      * @return the current pessimistic lock scope
      * @throws IllegalStateException if the query is not a Jakarta
-     *         Persistence query language {@code SELECT} query or a
+     *         Persistence Query Language {@code SELECT} query or a
      *         {@link jakarta.persistence.criteria.CriteriaQuery}
      * @since 4.0
      */
