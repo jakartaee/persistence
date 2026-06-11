@@ -2852,11 +2852,4 @@ public class Client extends PMClientBase {
 			removeTestJarFromCP();
 		}
 	}
-
-	private void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-	}
 }

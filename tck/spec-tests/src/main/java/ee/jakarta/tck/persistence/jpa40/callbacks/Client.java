@@ -290,15 +290,6 @@ public class Client extends PMClientBase {
         assertEquals(0L, countCallbackEntities());
     }
 
-    private void removeTestData() {
-        var transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
-
     private void createCallbackEntity(CallbackEntity entity) {
         var transaction = getEntityTransaction();
         transaction.begin();

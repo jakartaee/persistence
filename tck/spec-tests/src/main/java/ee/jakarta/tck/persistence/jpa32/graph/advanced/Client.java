@@ -103,12 +103,4 @@ public class Client extends PMClientBase {
         assertEquals(GraphAdvancedStaffAuthor.class, keyGraph.getClassType());
         assertTrue(keyGraph.hasAttributeNode("department"));
     }
-
-    private void removeTestData() {
-        if (getEntityTransaction().isActive()) {
-            getEntityTransaction().rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
 }

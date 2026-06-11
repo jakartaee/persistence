@@ -96,16 +96,16 @@ public class Client extends PMClientBase {
 		assertTrue(ids.size() == 21, "Unexpected result count:" + ids.size());
 		assertTrue(checkEntityPK(ids, expected, false), "Unexpected PKs received");
 
-		Stream<?> s1 = query.getResultStream();
-		try {
+		try (Stream<?> s1 = query.getResultStream()) {
 			s1.forEach(this::checkPK);
 		} catch (RuntimeException e) {
 			throw new Exception(e.getMessage());
 		}
 
 		ObjectCounter oc = new ObjectCounter();
-		s1 = query.getResultStream();
-		s1.forEach(oc::increment);
+		try (Stream<?> s1 = query.getResultStream()) {
+			s1.forEach(oc::increment);
+		}
 		assertTrue(oc.getCounter() == 21, "Unexpected streamed objects found:" + oc.getCounter());
 		logger.log(Logger.Level.TRACE, "Query.getResultStream() returned expected ids");
 	}
@@ -127,16 +127,16 @@ public class Client extends PMClientBase {
 		assertTrue(received.size() == 21, "Unexpected result count:" + received.size());
 		assertTrue(checkEntityPK(received, expected, false), "Unexpected PKs received");
 
-		Stream<Employee> s1 = query.getResultStream();
-		try {
+		try (Stream<Employee> s1 = query.getResultStream()) {
 			s1.forEach(this::checkPK);
 		} catch (RuntimeException e) {
 			throw new Exception(e.getMessage());
 		}
 
 		ObjectCounter oc = new ObjectCounter();
-		s1 = query.getResultStream();
-		s1.forEach(oc::increment);
+		try (Stream<Employee> s1 = query.getResultStream()) {
+			s1.forEach(oc::increment);
+		}
 		assertTrue(oc.getCounter() == 21, "Unexpected streamed objects found:" + oc.getCounter());
 		logger.log(Logger.Level.TRACE, "TypedQuery.getResultStream() returned expected ids");
 	}
@@ -320,32 +320,6 @@ public class Client extends PMClientBase {
 			super.cleanup();
 		} finally {
 			removeTestJarFromCP();
-		}
-	}
-
-	private void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("DELETE FROM EMPLOYEE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM DEPARTMENT").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM INSURANCE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM DATATYPES2").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
 		}
 	}
 

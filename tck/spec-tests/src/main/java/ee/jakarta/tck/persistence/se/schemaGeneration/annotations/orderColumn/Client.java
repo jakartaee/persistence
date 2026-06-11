@@ -300,33 +300,4 @@ public class Client extends PMClientBase {
 
 	}
 
-	private void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			logger.log(Logger.Level.INFO, "Try to drop table SCHEMAGENSIMPLE");
-			getEntityManager().createNativeQuery("DROP TABLE SCHEMAGENEMP").executeUpdate();
-			getEntityManager().createNativeQuery("DROP TABLE SCHEMAGENDEPT").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Throwable t) {
-			logger.log(Logger.Level.INFO,
-					"AN EXCEPTION WAS THROWN DURING DROP TABLE, IT MAY OR MAY NOT BE A PROBLEM, " + t.getMessage());
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-				clearEntityTransaction();
-
-				// ensure that we close the EM and EMF before proceeding.
-				clearEMAndEMF();
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
-
 }

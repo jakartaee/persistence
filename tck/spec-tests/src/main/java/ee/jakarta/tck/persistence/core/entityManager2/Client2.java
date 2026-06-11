@@ -215,7 +215,7 @@ public class Client2 extends PMClientBase {
 			getEntityTransaction().begin();
 			Order o = getEntityManager().find(Order.class, 4);
 			getEntityTransaction().commit();
-			removeTestData();
+			truncateTestData();
 			getEntityManager().lock(o, LockModeType.PESSIMISTIC_READ);
 			logger.log(Logger.Level.ERROR, "TransactionRequiredException not thrown");
 		} catch (TransactionRequiredException tre) {
@@ -239,7 +239,7 @@ public class Client2 extends PMClientBase {
 			getEntityTransaction().begin();
 			Order o = getEntityManager().find(Order.class, 4);
 			getEntityTransaction().commit();
-			removeTestData();
+			truncateTestData();
 			getEntityManager().lock(o, LockModeType.PESSIMISTIC_READ, myMap);
 			logger.log(Logger.Level.ERROR, "TransactionRequiredException not thrown");
 		} catch (TransactionRequiredException tre) {
@@ -290,7 +290,7 @@ public class Client2 extends PMClientBase {
 		}
 	}
 
-	private void removeTestData() {
+	protected void truncateTestData() {
 		logger.log(Logger.Level.TRACE, "removeTestData");
 		if (getEntityTransaction().isActive()) {
 			getEntityTransaction().rollback();
@@ -299,14 +299,6 @@ public class Client2 extends PMClientBase {
 			getEntityManagerFactory().getSchemaManager().truncate();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
 		}
 	}
 }

@@ -431,15 +431,6 @@ public class Client extends PMClientBase {
         assertEquals(List.of("updated before bulk upsert", "second"), titlesById(1, 2));
     }
 
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
-
     private long countBooks() {
         return getEntityManagerFactory().callInTransaction(entityManager -> entityManager
                 .createQuery("SELECT COUNT(b) FROM Jpa40AgentBook b", Long.class)

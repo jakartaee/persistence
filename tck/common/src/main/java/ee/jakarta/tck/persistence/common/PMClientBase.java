@@ -174,13 +174,16 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
         super();
     }
 
-    protected void removeEntity(Object o) {
-        if (o != null) {
-            try {
-                getEntityManager().remove(o);
-            } catch (Exception e) {
-                logger.log(Logger.Level.ERROR, "removeEntity: Exception caught when removing entity: ", e);
-            }
+    protected void removeTestData() {
+        logger.log(Logger.Level.TRACE, "removeTestData");
+        if (getEntityTransaction().isActive()) {
+            getEntityTransaction().rollback();
+        }
+        try {
+            getEntityManagerFactory().getSchemaManager().truncate();
+            getEntityManager().clear();
+        } catch (Exception e) {
+            logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
         }
     }
 

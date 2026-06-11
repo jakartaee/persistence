@@ -2348,9 +2348,7 @@ public class Client1 extends Client {
         boolean pass1 = false;
         boolean pass2 = false;
 
-        try {
-
-            StoredProcedureQuery spq = getEntityManager().createNamedStoredProcedureQuery("tobeoverridden1");
+        try (StoredProcedureQuery spq = getEntityManager().createNamedStoredProcedureQuery("tobeoverridden1")) {
             spq.setParameter(1, 1);
             Object o = spq.getParameterValue(1);
             if (o instanceof Integer) {

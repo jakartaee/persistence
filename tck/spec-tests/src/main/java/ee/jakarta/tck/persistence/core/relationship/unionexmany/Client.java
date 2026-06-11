@@ -146,28 +146,4 @@ public class Client extends PMClientBase {
 			removeTestJarFromCP();
 		}
 	}
-
-	private void removeTestData() {
-		logger.log(Logger.Level.TRACE, "removeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("DELETE FROM UNI1XMPERSON_UNI1XMPROJECT").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM UNI1XMPROJECT").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM UNI1XMPERSON").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
 }

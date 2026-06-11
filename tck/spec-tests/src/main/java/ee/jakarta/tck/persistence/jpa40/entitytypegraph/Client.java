@@ -83,13 +83,4 @@ public class Client extends PMClientBase {
                 namedGraphs.get(EntityTypeGraphBook.GRAPH).getGraphedType().getJavaType());
         assertTrue(namedGraphs.get(EntityTypeGraphBook.GRAPH).hasAttributeNode("title"));
     }
-
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
 }

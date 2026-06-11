@@ -97,13 +97,4 @@ public class Client extends PMClientBase {
                 .createQuery("SELECT COUNT(e) FROM Jpa32SchemaManagedEntity e", Long.class)
                 .getSingleResult();
     }
-
-    private void removeTestData() {
-        EntityTransaction transaction = getEntityTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        getEntityManagerFactory().getSchemaManager().truncate();
-        getEntityManager().clear();
-    }
 }
