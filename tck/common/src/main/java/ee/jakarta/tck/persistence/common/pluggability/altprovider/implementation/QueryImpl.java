@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.CacheRetrieveMode;
 import jakarta.persistence.CacheStoreMode;
@@ -38,8 +40,11 @@ import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ResultSetMapping;
-import org.jspecify.annotations.NonNull;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
+
+@SuppressWarnings({"removal", "deprecation"})
 public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	public String jpQL;
 
@@ -47,7 +52,7 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	public String nativeSQL;
 
-	public Class queryOnClass;
+	public Class<X> queryOnClass;
 
 	public String resultsetMapping;
 
@@ -58,23 +63,27 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	}
 
 	@Override
+	@Nonnull
 	public Statement asStatement() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <R> TypedQuery<R> ofType(Class<R> resultType) {
-		return null;
+	@Nonnull
+	public <R> TypedQuery<R> ofType(@Nonnull Class<R> resultType) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <R> TypedQuery<R> withEntityGraph(EntityGraph<R> graph) {
-		return null;
+	@Nonnull
+	public <R> TypedQuery<R> withEntityGraph(@Nonnull EntityGraph<R> graph) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <R> TypedQuery<R> withResultSetMapping(ResultSetMapping<R> mapping) {
-		return null;
+	@Nonnull
+	public <R> TypedQuery<R> withResultSetMapping(@Nonnull ResultSetMapping<R> mapping) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -88,73 +97,83 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	}
 
 	@Override
+	@Nonnull
 	public FlushModeType getFlushMode() {
-		return null;
+		return FlushModeType.AUTO;
 	}
 
 	@Override
+	@Nonnull
 	public Map<String, Object> getHints() {
-		return null;
+		return emptyMap();
 	}
 
 	@Override
+	@Nullable
 	public LockModeType getLockMode() {
 		return null;
 	}
 
 	@Override
+	@Nullable
 	public PessimisticLockScope getLockScope() {
 		return null;
 	}
 
 	@Override
 	public int getMaxResults() {
-		return 0;
+		return Integer.MAX_VALUE;
 	}
 
 	@Override
-	public Parameter<?> getParameter(String arg0) {
-		return null;
+	@Nonnull
+	public Parameter<?> getParameter(@Nonnull String arg0) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
+	@Nonnull
 	public Parameter<?> getParameter(int arg0) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> Parameter<T> getParameter(String arg0, Class<T> arg1) {
-		return null;
+	@Nonnull
+	public <T> Parameter<T> getParameter(@Nonnull String arg0, @Nonnull Class<T> arg1) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> Parameter<T> getParameter(int arg0, Class<T> arg1) {
-		return null;
+	@Nonnull
+	public <T> Parameter<T> getParameter(int arg0, @Nonnull Class<T> arg1) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> T getParameterValue(Parameter<T> arg0) {
-		return null;
+	public <T> T getParameterValue(@Nonnull Parameter<T> arg0) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Object getParameterValue(String arg0) {
-		return null;
+	public Object getParameterValue(@Nonnull String arg0) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Object getParameterValue(int arg0) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
+	@Nonnull
 	public Set<Parameter<?>> getParameters() {
-		return null;
+		return emptySet();
 	}
 
 	@Override
-	public List getResultList() {
-		return null;
+	@Nonnull
+	public List<X> getResultList() {
+		throw new UnsupportedOperationException();
 	}
 
     @Override
@@ -164,82 +183,95 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
     @Override
 	public X getSingleResult() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public X getSingleResultOrNull() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean isBound(Parameter<?> arg0) {
+	public boolean isBound(@Nonnull Parameter<?> arg0) {
 		return false;
 	}
 
 	@Override
+	@Nonnull
 	public TypedQuery<X> setFirstResult(int arg0) {
 		return this;
 	}
 
     @Override
-	public TypedQuery<X> setFlushMode(FlushModeType arg0) {
+	@Nonnull
+	public TypedQuery<X> setFlushMode(@Nonnull FlushModeType arg0) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setQueryFlushMode(QueryFlushMode flushMode) {
-		return null;
+	@Nonnull
+	public TypedQuery<X> setQueryFlushMode(@Nonnull QueryFlushMode flushMode) {
+		return this;
 	}
 
 	@Override
+	@Nonnull
 	public QueryFlushMode getQueryFlushMode() {
-		return null;
+		return QueryFlushMode.DEFAULT;
 	}
 
 	@Override
-	public TypedQuery<X> setHint(String arg0, Object arg1) {
+	@Nonnull
+	public TypedQuery<X> setHint(@Nonnull String arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setLockMode(LockModeType arg0) {
+	@Nonnull
+	public TypedQuery<X> setLockMode(@Nonnull LockModeType arg0) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setLockScope(PessimisticLockScope lockScope) {
+	@Nonnull
+	public TypedQuery<X> setLockScope(@Nonnull PessimisticLockScope lockScope) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode) {
-		return null;
+	@Nonnull
+	public TypedQuery<X> setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode) {
+		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setCacheStoreMode(CacheStoreMode cacheStoreMode) {
-		return null;
+	@Nonnull
+	public TypedQuery<X> setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode) {
+		return this;
 	}
 
 	@Override
+	@Nonnull
 	public CacheRetrieveMode getCacheRetrieveMode() {
-		return null;
+		return CacheRetrieveMode.USE;
 	}
 
 	@Override
+	@Nonnull
 	public CacheStoreMode getCacheStoreMode() {
-		return null;
+		return CacheStoreMode.USE;
 	}
 
 	@Override
+	@Nonnull
 	public TypedQuery<X> setTimeout(Integer timeout) {
-		return null;
+		return this;
 	}
 
 	@Override
+	@Nonnull
 	public TypedQuery<X> setTimeout(Timeout timeout) {
-		return null;
+		return this;
 	}
 
 	@Override
@@ -248,104 +280,123 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	}
 
 	@Override
+	@Nonnull
 	public TypedQuery<X> setMaxResults(int arg0) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setParameter(String arg0, Object arg1) {
+	@Nonnull
+	public TypedQuery<X> setParameter(@Nonnull String arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
+	@Nonnull
 	public TypedQuery<X> setParameter(int arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setParameter(String arg0, Calendar arg1, TemporalType arg2) {
+	@Nonnull
+	public TypedQuery<X> setParameter(@Nonnull String arg0, Calendar arg1, @Nonnull TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setParameter(String arg0, Date arg1, TemporalType arg2) {
+	@Nonnull
+	public TypedQuery<X> setParameter(@Nonnull String arg0, Date arg1, @Nonnull TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setParameter(int arg0, Calendar arg1, TemporalType arg2) {
+	@Nonnull
+	public TypedQuery<X> setParameter(int arg0, Calendar arg1, @Nonnull TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setParameter(int arg0, Date arg1, TemporalType arg2) {
+	@Nonnull
+	public TypedQuery<X> setParameter(int arg0, Date arg1, @Nonnull TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public <P> TypedQuery<X> setParameter(String name, P value, Type<P> type) {
+	@Nonnull
+	public <P> TypedQuery<X> setParameter(@Nonnull String name, P value, @Nonnull Type<P> type) {
 		return this;
 	}
 
 	@Override
-	public <P> TypedQuery<X> setParameter(int position, P value, Type<P> type) {
+	@Nonnull
+	public <P> TypedQuery<X> setParameter(int position, P value, @Nonnull Type<P> type) {
 		return this;
 	}
 
 	@Override
-	public <P> TypedQuery<X> setParameter(String name, P value, Class<P> type) {
+	@Nonnull
+	public <P> TypedQuery<X> setParameter(@Nonnull String name, P value, @Nonnull Class<P> type) {
 		return this;
 	}
 
 	@Override
-	public <P> TypedQuery<X> setParameter(int position, P value, Class<P> type) {
+	@Nonnull
+	public <P> TypedQuery<X> setParameter(int position, P value, @Nonnull Class<P> type) {
 		return this;
 	}
 
 	@Override
-	public <P> TypedQuery<X> setConvertedParameter(String name, P value,
-										   Class<? extends AttributeConverter<P, ?>> converter) {
+	@Nonnull
+	public <P> TypedQuery<X> setConvertedParameter(@Nonnull String name, P value,
+                                                   @Nonnull Class<? extends AttributeConverter<P, ?>> converter) {
 		return this;
 	}
 
 	@Override
+	@Nonnull
 	public <P> TypedQuery<X> setConvertedParameter(int position, P value,
-										   Class<? extends AttributeConverter<P, ?>> converter) {
+                                                   @Nonnull Class<? extends AttributeConverter<P, ?>> converter) {
 		return this;
 	}
 
 	@Override
-	public <T> T unwrap(Class<T> arg0) {
-		return null;
+	@Nonnull
+	public <T> T unwrap(@Nonnull Class<T> arg0) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> TypedQuery<X> setParameter(Parameter<T> arg0, T arg1) {
+	@Nonnull
+	public <T> TypedQuery<X> setParameter(@Nonnull Parameter<T> arg0, T arg1) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setParameter(Parameter<Calendar> arg0, Calendar arg1, TemporalType arg2) {
+	@Nonnull
+	public TypedQuery<X> setParameter(@Nonnull Parameter<Calendar> arg0, Calendar arg1, @Nonnull TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> setParameter(Parameter arg0, Date arg1, TemporalType arg2) {
+	@Nonnull
+	public TypedQuery<X> setParameter(@Nonnull Parameter<Date> arg0, Date arg1, @Nonnull TemporalType arg2) {
 		return this;
 	}
 
 	@Override
-	public TypedQuery<X> addOption(Option option) {
+	@Nonnull
+	public TypedQuery<X> addOption(@Nonnull Option option) {
 		return this;
 	}
 
 	@Override
+	@Nonnull
 	public Set<Option> getOptions() {
-		return null;
+		return emptySet();
 	}
 
 	@Override
-	public @NonNull TypedQuery<X> setParameters(@NonNull Object... arguments) {
+	public @Nonnull TypedQuery<X> setParameters(@Nonnull Object... arguments) {
 		return this;
 	}
 }
