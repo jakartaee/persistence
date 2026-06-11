@@ -38,6 +38,7 @@ import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ResultSetMapping;
+import org.jspecify.annotations.NonNull;
 
 public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	public String jpQL;
@@ -341,5 +342,10 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	@Override
 	public Set<Option> getOptions() {
 		return null;
+	}
+
+	@Override
+	public @NonNull TypedQuery<X> setParameters(@NonNull Object... arguments) {
+		return this;
 	}
 }
