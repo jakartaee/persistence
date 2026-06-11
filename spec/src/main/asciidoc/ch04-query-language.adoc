@@ -190,7 +190,7 @@ always satisfied when its argument is unsatisfied.
 
 Every persistent attribute of <<a486,basic type>> is considered to
 be _comparable_ and to come equipped with a _natural order_, in the
-senses defined by the Jakarta Data specification, with the exception
+senses defined by the Jakarta Query specification, with the exception
 of an attribute whose declared type only qualifies as a basic type
 by virtue of it implementing `java.io.Serializable`.
 
