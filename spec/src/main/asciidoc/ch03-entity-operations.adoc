@@ -3511,6 +3511,21 @@ passed to the `setParameter()` method of a distinct instance of `Query`
 or if an instance of `Parameter` used in one criteria query is reused
 to define a distinct criteria query.
 
+Arguments may be assigned to all positional parameters simultaneously
+by calling the variadic method `setParameters()`.
+
+[source,java]
+----
+query.setParameters(isbn, title, authorName)
+----
+
+The `setParameters()` method must throw `IllegalArgumentException` if
+
+- the number of arguments is not exactly the same as the number of
+positional parameters, or
+- the type of an argument is not compatible with the corresponding
+query parameter.
+
 An argument must be assigned to every parameter of a query before the
 query can be executed. If a query is executed before its parameters
 have been assigned arguments, a `PersistenceException` is thrown.
