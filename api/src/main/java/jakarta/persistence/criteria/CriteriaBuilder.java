@@ -2153,7 +2153,8 @@ public interface CriteriaBuilder {
      * @return least expression
      * @since 4.0
      */
-    <C extends Comparable<? super C>> Expression<C> least(Expression<C> x, Expression<C> y);
+    @Nonnull
+    <C extends Comparable<? super C>> Expression<C> least(@Nonnull Expression<C> x, @Nonnull Expression<C> y);
 
     /**
      * Create an expression that returns the smaller of its arguments.
@@ -2163,7 +2164,8 @@ public interface CriteriaBuilder {
      * @return least expression
      * @since 4.0
      */
-    <C extends Comparable<? super C>> Expression<C> least(C x, Expression<C> y);
+    @Nonnull
+    <C extends Comparable<? super C>> Expression<C> least(@Nonnull C x, @Nonnull Expression<C> y);
 
     /**
      * Create an expression that returns the larger of its arguments.
@@ -2173,7 +2175,8 @@ public interface CriteriaBuilder {
      * @return greatest expression
      * @since 4.0
      */
-    <C extends Comparable<? super C>> Expression<C> greatest(Expression<C> x, Expression<C> y);
+    @Nonnull
+    <C extends Comparable<? super C>> Expression<C> greatest(@Nonnull Expression<C> x, @Nonnull Expression<C> y);
 
     /**
      * Create an expression that returns the larger of its arguments.
@@ -2183,7 +2186,8 @@ public interface CriteriaBuilder {
      * @return greatest expression
      * @since 4.0
      */
-    <C extends Comparable<? super C>> Expression<C> greatest(C x, Expression<C> y);
+    @Nonnull
+    <C extends Comparable<? super C>> Expression<C> greatest(@Nonnull C x, @Nonnull Expression<C> y);
 
 
     // Date/time/timestamp functions:
