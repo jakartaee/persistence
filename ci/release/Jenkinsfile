@@ -70,6 +70,19 @@ pipeline {
 					}
 					echo "Performing release for version ${params.RELEASE_VERSION}"
 
+					def TAG_NAME = params.RELEASE_VERSION
+					echo "Looking up the tag ${TAG_NAME} on the remote..."
+					def FOUND_TAGS = sh(script: "git ls-remote --tags origin refs/tags/${TAG_NAME}", returnStdout: true).trim()
+					echo "Finished looking up the tag..."
+
+					if (FOUND_TAGS) {
+						echo "ERROR: tag '${TAG_NAME}' already exists, aborting. If you really want to release this version, delete the tag first."
+						echo "ERROR: found the following tags: ${FOUND_TAGS}"
+						error("Tag '${TAG_NAME}' already exists on the remote.")
+					} else {
+						echo "SUCCESS: tag '${TAG_NAME}' does not exist"
+					}
+
                     sshagent(['github-bot-ssh', 'projects-storage.eclipse.org-bot-ssh']) {
                         withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
                             withMaven(mavenLocalRepo: env.WORKSPACE_TMP + '/.m2repository') {
