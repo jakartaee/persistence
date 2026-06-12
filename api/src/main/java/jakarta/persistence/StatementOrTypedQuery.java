@@ -16,6 +16,8 @@
 package jakarta.persistence;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ResultSetMapping;
 
 /**
@@ -135,4 +137,61 @@ public interface StatementOrTypedQuery extends Query {
     @Nonnull
     <R> TypedQuery<R> withResultSetMapping(@Nonnull ResultSetMapping<R> mapping);
 
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setHint(@Nonnull String hintName, @Nullable Object value);
+
+    @Nonnull
+    @Override
+    <T> StatementOrTypedQuery setParameter(@Nonnull Parameter<T> parameter, @Nullable T value);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setParameter(@Nonnull String name, @Nullable Object value);
+
+    @Nonnull
+    @Override
+    <P> StatementOrTypedQuery setParameter(@Nonnull String name, @Nullable P value, @Nonnull Class<P> type);
+
+    @Nonnull
+    @Override
+    <P> StatementOrTypedQuery setParameter(@Nonnull String name, @Nullable P value, @Nonnull Type<P> type);
+
+    @Nonnull
+    @Override
+    <P> StatementOrTypedQuery setConvertedParameter(@Nonnull String name, @Nullable P value,
+                                                    @Nonnull Class<? extends AttributeConverter<P, ?>> converter);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setParameter(int position, @Nullable Object value);
+
+    @Nonnull
+    @Override
+    <P> StatementOrTypedQuery setParameter(int position, @Nullable P value, @Nonnull Class<P> type);
+
+    @Nonnull
+    @Override
+    <P> StatementOrTypedQuery setParameter(int position, @Nullable P value, @Nonnull Type<P> type);
+
+    @Nonnull
+    @Override
+    <P> StatementOrTypedQuery setConvertedParameter(int position, @Nullable P value,
+                                                    @Nonnull Class<? extends AttributeConverter<P, ?>> converter);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setParameters(@Nonnull Object... arguments);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setQueryFlushMode(@Nonnull QueryFlushMode flushMode);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setTimeout(@Nullable Integer timeout);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setTimeout(@Nullable Timeout timeout);
 }
