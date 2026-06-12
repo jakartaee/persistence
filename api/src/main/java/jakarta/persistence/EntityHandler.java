@@ -844,7 +844,8 @@ public interface EntityHandler extends AutoCloseable {
      *
      * @since 4.0
      */
-    Statement createNamedStatement(String name);
+    @Nonnull
+    Statement createNamedStatement(@Nonnull String name);
 
     /**
      * Create an instance of {@link StatementOrTypedQuery} for
