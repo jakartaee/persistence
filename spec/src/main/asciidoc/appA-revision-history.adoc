@@ -63,7 +63,7 @@ Added `addSubgraph()` and `addTreatedSubgraph()` to `AttributeNode`
 
 Overloaded `addNamedQuery()` to take `TypedQuery` and return `TypedQueryReference` and added `addNamedStatement()`
 
-Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`
+Added overloads of `setParameter()` which accept a disambiguating `Class` or `Type`; added `setConvertedParameter()` to `Query` and `registerConvertedParameter()` to `StoredProcedureQuery`; added `convertedParameter()` to `CriteriaBuilder`; added `setParameters()`
 
 Allow named queries and statements to be declared by a module or package descriptor
 
@@ -158,6 +158,12 @@ Clarified usage of `@OrderColumn` and `@MapKeyColumn`
 
 Added additional overloads of operations accepting restriction lists in criteria API
 
+Added `getRootList()` and `getJoinList()` to criteria API
+
+Added add `FULL` to `JoinType`
+
+Added `least()` and `greatest()` to `CriteriaBuilder`
+
 ==== Deprecations
 
 Deprecated many operations of `Query`, since those operations should now be executed via a `Statement` or `TypedQuery`
@@ -177,6 +183,12 @@ Removed redundant overloads of `find()` and `refresh()` accepting `LockModeType`
 Removed deprecated support for use of `Byte[]` and `Character[]` as basic types
 
 Deleted `CriteriaBuilder.keys()`, `CriteriaBuilder.values()`
+
+==== Changes to Specification
+
+The definition of the query language moved to the Jakarta Query specification
+
+Many parts of the specification and Javadoc have been rewritten for clarity and readability
 
 === Jakarta Persistence 3.2
 
