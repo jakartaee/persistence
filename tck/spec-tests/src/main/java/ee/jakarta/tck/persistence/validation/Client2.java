@@ -22,7 +22,6 @@ import jakarta.persistence.EntityAgent;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +29,7 @@ import java.lang.System.Logger;
 
 public class Client2 extends PMClientBase {
 
-    private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+    private static final Logger logger = System.getLogger(Client2.class.getName());
 
     public Client2() {
     }
@@ -54,16 +53,6 @@ public class Client2 extends PMClientBase {
         } catch (Exception e) {
             logger.log(Logger.Level.ERROR, "Exception: ", e);
             throw new Exception("Setup failed:", e);
-        }
-    }
-
-    @AfterEach
-    public void cleanup() throws Exception {
-        try {
-            logger.log(Logger.Level.TRACE, "cleanupData");
-            removeTestData();
-        } finally {
-            removeTestJarFromCP();
         }
     }
 

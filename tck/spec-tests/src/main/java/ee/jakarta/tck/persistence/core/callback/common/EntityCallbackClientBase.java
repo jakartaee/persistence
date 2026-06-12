@@ -27,7 +27,7 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 
 public abstract class EntityCallbackClientBase extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(EntityCallbackClientBase.class.getName());
+	private static final Logger logger = System.getLogger(EntityCallbackClientBase.class.getName());
 
 	protected EntityCallbackClientBase() {
 		super();

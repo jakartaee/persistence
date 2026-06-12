@@ -31,7 +31,7 @@ import ee.jakarta.tck.persistence.common.schema30.UtilDepartmentEmployeeData;
 
 public class Client6 extends UtilDepartmentEmployeeData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client6.class.getName());
+	private static final Logger logger = System.getLogger(Client6.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client1.class.getPackageName();

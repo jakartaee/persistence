@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +36,7 @@ public class Client extends PMClientBase {
 	public Client() {
 	}
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client.class.getPackageName();
@@ -732,15 +731,4 @@ public class Client extends PMClientBase {
 		}
 	}
 
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			removeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-	}
 }

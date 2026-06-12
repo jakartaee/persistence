@@ -36,7 +36,7 @@ import jakarta.persistence.metamodel.EntityType;
 
 public class Client4 extends UtilAliasOnlyData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client4.class.getName());
+	private static final Logger logger = System.getLogger(Client4.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 

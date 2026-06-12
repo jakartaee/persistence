@@ -38,7 +38,7 @@ import jakarta.persistence.metamodel.Metamodel;
 
 public class Client extends UtilProductData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	public Client() {
 

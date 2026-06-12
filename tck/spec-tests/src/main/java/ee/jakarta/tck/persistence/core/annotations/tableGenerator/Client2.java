@@ -26,7 +26,7 @@ public class Client2 extends Client {
 
 	private DataTypes2 d2;
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	public Client2() {
 	}

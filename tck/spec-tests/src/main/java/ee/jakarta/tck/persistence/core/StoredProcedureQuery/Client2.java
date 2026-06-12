@@ -33,7 +33,7 @@ import jakarta.persistence.TemporalType;
 
 public class Client2 extends Client {
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	public Client2() {
 	}

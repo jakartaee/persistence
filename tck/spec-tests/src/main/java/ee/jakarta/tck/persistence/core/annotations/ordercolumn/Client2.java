@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +36,7 @@ public class Client2 extends PMClientBase {
 
 	private List<Employee2> expectedEmployees2;
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	public Client2() {
 	}
@@ -57,7 +56,7 @@ public class Client2 extends PMClientBase {
 
 			super.setup();
 			createDeployment();
-			removeEmployeeTestData();
+			removeTestData();
 			createEmployeeTestData();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception: ", e);
@@ -425,38 +424,4 @@ public class Client2 extends PMClientBase {
 		}
 	}
 
-	@AfterEach
-	public void cleanupEmployee() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanupEmployee");
-			removeEmployeeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-	}
-
-	private void removeEmployeeTestData() {
-		logger.log(Logger.Level.TRACE, "removeEmployeeTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("Delete from EMPLOYEE").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from DEPARTMENT").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
 }

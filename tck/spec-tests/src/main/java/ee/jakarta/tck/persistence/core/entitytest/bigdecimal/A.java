@@ -35,7 +35,7 @@ import jakarta.persistence.TemporalType;
 @Table(name = "A_BIGDECIMAL")
 public class A implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(A.class.getName());
+	private static final Logger logger = System.getLogger(A.class.getName());
 
 	// ===========================================================
 	// instance variables

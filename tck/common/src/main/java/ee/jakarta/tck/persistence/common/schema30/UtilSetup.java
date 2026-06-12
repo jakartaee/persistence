@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public abstract class UtilSetup extends Util {
 
-	private static final Logger logger = (Logger) System.getLogger(UtilSetup.class.getName());
+	private static final Logger logger = System.getLogger(UtilSetup.class.getName());
 
 	@BeforeEach
 	public void setup() throws Exception {

@@ -20,7 +20,6 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.EntityAgent;
 import jakarta.persistence.EntityTransaction;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,19 +52,6 @@ public class Client extends PMClientBase {
         getEntityManager();
         removeTestData();
         CallbackEventLog.reset();
-    }
-
-    @AfterEach
-    public void cleanup() throws Exception {
-        try {
-            removeTestData();
-        } finally {
-            try {
-                super.cleanup();
-            } finally {
-                removeTestJarFromCP();
-            }
-        }
     }
 
     /**

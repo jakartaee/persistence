@@ -33,7 +33,7 @@ import jakarta.persistence.MappedSuperclass;
 @MappedSuperclass()
 public abstract class B implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(B.class.getName());
+	private static final Logger logger = System.getLogger(B.class.getName());
 
 	protected String name;
 

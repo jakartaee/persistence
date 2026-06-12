@@ -36,7 +36,7 @@ import jakarta.persistence.criteria.Root;
 
 public class Client7 extends UtilDepartmentEmployeeData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client7.class.getName());
+	private static final Logger logger = System.getLogger(Client7.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 

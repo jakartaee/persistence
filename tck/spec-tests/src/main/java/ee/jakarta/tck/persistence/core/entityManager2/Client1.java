@@ -23,7 +23,6 @@ import java.util.Map;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Statement;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class Client1 extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client1.class.getName());
+	private static final Logger logger = System.getLogger(Client1.class.getName());
 
 	Map<String, Object> map = new HashMap<>();
 
@@ -80,17 +79,6 @@ public class Client1 extends PMClientBase {
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception: ", e);
 			throw new Exception("Setup failed:", e);
-		}
-	}
-
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-            getEntityManagerFactory().getSchemaManager().truncate();
-            super.cleanup();
-		} finally {
-			removeTestJarFromCP();
 		}
 	}
 

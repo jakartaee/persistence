@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +34,7 @@ import jakarta.persistence.Query;
 
 public class Client extends EntityCallbackClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	private Product product;
 
@@ -566,15 +565,4 @@ public class Client extends EntityCallbackClientBase {
 		return lineItem;
 	}
 
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			removeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-	}
 }

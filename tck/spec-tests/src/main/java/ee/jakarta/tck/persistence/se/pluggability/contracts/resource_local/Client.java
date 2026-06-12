@@ -30,7 +30,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +46,7 @@ import jakarta.persistence.spi.PersistenceUnitInfo;
 
 public class Client extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	private static final long serialVersionUID = 1L;
 
@@ -673,16 +672,9 @@ public class Client extends PMClientBase {
 		puInfo = emfImpl.puInfo;
 	}
 
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			logger.log(Logger.Level.TRACE, "calling super.cleanup");
-			super.cleanup();
-			removeTestJarFromCP();
-		} finally {
-			removePluggabilityJarFromCP();
-		}
-
+	@Override
+	public void removeTestJarFromCP() throws Exception {
+		super.removeTestJarFromCP();
+		removePluggabilityJarFromCP();
 	}
 }

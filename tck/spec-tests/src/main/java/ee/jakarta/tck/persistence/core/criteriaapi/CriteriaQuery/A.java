@@ -111,7 +111,7 @@ public class A implements java.io.Serializable {
 	@Basic
 	protected Timestamp basicTimestamp;
 
-	private static final Logger logger = (Logger) System.getLogger(A.class.getName());
+	private static final Logger logger = System.getLogger(A.class.getName());
 
 	// ===========================================================
 	// constructors

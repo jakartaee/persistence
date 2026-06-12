@@ -23,7 +23,6 @@ package ee.jakarta.tck.persistence.core.types.primarykey.compound;
 import java.lang.System.Logger;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +30,7 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 
 public class Client extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	private static final CompoundPK refPK1 = new CompoundPK(1, "cof0001", 1.0F);
 
@@ -336,18 +335,6 @@ public class Client extends PMClientBase {
 		}
 
 		/* testCompoundPK3 pass */
-	}
-
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "Cleanup data");
-			removeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
 	}
 
 }

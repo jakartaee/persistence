@@ -29,7 +29,7 @@ import java.lang.System.Logger;
  */
 public class GenerictListenerImpl {
 
-	private static final Logger logger = (Logger) System.getLogger(GenerictListenerImpl.class.getName());
+	private static final Logger logger = System.getLogger(GenerictListenerImpl.class.getName());
 
 	public GenerictListenerImpl() {
 		super();

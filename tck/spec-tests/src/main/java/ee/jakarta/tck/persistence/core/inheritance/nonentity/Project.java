@@ -34,7 +34,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Project implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(Project.class.getName());
+	private static final Logger logger = System.getLogger(Project.class.getName());
 
 	// Instance Variables
 	private long projId;

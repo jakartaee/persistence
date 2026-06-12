@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 public class Client4 extends Client {
 
-	private static final Logger logger = (Logger) System.getLogger(Client4.class.getName());
+	private static final Logger logger = System.getLogger(Client4.class.getName());
 
 	public Client4() {
 	}

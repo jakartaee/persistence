@@ -23,7 +23,7 @@ import java.util.Properties;
 
 public class DriverManagerConnection {
 
-	private static final Logger logger = (Logger) System.getLogger(DriverManagerConnection.class.getName());
+	private static final Logger logger = System.getLogger(DriverManagerConnection.class.getName());
 
 	public Connection getConnection(Properties p) throws Exception {
 		String dbUrl, dbUser, dbPassword, dbDriver;

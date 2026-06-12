@@ -21,7 +21,6 @@ import java.math.BigInteger;
 
 import ee.jakarta.tck.persistence.core.versioning.Member;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +29,7 @@ import jakarta.persistence.PersistenceUnitUtil;
 
 public class Client extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	private final Employee empRef[] = new Employee[2];
 
@@ -274,18 +273,6 @@ public class Client extends PMClientBase {
 		}
 		if (!pass) {
 			throw new Exception("getClassTest failed");
-		}
-	}
-
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			removeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
 		}
 	}
 

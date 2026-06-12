@@ -42,7 +42,7 @@ import jakarta.persistence.criteria.Subquery;
 
 public class Client2 extends UtilOrderData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 

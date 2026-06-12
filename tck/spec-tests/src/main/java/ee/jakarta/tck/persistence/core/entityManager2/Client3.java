@@ -26,7 +26,6 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.RefreshOption;
 import jakarta.persistence.Timeout;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -86,17 +85,6 @@ public class Client3 extends PMClientBase {
         } catch (Exception e) {
             logger.log(Logger.Level.ERROR, "Exception: ", e);
             throw new Exception("Setup failed:", e);
-        }
-    }
-
-    @AfterEach
-    public void cleanupData() throws Exception {
-        try {
-            logger.log(Logger.Level.TRACE, "Cleanup data");
-            removeTestData();
-            cleanup();
-        } finally {
-            removeTestJarFromCP();
         }
     }
 
@@ -317,8 +305,6 @@ public class Client3 extends PMClientBase {
             throw new Exception("setCacheStoreModeTest failed");
         }
     }
-
-
     private void createOrderData() {
 
         try {

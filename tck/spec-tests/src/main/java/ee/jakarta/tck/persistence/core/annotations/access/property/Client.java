@@ -18,8 +18,6 @@ package ee.jakarta.tck.persistence.core.annotations.access.property;
 
 import java.lang.System.Logger;
 
-import org.junit.jupiter.api.AfterEach;
-
 import ee.jakarta.tck.persistence.common.PMClientBase;
 
 public class Client extends PMClientBase {
@@ -30,18 +28,6 @@ public class Client extends PMClientBase {
 
 	final protected java.util.Date dateId = getPKDate(2006, 04, 15);
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
-
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-		logger.log(Logger.Level.TRACE, "cleanup");
-		removeTestData();
-		logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-		super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-	}
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 }

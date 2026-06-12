@@ -29,7 +29,7 @@ import java.sql.Date;
 
 public class FTEmployee extends Employee {
 
-	private static final Logger logger = (Logger) System.getLogger(FTEmployee.class.getName());
+	private static final Logger logger = System.getLogger(FTEmployee.class.getName());
 
 	private float salary;
 

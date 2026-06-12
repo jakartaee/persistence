@@ -24,7 +24,6 @@ import java.text.DecimalFormat;
 import java.util.Collection;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +32,7 @@ import jakarta.persistence.Query;
 
 public class Client3 extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client3.class.getName());
+	private static final Logger logger = System.getLogger(Client3.class.getName());
 
 	private final Employee empRef[] = new Employee[21];
 
@@ -71,16 +70,6 @@ public class Client3 extends PMClientBase {
 			logger.log(Logger.Level.ERROR, "Unexpected Exception caught in Setup: ", e);
 			throw new Exception("Setup failed:", e);
 
-		}
-	}
-
-	@AfterEach
-	public void cleanupNoData() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "in cleanupNoData");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
 		}
 	}
 

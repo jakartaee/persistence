@@ -32,7 +32,7 @@ import jakarta.persistence.Table;
 @Table(name = "PKEY")
 public class TestBean3 implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(TestBean3.class.getName());
+	private static final Logger logger = System.getLogger(TestBean3.class.getName());
 
 	@Id
 	private Integer pmIDInteger;

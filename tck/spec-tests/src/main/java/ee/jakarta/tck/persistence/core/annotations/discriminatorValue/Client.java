@@ -19,15 +19,16 @@ package ee.jakarta.tck.persistence.core.annotations.discriminatorValue;
 import java.lang.System.Logger;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+
 public class Client extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client.class.getPackageName();
@@ -133,15 +134,16 @@ public class Client extends PMClientBase {
 	public void discriminatorValueTest() throws Exception {
 		boolean pass1 = false;
 		final String testName = "discriminatorValueTest";
+		final String otherTestName = "otherDiscriminatorValueTest";
 		try {
 			getEntityTransaction().begin();
 			PartProduct p1 = newPartProduct(testName);
 			getEntityManager().persist(p1);
 			getEntityManager().flush();
 			clearCache();
-			PartProduct p2 = getEntityManager().find(PartProduct.class, testName);
+			Product p2 = getEntityManager().find(Product.class, testName);
 			logger.log(Logger.Level.TRACE, "finding PartProduct with id '" + testName + "'");
-
+            assertInstanceOf(PartProduct.class, p2);
 			if (p1.equals(p2)) {
 				logger.log(Logger.Level.TRACE, "Received expected PartProduct:" + p2);
 				pass1 = true;
@@ -151,12 +153,12 @@ public class Client extends PMClientBase {
 				logger.log(Logger.Level.ERROR, "Actual:" + p2);
 			}
 
-			Product p3 = newProduct(testName);
+			Product p3 = newProduct(otherTestName);
 			getEntityManager().persist(p3);
 			getEntityManager().flush();
 			clearCache();
-			Product p4 = getEntityManager().find(Product.class, testName);
-			logger.log(Logger.Level.TRACE, "finding Product with id '" + testName + "'");
+			Product p4 = getEntityManager().find(Product.class, otherTestName);
+			logger.log(Logger.Level.TRACE, "finding Product with id '" + otherTestName + "'");
 
 			if (p3.equals(p4)) {
 				logger.log(Logger.Level.TRACE, "Received expected Product:" + p2);
@@ -177,15 +179,4 @@ public class Client extends PMClientBase {
 		}
 	}
 
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			removeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-	}
 }

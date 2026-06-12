@@ -30,7 +30,7 @@ import java.util.Collection;
 
 public class XProject implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(XProject.class.getName());
+	private static final Logger logger = System.getLogger(XProject.class.getName());
 
 	// Instance Variables
 	private long xProjId;

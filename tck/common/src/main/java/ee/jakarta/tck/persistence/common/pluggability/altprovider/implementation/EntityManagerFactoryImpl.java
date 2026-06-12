@@ -31,6 +31,7 @@ import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.PersistenceUnitUtil;
 import jakarta.persistence.Query;
 import jakarta.persistence.SchemaManager;
+import jakarta.persistence.SchemaValidationException;
 import jakarta.persistence.Statement;
 import jakarta.persistence.StatementReference;
 import jakarta.persistence.SynchronizationType;
@@ -43,6 +44,27 @@ import jakarta.persistence.sql.ResultSetMapping;
 
 public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManagerFactory {
 
+	public static final SchemaManager NOOP_SCHEMA_MANAGER = new SchemaManager() {
+		@Override
+		public void create(boolean createSchemas) {
+		}
+
+		@Override
+		public void drop(boolean dropSchemas) {
+		}
+
+		@Override
+		public void validate() throws SchemaValidationException {
+		}
+
+		@Override
+		public void truncate() {
+		}
+
+		@Override
+		public void populate() {
+		}
+	};
 	public Map properties;
 
 	public boolean isOpen;
@@ -155,7 +177,7 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 
 	@Override
 	public SchemaManager getSchemaManager() {
-		return null;
+		return NOOP_SCHEMA_MANAGER;
 	}
 
 	public Map<String, Object> getProperties() {

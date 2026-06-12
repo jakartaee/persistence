@@ -20,7 +20,6 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.PersistenceConfiguration;
 import jakarta.persistence.SchemaManagementAction;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,15 +52,6 @@ public class Client extends PMClientBase {
         schemaDirectory = Files.createTempDirectory("jpa40-export-schema");
         createScript = schemaDirectory.resolve("create.sql");
         dropScript = schemaDirectory.resolve("drop.sql");
-    }
-
-    @AfterEach
-    public void cleanup() throws Exception {
-        try {
-            removeTestJarFromCP();
-        } finally {
-            deleteSchemaScripts();
-        }
     }
 
     @Override

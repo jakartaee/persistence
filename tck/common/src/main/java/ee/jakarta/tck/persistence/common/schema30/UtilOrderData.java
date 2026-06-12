@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public abstract class UtilOrderData extends Util {
 
-	private static final Logger logger = (Logger) System.getLogger(UtilOrderData.class.getName());
+	private static final Logger logger = System.getLogger(UtilOrderData.class.getName());
 
 	@BeforeEach
 	public void setupOrderData() throws Exception {

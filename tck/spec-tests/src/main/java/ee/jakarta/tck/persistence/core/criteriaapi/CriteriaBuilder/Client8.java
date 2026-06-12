@@ -34,7 +34,7 @@ import jakarta.persistence.metamodel.EntityType;
 
 public class Client8 extends UtilTrimData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client8.class.getName());
+	private static final Logger logger = System.getLogger(Client8.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 

@@ -26,13 +26,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
-
 import ee.jakarta.tck.persistence.common.PMClientBase;
 
 public abstract class Util extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Util.class.getName());
+	private static final Logger logger = System.getLogger(Util.class.getName());
 
 	protected final Phone phone[] = new Phone[50];
 
@@ -98,19 +96,6 @@ public abstract class Util extends PMClientBase {
 			result.append("null");
 		}
 		return result.toString();
-	}
-
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "Cleanup data");
-			removeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-
 	}
 
 	public void createTrimData() throws Exception {

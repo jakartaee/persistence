@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public abstract class UtilCustAliasProductData extends Util {
 
-	private static final Logger logger = (Logger) System.getLogger(UtilCustAliasProductData.class.getName());
+	private static final Logger logger = System.getLogger(UtilCustAliasProductData.class.getName());
 
 	@BeforeEach
 	public void setupCustAliasProductData() throws Exception {

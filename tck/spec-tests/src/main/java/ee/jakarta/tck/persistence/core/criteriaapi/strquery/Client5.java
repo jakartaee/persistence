@@ -40,7 +40,7 @@ import jakarta.persistence.criteria.Root;
 
 public class Client5 extends UtilAliasData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client5.class.getName());
+	private static final Logger logger = System.getLogger(Client5.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 

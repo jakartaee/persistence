@@ -24,7 +24,6 @@ import jakarta.persistence.metamodel.ListAttribute;
 import jakarta.persistence.metamodel.MapAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,19 +50,6 @@ public class Client extends PMClientBase {
         createDeployment();
         getEntityManager();
         removeTestData();
-    }
-
-    @AfterEach
-    public void cleanup() throws Exception {
-        try {
-            removeTestData();
-        } finally {
-            try {
-                super.cleanup();
-            } finally {
-                removeTestJarFromCP();
-            }
-        }
     }
 
     /**

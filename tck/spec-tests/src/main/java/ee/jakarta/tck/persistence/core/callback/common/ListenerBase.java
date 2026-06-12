@@ -29,7 +29,7 @@ import java.lang.System.Logger;
  */
 abstract public class ListenerBase {
 
-	private static final Logger logger = (Logger) System.getLogger(ListenerBase.class.getName());
+	private static final Logger logger = System.getLogger(ListenerBase.class.getName());
 
 	protected ListenerBase() {
 		super();

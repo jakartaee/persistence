@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +40,7 @@ import jakarta.persistence.TypedQuery;
 
 public class Client extends PMClientBase {
 
-    private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+    private static final Logger logger = System.getLogger(Client.class.getName());
 
     private static final long serialVersionUID = 22L;
 
@@ -81,23 +80,6 @@ public class Client extends PMClientBase {
     @Override
     protected boolean dropCreateSchemaOnStartByDefault() {
         return false;
-    }
-
-    @Override
-    @AfterEach
-    public void cleanup() throws Exception {
-        try {
-            logger.log(Logger.Level.INFO, "Cleanup: Jakarta Persistence 2.2 Java 8 date and time types test");
-            Properties props = getPersistenceUnitProperties();
-            props.put("jakarta.persistence.schema-generation.database.action", "drop");
-            displayProperties(props);
-            logger.log(Logger.Level.INFO, " - executing persistence schema cleanup");
-            Persistence.generateSchema(getPersistenceUnitName(), props);
-            closeEMAndEMF();
-            super.cleanup();
-        } finally {
-            removeTestJarFromCP();
-        }
     }
 
     /** Default Instant constant. */

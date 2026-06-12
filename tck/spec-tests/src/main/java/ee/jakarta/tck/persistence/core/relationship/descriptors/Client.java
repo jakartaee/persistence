@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +33,7 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 
 public class Client extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	private static final XAddress aRef[] = new XAddress[5];
 
@@ -1181,18 +1180,6 @@ public class Client extends PMClientBase {
 		}
 		getEntityTransaction().commit();
 
-	}
-
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			removeTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
 	}
 
 }

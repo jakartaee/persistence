@@ -36,7 +36,7 @@ import jakarta.persistence.Version;
 @AttributeOverrides({ @AttributeOverride(name = "name", column = @Column(name = "NAME")) })
 public class A extends B {
 
-	private static final Logger logger = (Logger) System.getLogger(A.class.getName());
+	private static final Logger logger = System.getLogger(A.class.getName());
 
 	@Id
 	protected String id;

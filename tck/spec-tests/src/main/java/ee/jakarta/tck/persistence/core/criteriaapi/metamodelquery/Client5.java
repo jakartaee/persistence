@@ -35,7 +35,7 @@ import jakarta.persistence.criteria.Root;
 
 public class Client5 extends UtilAliasOnlyData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client5.class.getName());
+	private static final Logger logger = System.getLogger(Client5.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client5.class.getPackageName();

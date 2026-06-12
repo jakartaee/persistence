@@ -29,7 +29,7 @@ import java.util.Collection;
 
 public class XCompany implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(XCompany.class.getName());
+	private static final Logger logger = System.getLogger(XCompany.class.getName());
 
 	private long xCompanyId;
 

@@ -32,7 +32,7 @@ import jakarta.persistence.metamodel.Bindable;
 
 public class Client4 extends UtilSetup {
 
-	private static final Logger logger = (Logger) System.getLogger(Client4.class.getName());
+	private static final Logger logger = System.getLogger(Client4.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 

@@ -32,7 +32,7 @@ import jakarta.persistence.Version;
 @Table(name = "COLTAB")
 public class A implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(A.class.getName());
+	private static final Logger logger = System.getLogger(A.class.getName());
 
 	@Id
 	protected String id;

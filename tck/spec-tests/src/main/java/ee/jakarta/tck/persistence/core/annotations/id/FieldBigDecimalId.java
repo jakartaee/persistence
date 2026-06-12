@@ -28,7 +28,7 @@ import jakarta.persistence.Table;
 @Table(name = "DATATYPES3")
 public class FieldBigDecimalId implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(FieldBigDecimalId.class.getName());
+	private static final Logger logger = System.getLogger(FieldBigDecimalId.class.getName());
 
 	// ===========================================================
 	// instance variables

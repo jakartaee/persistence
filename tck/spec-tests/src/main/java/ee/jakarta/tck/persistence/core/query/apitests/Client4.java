@@ -20,7 +20,6 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -63,16 +62,6 @@ public class Client4 extends PMClientBase {
             logger.log(Logger.Level.ERROR, "Unexpected Exception caught in Setup: ", e);
             throw new Exception("Setup failed:", e);
 
-        }
-    }
-
-    @AfterEach
-    public void cleanupNoData() throws Exception {
-        try {
-            logger.log(Logger.Level.TRACE, "in cleanupNoData");
-            super.cleanup();
-        } finally {
-            removeTestJarFromCP();
         }
     }
 

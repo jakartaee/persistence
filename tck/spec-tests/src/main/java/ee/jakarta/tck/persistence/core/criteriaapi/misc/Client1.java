@@ -38,7 +38,7 @@ import jakarta.persistence.metamodel.EntityType;
 
 public class Client1 extends UtilSetup {
 
-	private static final Logger logger = (Logger) System.getLogger(Client1.class.getName());
+	private static final Logger logger = System.getLogger(Client1.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 
