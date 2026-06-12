@@ -33,6 +33,9 @@ import ee.jakarta.tck.persistence.core.callback.common.Constants;
 import ee.jakarta.tck.persistence.core.callback.common.EntityCallbackClientBase;
 import jakarta.persistence.Query;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class Client extends EntityCallbackClientBase {
 
 	private static final Logger logger = System.getLogger(Client.class.getName());
@@ -584,10 +587,9 @@ public class Client extends EntityCallbackClientBase {
 			product = newProduct(testName);
 			product = (Product) txShouldRollback(product, testName);
 			List actual = product.getPrePersistCalls();
-			List expected = new ArrayList(Arrays.asList("ListenerA"));
-			if (!product.isPrePersistCalled() || !expected.equals(actual)) {
-				logger.log(Logger.Level.ERROR, "Expected: " + expected.toString() + ", actual:" + actual.toString());
-			}
+			List<String> expected = List.of(Constants.LISTENER_AA);
+			assertTrue(product.isPrePersistCalled());
+			assertEquals(actual, expected);
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception caught during prePersistRuntimeExceptionTest", e);
 			throw new Exception(e);

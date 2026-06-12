@@ -68,7 +68,7 @@ public class Client7 extends UtilSetup {
 			Set cJoins = sq.getCorrelatedJoins();
 			if (cJoins != null) {
 				if (cJoins.size() == 0) {
-					logger.log(Logger.Level.ERROR,
+					logger.log(Logger.Level.TRACE,
 							"Received expected 0 correlated joins from subquery.getCorrelatedJoins() when none exist");
 
 					// correlate subquery
