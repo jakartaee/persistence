@@ -22,7 +22,7 @@ import java.lang.System.Logger;
 
 public abstract class UtilCriteriaEntityData extends Util {
 
-	private static final Logger logger = (Logger) System.getLogger(UtilCriteriaEntityData.class.getName());
+	private static final Logger logger = System.getLogger(UtilCriteriaEntityData.class.getName());
 
 	@BeforeEach
 	public void setupCriteriaEntityData() throws Exception {

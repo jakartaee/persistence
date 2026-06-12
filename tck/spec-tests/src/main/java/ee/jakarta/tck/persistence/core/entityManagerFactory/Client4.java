@@ -18,7 +18,6 @@ package ee.jakarta.tck.persistence.core.entityManagerFactory;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,15 +48,6 @@ public class Client4 extends PMClientBase {
         } catch (Exception e) {
             logger.log(Logger.Level.ERROR, "Exception: ", e);
             throw new Exception("Setup failed:", e);
-        }
-    }
-
-    @AfterEach
-    public void cleanupNoData() throws Exception {
-        try {
-            super.cleanup();
-        } finally {
-            removeTestJarFromCP();
         }
     }
 

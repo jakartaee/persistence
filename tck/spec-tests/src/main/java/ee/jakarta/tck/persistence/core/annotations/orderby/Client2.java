@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +28,7 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 
 public class Client2 extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	List<Address> addrRef;
 
@@ -66,7 +65,7 @@ public class Client2 extends PMClientBase {
 			super.setup();
 			createDeployment();
 
-			removeAddressData();
+			removeTestData();
 			createAddressData();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception: ", e);
@@ -252,38 +251,4 @@ public class Client2 extends PMClientBase {
 		}
 	}
 
-	@AfterEach
-	public void cleanupAddress() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			removeAddressData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-	}
-
-	private void removeAddressData() {
-		logger.log(Logger.Level.TRACE, "removeAddressData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("Delete from COLTAB_ADDRESS").executeUpdate();
-			getEntityManager().createNativeQuery("Delete from COLTAB").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
 }

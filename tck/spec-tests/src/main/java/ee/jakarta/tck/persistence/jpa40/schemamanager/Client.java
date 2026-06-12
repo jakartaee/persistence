@@ -19,7 +19,6 @@ package ee.jakarta.tck.persistence.jpa40.schemamanager;
 import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.*;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,15 +47,6 @@ public class Client extends PMClientBase {
         super.setup();
         createDeployment();
         createLoadScript();
-    }
-
-    @AfterEach
-    public void cleanup() throws Exception {
-        try {
-            removeTestJarFromCP();
-        } finally {
-            deleteLoadScript();
-        }
     }
 
     /**

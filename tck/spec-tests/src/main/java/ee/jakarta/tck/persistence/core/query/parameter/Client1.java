@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +34,7 @@ import jakarta.persistence.TypedQuery;
 
 public class Client1 extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client1.class.getName());
+	private static final Logger logger = System.getLogger(Client1.class.getName());
 
 	protected final Employee empRef[] = new Employee[5];
 
@@ -692,16 +691,6 @@ public class Client1 extends PMClientBase {
 			throw new Exception("getParametersNoParametersTest failed");
 		}
 
-	}
-
-	@AfterEach
-	public void cleanup() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
 	}
 
 }

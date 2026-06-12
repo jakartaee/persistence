@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +31,7 @@ public class Client2 extends PMClientBase {
 	public Client2() {
 	}
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client1.class.getPackageName();
@@ -52,7 +51,7 @@ public class Client2 extends PMClientBase {
 		try {
 			super.setup();
 			createDeployment();
-			removeCustTestData();
+			removeTestData();
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception: ", e);
 			throw new Exception("Setup failed:", e);
@@ -187,40 +186,5 @@ public class Client2 extends PMClientBase {
 	 * Business Methods to set up data for Test Cases
 	 *
 	 */
-
-	@AfterEach
-	public void cleanupCust() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "cleanup");
-			removeCustTestData();
-			logger.log(Logger.Level.TRACE, "cleanup complete, calling super.cleanup");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
-		}
-	}
-
-	private void removeCustTestData() {
-		logger.log(Logger.Level.TRACE, "removeCustTestData");
-		if (getEntityTransaction().isActive()) {
-			getEntityTransaction().rollback();
-		}
-		try {
-			getEntityTransaction().begin();
-			getEntityManager().createNativeQuery("DELETE FROM CUST_TABLE").executeUpdate();
-			getEntityManager().createNativeQuery("DELETE FROM PHONES").executeUpdate();
-			getEntityTransaction().commit();
-		} catch (Exception e) {
-			logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
-		} finally {
-			try {
-				if (getEntityTransaction().isActive()) {
-					getEntityTransaction().rollback();
-				}
-			} catch (Exception re) {
-				logger.log(Logger.Level.ERROR, "Unexpected Exception in removeTestData:", re);
-			}
-		}
-	}
 
 }

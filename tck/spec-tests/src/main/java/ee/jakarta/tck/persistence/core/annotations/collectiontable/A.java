@@ -38,7 +38,7 @@ public class A implements java.io.Serializable {
 
 	protected int value;
 
-	private static final Logger logger = (Logger) System.getLogger(A.class.getName());
+	private static final Logger logger = System.getLogger(A.class.getName());
 
 	@ElementCollection
 	@CollectionTable(name = "COLTAB_ADDRESS", joinColumns = @JoinColumn(name = "A_ID"))

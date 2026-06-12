@@ -36,7 +36,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Company implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	private long companyId;
 

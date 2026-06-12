@@ -19,7 +19,6 @@ package ee.jakarta.tck.persistence.core.query.apitests;
 import java.lang.System.Logger;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +28,7 @@ import jakarta.persistence.TypedQuery;
 
 public class Client2 extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	final Department deptRef[] = new Department[5];
 
@@ -57,16 +56,6 @@ public class Client2 extends PMClientBase {
 			logger.log(Logger.Level.ERROR, "Unexpected Exception caught in Setup: ", e);
 			throw new Exception("Setup failed:", e);
 
-		}
-	}
-
-	@AfterEach
-	public void cleanupNoData() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "in cleanupNoData");
-			super.cleanup();
-		} finally {
-			removeTestJarFromCP();
 		}
 	}
 

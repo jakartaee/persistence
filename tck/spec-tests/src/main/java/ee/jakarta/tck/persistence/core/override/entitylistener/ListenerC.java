@@ -24,7 +24,7 @@ import jakarta.persistence.PrePersist;
 
 public class ListenerC {
 
-	private static final Logger logger = (Logger) System.getLogger(ListenerC.class.getName());
+	private static final Logger logger = System.getLogger(ListenerC.class.getName());
 
 	public ListenerC() {
 	}

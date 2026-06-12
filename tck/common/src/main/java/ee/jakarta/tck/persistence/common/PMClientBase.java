@@ -76,11 +76,13 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceException;
 
+import org.junit.jupiter.api.AfterEach;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract public class PMClientBase implements UseEntityManager, UseEntityManagerFactory, java.io.Serializable {
 
-    private static final Logger logger = (Logger) System.getLogger(PMClientBase.class.getName());
+    private static final Logger logger = System.getLogger(PMClientBase.class.getName());
 
     protected Properties myProps = new Properties();
 
@@ -180,8 +182,10 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
             getEntityTransaction().rollback();
         }
         try {
-            getEntityManagerFactory().getSchemaManager().truncate();
-            getEntityManager().clear();
+            final var entityManagerFactory = getEntityManagerFactory();
+            if (entityManagerFactory != null) {
+                entityManagerFactory.getSchemaManager().truncate();
+            }
         } catch (Exception e) {
             logger.log(Logger.Level.ERROR, "Exception encountered while removing entities:", e);
         }
@@ -260,11 +264,15 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
     /**
      * In JakartaEE environment, does nothing. In Java SE environment, closes the
      * EntityManager if its open, and closes the EntityManagerFactory if its open.
-     * If a subclass overrides this method, the overriding implementation must call
-     * super.cleanup() at the end. Also, the cache cleared.
+     * Also, the cache cleared.
      */
-    public void cleanup() throws Exception {
-        closeEMAndEMF();
+    @AfterEach
+    public final void cleanup() throws Exception {
+        try {
+            closeEMAndEMF();
+        } finally {
+            removeTestJarFromCP();
+        }
     }
 
     /*
@@ -301,6 +309,7 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
             }
 
             if (getEntityManagerFactory() != null && getEntityManagerFactory().isOpen()) {
+                removeTestData();
                 getEntityManagerFactory().close();
             }
         }

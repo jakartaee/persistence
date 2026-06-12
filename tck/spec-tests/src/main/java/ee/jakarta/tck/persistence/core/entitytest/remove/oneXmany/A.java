@@ -34,7 +34,7 @@ import jakarta.persistence.Table;
 @Table(name = "AEJB_1XM_BI_BTOB")
 public class A implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(A.class.getName());
+	private static final Logger logger = System.getLogger(A.class.getName());
 
 	// ===========================================================
 	// instance variables

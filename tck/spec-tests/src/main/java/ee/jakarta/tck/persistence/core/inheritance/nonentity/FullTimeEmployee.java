@@ -35,7 +35,7 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("EXEMPT")
 public class FullTimeEmployee extends Employee {
 
-	private static final Logger logger = (Logger) System.getLogger(FullTimeEmployee.class.getName());
+	private static final Logger logger = System.getLogger(FullTimeEmployee.class.getName());
 
 	private float salary;
 

@@ -26,7 +26,7 @@ public class Client4 extends Client {
 
 	private DataTypes4 d4;
 
-	private static final Logger logger = (Logger) System.getLogger(Client4.class.getName());
+	private static final Logger logger = System.getLogger(Client4.class.getName());
 
 	public Client4() {
 	}

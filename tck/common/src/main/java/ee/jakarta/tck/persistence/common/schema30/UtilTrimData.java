@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public abstract class UtilTrimData extends Util {
 
-	private static final Logger logger = (Logger) System.getLogger(UtilTrimData.class.getName());
+	private static final Logger logger = System.getLogger(UtilTrimData.class.getName());
 
 	@BeforeEach
 	public void setupTrimData() throws Exception {

@@ -24,7 +24,6 @@ import java.lang.System.Logger;
 import java.util.Properties;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +36,7 @@ import jakarta.persistence.SynchronizationType;
 
 public class Client2 extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client2.class.getName());
+	private static final Logger logger = System.getLogger(Client2.class.getName());
 
 	private EntityManager entityManager;
 
@@ -104,13 +103,6 @@ public class Client2 extends PMClientBase {
 		if (!pass1 || !pass2) {
 			throw new Exception("createEntityManagerSynchronizationTypeIllegalStateExceptionTest failed");
 		}
-	}
-
-	@AfterEach
-	public void cleanupOnly() throws Exception {
-		logger.log(Logger.Level.TRACE, "cleanupOnly");
-		super.cleanup();
-		removeTestJarFromCP();
 	}
 
 }

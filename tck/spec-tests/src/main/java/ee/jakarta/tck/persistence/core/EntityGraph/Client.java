@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +35,7 @@ import jakarta.persistence.metamodel.Metamodel;
 
 public class Client extends PMClientBase {
 
-	private static final Logger logger = (Logger) System.getLogger(Client.class.getName());
+	private static final Logger logger = System.getLogger(Client.class.getName());
 
 	Employee3[] empRef = new Employee3[5];
 
@@ -67,17 +66,6 @@ public class Client extends PMClientBase {
 		} catch (Exception e) {
 			logger.log(Logger.Level.ERROR, "Exception: ", e);
 			throw new Exception("Setup failed:", e);
-		}
-	}
-
-	@AfterEach
-	public void cleanupEmployeeData() throws Exception {
-		try {
-			logger.log(Logger.Level.TRACE, "Cleanup data");
-			removeTestData();
-			cleanup();
-		} finally {
-			removeTestJarFromCP();
 		}
 	}
 

@@ -30,7 +30,6 @@ import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.metamodel.Type;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,19 +54,6 @@ public class Client extends PMClientBase {
         createDeployment();
         removeTestData();
         createTestData();
-    }
-
-    @AfterEach
-    public void cleanup() throws Exception {
-        try {
-            removeTestData();
-        } finally {
-            try {
-                super.cleanup();
-            } finally {
-                removeTestJarFromCP();
-            }
-        }
     }
 
     /**

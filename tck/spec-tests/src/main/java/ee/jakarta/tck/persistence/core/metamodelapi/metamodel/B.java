@@ -28,7 +28,7 @@ import jakarta.persistence.Table;
 @Table(name = "B_EMBEDDABLE")
 public class B implements java.io.Serializable {
 
-	private static final Logger logger = (Logger) System.getLogger(B.class.getName());
+	private static final Logger logger = System.getLogger(B.class.getName());
 
 	// ===========================================================
 	// instance variables

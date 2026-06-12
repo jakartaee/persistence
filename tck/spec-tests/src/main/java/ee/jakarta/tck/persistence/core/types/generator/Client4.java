@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 
 public class Client4 extends Client {
 
-	private static final Logger logger = (Logger) System.getLogger(Client4.class.getName());
+	private static final Logger logger = System.getLogger(Client4.class.getName());
 
 	private DataTypes4 d12;
 
@@ -61,7 +61,6 @@ public class Client4 extends Client {
 				supports_sequence = Boolean.parseBoolean(s);
 				logger.log(Logger.Level.INFO, "db.supports.sequence:" + supports_sequence);
 				if (supports_sequence) {
-					createSequenceGenerator();
 					removeTestData();
 					createDataTypes4Data();
 				}

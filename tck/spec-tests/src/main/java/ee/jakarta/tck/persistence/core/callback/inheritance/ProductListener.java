@@ -37,7 +37,7 @@ import jakarta.persistence.PreUpdate;
  */
 public class ProductListener {
 
-	private static final Logger logger = (Logger) System.getLogger(ProductListener.class.getName());
+	private static final Logger logger = System.getLogger(ProductListener.class.getName());
 
 	public ProductListener() {
 		super();

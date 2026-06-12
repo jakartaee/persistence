@@ -38,7 +38,7 @@ public class A implements java.io.Serializable {
 
 	protected int value;
 
-	private static final Logger logger = (Logger) System.getLogger(LogFileProcessor.class.getName());
+	private static final Logger logger = System.getLogger(LogFileProcessor.class.getName());
 
 	@ElementCollection(fetch = FetchType.EAGER, targetClass = Address.class)
 	// @CollectionTable(name="A_ADDRESS2")

@@ -64,7 +64,7 @@ public class LogFileProcessor {
 
 	private Collection appSpecificRecordCollection = null;
 
-	private static final Logger logger = (Logger) System.getLogger(LogFileProcessor.class.getName());
+	private static final Logger logger = System.getLogger(LogFileProcessor.class.getName());
 
 	public LogFileProcessor() {
 		setup();

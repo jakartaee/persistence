@@ -31,7 +31,7 @@ import ee.jakarta.tck.persistence.common.schema30.UtilProductData;
 
 public class Client3 extends UtilProductData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client3.class.getName());
+	private static final Logger logger = System.getLogger(Client3.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client3.class.getPackageName();

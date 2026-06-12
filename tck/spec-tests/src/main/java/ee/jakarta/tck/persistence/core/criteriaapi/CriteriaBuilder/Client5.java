@@ -49,7 +49,7 @@ import jakarta.persistence.metamodel.Metamodel;
 
 public class Client5 extends UtilProductData {
 
-	private static final Logger logger = (Logger) System.getLogger(Client5.class.getName());
+	private static final Logger logger = System.getLogger(Client5.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 

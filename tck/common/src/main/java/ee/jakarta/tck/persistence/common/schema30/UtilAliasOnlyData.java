@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public abstract class UtilAliasOnlyData extends Util {
 
-	private static final Logger logger = (Logger) System.getLogger(UtilAliasOnlyData.class.getName());
+	private static final Logger logger = System.getLogger(UtilAliasOnlyData.class.getName());
 
 	@BeforeEach
 	public void setupAliasOnlyData() throws Exception {

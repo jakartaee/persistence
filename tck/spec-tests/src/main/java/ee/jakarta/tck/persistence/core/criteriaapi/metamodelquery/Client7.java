@@ -37,7 +37,7 @@ import jakarta.persistence.criteria.Subquery;
 
 public class Client7 extends UtilSetup {
 
-	private static final Logger logger = (Logger) System.getLogger(Client7.class.getName());
+	private static final Logger logger = System.getLogger(Client7.class.getName());
 
 	public JavaArchive createDeployment() throws Exception {
 		String pkgNameWithoutSuffix = Client7.class.getPackageName();
