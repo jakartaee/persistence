@@ -86,25 +86,25 @@ public class Client extends PMClientBase {
     private static final Instant INSTANT_DEF = Instant.ofEpochSecond(0);
 
     /** Instant constant. */
-    private static final Instant INSTANT = Instant.now();
+    private static final Instant INSTANT = Instant.parse("2024-06-15T10:30:00Z");
 
     /** Default LocalDate constant. */
     private static final LocalDate LOCAL_DATE_DEF = LocalDate.of(1970, 1, 1);
 
     /** LocalDate constant. */
-    private static final LocalDate LOCAL_DATE = LocalDate.now();
+    private static final LocalDate LOCAL_DATE = LocalDate.of(2024, 6, 15);
 
     /** Default LocalTime constant. */
     private static final LocalTime LOCAL_TIME_DEF = LocalTime.of(0, 0, 0);
 
     /** LocalTime constant. */
-    private static final LocalTime LOCAL_TIME = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+    private static final LocalTime LOCAL_TIME = LocalTime.of(10, 30);
 
     /** Default LocalDateTime constant. */
     private static final LocalDateTime LOCAL_DATE_TIME_DEF = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
 
     /** LocalDateTime constant. */
-    private static final LocalDateTime LOCAL_DATE_TIME = initLocalDateTime();
+    private static final LocalDateTime LOCAL_DATE_TIME = LocalDateTime.of(2024, 6, 15, 10, 30, 0);
 
     /** Default OffsetTime constant. */
     private static final OffsetTime OFFSET_TIME_DEF = OffsetTime.of(LOCAL_TIME_DEF, ZoneOffset.ofHours(1));
@@ -123,7 +123,7 @@ public class Client extends PMClientBase {
     private static final Year YEAR_DEF = Year.of(0);
 
     /** Year constant. */
-    private static final Year YEAR = Year.now();
+    private static final Year YEAR = Year.of(2024);
 
     private static final DateTimeEntity[] entities = {
             new DateTimeEntity(1L, INSTANT_DEF, LOCAL_DATE, LOCAL_TIME_DEF, LOCAL_DATE_TIME_DEF, OFFSET_TIME_DEF,
@@ -140,12 +140,6 @@ public class Client extends PMClientBase {
                     OFFSET_DATE_TIME_DEF, YEAR_DEF),
             new DateTimeEntity(7L, INSTANT_DEF, LOCAL_DATE_DEF, LOCAL_TIME_DEF, LOCAL_DATE_TIME_DEF, OFFSET_TIME_DEF,
                     OFFSET_DATE_TIME_DEF, YEAR)};
-
-    // Databases precision is usually not nanoseconds. Truncate to miliseconds.
-    private static LocalDateTime initLocalDateTime() {
-        final LocalDateTime value = LocalDateTime.now();
-        return value.withNano((value.getNano() / 1000000) * 1000000);
-    }
 
     /*
      * @testName: dateTimeTest
