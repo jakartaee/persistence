@@ -20,6 +20,7 @@ import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.ParameterMode;
+import jakarta.persistence.Query;
 import jakarta.persistence.Statement;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
@@ -35,6 +36,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Client extends PMClientBase {
 
@@ -128,6 +130,54 @@ public class Client extends PMClientBase {
                 .setParameter(1, new Code("B"), codeType)
                 .getSingleResult();
         assertEquals(2, byPositionalConvertedAttributeType.getId());
+    }
+
+    /**
+     * Tests Jakarta Persistence 4.0 positional argument binding. The test
+     * verifies {@code setParameters()} binds each argument to the positional
+     * parameter with the same index for {@link Query}, {@link TypedQuery},
+     * {@link Statement}, and {@link StoredProcedureQuery}, and validates the
+     * required argument count.
+     */
+    @Test
+    public void setParametersTest() {
+        var query = getEntityManager()
+                .createQuery("SELECT b.title FROM Jpa40ParameterBook b WHERE b.id = ?2 AND b.title = ?1")
+                .setParameters("Alpha", 1)
+                .ofType(String.class);
+        assertEquals("Alpha", query.getSingleResult());
+
+        var typedQuery = getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.id = ?2 AND b.title = ?1",
+                        ParameterBook.class)
+                        .setParameters("Beta", 2);
+        assertEquals(2, typedQuery.getSingleResult().getId());
+
+        var transaction = getEntityTransaction();
+        transaction.begin();
+        var statement = getEntityManager()
+                .createStatement("UPDATE Jpa40ParameterBook b SET b.title = ?2 WHERE b.id = ?1")
+                .setParameters(1, "Varargs");
+        int updateCount = statement.execute();
+        transaction.commit();
+        getEntityManager().clear();
+
+        assertEquals(1, updateCount);
+        assertEquals("Varargs", getEntityManager().get(ParameterBook.class, 1).getTitle());
+
+        try (var storedProcedureQuery = getEntityManager()
+                .createStoredProcedureQuery("JPA40_CODE_PROC")
+                .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                .setParameters("procedure")) {
+            assertEquals("procedure", storedProcedureQuery.getParameterValue(1));
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.id = ?2 AND b.title = ?1")
+                .setParameters("Alpha"));
+        assertThrows(IllegalArgumentException.class, () -> getEntityManager()
+                .createQuery("SELECT b FROM Jpa40ParameterBook b WHERE b.id = ?1")
+                .setParameters(1, "Alpha"));
     }
 
     /**
