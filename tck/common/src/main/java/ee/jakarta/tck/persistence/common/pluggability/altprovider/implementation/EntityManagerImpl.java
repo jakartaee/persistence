@@ -32,9 +32,10 @@ import jakarta.persistence.FindOption;
 import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.LockOption;
-import jakarta.persistence.StatementOrTypedQuery;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.RefreshOption;
 import jakarta.persistence.Statement;
+import jakarta.persistence.StatementOrTypedQuery;
 import jakarta.persistence.StatementReference;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
@@ -44,7 +45,11 @@ import jakarta.persistence.criteria.CriteriaSelect;
 import jakarta.persistence.criteria.CriteriaStatement;
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.sql.ResultSetMapping;
+import jakarta.annotation.Nonnull;
 
+import static java.util.Collections.*;
+
+@SuppressWarnings("removal")
 public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	/**
 	 * Store if this entity manager has been closed for test
@@ -80,75 +85,86 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public boolean contains(Object arg0) {
+	public boolean contains(@Nonnull Object arg0) {
 		return false;
 	}
 
 	@Override
-	public StatementOrTypedQuery createNamedQuery(String arg0) {
-		QueryImpl query = new QueryImpl();
+	@Nonnull
+	public StatementOrTypedQuery createNamedQuery(@Nonnull String arg0) {
+		var query = new QueryImpl<>();
 		query.name = arg0;
 		return query;
 	}
 
 	@Override
-	public <T> TypedQuery<T> createNamedQuery(String arg0, Class<T> arg1) {
-		QueryImpl query = new QueryImpl();
+	@Nonnull
+	public <T> TypedQuery<T> createNamedQuery(@Nonnull String arg0, @Nonnull Class<T> arg1) {
+		var query = new QueryImpl<T>();
 		query.name = arg0;
 		query.queryOnClass = arg1;
-		return (TypedQuery<T>) query;
+		return query;
 	}
 
 	@Override
-	public <T> TypedQuery<T> createQuery(TypedQueryReference<T> reference) {
-		return null;
+	@Nonnull
+	public <T> TypedQuery<T> createQuery(@Nonnull TypedQueryReference<T> reference) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public StatementOrTypedQuery createNativeQuery(String arg0) {
-		QueryImpl query = new QueryImpl();
+	@Nonnull
+	public StatementOrTypedQuery createNativeQuery(@Nonnull String arg0) {
+		var query = new QueryImpl<>();
 		query.nativeSQL = arg0;
 		return query;
 	}
 
 	@Override
-	public Statement createStatement(StatementReference reference) {
-		return null;
+	@Nonnull
+	public Statement createStatement(@Nonnull StatementReference reference) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Statement createNamedStatement(String name) {
-		return null;
+	@Nonnull
+	public Statement createNamedStatement(@Nonnull String name) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Statement createNativeStatement(String sqlString) {
-		return null;
+	@Nonnull
+	public Statement createNativeStatement(@Nonnull String sqlString) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Statement createStatement(String qlString) {
-		return null;
+	@Nonnull
+	public Statement createStatement(@Nonnull String qlString) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-    public <T> TypedQuery<T> createNativeQuery(String arg0, Class<T> arg1) {
-		QueryImpl query = new QueryImpl();
+	@Nonnull
+    public <T> TypedQuery<T> createNativeQuery(@Nonnull String arg0, @Nonnull Class<T> arg1) {
+		var query = new QueryImpl<T>();
 		query.nativeSQL = arg0;
 		query.queryOnClass = arg1;
 		return query;
 	}
 
 	@Override
-	public StatementOrTypedQuery createNativeQuery(String arg0, String arg1) {
-		QueryImpl query = new QueryImpl();
+	@Nonnull
+	public StatementOrTypedQuery createNativeQuery(@Nonnull String arg0, @Nonnull String arg1) {
+		var query = new QueryImpl<>();
 		query.nativeSQL = arg0;
 		query.resultsetMapping = arg1;
 		return query;
 	}
 
     @Override
-    public <T> TypedQuery<T> createNativeQuery(String sqlString, ResultSetMapping<T> resultSetMapping) {
+	@Nonnull
+    public <T> TypedQuery<T> createNativeQuery(@Nonnull String sqlString, @Nonnull ResultSetMapping<T> resultSetMapping) {
         QueryImpl<T> query = new QueryImpl<>();
         query.nativeSQL = sqlString;
         query.resultsetMapping = Objects.toString(resultSetMapping);
@@ -156,124 +172,140 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
     }
 
     @Override
-	public StatementOrTypedQuery createQuery(String arg0) {
-		QueryImpl query = new QueryImpl();
+	@Nonnull
+	public StatementOrTypedQuery createQuery(@Nonnull String arg0) {
+		var query = new QueryImpl<>();
 		query.jpQL = arg0;
 		return query;
 	}
 
 	@Override
-	public <T> TypedQuery<T> createQuery(CriteriaSelect<T> selectQuery) {
-		return null;
+	@Nonnull
+	public <T> TypedQuery<T> createQuery(@Nonnull CriteriaSelect<T> selectQuery) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> TypedQuery<T> createQuery(String arg0, Class<T> arg1) {
-		QueryImpl query = new QueryImpl();
+	@Nonnull
+	public <T> TypedQuery<T> createQuery(@Nonnull String arg0, @Nonnull Class<T> arg1) {
+		var query = new QueryImpl<T>();
 		query.jpQL = arg0;
 		query.queryOnClass = arg1;
-		return (TypedQuery<T>) query;
+		return query;
 	}
 
     @Override
-    public <T> TypedQuery<T> createQuery(String qlString, EntityGraph<T> resultGraph) {
+	@Nonnull
+    public <T> TypedQuery<T> createQuery(@Nonnull String qlString, @Nonnull EntityGraph<T> resultGraph) {
         QueryImpl<T> query = new QueryImpl<>();
         query.jpQL = qlString;
         return query;
     }
 
 	@Override
-	public Statement createStatement(CriteriaStatement<?> statement) {
-		return null;
+	@Nonnull
+	public Statement createStatement(@Nonnull CriteriaStatement<?> statement) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Statement createQuery(CriteriaStatement<?> statement) {
-		return null;
+	@Nonnull
+	public Statement createQuery(@Nonnull CriteriaStatement<?> statement) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public StoredProcedureQuery createNamedStoredProcedureQuery(String name) {
-		return null;
+	@Nonnull
+	public StoredProcedureQuery createNamedStoredProcedureQuery(@Nonnull String name) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public StoredProcedureQuery createStoredProcedureQuery(String name) {
-		return null;
+	@Nonnull
+	public StoredProcedureQuery createStoredProcedureQuery(@Nonnull String name) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public StoredProcedureQuery createStoredProcedureQuery(String name, java.lang.Class[] resultClasses) {
-		return null;
+	@Nonnull
+	public StoredProcedureQuery createStoredProcedureQuery(@Nonnull String name, @Nonnull java.lang.Class<?>[] resultClasses) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public StoredProcedureQuery createStoredProcedureQuery(String name, String[] resultSetMappings) {
-		return null;
+	@Nonnull
+	public StoredProcedureQuery createStoredProcedureQuery(@Nonnull String name, @Nonnull String[] resultSetMappings) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void detach(Object arg0) {
-
+	public void detach(@Nonnull Object arg0) {
 	}
 
     @Override
-    public <T> T get(Class<T> entityClass, Object id) {
-        return null;
+	@Nonnull
+    public <T> T get(@Nonnull Class<T> entityClass, @Nonnull Object id) {
+		throw new UnsupportedOperationException();
     }
 
     @Override
-    public <T> T get(Class<T> entityClass, Object id, FindOption... options) {
-        return null;
+	@Nonnull
+    public <T> T get(@Nonnull Class<T> entityClass, @Nonnull Object id, FindOption... options) {
+		throw new UnsupportedOperationException();
     }
 
     @Override
-    public <T> T get(EntityGraph<T> graph, Object id, FindOption... options) {
-        return null;
+	@Nonnull
+    public <T> T get(@Nonnull EntityGraph<T> graph, @Nonnull Object id, FindOption... options) {
+		throw new UnsupportedOperationException();
     }
 
     @Override
-    public <T> List<T> getMultiple(Class<T> entityClass, List<?> ids, FindOption... options) {
+	@Nonnull
+    public <T> List<T> getMultiple(@Nonnull Class<T> entityClass, @Nonnull List<?> ids, FindOption... options) {
         return List.of();
     }
 
     @Override
-    public <T> List<T> getMultiple(EntityGraph<T> graph, List<?> ids, FindOption... options) {
+	@Nonnull
+    public <T> List<T> getMultiple(@Nonnull EntityGraph<T> graph, @Nonnull List<?> ids, FindOption... options) {
         return List.of();
     }
 
     @Override
-	public <T> T find(Class<T> arg0, Object arg1) {
+	public <T> T find(@Nonnull Class<T> arg0, @Nonnull Object arg1) {
 		return null;
 	}
 
 	@Override
-	public <T> T find(Class<T> arg0, Object arg1, Map<String, Object> arg2) {
+	public <T> T find(@Nonnull Class<T> arg0, @Nonnull Object arg1, Map<String, Object> arg2) {
 		return null;
 	}
 
 	@Override
-	public <T> T find(Class<T> arg0, Object arg1, LockModeType arg2, Map<String, Object> arg3) {
+	public <T> T find(@Nonnull Class<T> arg0, @Nonnull Object arg1, @Nonnull LockModeType arg2, Map<String, Object> arg3) {
 		return null;
 	}
 
 	@Override
-	public <T> T find(Class<T> entityClass, Object primaryKey, FindOption... options) {
+	public <T> T find(@Nonnull Class<T> entityClass, @Nonnull Object primaryKey, FindOption... options) {
 		return null;
 	}
 
 	@Override
-	public <T> T find(EntityGraph<T> entityGraph, Object primaryKey, FindOption... options) {
+	public <T> T find(@Nonnull EntityGraph<T> entityGraph, @Nonnull Object primaryKey, FindOption... options) {
 		return null;
 	}
 
     @Override
-    public <T> List<T> findMultiple(Class<T> entityClass, List<?> ids, FindOption... options) {
+	@Nonnull
+    public <T> List<T> findMultiple(@Nonnull Class<T> entityClass, @Nonnull List<?> ids, FindOption... options) {
         return List.of();
     }
 
     @Override
-    public <T> List<T> findMultiple(EntityGraph<T> graph, List<?> ids, FindOption... options) {
+	@Nonnull
+    public <T> List<T> findMultiple(@Nonnull EntityGraph<T> graph, @Nonnull List<?> ids, FindOption... options) {
         return List.of();
     }
 
@@ -283,82 +315,90 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
+	@Nonnull
 	public CriteriaBuilder getCriteriaBuilder() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
+	@Nonnull
 	public Object getDelegate() {
 		verifyOpen();
 		return this;
 	}
 
 	@Override
+	@Nonnull
 	public EntityManagerFactory getEntityManagerFactory() {
 		return emf;
 	}
 
 	@Override
+	@Nonnull
 	public FlushModeType getFlushMode() {
-		return null;
+		return FlushModeType.AUTO;
 	}
 
 	@Override
-	public LockModeType getLockMode(Object arg0) {
-		return null;
+	@Nonnull
+	public LockModeType getLockMode(@Nonnull Object arg0) {
+		return LockModeType.NONE;
 	}
 
 	@Override
-	public void setCacheRetrieveMode(CacheRetrieveMode cacheRetrieveMode) {
-
+	public void setCacheRetrieveMode(@Nonnull CacheRetrieveMode cacheRetrieveMode) {
 	}
 
 	@Override
-	public void setCacheStoreMode(CacheStoreMode cacheStoreMode) {
-
+	public void setCacheStoreMode(@Nonnull CacheStoreMode cacheStoreMode) {
 	}
 
 	@Override
+	@Nonnull
 	public CacheRetrieveMode getCacheRetrieveMode() {
-		return null;
+		return CacheRetrieveMode.USE;
 	}
 
 	@Override
+	@Nonnull
 	public CacheStoreMode getCacheStoreMode() {
-		return null;
+		return CacheStoreMode.USE;
 	}
 
 	@Override
+	@Nonnull
 	public Metamodel getMetamodel() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
+	@Nonnull
 	public Map<String, Object> getProperties() {
-		return null;
+		return emptyMap();
 	}
 
 	@Override
-	public <T> T getReference(Class<T> arg0, Object arg1) {
-		return null;
+	@Nonnull
+	public <T> T getReference(@Nonnull Class<T> arg0, @Nonnull Object arg1) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> T getReference(T entity) {
-		return null;
+	@Nonnull
+	public <T> T getReference(@Nonnull T entity) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
+	@Nonnull
 	public EntityTransaction getTransaction() {
 		logger.log("Called EntityManagerImpl.getTransaction()");
-
 		return new EntityTransactionImpl();
 	}
 
 	@Override
 	public boolean isOpen() {
 		logger.log("Called EntityManagerImpl.isOpen()");
-
 		return isOpen;
 	}
 
@@ -373,112 +413,122 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	}
 
 	@Override
-	public void lock(Object arg0, LockModeType arg1) {
+	public void lock(@Nonnull Object arg0, @Nonnull LockModeType arg1) {
 
 	}
 
 	@Override
-	public void lock(Object arg0, LockModeType arg1, Map<String, Object> arg2) {
+	public void lock(@Nonnull Object arg0, @Nonnull LockModeType arg1, Map<String, Object> arg2) {
 
 	}
 
 	@Override
-	public void lock(Object entity, LockModeType lockMode, LockOption... options) {
+	public void lock(@Nonnull Object entity, @Nonnull LockModeType lockMode, LockOption... options) {
 
 	}
 
 	@Override
-	public <T> T merge(T arg0) {
+	@Nonnull
+	public <T> T merge(@Nonnull T arg0) {
 		return arg0;// not cloning it in case the object can't be cloned
 	}
 
 	@Override
-	public void persist(Object arg0) {
+	public void persist(@Nonnull Object arg0) {
 
 	}
 
 	@Override
-	public void refresh(Object arg0) {
+	public void refresh(@Nonnull Object arg0) {
 
 	}
 
 	@Override
-	public void refresh(Object arg0, Map<String, Object> arg1) {
+	public void refresh(@Nonnull Object arg0, Map<String, Object> arg1) {
 
 	}
 
 	@Override
-	public void refresh(Object arg0, LockModeType arg1, Map<String, Object> arg2) {
+	public void refresh(@Nonnull Object arg0, @Nonnull LockModeType arg1, Map<String, Object> arg2) {
 
 	}
 
 	@Override
-	public void refresh(Object entity, RefreshOption... options) {
+	public void refresh(@Nonnull Object entity, RefreshOption... options) {
 
 	}
 
 	@Override
-	public void remove(Object arg0) {
+	public void remove(@Nonnull Object arg0) {
 
 	}
 
 	@Override
-	public void setFlushMode(FlushModeType arg0) {
+	public void setFlushMode(@Nonnull FlushModeType arg0) {
 
 	}
 
 	@Override
-	public void setProperty(String arg0, Object arg1) {
+	public void setProperty(@Nonnull String arg0, Object arg1) {
 
 	}
 
 	@Override
-	public void addOption(Option option) {
+	public void addOption(@Nonnull Option option) {
 
 	}
 
 	@Override
+	@Nonnull
 	public Set<Option> getOptions() {
-		return null;
+		return emptySet();
 	}
 
 	@Override
-	public <T> T unwrap(Class<T> arg0) {
+	@Nonnull
+	public <T> T unwrap(@Nonnull Class<T> arg0) {
 		if (EntityManagerImpl.class == arg0) {
 			return (T) this;
 		}
-		return null;
+		throw new PersistenceException();
 	}
 
-	public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass) {
-		return null;
-	}
-
-	@Override
-	public <C> void runWithConnection(ConnectionConsumer<C> action) {
-
+	@Nonnull
+	public <T> List<EntityGraph<? super T>> getEntityGraphs(@Nonnull Class<T> entityClass) {
+		return emptyList();
 	}
 
 	@Override
-	public <C, T> T callWithConnection(ConnectionFunction<C, T> function) {
-		return null;
-	}
-
-	public EntityGraph<?> getEntityGraph(String graphName) {
-		return null;
+	public <C> void runWithConnection(@Nonnull ConnectionConsumer<C> action) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> EntityGraph<T> getEntityGraph(Class<T> rootType, String graphName) {
-		return null;
+	public <C, T> T callWithConnection(@Nonnull ConnectionFunction<C, T> function) {
+		throw new UnsupportedOperationException();
 	}
 
-	public <T> EntityGraph<T> createEntityGraph(Class<T> rootType) {
-		return null;
+	@Nonnull
+	public EntityGraph<?> getEntityGraph(@Nonnull String graphName) {
+		throw new UnsupportedOperationException();
 	}
 
-	public EntityGraph<?> createEntityGraph(String graphName) {
-		return null;
+	@Override
+	@Nonnull
+	public <T> EntityGraph<T> getEntityGraph(@Nonnull Class<T> rootType, @Nonnull String graphName) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	@Nonnull
+	public <T> EntityGraph<T> createEntityGraph(@Nonnull Class<T> rootType) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	@Nonnull
+	public EntityGraph<?> createEntityGraph(@Nonnull String graphName) {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -486,7 +536,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	 * closeAfterCloseCausesISException
 	 */
 	public void verifyOpen() {
-		if (!this.isOpen /* || !this.factory.isOpen() */) {
+		if (!isOpen) {
 			throw new IllegalStateException("Attempting to execute an operation on a closed EntityManager.");
 		}
 	}
