@@ -210,7 +210,7 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	@Override
 	@Nonnull
-	public TypedQuery<X> setQueryFlushMode(@Nonnull QueryFlushMode flushMode) {
+	public QueryImpl<X> setQueryFlushMode(@Nonnull QueryFlushMode flushMode) {
 		return this;
 	}
 
@@ -222,7 +222,7 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	@Override
 	@Nonnull
-	public TypedQuery<X> setHint(@Nonnull String arg0, Object arg1) {
+	public QueryImpl<X> setHint(@Nonnull String arg0, Object arg1) {
 		return this;
 	}
 
@@ -264,13 +264,13 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	@Override
 	@Nonnull
-	public TypedQuery<X> setTimeout(Integer timeout) {
+	public QueryImpl<X> setTimeout(Integer timeout) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public TypedQuery<X> setTimeout(Timeout timeout) {
+	public QueryImpl<X> setTimeout(Timeout timeout) {
 		return this;
 	}
 
@@ -287,13 +287,13 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	@Override
 	@Nonnull
-	public TypedQuery<X> setParameter(@Nonnull String arg0, Object arg1) {
+	public QueryImpl<X> setParameter(@Nonnull String arg0, Object arg1) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public TypedQuery<X> setParameter(int arg0, Object arg1) {
+	public QueryImpl<X> setParameter(int arg0, Object arg1) {
 		return this;
 	}
 
@@ -323,38 +323,38 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	@Override
 	@Nonnull
-	public <P> TypedQuery<X> setParameter(@Nonnull String name, P value, @Nonnull Type<P> type) {
+	public <P> QueryImpl<X> setParameter(@Nonnull String name, P value, @Nonnull Type<P> type) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public <P> TypedQuery<X> setParameter(int position, P value, @Nonnull Type<P> type) {
+	public <P> QueryImpl<X> setParameter(int position, P value, @Nonnull Type<P> type) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public <P> TypedQuery<X> setParameter(@Nonnull String name, P value, @Nonnull Class<P> type) {
+	public <P> QueryImpl<X> setParameter(@Nonnull String name, P value, @Nonnull Class<P> type) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public <P> TypedQuery<X> setParameter(int position, P value, @Nonnull Class<P> type) {
+	public <P> QueryImpl<X> setParameter(int position, P value, @Nonnull Class<P> type) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public <P> TypedQuery<X> setConvertedParameter(@Nonnull String name, P value,
+	public <P> QueryImpl<X> setConvertedParameter(@Nonnull String name, P value,
                                                    @Nonnull Class<? extends AttributeConverter<P, ?>> converter) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public <P> TypedQuery<X> setConvertedParameter(int position, P value,
+	public <P> QueryImpl<X> setConvertedParameter(int position, P value,
                                                    @Nonnull Class<? extends AttributeConverter<P, ?>> converter) {
 		return this;
 	}
@@ -367,7 +367,7 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	@Override
 	@Nonnull
-	public <T> TypedQuery<X> setParameter(@Nonnull Parameter<T> arg0, T arg1) {
+	public <T> QueryImpl<X> setParameter(@Nonnull Parameter<T> arg0, T arg1) {
 		return this;
 	}
 
@@ -396,7 +396,7 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	}
 
 	@Override
-	public @Nonnull TypedQuery<X> setParameters(@Nonnull Object... arguments) {
+	public @Nonnull QueryImpl<X> setParameters(@Nonnull Object... arguments) {
 		return this;
 	}
 }
