@@ -505,6 +505,7 @@ public class Client extends PMClientBase {
 			empRef[4] = new Employee(5, "Stephen", "DMilla");
 			empRef[4].setDepartment(deptRef[0]);
 
+			link = new HashMap<String, Employee>();
 			link.put("OFF-000", empRef[0]);
 			link.put("OFF-002", empRef[2]);
 			link.put("OFF-004", empRef[4]);

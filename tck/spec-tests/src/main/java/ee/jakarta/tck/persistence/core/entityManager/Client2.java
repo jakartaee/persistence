@@ -497,11 +497,11 @@ public class Client2 extends PMClientBase {
 			final Date d5 = getUtilDate();
 
 			emp0 = new Employee(1, "Alan", "Frechette", d1, (float) 35000.0);
-			empRef.add(emp0);
-			empRef.add(new Employee(2, "Arthur", "Frechette", d2, (float) 35000.0));
-			empRef.add(new Employee(3, "Shelly", "McGowan", d3, (float) 50000.0));
-			empRef.add(new Employee(4, "Robert", "Bissett", d4, (float) 55000.0));
-			empRef.add(new Employee(5, "Stephen", "DMilla", d5, (float) 25000.0));
+			empRef = List.of(emp0,
+					new Employee(2, "Arthur", "Frechette", d2, (float) 35000.0),
+					new Employee(3, "Shelly", "McGowan", d3, (float) 50000.0),
+					new Employee(4, "Robert", "Bissett", d4, (float) 55000.0),
+					new Employee(5, "Stephen", "DMilla", d5, (float) 25000.0));
 			for (Employee e : empRef) {
 				if (e != null) {
 					getEntityManager().persist(e);

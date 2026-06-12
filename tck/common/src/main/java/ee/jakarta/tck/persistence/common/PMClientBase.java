@@ -76,10 +76,13 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceException;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract public class PMClientBase implements UseEntityManager, UseEntityManagerFactory, java.io.Serializable {
 
     private static final Logger logger = System.getLogger(PMClientBase.class.getName());
@@ -208,6 +211,7 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
      */
     public void setup() throws Exception {
         logger.log(Logger.Level.TRACE, "PMClientBase.setup");
+        myProps.clear();
         mode = System.getProperty(MODE_PROP);
         myProps.put(MODE_PROP, mode);
         persistenceUnitName = System.getProperty(PERSISTENCE_UNIT_NAME_PROP);
@@ -269,7 +273,42 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
     @AfterEach
     public final void cleanup() throws Exception {
         try {
-            closeEMAndEMF();
+            logger.log(Logger.Level.TRACE,
+                    "Rolling back any existing transaction before closing EM if one exists.");
+            if (getEntityTransaction(false) != null && getEntityTransaction(false).isActive()) {
+                logger.log(Logger.Level.TRACE, "An active transaction was found, rolling it back.");
+                getEntityTransaction(false).rollback();
+            }
+        } catch (Exception fe) {
+            logger.log(Logger.Level.INFO, "Unexpected exception rolling back TX:", fe);
+        }
+
+        clearCache();
+
+        if (isStandAloneMode()) {
+            logger.log(Logger.Level.TRACE, "Closing EM and truncating data");
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+            this.em = null;
+            this.et = null;
+
+            if (emf != null && emf.isOpen()) {
+                try {
+                    emf.getSchemaManager().truncate();
+                } catch (Exception e) {
+                    logger.log(Logger.Level.ERROR, "Exception encountered while truncating schema:", e);
+                }
+            }
+        }
+    }
+
+    @AfterAll
+    public void cleanupAll() throws Exception {
+        try {
+            if (isStandAloneMode() && emf != null && emf.isOpen()) {
+                emf.close();
+            }
         } finally {
             removeTestJarFromCP();
         }
@@ -496,17 +535,19 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
     protected void initEntityManager(String persistenceUnitName, boolean useProps) {
         if (isStandAloneMode()) {
             logger.log(Logger.Level.TRACE, "in initEntityManager(String, boolean): " + persistenceUnitName);
-            if (useProps) {
-                Properties propsMap = getPersistenceUnitProperties();
-                logger.log(Logger.Level.TRACE, "createEntityManagerFactory(String,Map)");
-                emf = Persistence.createEntityManagerFactory(persistenceUnitName, propsMap);
-            } else {
-                logger.log(Logger.Level.TRACE, "createEntityManagerFactory(String)");
-                emf = Persistence.createEntityManagerFactory(persistenceUnitName);
-            }
-            Map<java.lang.String, java.lang.Object> emfMap = emf.getProperties();
-            if (emfMap != null) {
-                displayMap(emfMap);
+            if (emf == null || !emf.isOpen()) {
+                if (useProps) {
+                    Properties propsMap = getPersistenceUnitProperties();
+                    logger.log(Logger.Level.TRACE, "createEntityManagerFactory(String,Map)");
+                    emf = Persistence.createEntityManagerFactory(persistenceUnitName, propsMap);
+                } else {
+                    logger.log(Logger.Level.TRACE, "createEntityManagerFactory(String)");
+                    emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+                }
+                Map<java.lang.String, java.lang.Object> emfMap = emf.getProperties();
+                if (emfMap != null) {
+                    displayMap(emfMap);
+                }
             }
             this.em = emf.createEntityManager();
         } else {
@@ -1184,7 +1225,7 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
             }
         }
 
-        if (STANDALONE_MODE.equalsIgnoreCase(mode)) {
+        if (STANDALONE_MODE.equalsIgnoreCase(mode) && !testArtifactDeployed) {
             archive.as(ZipExporter.class).exportTo(new File(TEMP_DIR + File.separator + jarName), true);
             ClassLoader currentThreadClassLoader = Thread.currentThread().getContextClassLoader();
             URLClassLoader urlClassLoader = new URLClassLoader(

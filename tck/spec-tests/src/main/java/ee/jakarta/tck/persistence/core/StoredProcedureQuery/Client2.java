@@ -497,11 +497,11 @@ public class Client2 extends Client {
 			final Calendar d5 = getCalDate();
 
 			emp2 = new Employee2(1, "Alan", "Frechette", calDate, (float) 35000.0);
-			empRef2.add(emp2);
-			empRef2.add(new Employee2(2, "Arthur", "Frechette", d2, (float) 35000.0));
-			empRef2.add(new Employee2(3, "Shelly", "McGowan", d3, (float) 50000.0));
-			empRef2.add(new Employee2(4, "Robert", "Bissett", d4, (float) 55000.0));
-			empRef2.add(new Employee2(5, "Stephen", "DMilla", d5, (float) 25000.0));
+			empRef2 = List.of(emp2,
+					new Employee2(2, "Arthur", "Frechette", d2, (float) 35000.0),
+					new Employee2(3, "Shelly", "McGowan", d3, (float) 50000.0),
+					new Employee2(4, "Robert", "Bissett", d4, (float) 55000.0),
+					new Employee2(5, "Stephen", "DMilla", d5, (float) 25000.0));
 			for (Employee2 e : empRef2) {
 				if (e != null) {
 					getEntityManager().persist(e);
