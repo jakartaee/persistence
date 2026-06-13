@@ -41,12 +41,24 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@code long}, {@link Long}, {@code java.sql.Timestamp},
  * {@link java.time.Instant}, {@link java.time.LocalDateTime}.
  *
- * <p>This field declares a version number:
+ * <p>Any <strong>positive number</strong> or <strong>non-null timestamp</strong>
+ * initial value will be the seed of version, otherwise vendors are free to
+ * seed the version.
+ *
+ * <p>This field declares a version number, the version seed is vendor-specific:
  *
  * {@snippet :
  * @Version
  * @Column(name = "REVISION")
  * protected int version;
+ * }
+ *
+ * <p>This field declares a version number, the version seed is <code>1</code> across vendors:
+ *
+ * {@snippet :
+ * @Version
+ * @Column(name = "REVISION")
+ * protected int version = 1;
  * }
  *
  * <p>This field declares a revision timestamp:
