@@ -80,7 +80,7 @@ intf java.lang.annotation.Annotation
 meth public abstract !hasdefault boolean optional()
 meth public abstract !hasdefault jakarta.persistence.FetchType fetch()
 
-CLSS public final jakarta.persistence.BatchSize
+CLSS public final jakarta.persistence.BatchFetch
 cons public init(int)
 intf jakarta.persistence.FetchOption
 intf jakarta.persistence.FindOption

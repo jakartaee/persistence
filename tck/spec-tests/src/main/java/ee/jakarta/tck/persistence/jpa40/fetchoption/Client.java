@@ -17,13 +17,7 @@
 package ee.jakarta.tck.persistence.jpa40.fetchoption;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
-import jakarta.persistence.AttributeNode;
-import jakarta.persistence.BatchSize;
-import jakarta.persistence.EntityGraph;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.FetchOption;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,7 +100,7 @@ public class Client extends PMClientBase {
     /**
      * Tests Jakarta Persistence 4.0 fetch option metadata on entity graph
      * attribute nodes. The test verifies default options for added and
-     * removed nodes, option replacement, {@link BatchSize}, and defensive
+     * removed nodes, option replacement, {@link BatchFetch}, and defensive
      * option set semantics. Note that {@code addOption()} overwrites
      * existing options of the same type.
      */
@@ -119,7 +113,7 @@ public class Client extends PMClientBase {
         assertEquals("publisher", publisher.getAttribute().getName());
         assertTrue(publisher.getOptions().contains(FetchType.EAGER));
 
-        BatchSize batchSize = new BatchSize(5);
+        BatchFetch batchSize = new BatchFetch(5);
         publisher.addOption(batchSize);
         publisher.addOption(FetchType.LAZY); // overwrite
 
@@ -135,9 +129,9 @@ public class Client extends PMClientBase {
         assertTrue(fetchOptions.contains(FetchType.LAZY));
         assertFalse(fetchOptions.contains(FetchType.EAGER));
 
-        publisher.addOption(new BatchSize(10));
-        assertTrue(publisher.getOptions().contains(new BatchSize(10)));
-        assertFalse(publisher.getOptions().contains(new BatchSize(5)));
+        publisher.addOption(new BatchFetch(10));
+        assertTrue(publisher.getOptions().contains(new BatchFetch(10)));
+        assertFalse(publisher.getOptions().contains(new BatchFetch(5)));
     }
 
     /**

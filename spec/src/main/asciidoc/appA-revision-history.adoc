@@ -49,7 +49,7 @@ Specify that an entity listener may have multiple callbacks of the same type
 
 Added `FetchOption` and `AttributeNode.addOption()`
 
-Added `BatchSize`
+Added `BatchFetch`
 
 Added `withEntityGraph()` to `StatementOrTypedQuery`, `entityGraph` to `@NamedQuery`, and overloaded `createQuery(String, EntityGraph)` on `EntityHandler`.
 

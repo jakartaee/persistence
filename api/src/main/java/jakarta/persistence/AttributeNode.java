@@ -36,8 +36,8 @@ import java.util.Set;
  * var bookGraph = Book_.class_.createEntityGraph();
  * bookGraph.addAttributeNode(Book_.publisher)
  *          .addOption(CacheRetrieveMode.BYPASS)  // bypass the cache
- *          .addOption(new BatchSize(10));  // select batch fetching
- * }
+ *          .addOption(new BatchFetch(10));  // select batch fetching
+ *}
  * <p>
  * Added and removed nodes may be obtained by calling
  * {@link Graph#getAttributeNodes()}.
