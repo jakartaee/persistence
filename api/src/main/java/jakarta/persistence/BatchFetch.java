@@ -22,5 +22,5 @@ package jakarta.persistence;
  *
  * @since 4.0
  */
-public record BatchSize(int batchSize) implements FindOption, FetchOption {
+public record BatchFetch(int batchSize) implements FetchOption {
 }

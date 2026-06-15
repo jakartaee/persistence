@@ -20,7 +20,7 @@ package jakarta.persistence;
  * {@linkplain AttributeNode attribute node} belonging
  * to an {@linkplain EntityGraph entity graph} is fetched.
  * Built-in options control {@linkplain CacheRetrieveMode
- * cache interaction} and {@linkplain BatchSize batching}.
+ * cache interaction} and {@linkplain BatchFetch batching}.
  * <p>
  * Typical options are specific to a given persistence
  * provider and are often hints. A provider must ignore
@@ -31,7 +31,7 @@ package jakarta.persistence;
  * @see AttributeNode#addOption(FetchOption)
  * @see CacheRetrieveMode
  * @see CacheStoreMode
- * @see BatchSize
+ * @see BatchFetch
  * @see FetchType
  *
  * @since 4.0
