@@ -17,16 +17,19 @@
 package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation;
 
 import java.lang.annotation.Annotation;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Cache;
 import jakarta.persistence.EntityAgent;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityHandler;
 import jakarta.persistence.EntityListenerRegistration;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.PersistenceUnitUtil;
 import jakarta.persistence.Query;
@@ -41,6 +44,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.metamodel.Metamodel;
 import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.sql.ResultSetMapping;
+
+import static java.util.Collections.emptyMap;
 
 public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManagerFactory {
 
@@ -98,12 +103,14 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 	}
 
     @Override
-    public <R> TypedQueryReference<R> addNamedQuery(String name, TypedQuery<R> query) {
+	@Nonnull
+	public <R> TypedQueryReference<R> addNamedQuery(@Nonnull String name, @Nonnull TypedQuery<R> query) {
         return null;
     }
 
 	@Override
-	public StatementReference addNamedStatement(String name, Statement statement) {
+	@Nonnull
+	public StatementReference addNamedStatement(@Nonnull String name, @Nonnull Statement statement) {
 		return null;
 	}
 
@@ -113,10 +120,12 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 	}
 
 	@Override
+	@Nonnull
 	public String getName() {
-		return null;
+		return "";
 	}
 
+	@Nonnull
 	public EntityManager createEntityManager(EntityManager.CreationOption... options) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager()");
 		verifyOpen();
@@ -126,31 +135,35 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		return em;
 	}
 
-	public EntityManager createEntityManager(Map properties) {
+	@Nonnull
+	public EntityManager createEntityManager(Map<?,?> properties) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager(Map)");
 		verifyOpen();
 		EntityManagerImpl em = new EntityManagerImpl();
 		em.emf = this;
-		em.properties = new java.util.HashMap(properties);
+		em.properties = new HashMap<>(properties);
 		return em;
 	}
 
     @Override
-    public EntityAgent createEntityAgent(EntityAgent.CreationOption... options) {
+	@Nonnull
+	public EntityAgent createEntityAgent(EntityAgent.CreationOption... options) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public EntityAgent createEntityAgent(Map<?, ?> map) {
+	@Nonnull
+	public EntityAgent createEntityAgent(Map<?, ?> map) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-	public EntityManager createEntityManager(SynchronizationType st, Map map) {
+	@Nonnull
+	public EntityManager createEntityManager(@Nonnull SynchronizationType st, Map<?,?> map) {
 		logger.log("Called EntityManagerFactoryImpl.createEntityManager(Map)");
 		verifyOpen();
 		EntityManagerImpl em = new EntityManagerImpl();
 		em.emf = this;
-		em.properties = new java.util.HashMap(properties);
+		em.properties = new HashMap<>(map);
 		return em;
 	}
 
@@ -158,93 +171,107 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		return new CacheImpl();
 	}
 
+	@Nonnull
 	public CriteriaBuilder getCriteriaBuilder() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
+	@Nonnull
 	public Metamodel getMetamodel() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
+	@Nonnull
 	public PersistenceUnitUtil getPersistenceUnitUtil() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
+	@Nonnull
 	public PersistenceUnitTransactionType getTransactionType() {
-		return null;
+		return PersistenceUnitTransactionType.RESOURCE_LOCAL;
 	}
 
 	@Override
+	@Nonnull
 	public SchemaManager getSchemaManager() {
 		return NOOP_SCHEMA_MANAGER;
 	}
 
+	@Nonnull
 	public Map<String, Object> getProperties() {
-		return null;
+		return emptyMap();
 	}
 
-	public <T> T unwrap(Class<T> arg0) {
-		if (EntityManagerImpl.class == arg0) {
+	@Nonnull
+	public <T> T unwrap(@Nonnull Class<T> cls) {
+		if (EntityManagerImpl.class == cls) {
 			return (T) this;
 		}
-		return null;
+		throw new PersistenceException();
 	}
 
-	public <T> void addNamedEntityGraph(String graphName, EntityGraph<T> entityGraph) {
+	public <T> void addNamedEntityGraph(@Nonnull String graphName, @Nonnull EntityGraph<T> entityGraph) {
 
 	}
 
 	@Override
+	@Nonnull
 	public Map<String, StatementReference> getNamedStatements() {
-		return null;
+		return emptyMap();
 	}
 
 	@Override
-	public <R> Map<String, TypedQueryReference<R>> getNamedQueries(Class<R> resultType) {
-		return null;
+	@Nonnull
+	public <R> Map<String, TypedQueryReference<R>> getNamedQueries(@Nonnull Class<R> resultType) {
+		return emptyMap();
 	}
 
 	@Override
-	public <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(Class<E> entityType) {
-		return null;
+	@Nonnull
+	public <E> Map<String, EntityGraph<? extends E>> getNamedEntityGraphs(@Nonnull Class<E> entityType) {
+		return emptyMap();
 	}
 
     @Override
-    public <R> Map<String, ResultSetMapping<R>> getResultSetMappings(Class<R> resultType) {
-        return Map.of();
+	@Nonnull
+	public <R> Map<String, ResultSetMapping<R>> getResultSetMappings(@Nonnull Class<R> resultType) {
+        return emptyMap();
     }
 
     @Override
-    public <E> EntityListenerRegistration addListener(Class<E> entityType, Class<? extends Annotation> callbackType, Consumer<? super E> listener) {
-        return null;
+	@Nonnull
+	public <E> EntityListenerRegistration addListener(@Nonnull Class<E> entityType,
+													  @Nonnull Class<? extends Annotation> callbackType,
+													  @Nonnull Consumer<? super E> listener) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-	public void runInTransaction(Consumer<EntityManager> work) {
-
+	public void runInTransaction(@Nonnull Consumer<EntityManager> work) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <R> R callInTransaction(Function<EntityManager, R> work) {
-		return null;
+	public <R> R callInTransaction(@Nonnull Function<EntityManager, R> work) {
+		throw new UnsupportedOperationException();
 	}
 
     @Override
-    public <H extends EntityHandler> void runInTransaction(Class<H> handlerClass, Consumer<H> work) {
-
+    public <H extends EntityHandler> void runInTransaction(@Nonnull Class<H> handlerClass, @Nonnull Consumer<H> work) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public <R, H extends EntityHandler> R callInTransaction(Class<H> handlerClass, Function<H, R> work) {
-        return null;
+    public <R, H extends EntityHandler> R callInTransaction(@Nonnull Class<H> handlerClass, @Nonnull Function<H, R> work) {
+        throw new UnsupportedOperationException();
     }
 
 	public boolean isOpen() {
 		return isOpen;
 	}
 
-	// added to check isOpen/closed etc
+	// added to check isOpen/closed, etc.
 	protected void verifyOpen() {
 		if (!this.isOpen) {
 			throw new IllegalStateException("operation_on_closed_entity_manager_factory");

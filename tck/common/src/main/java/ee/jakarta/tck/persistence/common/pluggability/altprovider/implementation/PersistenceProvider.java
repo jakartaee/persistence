@@ -18,18 +18,18 @@ package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementatio
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceConfiguration;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.LoadState;
-import jakarta.persistence.spi.PersistenceProviderResolver;
 import jakarta.persistence.spi.PersistenceProviderResolverHolder;
 import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.spi.ProviderUtil;
@@ -55,12 +55,13 @@ public class PersistenceProvider
 		logger.log(s);
 	}
 
-	public void generateSchema(PersistenceUnitInfo info, Map map) {
+	public void generateSchema(@Nonnull PersistenceUnitInfo info, Map<?,?> map) {
 		System.out.println("Called ALTERNATE_PROVIDER: PersistenceProvider.generateSchema(PersistenceUnitInfo, Map)");
 		callLogger("Called generateSchema(PersistenceUnitInfo, Map)");
 	}
 
-	public EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo puInfo, Map properties) {
+	@Nonnull
+	public EntityManagerFactory createContainerEntityManagerFactory(@Nonnull PersistenceUnitInfo puInfo, Map<?,?> properties) {
 		//
 		// Since this provider is packaged in the EAR and we are not overriding
 		// the provider (specified in the persistence.xml file) via
@@ -71,8 +72,8 @@ public class PersistenceProvider
 		System.out.println(
 				"Called ALTERNATE_PROVIDER: PersistenceProvider.createContainerEntityManagerFactory(PersistenceUnitInfo, Map)");
 
-		PersistenceProviderResolver pr = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-		List list = pr.getPersistenceProviders();
+		var pr = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+		var list = pr.getPersistenceProviders();
 		System.out.println("LIST OF PROVIDERS:");
 		System.out.println("------------------");
 		for (Object o : list) {
@@ -83,26 +84,25 @@ public class PersistenceProvider
 		String unitName = puInfo.getPersistenceUnitName();
 		System.out.println("ALTERNATE_PROVIDER: createContainerEntityManagerFactory - unitName:" + unitName);
 
-		if (unitName != null) {
-			if (!unitName.contains("CTS")) {
-				return null;
-			}
-		}
+        if (unitName != null && !unitName.contains("CTS")) {
+            return null;
+        }
 		displayMap(properties);
 
 		callLogger("Called createContainerEntityManagerFactory(PersistenceUnitInfo, Map)");
-		EntityManagerFactoryImpl emf = new EntityManagerFactoryImpl(true);
+		var emf = new EntityManagerFactoryImpl(true);
 		emf.properties = properties;
-		ClassTransformerImpl transformer = new ClassTransformerImpl();
+		var transformer = new ClassTransformerImpl();
 		emf.transformer = transformer;
 		puInfo.addTransformer(transformer);
 		emf.puInfo = puInfo;
 		emf.newTempClassloader = puInfo.getNewTempClassLoader();
-		System.out.println("returning ALTERNATE_PROVIDER factory:" + emf.toString());
+		System.out.println("returning ALTERNATE_PROVIDER factory:" + emf);
 		return emf;
 	}
 
-	public EntityManagerFactory createEntityManagerFactory(String puName, Map properties) {
+	@Nullable
+	public EntityManagerFactory createEntityManagerFactory(@Nonnull String puName, Map<?,?> properties) {
 		System.out.println("Called ALTERNATE_PROVIDER: PersistenceProvider.createEntityManagerFactory(String, Map)");
 
 		if (!puName.equals("ALTPROVIDERPU")) {
@@ -111,26 +111,24 @@ public class PersistenceProvider
 
 			return null;
 		}
-		if (properties != null) {
-			if (properties.size() > 0) {
-				String pp = (String) properties.get("jakarta.persistence.provider");
-				if (pp == null) {
-					System.out.println(
-							"returning null from ALTERNATE_PROVIDER: PersistenceProvider.createEntityManagerFactory(String, Map) no provider specified");
-					return null;
-				}
-				if (!pp.equals(
-						"ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation.PersistenceProvider")) {
-					System.out.println(
-							"returning null from ALTERNATE_PROVIDER: PersistenceProvider.createEntityManagerFactory(String, Map) different provider specified");
-					return null;
+        if (properties != null && !properties.isEmpty()) {
+            String pp = (String) properties.get("jakarta.persistence.provider");
+            if (pp == null) {
+                System.out.println(
+                        "returning null from ALTERNATE_PROVIDER: PersistenceProvider.createEntityManagerFactory(String, Map) no provider specified");
+                return null;
+            }
+            if (!pp.equals(
+                    "ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation.PersistenceProvider")) {
+                System.out.println(
+                        "returning null from ALTERNATE_PROVIDER: PersistenceProvider.createEntityManagerFactory(String, Map) different provider specified");
+                return null;
 
-				}
-			}
-		}
+            }
+        }
 
-		PersistenceProviderResolver pr = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-		List list = pr.getPersistenceProviders();
+		var pr = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+		var list = pr.getPersistenceProviders();
 		System.out.println("LIST OF PROVIDERS:");
 		System.out.println("------------------");
 		for (Object o : list) {
@@ -142,7 +140,7 @@ public class PersistenceProvider
 		PersistenceUnitInfoImpl puInfo = getPersistenceUnitInfoMap().get(puName);
 		EntityManagerFactoryImpl emf = null;
 		if (puInfo != null) {
-			puInfo = (PersistenceUnitInfoImpl) puInfo.clone();
+			puInfo = puInfo.clone();
 			puInfo.classLoader = Thread.currentThread().getContextClassLoader();
 			emf = new EntityManagerFactoryImpl();
 			emf.properties = properties;
@@ -153,38 +151,44 @@ public class PersistenceProvider
 	}
 
 	@Override
-	public EntityManagerFactory createEntityManagerFactory(PersistenceConfiguration configuration) {
+	@Nullable
+	public EntityManagerFactory createEntityManagerFactory(@Nonnull PersistenceConfiguration configuration) {
 		return null;
 	}
 
     @Override
-    public boolean generateSchema(PersistenceConfiguration configuration) {
+    public boolean generateSchema(@Nonnull PersistenceConfiguration configuration) {
         callLogger("Called generateSchema()");
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+	@Nonnull
 	public ProviderUtil getProviderUtil() {
 		callLogger("Called getProviderUtil()");
 		return provider;
 	}
 
     @Override
-    public ClassTransformer getClassTransformer(PersistenceUnitInfo info, Map<?, ?> map) {
+	@Nonnull
+    public ClassTransformer getClassTransformer(@Nonnull PersistenceUnitInfo info, Map<?, ?> map) {
         callLogger("Called getClassTransformer()");
         return null;
     }
 
-	public LoadState isLoaded(Object entity) {
+	@Nonnull
+	public LoadState isLoaded(@Nonnull Object entity) {
 		callLogger("Called isLoaded()");
 		return LoadState.UNKNOWN;
 	}
 
-	public LoadState isLoadedWithReference(Object entity, String attributeName) {
+	@Nonnull
+	public LoadState isLoadedWithReference(@Nonnull Object entity, @Nonnull String attributeName) {
 		callLogger("Called isLoadedWithReference()");
 		return LoadState.UNKNOWN;
 	}
 
-	public LoadState isLoadedWithoutReference(Object entity, String attributeName) {
+	@Nonnull
+	public LoadState isLoadedWithoutReference(@Nonnull Object entity, @Nonnull String attributeName) {
 		callLogger("Called isLoadedWithoutReference()");
 		return LoadState.UNKNOWN;
 	}
@@ -201,13 +205,13 @@ public class PersistenceProvider
 	 */
 	private static Map<String, PersistenceUnitInfoImpl> getPersistenceUnitInfoMap() {
 		if (puInfoMap == null) {
-			Map<String, PersistenceUnitInfoImpl> m = new Hashtable<String, PersistenceUnitInfoImpl>();
+			Map<String, PersistenceUnitInfoImpl> m = new HashMap<>();
 
 			// PU 1: ALTPROVIDERPU, resource_local,
 			PersistenceUnitInfoImpl puinfo = new PersistenceUnitInfoImpl();
 			puinfo.puName = "ALTPROVIDERPU";
 			puinfo.persistenceProviderClassName = PersistenceProvider.class.getName();
-			puinfo.managedClassNames = new ArrayList<String>();
+			puinfo.managedClassNames = new ArrayList<>();
 			puinfo.managedClassNames.add("com.foo");
 			puinfo.transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
 			puinfo.excludeUnlistedClasses = false;
@@ -216,11 +220,11 @@ public class PersistenceProvider
 				url = new URL("file:///pluggability_contracts_resource_local.jar");
 			} catch (Exception ex) {
 			}
-			List<URL> lURL = new ArrayList<URL>();
+			List<URL> lURL = new ArrayList<>();
 			lURL.add(url);
 			puinfo.jarFileUrls = lURL;
 
-			List<String> lMappingFileNames = new ArrayList<String>();
+			List<String> lMappingFileNames = new ArrayList<>();
 			lMappingFileNames.add("META-INF/myMappingFile1.xml");
 			lMappingFileNames.add("META-INF/myMappingFile2.xml");
 			puinfo.mappingFileNames = lMappingFileNames;
@@ -247,16 +251,15 @@ public class PersistenceProvider
 
 	}
 
-	public boolean generateSchema(String persistenceUnitName, Map map) {
+	@Override
+	public boolean generateSchema(@Nonnull String persistenceUnitName, Map<?,?> map) {
 		return false;
 	}
 
-	private void displayMap(Map map) {
+	private void displayMap(Map<?,?> map) {
 
 		if (map != null) {
-			Set<Map.Entry<String, Object>> set = map.entrySet();
-
-			for (Map.Entry<String, Object> me : set) {
+            for (var me : map.entrySet()) {
 				if (me.getValue() instanceof String) {
 					System.out.println(
 							"PersistenceProvider.displayMap() - name:" + me.getKey() + ", value:" + me.getValue());

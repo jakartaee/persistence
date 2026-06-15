@@ -16,6 +16,7 @@
 
 package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Cache;
 
 public class CacheImpl implements Cache {
@@ -27,16 +28,16 @@ public class CacheImpl implements Cache {
 	}
 
 	@Override
-	public boolean contains(java.lang.Class cls, java.lang.Object primaryKey) {
+	public boolean contains(@Nonnull Class<?> cls, @Nonnull Object primaryKey) {
 		return false;
 	}
 
 	@Override
-	public void evict(java.lang.Class cls) {
+	public void evict(@Nonnull Class<?> cls) {
 	}
 
 	@Override
-	public void evict(java.lang.Class cls, java.lang.Object primaryKey) {
+	public void evict(@Nonnull Class<?> cls,@Nonnull Object primaryKey) {
 	}
 
 	@Override
@@ -45,8 +46,9 @@ public class CacheImpl implements Cache {
 	}
 
 	@Override
-	public Class unwrap(java.lang.Class cls) {
-		return cls;
+	@Nonnull
+	public <T> T unwrap(@Nonnull Class<T> cls) {
+		return (T) this;
 	}
 
 }
