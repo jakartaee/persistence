@@ -17,6 +17,8 @@
 
 package jakarta.persistence.spi;
 
+import jakarta.annotation.Nonnull;
+
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -84,6 +86,7 @@ public class PersistenceProviderResolverHolder {
          */
         private static final ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
 
+        @Nonnull
         public List<PersistenceProvider> getPersistenceProviders() {
             // Before we do the real loading work, see whether we need to
             // do some cleanup: If references to class loaders or

@@ -977,7 +977,7 @@ create the entity manager factory and the `EntityManagerFactory.close`
 method to destroy the entity manager factory prior to shutdown (if it
 has not been previously closed by the application).
 
-==== Container Managed Persistence Contexts
+==== Container-managed Persistence Contexts
 
 The container is responsible for managing the
 lifecycle of container-managed persistence contexts, for injecting

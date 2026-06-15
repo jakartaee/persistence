@@ -85,7 +85,7 @@ public interface PersistenceProvider {
      *
      * @see Persistence#createEntityManagerFactory(String, Map)
      */
-    @Nonnull
+    @Nullable
     EntityManagerFactory createEntityManagerFactory(@Nonnull String unitName,
                                                     @Nullable Map<?, ?> properties);
 
@@ -106,7 +106,7 @@ public interface PersistenceProvider {
      *
      * @since 3.2
      */
-    @Nonnull
+    @Nullable
     EntityManagerFactory createEntityManagerFactory(@Nonnull PersistenceConfiguration configuration);
 
     /**
@@ -134,6 +134,9 @@ public interface PersistenceProvider {
      *                   properties are specified.
      * @return a newly created {@link EntityManagerFactory} for the
      *         persistence unit described by the given metadata
+     * @throws IllegalArgumentException if the given info specifies an incompatible
+     *         {@linkplain PersistenceUnitInfo#getPersistenceProviderClassName
+     *         provider class}
      */
     @Nonnull
     EntityManagerFactory createContainerEntityManagerFactory(@Nonnull PersistenceUnitInfo info,
