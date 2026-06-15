@@ -17,12 +17,12 @@
 package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementation;
 
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.PersistenceUnitTransactionType;
 import jakarta.persistence.SharedCacheMode;
@@ -65,7 +65,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
-	public void addTransformer(ClassTransformer arg0) {
+	public void addTransformer(@Nonnull ClassTransformer arg0) {
 		classTransformer = arg0;
 		logger.log("Called PersistenceUnitInfoImpl.addTransformer()");
 
@@ -78,6 +78,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
+	@Nonnull
 	public ClassLoader getClassLoader() {
 		logger.log("Called PersistenceUnitInfoImpl.getClassLoader()");
 		logger.log("ClassLoader:" + classLoader.toString());
@@ -85,6 +86,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
+	@Nonnull
 	public List<URL> getJarFileUrls() {
 		logger.log("Called PersistenceUnitInfoImpl.getJarFileUrls()");
 		return jarFileUrls;
@@ -97,6 +99,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
+	@Nonnull
 	public List<String> getManagedClassNames() {
 		logger.log("Called PersistenceUnitInfoImpl.getManagedClassNames()");
 		for (String s : managedClassNames) {
@@ -106,17 +109,20 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
     @Override
-    public List<String> getAllClassNames() {
+	@Nonnull
+	public List<String> getAllClassNames() {
         return getManagedClassNames();
     }
 
     @Override
+	@Nonnull
 	public List<String> getMappingFileNames() {
 		logger.log("Called PersistenceUnitInfoImpl.getMappingFileNames()");
 		return mappingFileNames;
 	}
 
 	@Override
+	@Nonnull
 	public ClassLoader getNewTempClassLoader() {
 		logger.log("Called PersistenceUnitInfoImpl.getNewTempClassLoader()");
 		logger.log("NewTempClassLoader:" + classLoader.toString());
@@ -147,6 +153,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
+	@Nonnull
 	public String getPersistenceUnitName() {
 		logger.log("Called PersistenceUnitInfoImpl.getPersistenceUnitName()");
 		logger.log("PersistenceUnitName:" + puName);
@@ -154,36 +161,41 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
+	@Nonnull
 	public URL getPersistenceUnitRootUrl() {
 		logger.log("Called PersistenceUnitInfoImpl.getPersistenceUnitRootUrl()");
 		return persistenceUnitRootUrl;
 	}
 
 	@Override
+	@Nonnull
 	public String getPersistenceXMLSchemaVersion() {
 		logger.log("Called PersistenceUnitInfoImpl.getPersistenceXMLSchemaVersion()");
 		return persistenceXMLSchemaVersion;
 	}
 
 	@Override
+	@Nonnull
 	public Properties getProperties() {
 		logger.log("Called PersistenceUnitInfoImpl.getProperties()");
-		for (Iterator iter = properties.keySet().iterator(); iter.hasNext();) {
-			String key = (String) iter.next();
-			String val = (String) properties.get(key);
-			logger.log("Property:[" + key + "," + val + "]");
-		}
+        for (Object o : properties.keySet()) {
+            String key = (String) o;
+            String val = (String) properties.get(key);
+            logger.log("Property:[" + key + "," + val + "]");
+        }
 
 		return properties;
 	}
 
 	@Override
+	@Nonnull
 	public SharedCacheMode getSharedCacheMode() {
 		logger.log("Called PersistenceUnitInfoImpl.getSharedCacheMode()");
 		return SharedCacheMode.NONE;
 	}
 
 	@Override
+	@Nonnull
 	public PersistenceUnitTransactionType getTransactionType() {
 		logger.log("Called PersistenceUnitInfoImpl.getTransactionType()");
 		logger.log("TransactionType:" + transactionType);
@@ -191,12 +203,14 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	}
 
 	@Override
+	@Nonnull
 	public ValidationMode getValidationMode() {
 		logger.log("Called PersistenceUnitInfoImpl.getValidationMode()");
 		return ValidationMode.NONE;
 	}
 
 	@Override
+	@Nonnull
 	public FetchType getDefaultToOneFetchType() {
 		logger.log("Called PersistenceUnitInfoImpl.getDefaultToOneFetchType()");
 		return FetchType.EAGER;
@@ -206,7 +220,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	 * returns a shallow clone
 	 */
 	public PersistenceUnitInfoImpl clone() {
-		PersistenceUnitInfoImpl puii = new PersistenceUnitInfoImpl();
+		var puii = new PersistenceUnitInfoImpl();
 		puii.managedClassNames = this.managedClassNames;
 		puii.classTransformer = this.classTransformer;
 		puii.puName = this.puName;
@@ -220,7 +234,6 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 		puii.nonJtaDataSource = this.nonJtaDataSource;
 		puii.persistenceUnitRootUrl = this.persistenceUnitRootUrl;
 		puii.persistenceXMLSchemaVersion = this.persistenceXMLSchemaVersion;
-
 		return puii;
 	}
 

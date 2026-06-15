@@ -60,7 +60,7 @@ public class EntityManagerImpl implements jakarta.persistence.EntityManager {
 	// state required for public methods
 	public EntityManagerFactoryImpl emf;
 
-	public Map properties;
+	public Map<?,?> properties;
 
 	protected TSLogger logger;
 

@@ -18,6 +18,7 @@ package ee.jakarta.tck.persistence.common.pluggability.altprovider.implementatio
 
 import java.security.ProtectionDomain;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.TransformerException;
 
@@ -30,10 +31,13 @@ public class ClassTransformerImpl implements ClassTransformer {
 	}
 
 	@Override
-	public byte[] transform(ClassLoader arg0, String className, Class<?> classBeingRedefined, ProtectionDomain arg3,
-			byte[] arg4) throws TransformerException {
+	public byte[] transform(ClassLoader classLoader,
+							@Nonnull String className,
+							Class<?> classBeingRedefined,
+							@Nonnull ProtectionDomain protectionDomain,
+	                        @Nonnull byte[] classfileBuffer)
+			throws TransformerException {
 		logger.log("Called ClassTransformerImpl.transform()");
-
 		return null;// indicates no transformation
 	}
 
