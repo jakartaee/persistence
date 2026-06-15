@@ -17,9 +17,13 @@
 package jakarta.persistence;
 
 /**
- * Used with the {@link Access} annotation to specify an access
- * type to be applied to an entity class, mapped superclass, or
- * embeddable class, or to a specific attribute of such a class.
+ * Determines how the persistence provider runtime reads and writes
+ * the persistent state of an entity from and to an instance of the
+ * entity class.
+ * <p>
+ * Used with the {@link Access @Access} annotation to specify the
+ * access type of an entity class, mapped superclass, or embeddable
+ * class, or of an attribute of such a class.
  * 
  * @see Access
  *
@@ -30,7 +34,8 @@ public enum AccessType {
     /**
      * Direct field access is used. Instance variables must have
      * private, protected, or package visibility. Property
-     * accessor methods are not required.
+     * accessor methods are not required. Mapping annotations are
+     * placed directly on the instance variables.
      */
     FIELD,
 
@@ -39,6 +44,7 @@ public enum AccessType {
      * getter and setter methods. Property accessor methods must
      * have public or protected visibility. Instance variables
      * must have private, protected, or package visibility.
+     * Mapping annotations are placed on getter methods.
      */
     PROPERTY
 }
