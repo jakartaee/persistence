@@ -70,7 +70,8 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		public void populate() {
 		}
 	};
-	public Map properties;
+
+	public Map<?,?> properties;
 
 	public boolean isOpen;
 
@@ -99,19 +100,20 @@ public class EntityManagerFactoryImpl implements jakarta.persistence.EntityManag
 		this.containerFactory = containerFactory;
 	}
 
-	public void addNamedQuery(String s, Query q) {
+	@Override
+	public void addNamedQuery(@Nonnull String s, @Nonnull Query q) {
 	}
 
     @Override
 	@Nonnull
 	public <R> TypedQueryReference<R> addNamedQuery(@Nonnull String name, @Nonnull TypedQuery<R> query) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 	@Override
 	@Nonnull
 	public StatementReference addNamedStatement(@Nonnull String name, @Nonnull Statement statement) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public void close() {
