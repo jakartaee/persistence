@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Gavin King       - 4.0
 //     Gavin King       - 3.2
 //     Petros Splinakis - 2.2
 //     Linda DeMichiel  - 2.1
@@ -94,6 +95,13 @@ public @interface NamedNativeQuery {
      * The native SQL query string.
      */
     String query();
+
+    /**
+     * (Optional) The {@link ManagedEntityMode} to use for entities
+     * loaded during execution of the query.
+     * @since 4.0
+     */
+    ManagedEntityMode managedEntityMode() default ManagedEntityMode.READ_WRITE;
 
     /**
      * The class of each query result. If a {@link #resultSetMapping

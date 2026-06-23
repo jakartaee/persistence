@@ -58,6 +58,9 @@ public interface TypedQuery<X> extends Query {
      * @throws PersistenceException if the query execution exceeds 
      *         the query timeout value set and the transaction
      *         is rolled back
+     * @throws PersistenceException if the flush fails
+     * @throws OptimisticLockException if an optimistic locking
+     *         conflict is detected during the flush
      */
     List<X> getResultList();
 
@@ -397,4 +400,12 @@ public interface TypedQuery<X> extends Query {
      * @since 3.2
      */
     TypedQuery<X> setTimeout(Integer timeout);
+
+    /**
+     * Set the {@link ManagedEntityMode} to be used for entities
+     * loaded during execution of this query.
+     *
+     * @since 4.0
+     */
+    TypedQuery<X> setManagedEntityMode(ManagedEntityMode managedEntityMode);
 }
