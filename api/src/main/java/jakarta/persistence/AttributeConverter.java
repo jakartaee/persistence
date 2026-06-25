@@ -69,6 +69,8 @@ package jakarta.persistence;
  *
  * @see Converter
  * @see Convert#converter
+ *
+ * @since 2.1
  */
 public interface AttributeConverter<X,Y> {
 
