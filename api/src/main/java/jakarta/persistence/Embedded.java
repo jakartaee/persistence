@@ -27,7 +27,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * value is an instance of an embeddable class. The embeddable 
  * class must be annotated as {@link Embeddable}.
  *
- * <p> The {@link AttributeOverride}, {@link AttributeOverrides},
+ * <p>This annotation is not usually required. If the declared
+ * type of a field or property is annotated {@code Embeddable},
+ * the field or property is automatically treated as if it were
+ * annotated {@code Embedded}.
+ *
+ * <p>The {@link AttributeOverride}, {@link AttributeOverrides},
  * {@link AssociationOverride}, and {@link AssociationOverrides}
  * annotations may be used to override mappings declared or
  * defaulted by the embeddable class.
