@@ -2830,6 +2830,10 @@ Attribute conversion is not supported for:
 Attribute conversion is supported for element collections, as defined in
 <<a494>>, with the conversion applying to the elements of the collection.
 
+The target type of a converter must not be a type annotated `@Embeddable`
+or designated as embeddable in its XML descriptor. If the target type of
+a converter is an embeddable type, the behavior is undefined.
+
 ==== Auto-Apply Converters [[auto-apply]]
 
 A converter declared `@Converter(autoApply=true)` is automatically applied
