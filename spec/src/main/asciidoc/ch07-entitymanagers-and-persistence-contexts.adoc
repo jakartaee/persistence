@@ -160,7 +160,7 @@ public class MyBean implements MyInterface {
 }
 ----
 
-==== Obtaining an Application-managed Entity Manager or Entity Agent [[a11465]]
+==== Obtaining an Application-managed Entity Manager or Entity Agent
 
 An application-managed entity manager or entity agent is obtained by the
 application from an entity manager factory.
