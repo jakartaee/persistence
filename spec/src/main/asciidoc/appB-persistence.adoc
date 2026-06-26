@@ -63,10 +63,10 @@ include::../../../../api/src/main/java/jakarta/persistence/RefreshOption.java[li
 include::../../../../api/src/main/java/jakarta/persistence/FetchOption.java[lines=18..-1]
 ----
 
-=== `BatchSize`
+=== `BatchFetch`
 [source,java]
 ----
-include::../../../../api/src/main/java/jakarta/persistence/BatchSize.java[lines=18..-1]
+include::../../../../api/src/main/java/jakarta/persistence/BatchFetch.java[lines=18..-1]
 ----
 
 === `Timeout`
