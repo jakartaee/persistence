@@ -1782,7 +1782,12 @@ the following defaulting rules are applied in order:
    `Embeddable` annotation, the field or property is treated as if it
    were annotated with the `Embedded` annotation, as defined in <<a14634>>
    and <<a14672>>.
-2. Otherwise, if the type of the field or property is one of the basic
+2. If an attribute converter, as defined in <<a2999>>, is applied to the
+   field or property, either via use of the `Convert` annotation, as
+   specified in <<convert>>, or because the converter is automatically
+   applied, as defined in <<auto-apply>>, the field or property is treated
+   as if it were annotated as `Basic`.
+3. Otherwise, if the type of the field or property is one of the basic
    types listed in <<a486>>, it is treated as if it were annotated as
    `Basic`, as defined in <<a14205>>, <<a14719>>, <<a15087>>, and <<a16361>>.
 

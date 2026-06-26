@@ -2830,7 +2830,11 @@ Attribute conversion is not supported for:
 Attribute conversion is supported for element collections, as defined in
 <<a494>>, with the conversion applying to the elements of the collection.
 
-==== Auto-Apply Converters
+The target type of a converter must not be a type annotated `@Embeddable`
+or designated as embeddable in its XML descriptor. If the target type of
+a converter is an embeddable type, the behavior is undefined.
+
+==== Auto-Apply Converters [[auto-apply]]
 
 A converter declared `@Converter(autoApply=true)` is automatically applied
 to:
@@ -2858,7 +2862,7 @@ An automatically applied converter is not applied to a field or property
 of an entity for which attribute conversion is not supported according
 to the rules specified above.
 
-==== Explicit Converters
+==== Explicit Converters [[convert]]
 
 Conversion of an individual attribute is controlled by the `@Convert`
 annotation defined in <<a14398>>.
@@ -2866,8 +2870,8 @@ annotation defined in <<a14398>>.
 - The `@Convert` annotation may be applied directly to an attribute of an
   entity, mapped superclass, or embeddable class to specify conversion of
   the attribute, overriding or disabling application of any automatically
-  applied converter. When property access is used as specified
-  in <<property-access>>, the `@Convert` annotation must be applied to the
+  applied converter. When property access is used as specified in
+  <<property-access>>, the `@Convert` annotation must be applied to the
   getter method.
 
 - The `@Convert` annotation may be applied to an entity that extends a
