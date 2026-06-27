@@ -2153,6 +2153,35 @@ defined in the `SiameseCat` class:
 . `postPersistSiameseCatListenerMethod`
 . `postPersistAnimal`
 
+==== Persistence Unit Lifecycle Callbacks
+
+An entity listener class declared using the `@EntityListener` annotation
+may also have _persistence unit lifecycle_ callback methods. A persistence
+unit lifecycle callback must be annotated `@PostCreate` or `@PreClose`,
+and must have the signature:
+
+ void method(E argument)
+
+where `method` is a legal Java method name, and `E` is either
+`EntityManagerFactory`, `EntityManager`, or `EntityAgent`.
+
+- The `PostCreate` callback for an entity manager factory, entity manager,
+  or entity agent occurs after the factory, manager, or agent has been
+  created, but before a reference to the factory, manager, or agent is
+  returned to the application.
+- The `PreClose` callback for an entity manager factory, entity manager,
+  or entity agent occurs after the `close()` method of the factory, manager,
+  or agent has been called, but before the factory, manager, or agent is
+  actually destroyed.
+
+A persistence unit lifecycle callback is permitted to call any method of
+its argument. If the callback throws an exception, the behavior is undefined.
+An exception thrown by a `PostCreate` callback typically aborts creation of
+the factory, manager, or agent. An exception thrown by a `PreClose` callback
+typically does not abort destruction of the factory, manager, or agent.
+Portable applications should avoid throwing exceptions from persistence unit
+lifecycle callback methods.
+
 ==== Exceptions
 
 Lifecycle callback methods may throw runtime
