@@ -110,9 +110,10 @@ public class PersistenceProviderResolverHolder {
         private List<PersistenceProvider> loadPersistenceProviders(@Nonnull ClassLoader loader) {
             final var providers = new ArrayList<PersistenceProvider>();
             try {
-                for (var provider : ServiceLoader.load(PersistenceProvider.class, loader)) {
+                for (var iterator = ServiceLoader.load(PersistenceProvider.class, loader).iterator();
+                        iterator.hasNext();) {
                     try {
-                        providers.add(provider);
+                        providers.add(iterator.next());
                     }
                     catch (ServiceConfigurationError sce) {
                         log(Level.TRACE, sce.toString());
