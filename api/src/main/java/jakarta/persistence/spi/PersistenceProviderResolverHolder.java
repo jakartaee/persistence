@@ -20,6 +20,7 @@ package jakarta.persistence.spi;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -31,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
+
+import static java.util.List.copyOf;
 
 
 /**
@@ -47,7 +50,7 @@ import java.util.ServiceLoader;
  */
 public class PersistenceProviderResolverHolder {
 
-    private static PersistenceProviderResolver singleton = new DefaultPersistenceProviderResolver();
+    private static volatile PersistenceProviderResolver singleton = new DefaultPersistenceProviderResolver();
 
     /**
      * Returns the current persistence provider resolver.
@@ -86,14 +89,14 @@ public class PersistenceProviderResolverHolder {
         /**
          * Queue for reference objects referring to class loaders or persistence providers.
          */
-        private static final ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
+        private final ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
 
         @Nonnull
-        public List<PersistenceProvider> getPersistenceProviders() {
-            // Before we do the real loading work, see whether we need to
-            // do some cleanup: If references to class loaders or
-            // persistence providers have been nulled out, remove all related
-            // information from the cache.
+        public synchronized List<PersistenceProvider> getPersistenceProviders() {
+            // Before we do the real loading work, see whether we need to do
+            // some cleanup: If references to class loaders or persistence
+            // providers have been nulled out, remove all related information
+            // from the cache.
             processQueue();
 
             final var loader = Thread.currentThread().getContextClassLoader();
@@ -103,18 +106,18 @@ public class PersistenceProviderResolverHolder {
             if (providerRef != null) {
                 final var loadedProviders = providerRef.get();
                 if (loadedProviders != null) {
-                    return loadedProviders;
+                    return new ArrayList<>(loadedProviders);
                 }
             }
 
             final var loadedProviders = loadPersistenceProviders(loader);
-            final var newProviderRef = new PersistenceProviderReference(loadedProviders, referenceQueue, cacheKey);
-            providers.put(cacheKey, newProviderRef);
+            providers.put(cacheKey,
+                    new PersistenceProviderReference(copyOf(loadedProviders), referenceQueue, cacheKey));
             return loadedProviders;
         }
 
         @Nonnull
-        private ArrayList<PersistenceProvider> loadPersistenceProviders(@Nonnull ClassLoader loader) {
+        private List<PersistenceProvider> loadPersistenceProviders(@Nonnull ClassLoader loader) {
             final var providers = new ArrayList<PersistenceProvider>();
             try {
                 ServiceLoader.load(PersistenceProvider.class, loader).iterator()
@@ -141,12 +144,14 @@ public class PersistenceProviderResolverHolder {
         }
 
         /**
-         * Remove garbage collected cache keys and providers.
+         * Remove garbage-collected cache keys and providers.
          */
         private void processQueue() {
-            CacheKeyReference ref;
-            while ((ref = (CacheKeyReference) referenceQueue.poll()) != null) {
-                providers.remove(ref.getCacheKey());
+            Reference<?> ref;
+            while ((ref = referenceQueue.poll()) != null) {
+                if (ref instanceof CacheKeyReference cacheKeyReference) {
+                    cacheKeyReference.removeFromCache();
+                }
             }
         }
 
@@ -164,19 +169,17 @@ public class PersistenceProviderResolverHolder {
         /**
          * Clear all cached providers
          */
-        public void clearCachedProviders() {
+        public synchronized void clearCachedProviders() {
             providers.clear();
         }
 
-
         /**
-         * The common interface to get a {@link CacheKey} implemented by
-         * {@link LoaderReference} and {@link PersistenceProviderReference}.
+         * A reference to an object whose collection should remove related
+         * information from the provider cache.
          */
         private sealed interface CacheKeyReference
                 permits LoaderReference, PersistenceProviderReference {
-            @Nonnull
-            CacheKey getCacheKey();
+            void removeFromCache();
         }
 
         /**
@@ -244,7 +247,7 @@ public class PersistenceProviderResolverHolder {
             private void calculateHashCode() {
                 var loader = getLoader();
                 if (loader != null) {
-                    hashCodeCache = loader.hashCode();
+                    hashCodeCache = System.identityHashCode(loader);
                 }
             }
 
@@ -274,9 +277,8 @@ public class PersistenceProviderResolverHolder {
             }
 
             @Override
-            @Nonnull
-            public CacheKey getCacheKey() {
-                return cacheKey;
+            public void removeFromCache() {
+                providers.remove(cacheKey);
             }
         }
 
@@ -298,9 +300,8 @@ public class PersistenceProviderResolverHolder {
             }
 
             @Override
-            @Nonnull
-            public CacheKey getCacheKey() {
-                return cacheKey;
+            public void removeFromCache() {
+                providers.remove(cacheKey, this);
             }
         }
     }
