@@ -18,6 +18,7 @@
 package jakarta.persistence.spi;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
@@ -53,6 +54,7 @@ public class PersistenceProviderResolverHolder {
      *
      * @return the current persistence provider resolver
      */
+    @Nonnull
     public static PersistenceProviderResolver getPersistenceProviderResolver() {
         return singleton;
     }
@@ -62,7 +64,7 @@ public class PersistenceProviderResolverHolder {
      *
      * @param resolver persistence provider resolver to be used.
      */
-    public static void setPersistenceProviderResolver(PersistenceProviderResolver resolver) {
+    public static void setPersistenceProviderResolver(@Nullable PersistenceProviderResolver resolver) {
         singleton = resolver == null ? new DefaultPersistenceProviderResolver() : resolver;
     }
 
@@ -111,7 +113,8 @@ public class PersistenceProviderResolverHolder {
             return loadedProviders;
         }
 
-        private ArrayList<PersistenceProvider> loadPersistenceProviders(ClassLoader loader) {
+        @Nonnull
+        private ArrayList<PersistenceProvider> loadPersistenceProviders(@Nonnull ClassLoader loader) {
             final var providers = new ArrayList<PersistenceProvider>();
             try {
                 ServiceLoader.load(PersistenceProvider.class, loader).iterator()
@@ -151,7 +154,7 @@ public class PersistenceProviderResolverHolder {
 
         private Logger logger;
 
-        private void log(Level level, String message) {
+        private void log(@Nonnull Level level, @Nonnull String message) {
             if (logger == null) {
                 logger = System.getLogger(LOGGER_SUBSYSTEM);
             }
@@ -172,6 +175,7 @@ public class PersistenceProviderResolverHolder {
          */
         private sealed interface CacheKeyReference
                 permits LoaderReference, PersistenceProviderReference {
+            @Nonnull
             CacheKey getCacheKey();
         }
 
@@ -188,11 +192,12 @@ public class PersistenceProviderResolverHolder {
             /* Cached Hashcode */
             private int hashCodeCache;
 
-            private CacheKey(ClassLoader loader) {
+            private CacheKey(@Nullable ClassLoader loader) {
                 loaderRef = loader == null ? null : new LoaderReference(loader, referenceQueue, this);
                 calculateHashCode();
             }
 
+            @Nullable
             private ClassLoader getLoader() {
                 return loaderRef != null ? loaderRef.get() : null;
             }
@@ -244,6 +249,7 @@ public class PersistenceProviderResolverHolder {
             }
 
             @Override
+            @Nonnull
             public String toString() {
                 return "CacheKey[" + getLoader() + ")]";
             }
@@ -260,14 +266,15 @@ public class PersistenceProviderResolverHolder {
             private final CacheKey cacheKey;
 
             private LoaderReference(
-                    ClassLoader referent,
-                    ReferenceQueue<? super ClassLoader> queue,
-                    CacheKey key) {
+                    @Nonnull ClassLoader referent,
+                    @Nonnull ReferenceQueue<? super ClassLoader> queue,
+                    @Nonnull CacheKey key) {
                 super(referent, queue);
                 cacheKey = key;
             }
 
             @Override
+            @Nonnull
             public CacheKey getCacheKey() {
                 return cacheKey;
             }
@@ -283,14 +290,15 @@ public class PersistenceProviderResolverHolder {
             private final CacheKey cacheKey;
 
             private PersistenceProviderReference(
-                    List<PersistenceProvider> referent,
-                    ReferenceQueue<? super List<PersistenceProvider>> queue,
-                    CacheKey key) {
+                    @Nonnull List<PersistenceProvider> referent,
+                    @Nonnull ReferenceQueue<? super List<PersistenceProvider>> queue,
+                    @Nonnull CacheKey key) {
                 super(referent, queue);
                 cacheKey = key;
             }
 
             @Override
+            @Nonnull
             public CacheKey getCacheKey() {
                 return cacheKey;
             }

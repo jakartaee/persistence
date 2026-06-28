@@ -77,6 +77,7 @@ public final class Persistence {
     private Persistence() {
     }
 
+    @Nonnull
     private static List<PersistenceProvider> getPersistenceProviders() {
         return getPersistenceProviderResolver().getPersistenceProviders();
     }
@@ -240,7 +241,7 @@ public final class Persistence {
      * @since 2.0
      */
     private static class PersistenceUtilImpl implements PersistenceUtil {
-        public boolean isLoaded(Object entity, String attributeName) {
+        public boolean isLoaded(@Nonnull Object entity, @Nonnull String attributeName) {
             var providers = getPersistenceProviders();
 
             for (var provider : providers) {
@@ -270,7 +271,7 @@ public final class Persistence {
             return true;
         }
 
-        public boolean isLoaded(Object entity) {
+        public boolean isLoaded(@Nonnull Object entity) {
             for (var provider : getPersistenceProviders()) {
                 switch (provider.getProviderUtil().isLoaded(entity)) {
                     case LOADED -> {
