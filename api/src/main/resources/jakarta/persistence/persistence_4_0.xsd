@@ -264,6 +264,17 @@
 
               <!-- **************************************************** -->
 
+              <xsd:element name="entity-listener" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                  <xsd:documentation>
+                    Names a jakarta.persistence.EntityListener class
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+
+
+              <!-- **************************************************** -->
+
               <xsd:element name="properties" minOccurs="0">
                 <xsd:annotation>
                   <xsd:documentation>

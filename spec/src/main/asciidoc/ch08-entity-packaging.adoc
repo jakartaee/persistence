@@ -522,6 +522,11 @@ The `default-to-one-fetch-type` element determines the default fetch
 type for one-to-one and many-to-one associations, as specified in
 <<fetching-policies>>.
 
+
+===== entity-listener
+
+The `entity-listener` element allows to specify zero-or-more `jakarta.persistence.EntityListener`-style listener classes.
+
 ===== properties [[a12384]]
 
 The `properties` element lists settings for both standard and
