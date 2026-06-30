@@ -160,6 +160,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     {@link PostUpdate}, {@link PreUpsert}, {@link PostUpsert},
  *     {@link PreDelete}, and {@link PostDelete},
  * </ul>
+ * <p>Every such callback method must be a {@code void} method with no
+ * parameters. An entity class must not declare methods annotated
+ * {@link PostCreate} or {@link PreClose}.
+ *
  * <p>Alternatively, the entity class may specify any number of
  * {@linkplain EntityListeners entity listener classes} which
  * declare callback methods and are notified of lifecycle events
