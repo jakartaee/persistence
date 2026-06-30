@@ -48,7 +48,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * <p>
  * The annotated class may have callback methods annotated with
- * any of the standard lifecycle callback annotations:
+ * any of the standard entity lifecycle callback annotations:
  * <ul>
  * <li>{@link PostLoad},
  * <li>{@link PrePersist}, {@link PostPersist},
@@ -58,19 +58,38 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     {@link PreDelete}, and {@link PostDelete}.
  * </ul>
  * <p>
- * A callback method declared by an entity listener class must
- * have the signature {@code void method(E entity)} where {@code E}
- * is an entity class, a mapped superclass, or a supertype of the
- * entity class or mapped superclass to which the entity listener
- * applies. If multiple entity classes are assignable to the type
- * {@code E}, the callback method is invoked for any such class to
- * which the entity listener applies.
+ * Every such annotated callback method must have the signature
+ * {@code void method(E entity)} where {@code E} is an entity class,
+ * a mapped superclass, or a supertype of the entity class or mapped
+ * superclass to which the entity listener applies. If multiple
+ * entity classes are assignable to the type {@code E}, the callback
+ * method is invoked for any such class to which the entity listener
+ * applies.
  * {@snippet :
  * @EntityListener
  * class BookObserver {
  *
  *     @PostPersist
  *     void newBook(Book book) {
+ *         ...
+ *     }
+ *
+ * }
+ * }
+ * <p>
+ * The annotated class may also have callback methods annotated with
+ * the standard persistence unit lifecycle callback annotations
+ * {@link PostCreate} and {@link PreClose}. Every such annotated
+ * callback method must have the signature
+ * {@code void method(E argument)} where {@code E} is either
+ * {@link EntityManagerFactory}, {@link EntityManager}, or
+ * {@link EntityAgent}.
+ * {@snippet :
+ * @EntityListener
+ * class InitObserver {
+ *
+ *     @PostCreate
+ *     void registerNamedQueries(EntityManagerFactory factory) {
  *         ...
  *     }
  *
