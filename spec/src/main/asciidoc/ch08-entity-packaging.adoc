@@ -525,7 +525,9 @@ type for one-to-one and many-to-one associations, as specified in
 
 ===== entity-listener
 
-The `entity-listener` element allows to specify zero-or-more `jakarta.persistence.EntityListener`-style listener classes.
+The `entity-listener` element declares an entity listener class with 
+semantics equivalent to the `@EntityListener` annotation defined in 
+<<entity-listener-annotation>>.
 
 ===== properties [[a12384]]
 
