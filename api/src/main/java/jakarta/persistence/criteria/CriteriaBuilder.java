@@ -441,28 +441,10 @@ public interface CriteriaBuilder {
                                        @Nonnull Selection<?>... selections);
 
     /**
-     * Create a selection item corresponding to a constructor.
-     * This method is used to specify a constructor that is
-     * applied to the results of the query execution. If the
-     * constructor is for an entity class, the resulting entities
-     * will be in the new state after the query is executed.
-     * @param resultClass  class whose instance is to be constructed
-     * @param selections  list of arguments to the constructor
-     * @param <Y> the type of the constructed result
-     * @return compound selection item
-     * @throws IllegalArgumentException if an argument is a
-     *         tuple- or array-valued selection item
-     * @since 4.0
-     */
-    @Nonnull
-    <Y> CompoundSelection<Y> construct(@Nonnull Class<Y> resultClass,
-                                       @Nonnull List<Selection<?>> selections);
-
-    /**
      * Create a tuple-valued selection item.
      * @param selections  selection items
      * @return tuple-valued compound selection
-     * @throws IllegalArgumentException if an argument is a
+     * @throws IllegalArgumentException if an argument is a 
      *         tuple- or array-valued selection item
      */
     @Nonnull
@@ -2603,29 +2585,6 @@ public interface CriteriaBuilder {
     @Nonnull
     <T> Expression<T> function(@Nonnull String name, @Nonnull Class<T> type,
                                @Nonnull Expression<?>... args);
-
-    /**
-     * Create an expression for the execution of the database
-     * function with the given name.
-     *
-     * @apiNote This operation allows invocation of arbitrary
-     * SQL functions. The persistence provider is permitted to
-     * pass the given function name verbatim to the database,
-     * with no additional validation or sanitization. Therefore,
-     * the client must never pass unvalidated user input nor
-     * any other untrusted string value to the first parameter
-     * of this method.
-     *
-     * @param name  function name
-     * @param type  expected result type
-     * @param args  a list of function arguments
-     * @param <T> the function result type
-     * @return expression
-     * @since 4.0
-     */
-    @Nonnull
-    <T> Expression<T> function(@Nonnull String name, @Nonnull Class<T> type,
-                               @Nonnull List<? extends Expression<?>> args);
 
 
     // methods for downcasting:
