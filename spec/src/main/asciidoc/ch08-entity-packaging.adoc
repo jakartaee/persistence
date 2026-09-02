@@ -288,6 +288,14 @@ All classes must be on the classpath to ensure that entity managers from
 different persistence units that map the same class will be accessing the
 same identical class.
 
+In a Jakarta EE container, every Jakarta Data repository interface that
+depends on a persistence unit is considered to belong to the persistence
+unit, even if the repository interface is packaged in a separate archive.
+A repository depends on a persistence unit if its methods operate on
+entity types belonging to the persistence unit. When an entity type
+belongs to multiple persistence units, ambiguities are resolved via the
+`dataStore` member of `@Repository`.
+
 ====== Discoverable annotation types [[discoverable]]
 
 A _discoverable annotation type_ is an annotation type annotated with
