@@ -19,6 +19,8 @@ package jakarta.persistence;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+import java.sql.JDBCType;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -168,6 +170,15 @@ public @interface MapKeyColumn {
      * precision should be inferred.
      */
     int scale() default 0; // decimal scale
+
+    /**
+     * (Optional) The JDBC type of the column.
+     * This is only used if table generation is in effect.
+     * @since 4.0
+     * @apiNote The default value indicates the column type should be
+     *          inferred from the model.
+     */
+    JDBCType jdbcType() default JDBCType.NULL;
 
     /**
      * (Optional) Check constraints to be applied to the column.
