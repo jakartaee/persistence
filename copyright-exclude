@@ -9,3 +9,17 @@ LICENSE_EFTL.md
 LICENSE_EPL.md
 tck/tck-dist/src/main/resources/eftl-1.1.adoc
 spec/LICENSE
+persistence/tck/sql/oracle/oracle.ddl.persistence.sprocs.sql
+persistence/tck/sql/oracle/oracle.ddl.persistence.sql
+persistence/tck/sql/mssqlserver/mssqlserver.ddl.persistence.sql
+persistence/tck/sql/mssqlserver/mssqlserver.ddl.persistence.sprocs.sql
+persistence/tck/sql/postgresql/postgresql.ddl.persistence.sql
+persistence/tck/sql/postgresql/postgresql.ddl.persistence.sprocs.sql
+persistence/tck/sql/sybase/sybase.ddl.persistence.sql
+persistence/tck/sql/sybase/sybase.ddl.persistence.sprocs.sql
+persistence/tck/sql/mysql/mysql.ddl.persistence.sql
+persistence/tck/sql/mysql/mysql.ddl.persistence.sprocs.sql
+persistence/tck/sql/derby/derby.ddl.persistence.sql
+persistence/tck/sql/derby/derby.ddl.persistence.sprocs.sql
+persistence/tck/sql/db2/db2.ddl.persistence.sql
+persistence/tck/sql/db2/db2.ddl.persistence.sprocs.sql
