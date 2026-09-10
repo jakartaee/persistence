@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Steve Ebersole  - 4.0
 //     Gavin King      - 4.0
 //     Gavin King      - 3.2
 
@@ -100,6 +101,8 @@ public class PersistenceConfiguration
     private SchemaManagementAction schemaManagementScriptsAction = SchemaManagementAction.NONE;
 
     private final List<Class<?>> managedClasses = new ArrayList<>();
+    private final List<String> managedPackages = new ArrayList<>();
+    private final List<String> managedModules = new ArrayList<>();
     private final List<String> mappingFileNames = new ArrayList<>();
     private final Map<String,Object> properties = new HashMap<>();
 
@@ -239,6 +242,65 @@ public class PersistenceConfiguration
     @Nonnull
     public List<Class<?>> managedClasses() {
         return managedClasses;
+    }
+
+    /**
+     * Add a package descriptor to the configuration. The given name is a
+     * qualified package name, for example, {@code com.example.model}, and
+     * must not include the suffix {@code .package-info}. Naming a package
+     * descriptor does not add the ordinary Java types in the package to
+     * the persistence unit.
+     *
+     * @param packageName the qualified package name
+     * @return this configuration
+     * @since 4.0
+     */
+    @Nonnull
+    public PersistenceConfiguration managedPackage(@Nonnull String packageName) {
+        requireNonNull(packageName, "packageName cannot be null");
+        managedPackages.add(packageName);
+        return this;
+    }
+
+    /**
+     * The configured package descriptors, represented by qualified package
+     * names without the suffix {@code .package-info}.
+     *
+     * @return all configured package names
+     * @since 4.0
+     */
+    @Nonnull
+    public List<String> managedPackages() {
+        return managedPackages;
+    }
+
+    /**
+     * Add a module descriptor to the configuration. The given name is the
+     * declared JPMS module name and must not be {@code module-info}. Naming
+     * a module descriptor does not add the ordinary Java types or package
+     * descriptors in the module to the persistence unit.
+     *
+     * @param moduleName the declared JPMS module name
+     * @return this configuration
+     * @since 4.0
+     */
+    @Nonnull
+    public PersistenceConfiguration managedModule(@Nonnull String moduleName) {
+        requireNonNull(moduleName, "moduleName cannot be null");
+        managedModules.add(moduleName);
+        return this;
+    }
+
+    /**
+     * The configured module descriptors, represented by declared JPMS
+     * module names.
+     *
+     * @return all configured module names
+     * @since 4.0
+     */
+    @Nonnull
+    public List<String> managedModules() {
+        return managedModules;
     }
 
     /**

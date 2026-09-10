@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2023 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -46,6 +46,10 @@ import java.util.Map;
  * The supplied transformer instance is called to transform entity
  * class files when they are loaded or redefined. The transformation
  * occurs before the class is defined by the Java Virtual Machine.
+ * Only ordinary Java types returned by
+ * {@link PersistenceUnitInfo#getAllClassNames()} are eligible for
+ * transformation. The transformer must return {@code null} for any other
+ * class definition, including package and module descriptors.
  *
  * @apiNote This is an SPI interface forming part of the Jakarta EE
  * container / persistence provider contract. It is not intended for

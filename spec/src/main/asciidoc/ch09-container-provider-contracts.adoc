@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2026 Contributors to the Eclipse Foundation
 //
 
 == Container and Provider Contracts for Deployment and Bootstrapping
@@ -567,6 +567,22 @@ application.
 
 The `PersistenceUnitInfo` interface may be found in <<_persistenceunitinfo_>>.
 
+`PersistenceUnitInfo` preserves the distinction between ordinary Java types,
+package descriptors, and module descriptors. The `getManagedClassNames()`,
+`getManagedPackageNames()`, and `getManagedModuleNames()` methods report the
+entries explicitly declared by the corresponding `class`, `package`, and
+`module` elements of `persistence.xml`. The `getAllClassNames()`,
+`getAllPackageNames()`, and `getAllModuleNames()` methods report the complete
+categorized persistence-unit view obtained from explicit declarations, mapping
+metadata, and container discovery, as applicable. None of these lists contains
+duplicates.
+
+Only ordinary Java types are returned by `getAllClassNames()`. Package and
+module descriptors are metadata sources and are not managed classes. Standard
+or provider-specific class transformation and enhancement applies only to the
+ordinary Java types returned by `getAllClassNames()` and never to package or
+module descriptors.
+
 The enum `PersistenceUnitTransactionType` lists options which determine
 whether entity managers created by the factory are JTA or resource-local
 entity managers.
@@ -838,6 +854,13 @@ persistence unit, even when this API is used within the Jakarta EE
 environment.footnote:[Persistence units defined programmatically using the
 `PersistenceConfiguration` class do not support JNDI lookup or injection via
 the `PersistenceContext` or `PersistenceUnit` annotations.]
+
+The `managedClass()`, `managedPackage()`, and `managedModule()` operations
+correspond to the `class`, `package`, and `module` elements of
+`persistence.xml`. A package is specified by its qualified package name without
+the suffix `.package-info`, and a module is specified by its declared JPMS
+module name, not `module-info`. Configuring a package or module descriptor does
+not implicitly configure the ordinary Java types it contains.
 
 A persistence provider may define a subclass of `PersistenceConfiguration`
 with vendor-specific configuration options. A provider must support

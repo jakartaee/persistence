@@ -26,11 +26,13 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import static jakarta.persistence.Persistence.SchemaManagementProperties.SCHEMAGEN_CREATE_TARGET;
 import static jakarta.persistence.Persistence.SchemaManagementProperties.SCHEMAGEN_DROP_TARGET;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Jpa40PersistenceConfigurationClient extends PMClientBase {
@@ -83,6 +85,38 @@ public class Jpa40PersistenceConfigurationClient extends PMClientBase {
 
         assertScriptContains(createScript, "CREATE", "JPA40_EXPORT_SCHEMA_BOOK", "TITLE");
         assertScriptContains(dropScript, "DROP", "JPA40_EXPORT_SCHEMA_BOOK");
+    }
+
+    /**
+     * Tests that programmatic persistence-unit configuration preserves
+     * ordinary Java types, package descriptors, and module descriptors as
+     * distinct categories.
+     */
+    @Test
+    public void persistenceConfigurationCategorizesDescriptorsTest() {
+        PersistenceConfiguration configuration =
+                new PersistenceConfiguration("JPATCK-JPA40-DESCRIPTORS")
+                        .managedClass(ExportSchemaBook.class)
+                        .managedPackage("ee.jakarta.tck.persistence.jpa40.persistenceconfiguration")
+                        .managedPackage("ee.jakarta.tck.persistence.jpa40.persistenceconfiguration.defaults")
+                        .managedModule("ee.jakarta.tck.persistence")
+                        .managedModule("ee.jakarta.tck.persistence.extensions");
+
+        assertEquals(List.of(ExportSchemaBook.class), configuration.managedClasses());
+        assertEquals(
+                List.of(
+                        "ee.jakarta.tck.persistence.jpa40.persistenceconfiguration",
+                        "ee.jakarta.tck.persistence.jpa40.persistenceconfiguration.defaults"
+                ),
+                configuration.managedPackages()
+        );
+        assertEquals(
+                List.of(
+                        "ee.jakarta.tck.persistence",
+                        "ee.jakarta.tck.persistence.extensions"
+                ),
+                configuration.managedModules()
+        );
     }
 
     private void assertScriptContains(Path script, String... expected) throws Exception {

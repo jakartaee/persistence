@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2025 Oracle and/or its affiliates and others. All rights reserved.
+ * Copyright (c) 2008, 2026 Oracle and/or its affiliates and others. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,6 +11,7 @@
  */
 
 // Contributors:
+//     Steve Ebersole  - 4.0
 //     Gavin King      - 4.0
 //     Lukas Jungmann  - 3.2
 //     Linda DeMichiel - 2.1
@@ -135,7 +136,7 @@ public interface PersistenceUnitInfo {
     /**
      * Returns a list of URLs for the jar files or exploded jar
      * file directories that the persistence provider must examine
-     * for managed classes of the persistence unit. Each URL
+     * for program elements belonging to the persistence unit. Each URL
      * corresponds to a {@code jar-file} element in the
      * {@code persistence.xml} file. A URL will either be a
      * file: URL referring to a jar file or referring to a directory
@@ -162,17 +163,44 @@ public interface PersistenceUnitInfo {
     URL getPersistenceUnitRootUrl();
 
     /**
-     * Returns the class names listed by {@code class} elements
-     * of the {@code persistence.xml} file.
-     * @return the class names listed in {@code persistence.xml}
+     * Returns the names of ordinary Java types listed by {@code class}
+     * elements of the {@code persistence.xml} file. Package and module
+     * descriptors are not included.
+     *
+     * @return the class names listed in {@code persistence.xml},
+     *         without duplicates
      */
     @Nonnull
     List<String> getManagedClassNames();
 
     /**
-     * Returns the names of all classes (compiled Java types,
-     * module descriptors, and package descriptors) belonging
-     * to the persistence unit, including classes:
+     * Returns the package names listed by {@code package} elements
+     * of the {@code persistence.xml} file. Each name is a qualified
+     * package name, for example, {@code com.example.model}, and does
+     * not include the suffix {@code .package-info}.
+     *
+     * @return the package names listed in {@code persistence.xml},
+     *         without duplicates
+     * @since 4.0
+     */
+    @Nonnull
+    List<String> getManagedPackageNames();
+
+    /**
+     * Returns the module names listed by {@code module} elements
+     * of the {@code persistence.xml} file. Each name is the declared
+     * JPMS module name and is not {@code module-info}.
+     *
+     * @return the module names listed in {@code persistence.xml},
+     *         without duplicates
+     * @since 4.0
+     */
+    @Nonnull
+    List<String> getManagedModuleNames();
+
+    /**
+     * Returns the names of all ordinary compiled Java types belonging
+     * to the persistence unit, including types:
      * <ul>
      * <li>named explicitly in the {@code persistence.xml}
      *     file,
@@ -183,19 +211,21 @@ public interface PersistenceUnitInfo {
      *     archive containing the {@code persistence.xml}
      *     file and all archives referenced by
      *     {@code <jar-file>} elements of the persistence
-     *     unit definiton.
+     *     unit definition.
      * </ul>
-     * <p>A class is discoverable via scanning if it bears
+     * <p>A type is discoverable via scanning if it bears
      * a {@linkplain Discoverable discoverable annotation}.
-     * Discoverable classes include entity classes, mapped
+     * Discoverable types include entity classes, mapped
      * superclasses, embeddable classes, attribute converter
      * classes, and every type declaring a named query,
      * named statement, named stored procedure query, or
-     * SQL result set mapping. Classes bearing custom
+     * SQL result set mapping. Types bearing custom
      * discoverable annotation types are also discoverable.
-     * @return the list of names of all classes belonging
-     *         to the persistence unit, including types,
-     *         module descriptors, and package descriptors
+     *
+     * <p>Package and module descriptors are not included.
+     *
+     * @return the list of names of all ordinary compiled Java types
+     *         belonging to the persistence unit, without duplicates
      * @see Discoverable
      * @since 4.0
      */
@@ -203,8 +233,46 @@ public interface PersistenceUnitInfo {
     List<String> getAllClassNames();
 
     /**
+     * Returns the names of all package descriptors belonging to the
+     * persistence unit, including package descriptors explicitly named
+     * in {@code persistence.xml} and package descriptors discovered by
+     * the container via scanning. Each name is a qualified package name,
+     * for example, {@code com.example.model}, and does not include the
+     * suffix {@code .package-info}.
+     *
+     * <p>Naming a package descriptor does not cause the ordinary Java
+     * types in that package to belong to the persistence unit.
+     *
+     * @return the list of names of all package descriptors belonging
+     *         to the persistence unit, without duplicates
+     * @see Discoverable
+     * @since 4.0
+     */
+    @Nonnull
+    List<String> getAllPackageNames();
+
+    /**
+     * Returns the names of all module descriptors belonging to the
+     * persistence unit, including module descriptors explicitly named
+     * in {@code persistence.xml} and module descriptors discovered by
+     * the container via scanning. Each name is the declared JPMS module
+     * name and is not {@code module-info}.
+     *
+     * <p>Naming a module descriptor does not cause the ordinary Java
+     * types or package descriptors in that module to belong to the
+     * persistence unit.
+     *
+     * @return the list of names of all module descriptors belonging
+     *         to the persistence unit, without duplicates
+     * @see Discoverable
+     * @since 4.0
+     */
+    @Nonnull
+    List<String> getAllModuleNames();
+
+    /**
      * Determines whether the root directory of the persistence
-     * unit is scanned for classes annotated with discoverable
+     * unit is scanned for program elements bearing discoverable
      * annotation types. The returned boolean value corresponds
      * to the value of the {@code exclude-unlisted-classes}
      * element in the {@code persistence.xml} file.
@@ -287,6 +355,9 @@ public interface PersistenceUnitInfo {
      * {@link PersistenceUnitInfo#getClassLoader} method. The
      * transformer has no effect on the result returned by the
      * {@link PersistenceUnitInfo#getNewTempClassLoader} method.
+     * Only ordinary Java types returned by {@link #getAllClassNames()} are
+     * eligible for transformation. The transformer must not transform any
+     * other class definition, including package and module descriptors.
      * Classes are only transformed once within the same classloading
      * scope, regardless of how many persistence units they may be 
      * a part of.
