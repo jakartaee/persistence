@@ -1377,7 +1377,7 @@ successfully.
 
 This will generally be achieved by the entity
 manager acquiring a lock on the underlying database row. While with
-optimistic concurrency concurrency, long-term database read locks are
+optimistic concurrency control, long-term database read locks are
 typically not obtained immediately, a compliant implementation is
 permitted to obtain an immediate lock (so long as it is retained until
 commit completes). If the lock is deferred until commit time, it must be
