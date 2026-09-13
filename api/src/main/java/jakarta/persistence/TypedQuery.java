@@ -675,7 +675,7 @@ public interface TypedQuery<X> extends Query {
       * Set the {@linkplain LockModeType lock mode type} to use
       * when the query is executed.
       *
-      * @param lockMode The new lock mode
+      * @param lockMode the requested {@linkplain LockModeType lock mode}
       * @return the same query instance
       * @throws IllegalStateException if the query is not a Jakarta
       *         Persistence Query Language {@code SELECT} query or a
