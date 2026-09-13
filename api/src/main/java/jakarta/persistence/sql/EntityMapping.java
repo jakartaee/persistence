@@ -26,7 +26,8 @@ import static java.util.Objects.requireNonNull;
  * {@linkplain jakarta.persistence.Entity entity} class.
  *
  * @param entityClass The entity class
- * @param lockMode The lock mode acquired by the SQL query
+ * @param lockMode The {@linkplain LockModeType lock mode}
+ *                 acquired by the SQL query
  * @param discriminatorColumn The name of the column holding the
  *        {@linkplain jakarta.persistence.DiscriminatorColumn
  *        discriminator}; a {@code null} value indicates that
@@ -107,7 +108,7 @@ public record EntityMapping<T>(@Nonnull Class<T> entityClass,
 
     /**
      * Specify the lock mode obtained on this entity.
-     * @param lockMode The lock mode
+     * @param lockMode The requested {@linkplain LockModeType lock mode}
      */
     @Nonnull
     public EntityMapping<T> withLockMode(@Nonnull LockModeType lockMode) {

@@ -338,7 +338,7 @@ public interface EntityAgent extends EntityHandler {
      * Refresh the entity instance state from the database.
      *
      * @param entity The entity to be refreshed.
-     * @param lockMode The LockMode to be applied.
+     * @param lockMode The requested {@linkplain LockModeType lock mode}.
      *
      * @throws EntityNotFoundException if the given entity no
      *         longer exists in the database
