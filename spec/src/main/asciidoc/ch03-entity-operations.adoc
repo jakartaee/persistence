@@ -1336,6 +1336,9 @@ that enables the effect of “repeatable read” semantics for the items
 read, whether “optimistically” (as described in <<a2100>>)
 or “pessimistically” (as described in <<a2113>>).
 
+See Berenson et al. <<a19504>>, Section 2, for definitions of the
+phenomena P1 and P2 used below.
+
 A lock mode may be explicitly specified as an argument to the
 `lock()` method of `EntityManager` or to any other method of
 `EntityManager`, `Query`, and `TypedQuery` which accepts a lock
