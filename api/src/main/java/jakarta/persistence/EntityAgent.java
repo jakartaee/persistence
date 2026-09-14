@@ -327,6 +327,8 @@ public interface EntityAgent extends EntityHandler {
      *
      * @see #refresh(Object)
      *
+     * @throws IllegalArgumentException if one of the given
+     *         instances is not an entity
      * @throws EntityNotFoundException if one of the given
      *         entities no longer exists in the database
      * @throws PersistenceException if a record could not be
@@ -340,6 +342,10 @@ public interface EntityAgent extends EntityHandler {
      * @param entity The entity to be refreshed.
      * @param lockMode The requested {@linkplain LockModeType lock mode}.
      *
+     * @throws IllegalArgumentException if the instance is not an entity
+     * @throws TransactionRequiredException if there is no transaction
+     *         and a lock mode other than {@link LockModeType#NONE} was
+     *         specified
      * @throws EntityNotFoundException if the given entity no
      *         longer exists in the database
      * @throws PersistenceException if a record could not be
