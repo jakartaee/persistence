@@ -315,6 +315,7 @@ public interface EntityAgent extends EntityHandler {
      *
      * @throws EntityNotFoundException if the given entity no
      *         longer exists in the database
+     * @throws IllegalArgumentException if the given instance is not an entity
      * @throws PersistenceException if a record could not be
      *         read from the database
      */
