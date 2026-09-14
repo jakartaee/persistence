@@ -23,6 +23,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -72,6 +73,43 @@ public class Jpa40VersioningClient extends PMClientBase {
     }
 
     /**
+     * Verifies that an EntityAgent update of only an excluded attribute writes
+     * the changed value without incrementing the version in memory or in the
+     * database, including changes to and from null.
+     */
+    @Test
+    public void excludedFieldWithEntityAgentUpdateDoesNotIncrementVersionTest() {
+        VersionedBook book = getEntityManager().find(VersionedBook.class, 1);
+        getEntityManager().clear();
+        int initialVersion = book.getVersion();
+
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent()) {
+            EntityTransaction transaction = agent.getTransaction();
+            try {
+                for (String auditNote : new String[]{"agent audit change", null, "another audit change"}) {
+                    transaction.begin();
+                    book.setAuditNote(auditNote);
+                    agent.update(book);
+                    transaction.commit();
+
+                    VersionedBook reloaded = agent.get(VersionedBook.class, 1);
+                    assertAll(
+                            () -> assertEquals(auditNote, reloaded.getAuditNote()),
+                            () -> assertEquals("Alpha", reloaded.getTitle()),
+                            () -> assertEquals(initialVersion, book.getVersion(),
+                                    "Changing only an excluded attribute must not increment the detached entity's version"),
+                            () -> assertEquals(initialVersion, reloaded.getVersion(),
+                                    "Changing only an excluded attribute must not increment the stored version"));
+                }
+            } finally {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
+            }
+        }
+    }
+
+    /**
      * Verifies that mutating a non-excluded field through an {@link EntityAgent}
      * does increment the version, confirming that the exclusion rule is specific
      * to the annotated field.
@@ -89,8 +127,12 @@ public class Jpa40VersioningClient extends PMClientBase {
             transaction.commit();
 
             VersionedBook reloaded = agent.get(VersionedBook.class, 1);
+            assertEquals("agent-title-change", reloaded.getTitle());
+            assertEquals("initial", reloaded.getAuditNote());
             assertTrue(reloaded.getVersion() > initialVersion,
-                    "Version must increment when a normal (non-excluded) field changes via EntityAgent");
+                    "Version must increment when a non-excluded field changes via EntityAgent");
+            assertEquals(reloaded.getVersion(), book.getVersion(),
+                    "The detached entity's version must match the stored version");
         }
     }
 
