@@ -9,3 +9,5 @@ LICENSE_EFTL.md
 LICENSE_EPL.md
 tck/tck-dist/src/main/resources/eftl-1.1.adoc
 spec/LICENSE
+mvnw
+mvnw.cmd
