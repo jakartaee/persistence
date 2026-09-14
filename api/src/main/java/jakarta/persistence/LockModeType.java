@@ -23,11 +23,12 @@ package jakarta.persistence;
  * <p>A specific lock mode may be requested by passing an explicit
  * {@code LockModeType} as an argument to:
  * <ul>
- * <li>one of the methods of {@link EntityManager} which obtains
- *     locks ({@link EntityManager#lock lock()},
- *     {@link EntityManager#find find()}, or
+ * <li>one of the methods of {@link EntityManager} or
+ *     {@link EntityAgent} which obtains locks
+ *     (for example, {@link EntityManager#lock lock()},
+ *     {@link EntityHandler#find find()}, or
  *     {@link EntityManager#refresh refresh()}), or
- * <li>to {@link TypedQuery#setLockMode(LockModeType)}.
+ * <li>{@link TypedQuery#setLockMode(LockModeType)}.
  * </ul>
  * <p>Lock modes other than {@link #NONE} prevent dirty reads and
  * non-repeatable reads of locked entity data within the current
@@ -106,7 +107,7 @@ public enum LockModeType
      * An optimistic lock.
      *
      * <p>If transaction T1 calls for a lock of type
-     * {@code OPTIMISTIC} on a versioned object, the entity manager
+     * {@code OPTIMISTIC} on a versioned object, the provider
      * must ensure that neither of the following phenomena can occur:
      * <ul>
      * <li>P1 <b>Dirty read</b>: Transaction T1 modifies a row.
@@ -136,7 +137,7 @@ public enum LockModeType
      *
      * <p>If transaction T1 calls for a lock of type
      * {@code OPTIMISTIC_FORCE_INCREMENT} on a versioned object,
-     * the entity manager must ensure that neither of the following
+     * the provider must ensure that neither of the following
      * phenomena can occur:
      * <ul>
      * <li>P1 <b>Dirty read</b>: Transaction T1 modifies a row.
@@ -170,7 +171,7 @@ public enum LockModeType
      * Pessimistic read lock.
      *
      * <p>If transaction T1 calls for a lock of type
-     * {@code PESSIMISTIC_READ} on an object, the entity manager must
+     * {@code PESSIMISTIC_READ} on an object, the provider must
      * ensure that neither of the following phenomena can occur:
      * <ul>
      * <li>P1 <b>Dirty read</b>: Transaction T1 modifies a row.
@@ -190,7 +191,7 @@ public enum LockModeType
      * Pessimistic write lock.
      *
      * <p>If transaction T1 calls for a lock of type
-     * {@code PESSIMISTIC_WRITE} on an object, the entity manager must
+     * {@code PESSIMISTIC_WRITE} on an object, the provider must
      * ensure that neither of the following phenomena can occur:
      * <ul>
      * <li>P1 <b>Dirty read</b>: Transaction T1 modifies a row.
@@ -210,8 +211,8 @@ public enum LockModeType
      * Pessimistic write lock, with version update.
      *
      * <p>If transaction T1 calls for a lock of type
-     * {@code PESSIMISTIC_FORCE_INCREMENT} on an object, the entity
-     * manager must ensure that neither of the following phenomena
+     * {@code PESSIMISTIC_FORCE_INCREMENT} on an object, the
+     * provider must ensure that neither of the following phenomena
      * can occur:
      * <ul>
      * <li>P1 <b>Dirty read</b>: Transaction T1 modifies a row.

@@ -1341,8 +1341,8 @@ phenomena P1 and P2 used below.
 
 A lock mode may be explicitly specified as an argument to the
 `lock()` method of `EntityManager` or to any other method of
-`EntityManager`, `Query`, and `TypedQuery` which accepts a lock
-mode, or via the `NamedQuery` annotation.
+`EntityManager`, `EntityAgent`, `Query`, or `TypedQuery` which
+accepts a lock mode, or via the `NamedQuery` annotation.
 
 Lock mode values are defined by the `LockModeType` enum which may
 be found in <<_lockmodetype_>>. Six distinct lock modes are defined.
@@ -1365,7 +1365,7 @@ The semantics of requesting locks of type
 are the following.
 
 If transaction T1 calls `lock(entity, LockModeType.OPTIMISTIC)` on a
-versioned object, the entity manager
+versioned object, the provider
 must ensure that neither of the following phenomena can occur:
 
 * P1 (Dirty read): Transaction T1 modifies a
@@ -1378,8 +1378,8 @@ reads a row. Another transaction T2 then modifies or deletes that row,
 before T1 has committed. Both transactions eventually commit
 successfully.
 
-This will generally be achieved by the entity
-manager acquiring a lock on the underlying database row. While with
+This will generally be achieved by the provider
+acquiring a lock on the underlying database row. While with
 optimistic concurrency control, long-term database read locks are
 typically not obtained immediately, a compliant implementation is
 permitted to obtain an immediate lock (so long as it is retained until
@@ -1398,7 +1398,7 @@ the phenomena P1 and P2. Applications that call
 portable.
 
 If transaction T1 calls `lock(entity, LockModeType.OPTIMISTIC_FORCE_INCREMENT)`
-on a versioned object, the entity manager must avoid the phenomena P1 and P2
+on a versioned object, the provider must avoid the phenomena P1 and P2
 (as with `LockModeType.OPTIMISTIC`) and must also force an update (increment) to
 the entity's version column. A forced version update may be performed
 immediately, or may be deferred until a flush or commit. If an entity is
@@ -1428,7 +1428,7 @@ call to `EntityManager.lock` was made.
 For portability, an application should not
 depend on vendor-specific hints or configuration to ensure repeatable
 read for objects that are not updated or removed via any mechanism other
-than the use of version attributes and the EntityManager `lock` method.
+than the use of version attributes and the `lock` method of `EntityManager`.
 However, it should be noted that if an implementation has acquired
 up-front pessimistic locks on some database rows, then it is free to
 ignore `lock(entity, LockModeType.OPTIMISTIC)` calls on the entity
@@ -1447,8 +1447,8 @@ The semantics of requesting locks of type
 `LockModeType.PESSIMISTIC_FORCE_INCREMENT` are the following.
 
 If transaction T1 calls `lock(entity, LockModeType.PESSIMISTIC_READ)` or
-`lock(entity, LockModeType.PESSIMISTIC_WRITE)` on an object, the entity
-manager must ensure that neither of the following phenomena can occur:
+`lock(entity, LockModeType.PESSIMISTIC_WRITE)` on an object, the provider
+must ensure that neither of the following phenomena can occur:
 
 * P1 (Dirty read): Transaction T1 modifies a
 row. Another transaction T2 then reads that row and obtains the modified
@@ -1461,7 +1461,7 @@ Any such lock must be obtained immediately
 and retained until transaction T1 completes (commits or rolls back).
 
 Avoidance of phenomena P1 and P2 is generally
-achieved by the entity manager acquiring a long-term lock on the
+achieved by the provider acquiring a long-term lock on the
 underlying database row(s). Any implementation that supports pessimistic
 repeatable reads as described above is permissible.
 
@@ -1525,7 +1525,7 @@ commit time, whichever occurs first.
 
 If transaction T1 calls
 `lock(entity, LockModeType.PESSIMISTIC_FORCE_INCREMENT)` on a versioned
-object, the entity manager must avoid the phenomenon P1 and P2 (as with
+object, the provider must avoid the phenomenon P1 and P2 (as with
 `LockModeType.PESSIMISTIC_READ` and `LockModeType.PESSIMISTIC_WRITE`)
 and must also force an update (increment) to the entity's version
 column.
