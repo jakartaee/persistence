@@ -96,17 +96,17 @@ pipeline {
 								}
 
                                 // update version:
-                                sh "mvn clean versions:set -DnewVersion=${params.RELEASE_VERSION} -DgenerateBackupPoms=false"
+                                sh "mvnw clean versions:set -DnewVersion=${params.RELEASE_VERSION} -DgenerateBackupPoms=false"
 
                                 // commit and tag the "release version":
                                 sh "git commit -a -m '[Jenkins release job] Preparing release ${params.RELEASE_VERSION}'"
                                 sh "git tag -a -m 'Release ${params.RELEASE_VERSION}' ${params.RELEASE_VERSION}"
 
                                 // deploy to Maven Central:
-                                sh "mvn clean deploy -Poss-release -DskipTests=true -Dstatus=${params.SPEC_STATUS}"
+                                sh "mvnw clean deploy -Poss-release -DskipTests=true -Dstatus=${params.SPEC_STATUS}"
 
                                 // reset the version back to dev:
-                                sh "mvn versions:set -DnewVersion=${params.DEVELOPMENT_VERSION} -DgenerateBackupPoms=false"
+                                sh "mvnw versions:set -DnewVersion=${params.DEVELOPMENT_VERSION} -DgenerateBackupPoms=false"
 
                                 // commit the dev version and push all back to git:
                                 sh "git commit -a -m '[Jenkins release job] Preparing next development iteration'"
