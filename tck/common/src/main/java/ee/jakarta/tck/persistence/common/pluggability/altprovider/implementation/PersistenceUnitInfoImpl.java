@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,6 +33,8 @@ import jakarta.persistence.spi.PersistenceUnitInfo;
 public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 
 	public List<String> managedClassNames;
+	public List<String> managedPackageDescriptors = List.of();
+	public List<String> managedModuleDescriptors = List.of();
 
 	public ClassTransformer classTransformer;
 
@@ -113,6 +115,30 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	public List<String> getAllClassNames() {
         return getManagedClassNames();
     }
+
+    @Override
+	@Nonnull
+	public List<String> getManagedPackageDescriptors() {
+		return managedPackageDescriptors;
+	}
+
+    @Override
+	@Nonnull
+	public List<String> getManagedModuleDescriptors() {
+		return managedModuleDescriptors;
+	}
+
+    @Override
+	@Nonnull
+	public List<String> getAllPackageDescriptors() {
+		return managedPackageDescriptors;
+	}
+
+    @Override
+	@Nonnull
+	public List<String> getAllModuleDescriptors() {
+		return managedModuleDescriptors;
+	}
 
     @Override
 	@Nonnull
@@ -222,6 +248,8 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	public PersistenceUnitInfoImpl clone() {
 		var puii = new PersistenceUnitInfoImpl();
 		puii.managedClassNames = this.managedClassNames;
+		puii.managedPackageDescriptors = this.managedPackageDescriptors;
+		puii.managedModuleDescriptors = this.managedModuleDescriptors;
 		puii.classTransformer = this.classTransformer;
 		puii.puName = this.puName;
 		puii.persistenceProviderClassName = this.persistenceProviderClassName;

@@ -23,16 +23,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that the meta-annotated annotation type identifies
- * classes which are automatically discovered by the Jakarta EE
- * container and passed on to the persistence provider via
- * {@link PersistenceUnitInfo#getAllClassNames()}. Such classes
- * might include compiled Java types, module descriptors, and
- * package descriptors.
+ * program elements which are automatically discovered by the Jakarta EE
+ * container and passed on to the persistence provider. An annotated
+ * ordinary Java type is reported by
+ * {@link PersistenceUnitInfo#getAllClassNames()}, an annotated package
+ * descriptor by {@link PersistenceUnitInfo#getAllPackageDescriptors()}, and an
+ * annotated module descriptor by
+ * {@link PersistenceUnitInfo#getAllModuleDescriptors()}.
  * <p>
  * A persistence provider may define its own custom discoverable
- * annotation types. Classes annotated with custom discoverable
- * annotations must be included in the list of class names passed
- * by the container to the provider.
+ * annotation types. Program elements annotated with custom discoverable
+ * annotations must be included in the corresponding categorized list
+ * of names passed by the container to the provider.
  * <p>
  * Exceptionally, {@code jakarta.data.repository.Repository} is
  * treated as a discoverable annotation type, even though it is
