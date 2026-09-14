@@ -96,7 +96,8 @@ public @interface QueryOptions {
      * The lock mode type to use in query execution.
      * If a {@code lockMode} other than {@link LockModeType#NONE}
      * is specified, the query must be executed in a transaction
-     * and the persistence context joined to the transaction.
+     * and the persistence context, if any, must be joined to the
+     * transaction.
      * <p> If a lock mode is explicitly specified for a
      * {@linkplain NativeQuery native query}, the behavior
      * is undefined and unportable between persistence providers.

@@ -135,7 +135,8 @@ public @interface NamedQuery {
      * (Optional) The lock mode type to use in query execution.
      * If a {@code lockMode} other than {@link LockModeType#NONE}
      * is specified, the query must be executed in a transaction
-     * and the persistence context joined to the transaction.
+     * and the persistence context, if any, must be joined to the
+     * transaction.
      * @since 2.0
      * @see TypedQuery#setLockMode
      */
