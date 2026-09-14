@@ -516,16 +516,16 @@ files. Any metadata annotations found on these program elements are processed.
 Where mapping annotations are missing on a managed class, the class is mapped
 using the mapping annotation defaults.
 
-The `class` element identifies one ordinary Java type. It does not identify a
+<class/>:: The `class` element identifies one ordinary Java type. It does not identify a
 package descriptor or module descriptor.
 
-The `package-descriptor` element identifies one package descriptor whose
+<package-descriptor/>:: The `package-descriptor` element identifies one package descriptor whose
 annotations belong to the persistence unit. Its value is the qualified package
 name, for example, `com.example.model`, and not
 `com.example.model.package-info`. Naming a package descriptor does not cause
 the ordinary Java types in that package to belong to the persistence unit.
 
-The `module-descriptor` element identifies one module descriptor whose
+<module-descriptor/>:: The `module-descriptor` element identifies one module descriptor whose
 annotations belong to the persistence unit. Its value is the declared JPMS
 module name and not `module-info`. Naming a module descriptor does not cause
 the ordinary Java types or package descriptors in that module to belong to the
@@ -536,7 +536,7 @@ and any package or module descriptors whose annotations must be processed
 must be specified to ensure portability. Portable Java SE applications should
 not rely on the other mechanisms described here to determine the program
 elements of a persistence unit. In Java SE environments, a persistence provider
-may require that these sets are fully enumerated in each `persistence.xml` file.
+may require that these lists are fully enumerated in each `persistence.xml` file.
 
 ===== shared-cache-mode [[a12380]]
 
