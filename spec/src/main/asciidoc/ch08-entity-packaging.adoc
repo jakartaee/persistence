@@ -531,8 +531,8 @@ module name and not `module-info`. Naming a module descriptor does not cause
 the ordinary Java types or package descriptors in that module to belong to the
 persistence unit.
 
-In Java SE environments, an explicit list of all managed persistence class
-names and any package or module descriptors whose annotations must be processed
+In Java SE environments, an explicit list of all managed persistence classes
+and any package or module descriptors whose annotations must be processed
 must be specified to ensure portability. Portable Java SE applications should
 not rely on the other mechanisms described here to determine the program
 elements of a persistence unit. In Java SE environments, a persistence provider
