@@ -857,8 +857,8 @@ the `PersistenceContext` or `PersistenceUnit` annotations.]
 
 The `managedClass()`, `managedPackageDescriptor()`, and
 `managedModuleDescriptor()` operations correspond to the `class`,
-`package-descriptor`, and `module-descriptor` elements of `persistence.xml`.
-A package is specified by its qualified package name without
+`package-descriptor`, and `module-descriptor` elements of `persistence.xml`,
+respectively. A package is specified by its qualified package name without
 the suffix `.package-info`, and a module is specified by its declared JPMS
 module name, not `module-info`. Configuring a package or module descriptor does
 not implicitly configure the ordinary Java types it contains.
