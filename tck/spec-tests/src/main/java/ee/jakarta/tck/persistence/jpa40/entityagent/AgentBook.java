@@ -21,19 +21,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.NamedStatement;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 @Entity(name = "Jpa40AgentBook")
 @Table(name = "JPA40_AGENT_BOOK")
+@NamedQuery(name = AgentBook.LOCKED_QUERY,
+        query = "SELECT b FROM Jpa40AgentBook b ORDER BY b.id",
+        lockMode = LockModeType.PESSIMISTIC_WRITE)
 @NamedStatement(
         name = AgentBook.UPDATE_TITLE,
         statement = "UPDATE Jpa40AgentBook b SET b.title = :title WHERE b.id = :id")
 public class AgentBook {
 
     public static final String UPDATE_TITLE = "Jpa40AgentBook.updateTitle";
+    public static final String LOCKED_QUERY = "Jpa40AgentBook.locked";
 
     @Id
     private Integer id;
