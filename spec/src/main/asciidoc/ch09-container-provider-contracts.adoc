@@ -569,13 +569,13 @@ The `PersistenceUnitInfo` interface may be found in <<_persistenceunitinfo_>>.
 
 `PersistenceUnitInfo` preserves the distinction between ordinary Java types,
 package descriptors, and module descriptors. The `getManagedClassNames()`,
-`getManagedPackageNames()`, and `getManagedModuleNames()` methods report the
-entries explicitly declared by the corresponding `class`, `package`, and
-`module` elements of `persistence.xml`. The `getAllClassNames()`,
-`getAllPackageNames()`, and `getAllModuleNames()` methods report the complete
-categorized persistence-unit view obtained from explicit declarations, mapping
-metadata, and container discovery, as applicable. None of these lists contains
-duplicates.
+`getManagedPackageDescriptors()`, and `getManagedModuleDescriptors()` methods
+report the entries explicitly declared by the corresponding `class`,
+`package-descriptor`, and `module-descriptor` elements of `persistence.xml`.
+The `getAllClassNames()`, `getAllPackageDescriptors()`, and
+`getAllModuleDescriptors()` methods report the complete categorized
+persistence-unit view obtained from explicit declarations, mapping metadata,
+and container discovery, as applicable. None of these lists contains duplicates.
 
 Only ordinary Java types are returned by `getAllClassNames()`. Package and
 module descriptors are metadata sources and are not managed classes. Standard
@@ -855,9 +855,10 @@ environment.footnote:[Persistence units defined programmatically using the
 `PersistenceConfiguration` class do not support JNDI lookup or injection via
 the `PersistenceContext` or `PersistenceUnit` annotations.]
 
-The `managedClass()`, `managedPackage()`, and `managedModule()` operations
-correspond to the `class`, `package`, and `module` elements of
-`persistence.xml`. A package is specified by its qualified package name without
+The `managedClass()`, `managedPackageDescriptor()`, and
+`managedModuleDescriptor()` operations correspond to the `class`,
+`package-descriptor`, and `module-descriptor` elements of `persistence.xml`.
+A package is specified by its qualified package name without
 the suffix `.package-info`, and a module is specified by its declared JPMS
 module name, not `module-info`. Configuring a package or module descriptor does
 not implicitly configure the ordinary Java types it contains.

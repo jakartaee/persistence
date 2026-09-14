@@ -33,8 +33,8 @@ import jakarta.persistence.spi.PersistenceUnitInfo;
 public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 
 	public List<String> managedClassNames;
-	public List<String> managedPackageNames = List.of();
-	public List<String> managedModuleNames = List.of();
+	public List<String> managedPackageDescriptors = List.of();
+	public List<String> managedModuleDescriptors = List.of();
 
 	public ClassTransformer classTransformer;
 
@@ -118,26 +118,26 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 
     @Override
 	@Nonnull
-	public List<String> getManagedPackageNames() {
-		return managedPackageNames;
+	public List<String> getManagedPackageDescriptors() {
+		return managedPackageDescriptors;
 	}
 
     @Override
 	@Nonnull
-	public List<String> getManagedModuleNames() {
-		return managedModuleNames;
+	public List<String> getManagedModuleDescriptors() {
+		return managedModuleDescriptors;
 	}
 
     @Override
 	@Nonnull
-	public List<String> getAllPackageNames() {
-		return managedPackageNames;
+	public List<String> getAllPackageDescriptors() {
+		return managedPackageDescriptors;
 	}
 
     @Override
 	@Nonnull
-	public List<String> getAllModuleNames() {
-		return managedModuleNames;
+	public List<String> getAllModuleDescriptors() {
+		return managedModuleDescriptors;
 	}
 
     @Override
@@ -248,8 +248,8 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo, Cloneable {
 	public PersistenceUnitInfoImpl clone() {
 		var puii = new PersistenceUnitInfoImpl();
 		puii.managedClassNames = this.managedClassNames;
-		puii.managedPackageNames = this.managedPackageNames;
-		puii.managedModuleNames = this.managedModuleNames;
+		puii.managedPackageDescriptors = this.managedPackageDescriptors;
+		puii.managedModuleDescriptors = this.managedModuleDescriptors;
 		puii.classTransformer = this.classTransformer;
 		puii.puName = this.puName;
 		puii.persistenceProviderClassName = this.persistenceProviderClassName;

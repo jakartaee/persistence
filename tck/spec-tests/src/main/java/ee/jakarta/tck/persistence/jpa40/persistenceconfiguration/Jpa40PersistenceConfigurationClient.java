@@ -97,10 +97,10 @@ public class Jpa40PersistenceConfigurationClient extends PMClientBase {
         PersistenceConfiguration configuration =
                 new PersistenceConfiguration("JPATCK-JPA40-DESCRIPTORS")
                         .managedClass(ExportSchemaBook.class)
-                        .managedPackage("ee.jakarta.tck.persistence.jpa40.persistenceconfiguration")
-                        .managedPackage("ee.jakarta.tck.persistence.jpa40.persistenceconfiguration.defaults")
-                        .managedModule("ee.jakarta.tck.persistence")
-                        .managedModule("ee.jakarta.tck.persistence.extensions");
+                        .managedPackageDescriptor("ee.jakarta.tck.persistence.jpa40.persistenceconfiguration")
+                        .managedPackageDescriptor("ee.jakarta.tck.persistence.jpa40.persistenceconfiguration.defaults")
+                        .managedModuleDescriptor("ee.jakarta.tck.persistence")
+                        .managedModuleDescriptor("ee.jakarta.tck.persistence.extensions");
 
         assertEquals(List.of(ExportSchemaBook.class), configuration.managedClasses());
         assertEquals(
@@ -108,14 +108,14 @@ public class Jpa40PersistenceConfigurationClient extends PMClientBase {
                         "ee.jakarta.tck.persistence.jpa40.persistenceconfiguration",
                         "ee.jakarta.tck.persistence.jpa40.persistenceconfiguration.defaults"
                 ),
-                configuration.managedPackages()
+                configuration.managedPackageDescriptors()
         );
         assertEquals(
                 List.of(
                         "ee.jakarta.tck.persistence",
                         "ee.jakarta.tck.persistence.extensions"
                 ),
-                configuration.managedModules()
+                configuration.managedModuleDescriptors()
         );
     }
 

@@ -76,7 +76,8 @@ In Java SE environments, the metadata mapping files, jar files, and program
 elements described in the following sections can be used. To ensure the
 portability of a Java SE application, it is necessary to explicitly list the managed
 persistence classes and any package or module descriptors included in the
-persistence unit using the `class`, `package`, and `module` elements of the
+persistence unit using the `class`, `package-descriptor`, and
+`module-descriptor` elements of the
 `persistence.xml` file. See <<a12305>>.
 
 === persistence.xml file [[a12237]]
@@ -128,7 +129,8 @@ The `persistence-unit` element consists of:
   `description`, `provider`,
   `qualifier`, `scope`
   `jta-data-source`, `non-jta-data-source`,
-  `mapping-file`, `jar-file`, `class`, `package`, `module`,
+  `mapping-file`, `jar-file`, `class`, `package-descriptor`,
+  `module-descriptor`,
   `exclude-unlisted-classes`,
   `shared-cache-mode`, `validation-mode`,
   and `properties`.
@@ -152,8 +154,8 @@ Examples:
         <jar-file>MyOrderApp.jar</jar-file>
         <class>com.widgets.Order</class>
         <class>com.widgets.Customer</class>
-        <package>com.widgets</package>
-        <module>com.widgets.orders</module>
+        <package-descriptor>com.widgets</package-descriptor>
+        <module-descriptor>com.widgets.orders</module-descriptor>
     </persistence-unit>
 </persistence>
 ----
@@ -248,7 +250,7 @@ In Java SE environments, these elements may be used, or the data source
 information may be specified by other means, depending upon the requirements
 of the provider.
 
-===== mapping-file, jar-file, class, package, module, exclude-unlisted-classes [[a12305]]
+===== mapping-file, jar-file, class, package-descriptor, module-descriptor, exclude-unlisted-classes [[a12305]]
 
 The following classes must be implicitly or explicitly denoted as managed
 persistence classes to be included within a persistence unit:
@@ -329,14 +331,16 @@ This behavior is disabled if the `exclude-unlisted-classes` of the
 `persistence.xml` file is specified as `true`. In this case, an
 annotated program element located in the root of the persistence unit does
 not belong to the persistence unit unless it is explicitly listed in the
-corresponding `class`, `package`, or `module` element of the
-`persistence.xml` file, or, for an ordinary Java type, in an XML mapping file.
+corresponding `class`, `package-descriptor`, or `module-descriptor` element of
+the `persistence.xml` file, or, for an ordinary Java type, in an XML mapping
+file.
 
 In the Java SE environment, this behavior is not required. Portable
 Java SE applications should explicitly list each ordinary Java type, package
 descriptor, and module descriptor belonging to the persistence unit in the
-corresponding `class`, `package`, or `module` element of the
-`persistence.xml` file, or, for an ordinary Java type, in an XML mapping file.
+corresponding `class`, `package-descriptor`, or `module-descriptor` element of
+the `persistence.xml` file, or, for an ordinary Java type, in an XML mapping
+file.
 The `exclude-unlisted-classes` element is not intended for use in Java SE
 environments.
 
@@ -515,16 +519,17 @@ using the mapping annotation defaults.
 The `class` element identifies one ordinary Java type. It does not identify a
 package descriptor or module descriptor.
 
-The `package` element identifies one package descriptor whose annotations
-belong to the persistence unit. Its value is the qualified package name, for
-example, `com.example.model`, and not `com.example.model.package-info`.
-Naming a package descriptor does not cause the ordinary Java types in that
-package to belong to the persistence unit.
+The `package-descriptor` element identifies one package descriptor whose
+annotations belong to the persistence unit. Its value is the qualified package
+name, for example, `com.example.model`, and not
+`com.example.model.package-info`. Naming a package descriptor does not cause
+the ordinary Java types in that package to belong to the persistence unit.
 
-The `module` element identifies one module descriptor whose annotations
-belong to the persistence unit. Its value is the declared JPMS module name and
-not `module-info`. Naming a module descriptor does not cause the ordinary Java
-types or package descriptors in that module to belong to the persistence unit.
+The `module-descriptor` element identifies one module descriptor whose
+annotations belong to the persistence unit. Its value is the declared JPMS
+module name and not `module-info`. Naming a module descriptor does not cause
+the ordinary Java types or package descriptors in that module to belong to the
+persistence unit.
 
 In Java SE environments, an explicit list of all managed persistence class
 names and any package or module descriptors whose annotations must be processed

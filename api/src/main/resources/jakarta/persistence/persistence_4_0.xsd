@@ -196,7 +196,7 @@
 
               <!-- **************************************************** -->
 
-              <xsd:element name="package" type="xsd:string"
+              <xsd:element name="package-descriptor" type="xsd:string"
                            minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                   <xsd:documentation>
@@ -212,7 +212,7 @@
 
               <!-- **************************************************** -->
 
-              <xsd:element name="module" type="xsd:string"
+              <xsd:element name="module-descriptor" type="xsd:string"
                            minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                   <xsd:documentation>

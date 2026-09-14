@@ -101,8 +101,8 @@ public class PersistenceConfiguration
     private SchemaManagementAction schemaManagementScriptsAction = SchemaManagementAction.NONE;
 
     private final List<Class<?>> managedClasses = new ArrayList<>();
-    private final List<String> managedPackages = new ArrayList<>();
-    private final List<String> managedModules = new ArrayList<>();
+    private final List<String> managedPackageDescriptors = new ArrayList<>();
+    private final List<String> managedModuleDescriptors = new ArrayList<>();
     private final List<String> mappingFileNames = new ArrayList<>();
     private final Map<String,Object> properties = new HashMap<>();
 
@@ -256,9 +256,9 @@ public class PersistenceConfiguration
      * @since 4.0
      */
     @Nonnull
-    public PersistenceConfiguration managedPackage(@Nonnull String packageName) {
+    public PersistenceConfiguration managedPackageDescriptor(@Nonnull String packageName) {
         requireNonNull(packageName, "packageName cannot be null");
-        managedPackages.add(packageName);
+        managedPackageDescriptors.add(packageName);
         return this;
     }
 
@@ -270,8 +270,8 @@ public class PersistenceConfiguration
      * @since 4.0
      */
     @Nonnull
-    public List<String> managedPackages() {
-        return managedPackages;
+    public List<String> managedPackageDescriptors() {
+        return managedPackageDescriptors;
     }
 
     /**
@@ -285,9 +285,9 @@ public class PersistenceConfiguration
      * @since 4.0
      */
     @Nonnull
-    public PersistenceConfiguration managedModule(@Nonnull String moduleName) {
+    public PersistenceConfiguration managedModuleDescriptor(@Nonnull String moduleName) {
         requireNonNull(moduleName, "moduleName cannot be null");
-        managedModules.add(moduleName);
+        managedModuleDescriptors.add(moduleName);
         return this;
     }
 
@@ -299,8 +299,8 @@ public class PersistenceConfiguration
      * @since 4.0
      */
     @Nonnull
-    public List<String> managedModules() {
-        return managedModules;
+    public List<String> managedModuleDescriptors() {
+        return managedModuleDescriptors;
     }
 
     /**

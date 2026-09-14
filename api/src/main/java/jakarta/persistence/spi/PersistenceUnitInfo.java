@@ -174,7 +174,7 @@ public interface PersistenceUnitInfo {
     List<String> getManagedClassNames();
 
     /**
-     * Returns the package names listed by {@code package} elements
+     * Returns the package names listed by {@code package-descriptor} elements
      * of the {@code persistence.xml} file. Each name is a qualified
      * package name, for example, {@code com.example.model}, and does
      * not include the suffix {@code .package-info}.
@@ -184,10 +184,10 @@ public interface PersistenceUnitInfo {
      * @since 4.0
      */
     @Nonnull
-    List<String> getManagedPackageNames();
+    List<String> getManagedPackageDescriptors();
 
     /**
-     * Returns the module names listed by {@code module} elements
+     * Returns the module names listed by {@code module-descriptor} elements
      * of the {@code persistence.xml} file. Each name is the declared
      * JPMS module name and is not {@code module-info}.
      *
@@ -196,7 +196,7 @@ public interface PersistenceUnitInfo {
      * @since 4.0
      */
     @Nonnull
-    List<String> getManagedModuleNames();
+    List<String> getManagedModuleDescriptors();
 
     /**
      * Returns the names of all ordinary compiled Java types belonging
@@ -249,7 +249,7 @@ public interface PersistenceUnitInfo {
      * @since 4.0
      */
     @Nonnull
-    List<String> getAllPackageNames();
+    List<String> getAllPackageDescriptors();
 
     /**
      * Returns the names of all module descriptors belonging to the
@@ -268,7 +268,7 @@ public interface PersistenceUnitInfo {
      * @since 4.0
      */
     @Nonnull
-    List<String> getAllModuleNames();
+    List<String> getAllModuleDescriptors();
 
     /**
      * Determines whether the root directory of the persistence

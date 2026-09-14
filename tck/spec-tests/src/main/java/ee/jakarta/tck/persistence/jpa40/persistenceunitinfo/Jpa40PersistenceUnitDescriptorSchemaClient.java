@@ -43,10 +43,10 @@ public class Jpa40PersistenceUnitDescriptorSchemaClient {
                 <persistence-unit name="descriptor-lists">
                     <class>com.example.model.Book</class>
                     <class>com.example.model.Author</class>
-                    <package>com.example.model</package>
-                    <package>com.example.shared</package>
-                    <module>com.example.persistence</module>
-                    <module>com.example.persistence.extensions</module>
+                    <package-descriptor>com.example.model</package-descriptor>
+                    <package-descriptor>com.example.shared</package-descriptor>
+                    <module-descriptor>com.example.persistence</module-descriptor>
+                    <module-descriptor>com.example.persistence.extensions</module-descriptor>
                 </persistence-unit>
             </persistence>
             """;
@@ -54,7 +54,7 @@ public class Jpa40PersistenceUnitDescriptorSchemaClient {
     private static final String INVALID_DESCRIPTOR_PLACEMENT = """
             <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="4.0">
                 <persistence-unit name="descriptor-placement">
-                    <package>com.example.model</package>
+                    <package-descriptor>com.example.model</package-descriptor>
                     <class>com.example.model.Book</class>
                 </persistence-unit>
             </persistence>

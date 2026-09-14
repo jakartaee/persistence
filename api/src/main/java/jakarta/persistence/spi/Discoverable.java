@@ -27,9 +27,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * container and passed on to the persistence provider. An annotated
  * ordinary Java type is reported by
  * {@link PersistenceUnitInfo#getAllClassNames()}, an annotated package
- * descriptor by {@link PersistenceUnitInfo#getAllPackageNames()}, and an
+ * descriptor by {@link PersistenceUnitInfo#getAllPackageDescriptors()}, and an
  * annotated module descriptor by
- * {@link PersistenceUnitInfo#getAllModuleNames()}.
+ * {@link PersistenceUnitInfo#getAllModuleDescriptors()}.
  * <p>
  * A persistence provider may define its own custom discoverable
  * annotation types. Program elements annotated with custom discoverable

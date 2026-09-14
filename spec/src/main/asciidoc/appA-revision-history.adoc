@@ -89,7 +89,8 @@ Made `ELSE` branch in `CASE` expressions optional in JPQL
 
 ==== Changes to Configuration, Bootstrap, and Integration
 
-Added explicit `package` and `module` elements to `persistence.xml`, matching
+Added explicit `package-descriptor` and `module-descriptor` elements to
+`persistence.xml`, matching
 operations to `PersistenceConfiguration`, and categorized package and module
 descriptor views to `PersistenceUnitInfo`; `getAllClassNames()` now contains
 ordinary Java types only
