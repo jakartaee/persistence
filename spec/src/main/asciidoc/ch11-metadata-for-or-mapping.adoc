@@ -2049,6 +2049,14 @@ to the annotated field or property when concurrent optimistic
 transactions modify the same entity instance, and that no
 `OptimisticLockException` should occur in this scenario.
 
+[NOTE]
+Some relational databases disallow equality comparisons between values
+of large object type.
+The persistence provider is not required to support updating a detached
+entity with an attribute excluded from versioning via an `EntityAgent`
+if the entity has state mapped to a column of large object type or of
+any other type for which the database rejects equality comparisons.
+
 ==== ForeignKey Annotation [[a14754]]
 
 The `ForeignKey` annotation is used to
