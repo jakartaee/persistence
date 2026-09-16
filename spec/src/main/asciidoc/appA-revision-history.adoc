@@ -23,7 +23,7 @@ Added `@Fetch` for more elegant definition of named entity graph nodes and subgr
 
 Added the ability to select `LAZY` fetching as the default for `@OneToOne` and `@ManyToOne` associations via `<default-to-one-fetch-type>` in `persistence.xml` or `PersistenceConfiguration.defaultToOneFetchType()`
 
-Added specialized expression types `ComparableExpression`, `NumericExpression`, `TextExpression`, `TemporalExpression`, `BooleanExpression` to criteria API, along with matching attribute types `ComparableAttribute`, `NumericAttribute`, `TextAttribute`, `TemporalAttribute`, `BooleanAttribute` to metamodel API
+Added specialized expression types `ComparableExpression`, `NumericExpression`, `TextExpression`, `TemporalExpression`, `BooleanExpression` to criteria API, along with matching attribute types to metamodel API
 
 Added `get()` operation as an alternative to `find()`; added `findMultiple()` and `getMultiple()`
 
@@ -118,6 +118,8 @@ Jakarta Validation constraints
 
 ==== Changes to Static Metamodel
 
+Specified that basic attributes of the static metamodel must be represented by the types `ComparableAttribute`, `NumericAttribute`, `TextAttribute`, `TemporalAttribute`, `BooleanAttribute`
+
 Added operations to produce a `TypedQueryReference` or `StatementReference` given arguments of parameters to a static query or statement
 
 Added type safe reference to named SQL result set mappings
@@ -173,6 +175,8 @@ Added `getRootList()` and `getJoinList()` to criteria API
 Added add `FULL` to `JoinType`
 
 Added `least()` and `greatest()` to `CriteriaBuilder`
+
+Specified that `getLockMode()` returns `null` when called outside of a transaction
 
 ==== Deprecations
 
