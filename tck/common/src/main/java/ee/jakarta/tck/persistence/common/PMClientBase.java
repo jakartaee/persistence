@@ -1178,11 +1178,24 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
 
     public JavaArchive createDeploymentJar(String jarName, String packageName, String[] classes, String persistenceFile,
                                            String[] xmlFiles) throws Exception {
+        return createDeploymentJar(jarName, packageName, classes, persistenceFile, xmlFiles, new String[0]);
+    }
+
+    /**
+     * Adds package-info classes to the archive and registers their package names
+     * as package descriptors when generating persistence.xml from a template.
+     * Custom persistence.xml files must declare their own package descriptors.
+     */
+    public JavaArchive createDeploymentJar(String jarName, String packageName, String[] classes, String persistenceFile,
+                                           String[] xmlFiles, String[] packageDescriptors) throws Exception {
 
         JavaArchive archive = ShrinkWrap.create(JavaArchive.class, jarName);
 
         for (int j = 0; j < classes.length; j++) {
             archive.addClass(classes[j]);
+        }
+        for (String packageDescriptor : packageDescriptors) {
+            archive.addClass(packageDescriptor + ".package-info");
         }
 
         if (persistenceFile.equals(STANDALONE_PERSISTENCE_XML) || persistenceFile.equals(EE_PERSISTENCE_XML)) {
@@ -1210,6 +1223,14 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
                     Text classNode = document.createTextNode(classes[j]);
                     classTag.appendChild(classNode);
                     presistenceElement.item(i).appendChild(classTag);
+                }
+            }
+            // The 4.0 schema requires package descriptors after all class entries.
+            for (String packageDescriptor : packageDescriptors) {
+                for (int i = 0; i < presistenceElement.getLength(); i++) {
+                    Element packageTag = document.createElement("package-descriptor");
+                    packageTag.appendChild(document.createTextNode(packageDescriptor));
+                    presistenceElement.item(i).appendChild(packageTag);
                 }
             }
             StringWriter writer = new StringWriter();

@@ -40,9 +40,9 @@ public class Jpa40CallbacksClient extends PMClientBase {
                 packageName + ".CallbackEventLog",
                 packageName + ".CallbackMappedSuperclass",
                 packageName + ".AnnotatedCallbackListener",
-                packageName + ".PackageCallbackListener",
-                packageName + ".package-info"};
-        return createDeploymentJar("jpa_jpa40_callbacks.jar", packageName, classes);
+                packageName + ".PackageCallbackListener"};
+        return createDeploymentJar("jpa_jpa40_callbacks.jar", packageName, classes,
+                STANDALONE_PERSISTENCE_XML, new String[0], new String[]{packageName});
     }
 
     @BeforeEach

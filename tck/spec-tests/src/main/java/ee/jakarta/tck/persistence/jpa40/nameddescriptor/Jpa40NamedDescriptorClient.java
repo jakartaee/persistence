@@ -28,8 +28,9 @@ public class Jpa40NamedDescriptorClient extends PMClientBase {
 
     public JavaArchive createDeployment() throws Exception {
         String packageName = Jpa40NamedDescriptorClient.class.getPackageName();
-        String[] classes = {packageName + ".DescriptorBook", packageName + ".package-info"};
-        return createDeploymentJar("jpa_jpa40_nameddescriptor.jar", packageName, classes);
+        String[] classes = {packageName + ".DescriptorBook"};
+        return createDeploymentJar("jpa_jpa40_nameddescriptor.jar", packageName, classes,
+                STANDALONE_PERSISTENCE_XML, new String[0], new String[]{packageName});
     }
 
     @BeforeEach
