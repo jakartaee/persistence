@@ -569,6 +569,64 @@ must not assume that pending modifications have not been written to the
 database if the `flush()` method was not called before `detach()`. More
 information about synchronization may be found above in <<flush>>.
 
+==== Loaded State of an Entity [[a2019]]
+
+An instance of an entity or embeddable class is considered _loaded_ or
+_fetched_ if every attribute of the entity or embeddable class mapped
+(explicitly or by default) as `FetchType.EAGER`, including relationships
+and element collections, has been loaded from the database or assigned
+by the application. A loaded entity or embeddable object might have an
+unloaded attribute if and only if the attribute is mapped, explicitly or
+by default, as `fetch=FetchType.LAZY`.
+
+An attribute of an entity or embedded class might also be considered _loaded_.
+
+- An embedded attribute, as defined in <<a487>> is considered to be loaded
+if the embedded attribute was loaded from the database or assigned by the
+application, and, if the attribute references a non-null instance, the
+embeddable instance is loaded.
+
+- A collection-valued attribute is considered to be loaded if the collection
+was loaded from the database or the value of the attribute was assigned by
+the application and, if the attribute references a non-null instance of the
+collection type, each element of the collection is considered to be loaded.
+
+- A single-valued relationship attribute is considered to be loaded if the
+relationship attribute was loaded from the database or assigned by the
+application and, if the attribute references a non-null entity instance,
+the entity instance is considered to be loaded.
+
+- A basic attribute is considered to be loaded if its state has been loaded
+from the database or assigned by the application.
+
+The persistence provider is said to _fetch_ an entity instance when it
+retrieves the persistent state of the instance from the database and
+makes it available via the fields or properties of the entity instance.
+Fetching causes the instance to transition to the loaded state. Similarly,
+the provider is said to fetch a persistent attribute when it retrieves
+the persistent value of the attribute from the database and makes it
+available via the corresponding field or property of an entity instance.
+
+[NOTE]
+For a managed entity instance, fetching often happens transparently when
+an application program accesses an attribute of the entity. For a detached
+entity instance, fetching is always an explicit operation. The `fetch()`
+method of `EntityAgent` requests fetching of an association or collection
+of a detached entity instance.
+
+The `isLoaded()` methods of the `PersistenceUtil` interface found in
+<<_persistenceutil_>> determine the load state of a given entity or attribute
+of a given entity, regardless of the persistence unit with which the entity is
+associated, returning `true` if given entity or attribute is considered loaded
+according to the rules given above, or `false` otherwise.
+
+If the persistence unit to which the entity belongs is known, the `isLoaded()`
+methods of the interface `PersistenceUnitUtil` found in <<_persistenceutil_>>
+and described in <<a12177>> may be used instead.
+
+Persistence provider contracts for determining the load state of an entity or
+entity attribute are defined in <<a13592>>.
+
 ==== Detached Entities [[a1982]]
 
 A managed entity instance associated with a persistence context becomes
@@ -599,22 +657,22 @@ instance to determine whether the instance is new or detached.
 
 ===== Detached Entities and Lazy Loading [[detached-lazy-state]]
 
-The _available_ state of a detached entity instance is the state which
-was already loaded when the instance became detached. The application
-may access the available state of available detached entity instances
-after the persistence context ends.
+The application program may freely access the loaded state, defined
+above in <<a2019>>, of any loaded detached entity.
 
-The available state of a detached entity or of an embeddable object
+The loaded state of a detached entity or of an embeddable object
 belonging to a detached entity includes every persistent field or
 property:
 
-- not explicitly mapped as `fetch=LAZY`,
-- accessed by the application while the entity was managed, or
-- fetched by means of an entity graph, as specified below in <<a2397>>.
+- mapped explicitly or by default as `fetch=EAGER`,
+- accessed by the application while the entity instance was managed,
+- fetched by means of an entity graph, as specified below in <<a2397>>,
+  or
+- explicitly fetched via the `fetch()` method.
 
-If the persistent field or property is an association, the available
-state of an associated instance may be safely accessed if and only if
-the associated instance is available. The available instances include
+If the persistent field or property is an association, the loaded
+state of an associated instance may be safely accessed if and only
+if the associated instance is loaded. The loaded instances include
 every entity instance:
 
 - retrieved using `find()`, `get()`, `findMultiple()`,
@@ -622,16 +680,17 @@ every entity instance:
 - returned by a query or explicitly requested in a fetch join or
   entity graph,
 - with a persistent attribute other than the primary key which was
-  accessed by the application while the entity was managed, or
-- reachable from an available instance by navigating associations
-  mapped explicitly or by default as `fetch=EAGER`.
+  accessed by the application while the entity was managed,
+- reachable from a loaded instance by navigating associations
+  mapped explicitly or by default as `fetch=EAGER`, or
+- explicitly fetched via the `fetch()` method.
 
 [NOTE]
 A persistence provider might allow access to the primary key of an
-unavailable associated entity.
+unloaded associated entity.
 
 A `PersistenceException` is thrown if the application accesses an
-unavailable attribute, collection, or entity.
+unloaded attribute, collection, or entity.
 
 ===== Merging Detached Entity State [[merge]]
 
@@ -804,51 +863,6 @@ must be thrown.
 Otherwise, if a record exists with persistent identity _(`Y`,`k`)_ and
 it is represented by an entity class `Z` assignable to `X`, an instance
 of `Z` with primary key `k` is returned to the caller.
-
-==== Load State [[a2019]]
-
-An instance of an entity or embeddable class is considered _loaded_ if every
-attribute of the entity or embeddable class mapped (explicitly or by default)
-as `FetchType.EAGER`, including relationships and element collections, has
-been loaded from the database or assigned by the application. A loaded entity
-or embeddable object might have an unloaded attribute if and only if the
-attribute is mapped as `FetchType.LAZY`.
-
-The available state of an entity instance and its associated instances is
-described above in <<detached-lazy-state>>.
-
-An attribute of an entity or embedded class might also be considered _loaded_.
-
-- An embedded attribute, as defined in <<a487>> is considered to be loaded
-  if the embedded attribute was loaded from the database or assigned by the
-  application, and, if the attribute references a non-null instance, the
-  embeddable instance is loaded.
-
-- A collection-valued attribute is considered to be loaded if the collection
-  was loaded from the database or the value of the attribute was assigned by
-  the application and, if the attribute references a non-null instance of the
-  collection type, each element of the collection is considered to be loaded.
-
-- A single-valued relationship attribute is considered to be loaded if the
-  relationship attribute was loaded from the database or assigned by the
-  application and, if the attribute references a non-null entity instance,
-  the entity instance is considered to be loaded.
-
-- A basic attribute is considered to be loaded if its state has been loaded
-  from the database or assigned by the application.
-
-The `isLoaded()` methods of the `PersistenceUtil` interface found in
-<<_persistenceutil_>> determine the load state of a given entity or attribute
-of a given entity, regardless of the persistence unit with which the entity is
-associated, returning `true` if given entity or attribute is considered loaded
-according to the rules given above, or `false` otherwise.
-
-If the persistence unit to which the entity belongs is known, the `isLoaded()`
-methods of the interface `PersistenceUnitUtil` found in <<_persistenceutil_>>
-and described in <<a12177>> may be used instead.
-
-Persistence provider contracts for determining the load state of an entity or
-entity attribute are defined in <<a13592>>.
 
 === Persistence Context Lifetime and Transaction Synchronization [[a2027]]
 
