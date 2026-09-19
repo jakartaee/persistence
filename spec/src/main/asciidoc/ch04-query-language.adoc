@@ -130,8 +130,8 @@ The Jakarta Query specification introduces the notion of a _fetch
 join_, but assigns no semantics to it. An implementation of Jakarta
 Persistence must treat the fetch join syntax as an instruction to
 fetch specified associated data from the database eagerly, when the
-query is executed, so that it is immediately _available_ to the
-client, in the sense defined above in <<detached-lazy-state>>.
+query is executed, so that it is _loaded_, in the sense defined in
+<<a2019>>.
 
 For example, the following query returns a book. As a side effect,
 the authors of the book are also retrieved from the database, and
