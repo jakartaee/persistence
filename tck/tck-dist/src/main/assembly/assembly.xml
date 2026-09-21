@@ -64,7 +64,7 @@
             </includes>
         </fileSet>  
         <fileSet>
-            <directory>${project.basedir}/../../sql</directory>
+            <directory>${project.basedir}/../sql</directory>
             <outputDirectory>sql</outputDirectory>
             <fileMode>755</fileMode>
             <includes>
