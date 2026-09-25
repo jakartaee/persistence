@@ -366,7 +366,10 @@ public interface PersistenceUnitInfo {
      * {@code PersistenceUnitInfo}, then this method has no effect.
      * @param transformer a provider-supplied transformer that the
      *        container invokes at class-(re)definition time
+     * @deprecated Use {@link PersistenceProvider#getClassTransformer}
+     *             instead
      */
+    @Deprecated(since = "4.0")
     void addTransformer(@Nonnull ClassTransformer transformer);
 
     /**
