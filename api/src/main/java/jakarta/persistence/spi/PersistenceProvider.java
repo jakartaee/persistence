@@ -250,5 +250,32 @@ public interface PersistenceProvider {
     @Nonnull
     ClassTransformer getClassTransformer(@Nonnull PersistenceUnitInfo info,
                                          @Nullable Map<?, ?> properties);
+
+    /**
+     * Obtain a provider-supplied transformer that is called by the
+     * container to perform enhancement of client classes which make
+     * use of entities belonging to the persistence unit.
+     * <p>
+     * The persistence provider is not required to support client
+     * class enhancement, in which case this method returns
+     * {@code null}. Similarly, the container is not required to
+     * enhance client classes, in which case this method is never
+     * called by the container.
+     *
+     * @return a provider-supplied transformer that is later invoked
+     *         by the container when a client class making use of
+     *         entities belonging to the persistence unit is defined
+     *         or redefined, or {@code null} if the provider does not
+     *         support client class enhancement.
+     * @param info metadata describing the persistence unit
+     * @param properties integration-level property settings for use
+     *                   by the persistence provider, which will not
+     *                   usually contain a {@code ValidatorFactory}
+     *                   or {@code BeanManager}.
+     * @since 4.0
+     */
+    @Nullable
+    ClassTransformer getClientClassTransformer(@Nonnull PersistenceUnitInfo info,
+                                               @Nullable Map<?, ?> properties);
 }
 
