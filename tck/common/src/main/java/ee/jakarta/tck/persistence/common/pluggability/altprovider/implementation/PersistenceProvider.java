@@ -175,6 +175,12 @@ public class PersistenceProvider
         return null;
     }
 
+	@Override
+	public @Nullable ClassTransformer getClientClassTransformer(@Nonnull PersistenceUnitInfo info, @Nullable Map<?, ?> properties) {
+		callLogger("Called getClientClassTransformer()");
+		return null;
+	}
+
 	@Nonnull
 	public LoadState isLoaded(@Nonnull Object entity) {
 		callLogger("Called isLoaded()");
