@@ -253,13 +253,15 @@ public interface PersistenceProvider {
 
     /**
      * Obtain a provider-supplied transformer that is called by the
-     * container to perform enhancement of client classes which make
-     * use of entities belonging to the persistence unit.
+     * container to perform enhancement of client classes. A client
+     * class is any class that makes use of entities belonging to
+     * the persistence unit. A client class might or might not be
+     * packaged in the same archive as the persistence unit.
      * <p>
-     * The persistence provider is not required to support client
-     * class enhancement, in which case this method returns
-     * {@code null}. Similarly, the container is not required to
-     * enhance client classes, in which case this method is never
+     * The persistence provider is not required to implement any
+     * sort of client class enhancement, in which case this method
+     * returns {@code null}. Similarly, the container is not required
+     * to enhance client classes, in which case this method is never
      * called by the container.
      *
      * @return a provider-supplied transformer that is later invoked
