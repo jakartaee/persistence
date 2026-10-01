@@ -630,6 +630,14 @@ rules. If `metadata-complete` is not specified, or is `false`, the
 mappings for only those properties and fields that are explicitly
 specified are overridden.
 
+The `basic`, `many-to-one`, `one-to-many`, `one-to-one`,
+`many-to-many`, `element-collection`, and `embedded` mapping
+subelements may each contain an optional `exclude-from-versioning`
+subelement. This empty element has no attributes and specifies that
+mutation of the mapped field or property does not result in
+incrementation of the version field or property of the entity,
+as specified by the `ExcludedFromVersioning` annotation.
+
 ====== id
 
 The `id` subelement overrides the mapping for
@@ -705,11 +713,6 @@ The `embedded` subelement overrides the
 mapping for the specified field or property. If an `embedded` subelement
 is present, and attributes or subelements of that `embedded` subelement
 are not explicitly specified, their default values are applied.
-
-====== excluded-from-versioning
-
-The `excluded-from-versioning` subelement overrides the
-mapping for the specified field or property.
 
 ====== transient
 
@@ -795,6 +798,14 @@ the remainder of the attributes are defaulted according to the
 default rules. If `metadata-complete` is not specified, or is `false`,
 the mappings for only those properties and fields that are explicitly
 specified are overridden.
+
+The `basic`, `many-to-one`, `one-to-many`, `one-to-one`,
+`many-to-many`, `element-collection`, and `embedded` mapping
+subelements may each contain an optional `exclude-from-versioning`
+subelement. This empty element has no attributes and specifies that
+mutation of the mapped field or property does not result in
+incrementation of the version field or property of the entity,
+as specified by the `ExcludedFromVersioning` annotation.
 
 ====== id
 
@@ -915,6 +926,14 @@ the remainder of the attributes are defaulted according to the
 default rules. If `metadata-complete` is not specified, or is `false`,
 the mappings for only those properties and fields that are explicitly
 specified are overridden.
+
+The `basic`, `many-to-one`, `one-to-many`, `one-to-one`,
+`many-to-many`, `element-collection`, and `embedded` mapping
+subelements may each contain an optional `exclude-from-versioning`
+subelement. This empty element has no attributes and specifies that
+mutation of the mapped field or property does not result in
+incrementation of the version field or property of the entity,
+as specified by the `ExcludedFromVersioning` annotation.
 
 ====== basic
 
