@@ -540,9 +540,6 @@
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="embedded" type="orm:embedded"
                    minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="excluded-from-versioning"
-                   type="orm:excluded-from-versioning"
-                   minOccurs="0"/>
       <xsd:element name="transient" type="orm:transient"
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
@@ -575,6 +572,7 @@
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="optional" type="xsd:boolean"/>
     <xsd:attribute name="access" type="orm:access-type"/>
+    <xsd:attribute name="exclude-from-versioning" type="xsd:boolean"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -969,6 +967,7 @@
     <xsd:attribute name="target-class" type="xsd:string"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="access" type="orm:access-type"/>
+    <xsd:attribute name="exclude-from-versioning" type="xsd:boolean"/>
 </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1044,6 +1043,7 @@
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="access" type="orm:access-type"/>
+    <xsd:attribute name="exclude-from-versioning" type="xsd:boolean"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1740,6 +1740,7 @@
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
+    <xsd:attribute name="exclude-from-versioning" type="xsd:boolean"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1779,6 +1780,7 @@
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="maps-id" type="xsd:string"/>
     <xsd:attribute name="id" type="xsd:boolean"/>
+    <xsd:attribute name="exclude-from-versioning" type="xsd:boolean"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -2393,6 +2395,7 @@
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
     <xsd:attribute name="orphan-removal" type="xsd:boolean"/>
+    <xsd:attribute name="exclude-from-versioning" type="xsd:boolean"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -2444,6 +2447,7 @@
     <xsd:attribute name="orphan-removal" type="xsd:boolean"/>
     <xsd:attribute name="maps-id" type="xsd:string"/>
     <xsd:attribute name="id" type="xsd:boolean"/>
+    <xsd:attribute name="exclude-from-versioning" type="xsd:boolean"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -2828,21 +2832,6 @@
         <xsd:enumeration value="TIMESTAMP"/>
      </xsd:restriction>
   </xsd:simpleType>
-
-    <!-- **************************************************** -->
-
-    <xsd:complexType name="excluded-from-versioning">
-        <xsd:annotation>
-            <xsd:documentation>
-
-                @Target({METHOD, FIELD})
-                @Retention(RUNTIME)
-                public @interface ExcludedFromVersioning {}
-
-            </xsd:documentation>
-        </xsd:annotation>
-        <xsd:attribute name="name" type="xsd:string" use="required"/>
-    </xsd:complexType>
 
     <!-- **************************************************** -->
 
