@@ -44,6 +44,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>An enum or interface may not be designated as an embeddable
  * type.
  *
+ * <p>An embeddable type may be a Java value type.
+ *
  * <p>An embeddable class does not have its own table. Instead,
  * the state of an instance is stored in the table or tables
  * mapped by the owning entity.

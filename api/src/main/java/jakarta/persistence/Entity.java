@@ -37,6 +37,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>An entity might be an abstract class, or it might be a concrete
  * class. An entity may extend a non-entity class, or it may extend
  * another entity class. A non-entity class may extend an entity class.
+ * A value class may not be designated as an entity.
  *
  * <p>An enum, record, or interface may not be designated as an entity.
  *
