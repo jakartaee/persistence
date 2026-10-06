@@ -84,6 +84,9 @@ public sealed interface Reference
      * or query, or {@code null} if no arguments were supplied.
      * Arguments are present when this is a reference to a query
      * declared using an annotation of a method.
+     * The list may contain null elements, which are bound to the
+     * corresponding parameters in the same way as null values
+     * passed to {@code setParameter()}.
      * <ul>
      * <li>If the query has ordinal parameters, the position of
      *     an argument in this array determines its assignment
