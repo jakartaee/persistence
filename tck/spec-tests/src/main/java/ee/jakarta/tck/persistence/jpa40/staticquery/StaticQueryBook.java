@@ -54,6 +54,9 @@ public class StaticQueryBook {
             + "AND (:category IS NULL OR b.category = :category) ORDER BY b.id")
     public static native List<StaticQueryBook> search(String title, String category);
 
+    @JakartaQuery("SELECT b FROM Jpa40StaticQueryBook b WHERE b.title IN :titles ORDER BY b.id")
+    public static native List<StaticQueryBook> searchByTitles(String[] titles);
+
     @JakartaQuery("UPDATE Jpa40StaticQueryBook b SET b.title = ?2 WHERE b.id = ?1")
     public static native int updateTitle(Integer id, String title);
 }

@@ -16,6 +16,7 @@
 
 package ee.jakarta.tck.persistence.jpa40.staticquery;
 
+import jakarta.persistence.Reference;
 import jakarta.persistence.StatementReference;
 import jakarta.persistence.TypedQueryReference;
 import jakarta.persistence.metamodel.EntityType;
@@ -25,8 +26,6 @@ import jakarta.persistence.query.StaticStatementReference;
 import jakarta.persistence.query.StaticTypedQueryReference;
 
 import javax.annotation.processing.Generated;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Generated("manual")
@@ -45,7 +44,18 @@ public class StaticQueryBook_ {
                 StaticQueryBook.class,
                 List.of(String.class, String.class),
                 List.of("title", "category"),
-                Collections.unmodifiableList(Arrays.asList((Object) title, (Object) category)));
+                Reference.arguments(new Object[] { title, category }));
+    }
+
+    public static TypedQueryReference<StaticQueryBook> searchByTitles(String[] titles) {
+        return new StaticTypedQueryReference<>(
+                StaticQueryBook.class.getName() + "#searchByTitles(java.lang.String[])",
+                StaticQueryBook.class,
+                "searchByTitles",
+                StaticQueryBook.class,
+                List.of(String[].class),
+                List.of("titles"),
+                Reference.arguments(new Object[] { titles }));
     }
 
     public static StatementReference updateTitle(Integer id, String title) {
@@ -55,6 +65,6 @@ public class StaticQueryBook_ {
                 "updateTitle",
                 List.of(Integer.class, String.class),
                 List.of("id", "title"),
-                Collections.unmodifiableList(Arrays.asList((Object) id, (Object) title)));
+                Reference.arguments(new Object[] { id, title }));
     }
 }

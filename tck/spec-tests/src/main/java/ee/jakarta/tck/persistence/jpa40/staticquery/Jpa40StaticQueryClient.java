@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Jpa40StaticQueryClient extends PMClientBase {
@@ -80,6 +81,70 @@ public class Jpa40StaticQueryClient extends PMClientBase {
     @Test
     public void nonNullQueryArgumentsTest() {
         assertSearch("Beta", "fiction", List.of(2));
+    }
+
+    /**
+     * Tests that a single array-valued argument is preserved as one list
+     * element, regardless of the number of elements in the array.
+     */
+    @Test
+    public void singleArrayQueryArgumentTest() {
+        for (String[] titles : new String[][] {{"Alpha", "Beta"}, {"Alpha"}, {}}) {
+            var reference = StaticQueryBook_.searchByTitles(titles);
+            assertEquals(List.of(String[].class), reference.getParameterTypes());
+            assertEquals(List.of("titles"), reference.getParameterNames());
+            assertEquals(1, reference.getArguments().size());
+            assertSame(titles, reference.getArguments().get(0));
+            assertUnmodifiableArguments(reference);
+        }
+    }
+
+    /**
+     * Tests that a null array-valued argument produces one null list element.
+     */
+    @Test
+    public void nullArrayQueryArgumentTest() {
+        var reference = StaticQueryBook_.searchByTitles(null);
+        assertEquals(1, reference.getArguments().size());
+        assertNull(reference.getArguments().get(0));
+        assertUnmodifiableArguments(reference);
+    }
+
+    /**
+     * Tests that the argument helper copies the argument container while
+     * preserving null elements and the identity of array-valued arguments.
+     */
+    @Test
+    public void argumentArrayCopyTest() {
+        String[] titles = {"Alpha", "Beta"};
+        Object[] arguments = {titles, null};
+        var list = Reference.arguments(arguments);
+        arguments[0] = "changed";
+        arguments[1] = "changed";
+
+        assertEquals(2, list.size());
+        assertSame(titles, list.get(0));
+        assertNull(list.get(1));
+        assertThrows(UnsupportedOperationException.class, () -> list.set(0, "changed"));
+        assertThrows(UnsupportedOperationException.class, () -> list.add("extra"));
+    }
+
+    /**
+     * Tests that an empty argument array produces an unmodifiable empty list.
+     */
+    @Test
+    public void emptyArgumentArrayTest() {
+        var list = Reference.arguments(new Object[0]);
+        assertEquals(List.of(), list);
+        assertThrows(UnsupportedOperationException.class, () -> list.add("extra"));
+    }
+
+    /**
+     * Tests that a null argument container is rejected, unlike null elements.
+     */
+    @Test
+    public void nullArgumentArrayTest() {
+        assertThrows(NullPointerException.class, () -> Reference.arguments(null));
     }
 
     /**
