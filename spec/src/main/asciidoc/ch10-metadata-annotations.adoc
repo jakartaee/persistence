@@ -1180,6 +1180,27 @@ public @interface NativeQuery {
 
 `value` :: the query, written in the native SQL dialect of the database.
 
+If the SQL statement returns a result set and the annotated method has no
+explicit result set mapping specified using `EntityResult`, `ColumnResult`,
+or `ConstructorResult`, the persistence provider must infer the query result
+class from the return type of the method. For a method returning `R`,
+`List<R>`, or `Stream<R>`, the result class is `R`. For a Jakarta Data
+repository method with another legal query method return type, the result
+class is the result element type determined according to Jakarta Data.
+
+The inferred result class must be interpreted according to
+<<result-class-native-sql>>. In particular, a non-`abstract` class or record
+type satisfying those rules is interpreted as a constructor result without
+requiring an explicit `ConstructorResult` annotation.
+
+[source,java]
+----
+record BookRecord(String isbn, String title) {}
+
+@NativeQuery("select isbn, title from books where title like ?")
+List<BookRecord> findBookRecordsByTitle(String title);
+----
+
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 

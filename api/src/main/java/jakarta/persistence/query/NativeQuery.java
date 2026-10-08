@@ -63,6 +63,28 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     by Jakarta Data.
  * </ul>
  *
+ * <p> If the SQL statement returns a result set and no explicit result set
+ * mapping is specified using {@link jakarta.persistence.EntityResult},
+ * {@link jakarta.persistence.ColumnResult}, or
+ * {@link jakarta.persistence.ConstructorResult}, the query result class
+ * must be inferred from the return type of the annotated method. For a
+ * method returning {@code R}, {@code List<R>}, or {@code Stream<R>}, the
+ * result class is {@code R}. For a Jakarta Data repository method with
+ * another legal query method return type, the result class is the result
+ * element type determined according to Jakarta Data.
+ *
+ * <p> The inferred result class must be interpreted according to the rules
+ * for {@link jakarta.persistence.EntityHandler#createNativeQuery(String, Class)}.
+ * In particular, a non-abstract class or record type is interpreted as a
+ * constructor result when it satisfies those rules. An explicit
+ * {@code ConstructorResult} annotation is not required in this case.
+ * {@snippet :
+ * record BookRecord(String isbn, String title) {}
+ *
+ * @NativeQuery("select isbn, title from books where title like ?")
+ * List<BookRecord> findBookRecordsByTitle(String title);
+ * }
+ *
  * <p> A method return type <em>agrees</em> with the type returned by a
  * SQL statement that returns a row count if the return type is
  * {@code void}, {@code int}, or {@code long}.
