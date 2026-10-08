@@ -54,7 +54,8 @@ public class Jpa40SqlResultMappingClient extends PMClientBase {
                 packageName + ".SqlMappingBook",
                 packageName + ".SqlMappingDetails",
                 packageName + ".SqlMappingEmbeddedBook",
-                packageName + ".SqlMappingDto"
+                packageName + ".SqlMappingDto",
+                packageName + ".NativeQueries"
         };
         return createDeploymentJar("jpa_jpa40_sqlresultmapping.jar", packageName, classes);
     }
@@ -141,6 +142,61 @@ public class Jpa40SqlResultMappingClient extends PMClientBase {
         List<SqlMappingDto> dtos = getEntityManager()
                 .createNativeQuery("SELECT ID, TITLE FROM JPA40_SQL_BOOK ORDER BY ID",
                         SqlMappingDto.class)
+                .getResultList();
+
+        assertEquals(List.of(new SqlMappingDto(1, "Alpha"), new SqlMappingDto(2, "Beta")), dtos);
+    }
+
+    /**
+     * Verifies {@code @NativeQuery} infers a record result class from a
+     * {@code List<R>} return type without an explicit constructor mapping
+     * or a result class supplied when creating the query.
+     */
+    @Test
+    public void nativeQueryAnnotationListConstructorResultTest() {
+        List<?> dtos = getEntityManager()
+                .createNamedQuery(NativeQueries.class.getName() + "#bookRecords()")
+                .getResultList();
+
+        assertEquals(List.of(new SqlMappingDto(1, "Alpha"), new SqlMappingDto(2, "Beta")), dtos);
+    }
+
+    /**
+     * Verifies {@code @NativeQuery} infers a record result class from a
+     * direct {@code R} return type.
+     */
+    @Test
+    public void nativeQueryAnnotationSingleConstructorResultTest() {
+        Object dto = getEntityManager()
+                .createNamedQuery(NativeQueries.class.getName() + "#bookRecord(java.lang.Integer)")
+                .setParameter(1, 1)
+                .getSingleResult();
+
+        assertEquals(new SqlMappingDto(1, "Alpha"), dto);
+    }
+
+    /**
+     * Verifies {@code @NativeQuery} infers a record result class from a
+     * {@code Stream<R>} return type.
+     */
+    @Test
+    public void nativeQueryAnnotationStreamConstructorResultTest() {
+        try (var dtos = getEntityManager()
+                .createNamedQuery(NativeQueries.class.getName() + "#bookRecordStream()")
+                .getResultStream()) {
+            assertEquals(List.of(new SqlMappingDto(1, "Alpha"), new SqlMappingDto(2, "Beta")),
+                    dtos.toList());
+        }
+    }
+
+    /**
+     * Verifies an explicit constructor mapping determines constructor argument
+     * order instead of the order of columns in the SQL result set.
+     */
+    @Test
+    public void nativeQueryAnnotationExplicitConstructorResultTest() {
+        List<?> dtos = getEntityManager()
+                .createNamedQuery(NativeQueries.class.getName() + "#bookRecordsWithMapping()")
                 .getResultList();
 
         assertEquals(List.of(new SqlMappingDto(1, "Alpha"), new SqlMappingDto(2, "Beta")), dtos);
