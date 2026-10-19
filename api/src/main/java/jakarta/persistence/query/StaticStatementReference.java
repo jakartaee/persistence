@@ -16,13 +16,11 @@
 package jakarta.persistence.query;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.Statement;
-import jakarta.persistence.StatementReference;
-import jakarta.persistence.Tuple;
+import jakarta.persistence.*;
 
 import java.util.*;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;
 
 /**
@@ -128,10 +126,22 @@ public class StaticStatementReference
         return arguments.getValues();
     }
 
-    @Nullable
     @Override
+    @Nonnull
     public Tuple getArgumentTuple() {
         return arguments;
+    }
+
+    @Override
+    @Nonnull
+    public List<Parameter<?>> getParameters() {
+        final var parameters = new Parameter<?>[arguments.length()];
+        final var elements = arguments.getElements();
+        for (int i = 0; i < elements.size(); i++) {
+            final var element = elements.get(i);
+            parameters[i] = Parameter.of(element.getJavaType(), i, element.getAlias());
+        }
+        return asList(parameters);
     }
 
     @Nonnull
