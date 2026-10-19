@@ -91,4 +91,18 @@ public interface Parameter<T> {
      */
     @Nonnull
     Class<T> getParameterType();
+
+    /**
+     * Create a new instance with the given type, position, and name.
+     * @param type the Java type of the parameter
+     * @param position the position of the parameter, or null if the parameter is not a positional parameter
+     * @param name the name of the parameter, or null if the parameter is not a named parameter
+     * @return a new instance
+     * @param <T> the type of the parameter
+     * @since 4.0
+     */
+    @Nonnull
+    static <T> Parameter<T> of(@Nonnull Class<T> type, @Nullable Integer position, @Nullable String name) {
+        return new ParameterRecord<>(type, position, name);
+    }
 }
