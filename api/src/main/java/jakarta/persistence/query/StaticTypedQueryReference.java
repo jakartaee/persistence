@@ -22,6 +22,7 @@ import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +134,7 @@ public class StaticTypedQueryReference<R>
     @Override
     @Nonnull
     public Map<String, Object> getHints() {
-        return hints;
+        return new HashMap<>(hints);
     }
 
     @Override

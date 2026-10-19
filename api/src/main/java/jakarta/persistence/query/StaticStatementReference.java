@@ -105,7 +105,7 @@ public class StaticStatementReference
     @Override
     @Nonnull
     public Map<String, Object> getHints() {
-        return hints;
+        return new HashMap<>(hints);
     }
 
     @Override
