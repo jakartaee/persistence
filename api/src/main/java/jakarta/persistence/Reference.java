@@ -59,8 +59,7 @@ public sealed interface Reference
      * to a statement or query declared using an annotation of a
      * method.
      * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
+     * Mutation of the returned list does not affect the reference.
      *
      * @since 4.0
      */
@@ -77,8 +76,7 @@ public sealed interface Reference
      * interpreted as the parameter names. Otherwise, if the
      * query has positional parameters, they are ignored.
      * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
+     * Mutation of the returned list does not affect the reference.
      *
      * @since 4.0
      */
@@ -100,8 +98,7 @@ public sealed interface Reference
      *     obtain an assignment of arguments to parameters.
      * </ul>
      * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
+     * Mutation of the returned list does not affect the reference.
      *
      * @see Query#setParameter(int, Object)
      * @see Query#setParameter(String, Object)
@@ -117,8 +114,7 @@ public sealed interface Reference
      * is a reference to a statement or query declared using an
      * annotation of a method.
      * <p>
-     * Any mutation of the returned list results in an
-     * {@link UnsupportedOperationException}.
+     * Mutation of the returned list does not affect the reference.
      *
      * @since 4.0
      */
@@ -154,8 +150,7 @@ public sealed interface Reference
      * {@link jakarta.persistence.query.QueryOptions#hints}, or
      * {@link jakarta.persistence.query.StatementOptions#hints}.
      * <p>
-     * Any attempted mutation of the returned map results in an
-     * {@link UnsupportedOperationException}.
+     * Mutation of the returned map does not affect the reference.
      */
     @Nonnull
     Map<String,Object> getHints();
