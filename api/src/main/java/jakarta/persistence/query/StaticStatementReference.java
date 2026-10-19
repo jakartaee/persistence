@@ -16,6 +16,7 @@
 package jakarta.persistence.query;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Statement;
 import jakarta.persistence.StatementReference;
 import jakarta.persistence.Tuple;
@@ -125,6 +126,12 @@ public class StaticStatementReference
     @Nonnull
     public List<Object> getArguments() {
         return arguments.getValues();
+    }
+
+    @Nullable
+    @Override
+    public Tuple getArgumentTuple() {
+        return arguments;
     }
 
     @Nonnull

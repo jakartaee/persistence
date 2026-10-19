@@ -152,6 +152,12 @@ public class StaticTypedQueryReference<R>
         return arguments.getValues();
     }
 
+    @Nullable
+    @Override
+    public Tuple getArgumentTuple() {
+        return arguments;
+    }
+
     @Nonnull
     public Class<?> getAnnotatedClass() {
         return annotatedClass;
