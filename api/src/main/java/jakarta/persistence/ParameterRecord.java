@@ -6,8 +6,10 @@ import jakarta.annotation.Nullable;
 /**
  * Internal implementation of {@link Parameter}.
  * @param type the Java type of the parameter
- * @param position the position of the parameter, or null if the parameter is not a positional parameter
- * @param name the name of the parameter, or null if the parameter is not a named parameter
+ * @param position the position of the parameter, or null if the
+ *                 parameter is not a positional parameter
+ * @param name the name of the parameter, or null if the parameter
+ *             is not a named parameter
  * @param <T> the type of the parameter
  * @see Parameter#of(Class, Integer, String)
  * @since 4.0

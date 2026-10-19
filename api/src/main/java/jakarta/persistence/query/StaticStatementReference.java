@@ -18,6 +18,7 @@ package jakarta.persistence.query;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Statement;
 import jakarta.persistence.StatementReference;
+import jakarta.persistence.Tuple;
 
 import java.util.*;
 
@@ -38,9 +39,7 @@ public class StaticStatementReference
     @Nonnull private final Class<?> annotatedClass;
     @Nonnull private final String annotatedMemberName;
     @Nonnull private final String name;
-    @Nonnull private final List<Class<?>> parameterTypes;
-    @Nonnull private final List<String> parameterNames;
-    @Nonnull private final List<Object> arguments;
+    @Nonnull private final Tuple arguments;
     @Nonnull private final Map<String, Object> hints;
     @Nonnull private final Set<Statement.Option> options;
 
@@ -55,10 +54,6 @@ public class StaticStatementReference
      *                  the annotated member
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
-     * @param parameterTypes The types of the parameters of the
-     *                       annotated member
-     * @param parameterNames The names of the parameters of the
-     *                       annotated member
      * @param arguments The arguments supplied to the parameters
      *                  at runtime
      * @param hints See {@link QueryOptions#hints}
@@ -68,16 +63,12 @@ public class StaticStatementReference
             @Nonnull String queryName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
-            @Nonnull List<Class<?>> parameterTypes,
-            @Nonnull List<String> parameterNames,
-            @Nonnull List<Object> arguments,
+            @Nonnull Tuple arguments,
             @Nonnull Map<String, Object> hints,
             @Nonnull Statement.Option... options) {
         this.name = queryName;
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
-        this.parameterTypes = parameterTypes;
-        this.parameterNames = parameterNames;
         this.arguments = arguments;
         this.hints = hints;
         this.options = Set.of(options);
@@ -94,10 +85,6 @@ public class StaticStatementReference
      *                  the annotated member
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
-     * @param parameterTypes The types of the parameters of the
-     *                       annotated member
-     * @param parameterNames The names of the parameters of the
-     *                       annotated member
      * @param arguments The arguments supplied to the parameters
      *                  at runtime
      */
@@ -105,12 +92,9 @@ public class StaticStatementReference
             @Nonnull String queryName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
-            @Nonnull List<Class<?>> parameterTypes,
-            @Nonnull List<String> parameterNames,
-            @Nonnull List<Object> arguments) {
+            @Nonnull Tuple arguments) {
         this(queryName, annotatedClass, annotatedMemberName,
-                parameterTypes, parameterNames, arguments,
-                emptyMap());
+                arguments, emptyMap());
     }
 
     @Override
@@ -128,19 +112,19 @@ public class StaticStatementReference
     @Override
     @Nonnull
     public List<Class<?>> getParameterTypes() {
-        return parameterTypes;
+        return arguments.getElementTypes();
     }
 
     @Override
     @Nonnull
     public List<String> getParameterNames() {
-        return parameterNames;
+        return arguments.getAliases();
     }
 
     @Override
     @Nonnull
     public List<Object> getArguments() {
-        return arguments;
+        return arguments.getValues();
     }
 
     @Nonnull
@@ -169,8 +153,6 @@ public class StaticStatementReference
         }
         else {
             return Objects.equals(this.name, that.name)
-                && Objects.equals(this.parameterTypes, that.parameterTypes)
-                && Objects.equals(this.parameterNames, that.parameterNames)
                 && Objects.equals(this.arguments, that.arguments)
                 && Objects.equals(this.options, that.options)
                 && Objects.equals(this.hints, that.hints);
@@ -179,14 +161,13 @@ public class StaticStatementReference
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, parameterTypes, parameterNames, arguments);
+        return Objects.hash(name, arguments);
     }
 
     @Override
     public String toString() {
         return "StaticStatementReference["
                 + "name=" + name + ", "
-                + "parameterNames=" + parameterNames + ", "
                 + "arguments=" + arguments + ", "
                 + "options=" + options + ", "
                 + "hints=" + hints
