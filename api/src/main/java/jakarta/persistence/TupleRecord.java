@@ -13,6 +13,7 @@ package jakarta.persistence;
 
 import jakarta.annotation.Nonnull;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -130,5 +131,23 @@ record TupleRecord(Tuple.Entry<?>[] entries) implements Tuple {
             aliases[i] = entries[i].element().getAlias();
         }
         return asList(aliases);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Tuple tuple
+            && Arrays.equals(entries,
+                tuple.getEntries().toArray());
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(entries);
+    }
+
+    @Override
+    @Nonnull
+    public String toString() {
+        return Arrays.toString(entries);
     }
 }
