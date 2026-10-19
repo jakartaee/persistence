@@ -141,6 +141,15 @@ public interface Tuple {
     List<Entry<?>> getEntries();
 
     /**
+     * Return the number of elements of this tuple.
+     * @return length of tuple
+     * @since 4.0
+     */
+    default int length() {
+        return getEntries().size();
+    }
+
+    /**
      * Return the tuple element values as a list.
      * @return tuple element values
      * @since 4.0
