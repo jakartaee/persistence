@@ -130,4 +130,34 @@ public interface Tuple {
      */
     @Nonnull
     List<TupleElement<?>> getElements();
+
+    /**
+     * Return the tuple entries.
+     * @return tuple entries
+     * @since 4.0
+     */
+    @Nonnull
+    List<Entry<?>> getEntries();
+
+    /**
+     * Packages a tuple element with its value.
+     * @param element the tuple element
+     * @param value the value of the tuple element
+     * @param <T> the type of the tuple element
+     * @since 4.0
+     */
+    record Entry<T>(TupleElement<T> element, T value) {
+    }
+
+    /**
+     * Create a tuple with the elements and values specified by the
+     * given entries.
+     * @param entries the elements and values belonging to the tuple
+     * @return a new instance
+     * @since 4.0
+     */
+    @Nonnull
+    static Tuple of(@Nonnull Entry<?>... entries) {
+        return new TupleRecord(entries);
+    }
 }
