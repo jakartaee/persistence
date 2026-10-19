@@ -64,7 +64,7 @@ record TupleRecord(Tuple.Entry<?>[] entries) implements Tuple {
     @Override
     public <X> X get(int position, @Nonnull Class<X> type) {
         if (position >= 0 && position < entries.length) {
-            return type.cast(entries[position]);
+            return type.cast(entries[position].value());
         }
         else {
             throw new IllegalArgumentException("no tuple element with the given position");
@@ -74,7 +74,7 @@ record TupleRecord(Tuple.Entry<?>[] entries) implements Tuple {
     @Override
     public Object get(int position) {
         if (position >= 0 && position < entries.length) {
-            return entries[position];
+            return entries[position].value();
         }
         else {
             throw new IllegalArgumentException("no tuple element with the given position");

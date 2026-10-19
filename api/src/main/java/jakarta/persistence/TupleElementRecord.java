@@ -33,6 +33,7 @@ record TupleElementRecord<X>
     }
 
     @Override
+    @Nullable
     public String getAlias() {
         return alias;
     }
