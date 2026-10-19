@@ -51,6 +51,7 @@ public interface TupleElement<X> {
     /**
      * Determine whether the given alias has been
      * assigned to this tuple element.
+     * @param alias an alias against which to compare the alias of the tuple element
      * @return true if an alias has been assigned to
      *         this element, and it matches the given
      *         alias, or false otherwise

@@ -222,8 +222,8 @@ public class StaticTypedQueryReference<R>
                 + "resultType=" + resultType + ", "
                 + "name=" + name + ", "
                 + "arguments=" + arguments + ", "
-                + "options=" + options
-                + "hints=" + hints
++ "options=" + options + ", "
++ "hints=" + hints
                 + ']';
     }
 }
