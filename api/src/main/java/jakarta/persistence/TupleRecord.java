@@ -95,4 +95,29 @@ record TupleRecord(Tuple.Entry<?>[] entries) implements Tuple {
     public List<Entry<?>> getEntries() {
         return asList(entries);
     }
+
+    @Override
+    public int length() {
+        return entries.length;
+    }
+
+    @Override
+    @Nonnull
+    public List<Class<?>> getElementTypes() {
+        final var types = new Class<?>[entries.length];
+        for (int i = 0; i < entries.length; i++) {
+            types[i] = entries[i].element().getJavaType();
+        }
+        return asList(types);
+    }
+
+    @Override
+    @Nonnull
+    public List<String> getAliases() {
+        final var aliases = new String[entries.length];
+        for (int i = 0; i < entries.length; i++) {
+            aliases[i] = entries[i].element().getAlias();
+        }
+        return asList(aliases);
+    }
 }
