@@ -20,6 +20,8 @@ import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 /**
  * Interface for extracting the elements of a query result tuple.
  * A {@code Tuple} may be used to represent a query result row
@@ -117,8 +119,7 @@ public interface Tuple {
     Object get(int i);
 
     /**
-     * Return the values of the result tuple elements as
-     * an array.
+     * Return the tuple element values as an array.
      * @return tuple element values
      */
     @Nonnull
@@ -138,6 +139,43 @@ public interface Tuple {
      */
     @Nonnull
     List<Entry<?>> getEntries();
+
+    /**
+     * Return the tuple element values as a list.
+     * @return tuple element values
+     * @since 4.0
+     */
+    default List<Object> getValues() {
+        return asList(toArray());
+    }
+
+    /**
+     * Return the tuple element types.
+     * @return tuple element types
+     * @since 4.0
+     */
+    default List<Class<?>> getElementTypes() {
+        final var elements = getElements();
+        final var types = new Class<?>[elements.size()];
+        for (int i = 0; i < elements.size(); i++) {
+            types[i] = elements.get(i).getJavaType();
+        }
+        return asList(types);
+    }
+
+    /**
+     * Return the tuple element aliases.
+     * @return tuple element aliases
+     * @since 4.0
+     */
+    default List<String> getAliases() {
+        final var elements = getElements();
+        final var aliases = new String[elements.size()];
+        for (int i = 0; i < elements.size(); i++) {
+            aliases[i] = elements.get(i).getAlias();
+        }
+        return asList(aliases);
+    }
 
     /**
      * Packages a tuple element with its value.

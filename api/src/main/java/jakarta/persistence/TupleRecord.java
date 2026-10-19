@@ -4,6 +4,7 @@ import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -86,12 +87,12 @@ record TupleRecord(Tuple.Entry<?>[] entries) implements Tuple {
         for (int i = 0; i < entries.length; i++) {
             elements[i] = entries[i].element();
         }
-        return List.of(elements);
+        return asList(elements);
     }
 
     @Nonnull
     @Override
     public List<Entry<?>> getEntries() {
-        return List.of(entries);
+        return asList(entries);
     }
 }
