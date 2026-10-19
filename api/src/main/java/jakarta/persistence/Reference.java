@@ -124,7 +124,7 @@ public sealed interface Reference
      * <li>If the query has ordinal parameters, the position of
      *     an argument in this tuple determines its assignment
      *     to a parameter.
-     * <li>If the query has named parameters, this alias of
+     * <li>If the query has named parameters, the alias of
      *     an argument in this tuple determines its assignment
      *     to a parameter.
      * </ul>
