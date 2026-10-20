@@ -14,8 +14,13 @@ package jakarta.persistence;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Internal implementation of {@link TupleElement}.
+ * Note that the return type of {@link #getJavaType()}
+ * is intentionally declared invariant in {@code X},
+ * to ensure type safety of the {@link #bind} method.
  * @param type the Java type of the tuple element
  * @param alias the alias of the tuple element, or
  *              null if the tuple element has no alias
@@ -40,6 +45,24 @@ record TupleElementRecord<X>
 
     @Nonnull
     Tuple.Entry<X> bind(X argument) {
-        return new Tuple.Entry<>(this, argument);
+        return new Entry<>(this, argument);
+    }
+
+    record Entry<T>(@Nonnull TupleElement<T> element, T value)
+            implements Tuple.Entry<T> {
+        public Entry {
+            requireNonNull(element, "element must not be null");
+        }
+
+        @Nonnull
+        @Override
+        public TupleElement<T> getElement() {
+            return element;
+        }
+
+        @Override
+        public T getValue() {
+            return value;
+        }
     }
 }

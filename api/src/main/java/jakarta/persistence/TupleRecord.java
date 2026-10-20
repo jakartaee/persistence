@@ -35,8 +35,8 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     @Override
     public <X> X get(@Nonnull TupleElement<X> tupleElement) {
         for (var entry : entries) {
-            if (entry.element().equals(tupleElement)) {
-                return tupleElement.getJavaType().cast(entry.value());
+            if (entry.getElement().equals(tupleElement)) {
+                return tupleElement.getJavaType().cast(entry.getValue());
             }
         }
         throw new IllegalArgumentException("no such tuple element");
@@ -45,8 +45,8 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     @Override
     public <X> X get(@Nonnull String alias, @Nonnull Class<X> type) {
         for (var entry : entries) {
-            if (entry.element().hasAlias(alias)) {
-                return type.cast(entry.value());
+            if (entry.getElement().hasAlias(alias)) {
+                return type.cast(entry.getValue());
             }
         }
         throw new IllegalArgumentException("no tuple element with the given alias");
@@ -55,8 +55,8 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     @Override
     public Object get(@Nonnull String alias) {
         for (var entry : entries) {
-            if (entry.element().hasAlias(alias)) {
-                return entry.value();
+            if (entry.getElement().hasAlias(alias)) {
+                return entry.getValue();
             }
         }
         throw new IllegalArgumentException("no tuple element with the given alias");
@@ -65,7 +65,7 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     @Override
     public <X> X get(int position, @Nonnull Class<X> type) {
         if (position >= 0 && position < entries.length) {
-            return type.cast(entries[position].value());
+            return type.cast(entries[position].getValue());
         }
         else {
             throw new IllegalArgumentException("no tuple element with the given position");
@@ -75,7 +75,7 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     @Override
     public Object get(int position) {
         if (position >= 0 && position < entries.length) {
-            return entries[position].value();
+            return entries[position].getValue();
         }
         else {
             throw new IllegalArgumentException("no tuple element with the given position");
@@ -87,7 +87,7 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     public Object[] toArray() {
         final var values = new Object[entries.length];
         for (int i = 0; i < entries.length; i++) {
-            values[i] = entries[i].value();
+            values[i] = entries[i].getValue();
         }
         return values;
     }
@@ -97,7 +97,7 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     public List<TupleElement<?>> getElements() {
         final var elements = new TupleElement<?>[entries.length];
         for (int i = 0; i < entries.length; i++) {
-            elements[i] = entries[i].element();
+            elements[i] = entries[i].getElement();
         }
         return asList(elements);
     }
@@ -118,7 +118,7 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     public List<Class<?>> getElementTypes() {
         final var types = new Class<?>[entries.length];
         for (int i = 0; i < entries.length; i++) {
-            types[i] = entries[i].element().getJavaType();
+            types[i] = entries[i].getElement().getJavaType();
         }
         return asList(types);
     }
@@ -128,7 +128,7 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     public List<String> getAliases() {
         final var aliases = new String[entries.length];
         for (int i = 0; i < entries.length; i++) {
-            aliases[i] = entries[i].element().getAlias();
+            aliases[i] = entries[i].getElement().getAlias();
         }
         return asList(aliases);
     }
