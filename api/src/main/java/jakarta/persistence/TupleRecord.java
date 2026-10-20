@@ -24,7 +24,7 @@ import static java.util.Objects.requireNonNull;
  * @param entries the elements and values belonging to the tuple
  * @since 4.0
  */
-record TupleRecord(Tuple.Entry<?>[] entries) implements Tuple {
+record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     TupleRecord {
         requireNonNull(entries, "entries are required");
         for (var entry: entries) {

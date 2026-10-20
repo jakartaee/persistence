@@ -104,7 +104,9 @@ public interface Parameter<T> {
      * @since 4.0
      */
     @Nonnull
-    static <T> Parameter<T> of(@Nonnull Class<T> type, @Nullable Integer position, @Nullable String name) {
+    static <T> Parameter<T> of(@Nonnull Class<T> type,
+                               @Nullable Integer position,
+                               @Nullable String name) {
         return new ParameterRecord<>(type, position, name);
     }
 
@@ -115,6 +117,7 @@ public interface Parameter<T> {
      * @return a tuple entry
      * @since 4.0
      */
+    @Nonnull
     default Tuple.Entry<T> bind(T argument) {
         return new TupleElementRecord<>(getParameterType(), getName())
                 .bind(argument);

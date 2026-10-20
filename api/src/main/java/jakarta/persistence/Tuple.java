@@ -21,6 +21,7 @@ import jakarta.annotation.Nonnull;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Interface for extracting the elements of a query result tuple.
@@ -28,7 +29,7 @@ import static java.util.Arrays.asList;
  * containing multiple projected values.
  * <p>
  * This example uses a criteria query to select the title and
- * publication date of each book, and then reuses the projected
+ * publication date of each book and then reuses the projected
  * {@link TupleElement}s to extract the results:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
@@ -154,6 +155,7 @@ public interface Tuple {
      * @return tuple element values
      * @since 4.0
      */
+    @Nonnull
     default List<Object> getValues() {
         return asList(toArray());
     }
@@ -163,6 +165,7 @@ public interface Tuple {
      * @return tuple element types
      * @since 4.0
      */
+    @Nonnull
     default List<Class<?>> getElementTypes() {
         final var elements = getElements();
         final var types = new Class<?>[elements.size()];
@@ -177,6 +180,7 @@ public interface Tuple {
      * @return tuple element aliases
      * @since 4.0
      */
+    @Nonnull
     default List<String> getAliases() {
         final var elements = getElements();
         final var aliases = new String[elements.size()];
@@ -193,7 +197,10 @@ public interface Tuple {
      * @param <T> the type of the tuple element
      * @since 4.0
      */
-    record Entry<T>(TupleElement<T> element, T value) {
+    record Entry<T>(@Nonnull TupleElement<T> element, T value) {
+        public Entry {
+            requireNonNull(element, "element must not be null");
+        }
     }
 
     /**
