@@ -168,7 +168,9 @@ public class StaticTypedQueryReference<R>
         final var elements = arguments.getElements();
         for (int i = 0; i < elements.size(); i++) {
             final var element = elements.get(i);
-            parameters[i] = Parameter.of(element.getJavaType(), i, element.getAlias());
+            parameters[i] =
+                    Parameter.of(element.getJavaType(),
+                            i+1, element.getAlias());
         }
         return asList(parameters);
     }
