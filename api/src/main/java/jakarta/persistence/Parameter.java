@@ -119,7 +119,6 @@ public interface Parameter<T> {
      */
     @Nonnull
     default Tuple.Entry<T> bind(T argument) {
-        return new TupleElementRecord<>(getParameterType(), getName())
-                .bind(argument);
+        return Tuple.Entry.of(getParameterType(), getName(), argument);
     }
 }
