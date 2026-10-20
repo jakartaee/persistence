@@ -19,6 +19,8 @@ package jakarta.persistence;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * The {@code TupleElement} interface defines an element that is
  * returned in a query result tuple.
@@ -39,10 +41,43 @@ public interface TupleElement<X> {
     Class<? extends X> getJavaType();
 
     /**
-     * Return the alias assigned to the tuple element or null, 
-     * if no alias has been assigned.
+     * Return the alias assigned to the tuple element
+     * or null if no alias has been assigned.
      * @return alias
      */
     @Nullable
     String getAlias();
+
+    /**
+     * Determine whether the given alias has been
+     * assigned to this tuple element.
+     * @param alias an alias against which to compare the alias of the tuple element
+     * @return true if an alias has been assigned to
+     *         this element, and it matches the given
+     *         alias, or false otherwise
+     * @since 4.0
+     */
+    default boolean hasAlias(@Nonnull String alias) {
+        requireNonNull(alias, "given alias must not be null");
+        final var assignedAlias = getAlias();
+        return assignedAlias != null
+            && assignedAlias.equals(alias);
+    }
+
+    /**
+     * Return a new tuple element consisting of the
+     * given Java type and the given alias. If the given
+     * alias is null, the tuple element has no assigned
+     * alias.
+     * @param javaType the Java type of the tuple element
+     * @param alias the alias assigned to the tuple element,
+     *              or null if no alias is assigned
+     * @return a new instance
+     * @since 4.0
+     */
+    @Nonnull
+    static <X> TupleElement<X> of(@Nonnull Class<X> javaType,
+                                  @Nullable String alias) {
+        return new TupleElementRecord<>(javaType, alias);
+    }
 }
