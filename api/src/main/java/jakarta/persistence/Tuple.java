@@ -22,7 +22,6 @@ import jakarta.annotation.Nullable;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
 
 /**
  * Interface for extracting the elements of a query result tuple.
@@ -209,6 +208,7 @@ public interface Tuple {
         /**
          * Return a new tuple entry binding a tuple element
          * with the given type and alias to the given value.
+         * @param <T> the type of the tuple element
          * @param type the type of the tuple element
          * @param alias the alias of the tuple element
          * @param value the value bound to the tuple element

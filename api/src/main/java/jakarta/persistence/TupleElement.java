@@ -65,7 +65,7 @@ public interface TupleElement<X> {
     }
 
     /**
-     * Return a new tuple element binding this with the
+     * Return a new tuple element consisting of the
      * given Java type and the given alias. If the given
      * alias is null, the tuple element has no assigned
      * alias.
