@@ -63,4 +63,21 @@ public interface TupleElement<X> {
         return assignedAlias != null
             && assignedAlias.equals(alias);
     }
+
+    /**
+     * Return a new tuple element binding this with the
+     * given Java type and the given alias. If the given
+     * alias is null, the tuple element has no assigned
+     * alias.
+     * @param javaType the Java type of the tuple element
+     * @param alias the alias assigned to the tuple element,
+     *              or null if no alias is assigned
+     * @return a new instance
+     * @since 4.0
+     */
+    @Nonnull
+    static <X> TupleElement<X> of(@Nonnull Class<X> javaType,
+                                  @Nullable String alias) {
+        return new TupleElementRecord<>(javaType, alias);
+    }
 }
