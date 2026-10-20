@@ -192,15 +192,18 @@ public interface Tuple {
 
     /**
      * Packages a tuple element with its value.
-     * @param element the tuple element
-     * @param value the value of the tuple element
      * @param <T> the type of the tuple element
      * @since 4.0
      */
-    record Entry<T>(@Nonnull TupleElement<T> element, T value) {
-        public Entry {
-            requireNonNull(element, "element must not be null");
-        }
+    interface Entry<T> {
+        /**
+         * The tuple element.
+         */
+        @Nonnull TupleElement<T> getElement();
+        /**
+         * The value of the tuple element.
+         */
+        T getValue();
     }
 
     /**
