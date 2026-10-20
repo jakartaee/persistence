@@ -17,6 +17,7 @@
 package jakarta.persistence;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
 
@@ -204,6 +205,22 @@ public interface Tuple {
          * The value of the tuple element.
          */
         T getValue();
+
+        /**
+         * Return a new tuple entry binding a tuple element
+         * with the given type and alias to the given value.
+         * @param type the type of the tuple element
+         * @param alias the alias of the tuple element
+         * @param value the value bound to the tuple element
+         * @return a tuple entry
+         */
+        @Nonnull
+        static <T> Tuple.Entry<T> of(@Nonnull Class<T> type,
+                                     @Nullable String alias,
+                                     T value) {
+            return new TupleElementRecord<>(type, alias)
+                    .entry(value);
+        }
     }
 
     /**
