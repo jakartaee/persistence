@@ -18,6 +18,8 @@ package jakarta.persistence;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+import java.sql.JDBCType;
+
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -120,6 +122,15 @@ public @interface OrderColumn {
      * @since 3.2
      */
     String options() default "";
+
+    /**
+     * (Optional) The JDBC type of the column.
+     * This is only used if table generation is in effect.
+     * @since 4.0
+     * @apiNote The default value indicates the column type should be
+     *          inferred from the model.
+     */
+    JDBCType jdbcType() default JDBCType.NULL;
 
     /**
      * (Optional) A comment to be applied to the column.
