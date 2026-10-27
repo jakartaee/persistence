@@ -2263,6 +2263,30 @@ type of event and given parameter type, regardless of whether the
 callback methods are declared using annotations, the XML descriptor,
 or a combination of both.
 
+If the entity listener class has several overloaded methods with the
+name specified by `method-name`, then all of them are registered as
+callback methods for the given lifecycle event.
+
+For example, given the following entity listener class:
+
+[source,java]
+----
+public class Observer {
+    void onPersist(Book book) { ... }
+    void onPersist(Magazine magazine) { ... }
+}
+----
+
+the following element registers both `onPersist(Book)` and
+`onPersist(Magazine)` as `post-persist` callback methods.
+
+[source,xml]
+----
+<entity-listener class="org.example.Observer">
+    <post-persist method-name="onPersist"/>
+</entity-listener>
+----
+
 ===== Specification of the Binding of Entity Listener Classes to Entities
 
 The `entity-listeners` subelement of the

@@ -1077,6 +1077,10 @@
         Defines an entity listener to be invoked at lifecycle events
         for the entities that list this listener.
 
+        If the entity listener class has several overloaded methods
+        with the name specified by method-name, then all of them are
+        registered as callback methods for the given lifecycle event.
+
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
