@@ -2254,6 +2254,15 @@ methods are declared by using the elements `pre-persist`, `post-persist`,
 `post-update`, and `post-load`. Persistence unit lifecycle methods are
 declared using the elements `post-create` and `pre-close`.
 
+Each of these elements may occur more than once within an
+`entity-listener` element, since an entity listener class may have
+multiple callback methods for a given type of lifecycle event. The
+restriction specified in <<lifecycle-callback-methods>> applies: an
+entity listener class must have at most one callback method for a given
+type of event and given parameter type, regardless of whether the
+callback methods are declared using annotations, the XML descriptor,
+or a combination of both.
+
 ===== Specification of the Binding of Entity Listener Classes to Entities
 
 The `entity-listeners` subelement of the
