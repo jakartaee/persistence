@@ -17,15 +17,19 @@ package jakarta.persistence.query;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Parameter;
+import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;
 
 /**
@@ -46,9 +50,7 @@ public class StaticTypedQueryReference<R>
     @Nonnull private final String annotatedMemberName;
     @Nullable private final Class<R> resultType;
     @Nonnull private final String name;
-    @Nonnull private final List<Class<?>> parameterTypes;
-    @Nonnull private final List<String> parameterNames;
-    @Nonnull private final List<Object> arguments;
+    @Nonnull private final Tuple arguments;
     @Nullable private final String entityGraphName;
     @Nonnull private final Map<String, Object> hints;
     @Nonnull private final Set<TypedQuery.Option> options;
@@ -66,10 +68,6 @@ public class StaticTypedQueryReference<R>
      * @param annotatedMemberName The name of the annotated member
      * @param resultType The result type of the query, the type of
      *                   the annotated member
-     * @param parameterTypes The types of the parameters of the
-     *                       annotated member
-     * @param parameterNames The names of the parameters of the
-     *                       annotated member
      * @param arguments The arguments supplied to the parameters
      *                  at runtime
      * @param entityGraphName See {@link QueryOptions#entityGraph}
@@ -81,9 +79,7 @@ public class StaticTypedQueryReference<R>
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
             @Nullable Class<R> resultType,
-            @Nonnull List<Class<?>> parameterTypes,
-            @Nonnull List<String> parameterNames,
-            @Nonnull List<Object> arguments,
+            @Nonnull Tuple arguments,
             @Nullable String entityGraphName,
             @Nonnull Map<String, Object> hints,
             @Nonnull TypedQuery.Option... options) {
@@ -91,8 +87,6 @@ public class StaticTypedQueryReference<R>
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
         this.resultType = resultType;
-        this.parameterTypes = parameterTypes;
-        this.parameterNames = parameterNames;
         this.arguments = arguments;
         this.entityGraphName = entityGraphName;
         this.hints = hints;
@@ -112,10 +106,6 @@ public class StaticTypedQueryReference<R>
      * @param annotatedMemberName The name of the annotated member
      * @param resultType The result type of the query, the type of
      *                   the annotated member
-     * @param parameterTypes The types of the parameters of the
-     *                       annotated member
-     * @param parameterNames The names of the parameters of the
-     *                       annotated member
      * @param arguments The arguments supplied to the parameters
      *                  at runtime
      */
@@ -124,12 +114,9 @@ public class StaticTypedQueryReference<R>
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
             @Nonnull Class<R> resultType,
-            @Nonnull List<Class<?>> parameterTypes,
-            @Nonnull List<String> parameterNames,
-            @Nonnull List<Object> arguments) {
+            @Nonnull Tuple arguments) {
         this(queryName, annotatedClass, annotatedMemberName, resultType,
-                parameterTypes, parameterNames, arguments,
-                null, emptyMap());
+                arguments, null, emptyMap());
     }
 
     @Override
@@ -147,25 +134,45 @@ public class StaticTypedQueryReference<R>
     @Override
     @Nonnull
     public Map<String, Object> getHints() {
-        return hints;
+        return new HashMap<>(hints);
     }
 
     @Override
     @Nonnull
     public List<Class<?>> getParameterTypes() {
-        return parameterTypes;
+        return arguments.getElementTypes();
     }
 
     @Override
     @Nonnull
     public List<String> getParameterNames() {
-        return parameterNames;
+        return arguments.getAliases();
     }
 
     @Override
     @Nonnull
     public List<Object> getArguments() {
+        return arguments.getValues();
+    }
+
+    @Override
+    @Nonnull
+    public Tuple getArgumentTuple() {
         return arguments;
+    }
+
+    @Override
+    @Nonnull
+    public List<Parameter<?>> getParameters() {
+        final var parameters = new Parameter<?>[arguments.length()];
+        final var elements = arguments.getElements();
+        for (int i = 0; i < elements.size(); i++) {
+            final var element = elements.get(i);
+            parameters[i] =
+                    Parameter.of(element.getJavaType(),
+                            i+1, element.getAlias());
+        }
+        return asList(parameters);
     }
 
     @Nonnull
@@ -201,8 +208,6 @@ public class StaticTypedQueryReference<R>
         else {
             return Objects.equals(this.resultType, that.resultType)
                 && Objects.equals(this.name, that.name)
-                && Objects.equals(this.parameterTypes, that.parameterTypes)
-                && Objects.equals(this.parameterNames, that.parameterNames)
                 && Objects.equals(this.arguments, that.arguments)
                 && Objects.equals(this.options, that.options)
                 && Objects.equals(this.hints, that.hints);
@@ -211,7 +216,7 @@ public class StaticTypedQueryReference<R>
 
     @Override
     public int hashCode() {
-        return Objects.hash(resultType, name, parameterTypes, parameterNames, arguments);
+        return Objects.hash(resultType, name, arguments);
     }
 
     @Override
@@ -219,9 +224,8 @@ public class StaticTypedQueryReference<R>
         return "StaticTypedQueryReference["
                 + "resultType=" + resultType + ", "
                 + "name=" + name + ", "
-                + "parameterNames=" + parameterNames + ", "
                 + "arguments=" + arguments + ", "
-                + "options=" + options
+                + "options=" + options + ", "
                 + "hints=" + hints
                 + ']';
     }
