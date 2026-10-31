@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,7 +39,7 @@ import jakarta.persistence.Table;
 @Entity
 @Cacheable(false)
 @Table(name = "PRODUCT2_TABLE")
-@SecondaryTables({ @SecondaryTable(name = "PRODUCT_DETAILS", pkJoinColumns = @PrimaryKeyJoinColumn(name = "ID")) })
+@SecondaryTables({ @SecondaryTable(name = "PRODUCT2_DETAILS", pkJoinColumns = @PrimaryKeyJoinColumn(name = "ID")) })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "PRODUCT_TYPE", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("Product2")
