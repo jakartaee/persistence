@@ -5025,6 +5025,10 @@ meth public abstract jakarta.persistence.spi.ClassTransformer getClassTransforme
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()
  anno 2 jakarta.annotation.Nullable()
+meth public abstract jakarta.persistence.spi.ClassTransformer getClientClassTransformer(jakarta.persistence.spi.PersistenceUnitInfo,java.util.Map<?,?>)
+ anno 0 jakarta.annotation.Nullable()
+ anno 1 jakarta.annotation.Nonnull()
+ anno 2 jakarta.annotation.Nullable()
 meth public abstract jakarta.persistence.spi.ProviderUtil getProviderUtil()
  anno 0 jakarta.annotation.Nonnull()
 meth public abstract void generateSchema(jakarta.persistence.spi.PersistenceUnitInfo,java.util.Map<?,?>)
@@ -5095,6 +5099,7 @@ meth public abstract javax.sql.DataSource getJtaDataSource()
 meth public abstract javax.sql.DataSource getNonJtaDataSource()
  anno 0 jakarta.annotation.Nullable()
 meth public abstract void addTransformer(jakarta.persistence.spi.ClassTransformer)
+ anno 0 java.lang.Deprecated(boolean forRemoval=false, java.lang.String since="4.0")
  anno 1 jakarta.annotation.Nonnull()
 
 CLSS public abstract interface jakarta.persistence.spi.ProviderUtil
