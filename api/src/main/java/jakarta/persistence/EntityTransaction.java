@@ -43,7 +43,17 @@ public interface EntityTransaction {
      void commit();
 
      /**
-      * Roll back the current resource transaction. 
+      * Roll back the current resource transaction.
+      * <p> Transaction rollback typically results in a loss of consistency
+      * between records in the database and any persistence context joined
+      * to the transaction. The persistence provider is not required to
+      * resynchronize the state of the persistence context with state held
+      * in the database after a transaction rolls back; nor is it required
+      * to refresh the entity instances belonging to the persistence context;
+      * nor is it required to revert the values of generated primary keys or
+      * of updated versions. It is therefore strongly recommended that the
+      * application discard references to entities modified or made persistent
+      * in a transaction when the transaction rolls back.
       * @throws IllegalStateException if {@link #isActive()} is false
       * @throws PersistenceException if an unexpected error 
       *         condition is encountered
@@ -52,8 +62,8 @@ public interface EntityTransaction {
 
      /**
       * Mark the current resource transaction so that the only possible
-      * outcome of the transaction is for the transaction
-      * to be rolled back. 
+      * outcome of the transaction is for the transaction to be rolled
+      * back.
       * @throws IllegalStateException if {@link #isActive()} is false
       */
      void setRollbackOnly();
