@@ -50,6 +50,87 @@ schema as well as the object/relational mapping schema defined in
 <<a17175>>, whether singly or
 in combination when multiple mapping files are used.
 
+=== Specification of Callback Listener Classes and Lifecycle Methods in the XML Descriptor [[callback-listener-xml-descriptor]]
+
+The XML descriptor can be used as an
+alternative to metadata annotations to specify entity listener classes
+and their binding to entities or to override the invocation order of
+lifecycle callback methods as specified in annotations.
+
+==== Specification of Callback Listeners
+
+The `entity-listener` XML descriptor element declares the lifecycle
+callback methods of an entity listener class. Entity lifecycle callback
+methods are declared by using the elements `pre-persist`, `post-persist`,
+`pre-remove`, `post-remove`,`pre-merge`,`pre-insert`, `post-insert`,
+`pre-delete`, `post-delete`, `pre-upsert`, `post-upsert`, `pre-update`,
+`post-update`, and `post-load`. Persistence unit lifecycle methods are
+declared using the elements `post-create` and `pre-close`.
+
+Each of these elements may occur more than once within an
+`entity-listener` element, since an entity listener class may have
+multiple callback methods for a given type of lifecycle event. The
+restriction specified in <<lifecycle-callback-methods>> applies: an
+entity listener class must have at most one callback method for a given
+type of event and given parameter type, regardless of whether the
+callback methods are declared using annotations, the XML descriptor,
+or a combination of both.
+
+If the entity listener class has several overloaded methods with the
+name specified by `method-name`, then all of them are registered as
+callback methods for the given lifecycle event.
+
+For example, given the following entity listener class:
+
+[source,java]
+----
+public class Observer {
+    void onPersist(Book book) { ... }
+    void onPersist(Magazine magazine) { ... }
+}
+----
+
+the following element registers both `onPersist(Book)` and
+`onPersist(Magazine)` as `post-persist` callback methods.
+
+[source,xml]
+----
+<entity-listener class="org.example.Observer">
+    <post-persist method-name="onPersist"/>
+</entity-listener>
+----
+
+==== Specification of the Binding of Entity Listener Classes to Entities
+
+The `entity-listeners` subelement of the
+`persistence-unit-defaults` element specifies the default
+entity listeners for the persistence unit.
+
+The `entity-listeners` subelement of the
+`entity` or `mapped-superclass` element specifies the entity
+listener classes for the respective entity or mapped superclass and its
+subclasses.
+
+The binding of entity listeners to entity
+classes is additive. The entity listener classes bound to the
+superclasses of an entity or mapped superclass are applied to it as
+well.
+
+The `exclude-superclass-listeners` element
+specifies that the listener methods for superclasses are not to be
+invoked for an entity class (or mapped superclass) and its subclasses.
+
+The `exclude-default-listeners` element
+specifies that default entity listeners are not to be invoked for an
+entity class (or mapped superclass) and its subclasses.
+
+Explicitly listing an excluded default or
+superclass listener for a given entity class or mapped superclass causes
+it to be applied to that entity or mapped superclass and its subclasses.
+
+In the case of multiple callback methods for
+a single lifecycle event, the invocation order rules described in <<a2251>> apply.
+
 === XML Overriding Rules [[a16953]]
 
 This section defines the rules that apply
