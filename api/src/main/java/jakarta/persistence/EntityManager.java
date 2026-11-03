@@ -258,7 +258,8 @@ public interface EntityManager extends EntityHandler {
      * entity instance is managed, that is, if it belongs to this
      * persistence context and has not been marked for removal, it is
      * itself ignored, but the operation still cascades, and it is
-     * returned directly.
+     * returned directly. If a persistent attribute of the given
+     * detached entity instance is unfetched, it is ignored.
      * @param entity  a new, managed, or detached entity instance
      * @param <T> the entity type
      * @return the managed instance that the state was merged to
