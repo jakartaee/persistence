@@ -168,6 +168,12 @@ public @interface OneToMany {
      * (Optional) Whether to apply the remove operation to entities
      * that have been removed from the relationship and to cascade
      * the remove operation to those entities.
+     *
+     * <p>A portable application must not depend on any specific
+     * timing of the removal operation and must not reassign the
+     * orphan to another relationship, nor otherwise attempt to
+     * reverse the effect of the removal operation.
+     *
      * @since 2.0
      */
     boolean orphanRemoval() default false;
