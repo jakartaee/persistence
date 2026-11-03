@@ -41,7 +41,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link java.time.Instant}, {@link java.time.LocalDateTime}.
  *
  * <p>This field declares a version number:
- *
  * {@snippet :
  * @Version
  * @Column(name = "REVISION")
@@ -49,7 +48,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  *
  * <p>This field declares a revision timestamp:
- *
  * {@snippet :
  * @Version
  * @Column(name = "LAST_UPDATED")
@@ -77,6 +75,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>The persistence provider is permitted to use the value of the
  * identifier and version fields or properties of an entity instance
  * to determine whether the instance is new or detached.
+ *
+ * <p>For the purposes of versioning and optimistic locking, the state
+ * of a given entity is considered to include:
+ * <ul>
+ * <li>every persistent field or property which is not a relationship
+ *     to another entity and is not annotated as
+ *     {@linkplain ExcludedFromVersioning excluded from versioning},
+ *     and
+ * <li>every relationship owned by the entity which is not annotated
+ *     as {@linkplain ExcludedFromVersioning excluded} on the owning
+ *     side.
+ * </ul>
+ * Unowned relationships are not considered part of the state of the entity.
  *
  * @see LockModeType
  * @see PersistenceUnitUtil#getVersion(Object)
