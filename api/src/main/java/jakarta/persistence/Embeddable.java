@@ -48,6 +48,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the state of an instance is stored in the table or tables
  * mapped by the owning entity.
  *
+ * <p>Sharing of an embedded object instance across multiple
+ * managed entity instances has undefined semantics. The
+ * persistence provider is not required to respect the object
+ * identity of an embeddable type, and the identity of an
+ * embedded object is typically not persistent.
+ *
  * <p>The persistent fields and properties of an embeddable
  * class are mapped using the same mapping annotations used to
  * map {@linkplain Entity entity classes}, and may themselves
