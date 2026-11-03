@@ -16,9 +16,11 @@
 package jakarta.persistence;
 
 /**
- * Specifies a batch size, that is, how many entities should be
- * fetched in each request to the database. This option is always
- * a hint, and might be ignored by the persistence provider.
+ * Specifies a batch size for fetching, that is, how many records
+ * should be fetched in each request to the database. This option
+ * is always a hint, and might be ignored by the persistence provider.
+ *
+ * @see AttributeNode#addOption(FetchOption)
  *
  * @since 4.0
  */
