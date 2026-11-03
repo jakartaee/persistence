@@ -107,6 +107,10 @@ Added `SchemaManager.populate()` and the new schema generation action `populate`
 
 Added `@Discoverable` annotation
 
+Added `getClassTransformer()` and `getClientClassTransformer()` to `PersistenceProvider`
+
+Added `getManagedPackageDescriptors()`, `getManagedModuleDescriptors()`, `getAllClassNames()`, `getAllPackageDescriptors()`, `getAllModuleDescriptors`, and `getDefaultToOneFetchType()` to `PersistenceUnitInfo`
+
 Redefine automatic bean validation. By default, automatic validation
 is now expected after pre-insert, pre-update and pre-upsert lifecycle
 events instead of previously used pre-persist, pre-update ones.
@@ -154,8 +158,6 @@ Fixed some incorrect generic method signatures in `From`
 
 Fixed use of raw types in `AttributeNode`
 
-Added `PersistenceUnitInfo.getAllManagedClassNames()` and `PersistenceProvider.getClassTransformer()`
-
 Redefined semantics of `EntityExistsException`
 
 Clarified that null collection-valued attributes are interpreted as empty collections
@@ -186,6 +188,8 @@ Deprecated `createEntityGraph(String)`
 
 Deprecated `EntityManager.getDelegate()` in favor of `unwrap()`
 
+Deprecated `PersistenceUnitInfo.addTransformer()` in favor of `PersistenceProvider.getClassTransformer()`
+
 Deprecated `name` member of `@MapKey` in favor of `value`
 
 ==== Removals
@@ -201,6 +205,8 @@ Deleted `CriteriaBuilder.keys()`, `CriteriaBuilder.values()`
 ==== Changes to Specification
 
 The definition of the query language moved to the Jakarta Query specification
+
+Clarified which state may be accessed on a detached entity and what a fetch join must load, using the definition of loaded state
 
 Many parts of the specification and Javadoc have been rewritten for clarity and readability
 
