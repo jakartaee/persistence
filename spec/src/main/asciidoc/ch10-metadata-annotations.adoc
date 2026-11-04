@@ -1189,9 +1189,7 @@ repository method with another legal query method return type, the result
 class is the result element type determined according to Jakarta Data.
 
 The inferred result class must be interpreted according to
-<<result-class-native-sql>>. In particular, a non-`abstract` class or record
-type satisfying those rules is interpreted as a constructor result without
-requiring an explicit `ConstructorResult` annotation.
+<<result-class-native-sql>>.
 
 [source,java]
 ----
