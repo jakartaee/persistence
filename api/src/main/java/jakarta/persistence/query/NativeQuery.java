@@ -30,10 +30,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>a query method of a Jakarta Data repository with
  *     an implementation backed by Jakarta Persistence.
  * </ul>
- * <p> The return type of the method must agree with the type returned by
- * the query. The parameter types of the method must agree with the types
- * of the query parameters. It is not usually possible to determine if
- * such agreement exists without executing the native SQL query.
+ * <p> If an explicit result set mapping is specified, the return type of
+ * the method must agree with the type produced by that mapping. The
+ * parameter types of the method must agree with the types of the query
+ * parameters. It is not usually possible to determine if the parameter
+ * types agree without executing the native SQL query.
  *
  * <p>
  * {@snippet :
@@ -52,15 +53,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     int emptyTrash();
  * }
  *}
- * <p> A method return type <em>agrees</em> with the type returned by a
- * SQL statement that returns a result set if either:
+ * <p> A method return type <em>agrees</em> with an explicitly specified
+ * result set mapping if either:
  * <ul>
  * <li>it is exactly {@code R}, {@link java.util.List List&lt;R&gt;}, or
- *     {@link java.util.stream.Stream Stream&lt;R&gt;} where the query
- *     return type is assignable to {@code R}, or
+ *     {@link java.util.stream.Stream Stream&lt;R&gt;} where the type
+ *     produced by the mapping is assignable to {@code R}, or
  * <li>the method is a Jakarta Data repository method, and its return type
- *     is a legal query method return type for the given query, as specified
- *     by Jakarta Data.
+ *     is a legal query method return type for the results produced by the
+ *     mapping, as specified by Jakarta Data.
  * </ul>
  *
  * <p> If the SQL statement returns a result set and no explicit result set
@@ -75,9 +76,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p> The inferred result class must be interpreted according to the rules
  * for {@link jakarta.persistence.EntityHandler#createNativeQuery(String, Class)}.
- * In particular, a non-abstract class or record type is interpreted as a
- * constructor result when it satisfies those rules. An explicit
- * {@code ConstructorResult} annotation is not required in this case.
  * {@snippet :
  * record BookRecord(String isbn, String title) {}
  *
