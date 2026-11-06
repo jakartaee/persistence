@@ -1894,14 +1894,20 @@ public class Paycheck {
 ==== Enumerated Annotation [[a14719]]
 
 An `Enumerated` annotation specifies that a persistent property or field
-should be persisted as an enumerated type. The `Enumerated` annotation is
-optional if the type of a persistent field or property is a Java enum type.
+should be persisted as an enumerated type. The declared type of the
+annotated property or field must be:
+
+- a Java `enum` type,
+- `Map<K,V>` where `V` is a Java `enum` type, or
+- `Set<E>`, `List<E>`, or `Collection<E>` where `E` is a Java `enum` type.
+
+The `Enumerated` annotation is always optional.
 
 The `Enumerated` annotation may be used in conjunction with the `Basic`
-annotation. The `Enumerated` annotation may be used in conjunction with
-the `ElementCollection` annotationfootnote:[If the element collection is
-a `Map`, this applies to the map value.] when the element type of the
-collection is an enum type.
+annotation. Alternatively, the `Enumerated` annotation may be used in
+conjunction with the `ElementCollection` annotationfootnote:[If the
+element collection is a `Map`, this applies to the map value.] when the
+element type of the collection is an enum type.
 
 An enum can be mapped as either a string or an integerfootnote:[Mapping
 of stateful enum values is not supported.]. The `EnumType` enum defines
@@ -3646,8 +3652,9 @@ public class Item {
 ==== MapKeyEnumerated Annotation [[a15433]]
 
 The `MapKeyEnumerated` annotation specifies that a map key should be
-persisted as an enumerated type. This annotation is optional if the type
-of a map key is a Java enum type.
+persisted as an enumerated type. The declared type of the annotated
+property or field must be `Map<K,V>` where `K` is a Java `enum` type.
+This annotation is always optional.
 
 The `MapKeyEnumerated` annotation may be used in conjunction with the
 `ElementCollection`, `OneToMany`, or `ManyToMany` annotation when the key
