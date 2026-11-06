@@ -23,15 +23,29 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies the enum type for a map key whose basic type is an enumerated
- * type.
+ * Specifies that a map key should be persisted as an enumerated type.
+ * This annotation is optional if the type of a map key is a Java
+ * {@code enum} type.
  *
- * <p>The {@code MapKeyEnumerated} annotation can be applied to an element
- * collection or relationship of type {@link java.util.Map}, in conjunction
- * with the {@link ElementCollection}, {@link OneToMany}, or {@link ManyToMany}
- * annotation. If the enumerated type is not specified or the
- * {@code MapKeyEnumerated} annotation is not used, the enumerated type is
- * assumed to be {@link EnumType#ORDINAL ORDINAL}.
+ * <p>The {@code MapKeyEnumerated} annotation may be used in conjunction
+ * with the {@link ElementCollection} annotation, {@link OneToMany}
+ * annotation, or {@link ManyToMany} annotation when the key type of the
+ * collection is an enum type.
+ *
+ * <p>An enum can be mapped as either a {@linkplain EnumType#STRING
+ * string} or an {@linkplain EnumType#ORDINAL integer}, where
+ * {@link EnumType} enumerates the available options. The mapping
+ * may be {@linkplain #value explicitly specified} by this annotation.
+ *
+ * <p>If a map key of enum type has no explicit {@code MapKeyEnumerated}
+ * annotation, and if no converter is applied to the key:
+ * <ul>
+ * <li>if the enum type has a final field of type {@link String}
+ *     annotated {@link EnumeratedValue}, the enumerated type is
+ *     inferred to be {@link EnumType#STRING};
+ * <li>otherwise, the enumerated type is taken to be
+ *     {@link EnumType#ORDINAL}.
+ * </ul>
  *
  * <p>Example:
  * {@snippet :

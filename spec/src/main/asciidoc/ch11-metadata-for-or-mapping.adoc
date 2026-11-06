@@ -3645,20 +3645,20 @@ public class Item {
 
 ==== MapKeyEnumerated Annotation [[a15433]]
 
-The `MapKeyEnumerated` annotation is used to
-specify the enum type for a map key whose basic type is an enumerated
-type.
+The `MapKeyEnumerated` annotation specifies that a map key should be
+persisted as an enumerated type. This annotation is optional if the type
+of a map key is a Java enum type.
 
-The `MapKeyEnumerated` annotation can be
-applied to an element collection or relationship of type `java.util.Map`
-, in conjunction with the `ElementCollection`, `OneToMany`, or
-`ManyToMany` annotation. If the map is specified using Java generics,
-the `MapKeyClass` annotation and associated type need not be specified;
-otherwise they must be specified.
+The `MapKeyEnumerated` annotation may be used in conjunction with the
+`ElementCollection`, `OneToMany`, or `ManyToMany` annotation when the key
+type of the collection is an enum type. If the map is specified using
+Java generics, the `MapKeyClass` annotation and associated type need not
+be specified; otherwise they must be specified.
 
-If the enumerated type is not specified or
-the `MapKeyEnumerated` annotation is not used, the enumerated type is
-assumed to be `ORDINAL`.
+An enum can be mapped as either a string or an integer. The `EnumType`
+enum defines the available options for mapping enumerated types. The
+mapping may be explicitly specified by the `value` member of the
+`MapKeyEnumerated` annotation.
 
 [source,java]
 ----
@@ -3683,6 +3683,13 @@ values. The `EnumType` enum is defined in <<a14719>>.
 |(Optional) The type used in mapping an enum type.
 |ORDINAL
 |===
+
+If a map key of enum type has no explicit `MapKeyEnumerated` annotation,
+and if no converter is applied to the key:
+
+- if the enum type has a final field of type `java.lang.String` annotated
+  `EnumeratedValue`, the enumerated type is inferred to be `STRING`;
+- otherwise, the enumerated type is taken to be `ORDINAL`.
 
 ==== MapKeyJoinColumn Annotation [[a15450]]
 
