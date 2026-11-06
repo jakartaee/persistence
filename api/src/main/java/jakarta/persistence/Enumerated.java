@@ -26,8 +26,16 @@ import static jakarta.persistence.EnumType.ORDINAL;
 
 /**
  * Specifies that a persistent property or field should be persisted
- * as an enumerated type. This annotation is optional if the type of
- * a persistent field or property is a Java {@code enum} type.
+ * as an enumerated type. The declared type of the annotated property
+ * or field must be:
+ * <ul>
+ * <li>a Java {@code enum} type,
+ * <li>{@code Map<K,V>} where {@code V} is a Java {@code enum} type,
+ *     or
+ * <li>{@code Set<E>}, {@code List<E>}, or {@code Collection<E>}
+ *     where {@code E} is a Java {@code enum} type.
+ * </ul>
+ * This annotation is always optional.
  *
  * <p>The {@code Enumerated} annotation may be used in conjunction
  * with the {@link Basic} annotation, or in conjunction with the

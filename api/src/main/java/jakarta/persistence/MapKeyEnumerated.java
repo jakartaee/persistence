@@ -24,8 +24,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that a map key should be persisted as an enumerated type.
- * This annotation is optional if the type of a map key is a Java
- * {@code enum} type.
+ * The declared type of the annotated property or field must be
+ * {@code Map<K,V>} where {@code K} is a Java {@code enum} type. This
+ * annotation is always optional.
  *
  * <p>The {@code MapKeyEnumerated} annotation may be used in conjunction
  * with the {@link ElementCollection} annotation, {@link OneToMany}
