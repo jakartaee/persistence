@@ -17,8 +17,11 @@
 package jakarta.persistence;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
  * Interface for extracting the elements of a query result tuple.
@@ -26,7 +29,7 @@ import java.util.List;
  * containing multiple projected values.
  * <p>
  * This example uses a criteria query to select the title and
- * publication date of each book, and then reuses the projected
+ * publication date of each book and then reuses the projected
  * {@link TupleElement}s to extract the results:
  * {@snippet :
  * var builder = factory.getCriteriaBuilder();
@@ -117,8 +120,7 @@ public interface Tuple {
     Object get(int i);
 
     /**
-     * Return the values of the result tuple elements as
-     * an array.
+     * Return the tuple element values as an array.
      * @return tuple element values
      */
     @Nonnull
@@ -130,4 +132,106 @@ public interface Tuple {
      */
     @Nonnull
     List<TupleElement<?>> getElements();
+
+    /**
+     * Return the tuple entries.
+     * @return tuple entries
+     * @since 4.0
+     */
+    @Nonnull
+    List<Entry<?>> getEntries();
+
+    /**
+     * Return the number of elements of this tuple.
+     * @return length of tuple
+     * @since 4.0
+     */
+    default int length() {
+        return getEntries().size();
+    }
+
+    /**
+     * Return the tuple element values as a list.
+     * @return tuple element values
+     * @since 4.0
+     */
+    @Nonnull
+    default List<Object> getValues() {
+        return asList(toArray());
+    }
+
+    /**
+     * Return the tuple element types.
+     * @return tuple element types
+     * @since 4.0
+     */
+    @Nonnull
+    default List<Class<?>> getElementTypes() {
+        final var elements = getElements();
+        final var types = new Class<?>[elements.size()];
+        for (int i = 0; i < elements.size(); i++) {
+            types[i] = elements.get(i).getJavaType();
+        }
+        return asList(types);
+    }
+
+    /**
+     * Return the tuple element aliases.
+     * @return tuple element aliases
+     * @since 4.0
+     */
+    @Nonnull
+    default List<String> getAliases() {
+        final var elements = getElements();
+        final var aliases = new String[elements.size()];
+        for (int i = 0; i < elements.size(); i++) {
+            aliases[i] = elements.get(i).getAlias();
+        }
+        return asList(aliases);
+    }
+
+    /**
+     * Packages a tuple element with its value.
+     * @param <T> the type of the tuple element
+     * @since 4.0
+     */
+    interface Entry<T> {
+        /**
+         * The tuple element.
+         */
+        @Nonnull TupleElement<T> getElement();
+        /**
+         * The value of the tuple element.
+         */
+        T getValue();
+
+        /**
+         * Return a new tuple entry binding a tuple element
+         * with the given type and alias to the given value.
+         * @param <T> the type of the tuple element
+         * @param type the type of the tuple element
+         * @param alias the alias of the tuple element
+         * @param value the value bound to the tuple element
+         * @return a tuple entry
+         */
+        @Nonnull
+        static <T> Tuple.Entry<T> of(@Nonnull Class<T> type,
+                                     @Nullable String alias,
+                                     T value) {
+            return new TupleElementRecord<>(type, alias)
+                    .entry(value);
+        }
+    }
+
+    /**
+     * Create a tuple with the elements and values specified by the
+     * given entries.
+     * @param entries the elements and values belonging to the tuple
+     * @return a new instance
+     * @since 4.0
+     */
+    @Nonnull
+    static Tuple of(@Nonnull Entry<?>... entries) {
+        return new TupleRecord(entries);
+    }
 }
