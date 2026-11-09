@@ -41,23 +41,23 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface MapKeyJoinColumns {
-	/**
-	 * (Required) The map key join columns that are used to map to
-	 * the entity that is the map key.
-	 */
-	MapKeyJoinColumn[] value();
+    /**
+     * (Required) The map key join columns that are used to map to
+     * the entity that is the map key.
+     */
+    MapKeyJoinColumn[] value();
 
-        /**
-         * (Optional) Used to specify or control the generation of a
-         * foreign key constraint when table generation is in effect.
-         * If both this element and the {@code foreignKey} element of
-		 * any of the {@link MapKeyJoinColumn} elements are specified,
-		 * the behavior is undefined. If no {@code foreignKey}
-		 * annotation element is specified in either location, a
-		 * default foreign key strategy is selected by the
-		 * persistence provider.
-         *
-         * @since 2.1
-         */
-        ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+    /**
+     * (Optional) Used to specify or control the generation of a
+     * foreign key constraint when table generation is in effect.
+     * If both this element and the {@code foreignKey} element of
+     * any of the {@link MapKeyJoinColumn} elements are specified,
+     * the behavior is undefined. If no {@code foreignKey}
+     * annotation element is specified in either location, a
+     * default foreign key strategy is selected by the
+     * persistence provider.
+     *
+     * @since 2.1
+     */
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 }
