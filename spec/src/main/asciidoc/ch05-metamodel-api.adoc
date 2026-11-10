@@ -244,7 +244,7 @@ public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
             R.class,
             List.of(T1.class, T2.class, ... ),
             List.of("p1", "p2", ... ),
-            List.of(p1, p2, ... ),
+            Reference.arguments(new Object[] { p1, p2, ... }),
             g,
             Map.of("h1", v1, "h2", v2, ...),
             o1, o2, o3, ...
@@ -262,6 +262,15 @@ but this behavior is not required and is not portable between different
 processors.footnote:[A future version of this specification might define
 how an annotation processor treats a method parameter which does not
 correspond to a parameter of the query.]
++
+The list of arguments must permit null elements. A null argument is bound
+to the corresponding query parameter in the same way as a null value
+passed to `Query.setParameter()`. The argument list must be unmodifiable.
+The `Reference.arguments()` helper constructs an unmodifiable list containing
+the elements of the supplied argument array, permitting null elements.
+Subsequent changes to the supplied array do not affect the list.
+If a query or statement argument is itself an array, that array occupies
+one element of the supplied argument array.
 
 * For every method `m` of return type `void`, `int`, or `long`, and with
 parameters `p1`, `p2`, etc., of types `T1`, `T2`, etc., annotated with a
@@ -277,7 +286,7 @@ public static StatementReference m(T1 p1, T2 p2, ...) {
             "m",
             List.of(T1.class, T2.class, ... ),
             List.of("p1", "p2", ... ),
-            List.of(p1, p2, ... ),
+            Reference.arguments(new Object[] { p1, p2, ... }),
             Map.of("h1", v1, "h2", v2, ...),
             o1, o2, o3, ...
     );
@@ -291,6 +300,10 @@ annotation `value` member, the annotation processor is permitted to ignore
 the method parameters which do not correspond to parameters of the query,
 but this behavior is not required and is not portable between different
 processors.
++
+As for query references, the list of arguments must be unmodifiable and
+must permit null elements, which are bound to the corresponding statement
+parameters.
 
 * For every named query, named entity graph, or SQL result set mapping
 with name `"n"` declared by annotations of the class `X`, the metamodel
