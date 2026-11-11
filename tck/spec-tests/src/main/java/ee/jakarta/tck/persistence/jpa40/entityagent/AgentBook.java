@@ -25,7 +25,9 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.NamedStatement;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 
 @Entity(name = "Jpa40AgentBook")
@@ -46,6 +48,9 @@ public class AgentBook {
 
     @Column(unique = true)
     private String title;
+
+    @Transient
+    private String titleAtPostLoad;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PUBLISHER_ID")
@@ -73,6 +78,15 @@ public class AgentBook {
 
     public String getTitle() {
         return title;
+    }
+
+    @PostLoad
+    void rememberLoadedTitle() {
+        titleAtPostLoad = title;
+    }
+
+    public String getTitleAtPostLoad() {
+        return titleAtPostLoad;
     }
 
     public void setTitle(String title) {
