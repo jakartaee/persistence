@@ -198,6 +198,48 @@ public class Jpa40EntityAgentClient extends PMClientBase {
     }
 
     /**
+     * Verifies that @PostLoad sees the database state before find() returns.
+     */
+    @Test
+    public void entityAgentFindPostLoadTest() {
+        createBooks(new AgentBook(1, "Alpha"));
+
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent(CacheRetrieveMode.BYPASS)) {
+            AgentBook book = agent.find(AgentBook.class, 1);
+            assertEquals("Alpha", book.getTitleAtPostLoad());
+        }
+    }
+
+    /**
+     * Verifies that @PostLoad runs for each entity returned by an agent query.
+     */
+    @Test
+    public void entityAgentQueryPostLoadTest() {
+        createBooks(new AgentBook(1, "Alpha"), new AgentBook(2, "Beta"));
+
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent(CacheRetrieveMode.BYPASS)) {
+            List<AgentBook> books = agent.createQuery(
+                    "SELECT b FROM Jpa40AgentBook b ORDER BY b.id", AgentBook.class).getResultList();
+            assertEquals(List.of("Alpha", "Beta"), books.stream().map(AgentBook::getTitleAtPostLoad).toList());
+        }
+    }
+
+    /**
+     * Verifies that @PostLoad sees the refreshed state on the supplied instance.
+     */
+    @Test
+    public void entityAgentRefreshPostLoadTest() {
+        AgentBook book = new AgentBook(1, "original title");
+        createBooks(book);
+        updateTitle(1, "updated title");
+
+        try (EntityAgent agent = getEntityManagerFactory().createEntityAgent()) {
+            agent.refresh(book);
+            assertEquals("updated title", book.getTitleAtPostLoad());
+        }
+    }
+
+    /**
      * Verifies refresh operations report the specified failure when the target
      * database record no longer exists.
      */
