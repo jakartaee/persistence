@@ -2250,6 +2250,7 @@ meth public abstract <%0 extends java.lang.Object> jakarta.persistence.TypedQuer
  anno 1 jakarta.annotation.Nonnull()
 meth public abstract jakarta.persistence.Statement asStatement()
  anno 0 jakarta.annotation.Nonnull()
+meth public abstract boolean isStatement()
 meth public abstract jakarta.persistence.StatementOrTypedQuery setHint(java.lang.String,java.lang.Object)
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()

@@ -87,6 +87,23 @@ public interface StatementOrTypedQuery extends Query {
     Statement asStatement();
 
     /**
+     * Indicates if this instance represents an executable statement.
+     * That is, a Jakarta Persistence {@code UPDATE} or {@code DELETE}
+     * statement, or any native SQL statement that returns a row
+     * count.
+     *
+     * <p>A return value of {@code true} indicates that it is valid to
+     * invoke {@link #asStatement()}. A return value of {@code false}
+     * indicates that it is valid to invoke {@link #ofType(Class)}.
+     *
+     * @return true if this instance represents an executable statement;
+     *         false if this instance represents a Jakarta Persistence
+     *         {@code SELECT} query or a native SQL query that returns a
+     *         result set.
+     */
+    boolean isStatement();
+
+    /**
      * Obtain a {@link TypedQuery} with the given query result type,
      * which must be a supertype of the result type of this query.
      * This query must be a Jakarta Persistence {@code SELECT} query
