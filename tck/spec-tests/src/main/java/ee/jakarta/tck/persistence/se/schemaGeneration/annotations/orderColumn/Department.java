@@ -18,8 +18,11 @@ package ee.jakarta.tck.persistence.se.schemaGeneration.annotations.orderColumn;
 
 import java.util.List;
 
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
@@ -49,7 +52,8 @@ public class Department implements java.io.Serializable {
 		this.deptId = id;
 	}
 
-	@OneToMany(mappedBy = "department")
+	@OneToMany
+	@JoinColumn(name = "FK_DEPT", foreignKey = @ForeignKey(name = "MYCONSTRANT", value = ConstraintMode.CONSTRAINT, foreignKeyDefinition = "FOREIGN KEY (FK_DEPT) REFERENCES SCHEMAGENDEPT (DEPTID)"))
 	@OrderColumn(name = "THEORDERCOLUMN")
 	public List<Employee> getEmployees() {
 		return employees;

@@ -18,14 +18,9 @@ package ee.jakarta.tck.persistence.se.schemaGeneration.annotations.secondaryTabl
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
@@ -33,9 +28,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "SCHEMAGENSIMPLE")
 @SecondaryTable(name = "SCHEMAGENSIMPLE_SECOND", pkJoinColumns = @PrimaryKeyJoinColumn(name = "SECONDARY_ID"), foreignKey = @ForeignKey(name = "MYCONSTRAINT", value = ConstraintMode.CONSTRAINT, foreignKeyDefinition = "FOREIGN KEY (SECONDARY_ID) REFERENCES SCHEMAGENSIMPLE (SIMPLEID)"))
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "PRODUCT_TYPE", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("Product")
 public class Simple implements java.io.Serializable {
 
 	// ===========================================================

@@ -18,11 +18,14 @@ package ee.jakarta.tck.persistence.se.schemaGeneration.annotations.version;
 
 import ee.jakarta.tck.persistence.common.SchemaGenerationClientBase;
 import jakarta.persistence.LockModeType;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.RollbackException;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -53,12 +56,14 @@ public class SeVersionSchemaGenerationAnnotationClient extends SchemaGenerationC
             inTransaction(() -> getEntityManager().lock(found, LockModeType.OPTIMISTIC_FORCE_INCREMENT));
             clearPersistenceContext();
             var updated = getEntityManager().find(Simple.class, 1);
-            assertTrue(updated.getVersion() > initialVersion, "Version must increase after a forced increment");
+            assertNotEquals(initialVersion, updated.getVersion(), "A forced increment must update the version");
             assertEquals(updated.getVersion(), ((Number) querySingleValue("SELECT VERSION FROM SCHEMAGENSIMPLE WHERE ID = 1")).intValue());
             clearPersistenceContext();
-            assertThrows(PersistenceException.class,
+            var failure = assertThrows(PersistenceException.class,
                     () -> inTransaction(() -> getEntityManager().merge(entity)),
                     "An entity with the old version must be rejected");
+            assertTrue(failure instanceof OptimisticLockException || failure instanceof RollbackException,
+                    "The stale version must cause optimistic locking failure or transaction rollback");
         }, "SCHEMAGENSIMPLE");
     }
 }

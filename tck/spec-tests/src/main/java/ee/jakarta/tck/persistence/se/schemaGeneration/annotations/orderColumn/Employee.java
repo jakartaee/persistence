@@ -16,13 +16,8 @@
 
 package ee.jakarta.tck.persistence.se.schemaGeneration.annotations.orderColumn;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,18 +26,11 @@ public class Employee implements java.io.Serializable {
 
 	private int empId;
 
-	private Department department;
-
 	public Employee() {
 	}
 
 	public Employee(int id) {
 		this.empId = id;
-	}
-
-	public Employee(int id, Department department) {
-		this.empId = id;
-		this.department = department;
 	}
 
 	// ===========================================================
@@ -55,19 +43,6 @@ public class Employee implements java.io.Serializable {
 
 	public void setEmpId(int id) {
 		this.empId = id;
-	}
-
-	// ===========================================================
-	// getters and setters for the association fields
-
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "FK_DEPT", foreignKey = @ForeignKey(name = "MYCONSTRANT", value = ConstraintMode.CONSTRAINT, foreignKeyDefinition = "FOREIGN KEY (FK_DEPT) REFERENCES SCHEMAGENDEPT (DEPTID)"))
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
 	}
 
 	@Override
@@ -88,7 +63,7 @@ public class Employee implements java.io.Serializable {
 		}
 		other = (Employee) o;
 
-		if (this.getEmpId() == other.getEmpId() && this.getDepartment().equals(other.getDepartment())) {
+		if (this.getEmpId() == other.getEmpId()) {
 			result = true;
 		}
 

@@ -17,6 +17,7 @@
 package ee.jakarta.tck.persistence.se.schemaGeneration.annotations.temporal;
 
 import ee.jakarta.tck.persistence.common.SchemaGenerationClientBase;
+import jakarta.persistence.TemporalType;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +38,7 @@ public class SeTemporalSchemaGenerationAnnotationClient extends SchemaGeneration
      *
      * @assertion_ids: PERSISTENCE:SPEC:2118.20;
      *
-     * @test_Strategy: Test the @Version annotation
+     * @test_Strategy: Test the @Temporal annotation
      */
     @Test
     public void temporalTest() throws Throwable {
@@ -46,8 +47,14 @@ public class SeTemporalSchemaGenerationAnnotationClient extends SchemaGeneration
             persist(entity);
             var found = getEntityManager().find(Simple.class, 1);
             assertNotNull(found);
-            assertEquals(java.sql.Date.valueOf("2013-10-01").getTime(), found.getUtilDate().getTime(),
-                    "TemporalType.DATE must discard the time of day");
+            // TemporalType.DATE specifies a date mapping, not the milliseconds of the returned Date.
+            assertEquals(java.time.LocalDate.of(2013, 10, 1),
+                    new java.sql.Date(found.getUtilDate().getTime()).toLocalDate());
+            // A date-only query must also find the value originally supplied with a time of day.
+            assertEquals(1, getEntityManager().createQuery(
+                    "SELECT s FROM Simple s WHERE s.utilDate = :date", Simple.class)
+                    .setParameter("date", java.sql.Date.valueOf("2013-10-01"), TemporalType.DATE)
+                    .getSingleResult().getId());
         }, "SCHEMAGENSIMPLE");
     }
 }

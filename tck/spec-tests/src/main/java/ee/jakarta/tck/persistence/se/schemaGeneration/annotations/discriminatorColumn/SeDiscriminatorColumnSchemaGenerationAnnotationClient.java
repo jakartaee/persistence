@@ -21,6 +21,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class SeDiscriminatorColumnSchemaGenerationAnnotationClient extends SchemaGenerationClientBase {
 
@@ -28,7 +29,7 @@ public class SeDiscriminatorColumnSchemaGenerationAnnotationClient extends Schem
     public JavaArchive createDeployment() throws Exception {
         var packageName = SeDiscriminatorColumnSchemaGenerationAnnotationClient.class.getPackageName();
         return createDeploymentJar("jpa_se_schemaGeneration_annotations_discriminatorColumn.jar", packageName,
-                new String[] {packageName + ".Simple"});
+                new String[] {packageName + ".Simple", packageName + ".Specialized"});
     }
 
     /*
@@ -42,9 +43,12 @@ public class SeDiscriminatorColumnSchemaGenerationAnnotationClient extends Schem
     public void discriminatorColumnTest() throws Throwable {
         verifyGeneratedSchema(() -> {
             var entity = new Simple(1);
-            persist(entity);
+            var subclass = new Specialized(2);
+            persist(entity, subclass);
             assertEquals(entity, getEntityManager().find(Simple.class, 1));
+            assertInstanceOf(Specialized.class, getEntityManager().find(Simple.class, 2));
             assertEquals("Simple", querySingleValue("SELECT PRODUCT_TYPE FROM SCHEMAGENSIMPLE WHERE ID = 1").toString());
+            assertEquals("Specialized", querySingleValue("SELECT PRODUCT_TYPE FROM SCHEMAGENSIMPLE WHERE ID = 2").toString());
         }, "SCHEMAGENSIMPLE");
     }
 }
