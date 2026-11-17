@@ -45,9 +45,9 @@ public class SeOrderColumnSchemaGenerationAnnotationClient extends SchemaGenerat
     public void orderColumnTest() throws Throwable {
         verifyGeneratedSchema(() -> {
             var department = new Department(50);
-            var first = new Employee(1, department);
-            var second = new Employee(2, department);
-            var third = new Employee(3, department);
+            var first = new Employee(1);
+            var second = new Employee(2);
+            var third = new Employee(3);
             department.setEmployees(new ArrayList<>(List.of(third, first, second)));
             persist(department, first, second, third);
             var found = getEntityManager().find(Department.class, 50);

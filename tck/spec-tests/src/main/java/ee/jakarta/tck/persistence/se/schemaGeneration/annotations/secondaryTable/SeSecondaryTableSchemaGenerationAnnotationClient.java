@@ -47,7 +47,7 @@ public class SeSecondaryTableSchemaGenerationAnnotationClient extends SchemaGene
             assertEquals("secondary table value", getEntityManager().find(Simple.class, 1).getDetail());
             assertEquals("secondary table value", querySingleValue("SELECT DETAIL FROM SCHEMAGENSIMPLE_SECOND WHERE SECONDARY_ID = 1"));
             assertForeignKey("SCHEMAGENSIMPLE_SECOND", "MYCONSTRAINT", "SECONDARY_ID", "SCHEMAGENSIMPLE", "SIMPLEID");
-            executeSql("INSERT INTO SCHEMAGENSIMPLE (SIMPLEID, PRODUCT_TYPE) VALUES (2, 'Product')");
+            executeSql("INSERT INTO SCHEMAGENSIMPLE (SIMPLEID) VALUES (2)");
             executeSql("INSERT INTO SCHEMAGENSIMPLE_SECOND (SECONDARY_ID, DETAIL) VALUES (2, 'valid')");
             assertSqlRejected("INSERT INTO SCHEMAGENSIMPLE_SECOND (SECONDARY_ID, DETAIL) VALUES (999, 'orphan')");
         }, "SCHEMAGENSIMPLE", "SCHEMAGENSIMPLE_SECOND");

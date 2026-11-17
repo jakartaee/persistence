@@ -23,7 +23,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "SCHEMAGENSIMPLE", indexes = { @Index(name = "SCHEMAGENSIMPLE_SVALUE_ASC", columnList = "SVALUE"),
+@Table(name = "SCHEMAGENSIMPLE", indexes = { @Index(name = "SCHEMAGENSIMPLE_SVALUE_ASC", columnList = "SVALUE ASC"),
 		@Index(name = "SCHEMAGENSIMPLE_SVALUE2_DESC", columnList = "SVALUE2 DESC"),
 		@Index(name = "SCHEMAGENSIMPLE_SVALUE3", columnList = "SVALUE3", unique = true) })
 public class Simple implements java.io.Serializable {
