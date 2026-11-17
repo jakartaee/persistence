@@ -22,6 +22,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -51,6 +53,66 @@ public class Jpa32RecordsClient extends PMClientBase {
         RecordBook book = getEntityManager().find(RecordBook.class, 1);
         assertNotNull(book);
         assertEquals(new BookLocation("Madrid", "A1"), book.getLocation());
+    }
+
+    /**
+     * Tests querying entities with embedded records via JPQL, including navigation
+     * through record component path expressions, selecting the embedded record itself,
+     * projecting individual record components, and parameter binding with record values.
+     */
+    @Test
+    public void recordEmbeddableJpqlQueryTest() {
+        // Query by navigating through embedded record component
+        RecordBook book = getEntityManager()
+                .createQuery("SELECT b FROM Jpa32RecordBook b WHERE b.location.city = :city", RecordBook.class)
+                .setParameter("city", "Madrid")
+                .getSingleResult();
+        assertNotNull(book);
+        assertEquals(1, book.getId());
+        assertEquals("Alpha", book.getTitle());
+
+        // Select the embedded record itself
+        BookLocation location = getEntityManager()
+                .createQuery("SELECT b.location FROM Jpa32RecordBook b WHERE b.id = :id", BookLocation.class)
+                .setParameter("id", 1)
+                .getSingleResult();
+        assertNotNull(location);
+        assertEquals(new BookLocation("Madrid", "A1"), location);
+        assertEquals("Madrid", location.city());
+        assertEquals("A1", location.shelfCode());
+
+        // Project individual record components
+        String city = getEntityManager()
+                .createQuery("SELECT b.location.city FROM Jpa32RecordBook b WHERE b.id = 1", String.class)
+                .getSingleResult();
+        assertEquals("Madrid", city);
+
+        // Parameter binding using record instance
+        List<RecordBook> books = getEntityManager()
+                .createQuery("SELECT b FROM Jpa32RecordBook b WHERE b.location = :loc", RecordBook.class)
+                .setParameter("loc", new BookLocation("Madrid", "A1"))
+                .getResultList();
+        assertEquals(1, books.size());
+        assertEquals(1, books.get(0).getId());
+    }
+
+    /**
+     * Tests updating an entity's embedded record by assigning a new record instance,
+     * respecting Java record immutability.
+     */
+    @Test
+    public void recordEmbeddableUpdateTest() {
+        EntityTransaction tx = getEntityTransaction();
+        tx.begin();
+        RecordBook book = getEntityManager().find(RecordBook.class, 1);
+        assertNotNull(book);
+        book.setLocation(new BookLocation("Barcelona", "B2"));
+        tx.commit();
+        getEntityManager().clear();
+
+        RecordBook updated = getEntityManager().find(RecordBook.class, 1);
+        assertNotNull(updated);
+        assertEquals(new BookLocation("Barcelona", "B2"), updated.getLocation());
     }
 
     private void createTestData() {

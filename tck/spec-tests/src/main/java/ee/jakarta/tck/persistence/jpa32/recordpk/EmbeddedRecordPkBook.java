@@ -37,6 +37,10 @@ public class EmbeddedRecordPkBook {
         this.title = title;
     }
 
+    public EmbeddedRecordId getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
