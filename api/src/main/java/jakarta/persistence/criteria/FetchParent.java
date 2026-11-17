@@ -55,10 +55,12 @@ public interface FetchParent<Z, X> {
      * Create a fetch join to the specified single-valued attribute 
      * using the given join type.
      * @param attribute  target of the join
-     * @param jt  join type
+     * @param jt  either {@link JoinType#INNER} or {@link JoinType#LEFT}
      * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
-     */	
+     * @throws IllegalArgumentException if an illegal join type is
+     *         specified
+     */
     @Nonnull
     <Y> Fetch<X, Y> fetch(@Nonnull SingularAttribute<? super X, Y> attribute, @Nonnull JoinType jt);
 
@@ -76,9 +78,11 @@ public interface FetchParent<Z, X> {
      * Create a fetch join to the specified collection-valued 
      * attribute using the given join type.
      * @param attribute  target of the join
-     * @param jt  join type
+     * @param jt  either {@link JoinType#INNER} or {@link JoinType#LEFT}
      * @param <Y> the type of the fetched attribute
      * @return the resulting join
+     * @throws IllegalArgumentException if an illegal join type is
+     *         specified
      */
     @Nonnull
     <Y> Fetch<X, Y> fetch(@Nonnull PluralAttribute<? super X, ?, Y> attribute, @Nonnull JoinType jt);
@@ -110,11 +114,12 @@ public interface FetchParent<Z, X> {
      * the given join type.
      * @param attributeName the name of the attribute that is the
      *        target of the join
-     * @param jt the join type
+     * @param jt either {@link JoinType#INNER} or {@link JoinType#LEFT}
      * @param <Y> the type of the fetched attribute
      * @return the resulting fetch join
      * @throws IllegalArgumentException if there is no attribute
-     *         with the given name
+     *         with the given name, or if an illegal join type is
+     *         specified
      *
      * @apiNote This method accepts a string-valued attribute name,
      *          and lacks type safety compared to passing a static
