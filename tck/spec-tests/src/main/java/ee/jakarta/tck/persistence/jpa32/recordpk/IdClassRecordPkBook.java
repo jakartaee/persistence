@@ -43,6 +43,14 @@ public class IdClassRecordPkBook {
         this.title = title;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
     public String getTitle() {
         return title;
     }

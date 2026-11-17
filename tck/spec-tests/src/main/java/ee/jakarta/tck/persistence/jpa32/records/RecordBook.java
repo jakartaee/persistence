@@ -62,4 +62,12 @@ public class RecordBook {
     public BookLocation getLocation() {
         return location;
     }
+
+    public void setLocation(BookLocation location) {
+        this.location = location;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

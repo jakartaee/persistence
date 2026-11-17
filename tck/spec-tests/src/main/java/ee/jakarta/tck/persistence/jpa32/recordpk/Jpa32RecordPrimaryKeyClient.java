@@ -56,11 +56,38 @@ public class Jpa32RecordPrimaryKeyClient extends PMClientBase {
                 .find(EmbeddedRecordPkBook.class, new EmbeddedRecordId(1, "embedded"));
         assertNotNull(embedded);
         assertEquals("Embedded", embedded.getTitle());
+        assertEquals(new EmbeddedRecordId(1, "embedded"), embedded.getId());
 
         IdClassRecordPkBook idClass = getEntityManager()
                 .find(IdClassRecordPkBook.class, new IdClassRecordId(2, "idclass"));
         assertNotNull(idClass);
         assertEquals("IdClass", idClass.getTitle());
+        assertEquals(2, idClass.getId());
+        assertEquals("idclass", idClass.getCode());
+    }
+
+    /**
+     * Tests querying entities having record primary keys (both @EmbeddedId and @IdClass) via JPQL.
+     */
+    @Test
+    public void recordPrimaryKeyQueryTest() {
+        EmbeddedRecordPkBook embedded = getEntityManager()
+                .createQuery("SELECT b FROM Jpa32EmbeddedRecordPkBook b WHERE b.id.code = :code",
+                        EmbeddedRecordPkBook.class)
+                .setParameter("code", "embedded")
+                .getSingleResult();
+        assertNotNull(embedded);
+        assertEquals("Embedded", embedded.getTitle());
+        assertEquals(new EmbeddedRecordId(1, "embedded"), embedded.getId());
+
+        IdClassRecordPkBook idClass = getEntityManager()
+                .createQuery("SELECT b FROM Jpa32IdClassRecordPkBook b WHERE b.code = :code",
+                        IdClassRecordPkBook.class)
+                .setParameter("code", "idclass")
+                .getSingleResult();
+        assertNotNull(idClass);
+        assertEquals("IdClass", idClass.getTitle());
+        assertEquals(2, idClass.getId());
     }
 
     private void createTestData() {
