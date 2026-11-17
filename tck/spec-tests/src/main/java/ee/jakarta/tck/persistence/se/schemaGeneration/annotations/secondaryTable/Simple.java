@@ -16,6 +16,7 @@
 
 package ee.jakarta.tck.persistence.se.schemaGeneration.annotations.secondaryTable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -41,6 +42,8 @@ public class Simple implements java.io.Serializable {
 	// instance variables
 	int simple_id;
 
+	String detail;
+
 	// ===========================================================
 	// constructors
 	public Simple() {
@@ -57,6 +60,15 @@ public class Simple implements java.io.Serializable {
 
 	public void setSimpleId(int id) {
 		this.simple_id = id;
+	}
+
+	@Column(name = "DETAIL", table = "SCHEMAGENSIMPLE_SECOND")
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 	@Override

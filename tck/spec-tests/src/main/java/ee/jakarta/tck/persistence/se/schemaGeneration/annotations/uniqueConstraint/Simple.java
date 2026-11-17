@@ -24,7 +24,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "SCHEMAGENSIMPLE", uniqueConstraints = @UniqueConstraint(name = "MYUNIQUECONSTRAINT", columnNames = {
-		"ID", "NAME" }))
+		"NAME", "CATEGORY" }))
 public class Simple implements java.io.Serializable {
 
 	// ===========================================================
@@ -32,6 +32,8 @@ public class Simple implements java.io.Serializable {
 	int id;
 
 	String name;
+
+	String category;
 
 	// ===========================================================
 	// constructors
@@ -45,6 +47,11 @@ public class Simple implements java.io.Serializable {
 	public Simple(int id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+
+	public Simple(int id, String name, String category) {
+		this(id, name);
+		this.category = category;
 	}
 
 	@Id
@@ -64,6 +71,15 @@ public class Simple implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Column(name = "CATEGORY")
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public int hashCode() {

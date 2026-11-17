@@ -18,7 +18,6 @@ package ee.jakarta.tck.persistence.common;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,7 +34,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -999,120 +997,6 @@ abstract public class PMClientBase implements UseEntityManager, UseEntityManager
             return ((Long) o).intValue();
         }
         throw new IllegalArgumentException("convertToInt(): Received type not coded for:" + o.getClass().getName());
-    }
-
-    public boolean findDataInFile(File file, String searchString) {
-        List<String> list = new ArrayList<String>();
-        list.add(searchString);
-        return findDataInFile(file, list);
-    }
-
-    public boolean findDataInFile(File file, List<String> searchStrings) {
-        boolean found = false;
-
-        List<String> fileContents = getFileContent(file);
-        int fileContentLineCount = 0;
-        int foundCount = 0;
-
-        // cycle through all the search strings and all the file contents
-        // until it is found or we exhaust them all
-        while (!found && foundCount != searchStrings.size() && fileContentLineCount != fileContents.size()) {
-
-            for (String fileContent : fileContents) {
-                fileContentLineCount++;
-                foundCount = 0;
-                // logger.log(Logger.Level.TRACE,"----------------");
-                // logger.log(Logger.Level.TRACE,"line:"+fileContent);
-
-                for (String searchString : searchStrings) {
-                    logger.log(Logger.Level.TRACE, "searchString:" + searchString);
-
-                    if (fileContent.toLowerCase().indexOf(searchString.toLowerCase()) >= 0) {
-                        logger.log(Logger.Level.TRACE,
-                                "Found string[" + searchString + "] in line [" + fileContent + "]");
-                        foundCount++;
-                        // logger.log(Logger.Level.TRACE,"foundCount:"+foundCount);
-                        // } else {
-                        // logger.log(Logger.Level.TRACE,"^^^^^^^^^^^^^^^^^^");
-                        //
-                        // logger.log(Logger.Level.TRACE,"index="+fileContent.toLowerCase().indexOf(searchString.toLowerCase()));
-                        // logger.log(Logger.Level.TRACE,"fileContent.toLowerCase["+fileContent.toLowerCase()+"],
-                        // searchString.toLowerCase["+searchString.toLowerCase()+"]");
-                        // logger.log(Logger.Level.TRACE,"^^^^^^^^^^^^^^^^^^");
-
-                    }
-                }
-                // logger.log(Logger.Level.TRACE,"----------------");
-                //
-                // logger.log(Logger.Level.TRACE,"foundCount:"+foundCount+",
-                // searchStrings.size():"+searchStrings.size());
-
-                if (foundCount == searchStrings.size()) {
-                    found = true;
-                    break;
-                }
-            }
-        }
-        // logger.log(Logger.Level.TRACE,"foundCount:"+foundCount+",
-        // searchStrings.size():"+searchStrings.size());
-        // logger.log(Logger.Level.TRACE,"fileContentLineCount:"+fileContentLineCount+",
-        // fileContents.size():"+fileContents.size());
-        // logger.log(Logger.Level.TRACE,"found:"+found);
-
-        if (!found) {
-            if (searchStrings.size() > 1) {
-                StringBuffer sb = new StringBuffer();
-                int count = 0;
-                for (String s : searchStrings) {
-                    sb.append(s);
-                    count++;
-                    if (count != searchStrings.size()) {
-                        sb.append(" and ");
-                    }
-                }
-                logger.log(Logger.Level.ERROR, "Entries:" + sb.toString() + ", not found in file:" + file.toString());
-                for (String s : fileContents) {
-                    logger.log(Logger.Level.ERROR, "File line[" + s + "]");
-                }
-
-            } else {
-                logger.log(Logger.Level.ERROR,
-                        "Entry:" + searchStrings.get(0) + ", not found in file:" + file.toString());
-
-            }
-        }
-
-        return found;
-    }
-
-    public List<String> getFileContent(File file) {
-        List<String> list = new ArrayList<String>();
-        try {
-            if (file.exists()) {
-                logger.log(Logger.Level.TRACE, "found file:" + file.getAbsolutePath());
-                if (file.length() > 0) {
-                    BufferedReader input = new BufferedReader(new FileReader(file));
-                    try {
-                        String line = null;
-                        while ((line = input.readLine()) != null) {
-                            logger.log(Logger.Level.TRACE, "read line:" + line);
-                            line = line.trim();
-                            list.add(line);
-                        }
-
-                    } finally {
-                        input.close();
-                    }
-                } else {
-                    logger.log(Logger.Level.ERROR, "File is empty: " + file.getAbsolutePath());
-                }
-            } else {
-                logger.log(Logger.Level.ERROR, "Specified file " + file.getAbsolutePath() + " does not exist");
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return list;
     }
 
     public void deleteItem(File file) {
