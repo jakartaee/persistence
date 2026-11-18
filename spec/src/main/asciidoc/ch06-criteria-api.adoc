@@ -910,9 +910,7 @@ The `distinct` method of the `CriteriaQuery`
 interface specifies that duplicate values must be eliminated
 from the query result. If the `distinct` method is not used or
 `distinct(false)` is invoked on the criteria query object, duplicate
-values are not eliminated. When `distinct(true)` is used, and the select
-items include embeddable objects or map entry results, the elimination
-of duplicates is undefined.
+values are not eliminated.
 
 The semantics of the `construct` method used in the selection list are
 described in <<a5500>>. The semantics of embeddable types in the
