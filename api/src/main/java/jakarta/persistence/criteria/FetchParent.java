@@ -21,8 +21,21 @@ import jakarta.persistence.metamodel.PluralAttribute;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 /**
- * Represents an element of the from clause which may
- * function as the parent of Fetches.
+ * Represents an element of the {@code from} clause which may function
+ * as the parent of {@linkplain Fetch fetch joins}.
+ * <p>
+ * An association or attribute referenced by the {@link #fetch} method
+ * must be referenced from an entity or embeddable that is returned as
+ * the result of the query. A fetch join has the same join semantics as
+ * the corresponding inner or outer join, except that the related
+ * objects are not top-level objects in the query result and cannot be
+ * referenced elsewhere by the query.
+ * <p>
+ * The {@code fetch} method must not be used in a subquery.
+ * <p>
+ * Multiple levels of fetch joins are not required to be supported by
+ * a persistence provider. Applications that use multi-level fetch
+ * joins are not portable between providers.
  *
  * @param <Z>  the source type
  * @param <X>  the target type

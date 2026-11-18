@@ -735,6 +735,14 @@ public interface EntityHandler extends AutoCloseable {
      * {@linkplain CriteriaSelect criteria select}, which may be
      * top-level query or a union or intersection of top-level
      * queries.
+     * <p>
+     * The given {@link CriteriaSelect} may be modified after
+     * this method returns an executable query object, but the
+     * modification does not affect the executable query. If
+     * the modified {@code CriteriaSelect} is passed to a
+     * subsequent invocation of this method, the invocation
+     * returns a new executable query object reflecting the
+     * semantics of the modified query.
      *
      * @param selectQuery A criteria select query object
      * @param <T> The query result type
@@ -750,6 +758,14 @@ public interface EntityHandler extends AutoCloseable {
     /**
      * Create an instance of {@link Statement} for executing a
      * {@linkplain CriteriaStatement criteria statement}.
+     * <p>
+     * The given {@link CriteriaStatement} may be modified after
+     * this method returns an executable statement object, but
+     * the modification does not affect the executable statement.
+     * If the modified {@code CriteriaStatement} is passed to a
+     * subsequent invocation of this method, the invocation
+     * return a new executable statement object reflecting the
+     * semantics of the modified query.
      *
      * @param statement A criteria statement object
      * @return An instance of {@link Statement} which may be
