@@ -23,6 +23,7 @@ declared as an `entity` in its XML descriptor.
 
 - The entity class must be a top-level class or a static inner class.
   An enum, record, or interface may not be designated as an entity.
+  A value class may not be designated as an entity.
 
 - The entity class must have a `public` or `protected` constructor with no
   parameters, which is called by the persistence provider runtime to
@@ -189,11 +190,12 @@ provider is permitted--but not required--to accept the combinations
 
 ==== Value Types and Reference Types [[value-type-reference-type]]
 
-In the Java language, an instance of a non-primitive type has a
-well-defined object identity unique to the instance and is passed
-_by reference_, meaning that assignment of the instance to a field,
-local variable, or method parameter, followed by later access to
-the assigned value, preserves the identity of the instance.
+In the Java language, an instance of a non-primitive type not
+explicitly declared as a `value` type has a well-defined object
+identity unique to the instance and is passed _by reference_,
+meaning that assignment of the instance to a field, local variable,
+or method parameter, followed by later access to the assigned value,
+preserves the identity of the instance.
 
 In general, operations performed by a persistence provider are not
 required to preserve the object identity of a value stored in an
@@ -1594,14 +1596,19 @@ persistence provider is not required to respect the object identity of
 a value type, and this identity is typically not made persistent in
 the database.
 
+Thus, an embedded object may be an instance of a Java value type.
+
 An embeddable class must be annotated as `Embeddable` or designated as
 `embeddable` in its XML descriptor. The access type for an embedded
 object is determined as described in <<a113>>.
 
 An embeddable class may be a regular Java class that adheres to the
 requirements specified in <<a18>> for entities, with the exception that
-an embeddable class is not annotated as `Entity`, and an embeddable
-class must not be `abstract`.
+an embeddable class:
+
+- is not annotated as `Entity`;
+- must not be `abstract`;
+- but may be a `value` type.
 
 Alternatively, an embeddable class may be a Java record type.
 
