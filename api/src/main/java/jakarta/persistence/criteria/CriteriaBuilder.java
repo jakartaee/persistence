@@ -1246,6 +1246,12 @@ public interface CriteriaBuilder {
      * @param x expression
      * @param y expression
      * @return quotient
+     *
+     * @apiNote The semantics of the SQL division operation are not standard
+     * across databases. In particular, when both operands are of integral
+     * types, the result of the division operation is an integral type in
+     * some databases, and a non-integral type in others. Portable applications
+     * should not assume a particular result type.
      */
     @Nonnull
     Expression<Number> quot(@Nonnull Expression<? extends Number> x,
@@ -1257,6 +1263,12 @@ public interface CriteriaBuilder {
      * @param x expression
      * @param y value
      * @return quotient
+     *
+     * @apiNote The semantics of the SQL division operation are not standard
+     * across databases. In particular, when both operands are of integral
+     * types, the result of the division operation is an integral type in
+     * some databases, and a non-integral type in others. Portable applications
+     * should not assume a particular result type.
      */
     @Nonnull
     Expression<Number> quot(@Nonnull Expression<? extends Number> x,
@@ -1268,6 +1280,12 @@ public interface CriteriaBuilder {
      * @param x value
      * @param y expression
      * @return quotient
+     *
+     * @apiNote The semantics of the SQL division operation are not standard
+     * across databases. In particular, when both operands are of integral
+     * types, the result of the division operation is an integral type in
+     * some databases, and a non-integral type in others. Portable applications
+     * should not assume a particular result type.
      */
     @Nonnull
     Expression<Number> quot(Number x,
