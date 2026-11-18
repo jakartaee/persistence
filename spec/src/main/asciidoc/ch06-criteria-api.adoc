@@ -740,11 +740,11 @@ WHERE e.department.name = 'Engineering'
 ===== Result Types of Expressions
 
 The `getJavaType` method, as defined in the
-`TupleElement` interface, returns the runtime type of the object on
-which it is invoked.
+`TupleElement` interface, returns the Java type of the value represented
+by the expression.
 
-In the case of the `In`, `Case`,
-`SimpleCase`, and `Coalesce` builder interfaces, the runtime results of
+In the case of the `Case`, `SimpleCase`, and `Coalesce` builder
+interfaces, the runtime results of
 the `getJavaType` method may differ from the `Expression` type and may
 vary as the expression is incrementally constructed. For non-numerical
 operands, the implementation must return the most specific common
@@ -752,7 +752,7 @@ superclass of the types of the operands used to form the result.
 
 In the case of the two-argument `sum`,
 `prod`, `diff`, `quot`, `coalesce`, and `nullif` methods, and the
-`In`, `Case`, `SimpleCase`, and `Coalesce` builder methods, the
+`Case`, `SimpleCase`, and `Coalesce` builder methods, the
 runtime result types will differ from the `Expression` type when the
 latter is `Number`. The following rules must be observed by the
 implementation when materializing the results of numeric expressions
