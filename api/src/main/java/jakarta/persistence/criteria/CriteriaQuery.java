@@ -23,8 +23,31 @@ import jakarta.persistence.Tuple;
 import java.util.List;
 
 /**
- * The {@code CriteriaQuery} interface defines functionality that is
- * specific to top-level queries.
+ * The {@code CriteriaQuery} interface defines functionality that
+ * is specific to top-level queries.
+ * <ul>
+ *     <li>{@link #from(Class)} specifies a root entity,
+ *     <li>{@link #select(Selection)} specifies a selection,
+ *     <li>{@link #where(Expression)} specifies restriction,
+ *     <li>{@link #groupBy(Expression...)} specifies grouping,
+ *     <li>{@link #having(Expression)} specifies group restriction,
+ *         and
+ *     <li>{@link #orderBy(Order...)} specifies ordering.
+ * </ul>
+ * <p>
+ * Every query has a {@linkplain Root root entity}, which must be
+ * explicitly specified by calling {@link #from}. Every other
+ * operation is optional. If:
+ * <ul>
+ * <li>neither {@link #select} nor {@link #multiselect} has been
+ *     invoked on a query,
+ * <li>the query has exactly one root entity {@code E}, and
+ * <li>the result type of the query is {@code E} or {@code Object},
+ * </ul>
+ * then the query is interpreted as if {@link #select} had been
+ * called with the {@link Root} representing the root entity
+ * {@code E}. Otherwise, a portable application program must
+ * explicitly specify the selection list.
  * <p>
  * For example, this criteria query selects {@code Book} entities
  * whose title matches a given pattern:
@@ -39,8 +62,6 @@ import java.util.List;
  *
  * var books = agent.createQuery(query).getResultList();
  * }
- *
- * @param <T>  the type of the defined result
  *
  * @since 2.0
  */

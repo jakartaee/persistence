@@ -872,12 +872,15 @@ use of the `select` or `multiselect` methods of the `CriteriaQuery`
 interface. The arguments to the `select` and `multiselect` methods are
 `Selection` instances.
 
-[NOTE]
-====
-Portable applications should use the `select`
-or `multiselect` method to specify the query's selection list.
-Applications that do not use one of these methods are not portable.
-====
+If:
+
+- neither `select` nor `multiselect` has been invoked on a query,
+- the query has exactly one root entity `E`, and
+- the result type of the query is `E` or `Object`,
+
+then the query is interpreted as if `select()` had been called with
+the `Root` representing the root entity `E`. Otherwise, a portable
+application program must explicitly specify the selection list.
 
 The `select` method takes a single
 `Selection` argument, which can be either an `Expression` instance or a
