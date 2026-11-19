@@ -27,7 +27,7 @@ import jakarta.persistence.metamodel.SingularAttribute;
  * An association or attribute referenced by the {@link #fetch} method
  * must be referenced from an entity or embeddable that is returned as
  * the result of the query. A fetch join has the same join semantics as
- * the corresponding inner or outer join, except that the related
+ * the corresponding inner or left outer join, except that the related
  * objects are not top-level objects in the query result and cannot be
  * referenced elsewhere by the query.
  * <p>
