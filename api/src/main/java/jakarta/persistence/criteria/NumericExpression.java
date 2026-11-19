@@ -232,6 +232,12 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @param y expression
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Expression)
+     *
+     * @apiNote The semantics of the SQL division operation are not standard
+     * across databases. In particular, when both operands are of integral
+     * types, the result of the division operation is an integral type in
+     * some databases, and a non-integral type in others. Portable applications
+     * should not assume a particular result type.
      */
     @Nonnull
     NumericExpression<N> dividedBy(@Nonnull Expression<? extends N> y);
@@ -242,6 +248,12 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * @param y value
      * @return quotient
      * @see CriteriaBuilder#quot(Expression, Number)
+     *
+     * @apiNote The semantics of the SQL division operation are not standard
+     * across databases. In particular, when both operands are of integral
+     * types, the result of the division operation is an integral type in
+     * some databases, and a non-integral type in others. Portable applications
+     * should not assume a particular result type.
      */
     @Nonnull
     NumericExpression<N> dividedBy(N y);
@@ -260,6 +272,12 @@ public interface NumericExpression<N extends Number & Comparable<N>>
      * of this expression dividing the argument.
      * @param y value
      * @return quotient
+     *
+     * @apiNote The semantics of the SQL division operation are not standard
+     * across databases. In particular, when both operands are of integral
+     * types, the result of the division operation is an integral type in
+     * some databases, and a non-integral type in others. Portable applications
+     * should not assume a particular result type.
      */
     @Nonnull
     NumericExpression<N> dividedInto(N y);
