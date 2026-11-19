@@ -1,0 +1,153 @@
+/*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0,
+ * or the Eclipse Distribution License v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+ */
+package jakarta.persistence;
+
+import jakarta.annotation.Nonnull;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
+
+/**
+ * Create a tuple with the elements and values specified by the given entries.
+ * @param entries the elements and values belonging to the tuple
+ * @since 4.0
+ */
+record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
+    TupleRecord {
+        requireNonNull(entries, "entries are required");
+        for (var entry: entries) {
+            requireNonNull(entry, "entry may not be null");
+        }
+    }
+
+    @Override
+    public <X> X get(@Nonnull TupleElement<X> tupleElement) {
+        for (var entry : entries) {
+            if (entry.getElement().equals(tupleElement)) {
+                return tupleElement.getJavaType().cast(entry.getValue());
+            }
+        }
+        throw new IllegalArgumentException("no such tuple element");
+    }
+
+    @Override
+    public <X> X get(@Nonnull String alias, @Nonnull Class<X> type) {
+        for (var entry : entries) {
+            if (entry.getElement().hasAlias(alias)) {
+                return type.cast(entry.getValue());
+            }
+        }
+        throw new IllegalArgumentException("no tuple element with the given alias");
+    }
+
+    @Override
+    public Object get(@Nonnull String alias) {
+        for (var entry : entries) {
+            if (entry.getElement().hasAlias(alias)) {
+                return entry.getValue();
+            }
+        }
+        throw new IllegalArgumentException("no tuple element with the given alias");
+    }
+
+    @Override
+    public <X> X get(int position, @Nonnull Class<X> type) {
+        if (position >= 0 && position < entries.length) {
+            return type.cast(entries[position].getValue());
+        }
+        else {
+            throw new IllegalArgumentException("no tuple element with the given position");
+        }
+    }
+
+    @Override
+    public Object get(int position) {
+        if (position >= 0 && position < entries.length) {
+            return entries[position].getValue();
+        }
+        else {
+            throw new IllegalArgumentException("no tuple element with the given position");
+        }
+    }
+
+    @Nonnull
+    @Override
+    public Object[] toArray() {
+        final var values = new Object[entries.length];
+        for (int i = 0; i < entries.length; i++) {
+            values[i] = entries[i].getValue();
+        }
+        return values;
+    }
+
+    @Nonnull
+    @Override
+    public List<TupleElement<?>> getElements() {
+        final var elements = new TupleElement<?>[entries.length];
+        for (int i = 0; i < entries.length; i++) {
+            elements[i] = entries[i].getElement();
+        }
+        return asList(elements);
+    }
+
+    @Nonnull
+    @Override
+    public List<Entry<?>> getEntries() {
+        return asList(entries);
+    }
+
+    @Override
+    public int length() {
+        return entries.length;
+    }
+
+    @Override
+    @Nonnull
+    public List<Class<?>> getElementTypes() {
+        final var types = new Class<?>[entries.length];
+        for (int i = 0; i < entries.length; i++) {
+            types[i] = entries[i].getElement().getJavaType();
+        }
+        return asList(types);
+    }
+
+    @Override
+    @Nonnull
+    public List<String> getAliases() {
+        final var aliases = new String[entries.length];
+        for (int i = 0; i < entries.length; i++) {
+            aliases[i] = entries[i].getElement().getAlias();
+        }
+        return asList(aliases);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Tuple tuple
+            && Arrays.equals(entries,
+                tuple.getEntries().toArray());
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(entries);
+    }
+
+    @Override
+    @Nonnull
+    public String toString() {
+        return Arrays.toString(entries);
+    }
+}
