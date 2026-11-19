@@ -46,6 +46,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public EmploymentPeriod getEmploymentPeriod() { ... }
  * }
  *
+ * <p>If
+ * <ul>
+ *     <li>the type of an embedded attribute is an embeddable
+ *         class with no collection-valued attributes, and
+ *     <li>for a given record, every column mapped by the
+ *         embedded attribute holds the value {@code null},
+ * </ul>
+ * then the whole embeddable object is treated as {@code null}
+ * by the persistence provider and the embedded attribute is
+ * set to null when its owning entity instance is loaded from
+ * the database. Otherwise, a non-null instance of the
+ * embeddable type is assigned to the embedded attribute.
+ *
  * @see Embeddable
  * @see AttributeOverride
  * @see AttributeOverrides

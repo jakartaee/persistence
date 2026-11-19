@@ -1626,6 +1626,19 @@ collections, and associations:
   belonging to another entity.] An embeddable class that is used as an
   embedded id or as a map key must not declare such a relationship.
 
+If
+
+- the type of an embedded attribute is an embeddable class with no
+  collection-valued persistent attributes, as defined above in <<a19>>,
+  and
+- for a given record, every column mapped by the embedded attribute holds
+  a null value,
+
+then the whole embeddable object is treated as `null` by the persistence
+provider and the embedded attribute is set to null when its owning entity
+instance is loaded from the database. Otherwise, a non-null instance of
+the embeddable type is assigned to the embedded attribute.
+
 Additional requirements and restrictions on embeddable classes are described
 in <<a494>>.
 
