@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_4_0.xsd"
+                 version="4.0">
+    <package>ee.jakarta.tck.persistence.se.schemaGeneration.xml.mapKeyJoinColumn</package>
+    <entity class="Course" access="FIELD">
+        <table name="SCHEMAGENXMLMKJCCOURSE"/>
+        <attributes>
+            <id name="id">
+                <column name="COURSEID"/>
+            </id>
+            <basic name="name">
+                <column name="COURSENAME"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="Semester" access="FIELD">
+        <table name="SCHEMAGENXMLMKJCSEMESTER"/>
+        <attributes>
+            <id name="id">
+                <column name="SEMESTERID"/>
+            </id>
+            <basic name="name">
+                <column name="SEMESTERNAME"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="Student" access="FIELD">
+        <table name="SCHEMAGENXMLMKJCSTUDENT"/>
+        <attributes>
+            <id name="id">
+                <column name="STUDENTID"/>
+            </id>
+            <many-to-many name="enrollments">
+                <map-key-join-column name="COURSE_KEY"/>
+                <map-key-foreign-key name="XMLCOURSEKEYCONSTRAINT" constraint-mode="CONSTRAINT"
+                                     foreign-key-definition="FOREIGN KEY (COURSE_KEY) REFERENCES SCHEMAGENXMLMKJCCOURSE (COURSEID)"/>
+                <join-table name="SCHEMAGENXMLMKJC_ENROLLMENTS">
+                    <join-column name="STUDENT_ID"/>
+                    <inverse-join-column name="SEMESTER_ID"/>
+                </join-table>
+            </many-to-many>
+        </attributes>
+    </entity>
+</entity-mappings>
