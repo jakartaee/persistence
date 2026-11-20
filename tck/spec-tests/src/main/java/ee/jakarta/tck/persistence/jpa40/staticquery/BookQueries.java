@@ -16,8 +16,11 @@
 
 package ee.jakarta.tck.persistence.jpa40.staticquery;
 
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.query.JakartaQuery;
 import jakarta.persistence.query.NativeQuery;
+import jakarta.persistence.query.QueryOptions;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -38,4 +41,12 @@ public interface BookQueries {
 
     @NativeQuery("SELECT ID, TITLE FROM JPA40_STATIC_QUERY_BOOK WHERE TITLE = ?")
     BookSummary bookSummary(String title);
+
+    @JakartaQuery("SELECT b FROM Jpa40StaticQueryBook b WHERE b.id = :id")
+    @QueryOptions(lockMode = LockModeType.PESSIMISTIC_WRITE, timeout = 4000)
+    StaticQueryBook lockedBook(Integer id);
+
+    @NativeQuery("SELECT TITLE FROM JPA40_STATIC_QUERY_BOOK WHERE ID = ?")
+    @QueryOptions(flush = QueryFlushMode.FLUSH)
+    String flushedBookTitle(Integer id);
 }

@@ -16,8 +16,10 @@
 
 package ee.jakarta.tck.persistence.jpa40.staticquery;
 
+import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.query.JakartaStatement;
 import jakarta.persistence.query.NativeStatement;
+import jakarta.persistence.query.StatementOptions;
 
 public interface BookStatements {
 
@@ -26,4 +28,12 @@ public interface BookStatements {
 
     @NativeStatement("DELETE FROM JPA40_STATIC_QUERY_BOOK WHERE ID = ?")
     int deleteBook(Integer id);
+
+    @JakartaStatement("UPDATE Jpa40StaticQueryBook b SET b.title = :title WHERE b.title = :previousTitle")
+    @StatementOptions(flush = QueryFlushMode.FLUSH)
+    int renameBooksByTitle(String title, String previousTitle);
+
+    @NativeStatement("DELETE FROM JPA40_STATIC_QUERY_BOOK WHERE TITLE = ?")
+    @StatementOptions(flush = QueryFlushMode.FLUSH, timeout = 5000)
+    int deleteBooksByTitle(String title);
 }
