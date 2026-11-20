@@ -83,6 +83,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * types of the method parameters, enclosed in parentheses and separated
  * by commas, for example, {@code "org.example.Library#emptyTrash()"}.
  *
+ * <p>A method must not be annotated with more than one of
+ * {@code JakartaQuery}, {@code JakartaStatement}, {@code NatveQuery},
+ * {@code NativeStatement}, and {@code jakarta.data.repository.Query}.
+ *
  * @see NativeQuery
  * @see StatementOptions
  *
