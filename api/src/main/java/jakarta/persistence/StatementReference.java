@@ -22,9 +22,9 @@ import java.util.Set;
 /**
  * A reference to an executable named statement for an operation
  * that returns a row count. The named statement is declared via the
- * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.JakartaQuery} or
- * {@link jakarta.persistence.query.NativeQuery}. An
+ * {@link NamedStatement} or {@link NamedNativeStatement} annotations,
+ * or using {@link jakarta.persistence.query.JakartaStatement} or
+ * {@link jakarta.persistence.query.NativeStatement}. An
  * instance of {@code StatementReference} is usually obtained
  * from the static metamodel of the annotated type.
  *
@@ -35,7 +35,7 @@ import java.util.Set;
  * class Filer {
  *     @Inject EntityManager entityManager;
  *
- *     @JakartaQuery("delete from Record where temporary = true")
+ *     @JakartaStatement("delete from Record where temporary = true")
  *     int purgeTemporaryRecords() {
  *         return entityManager.createStatement(Filer_.purgeTemporaryRecords())
  *                 .execute();
@@ -44,15 +44,15 @@ import java.util.Set;
  * }
  *
  * <p>In this example, the entity class is annotated,
- * and the {@link NamedQuery} annotation explicitly specifies a
+ * and the {@link NamedStatement} annotation explicitly specifies a
  * name:
  * {@snippet :
- * @NamedQuery(name = "updateSales",
- *             query = "update Book set sales = ?1 where isbn = ?2")
+ * @NamedStatement(name = "updateSales",
+ *             statement = "update Book set sales = ?1 where isbn = ?2")
  * @Entity class Book { .. }
  * }
  * <p>In this case the {@code StatementReference} obtained from
- * its static metamodel does not include arguments to the query
+ * its static metamodel does not include arguments to the statement
  * parameters, and so they must be supplied via {@code setParameter}:
  * {@snippet :
  * int updated =
@@ -63,13 +63,13 @@ import java.util.Set;
  * }
  *
  * <p>A {@code StatementReference} may include arguments to parameters
- * of the query.
+ * of the statement.
  * <ul>
- * <li>A reference representing a query declared using an
+ * <li>A reference representing a statement declared using an
  *     annotation of a type or field has no arguments, and so
  *     {@link #getArguments()}, {@link #getParameterNames()},
  *     and {@link #getParameterTypes()} all return {@code null}.
- * <li>A reference representing a query declared using an
+ * <li>A reference representing a statement declared using an
  *     annotation of a method holds information about the
  *     arguments passed to the method, making it available via
  *     {@link #getArguments()}, {@link #getParameterNames()},
@@ -92,13 +92,13 @@ import java.util.Set;
 public non-sealed interface StatementReference extends Reference {
     /**
      * All {@linkplain Statement.Option options} specified by
-     * {@link jakarta.persistence.query.QueryOptions},
-     * {@link NamedQuery}, or {@link NamedNativeQuery}, or an
+     * {@link jakarta.persistence.query.StatementOptions},
+     * {@link NamedStatement}, or {@link NamedNativeStatement}, or an
      * empty set if no options were specified.
      *
      * @see Statement#addOption
-     * @see jakarta.persistence.query.QueryOptions#timeout
-     * @see jakarta.persistence.query.QueryOptions#flush
+     * @see jakarta.persistence.query.StatementOptions#timeout
+     * @see jakarta.persistence.query.StatementOptions#flush
      */
     @Nonnull
     Set<Statement.Option> getOptions();

@@ -1118,14 +1118,16 @@ auto-apply conversion on a per-attribute basis.
   `@Convert` annotation must be used to explicitly specify which converter
   applies.
 
-=== Annotations for Static Queries
+=== Annotations for Static Queries and Statements
 
-These annotations are used to declare queries associated with methods.
+These annotations are used to declare queries and statements associated
+with methods.
 In the context of Jakarta Data<<a19502>>, they are used to declare repository
 query methods.
 
-The persistence provider must treat each such static query as a named query,
-where the query name agrees with the convention for Javadoc links, that is:
+The persistence provider must treat each such static query as a named query
+and each such static statement as a named statement, where the query or
+statement name agrees with the convention for Javadoc links, that is:
 the concatenation of the fully qualified name of the type declaring the
 annotated method, with the string `#`, the name of the annotated method,
 and the raw types of the method parameters, enclosed in parentheses and
@@ -1134,7 +1136,9 @@ separated by commas, for example,
 
 ==== JakartaQuery Annotation
 
-Specifies a query expressed in the Jakarta Persistence Query Language.
+Specifies a `SELECT` query expressed in the Jakarta Persistence Query
+Language. An `UPDATE` or `DELETE` statement must be declared using
+`JakartaStatement`.
 This annotation may be applied to:
 
 - any method of any class or interface belonging to the persistence unit,
@@ -1157,11 +1161,46 @@ The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
 The persistence provider must treat the annotation
-`jakarta.data.repository.Query` as a synonym for `JakartaQuery`.
+`jakarta.data.repository.Query` as a synonym for `JakartaQuery` when it
+specifies a `SELECT` query.
+
+==== JakartaStatement Annotation
+
+Specifies an `UPDATE` or `DELETE` statement expressed in the Jakarta
+Persistence Query Language. A `SELECT` query must be declared using
+`JakartaQuery`.
+This annotation may be applied to:
+
+- any method of any class or interface belonging to the persistence unit,
+  or
+- a query method of a Jakarta Data repository with an implementation backed
+  by Jakarta Persistence.
+
+The return type of the method must be `void`, `int`, or `long`.
+
+[source,java]
+----
+@Target(METHOD)
+@Retention(RUNTIME)
+public @interface JakartaStatement {
+    String value();
+}
+----
+
+`value` :: the statement, written in the Jakarta Persistence Query Language.
+
+The semantics of this annotation are defined by its Javadoc, and in
+<<canonical-metamodel>>.
+
+The persistence provider must treat the annotation
+`jakarta.data.repository.Query` as a synonym for `JakartaStatement` when it
+specifies an `UPDATE` or `DELETE` statement.
 
 ==== NativeQuery Annotation
 
 Specifies a query expressed in the native SQL dialect of the database.
+The SQL query must return a result set. A SQL statement that returns a row
+count must be declared using `NativeStatement`.
 This annotation may be applied to:
 
 - any method of any class or interface belonging to the persistence unit,
@@ -1180,8 +1219,8 @@ public @interface NativeQuery {
 
 `value` :: the query, written in the native SQL dialect of the database.
 
-If the SQL statement returns a result set and the annotated method has no
-explicit result set mapping specified using `EntityResult`, `ColumnResult`,
+If the annotated method has no explicit result set mapping specified using
+`EntityResult`, `ColumnResult`,
 or `ConstructorResult`, the persistence provider must infer the query result
 class from the return type of the method. For a method returning `R`,
 `List<R>`, or `Stream<R>`, the result class is `R`. For a Jakarta Data
@@ -1202,16 +1241,48 @@ List<BookRecord> findBookRecordsByTitle(String title);
 The semantics of this annotation are defined by its Javadoc, and in
 <<canonical-metamodel>>.
 
+==== NativeStatement Annotation
+
+Specifies a statement expressed in the native SQL dialect of the database.
+The SQL statement must return a row count. A SQL query that returns a
+result set must be declared using `NativeQuery`.
+This annotation may be applied to:
+
+- any method of any class or interface belonging to the persistence unit,
+  or
+- a query method of a Jakarta Data repository with an implementation backed
+  by Jakarta Persistence.
+
+The return type of the method must be `void`, `int`, or `long`.
+
+[source,java]
+----
+@Target(METHOD)
+@Retention(RUNTIME)
+public @interface NativeStatement {
+    String value();
+}
+----
+
+`value` :: the statement, written in the native SQL dialect of the database.
+
+The semantics of this annotation are defined by its Javadoc, and in
+<<canonical-metamodel>>.
+
 ==== QueryOptions Annotation
 
 Configures options that affect the execution of a static query. This
 annotation may be applied to:
 
-- a method with a `JakartaQuery` or Jakarta Data
-  `jakarta.data.repository.Query` annotation,
+- a method with a `JakartaQuery` annotation,
+- a method with a Jakarta Data `jakarta.data.repository.Query` annotation
+  specifying a `SELECT` query,
 - a method with a `NativeQuery` annotation, or
 - a Jakarta Data repository method annotated
   `jakarta.data.repository.Find`.
+
+This annotation must be respected by an implementation of Jakarta Data
+backed by Jakarta Persistence.
 
 [source,java]
 ----
@@ -1231,13 +1302,11 @@ public @interface QueryOptions {
 
 `cacheStoreMode` :: the cache store mode to use. The presence of this
   annotation overrides the default cache store mode of the persistence
-  context. This option applies when the query is a JPQL `select` query
-  or a native query that returns a result set.
+  context.
 
 `cacheRetrieveMode` :: the cache retrieve mode to use. The presence of
   this annotation overrides the default cache retrieve mode of the
-  persistence context. This option applies when the query is a JPQL
-  `select` query or a native query that returns a result set.
+  persistence context.
 
 `timeout` :: the query timeout, in milliseconds. By default, there is
   no timeout.
@@ -1252,13 +1321,10 @@ public @interface QueryOptions {
   must be executed in a transaction, and the persistence context, if
   any, must be joined to the transaction. If a lock mode is explicitly
   specified for a native query, the behavior is undefined and unportable
-  between persistence providers. This option applies when the query is a
-  JPQL `select` query or a native query that returns a result set.
+  between persistence providers.
 
 `lockScope` :: the pessimistic lock scope to use in query execution if
-  a pessimistic lock mode is specified via `lockMode`. This option
-  applies when the query is a JPQL `select` query or a native query
-  that returns a result set.
+  a pessimistic lock mode is specified via `lockMode`.
 
 `entityGraph` :: the name of a `@NamedEntityGraph` applied to the
   entity returned by the query. By default, no entity graph is applied.
@@ -1269,3 +1335,40 @@ public @interface QueryOptions {
   JPQL `select` query.
 
 `flush` :: the query flush mode to use when executing the query.
+
+==== StatementOptions Annotation
+
+Configures options that affect the execution of a static statement. This
+annotation may be applied to:
+
+- a method with a `JakartaStatement` annotation,
+- a method with a `NativeStatement` annotation,
+- a method with a Jakarta Data `jakarta.data.repository.Query` annotation
+  specifying an `UPDATE` or `DELETE` statement, or
+- a Jakarta Data repository method annotated
+  `jakarta.data.repository.Delete` that uses the parameter-based automatic
+  query pattern.
+
+This annotation must be respected by an implementation of Jakarta Data
+backed by Jakarta Persistence.
+
+[source,java]
+----
+@Target(METHOD)
+@Retention(RUNTIME)
+public @interface StatementOptions {
+    int timeout() default -1;
+    QueryHint[] hints() default {};
+    QueryFlushMode flush() default QueryFlushMode.DEFAULT;
+}
+----
+
+`timeout` :: the statement timeout, in milliseconds. By default, there is
+  no timeout.
+
+`hints` :: statement properties and hints. Hints defined by this
+  specification should be observed by the provider when possible.
+  Vendor-specific hints that are not recognized by a provider must be
+  ignored.
+
+`flush` :: the query flush mode to use when executing the statement.

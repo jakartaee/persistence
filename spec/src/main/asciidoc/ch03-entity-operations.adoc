@@ -3596,7 +3596,7 @@ Similarly, a _named statement_ is:
 
 - a static statement expressed in metadata using a `@NamedStatement` or
   `@NamedNativeStatement` annotation, as defined in <<metadata-annotations>>,
-  a `@JakartaQuery` or `@NativeQuery` annotation, as defined in
+  a `@JakartaStatement` or `@NativeStatement` annotation, as defined in
   <<static-query-api>>, or using a `<named-statement>` or
   `<named-native-statement>` XML element, as specified in <<named-statement>>,
   or

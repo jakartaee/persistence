@@ -34,8 +34,9 @@
  * <li>{@link jakarta.persistence.query} defines an API for
  *     expressing
  *     {@linkplain jakarta.persistence.query.JakartaQuery
- *     statically type safe queries} by annotating a query
- *     method.
+ *     statically type safe queries} and
+ *     {@linkplain jakarta.persistence.query.JakartaStatement
+ *     statements} by annotating methods.
  * <li>{@link jakarta.persistence.metamodel} defines an API
  *     representing the
  *     {@linkplain jakarta.persistence.metamodel.ManagedType

@@ -35,19 +35,21 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>Configures options that affect the execution of a query.
  * This annotation may be applied to:
  * <ul>
- * <li>a method with a {@link JakartaQuery} or Jakarta Data
- *     {@code jakarta.data.repository.Query} annotation,
- * <li>a method with a {@link NativeQuery} annotation,
- * <li>a Jakarta Data repository method annotated
- *     {@code jakarta.data.repository.Delete} that uses the
- *     parameter-based automatic query pattern,
- *     or
+ * <li>a method with a {@link JakartaQuery} annotation,
+ * <li>a method with a Jakarta Data
+ *     {@code jakarta.data.repository.Query} annotation
+ *     specifying a {@code SELECT} query,
+ * <li>a method with a {@link NativeQuery} annotation, or
  * <li>a Jakarta Data repository method annotated
  *     {@code jakarta.data.repository.Find}.
  * </ul>
+ * <p>This annotation must not be applied to a method annotated
+ * {@link JakartaStatement} or {@link NativeStatement}.
  *
  * <p>This annotation must be respected by an implementation
  * of Jakarta Data backed by Jakarta Persistence.
+ *
+ * @see StatementOptions
  *
  * @since 4.0
  */
@@ -58,9 +60,6 @@ public @interface QueryOptions {
      * The {@linkplain CacheStoreMode cache store mode} to use.
      * The presence of this annotation overrides the default
      * cache store mode of the persistence context.
-     * <p>
-     * This option applies when the query is a JPQL {@code select}
-     * query or a native query that returns a result set.
      *
      * @see jakarta.persistence.TypedQuery#setCacheStoreMode
      */
@@ -70,9 +69,6 @@ public @interface QueryOptions {
      * The {@linkplain CacheRetrieveMode cache retrieve mode}
      * to use. The presence of this annotation overrides the
      * default cache retrieve mode of the persistence context.
-     * <p>
-     * This option applies when the query is a JPQL {@code select}
-     * query or a native query that returns a result set.
      *
      * @see jakarta.persistence.TypedQuery#setCacheRetrieveMode
      */
@@ -101,9 +97,6 @@ public @interface QueryOptions {
      * <p> If a lock mode is explicitly specified for a
      * {@linkplain NativeQuery native query}, the behavior
      * is undefined and unportable between persistence providers.
-     * <p>
-     * This option applies when the query is a JPQL {@code select}
-     * query or a native query that returns a result set.
      *
      * @see jakarta.persistence.TypedQuery#setLockMode
      */
@@ -112,9 +105,6 @@ public @interface QueryOptions {
     /**
      * The pessimistic lock scope to use in query execution if a
      * pessimistic lock mode is specified via {@link #lockMode}.
-     * <p>
-     * This option applies when the query is a JPQL {@code select}
-     * query or a native query that returns a result set.
      */
     PessimisticLockScope lockScope() default PessimisticLockScope.NORMAL;
 
