@@ -23,6 +23,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies a query expressed in the native SQL dialect of the database.
+ * The SQL query must return a result set. A SQL statement that returns a
+ * row count must be declared using {@link NativeStatement}.
  * This annotation may be applied to:
  * <ul>
  * <li>any method of any class or interface belonging to the persistence
@@ -46,11 +48,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *     @NativeQuery("select * from books where isbn = ?")
  *     Book getBookWithIsbn(String isbn);
- *
- *     @NativeQuery("delete from documents"
- *             + " where id in (select document_id from trash)")
- *     @QueryOptions(timeout = 30_000)
- *     int emptyTrash();
  * }
  *}
  * <p> A method return type <em>agrees</em> with an explicitly specified
@@ -64,8 +61,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     mapping, as specified by Jakarta Data.
  * </ul>
  *
- * <p> If the SQL statement returns a result set and no explicit result set
- * mapping is specified using {@link jakarta.persistence.EntityResult},
+ * <p> If no explicit result set mapping is specified using
+ * {@link jakarta.persistence.EntityResult},
  * {@link jakarta.persistence.ColumnResult}, or
  * {@link jakarta.persistence.ConstructorResult}, the query result class
  * must be inferred from the return type of the annotated method. For a
@@ -82,10 +79,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @NativeQuery("select isbn, title from books where title like ?")
  * List<BookRecord> findBookRecordsByTitle(String title);
  * }
- *
- * <p> A method return type <em>agrees</em> with the type returned by a
- * SQL statement that returns a row count if the return type is
- * {@code void}, {@code int}, or {@code long}.
  *
  * <p> A method parameter type agrees with a query parameter type if it is
  * a type that could be assigned to the corresponding query parameter by
@@ -120,12 +113,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         em.createQuery(Library_.getBookWithIsbn(isbn))
  *           .getSingleResult();
  * }
- * {@snippet :
- * int deleted =
- *         em.createQuery(Library_.emptyTrash())
- *           .executeUpdate();
- * }
- *
  * <p> In addition, the query is treated as a named query, where the query
  * name agrees with the convention for Javadoc links, that is: the
  * concatenation of the fully qualified name of the type, with the string
@@ -157,6 +144,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <li>{@linkplain jakarta.persistence.ColumnResult scalar results},
  *     in the order in which they are declared.
  * </ol>
+ *
+ * <p>A method must not be annotated with more than one of
+ * {@code JakartaQuery}, {@code JakartaStatement}, {@code NatveQuery},
+ * {@code NativeStatement}, and {@code jakarta.data.repository.Query}.
+ *
+ * @see NativeStatement
+ * @see QueryOptions
  *
  * @since 4.0
  */

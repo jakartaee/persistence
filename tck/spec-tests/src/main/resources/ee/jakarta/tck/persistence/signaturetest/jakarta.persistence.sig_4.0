@@ -4874,7 +4874,19 @@ CLSS public abstract interface !annotation jakarta.persistence.query.JakartaQuer
 intf java.lang.annotation.Annotation
 meth public abstract java.lang.String value()
 
+CLSS public abstract interface !annotation jakarta.persistence.query.JakartaStatement
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[METHOD])
+intf java.lang.annotation.Annotation
+meth public abstract java.lang.String value()
+
 CLSS public abstract interface !annotation jakarta.persistence.query.NativeQuery
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[METHOD])
+intf java.lang.annotation.Annotation
+meth public abstract java.lang.String value()
+
+CLSS public abstract interface !annotation jakarta.persistence.query.NativeStatement
  anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
  anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[METHOD])
 intf java.lang.annotation.Annotation
@@ -4892,6 +4904,14 @@ meth public abstract !hasdefault jakarta.persistence.PessimisticLockScope lockSc
 meth public abstract !hasdefault jakarta.persistence.QueryFlushMode flush()
 meth public abstract !hasdefault jakarta.persistence.QueryHint[] hints()
 meth public abstract !hasdefault java.lang.String entityGraph()
+
+CLSS public abstract interface !annotation jakarta.persistence.query.StatementOptions
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[METHOD])
+intf java.lang.annotation.Annotation
+meth public abstract !hasdefault int timeout()
+meth public abstract !hasdefault jakarta.persistence.QueryFlushMode flush()
+meth public abstract !hasdefault jakarta.persistence.QueryHint[] hints()
 
 CLSS public jakarta.persistence.query.StaticStatementReference
 cons public !varargs init(java.lang.String,java.lang.Class<?>,java.lang.String,java.util.List<java.lang.Class<?>>,java.util.List<java.lang.String>,java.util.List<java.lang.Object>,java.util.Map<java.lang.String,java.lang.Object>,jakarta.persistence.Statement$Option[])
