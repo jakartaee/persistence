@@ -18,6 +18,8 @@ package ee.jakarta.tck.persistence.jpa40.staticquery;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.FlushModeType;
+import jakarta.persistence.Statement;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,5 +91,48 @@ public class Jpa40StaticStatementClient extends PMClientBase {
         assertEquals(1, count);
         assertNull(getEntityManager().find(StaticQueryBook.class, 1));
         assertEquals("Beta", getEntityManager().find(StaticQueryBook.class, 2).getTitle());
+    }
+
+    /**
+     * Verifies that a JPQL update with {@code @StatementOptions} sees a pending title change.
+     */
+    @Test
+    public void jakartaStatementOptionsFlushTest() {
+        var em = getEntityManager();
+        em.setFlushMode(FlushModeType.EXPLICIT);
+
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        em.find(StaticQueryBook.class, 1).setTitle("Pending update title");
+        int count = em.createNamedStatement(BookStatements.class.getName()
+                        + "#renameBooksByTitle(java.lang.String,java.lang.String)")
+                .setParameter("title", "Updated")
+                .setParameter("previousTitle", "Pending update title")
+                .execute();
+        transaction.rollback();
+
+        assertEquals(1, count);
+    }
+
+    /**
+     * Verifies that {@code @StatementOptions} configures the timeout and
+     * flushes a pending title change before a native delete.
+     */
+    @Test
+    public void nativeStatementOptionsFlushAndTimeoutTest() {
+        var em = getEntityManager();
+        em.setFlushMode(FlushModeType.EXPLICIT);
+        Statement statement = em.createNamedStatement(BookStatements.class.getName()
+                + "#deleteBooksByTitle(java.lang.String)");
+
+        assertEquals(5000, statement.getTimeout());
+
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        em.find(StaticQueryBook.class, 1).setTitle("Pending delete title");
+        int count = statement.setParameter(1, "Pending delete title").execute();
+        transaction.rollback();
+
+        assertEquals(1, count);
     }
 }

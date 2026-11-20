@@ -18,6 +18,10 @@ package ee.jakarta.tck.persistence.jpa40.staticquery;
 
 import ee.jakarta.tck.persistence.common.PMClientBase;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.FlushModeType;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.TransactionRequiredException;
+import jakarta.persistence.TypedQuery;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Jpa40StaticQueryClient extends PMClientBase {
 
@@ -124,5 +129,41 @@ public class Jpa40StaticQueryClient extends PMClientBase {
                 .getSingleResult();
 
         assertEquals(new BookSummary(3, "Gamma"), summary);
+    }
+
+    /**
+     * Verifies that {@code @QueryOptions} configures a JPQL query's timeout
+     * and lock mode, and the requested lock requires an active transaction.
+     */
+    @Test
+    public void jakartaQueryOptionsLockModeAndTimeoutTest() {
+        TypedQuery<StaticQueryBook> query = getEntityManager()
+                .createNamedQuery(BookQueries.class.getName() + "#lockedBook(java.lang.Integer)",
+                        StaticQueryBook.class)
+                .setParameter("id", 1);
+
+        assertEquals(4000, query.getTimeout());
+        assertEquals(LockModeType.PESSIMISTIC_WRITE, query.getLockMode());
+        assertThrows(TransactionRequiredException.class, query::getSingleResult);
+    }
+
+    /**
+     * Verifies that {@code @QueryOptions} can request a flush before a native query.
+     */
+    @Test
+    public void nativeQueryOptionsFlushTest() {
+        var em = getEntityManager();
+        em.setFlushMode(FlushModeType.EXPLICIT);
+
+        EntityTransaction transaction = getEntityTransaction();
+        transaction.begin();
+        em.find(StaticQueryBook.class, 1).setTitle("Pending query title");
+        String title = em.createNamedQuery(BookQueries.class.getName() + "#flushedBookTitle(java.lang.Integer)",
+                        String.class)
+                .setParameter(1, 1)
+                .getSingleResult();
+        transaction.rollback();
+
+        assertEquals("Pending query title", title);
     }
 }
