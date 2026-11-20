@@ -49,13 +49,14 @@ public class StaticStatementReference
      * This constructor overload is adapted to the case where the
      * program element is annotated with {@link StatementOptions}.
      *
-     * @param queryName The name of the statement, following the convention
-     *                  for Javadoc links: the concatenation of the fully
-     *                  qualified name of the type declaring the annotated
-     *                  method, {@code "#"}, the method name, and the raw
-     *                  parameter types (with fully qualified names for
-     *                  reference types), enclosed in parentheses and
-     *                  separated by commas
+     * @param statementName
+     *        The name of the statement, following the convention
+     *        for Javadoc links: the concatenation of the fully
+     *        qualified name of the type declaring the annotated
+     *        method, {@code "#"}, the method name, and the raw
+     *        parameter types (with fully qualified names for
+     *        reference types), enclosed in parentheses and
+     *        separated by commas
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
      * @param parameterTypes The types of the parameters of the
@@ -68,7 +69,7 @@ public class StaticStatementReference
      * @param options All specified {@linkplain Statement.Option options}
      */
     public StaticStatementReference(
-            @Nonnull String queryName,
+            @Nonnull String statementName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
             @Nonnull List<Class<?>> parameterTypes,
@@ -76,7 +77,7 @@ public class StaticStatementReference
             @Nonnull List<Object> arguments,
             @Nonnull Map<String, Object> hints,
             @Nonnull Statement.Option... options) {
-        this.name = queryName;
+        this.name = statementName;
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
         this.parameterTypes = parameterTypes;
@@ -91,13 +92,14 @@ public class StaticStatementReference
      * This constructor overload is adapted to the case where the
      * program element is not annotated with {@link StatementOptions}.
      *
-     * @param queryName The name of the statement, following the convention
-     *                  for Javadoc links: the concatenation of the fully
-     *                  qualified name of the type declaring the annotated
-     *                  method, {@code "#"}, the method name, and the raw
-     *                  parameter types (with fully qualified names for
-     *                  reference types), enclosed in parentheses and
-     *                  separated by commas
+     * @param statementName
+     *        The name of the statement, following the convention
+     *        for Javadoc links: the concatenation of the fully
+     *        qualified name of the type declaring the annotated
+     *        method, {@code "#"}, the method name, and the raw
+     *        parameter types (with fully qualified names for
+     *        reference types), enclosed in parentheses and
+     *        separated by commas
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
      * @param parameterTypes The types of the parameters of the
@@ -108,13 +110,13 @@ public class StaticStatementReference
      *                  at runtime
      */
     public StaticStatementReference(
-            @Nonnull String queryName,
+            @Nonnull String statementName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
             @Nonnull List<Class<?>> parameterTypes,
             @Nonnull List<String> parameterNames,
             @Nonnull List<Object> arguments) {
-        this(queryName, annotatedClass, annotatedMemberName,
+        this(statementName, annotatedClass, annotatedMemberName,
                 parameterTypes, parameterNames, arguments,
                 emptyMap());
     }
