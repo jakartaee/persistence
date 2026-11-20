@@ -94,8 +94,9 @@ public interface StatementOrTypedQuery extends Query {
      *
      * @param resultType The Java class of the query result type
      * @param <R> The query result type
-     * @throws IllegalArgumentException if the given result type is
-     *         not a supertype of the result type of this query
+     * @throws IllegalArgumentException if this query is a
+     *         Jakarta Persistence query and the given result type
+     *         is not a supertype of the result type of this query
      * @throws IllegalStateException if this query is a
      *         Jakarta Persistence {@code UPDATE} or {@code DELETE}
      *         statement
