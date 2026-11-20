@@ -48,7 +48,7 @@ import java.util.Set;
  * name:
  * {@snippet :
  * @NamedStatement(name = "updateSales",
- *             statement = "update Book set sales = ?1 where isbn = ?2")
+ *                 statement = "update Book set sales = ?1 where isbn = ?2")
  * @Entity class Book { .. }
  * }
  * <p>In this case the {@code StatementReference} obtained from
