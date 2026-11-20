@@ -58,13 +58,13 @@ public class StaticTypedQueryReference<R>
      * This constructor overload is adapted to the case where the
      * program element is annotated with {@link QueryOptions}.
      *
-     * @param queryName The name of the query, following the convention
-     *                  for Javadoc links: the concatenation of the fully
-     *                  qualified name of the type declaring the annotated
-     *                  method, {@code "#"}, the method name, and the raw
-     *                  parameter types (with fully qualified names for
-     *                  reference types), enclosed in parentheses and
-     *                  separated by commas
+     * @param queryName
+     *        The name of the query, following the convention for
+     *        Javadoc links: the concatenation of the fully qualified
+     *        name of the type declaring the annotated method,
+     *        {@code "#"}, the method name, and the raw parameter
+     *        types (with fully qualified names for reference types),
+     *        enclosed in parentheses and separated by commas
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
      * @param resultType The result type of the query, the type of
@@ -107,13 +107,13 @@ public class StaticTypedQueryReference<R>
      * This constructor overload is adapted to the case where the
      * program element is not annotated with {@link QueryOptions}.
      *
-     * @param queryName The name of the query, following the convention
-     *                  for Javadoc links: the concatenation of the fully
-     *                  qualified name of the type declaring the annotated
-     *                  method, {@code "#"}, the method name, and the raw
-     *                  parameter types (with fully qualified names for
-     *                  reference types), enclosed in parentheses and
-     *                  separated by commas
+     * @param queryName
+     *        The name of the query, following the convention for
+     *        Javadoc links: the concatenation of the fully qualified
+     *        name of the type declaring the annotated method,
+     *        {@code "#"}, the method name, and the raw parameter
+     *        types (with fully qualified names for reference types),
+     *        enclosed in parentheses and separated by commas
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
      * @param resultType The result type of the query, the type of
