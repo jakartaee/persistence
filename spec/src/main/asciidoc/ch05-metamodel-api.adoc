@@ -239,7 +239,7 @@ or `@NativeQuery`, the metamodel class must contain a declaration as follows:
 ----
 public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
     return new StaticTypedQueryReference(
-            "X.m",
+            "X#m(T1,T2,...)",
             X.class,
             "m",
             R.class,
@@ -254,8 +254,9 @@ public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
 ----
 +
 where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@QueryOptions` annotation of `m`, and g
-is the name of an entity graph specified by `QueryOptions.entityGraph`. If
+are options specified by any `@QueryOptions` annotation of `m`, `g` is
+the name of an entity graph specified by `QueryOptions.entityGraph`, and
+`"X#m(T1,T2,...)"` follows the convention for `@link` tags in Javadoc. If
 the annotated method has more parameters than the query specified by the
 annotation `value` member, the annotation processor is permitted to ignore
 the method parameters which do not correspond to parameters of the query,
@@ -273,7 +274,7 @@ must contain a declaration as follows:
 ----
 public static StatementReference m(T1 p1, T2 p2, ...) {
     return new StaticStatementReference(
-            "X.m",
+            "X#m(T1,T2,...)",
             X.class,
             "m",
             List.of(T1.class, T2.class, ... ),
@@ -286,7 +287,8 @@ public static StatementReference m(T1 p1, T2 p2, ...) {
 ----
 +
 where (`h1`, `v1`), (`h2`, `v2`), etc., are `hints` and `o1`, `o2`, etc.,
-are options specified by any `@StatementOptions` annotation of `m`. If
+are options specified by any `@StatementOptions` annotation of `m`, and
+`"X#m(T1,T2,...)"` follows the convention for `@link` tags in Javadoc. If
 the annotated method has more parameters than the statement specified by the
 annotation `value` member, the annotation processor is permitted to ignore
 the method parameters which do not correspond to parameters of the statement,
