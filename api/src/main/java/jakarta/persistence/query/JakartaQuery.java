@@ -22,7 +22,9 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Specifies a query expressed in the Jakarta Persistence Query Language.
+ * Specifies a {@code SELECT} query expressed in the Jakarta Persistence
+ * Query Language. An {@code UPDATE} or {@code DELETE} statement must be
+ * declared using {@link JakartaStatement}.
  * This annotation may be applied to:
  * <ul>
  * <li>any method of any class or interface belonging to the persistence
@@ -55,10 +57,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         where title like = ?1 and pubDate > ?2
  *     """)
  *     List<Summary> retrieveSummaries(String title, LocalDate fromDate);
- *
- *     @JakartaQuery("delete from Trash")
- *     @QueryOptions(timeout = 30_000)
- *     int emptyTrash();
  * }
  *}
  *
@@ -86,10 +84,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>In the first case, each query result is returned directly to the caller.
  * In the second case, each query result is automatically packaged in a new
  * instance of the result class by calling the matching constructor.
- *
- * <p> A method return type <em>agrees</em> with the type returned by an
- * {@code UPDATE} or {@code DELETE} statement if the return type is
- * {@code void}, {@code int}, or {@code long}.
  *
  * <p> A method parameter type <em>agrees</em> with a query parameter type if
  * it is a type that could be assigned to the corresponding query parameter
@@ -124,12 +118,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *         em.createQuery(Library_.getBookWithIsbn(isbn))
  *           .getSingleResult();
  * }
- * {@snippet :
- * int deleted =
- *         em.createQuery(Library_.emptyTrash())
- *           .executeUpdate();
- * }
- *
  * <p> In addition, the query is treated as a named query, where the query
  * name agrees with the convention for Javadoc links, that is: the
  * concatenation of the fully qualified name of the type, with the string
@@ -138,7 +126,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * example, {@code "org.example.Library#findBooksByTitle(java.lang.String)"}.
  *
  * <p> The persistence provider must treat the annotation
- * {@code jakarta.data.repository.Query} as a synonym for this annotation.
+ * {@code jakarta.data.repository.Query} as a synonym for this annotation
+ * when it specifies a {@code SELECT} query.
+ *
+ * @see JakartaStatement
+ * @see QueryOptions
  *
  * @since 4.0
  */

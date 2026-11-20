@@ -23,9 +23,12 @@ import java.util.Map;
 
 /**
  * A reference to a named statement or query declared via the
- * {@link NamedQuery} or {@link NamedNativeQuery} annotations,
- * or using {@link jakarta.persistence.query.JakartaQuery} or
- * {@link jakarta.persistence.query.NativeQuery}. An
+ * {@link NamedQuery}, {@link NamedNativeQuery}, {@link NamedStatement},
+ * or {@link NamedNativeStatement} annotations, or using
+ * {@link jakarta.persistence.query.JakartaQuery},
+ * {@link jakarta.persistence.query.NativeQuery},
+ * {@link jakarta.persistence.query.JakartaStatement}, or
+ * {@link jakarta.persistence.query.NativeStatement}. An
  * instance of {@code Reference} is usually obtained from the
  * static metamodel. This interface declares operations common
  * to {@link StatementReference} and {@link TypedQueryReference}.
@@ -37,10 +40,13 @@ public sealed interface Reference
 
     /**
      * The name of the statement or query, as specified by
-     * {@link NamedQuery#name} or {@link NamedNativeQuery#name},
+     * {@link NamedQuery#name}, {@link NamedNativeQuery#name},
+     * {@link NamedStatement#name}, or {@link NamedNativeStatement#name},
      * or as inferred from the name of the method annotated
-     * {@link jakarta.persistence.query.JakartaQuery} or
-     * {@link jakarta.persistence.query.NativeQuery}.
+     * {@link jakarta.persistence.query.JakartaQuery},
+     * {@link jakarta.persistence.query.NativeQuery},
+     * {@link jakarta.persistence.query.JakartaStatement}, or
+     * {@link jakarta.persistence.query.NativeStatement}.
      */
     @Nullable
     String getName();
@@ -107,7 +113,9 @@ public sealed interface Reference
     /**
      * A map keyed by hint name of all hints specified via
      * {@link NamedQuery#hints}, {@link NamedNativeQuery#hints},
-     * or {@link jakarta.persistence.query.QueryOptions#hints}.
+     * {@link NamedStatement#hints}, {@link NamedNativeStatement#hints},
+     * {@link jakarta.persistence.query.QueryOptions#hints}, or
+     * {@link jakarta.persistence.query.StatementOptions#hints}.
      * <p>
      * Any attempted mutation of the returned map results in an
      * {@link UnsupportedOperationException}.
