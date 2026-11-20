@@ -127,7 +127,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p> The persistence provider must treat the annotation
  * {@code jakarta.data.repository.Query} as a synonym for this annotation
- * when it specifies a {@code SELECT} query.
+ * when it specifies a {@code SELECT} query. A method must not be annotated
+ * with more than one of {@code JakartaQuery}, {@code JakartaStatement},
+ * {@code NatveQuery}, {@code NativeStatement}, and {@code Query}.
  *
  * @see JakartaStatement
  * @see QueryOptions

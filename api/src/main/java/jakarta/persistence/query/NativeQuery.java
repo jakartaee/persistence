@@ -145,6 +145,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     in the order in which they are declared.
  * </ol>
  *
+ * <p>A method must not be annotated with more than one of
+ * {@code JakartaQuery}, {@code JakartaStatement}, {@code NatveQuery},
+ * {@code NativeStatement}, and {@code jakarta.data.repository.Query}.
+ *
  * @see NativeStatement
  * @see QueryOptions
  *
