@@ -24,15 +24,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 
 /**
- * Specifies the mapping for composite foreign keys. This annotation groups
- * {@link JoinColumn} annotations for the same relationship.
+ * Specifies the mapping for a composite foreign key. This annotation
+ * groups {@link JoinColumn} annotations mapping the columns belonging
+ * to the foreign key.
  *
- * <p>Each {@link JoinColumn} annotation must explicitly specify both
- * {@link JoinColumn#name name} and {@link JoinColumn#referencedColumnName
- * referencedColumnName}.
+ * <p>When a {@code JoinColumns} annotation contains more than one
+ * {@code JoinColumn} annotation, both the
+ * {@linkplain JoinColumn#name name} and the
+ * {@linkplain JoinColumn#referencedColumnName referenced column name}
+ * must be explicitly specified by every {@code JoinColumn} annotation.
  *
- * <p>Since {@code @JoinColumn} is a repeatable annotation, it's not usually
- * necessary to specify {@code @JoinColumns} explicitly:
+ * <p>Since {@code @JoinColumn} is a repeatable annotation, it's not
+ * usually necessary to specify {@code @JoinColumns} explicitly:
  * {@snippet :
  * @ManyToOne
  * @JoinColumn(name = "ADDR_ID", referencedColumnName = "ID")
@@ -40,8 +43,8 @@ import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
  * public Address getAddress() { return address; }
  * }
  *
- * <p>However, {@code @JoinColumns} is useful for controlling generation of
- * composite foreign key constraints:
+ * <p>However, {@code @JoinColumns} is useful for controlling
+ * generation of composite foreign key constraints:
  * {@snippet :
  * @ManyToOne
  * @JoinColumns(
