@@ -21,6 +21,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.criteria.CriteriaBuilder.SimpleCase;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Type for query expressions.
@@ -103,6 +104,16 @@ public interface Expression<T> extends Selection<T> {
      */
     @Nonnull
     Predicate in(@Nonnull Expression<?>... values);
+
+    /**
+     * Create a predicate to test whether the expression is a member
+     * of the argument list.
+     * @param values  list of expressions to be tested against
+     * @return predicate testing for membership
+     * @since 4.0
+     */
+    @Nonnull
+    Predicate in(@Nonnull List<? extends Expression<?>> values);
 
     /**
      * Create a predicate to test whether the expression is a member
