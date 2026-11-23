@@ -2683,13 +2683,11 @@ public Set<Order> getOrders() { return orders; }
 
 ==== JoinColumns Annotation
 
-Composite foreign keys are supported by means
-of the `JoinColumns` annotation. The `JoinColumns` annotation groups
-`JoinColumn` annotations for the same relationship.
+The `JoinColumns` annotation groups the `JoinColumn` annotations
+that map the columns of a composite foreign key.
 
-When the `JoinColumns` annotation is used,
-both the `name` and the `referencedColumnName` elements must be
-specified in each of the grouped `JoinColumn` annotations.
+When `JoinColumns` contains more than one `JoinColumn` annotation,
+each must explicitly specify both `name` and `referencedColumnName`.
 
 The `foreignKey` annotation element is used
 to specify or control the generation of a foreign key constraint when
@@ -3953,13 +3951,12 @@ public class Student {
 
 ==== MapKeyJoinColumns Annotation
 
-Composite map keys referencing entities are
-supported by means of the `MapKeyJoinColumns` annotation. The
-`MapKeyJoinColumns` annotation groups `MapKeyJoinColumn` annotations.
+The `MapKeyJoinColumns` annotation maps a map key of entity type to
+a composite foreign key. It groups the `MapKeyJoinColumn` annotations
+that map the columns of the foreign key.
 
-When the `MapKeyJoinColumns` annotation is
-used, both the `name` and the `referencedColumnName` elements must be
-specified in each of the grouped `MapKeyJoinColumn` annotations.
+When `MapKeyJoinColumns` contains more than one `MapKeyJoinColumn`
+annotation, each must explicitly specify both `name` and `referencedColumnName`.
 
 The `foreignKey` element specifies
 or controls the generation of a foreign key constraint for the columns
@@ -4934,9 +4931,13 @@ public class ValuedCustomer extends Customer { ... }
 
 ==== PrimaryKeyJoinColumns Annotation
 
-Composite foreign keys are supported by means
-of the `PrimaryKeyJoinColumns` annotation. The `PrimaryKeyJoinColumns`
-annotation groups `PrimaryKeyJoinColumn` annotations.
+The `PrimaryKeyJoinColumns` annotation groups the `PrimaryKeyJoinColumn`
+annotations that map the columns of a composite foreign key which is also
+a primary key.
+
+When a class, field, or property has more than one `PrimaryKeyJoinColumn`
+annotation, either repeated directly or grouped in `PrimaryKeyJoinColumns`,
+each must explicitly specify both `name` and `referencedColumnName`.
 
 [source,java]
 ----
