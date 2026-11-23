@@ -24,15 +24,23 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 
 /**
- * Supports composite map keys that reference entities.
+ * Specifies the mapping of a map key of entity type to a
+ * composite foreign key. This annotation groups
+ * {@link MapKeyJoinColumn} annotations mapping the columns
+ * belonging to the foreign key.
  *
- * <p> The {@code MapKeyJoinColumns} annotation groups
- * {@link MapKeyJoinColumn} annotations. When the
- * {@code MapKeyJoinColumns} annotation is used, both the
- * {@code name} and the {@code referencedColumnName}
- * elements must be specified in each of the grouped
- * {@code MapKeyJoinColumn} annotations.
- * 
+ * <p>When a {@code MapKeyJoinColumns} annotation contains
+ * more than one {@code MapKeyJoinColumn} annotation, both
+ * the {@linkplain MapKeyJoinColumn#name name} and the
+ * {@linkplain MapKeyJoinColumn#referencedColumnName
+ * referenced column name} must be explicitly specified by
+ * every {@code MapKeyJoinColumn} annotation.
+ *
+ * <p>Since {@code @MapKeyJoinColumn} is a repeatable annotation,
+ * it's not usually necessary to specify {@code @MapKeyJoinColumns}
+ * explicitly. However, {@code @MapKeyJoinColumns} is useful for
+ * controlling generation of composite foreign key constraints.
+ *
  * @see MapKeyJoinColumn
  * @see ForeignKey
  * 

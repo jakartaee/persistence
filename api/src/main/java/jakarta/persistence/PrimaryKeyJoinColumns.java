@@ -26,7 +26,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Specifies the mapping for a composite foreign key which is also a
  * primary key. This annotation groups {@link PrimaryKeyJoinColumn}
- * annotations.
+ * annotations mapping the columns belonging to the foreign key.
+ *
+ * <p>When a {@code PrimaryKeyJoinColumns} annotation contains more
+ * than one {@code PrimaryKeyJoinColumn} annotation, both the
+ * {@linkplain PrimaryKeyJoinColumn#name name} and the
+ * {@linkplain PrimaryKeyJoinColumn#referencedColumnName referenced
+ * column name} must be explicitly specified by every
+ * {@code PrimaryKeyJoinColumn} annotation.
  *
  * <p>Since {@code @PrimaryKeyJoinColumn} is a repeatable annotation,
  * it's not usually necessary to specify {@code @PrimaryKeyJoinColumns}
