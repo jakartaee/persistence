@@ -44,11 +44,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     to retrieve all fields declared and inherited by the subclass.
  * </ul>
  *
- * <p>This annotation must be applied to the entity class that is the
- * root of the entity class hierarchy. If no inheritance strategy is
- * {@linkplain #strategy explicitly specified} for an entity class
- * hierarchy, the {@link InheritanceType#SINGLE_TABLE SINGLE_TABLE}
- * mapping strategy is used.
+ * <p>This annotation may only be applied to an entity class that is
+ * the root of an entity class hierarchy, and it is always optional.
+ * If no inheritance strategy is {@linkplain #strategy explicitly
+ * specified} for an entity class hierarchy, the class hierarchy is
+ * mapped by the {@link InheritanceType#SINGLE_TABLE SINGLE_TABLE}
+ * strategy.
  *
  * <p>Example:
  * {@snippet :
