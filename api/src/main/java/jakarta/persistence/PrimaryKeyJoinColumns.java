@@ -95,9 +95,9 @@ public @interface PrimaryKeyJoinColumns {
      *     {@link PrimaryKeyJoinColumn#foreignKey foreignKey} element
      *     of one of the {@link PrimaryKeyJoinColumn} annotations are
      *     specified, the behavior is undefined.
-     * <li>If no {@link PrimaryKeyJoinColumn} annotation is specified
-     *     in either location, a default foreign key strategy is
-     *     selected by the persistence provider.
+     * <li>If no {@link ForeignKey} annotation is specified in either
+     *     location, a default foreign key strategy is selected by the
+     *     persistence provider.
      * </ul>
      *
      * @since 2.1
