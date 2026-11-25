@@ -20,6 +20,8 @@ package jakarta.persistence;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -218,7 +220,7 @@ public @interface MapKeyJoinColumn {
      *
      * @since 2.1
      */
-    ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
     /**
      * (Optional) Check constraints to be applied to the column.

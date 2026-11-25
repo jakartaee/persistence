@@ -18,6 +18,8 @@ package jakarta.persistence;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -88,19 +90,34 @@ public @interface JoinTable {
     /**
      * (Optional) The foreign key columns of the join table
      * which reference the primary table of the entity owning
-     * the association. (I.e. the owning side of the association).
+     * the association, that is, the owning side of the
+     * association.
      *
      * <p> Uses the same defaults as for {@link JoinColumn}.
+     *
+     * <p> When {@code joinColumns} specifies more than one
+     * {@code JoinColumn} annotation, both the
+     * {@linkplain JoinColumn#name name} and the
+     * {@linkplain JoinColumn#referencedColumnName referenced
+     * column name} must be explicitly specified by every
+     * {@code JoinColumn} annotation.
      */
     JoinColumn[] joinColumns() default {};
 
     /** 
      * (Optional) The foreign key columns of the join table
      * which reference the primary table of the entity that
-     * does not own the association.
-     * (I.e. the inverse side of the association).
+     * does not own the association, that is, the inverse
+     * side of the association.
      *
      * <p> Uses the same defaults as for {@link JoinColumn}.
+     *
+     * <p> When {@code inverseJoinColumns} specifies more
+     * than one {@code JoinColumn} annotation, both the
+     * {@linkplain JoinColumn#name name} and the
+     * {@linkplain JoinColumn#referencedColumnName referenced
+     * column name} must be explicitly specified by every
+     * {@code JoinColumn} annotation.
      */
     JoinColumn[] inverseJoinColumns() default {};
 
@@ -117,7 +134,7 @@ public @interface JoinTable {
      *
      * @since 2.1
      */
-    ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
     /**
      * (Optional) Used to specify or control the generation of a
@@ -131,7 +148,7 @@ public @interface JoinTable {
      *
      * @since 2.1
      */
-    ForeignKey inverseForeignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
+    ForeignKey inverseForeignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
     /**
      * (Optional) Unique constraints to be placed on the table.

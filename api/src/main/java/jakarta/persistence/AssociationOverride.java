@@ -139,12 +139,19 @@ public @interface AssociationOverride {
     String name();
 
     /**
-     * The join column(s) being mapped to the persistent attribute(s).
-     * The {@code joinColumns} elements must be specified if a foreign
-     * key mapping is used in the overriding of the mapping of the
-     * relationship. The {@code joinColumns} element must not be
-     * specified if a join table is used in the overriding of the
-     * mapping of the relationship.
+     * The join column or columns mapped by the persistent attribute
+     * or attributes. The {@code joinColumns} element must be
+     * specified if a foreign key mapping is used in the overriding
+     * of the mapping of the relationship. The {@code joinColumns}
+     * element must not be specified if a join table is used in the
+     * overriding of the mapping of the relationship.
+     *
+     * <p> When {@code joinColumns} specifies more than one
+     * {@code JoinColumn} annotation, both the
+     * {@linkplain JoinColumn#name name} and the
+     * {@linkplain JoinColumn#referencedColumnName referenced
+     * column name} must be explicitly specified by every
+     * {@code JoinColumn} annotation.
      */
     JoinColumn[] joinColumns() default {};
 

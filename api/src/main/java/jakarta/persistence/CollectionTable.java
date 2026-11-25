@@ -18,6 +18,8 @@ package jakarta.persistence;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -131,15 +133,18 @@ public @interface CollectionTable {
      * (Optional) The foreign key columns of the collection table
      * which reference the primary table of the entity. The default
      * only applies if a single join column is used. The default is
-     * the same as for {@link JoinColumn} (i.e., the concatenation of
-     * the following: the name of the entity; "{@code _}"; the name of
-     * the referenced primary key column.) However, if there is more
+     * the same as for {@link JoinColumn}, that is, the concatenation
+     * of the following: the name of the entity; "{@code _}"; the name
+     * of the referenced primary key column. However, if there is more
      * than one join column, a {@link JoinColumn} annotation must be
-     * specified for each join column using the {@link JoinColumns}
-     * annotation. In this case, both the {@link JoinColumn#name name}
-     * and {@link JoinColumn#referencedColumnName referencedColumnName}
-     * elements must be specified by each such {@link JoinColumn}
-     * annotation.
+     * specified for each join column.
+     *
+     * <p> When {@code joinColumns} specifies more than one
+     * {@code JoinColumn} annotation, both the
+     * {@linkplain JoinColumn#name name} and the
+     * {@linkplain JoinColumn#referencedColumnName referenced
+     * column name} must be explicitly specified by every
+     * {@code JoinColumn} annotation.
      */
      JoinColumn[] joinColumns() default {};
 
@@ -156,7 +161,7 @@ public @interface CollectionTable {
      *
      * @since 2.1
      */
-    ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
     /**
      * (Optional) Unique constraints that are to be placed on the
