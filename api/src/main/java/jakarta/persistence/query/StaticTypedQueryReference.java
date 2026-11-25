@@ -18,10 +18,12 @@ package jakarta.persistence.query;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Parameter;
+import jakarta.persistence.Parameter.Argument;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,8 +31,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * A reference to a query declared using a {@link JakartaQuery}
@@ -50,7 +52,8 @@ public class StaticTypedQueryReference<R>
     @Nonnull private final String annotatedMemberName;
     @Nullable private final Class<R> resultType;
     @Nonnull private final String name;
-    @Nonnull private final Tuple arguments;
+    @Nonnull private final List<Argument<?>> arguments;
+    @Nonnull private final Tuple argumentTuple;
     @Nullable private final String entityGraphName;
     @Nonnull private final Map<String, Object> hints;
     @Nonnull private final Set<TypedQuery.Option> options;
@@ -82,7 +85,7 @@ public class StaticTypedQueryReference<R>
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
             @Nullable Class<R> resultType,
-            @Nonnull Tuple arguments,
+            @Nonnull List<? extends Argument<?>> arguments,
             @Nullable String entityGraphName,
             @Nonnull Map<String, Object> hints,
             @Nonnull TypedQuery.Option... options) {
@@ -90,7 +93,8 @@ public class StaticTypedQueryReference<R>
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
         this.resultType = resultType;
-        this.arguments = arguments;
+        this.arguments = List.copyOf(arguments);
+        this.argumentTuple = Tuple.of(arguments.toArray(Tuple.Entry<?>[]::new));
         this.entityGraphName = entityGraphName;
         this.hints = hints;
         this.options = Set.of(options);
@@ -120,7 +124,7 @@ public class StaticTypedQueryReference<R>
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
             @Nonnull Class<R> resultType,
-            @Nonnull Tuple arguments) {
+            @Nonnull List<? extends Argument<?>> arguments) {
         this(queryName, annotatedClass, annotatedMemberName, resultType,
                 arguments, null, emptyMap());
     }
@@ -146,39 +150,38 @@ public class StaticTypedQueryReference<R>
     @Override
     @Nonnull
     public List<Class<?>> getParameterTypes() {
-        return arguments.getElementTypes();
+        return argumentTuple.getElementTypes();
     }
 
     @Override
     @Nonnull
     public List<String> getParameterNames() {
-        return arguments.getAliases();
+        return argumentTuple.getAliases();
     }
 
     @Override
     @Nonnull
     public List<Object> getArguments() {
-        return arguments.getValues();
+        return argumentTuple.getValues();
+    }
+
+    @Override
+    @Nonnull
+    public List<Argument<?>> getParameterArguments() {
+        return new ArrayList<>(arguments);
     }
 
     @Override
     @Nonnull
     public Tuple getArgumentTuple() {
-        return arguments;
+        return argumentTuple;
     }
 
     @Override
     @Nonnull
     public List<Parameter<?>> getParameters() {
-        final var parameters = new Parameter<?>[arguments.length()];
-        final var elements = arguments.getElements();
-        for (int i = 0; i < elements.size(); i++) {
-            final var element = elements.get(i);
-            parameters[i] =
-                    Parameter.of(element.getJavaType(),
-                            i+1, element.getAlias());
-        }
-        return asList(parameters);
+        return arguments.stream().map(Argument::getParameter)
+                .collect(toCollection(ArrayList::new));
     }
 
     @Nonnull

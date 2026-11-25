@@ -111,6 +111,33 @@ public interface Parameter<T> {
     }
 
     /**
+     * Packages a parameter with its argument.
+     * @param <T> the type of the parameter
+     * @since 4.0
+     */
+    interface Argument<T> extends Tuple.Entry<T> {
+        /**
+         * The parameter.
+         * @return the parameter
+         */
+        Parameter<T> getParameter();
+
+        /**
+         * Return a new argument binding a parameter with
+         * the given type and name to the given value.
+         * @param <T> the type of the parameter
+         * @param parameter the parameter
+         * @param argument the argument bound to the parameter
+         * @return a tuple entry
+         */
+        @Nonnull
+        static <T> Argument<T> of(@Nonnull Parameter<T> parameter,
+                                  T argument) {
+            return new ArgumentRecord<>(parameter, argument);
+        }
+    }
+
+    /**
      * Return a new {@linkplain Tuple.Entry tuple entry} binding this
      * parameter to the given argument.
      * @param argument the argument bound to this parameter
@@ -118,7 +145,7 @@ public interface Parameter<T> {
      * @since 4.0
      */
     @Nonnull
-    default Tuple.Entry<T> bind(T argument) {
-        return Tuple.Entry.of(getParameterType(), getName(), argument);
+    default Argument<T> bind(T argument) {
+        return Argument.of(this, argument);
     }
 }

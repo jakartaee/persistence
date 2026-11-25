@@ -16,12 +16,14 @@
 package jakarta.persistence.query;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.persistence.Parameter.Argument;
 
 import java.util.*;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * A reference to a statement declared using a {@link JakartaStatement}
@@ -38,7 +40,8 @@ public class StaticStatementReference
     @Nonnull private final Class<?> annotatedClass;
     @Nonnull private final String annotatedMemberName;
     @Nonnull private final String name;
-    @Nonnull private final Tuple arguments;
+    @Nonnull private final List<Argument<?>> arguments;
+    @Nonnull private final Tuple argumentTuple;
     @Nonnull private final Map<String, Object> hints;
     @Nonnull private final Set<Statement.Option> options;
 
@@ -66,13 +69,14 @@ public class StaticStatementReference
             @Nonnull String statementName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
-            @Nonnull Tuple arguments,
+            @Nonnull List<? extends Argument<?>> arguments,
             @Nonnull Map<String, Object> hints,
             @Nonnull Statement.Option... options) {
         this.name = statementName;
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
-        this.arguments = arguments;
+        this.arguments = List.copyOf(arguments);
+        this.argumentTuple = Tuple.of(arguments.toArray(Tuple.Entry<?>[]::new));
         this.hints = hints;
         this.options = Set.of(options);
     }
@@ -99,7 +103,7 @@ public class StaticStatementReference
             @Nonnull String statementName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
-            @Nonnull Tuple arguments) {
+            @Nonnull List<? extends Argument<?>> arguments) {
         this(statementName, annotatedClass, annotatedMemberName,
                 arguments, emptyMap());
     }
@@ -119,39 +123,38 @@ public class StaticStatementReference
     @Override
     @Nonnull
     public List<Class<?>> getParameterTypes() {
-        return arguments.getElementTypes();
+        return argumentTuple.getElementTypes();
     }
 
     @Override
     @Nonnull
     public List<String> getParameterNames() {
-        return arguments.getAliases();
+        return argumentTuple.getAliases();
     }
 
     @Override
     @Nonnull
     public List<Object> getArguments() {
-        return arguments.getValues();
+        return argumentTuple.getValues();
+    }
+
+    @Override
+    @Nonnull
+    public List<Argument<?>> getParameterArguments() {
+        return new ArrayList<>(arguments);
     }
 
     @Override
     @Nonnull
     public Tuple getArgumentTuple() {
-        return arguments;
+        return argumentTuple;
     }
 
     @Override
     @Nonnull
     public List<Parameter<?>> getParameters() {
-        final var parameters = new Parameter<?>[arguments.length()];
-        final var elements = arguments.getElements();
-        for (int i = 0; i < elements.size(); i++) {
-            final var element = elements.get(i);
-            parameters[i] =
-                    Parameter.of(element.getJavaType(),
-                            i+1, element.getAlias());
-        }
-        return asList(parameters);
+        return arguments.stream().map(Argument::getParameter)
+                .collect(toCollection(ArrayList::new));
     }
 
     @Nonnull

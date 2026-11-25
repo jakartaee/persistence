@@ -105,7 +105,7 @@ record TupleRecord(@Nonnull Tuple.Entry<?>[] entries) implements Tuple {
     @Nonnull
     @Override
     public List<Entry<?>> getEntries() {
-        return asList(entries);
+        return asList(entries.clone());
     }
 
     @Override
