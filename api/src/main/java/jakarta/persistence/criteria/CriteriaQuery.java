@@ -130,17 +130,17 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      * <p>The semantics of this method are as follows: 
      * <ul> 
      * <li> 
-     * If the type of the criteria query is {@code CriteriaQuery<Tuple>}
-     * (i.e., a criteria query object created by either the {@code createTupleQuery}
+     * If the type of the criteria query is {@code CriteriaQuery<Tuple>}, that is,
+     * a criteria query object created by either the {@code createTupleQuery}
      * method or by passing a {@link Tuple} class argument to the {@code createQuery}
-     * method), a {@link Tuple} object corresponding to the arguments of the
+     * method, a {@link Tuple} object corresponding to the arguments of the
      * {@code multiselect} method, in the specified order, will be instantiated and
      * returned for each row that results from the query execution.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery<X>}
-     * for some user-defined class X (i.e., a criteria query object created by
-     * passing a X class argument to the {@code createQuery} method), the arguments
-     * to the {@code multiselect} method will be passed to the X constructor and an
+     * <li> If the type of the criteria query is {@code CriteriaQuery<X>} for some
+     * user-defined class X, that is, a criteria query object created by passing a
+     * X class argument to the {@code createQuery} method, the arguments to the
+     * {@code multiselect} method will be passed to the X constructor and an
      * instance of type X will be returned for each row.
      *
      * <li> If the type of the criteria query is {@code CriteriaQuery<X[]>}
@@ -188,16 +188,16 @@ public interface CriteriaQuery<T> extends AbstractQuery<T>, CriteriaSelect<T> {
      *
      * <p> The semantics of this method are as follows:
      * <ul>
-     * <li> If the type of the criteria query is {@code CriteriaQuery<Tuple>}
-     * (i.e., a criteria query object created by either the {@code createTupleQuery}
-     * method or by passing a {@link Tuple} class argument to the {@code createQuery}
-     * method), a {@code Tuple} object corresponding to the elements of the list passed
-     * to the {@code multiselect} method, in the specified order, will be instantiated
-     * and returned for each row that results from the query execution.
+     * <li> If the type of the criteria query is {@code CriteriaQuery<Tuple>}, that is,
+     * a criteria query object created by either the {@code createTupleQuery} method or
+     * by passing a {@link Tuple} class argument to the {@code createQuery} method, a
+     * {@code Tuple} object corresponding to the elements of the list passed to the
+     * {@code multiselect} method, in the specified order, will be instantiated and
+     * returned for each row that results from the query execution.
      *
-     * <li> If the type of the criteria query is {@code CriteriaQuery<X>}
-     * for some user-defined class X (i.e., a criteria query object created by passing
-     * a X class argument to the {@code createQuery} method), the elements of the list
+     * <li> If the type of the criteria query is {@code CriteriaQuery<X>} for some
+     * user-defined class X, that is, a criteria query object created by passing a X
+     * class argument to the {@code createQuery} method, the elements of the list
      * passed to the {@code multiselect} method will be passed to the X constructor
      * and an instance of type X will be returned for each row.
      *

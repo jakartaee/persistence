@@ -79,8 +79,8 @@ import java.util.Set;
  * {@link #getUpdateCount} method can be called to obtain the pending
  * result if it is an update count. The {@code getUpdateCount} method
  * will return either the update count (zero or greater) or -1 if there
- * is no update count (i.e., either the next result is a result set or
- * there is no next update count).</li>
+ * is no update count, that is, either the next result is a result set
+ * or there is no next update count.</li>
  * <li> For portability, results that correspond to JDBC result sets
  * and update counts need to be processed before the values of any
  * {@code INOUT} or {@code OUT} parameters are extracted.</li>

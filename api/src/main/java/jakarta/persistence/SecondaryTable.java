@@ -20,6 +20,8 @@ package jakarta.persistence;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
+
+import static jakarta.persistence.ConstraintMode.PROVIDER_DEFAULT;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -51,8 +53,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @Table(name = "CUSTOMER")
  * @SecondaryTable(name = "CUST_DETAIL",
  *                 pkJoinColumns = {
- *                     @PrimaryKeyJoinColumn(name = "CUST_ID"),
- *                     @PrimaryKeyJoinColumn(name = "CUST_TYPE")})
+ *                     @PrimaryKeyJoinColumn(name = "CUST_ID", referencedColumnName = "ID"),
+ *                     @PrimaryKeyJoinColumn(name = "CUST_TYPE", referencedColumnName = "TYPE")})
  * public class Customer { ... }
  * }
  *
@@ -88,6 +90,13 @@ public @interface SecondaryTable {
      * primary table.
      * <p> Defaults to the column(s) of the same name(s) as
      * the primary key column(s) in the primary table.
+     *
+     * <p> When {@code pkJoinColumns} specifies more than one
+     * {@code PrimaryKeyJoinColumn} annotation, both the
+     * {@linkplain PrimaryKeyJoinColumn#name name} and the
+     * {@linkplain PrimaryKeyJoinColumn#referencedColumnName
+     * referenced column name} must be explicitly specified
+     * by every {@code PrimaryKeyJoinColumn} annotation.
      */
     PrimaryKeyJoinColumn[] pkJoinColumns() default {};
 
@@ -103,7 +112,7 @@ public @interface SecondaryTable {
      *
      * @since 2.1
      */
-    ForeignKey foreignKey() default @ForeignKey(ConstraintMode.PROVIDER_DEFAULT);
+    ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
     /**
      * (Optional) Unique constraints that are to be placed on the
