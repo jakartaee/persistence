@@ -140,11 +140,13 @@ public @interface AssociationOverride {
 
     /**
      * The join column or columns mapped by the persistent attribute
-     * or attributes. The {@code joinColumns} element must be
-     * specified if a foreign key mapping is used in the overriding
-     * of the mapping of the relationship. The {@code joinColumns}
-     * element must not be specified if a join table is used in the
-     * overriding of the mapping of the relationship.
+     * or attributes. This element:
+     * <ul>
+     * <li>must be specified if a foreign key mapping is used in the
+     *     overriding of the relationship mapping, but
+     * <li>must not be specified if a {@linkplain #joinTable join table}
+     *     is used in the overriding of the relationship mapping.
+     * </ul>
      *
      * <p> When {@code joinColumns} specifies more than one
      * {@code JoinColumn} annotation, both the
@@ -170,11 +172,14 @@ public @interface AssociationOverride {
     ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
 
     /**
-     * The join table that maps the relationship.
-     * The {@code joinTable} element must be specified if a join table 
-     * is used in the overriding of the mapping of the relationship.
-     * The {@code joinTable} element must not be specified if a foreign
-     * key mapping is used in the overriding of the relationship.
+     * The join table that maps the relationship. This element:
+     * <ul>
+     * <li>must not be specified if a {@linkplain #joinColumns foreign
+     *     key mapping} is used in the overriding of the relationship
+     *     mapping, but
+     * <li>must be specified if a join table is used in the overriding
+     *     of the relationship mapping.
+     * </ul>
      *
      * @since 2.0
      */
