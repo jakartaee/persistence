@@ -176,12 +176,11 @@ is used.
 |
 |JoinColumn[]
 |joinColumns
-|The
-join column(s) being mapped to the persistent attribute(s). The
-joinColumns element must be specified if a foreign key mapping is used
-in the overriding of the mapping of the relationship. The joinColumns
-element must not be specified if a join table is used in the overriding
-of the mapping of the relationship
+|The join columns of the relationship whose mapping is being overridden.
+The `joinColumns` element must be specified if the override uses a foreign
+key mapping and must not be specified if the override uses a join table.
+When `joinColumns` contains more than one `JoinColumn` annotation,
+each must explicitly specify both `name` and `referencedColumnName`.
 |
 |ForeignKey
 |foreignKey
@@ -846,14 +845,11 @@ an underscore.
 |joinColumns
 |(Optional) The foreign key columns of the
 collection table which reference the primary table of the entity.
-|(Default only applies if a single join
-column is used.) The same defaults as for JoinColumn (i.e., the
-concatenation of the following: the name of the entity; "`_`"; the name of
-the referenced primary key column.) However, if there is more than one
-join column, a JoinColumn annotation must be specified for each join
-column using the JoinColumns annotation. Both the name and the
-referencedColumnName elements must be specified in each such JoinColumn
-annotation.
+If there is more than one join column, `joinColumns` must contain a
+`JoinColumn` annotation for each column, and each annotation must
+explicitly specify both `name` and `referencedColumnName`.
+|For a single join column, the entity name followed by an underscore
+and the name of the referenced primary key column.
 
 |ForeignKey
 |foreignKey
@@ -2827,15 +2823,18 @@ primary entity tables (owning side first), separated by an underscore.
 |joinColumns
 |(Optional) The foreign key columns of the
 join table which reference the primary table of the entity owning the
-association (i.e. the owning side of the association).
-|The same defaults as for JoinColumn.
+association. When `joinColumns` contains more than one `JoinColumn`
+annotation, each must explicitly specify both `name` and `referencedColumnName`.
+|The same defaults as for `JoinColumn`.
 
 |JoinColumn[]
 |inverseJoinColumns
 |(Optional) The foreign key columns of the
 join table which reference the primary table of the entity that does not
-own the association (i.e. the inverse side of the association).
-|The same defaults as for JoinColumn.
+own the association. When `inverseJoinColumns` contains more than one
+`JoinColumn` annotation, each must explicitly specify both `name` and
+`referencedColumnName`.
+|The same defaults as for `JoinColumn`.
 
 |ForeignKey
 |foreignKey
@@ -4833,7 +4832,9 @@ strategy will apply.
 
 <<a15962>> lists the annotation elements
 that may be specified for the `PrimaryKeyJoinColumn` annotation and
-their default values.
+their default values. The defaults for `name` and `referencedColumnName`
+apply only when a single `PrimaryKeyJoinColumn` annotation is specified
+for the join.
 
 If no `PrimaryKeyJoinColumn` annotation is
 specified for a subclass in the `JOINED` mapping strategy, the foreign key
@@ -5113,6 +5114,8 @@ public @interface SecondaryTable {
 |PrimaryKeyJoinColumn[]
 |pkJoinColumns
 |(Optional) The columns that are used to join with the primary table.
+When `pkJoinColumns` contains more than one `PrimaryKeyJoinColumn`
+annotation, each must explicitly specify both `name` and `referencedColumnName`.
 |Column(s) of the same name(s) as the primary key column(s) in the primary table
 
 |ForeignKey
@@ -5181,8 +5184,8 @@ public class Customer { ... }
 @SecondaryTable(
     name="CUST_DETAIL",
     pkJoinColumns={
-        @PrimaryKeyJoinColumn(name="CUST_ID"),
-        @PrimaryKeyJoinColumn(name="CUST_TYPE")
+        @PrimaryKeyJoinColumn(name="CUST_ID", referencedColumnName="ID"),
+        @PrimaryKeyJoinColumn(name="CUST_TYPE", referencedColumnName="TYPE")
     })
 public class Customer { ... }
 ----
