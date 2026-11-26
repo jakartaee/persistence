@@ -91,4 +91,54 @@ public interface Parameter<T> {
      */
     @Nonnull
     Class<T> getParameterType();
+
+    /**
+     * Create a new instance with the given type, position, and name.
+     * @param type the Java type of the parameter
+     * @param position the position of the parameter, or null if the
+     *                 parameter is not a positional parameter
+     * @param name the name of the parameter, or null if the parameter
+     *             is not a named parameter
+     * @return a new instance
+     * @param <T> the type of the parameter
+     * @since 4.0
+     */
+    @Nonnull
+    static <T> Parameter<T> of(@Nonnull Class<T> type,
+                               @Nullable Integer position,
+                               @Nullable String name) {
+        return new ParameterRecord<>(type, position, name);
+    }
+
+    /**
+     * Packages a parameter with its argument.
+     * @param <T> the type of the parameter
+     * @since 4.0
+     */
+    interface Argument<T> {
+        /**
+         * The parameter.
+         * @return the parameter
+         */
+        @Nonnull
+        Parameter<T> getParameter();
+
+        /**
+         * The argument bound to the parameter.
+         * @return the argument value
+         */
+        T getValue();
+    }
+
+    /**
+     * Return a new {@link Argument} binding this parameter
+     * to the given argument value.
+     * @param argument the argument bound to this parameter
+     * @return a tuple entry
+     * @since 4.0
+     */
+    @Nonnull
+    default Argument<T> bind(T argument) {
+        return new ArgumentRecord<>(this, argument);
+    }
 }

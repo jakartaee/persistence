@@ -16,12 +16,19 @@
 package jakarta.persistence.query;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Statement;
-import jakarta.persistence.StatementReference;
+import jakarta.persistence.*;
+import jakarta.persistence.Parameter.Argument;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import static java.util.Collections.emptyMap;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * A reference to a statement declared using a {@link JakartaStatement}
@@ -38,9 +45,7 @@ public class StaticStatementReference
     @Nonnull private final Class<?> annotatedClass;
     @Nonnull private final String annotatedMemberName;
     @Nonnull private final String name;
-    @Nonnull private final List<Class<?>> parameterTypes;
-    @Nonnull private final List<String> parameterNames;
-    @Nonnull private final List<Object> arguments;
+    @Nonnull private final List<Argument<?>> arguments;
     @Nonnull private final Map<String, Object> hints;
     @Nonnull private final Set<Statement.Option> options;
 
@@ -59,10 +64,6 @@ public class StaticStatementReference
      *        separated by commas
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
-     * @param parameterTypes The types of the parameters of the
-     *                       annotated member
-     * @param parameterNames The names of the parameters of the
-     *                       annotated member
      * @param arguments The arguments supplied to the parameters
      *                  at runtime
      * @param hints See {@link StatementOptions#hints}
@@ -72,17 +73,13 @@ public class StaticStatementReference
             @Nonnull String statementName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
-            @Nonnull List<Class<?>> parameterTypes,
-            @Nonnull List<String> parameterNames,
-            @Nonnull List<Object> arguments,
+            @Nonnull List<? extends Argument<?>> arguments,
             @Nonnull Map<String, Object> hints,
             @Nonnull Statement.Option... options) {
         this.name = statementName;
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
-        this.parameterTypes = parameterTypes;
-        this.parameterNames = parameterNames;
-        this.arguments = arguments;
+        this.arguments = List.copyOf(arguments);
         this.hints = hints;
         this.options = Set.of(options);
     }
@@ -102,10 +99,6 @@ public class StaticStatementReference
      *        separated by commas
      * @param annotatedClass The annotated class
      * @param annotatedMemberName The name of the annotated member
-     * @param parameterTypes The types of the parameters of the
-     *                       annotated member
-     * @param parameterNames The names of the parameters of the
-     *                       annotated member
      * @param arguments The arguments supplied to the parameters
      *                  at runtime
      */
@@ -113,12 +106,9 @@ public class StaticStatementReference
             @Nonnull String statementName,
             @Nonnull Class<?> annotatedClass,
             @Nonnull String annotatedMemberName,
-            @Nonnull List<Class<?>> parameterTypes,
-            @Nonnull List<String> parameterNames,
-            @Nonnull List<Object> arguments) {
+            @Nonnull List<? extends Argument<?>> arguments) {
         this(statementName, annotatedClass, annotatedMemberName,
-                parameterTypes, parameterNames, arguments,
-                emptyMap());
+                arguments, emptyMap());
     }
 
     @Override
@@ -130,25 +120,50 @@ public class StaticStatementReference
     @Override
     @Nonnull
     public Map<String, Object> getHints() {
-        return hints;
+        return new HashMap<>(hints);
     }
 
     @Override
     @Nonnull
     public List<Class<?>> getParameterTypes() {
-        return parameterTypes;
+        List<Class<?>> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getParameter().getParameterType() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<String> getParameterNames() {
-        return parameterNames;
+        List<String> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getParameter().getName() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<Object> getArguments() {
-        return arguments;
+        List<Object> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getValue() );
+        }
+        return list;
+    }
+
+    @Override
+    @Nonnull
+    public List<Argument<?>> getParameterArguments() {
+        return new ArrayList<>(arguments);
+    }
+
+    @Override
+    @Nonnull
+    public List<Parameter<?>> getParameters() {
+        return arguments.stream().map(Argument::getParameter)
+                .collect(toCollection(ArrayList::new));
     }
 
     @Nonnull
@@ -177,8 +192,6 @@ public class StaticStatementReference
         }
         else {
             return Objects.equals(this.name, that.name)
-                && Objects.equals(this.parameterTypes, that.parameterTypes)
-                && Objects.equals(this.parameterNames, that.parameterNames)
                 && Objects.equals(this.arguments, that.arguments)
                 && Objects.equals(this.options, that.options)
                 && Objects.equals(this.hints, that.hints);
@@ -187,14 +200,13 @@ public class StaticStatementReference
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, parameterTypes, parameterNames, arguments);
+        return Objects.hash(name, arguments);
     }
 
     @Override
     public String toString() {
         return "StaticStatementReference["
                 + "name=" + name + ", "
-                + "parameterNames=" + parameterNames + ", "
                 + "arguments=" + arguments + ", "
                 + "options=" + options + ", "
                 + "hints=" + hints

@@ -33,8 +33,8 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
 import jakarta.persistence.QueryFlushMode;
-import jakarta.persistence.StatementOrTypedQuery;
 import jakarta.persistence.Statement;
+import jakarta.persistence.StatementOrTypedQuery;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Timeout;
 import jakarta.persistence.TypedQuery;
@@ -380,6 +380,18 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 	@Override
 	@Nonnull
 	public TypedQuery<X> setParameter(@Nonnull Parameter<Date> arg0, Date arg1, @Nonnull TemporalType arg2) {
+		return this;
+	}
+
+	@Override
+	@Nonnull
+	public QueryImpl<X> setArgument(@Nonnull Parameter.Argument<?> argument) {
+		return this;
+	}
+
+	@Override
+	@Nonnull
+	public QueryImpl<X> setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments) {
 		return this;
 	}
 

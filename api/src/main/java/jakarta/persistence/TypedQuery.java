@@ -640,6 +640,14 @@ public interface TypedQuery<X> extends Query {
     @Override
     TypedQuery<X> setParameters(@Nonnull Object... arguments);
 
+    @Nonnull
+    @Override
+    TypedQuery<X> setArgument(@Nonnull Parameter.Argument<?> argument);
+
+    @Nonnull
+    @Override
+    TypedQuery<X> setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments);
+
     /**
      * Set the {@linkplain QueryFlushMode query flush mode} to be
      * used when the query is executed. This flush mode overrides

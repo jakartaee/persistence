@@ -238,14 +238,13 @@ or `@NativeQuery`, the metamodel class must contain a declaration as follows:
 [source,java]
 ----
 public static TypedQueryReference<R> m(T1 p1, T2 p2, ...) {
-    return new StaticTypedQueryReference(
+    return new StaticTypedQueryReference<>(
             "X#m(T1,T2,...)",
             X.class,
             "m",
             R.class,
-            List.of(T1.class, T2.class, ... ),
-            List.of("p1", "p2", ... ),
-            List.of(p1, p2, ... ),
+            List.of(Parameter.of(T1.class, 1, "p1").bind(p1),
+                    Parameter.of(T2.class, 2, "p2").bind(p2), ...),
             g,
             Map.of("h1", v1, "h2", v2, ...),
             o1, o2, o3, ...
@@ -277,9 +276,8 @@ public static StatementReference m(T1 p1, T2 p2, ...) {
             "X#m(T1,T2,...)",
             X.class,
             "m",
-            List.of(T1.class, T2.class, ... ),
-            List.of("p1", "p2", ... ),
-            List.of(p1, p2, ... ),
+            List.of(Parameter.of(T1.class, 1, "p1").bind(p1),
+                    Parameter.of(T2.class, 2, "p2").bind(p2), ...),
             Map.of("h1", v1, "h2", v2, ...),
             o1, o2, o3, ...
     );

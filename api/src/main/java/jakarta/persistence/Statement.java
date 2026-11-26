@@ -21,6 +21,7 @@ import jakarta.persistence.metamodel.Type;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -493,6 +494,14 @@ public interface Statement extends Query {
     @Nonnull
     @Override
     Statement setParameters(@Nonnull Object... arguments);
+
+    @Nonnull
+    @Override
+    Statement setArgument(@Nonnull Parameter.Argument<?> argument);
+
+    @Nonnull
+    @Override
+    Statement setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments);
 
     /**
      * Specify an {@linkplain Option option} influencing execution

@@ -700,6 +700,31 @@ public interface Query {
     Query setParameters(@Nonnull Object... arguments);
 
     /**
+     * Bind an argument to a parameter of the query.
+     * @param argument The argument to bind
+     * @return the same query instance
+     * @throws IllegalArgumentException if one of arguments does
+     *         not match a parameter of the query
+     * @since 4.0
+     */
+    @Nonnull
+    Query setArgument(@Nonnull Parameter.Argument<?> argument);
+
+    /**
+     * Bind arguments to the parameters of the query.
+     * @param arguments The arguments to bind
+     * @return the same query instance
+     * @throws IllegalArgumentException if the number of arguments
+     *         is not exactly the same as the number of parameters,
+     *         if one of arguments does not match a parameter of
+     *         the query, or if multiple arguments are provided
+     *         for the same parameter
+     * @since 4.0
+     */
+    @Nonnull
+    Query setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments);
+
+    /**
      * Get the {@link Parameter} objects representing the declared
      * parameters of the query or an empty set if the query has no
      * parameters.
