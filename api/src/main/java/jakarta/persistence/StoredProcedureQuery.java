@@ -425,6 +425,14 @@ public interface StoredProcedureQuery extends Query, AutoCloseable {
     @Override
     StoredProcedureQuery setParameters(@Nonnull Object... arguments);
 
+    @Nonnull
+    @Override
+    StoredProcedureQuery setArgument(@Nonnull Parameter.Argument<?> argument);
+
+    @Nonnull
+    @Override
+    StoredProcedureQuery setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments);
+
     /**
      * Set the {@linkplain QueryFlushMode query flush mode} to be
      * used when the query is executed. This flush mode overrides

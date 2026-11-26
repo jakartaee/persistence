@@ -32,7 +32,6 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.PessimisticLockScope;
-import jakarta.persistence.Query;
 import jakarta.persistence.QueryFlushMode;
 import jakarta.persistence.Statement;
 import jakarta.persistence.StatementOrTypedQuery;
@@ -386,13 +385,13 @@ public class QueryImpl<X> implements TypedQuery<X>, StatementOrTypedQuery {
 
 	@Override
 	@Nonnull
-	public Query setArgument(@Nonnull Parameter.Argument<?> argument) {
+	public QueryImpl<X> setArgument(@Nonnull Parameter.Argument<?> argument) {
 		return this;
 	}
 
 	@Override
 	@Nonnull
-	public Query setArguments(@Nonnull List<Parameter.Argument<?>> arguments) {
+	public QueryImpl<X> setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments) {
 		return this;
 	}
 

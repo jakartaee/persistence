@@ -20,6 +20,8 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.metamodel.Type;
 import jakarta.persistence.sql.ResultSetMapping;
 
+import java.util.List;
+
 /**
  * Declares operations allowing a {@link Statement} or {@link TypedQuery}
  * to be obtained when the type of a query or statement has not yet been
@@ -183,6 +185,14 @@ public interface StatementOrTypedQuery extends Query {
     @Nonnull
     @Override
     StatementOrTypedQuery setParameters(@Nonnull Object... arguments);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setArgument(@Nonnull Parameter.Argument<?> argument);
+
+    @Nonnull
+    @Override
+    StatementOrTypedQuery setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments);
 
     @Nonnull
     @Override

@@ -1363,11 +1363,9 @@ meth public static <%0 extends java.lang.Object> jakarta.persistence.Parameter<{
 
 CLSS public abstract interface static jakarta.persistence.Parameter$Argument<%0 extends java.lang.Object>
  outer jakarta.persistence.Parameter
-intf jakarta.persistence.Tuple$Entry<{jakarta.persistence.Parameter$Argument%0}>
 meth public abstract jakarta.persistence.Parameter<{jakarta.persistence.Parameter$Argument%0}> getParameter()
-meth public static <%0 extends java.lang.Object> jakarta.persistence.Parameter$Argument<{%%0}> of(jakarta.persistence.Parameter<{%%0}>,{%%0})
  anno 0 jakarta.annotation.Nonnull()
- anno 1 jakarta.annotation.Nonnull()
+meth public abstract {jakarta.persistence.Parameter$Argument%0} getValue()
 
 CLSS public final !enum jakarta.persistence.ParameterMode
 fld public final static jakarta.persistence.ParameterMode IN
@@ -1874,7 +1872,7 @@ meth public abstract jakarta.persistence.Parameter<?> getParameter(java.lang.Str
 meth public abstract jakarta.persistence.Query setArgument(jakarta.persistence.Parameter$Argument<?>)
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()
-meth public abstract jakarta.persistence.Query setArguments(java.util.List<jakarta.persistence.Parameter$Argument<?>>)
+meth public abstract jakarta.persistence.Query setArguments(java.util.List<? extends jakarta.persistence.Parameter$Argument<?>>)
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()
 meth public abstract jakarta.persistence.Query setCacheRetrieveMode(jakarta.persistence.CacheRetrieveMode)
@@ -2008,8 +2006,6 @@ supr jakarta.persistence.PersistenceException
 hfds query
 
 CLSS public abstract interface jakarta.persistence.Reference
-meth public abstract jakarta.persistence.Tuple getArgumentTuple()
- anno 0 jakarta.annotation.Nullable()
 meth public abstract java.lang.String getName()
  anno 0 jakarta.annotation.Nullable()
 meth public abstract java.util.List<jakarta.persistence.Parameter$Argument<?>> getParameterArguments()
@@ -2167,6 +2163,12 @@ meth public abstract int execute()
 meth public abstract jakarta.persistence.Statement addOption(jakarta.persistence.Statement$Option)
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.Statement setArgument(jakarta.persistence.Parameter$Argument<?>)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.Statement setArguments(java.util.List<? extends jakarta.persistence.Parameter$Argument<?>>)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
 meth public abstract jakarta.persistence.Statement setFlushMode(jakarta.persistence.FlushModeType)
  anno 0 jakarta.annotation.Nonnull()
  anno 0 java.lang.Deprecated(boolean forRemoval=false, java.lang.String since="")
@@ -2278,6 +2280,12 @@ meth public abstract <%0 extends java.lang.Object> jakarta.persistence.TypedQuer
  anno 1 jakarta.annotation.Nonnull()
 meth public abstract jakarta.persistence.Statement asStatement()
  anno 0 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.StatementOrTypedQuery setArgument(jakarta.persistence.Parameter$Argument<?>)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.StatementOrTypedQuery setArguments(java.util.List<? extends jakarta.persistence.Parameter$Argument<?>>)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
 meth public abstract jakarta.persistence.StatementOrTypedQuery setHint(java.lang.String,java.lang.Object)
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()
@@ -2407,6 +2415,12 @@ meth public abstract jakarta.persistence.StoredProcedureQuery registerStoredProc
  anno 1 jakarta.annotation.Nonnull()
  anno 2 jakarta.annotation.Nonnull()
  anno 3 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.StoredProcedureQuery setArgument(jakarta.persistence.Parameter$Argument<?>)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.StoredProcedureQuery setArguments(java.util.List<? extends jakarta.persistence.Parameter$Argument<?>>)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
 meth public abstract jakarta.persistence.StoredProcedureQuery setCacheRetrieveMode(jakarta.persistence.CacheRetrieveMode)
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()
@@ -2590,10 +2604,6 @@ CLSS public abstract interface !annotation jakarta.persistence.Transient
 intf java.lang.annotation.Annotation
 
 CLSS public abstract interface jakarta.persistence.Tuple
-innr public abstract interface static Entry
-meth public !varargs static jakarta.persistence.Tuple of(jakarta.persistence.Tuple$Entry<?>[])
- anno 0 jakarta.annotation.Nonnull()
- anno 1 jakarta.annotation.Nonnull()
 meth public abstract <%0 extends java.lang.Object> {%%0} get(int,java.lang.Class<{%%0}>)
  anno 2 jakarta.annotation.Nonnull()
 meth public abstract <%0 extends java.lang.Object> {%%0} get(jakarta.persistence.TupleElement<{%%0}>)
@@ -2606,8 +2616,6 @@ meth public abstract java.lang.Object get(java.lang.String)
  anno 1 jakarta.annotation.Nonnull()
 meth public abstract java.lang.Object[] toArray()
  anno 0 jakarta.annotation.Nonnull()
-meth public abstract java.util.List<jakarta.persistence.Tuple$Entry<?>> getEntries()
- anno 0 jakarta.annotation.Nonnull()
 meth public abstract java.util.List<jakarta.persistence.TupleElement<?>> getElements()
  anno 0 jakarta.annotation.Nonnull()
 meth public int length()
@@ -2618,16 +2626,6 @@ meth public java.util.List<java.lang.Object> getValues()
 meth public java.util.List<java.lang.String> getAliases()
  anno 0 jakarta.annotation.Nonnull()
 
-CLSS public abstract interface static jakarta.persistence.Tuple$Entry<%0 extends java.lang.Object>
- outer jakarta.persistence.Tuple
-meth public abstract jakarta.persistence.TupleElement<{jakarta.persistence.Tuple$Entry%0}> getElement()
- anno 0 jakarta.annotation.Nonnull()
-meth public abstract {jakarta.persistence.Tuple$Entry%0} getValue()
-meth public static <%0 extends java.lang.Object> jakarta.persistence.Tuple$Entry<{%%0}> of(java.lang.Class<{%%0}>,java.lang.String,{%%0})
- anno 0 jakarta.annotation.Nonnull()
- anno 1 jakarta.annotation.Nonnull()
- anno 2 jakarta.annotation.Nullable()
-
 CLSS public abstract interface jakarta.persistence.TupleElement<%0 extends java.lang.Object>
 meth public abstract java.lang.Class<? extends {jakarta.persistence.TupleElement%0}> getJavaType()
  anno 0 jakarta.annotation.Nonnull()
@@ -2635,10 +2633,6 @@ meth public abstract java.lang.String getAlias()
  anno 0 jakarta.annotation.Nullable()
 meth public boolean hasAlias(java.lang.String)
  anno 1 jakarta.annotation.Nonnull()
-meth public static <%0 extends java.lang.Object> jakarta.persistence.TupleElement<{%%0}> of(java.lang.Class<{%%0}>,java.lang.String)
- anno 0 jakarta.annotation.Nonnull()
- anno 1 jakarta.annotation.Nonnull()
- anno 2 jakarta.annotation.Nullable()
 
 CLSS public abstract interface jakarta.persistence.TypedQuery<%0 extends java.lang.Object>
 innr public abstract interface static Option
@@ -2690,6 +2684,12 @@ meth public abstract jakarta.persistence.LockModeType getLockMode()
 meth public abstract jakarta.persistence.PessimisticLockScope getLockScope()
  anno 0 jakarta.annotation.Nullable()
 meth public abstract jakarta.persistence.TypedQuery<{jakarta.persistence.TypedQuery%0}> addOption(jakarta.persistence.TypedQuery$Option)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.TypedQuery<{jakarta.persistence.TypedQuery%0}> setArgument(jakarta.persistence.Parameter$Argument<?>)
+ anno 0 jakarta.annotation.Nonnull()
+ anno 1 jakarta.annotation.Nonnull()
+meth public abstract jakarta.persistence.TypedQuery<{jakarta.persistence.TypedQuery%0}> setArguments(java.util.List<? extends jakarta.persistence.Parameter$Argument<?>>)
  anno 0 jakarta.annotation.Nonnull()
  anno 1 jakarta.annotation.Nonnull()
 meth public abstract jakarta.persistence.TypedQuery<{jakarta.persistence.TypedQuery%0}> setCacheRetrieveMode(jakarta.persistence.CacheRetrieveMode)
@@ -4986,8 +4986,6 @@ cons public init(java.lang.String,java.lang.Class<?>,java.lang.String,java.util.
 intf jakarta.persistence.StatementReference
 meth public boolean equals(java.lang.Object)
 meth public int hashCode()
-meth public jakarta.persistence.Tuple getArgumentTuple()
- anno 0 jakarta.annotation.Nonnull()
 meth public java.lang.Class<?> getAnnotatedClass()
  anno 0 jakarta.annotation.Nonnull()
 meth public java.lang.String getAnnotatedMemberName()
@@ -5010,7 +5008,7 @@ meth public java.util.Map<java.lang.String,java.lang.Object> getHints()
 meth public java.util.Set<jakarta.persistence.Statement$Option> getOptions()
  anno 0 jakarta.annotation.Nonnull()
 supr java.lang.Object
-hfds annotatedClass,annotatedMemberName,argumentTuple,arguments,hints,name,options
+hfds annotatedClass,annotatedMemberName,arguments,hints,name,options
 
 CLSS public jakarta.persistence.query.StaticTypedQueryReference<%0 extends java.lang.Object>
 cons public !varargs init(java.lang.String,java.lang.Class<?>,java.lang.String,java.lang.Class<{jakarta.persistence.query.StaticTypedQueryReference%0}>,java.util.List<? extends jakarta.persistence.Parameter$Argument<?>>,java.lang.String,java.util.Map<java.lang.String,java.lang.Object>,jakarta.persistence.TypedQuery$Option[])
@@ -5031,8 +5029,6 @@ cons public init(java.lang.String,java.lang.Class<?>,java.lang.String,java.lang.
 intf jakarta.persistence.TypedQueryReference<{jakarta.persistence.query.StaticTypedQueryReference%0}>
 meth public boolean equals(java.lang.Object)
 meth public int hashCode()
-meth public jakarta.persistence.Tuple getArgumentTuple()
- anno 0 jakarta.annotation.Nonnull()
 meth public java.lang.Class<?> getAnnotatedClass()
  anno 0 jakarta.annotation.Nonnull()
 meth public java.lang.Class<{jakarta.persistence.query.StaticTypedQueryReference%0}> getResultType()
@@ -5059,7 +5055,7 @@ meth public java.util.Map<java.lang.String,java.lang.Object> getHints()
 meth public java.util.Set<jakarta.persistence.TypedQuery$Option> getOptions()
  anno 0 jakarta.annotation.Nonnull()
 supr java.lang.Object
-hfds annotatedClass,annotatedMemberName,argumentTuple,arguments,entityGraphName,hints,name,options,resultType
+hfds annotatedClass,annotatedMemberName,arguments,entityGraphName,hints,name,options,resultType
 
 CLSS abstract interface jakarta.persistence.query.package-info
 

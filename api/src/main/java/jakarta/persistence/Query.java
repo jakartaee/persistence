@@ -716,12 +716,13 @@ public interface Query {
      * @return the same query instance
      * @throws IllegalArgumentException if the number of arguments
      *         is not exactly the same as the number of parameters,
-     *         or if one of arguments does not match a parameter of
-     *         the query
+     *         if one of arguments does not match a parameter of
+     *         the query, or if multiple arguments are provided
+     *         for the same parameter
      * @since 4.0
      */
     @Nonnull
-    Query setArguments(@Nonnull List<Parameter.Argument<?>> arguments);
+    Query setArguments(@Nonnull List<? extends Parameter.Argument<?>> arguments);
 
     /**
      * Get the {@link Parameter} objects representing the declared
