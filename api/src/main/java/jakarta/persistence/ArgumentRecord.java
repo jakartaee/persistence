@@ -22,31 +22,17 @@ import static java.util.Objects.requireNonNull;
  * @param value the argument bound to the parameter
  * @since 4.0
  */
-record ArgumentRecord<T>(@Nonnull Parameter<T> parameter, @Nonnull TupleElement<T> element, T value)
+record ArgumentRecord<T>(@Nonnull Parameter<T> parameter, T value)
         implements Parameter.Argument<T> {
 
     ArgumentRecord {
         requireNonNull(parameter, "parameter must not be null");
-        requireNonNull(element, "element must not be null");
-    }
-
-    ArgumentRecord(@Nonnull Parameter<T> parameter, T value) {
-        this(parameter,
-                TupleElement.of(parameter.getParameterType(),
-                                parameter.getName()),
-                value);
     }
 
     @Nonnull
     @Override
     public Parameter<T> getParameter() {
         return parameter;
-    }
-
-    @Nonnull
-    @Override
-    public TupleElement<T> getElement() {
-        return element;
     }
 
     @Override

@@ -16,11 +16,16 @@
 package jakarta.persistence.query;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.persistence.Parameter.Argument;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import static java.util.Collections.emptyMap;
 import static java.util.stream.Collectors.toCollection;
@@ -41,7 +46,6 @@ public class StaticStatementReference
     @Nonnull private final String annotatedMemberName;
     @Nonnull private final String name;
     @Nonnull private final List<Argument<?>> arguments;
-    @Nonnull private final Tuple argumentTuple;
     @Nonnull private final Map<String, Object> hints;
     @Nonnull private final Set<Statement.Option> options;
 
@@ -76,7 +80,6 @@ public class StaticStatementReference
         this.annotatedClass = annotatedClass;
         this.annotatedMemberName = annotatedMemberName;
         this.arguments = List.copyOf(arguments);
-        this.argumentTuple = Tuple.of(arguments.toArray(Tuple.Entry<?>[]::new));
         this.hints = hints;
         this.options = Set.of(options);
     }
@@ -123,31 +126,37 @@ public class StaticStatementReference
     @Override
     @Nonnull
     public List<Class<?>> getParameterTypes() {
-        return argumentTuple.getElementTypes();
+        List<Class<?>> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getParameter().getParameterType() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<String> getParameterNames() {
-        return argumentTuple.getAliases();
+        List<String> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getParameter().getName() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<Object> getArguments() {
-        return argumentTuple.getValues();
+        List<Object> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getValue() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<Argument<?>> getParameterArguments() {
         return new ArrayList<>(arguments);
-    }
-
-    @Override
-    @Nonnull
-    public Tuple getArgumentTuple() {
-        return argumentTuple;
     }
 
     @Override

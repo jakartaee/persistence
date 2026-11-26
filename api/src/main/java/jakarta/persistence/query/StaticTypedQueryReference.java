@@ -19,7 +19,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Parameter;
 import jakarta.persistence.Parameter.Argument;
-import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.TypedQueryReference;
 
@@ -53,7 +52,6 @@ public class StaticTypedQueryReference<R>
     @Nullable private final Class<R> resultType;
     @Nonnull private final String name;
     @Nonnull private final List<Argument<?>> arguments;
-    @Nonnull private final Tuple argumentTuple;
     @Nullable private final String entityGraphName;
     @Nonnull private final Map<String, Object> hints;
     @Nonnull private final Set<TypedQuery.Option> options;
@@ -94,7 +92,6 @@ public class StaticTypedQueryReference<R>
         this.annotatedMemberName = annotatedMemberName;
         this.resultType = resultType;
         this.arguments = List.copyOf(arguments);
-        this.argumentTuple = Tuple.of(arguments.toArray(Tuple.Entry<?>[]::new));
         this.entityGraphName = entityGraphName;
         this.hints = hints;
         this.options = Set.of(options);
@@ -150,31 +147,37 @@ public class StaticTypedQueryReference<R>
     @Override
     @Nonnull
     public List<Class<?>> getParameterTypes() {
-        return argumentTuple.getElementTypes();
+        List<Class<?>> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getParameter().getParameterType() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<String> getParameterNames() {
-        return argumentTuple.getAliases();
+        List<String> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getParameter().getName() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<Object> getArguments() {
-        return argumentTuple.getValues();
+        List<Object> list = new ArrayList<>();
+        for (var arg : arguments) {
+            list.add( arg.getValue() );
+        }
+        return list;
     }
 
     @Override
     @Nonnull
     public List<Argument<?>> getParameterArguments() {
         return new ArrayList<>(arguments);
-    }
-
-    @Override
-    @Nonnull
-    public Tuple getArgumentTuple() {
-        return argumentTuple;
     }
 
     @Override

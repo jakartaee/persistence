@@ -17,7 +17,6 @@
 package jakarta.persistence;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 import java.util.List;
 
@@ -134,20 +133,12 @@ public interface Tuple {
     List<TupleElement<?>> getElements();
 
     /**
-     * Return the tuple entries.
-     * @return tuple entries
-     * @since 4.0
-     */
-    @Nonnull
-    List<Entry<?>> getEntries();
-
-    /**
      * Return the number of elements of this tuple.
      * @return length of tuple
      * @since 4.0
      */
     default int length() {
-        return getEntries().size();
+        return getElements().size();
     }
 
     /**
@@ -188,50 +179,5 @@ public interface Tuple {
             aliases[i] = elements.get(i).getAlias();
         }
         return asList(aliases);
-    }
-
-    /**
-     * Packages a tuple element with its value.
-     * @param <T> the type of the tuple element
-     * @since 4.0
-     */
-    interface Entry<T> {
-        /**
-         * The tuple element.
-         */
-        @Nonnull TupleElement<T> getElement();
-        /**
-         * The value of the tuple element.
-         */
-        T getValue();
-
-        /**
-         * Return a new tuple entry binding a tuple element
-         * with the given type and alias to the given value.
-         * @param <T> the type of the tuple element
-         * @param type the type of the tuple element
-         * @param alias the alias of the tuple element
-         * @param value the value bound to the tuple element
-         * @return a tuple entry
-         */
-        @Nonnull
-        static <T> Tuple.Entry<T> of(@Nonnull Class<T> type,
-                                     @Nullable String alias,
-                                     T value) {
-            return new TupleElementRecord<>(type, alias)
-                    .entry(value);
-        }
-    }
-
-    /**
-     * Create a tuple with the elements and values specified by the
-     * given entries.
-     * @param entries the elements and values belonging to the tuple
-     * @return a new instance
-     * @since 4.0
-     */
-    @Nonnull
-    static Tuple of(@Nonnull Entry<?>... entries) {
-        return new TupleRecord(entries);
     }
 }

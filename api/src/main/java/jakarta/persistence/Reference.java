@@ -126,14 +126,6 @@ public sealed interface Reference
      * or query, or {@code null} if no arguments were supplied.
      * Arguments are present when this is a reference to a query
      * declared using an annotation of a method.
-     * <ul>
-     * <li>If the query has ordinal parameters, the position of
-     *     an argument in this tuple determines its assignment
-     *     to a parameter.
-     * <li>If the query has named parameters, the alias of
-     *     an argument in this tuple determines its assignment
-     *     to a parameter.
-     * </ul>
      *
      * @see Query#setArgument(Parameter.Argument)
      *
@@ -141,28 +133,6 @@ public sealed interface Reference
      */
     @Nullable
     List<Parameter.Argument<?>> getParameterArguments();
-
-    /**
-     * The arguments supplied to the parameters of the statement
-     * or query, or {@code null} if no arguments were supplied.
-     * Arguments are present when this is a reference to a query
-     * declared using an annotation of a method.
-     * <ul>
-     * <li>If the query has ordinal parameters, the position of
-     *     an argument in this tuple determines its assignment
-     *     to a parameter.
-     * <li>If the query has named parameters, the alias of
-     *     an argument in this tuple determines its assignment
-     *     to a parameter.
-     * </ul>
-     *
-     * @see Query#setParameter(int, Object)
-     * @see Query#setParameter(String, Object)
-     *
-     * @since 4.0
-     */
-    @Nullable
-    Tuple getArgumentTuple();
 
     /**
      * A map keyed by hint name of all hints specified via
